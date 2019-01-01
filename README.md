@@ -7,20 +7,21 @@ It creates a Kubernetes cluster on self hosted bare metal hosts and deploy apps.
 
 It also contains a Vagrant environment to test the playbooks and services.
 
-## Why selfhosted ?
+## Why selfhosted
 
 Not taking into account personal bias about hosting in the cloud, I'm running 2 types of services that are not compatible with cloud providers :
- - Home automation : 
-   - I need access to physical devices (USB sticks)
-   - I don't want to lose access to my automations if my internet connexion goes down
-  - Media Streaming
-    - The cost would be too high (storage + cpu to transcode)
+
+1. Home automation :
+   * I need access to physical devices (USB sticks)
+   * I don't want to lose access to my automations if my internet connexion goes down
+2. Media Streaming
+    * The cost would be too high (storage + cpu to transcode)
 
 Going the self-hosted route has a few [consequences on the infrastructure](docs/Bare_metal_considerations.md).
 
 ## Hosts
 
-The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.md), but to keep it short : 
+The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.md), but to keep it short :
 
 | Type      | Cores | CPU Model                                                                                                          |  RAM  | Storage   |
 | --------- | :---: | ------------------------------------------------------------------------------------------------------------------ | :---: | --------- |
@@ -30,7 +31,7 @@ The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.m
 
 ## Vagrant
 
-The Vagrantfile creates 3 *similar* guests : 
+The Vagrantfile creates 3 *similar* guests :
 
 | Type      | Cores |  RAM  | Storage |
 | --------- | :---: | :---: | :-----: |
@@ -40,12 +41,12 @@ The Vagrantfile creates 3 *similar* guests :
 
 These settings are configured in `Vagrantconfig.yaml`, feel free to change them or add mode nodes.
 
-## Vagrant
+## Test hosts
 
-To test the deployed services, you will have to add the following domains to your hosts file : 
+To test the deployed services, you will have to add the following domains to your hosts file :
 
 ```
-192.168.100.10 k8stest.com 
+192.168.100.10 k8stest.com
 192.168.100.10 infra.k8stest.com
 192.168.100.10 home.k8stest.com
 192.168.100.10 web.k8stest.com
@@ -59,10 +60,11 @@ To test the deployed services, you will have to add the following domains to you
 
 To avoid using `root` directly, a standard user is created. For the Vagrant environment, it's simply named `user`.
 
-This `user` can 
-  - `sudo` without password
-  - SSH to other machines without password (using RSA keys)
-  - use kubectl
+This `user` can
+
+* `sudo` without password
+* SSH to other machines without password (using RSA keys)
+* use kubectl
 
 ### HTTPS
 
@@ -93,14 +95,14 @@ The folowing front-facing services are deployed :
 | [Pyload](https://pyload.net/)                                    | https://dl.k8stest.com/pyload/          | HTTP download manager                         |
 | [SABnzbd](https://sabnzbd.org/)                                  | https://dl.k8stest.com/sabnzbd/         | Binary newsreader                             |
 
-
 ### Kubernetes dashboard
 
 An `admin-user` service account is automatically created by the playbook.
 
 To login, you need to fetch the associated token.
 
-You can do so using a terminal (assuming you start at the project root) : 
+You can do so using a terminal (assuming you start at the project root) :
+
 ```shell
 [your_account@your_computer$] cd vagrant
 [your_account@your_computer$] vagrant ssh master
@@ -116,7 +118,7 @@ TODO
 
 HomeAssistant will prompt for the 1st user creation.
 
-The deployment also prepares a MySQL database to use for HomeAssistant [recorder](https://www.home-assistant.io/components/recorder/), but it needs to be manually configured in `configuration.yaml` : 
+The deployment also prepares a MySQL database to use for HomeAssistant [recorder](https://www.home-assistant.io/components/recorder/), but it needs to be manually configured in `configuration.yaml` :
 
 ```yaml
 recorder:
