@@ -34,4 +34,4 @@ kubernetes_local_storage:
       hostname: node1test
     labels:
       app: wordpress
-      tier: mysql
+      tier: database

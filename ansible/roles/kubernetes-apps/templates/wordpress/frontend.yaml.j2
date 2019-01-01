@@ -5,6 +5,7 @@ metadata:
   namespace: default
   labels:
     app: wordpress
+    tier: frontend
 spec:
   selector:
     matchLabels:
@@ -50,6 +51,7 @@ spec:
         matchLabels:
           app: wordpress
           tier: frontend
+
 ---
 
 apiVersion: v1
@@ -59,9 +61,10 @@ metadata:
   namespace: default
   labels:
     app: wordpress
+    tier: frontend
 spec:
   ports:
-    - port: 80
+  - port: 80
   selector:
     app: wordpress
     tier: frontend

@@ -30,7 +30,7 @@
   with_items:
     - mysql-password-secret.yaml.j2
     - mysql.yaml.j2
-    - wordpress.yaml.j2
+    - frontend.yaml.j2
     - ingress.yaml.j2
   become: yes
   become_user: "{{ kubernetes_user.name }}"
