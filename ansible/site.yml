@@ -1,0 +1,42 @@
+---
+
+- name: Prepare all hosts
+  hosts: all
+  roles:
+    - common
+    - common-apt
+    - udev
+    - firewall
+
+- name: Prepare Ansible requirements
+  hosts: ansible
+  roles:
+    - kubernetes-ansible
+
+- name: Prepare Kubernetes members
+  hosts: kubernetes
+  roles:
+    - docker
+    - kubernetes-common
+
+- name: Provision Kubernetes masters
+  hosts: kubernetes_masters
+  roles:
+    - nginx
+    - kubernetes-master
+
+- name: Provision Kubernetes nodes
+  hosts: kubernetes_nodes
+  roles:
+    - kubernetes-node
+
+- name: Provision Kubernetes applications
+  hosts: kubernetes_masters
+  roles:
+    - fail2ban
+    - kubernetes-infra
+    - kubernetes-infra-apps
+    - {
+        role: kubernetes-apps,
+        tags: kubernetes-apps
+      }

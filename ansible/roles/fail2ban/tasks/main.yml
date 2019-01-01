@@ -1,0 +1,19 @@
+---
+
+- name: Install Fail2Ban
+  apt:
+    pkg: fail2ban
+    state: present
+
+- name: Configure jails
+  template:
+    src: jail.conf.j2
+    dest: "/etc/fail2ban/jail.d/{{ item.name }}.conf"
+  with_items: "{{ fail2ban_jails }}"
+  notify: Restart Fail2Ban
+
+- name: Auto-start Fail2Ban
+  service:
+    name: fail2ban
+    state: started
+    enabled: yes

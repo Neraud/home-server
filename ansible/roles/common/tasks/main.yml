@@ -1,0 +1,99 @@
+---
+
+- name: Set server name
+  hostname:
+    name: "{{ machine_name }}"
+
+- name: Set hosts
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    backup: true
+
+- name: Set timezone
+  timezone:
+    name: "{{ time_zone }}"
+
+- name: Install NTP
+  apt:
+    pkg: ntp
+    state: present
+
+- name: Auto-start NTP
+  service:
+    name: ntp
+    state: started
+    enabled: yes
+
+- name: Install standard tools
+  apt:
+    pkg: "{{ common_default_packages }}"
+    state: present
+
+- name: Ensure standard user exists
+  user:
+    name: "{{ standard_user.name }}"
+    update_password: always
+    home: "{{ standard_user.home }}"
+    password: "{{ standard_user.password }}"
+    create_home: yes
+    shell: /bin/bash
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+
+- name: Set standard user authorized keys
+  authorized_key:
+    user: "{{ standard_user.name }}"
+    key: "{{ item }}"
+    state: present
+  with_items: "{{ standard_user.ssh_authorized_keys }}"
+
+- name: Add {{ bashrc_include_dir }} folder for standard user
+  file:
+    path: "{{ standard_user.home }}/{{ bashrc_include_dir }}"
+    state: directory
+    owner: "{{ standard_user.name }}"
+    group: "{{ standard_user.name }}"
+
+- name: Add bashrc includes for standard user
+  copy:
+    dest: "{{ standard_user.home }}/{{ bashrc_include_dir }}/{{ item }}"
+    src: "{{ bashrc_include_dir }}/{{ item }}"
+    owner: "{{ standard_user.name }}"
+    group: "{{ standard_user.name }}"
+  with_items:
+    - common-aliases.bashrc
+    - editor.bashrc
+
+- name: Add include in standard user's bashrc
+  blockinfile:
+    path: "{{ standard_user.home }}/.bashrc"
+    owner: "{{ standard_user.name }}"
+    group: "{{ standard_user.name }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK : source bashrc includes"
+    state: present
+    insertafter: EOF
+    block:  |
+      for file in ~/{{ bashrc_include_dir }}/*.bashrc; do
+        source "$file"
+      done
+
+- name: Set default sysctl properties
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  with_items: "{{ sysctl_properties }}"
+
+- name: Create cron jobs
+  cron:
+    name: "{{ item.name }}"
+    cron_file: "{{ item.cron_file }}"
+    user: "{{ item.user }}"
+    job: "{{ item.job }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day }}"
+    weekday: "{{ item.weekday }}"
+    month: "{{ item.month }}"
+  with_items: "{{ cron_jobs | default([]) }}"

@@ -1,0 +1,19 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+#kubernetes_local_storage:
+#  - name: appname-tiername
+#    path: /path/to/volume
+#    capacity: 20Gi
+#    reclaim_policy: Retain
+#    storage_class: local-storage
+#    affinity:
+#      hostname: somehost
+#    labels:
+#      app: appname
+#      tier: tiername

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+spec:
+  type: NodePort
+  ports:
+{% if kubernetes_nginx_ingress_http_port | default(false) %}
+    - name: http
+      port: 80
+      nodePort: {{ kubernetes_nginx_ingress_http_port }}
+      targetPort: 80
+      protocol: TCP
+{% endif %}
+{% if kubernetes_nginx_ingress_https_port | default(false) %}
+    - name: https
+      port: 443
+      nodePort: {{ kubernetes_nginx_ingress_https_port }}
+      targetPort: 443
+      protocol: TCP
+{% endif %}
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx

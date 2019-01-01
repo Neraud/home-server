@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dashboard
+  namespace: kube-system
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/backend-protocol: "{{ kubernetes_dashboard_service_proto }}"
+spec:
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: /kube
+        backend:
+          serviceName: kubernetes-dashboard
+          servicePort: {{ kubernetes_dashboard_service_port }}

@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "**/group_vars/**/*": "yaml",
+        "**/host_vars/**/*": "yaml",
+        "**/roles/**/*.yml": "ansible"
+    },
+    "vs-kubernetes": {
+        "vs-kubernetes.kubeconfig": "./vagrant/vagrant_kube_admin.conf"
+    },
+}

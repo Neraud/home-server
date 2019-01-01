@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+# "Fake" module used to import all stream configurations without changing the main nginx.conf itself
+
+stream {
+
+#	# access_log will be supported in 1.11.x
+#	log_format basic '$remote_addr [$time_local] $protocol $status $bytes_sent $bytes_received $session_time';
+#	access_log  /var/log/nginx/stream_access.log basic;
+
+	error_log /var/log/nginx/stream_error.log;
+
+	include {{ nginx_streams_enabled_dir }}/*;
+}

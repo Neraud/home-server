@@ -1,0 +1,73 @@
+---
+
+#nginx_ssl_dhparam_generate: True
+
+nginx_upstreams:
+  - name: kubernetes-ingress
+    servers:
+      - 192.168.100.10:{{ kubernetes_ingress_http_port }}
+      - 192.168.100.11:{{ kubernetes_ingress_http_port }}
+      - 192.168.100.12:{{ kubernetes_ingress_http_port }}
+    
+
+nginx_sites:
+  - name: default-site
+    enabled_name: 000-default-site
+    server_name: "{{ web_base_domain }}"
+    default: True
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: selfsigned
+      subject: "/C=FR/ST=France/L=Paris/O=Test/CN={{ web_base_domain }}"
+      cert_path: /etc/nginx/ssl/_star_.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/_star_.{{ web_base_domain }}/server.key
+    force_http_to_https: False
+    root: /var/www/html
+    disable_robots: True
+
+  - name: infra
+    enabled_name: 100-infra
+    server_name: "infra.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: selfsigned
+      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=infra.{{ web_base_domain }}"
+      cert_path: /etc/nginx/ssl/infra.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/infra.{{ web_base_domain }}/server.key
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    locations:
+      - path: /
+        auth_basic:
+          name: Test Auth Infra
+          path: /etc/nginx/htpasswd/htpasswd_test
+        proxy_pass: http://kubernetes-ingress
+
+  - name: test
+    enabled_name: 200-test
+    server_name: "test.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: selfsigned
+      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=test.{{ web_base_domain }}"
+      cert_path: /etc/nginx/ssl/kube.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/kube.{{ web_base_domain }}/server.key
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    locations:
+      - path: /
+        proxy_pass: http://kubernetes-ingress
+
+#password generated with : openssl passwd -apr1
+nginx_htpasswd: 
+  - path: /etc/nginx/htpasswd/htpasswd_test
+    credentials:
+      # user : Passw0rd
+      - user:$apr1$CQwNXUoa$pjHpzlRJHwM2iFrDP.tC8.

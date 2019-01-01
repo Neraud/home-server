@@ -1,0 +1,29 @@
+---
+
+- name: Load dashboard HTTPS vars
+  include_vars:
+    file: dashboard_https.yml
+  when: kubernetes_dashboard_https_enabled | default(true) | bool
+
+- name: Load dashboard HTTP vars
+  include_vars:
+    file: dashboard_http.yml
+  when: not (kubernetes_dashboard_https_enabled | default(true) | bool)
+
+- name: Install Kubernetes dashboard
+  k8s:
+    definition: "{{ lookup('template',  'kubernetes/dashboard/' + item) }}"
+    state: present
+  with_items:
+    - kubernetes-dashboard.yaml.j2
+    - ingress.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Create Kubernetes service account for dashboard
+  k8s:
+    definition: "{{ lookup('template',  'kubernetes/dashboard/service-account.yaml.j2') }}"
+    state: present
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  when: kubernetes_dashboard_service_account_enaled

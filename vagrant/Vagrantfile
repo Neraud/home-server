@@ -1,0 +1,59 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+require 'yaml'
+
+settings = YAML.load_file 'Vagrantconfig.yaml'
+
+# Requires vagrant-vbguest
+if not Vagrant.has_plugin?("vagrant-vbguest")
+	puts("Please install vagrant-vbguest")
+	puts("As root (or with sudo) : vagrant plugin install vagrant-vbguest\n")
+	exit 1
+end
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+	config.vm.box = settings['common']['box_name']
+	config.ssh.insert_key = false
+	
+	####################
+	#      Nodes       #
+	####################
+	settings['nodes'].each do |node_conf|
+		config.vm.define node_conf['name'] do |node|			
+			node.vm.provider :virtualbox do |vb|
+				vb.customize ["modifyvm", :id, "--ioapic", "on"]
+				vb.customize ["modifyvm", :id, "--memory", node_conf['memory']]
+				vb.customize ["modifyvm", :id, "--cpus", node_conf['cpu']]
+				
+				data_disk_path = '.vagrant/' + node_conf['name'] + '_data.vdi'
+				unless File.exist?(data_disk_path)
+					vb.customize ['createhd', '--filename', data_disk_path, '--variant', 'Fixed', '--size', node_conf['data_disk_size']]
+				end
+				vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 1, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
+			end
+			
+			node.vm.network "private_network", ip: node_conf['ip']
+			node.vm.provision "shell", path: "init_new_node.sh", args: "node", keep_color: true
+		end
+	end
+
+	####################
+	#      Master      #
+	####################
+	master_conf = settings['master']
+	config.vm.define "master" do |master|
+		master.vm.provider :virtualbox do |vb|
+			vb.customize ["modifyvm", :id, "--ioapic", "on"]
+			vb.customize ["modifyvm", :id, "--memory", master_conf['memory']]
+			vb.customize ["modifyvm", :id, "--cpus", master_conf['cpu']]
+		end
+		
+		master.vm.network "private_network", ip: master_conf['ip']
+		master.vm.synced_folder "../", "/opt/provision", type: "virtualbox"
+		master.vm.provision "shell", path: "init_new_node.sh", args: "ansible", keep_color: true
+		master.vm.provision "shell", path: "ansible_provisioning.sh", keep_color: true
+	end
+end

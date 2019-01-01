@@ -1,0 +1,38 @@
+---
+
+- name: Install ufw
+  apt:
+    pkg: ufw
+    state: present
+
+- name: Allow ssh
+  ufw:
+    name: OpenSSH
+    rule: allow
+
+- name: Enable ufw
+  ufw:
+    state: enabled
+
+- name: Set ufw policy to deny all incoming connections
+  ufw:
+    policy: deny
+    direction: incoming
+
+- name: Set ufw policy to allow all ougoing connections
+  ufw:
+    policy: allow
+    direction: outgoing
+
+- name: Declare custom applications
+  template:
+    src: application.j2
+    dest: /etc/ufw/applications.d/{{ item.name }}
+  with_items: "{{ firewall_applications }}"
+
+- name: Allow custom applications
+  ufw:
+    name: "{{ item.name }}"
+    rule: "{{ item.rule }}"
+    src: "{{ item.src | default('any') }}"
+  with_items: "{{ firewall_applications }}"

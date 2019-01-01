@@ -1,0 +1,37 @@
+---
+
+- name: Deploy test application
+  k8s:
+    definition: "{{ lookup('template', 'test/' + item) }}"
+    state: present
+  with_items:
+    - apple.yaml.j2
+    - banana.yaml.j2
+    - ingress.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  tags: kubernetes-app-test
+
+- name: Deploy simple application
+  k8s:
+    definition: "{{ lookup('template', 'simple/' + item) }}"
+    state: present
+  with_items:
+    - simpleservice.yaml.j2
+    - ingress.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  tags: kubernetes-app-simple
+
+- name: Deploy wordpress
+  k8s:
+    definition: "{{ lookup('template', 'wordpress/' + item) }}"
+    state: present
+  with_items:
+    - mysql-password-secret.yaml.j2
+    - mysql.yaml.j2
+    - wordpress.yaml.j2
+    - ingress.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  tags: kubernetes-app-wordpress

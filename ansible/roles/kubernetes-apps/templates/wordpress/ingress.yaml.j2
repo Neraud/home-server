@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wordpress
+  namespace: default
+spec:
+  rules:
+  - host: test.{{ web_base_domain }}
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: wordpress
+            servicePort: 80

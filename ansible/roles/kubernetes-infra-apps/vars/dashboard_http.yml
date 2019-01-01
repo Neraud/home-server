@@ -1,0 +1,11 @@
+---
+
+kubernetes_dashboard_container_port: 9090
+
+kubernetes_dashboard_container_args:
+  - "--insecure-bind-address=0.0.0.0"
+  - "--insecure-port=9090"
+  - "--enable-insecure-login"
+
+kubernetes_dashboard_service_proto: "HTTP"
+kubernetes_dashboard_service_port: 80

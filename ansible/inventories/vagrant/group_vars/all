@@ -1,0 +1,37 @@
+---
+
+# For role 'common'
+domain_name: k8stest
+time_zone: Europe/Paris
+
+standard_user: 
+  name: user
+  # https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+  # ansible all -i localhost, -m debug -a "msg={{ 'password' | password_hash('sha512', 'mysecretsalt') }}"
+  password: "$6$mysecretsalt$MIJffjeQyfrKKrGkprGrDL/g2mCJa53koLmYQuuLmY9y37pDvGKPXU1Ov3RbMi.tpQ9cWvxAzUVtBLe7KrZoU."
+  home: /home/user
+  ssh_authorized_keys:
+    - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcOkT00BYgs7hd8JrZDGM0cXWp/RU9ahp06Ny1P7X5RJAk5GZhjJnCi93AB/GU+EFbnPNxyzLoph8RhWidG6lO0i093HcIfp733+gvlbp05UZwJBpNBOMB96jBWMdSIwT6Eq7Oy2wRSfMiMmtdWCYzb9Cey9QEBN/2/Ik1CtYq+48Wfj9YR/4XByv68RES8bR6UDAclnXrL74e7N/sH5POXEywh1OPVOELuMAY70mBrYBZ/LEpry5ISxjiCuPWTOLAHN9OYVTC7pjabtZ6f8ZwRZZupN2iibnpdTsGvsCM4e7/MG8JeRlpFcnSzatM/wBS970/mBvhgloUVYOr09b+Wd1R2ZSuVzaBQ8LVisdz8rXBC4+X065P2dsYTtNbn+KW/nZDO1RNL3u2gotmM4mepoQhquqEgdHOYmwFT/uQaM7BhitTgVMqSfO7WLs7Zk+AQciTRPmOodacgDzftn9Efgh35KVaTB9qQMC2pff+tTNP80GVkXVzlMOd4scgRuJkTJ5lZ7ro01bbEDDHwV6NNHKcEleEcE+CaJdKg3ueofVRGwqw2M+Pm9FCWr0YopkU7/Dqt60oXKa4abYcBA444FTQK1MAA8G5aatSlFOjydLFEcaqD/vxbK0ISsU8hFaV/C0qiVSkAEegcRDxvRd17FZZHVjEmP8BuJdZhrJRLQ== user@rbu-Precision-5530"
+
+kubernetes_ingress_http_port: 30080
+kubernetes_ingress_https_port: 30443
+
+kubernetes_local_storage:
+  - name: wordpress-frontend
+    capacity: 1G
+    reclaim_policy: Retain
+    storage_class: local-storage
+    affinity:
+      hostname: node1test
+    labels:
+      app: wordpress
+      tier: frontend
+  - name: wordpress-mysql
+    capacity: 2G
+    reclaim_policy: Retain
+    storage_class: local-storage
+    affinity:
+      hostname: node1test
+    labels:
+      app: wordpress
+      tier: mysql

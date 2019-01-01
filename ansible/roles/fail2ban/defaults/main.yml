@@ -1,0 +1,9 @@
+---
+
+fail2ban_jails:
+  - name: nginx-botsearch
+    enabled: False
+  - name: nginx-http-auth
+    enabled: False
+  - name: nginx-limit-req
+    enabled: False

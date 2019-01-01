@@ -1,0 +1,95 @@
+---
+
+- name: Check if the node is already added in the cluster
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: kubelet_conf_result
+
+- name: Register if the node is already added in the cluster
+  set_fact:
+    has_already_joined_kubernetes_cluster: "{{ kubelet_conf_result.stat.isreg | default(false) | bool }}"
+
+- name: Generate token to join on master
+  command: kubeadm token create --ttl=5m --description="Token to allow {{ inventory_hostname }} to join" --print-join-command
+  register: join_command
+  delegate_to: "{{ groups['kubernetes_masters'][0] }}"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  when: not has_already_joined_kubernetes_cluster
+
+- name: Fail when the join command is not supplied
+  fail:
+    msg: "kubeadm token create didn't return a join command"
+  when:
+    - not has_already_joined_kubernetes_cluster
+    - "'kubeadm join' not in join_command.stdout_lines[0]"
+
+- name: Join cluster
+  command: "{{ join_command.stdout_lines[0] }}"
+  when: not has_already_joined_kubernetes_cluster
+
+- name: Configure kubectl
+  synchronize:
+    src: /etc/kubernetes/admin.conf
+    dest: /etc/kubernetes/admin.conf
+  delegate_to: "{{ groups['kubernetes_masters'][0] }}"
+
+- name: Create kube configuration folder for standard user
+  file:
+    path: "{{ kubernetes_user.home }}/.kube"
+    state: directory
+    owner: "{{ kubernetes_user.name }}"
+
+- name: Configure kube for standard user
+  copy:
+    dest: "{{ kubernetes_user.home }}/.kube/config"
+    src: /etc/kubernetes/admin.conf
+    remote_src: yes
+    owner: "{{ kubernetes_user.name }}"
+    backup: yes
+
+- name: Enable k8s autocompletion for standard user
+  copy:
+    dest: "{{ kubernetes_user.home }}/.bashrc.d/k8s_autocomplete.bashrc"
+    content: |
+      # kubectl completion
+      source <(kubectl completion bash)
+    owner: "{{ kubernetes_user.name }}"
+
+- name: Create storage LVs
+  lvol:
+      vg: "{{ kubernetes_local_storage_vg }}"
+      lv: "{{ item.name }}"
+      resizefs: yes
+      state: present
+      active: yes
+      size: "{{ item.capacity }}"
+  with_items: "{{ kubernetes_local_storage | default([]) }}"
+  when: item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
+
+- name: Get current node tags
+  command: kubectl get nodes {{ ansible_hostname | lower }} -o yaml
+  changed_when: false
+  register: current_node_tags_results
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Extract current node tags
+  set_fact:
+    current_node_tags: "{{ (current_node_tags_results.stdout | from_yaml).metadata.labels }}"
+
+- name: Tag node
+  command: kubectl label nodes {{ ansible_hostname | lower }} --overwrite=true {{ item.name }}={{ item.value }}
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  with_items: "{{ kubernetes_node_labels | default([]) }}"
+  when: (item.name not in current_node_tags) or (item.value != current_node_tags[item.name])
+
+- name: Untag node
+  command: kubectl label nodes {{ ansible_hostname | lower }} {{ item }}-
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  with_items: "{{ current_node_tags }}"
+  when:
+    - "'kubernetes.io' not in item"
+    - item not in (kubernetes_node_labels | default([]) | map(attribute='name'))

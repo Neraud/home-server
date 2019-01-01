@@ -1,0 +1,11 @@
+---
+
+galaxy_info:
+  author: "Neraud"
+  license: MIT
+  description: "Basic role for Debian-based system to configure APT"
+  min_ansible_version: 2.7
+  platforms:
+  - name: Debian
+    versions:
+    - stretch

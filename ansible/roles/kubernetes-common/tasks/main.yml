@@ -1,0 +1,54 @@
+---
+
+
+# https://kubernetes.io/docs/setup/independent/install-kubeadm/
+# https://github.com/kubernetes-sigs/kubespray/
+# https://cyril.deguet.com/fr/2018/02/12/kubernetes-debian-vps/
+
+- name: Disable swap at boot
+  mount:
+    path: none
+    fstype: swap
+    state: absent
+    backup: yes
+
+- name: Disable swap right now
+  command: swapoff -a
+  when: ansible_swaptotal_mb > 0
+
+- name: Add Kubenetes repo key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add Kubernetes repo
+  apt_repository:
+    filename: "kubernetes"
+    repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+    state: present
+
+- name: Install Kubernetes
+  apt:
+    pkg:
+    - kubelet
+    - kubeadm
+    state: present
+
+- name: Configure kubelet IP
+  template:
+    dest: /etc/default/kubelet
+    src: kubelet.j2
+    backup: yes
+  notify: Restart Kubelet
+
+- name: Allow forwarded/routed traffic for the CNI
+  blockinfile:
+    path: /etc/ufw/before.rules
+    insertbefore: "# don't delete the 'COMMIT' line or these rules won't be processed"
+    backup: yes
+    marker: "# {mark} ANSIBLE MANAGED BLOCK Kubernetes rule to allow forward to CNI"
+    state: present
+    block: |
+      -A ufw-before-forward -i cni0 -j ACCEPT
+      -A ufw-before-forward -i flannel.1 -j ACCEPT
+  notify: Reload ufw

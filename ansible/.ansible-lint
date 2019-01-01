@@ -1,0 +1,8 @@
+
+use_default_rules: true
+
+skip_list:
+  # [204] Lines should be no longer than 120 chars
+  - '204'
+  # [405] Remote package tasks should have a retry
+  - '405'

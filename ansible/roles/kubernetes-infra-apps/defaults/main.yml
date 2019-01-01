@@ -1,0 +1,15 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+kubernetes_nginx_ingress_http_port: 30080
+kubernetes_nginx_ingress_https_port: 30443
+
+kubernetes_dashboard_https_enabled: true
+
+kubernetes_dashboard_service_account_enaled: True
+kubernetes_dashboard_service_account_name: admin-user

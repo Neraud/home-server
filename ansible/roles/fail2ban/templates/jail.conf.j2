@@ -1,0 +1,5 @@
+#{{ ansible_managed }}
+
+[{{ item.name }}]
+enabled = {{ item.enabled }}
+{% if item.extra_conf is defined %}{{ item.extra_conf }}{% endif %}

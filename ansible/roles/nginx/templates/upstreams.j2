@@ -1,0 +1,10 @@
+#jinja2: trim_blocks: "true", lstrip_blocks: "false"
+# {{ ansible_managed }}
+
+{% for upstream in nginx_upstreams | default() %}
+upstream {{ upstream.name }} {
+	{% for server in upstream.servers | default() %}
+    server {{ server }};
+	{% endfor %}
+}
+{% endfor %}

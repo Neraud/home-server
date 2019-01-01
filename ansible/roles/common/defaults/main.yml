@@ -1,0 +1,46 @@
+---
+
+machine_name: MyMachine
+domain_name: MyDomain
+
+# Cf TZ vales in https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+time_zone: Europe/Paris
+
+bashrc_include_dir: .bashrc.d
+
+#standard_user: 
+#  name: user
+#  # https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+#  # ansible all -i localhost, -m debug -a "msg={{ 'password' | password_hash('sha512', 'mysecretsalt') }}"
+#  password: "$6$mysecretsalt$MIJffjeQyfrKKrGkprGrDL/g2mCJa53koLmYQuuLmY9y37pDvGKPXU1Ov3RbMi.tpQ9cWvxAzUVtBLe7KrZoU."
+#  home: /home/user
+#  ssh_authorized_keys:
+#    - "ssh-rsa XXXXXXXXX user@machine"
+  
+
+sysctl_properties:
+  # Check source (UDP spoofing)
+  - name: net.ipv4.conf.default.rp_filter
+    value: 1  
+  # SYN cookies (against SYN flooding)
+  - name: net.ipv4.tcp_syncookies
+    value: 1
+  # Reject ICMP redirections (against MitM)
+  - name: net.ipv4.conf.all.accept_redirects
+    value: 0
+  - name: net.ipv4.conf.all.secure_redirects
+    value: 0
+  # Disable source routing
+  - name: net.ipv4.conf.default.accept_source_route
+    value: 0
+
+#cron_jobs:
+#  - name: Awesome job
+#    cron_file: awesome_job
+#    user: root
+#    job: /path/to/job
+#    minute: "*/5"
+#    hour: "*"
+#    day: "*"
+#    weekday: "*"
+#    month: "*"

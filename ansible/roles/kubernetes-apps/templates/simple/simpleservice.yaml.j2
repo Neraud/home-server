@@ -1,0 +1,33 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: simpleservice-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simpleservice
+  template:
+    metadata:
+      labels:
+        app: simpleservice
+    spec:
+      containers:
+        - name: simpleservice-app
+          image: mhausenblas/simpleservice:0.5.0
+      nodeSelector:
+        capability/general-purpose: 'yes'
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: simpleservice-service
+  namespace: default
+spec:
+  selector:
+    app: simpleservice
+  ports:
+    - port: 9876 # Default port for image

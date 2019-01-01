@@ -1,0 +1,57 @@
+---
+
+- name: Install kubectl
+  apt:
+    pkg: kubectl
+    state: present
+
+# TODO check if that's a proper way to detect if the master has already been installed
+- name: Check if kubeadm has already run
+  command: kubectl cluster-info
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  changed_when: false
+  failed_when: false
+  register: kubectl_info
+
+- name: Initialize first master
+  command: "kubeadm init --pod-network-cidr={{ kubernetes_pod_network_cidr }}{% if kubernetes_apiserver_ip is defined %} --apiserver-advertise-address={{ kubernetes_apiserver_ip }}{% endif %}"
+  register: kubeadm_init
+  when: kubectl_info.rc != 0
+
+- name: Create kube configuration folder for standard user
+  file:
+    path: "{{ kubernetes_user.home }}/.kube"
+    state: directory
+    owner: "{{ kubernetes_user.name }}"
+
+- name: Configure kube for standard user
+  copy:
+    dest: "{{ kubernetes_user.home }}/.kube/config"
+    src: /etc/kubernetes/admin.conf
+    remote_src: yes
+    owner: "{{ kubernetes_user.name }}"
+    backup: yes
+
+- name: Enable k8s autocompletion for standard user
+  copy:
+    dest: "{{ kubernetes_user.home }}/.bashrc.d/k8s_autocomplete.bashrc"
+    content: |
+      # kubectl completion
+      source <(kubectl completion bash)
+      # kubeadm completion
+      source <(kubeadm completion bash)
+    owner: "{{ kubernetes_user.name }}"
+
+- name: Pass bridged IPv4 traffic to iptables’ chains
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: 1
+    state: present
+
+- name: Install flannel pod network add-on
+  k8s:
+    definition: "{{ lookup('template', 'kube-flannel.yaml.j2') }}"
+    state: present
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

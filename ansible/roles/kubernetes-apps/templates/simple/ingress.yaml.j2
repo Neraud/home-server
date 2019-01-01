@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: simple-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: test.{{ web_base_domain }}
+    http:
+      paths:
+        - path: /simple
+          backend:
+            serviceName: simpleservice-service
+            servicePort: 9876
