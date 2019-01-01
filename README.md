@@ -1,5 +1,5 @@
 
-# Server Provisioning
+# HomeServer Provisioning
 
 This project contains the playbook to provision my home servers.
 
@@ -7,7 +7,16 @@ It creates a Kubernetes cluster on self hosted bare metal hosts and deploy apps.
 
 It also contains a Vagrant environment to test the playbooks and services.
 
-TODO selfhosted
+## Why selfhosted ?
+
+Not taking into account personal bias about hosting in the cloud, I'm running 2 types of services that are not compatible with cloud providers :
+ - Home automation : 
+   - I need access to physical devices (USB sticks)
+   - I don't want to lose access to my automations if my internet connexion goes down
+  - Media Streaming
+    - The cost would be too high (storage + cpu to transcode)
+
+Going the self-hosted route has a few [consequences on the infrastructure](docs/Bare_metal_considerations.md).
 
 ## Hosts
 
@@ -23,11 +32,11 @@ The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.m
 
 The Vagrantfile creates 3 *similar* guests : 
 
-| Type      | Cores |  RAM  |
-| --------- | :---: | :---: |
-| Master    |   2   |  4G   |
-| Node_1    |   4   |  8G   |
-| Node_Home |   2   |  2G   |
+| Type      | Cores |  RAM  | Storage |
+| --------- | :---: | :---: | :-----: |
+| Master    |   2   |  4G   |    -    |
+| Node_1    |   4   |  8G   |   50G   |
+| Node_Home |   2   |  2G   |   10G   |
 
 These settings are configured in `Vagrantconfig.yaml`, feel free to change them or add mode nodes.
 
@@ -101,28 +110,44 @@ You can do so using a terminal (assuming you start at the project root) :
 
 ### Unifi Controller
 
+TODO
+
 ### HomeAssistant
+
+TODO
 
 ### Node-RED
 
+TODO
+
 ### TT-RSS
+
+TODO
 
 ### Gitlab
 
+TODO
+
 ### Plex
+
+TODO
 
 ### Airsonic
 
+TODO
+
 ### Sickchill
+
+TODO
 
 ### Deluge
 
+TODO
+
 ### Pyload
+
+TODO
 
 ### SABnzbd
 
-## Network
-
-Master hosts an NGinx reverse proxy that handles SSL termination and basic authentication.
-It then forwards the requests to the NGinx Ingress exposed as a NodePort on the Kubernetes cluster.
-Ingresses then define the rules to hit the proper service. 
+TODO
