@@ -47,8 +47,29 @@ nginx_sites:
           path: /etc/nginx/htpasswd/htpasswd_test
         proxy_pass: http://kubernetes-ingress
 
+  - name: web
+    enabled_name: 200-web
+    server_name: "web.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: selfsigned
+      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=web.{{ web_base_domain }}"
+      cert_path: /etc/nginx/ssl/web.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/web.{{ web_base_domain }}/server.key
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    locations:
+      - path: /
+        auth_basic:
+          name: Test Auth Web
+          path: /etc/nginx/htpasswd/htpasswd_test
+        proxy_pass: http://kubernetes-ingress
+
   - name: test
-    enabled_name: 200-test
+    enabled_name: 999-test
     server_name: "test.{{ web_base_domain }}"
     default: False
     http_port: 80

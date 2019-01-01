@@ -35,3 +35,16 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   tags: kubernetes-app-wordpress
+
+- name: Deploy TT-RSS
+  k8s:
+    definition: "{{ lookup('template', 'tt-rss/' + item) }}"
+    state: present
+  with_items:
+    - pgsql-password-secret.yaml.j2
+    - pgsql.yaml.j2
+    - frontend.yaml.j2
+    - ingress.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  tags: kubernetes-app-ttrss

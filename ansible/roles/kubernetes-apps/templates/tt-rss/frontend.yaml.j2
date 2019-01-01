@@ -1,0 +1,114 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ttrss-config
+  namespace: default
+  labels:
+    app: ttrss
+    tier: frontend
+data:
+  nginx_site_config: |
+    server {
+      listen 80 default_server;
+      root /config/www/tt-rss;
+      index index.html index.htm index.php;
+
+      server_name _;
+
+      #ssl_certificate /config/keys/cert.crt;
+      #ssl_certificate_key /config/keys/cert.key;
+
+      client_max_body_size 0;
+
+      location {{ ttrss_context_root }} {
+        {% if ttrss_context_root != "/" %}alias /config/www/tt-rss;{% endif %}
+        
+        try_files $uri $uri/ /index.html /index.php?$args =404;
+
+        location ~ \.php$ {
+          fastcgi_split_path_info ^(.+\.php)(/.+)$;
+          # With php5-cgi alone:
+          fastcgi_pass 127.0.0.1:9000;
+          # With php5-fpm:
+          #fastcgi_pass unix:/var/run/php5-fpm.sock;
+          fastcgi_index index.php;
+          include /etc/nginx/fastcgi_params;
+          {% if ttrss_context_root != "/" %}fastcgi_param SCRIPT_FILENAME $request_filename;{% endif %}
+
+        }
+      }
+    }
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttrss
+  namespace: default
+  labels:
+    app: ttrss
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: ttrss
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: ttrss
+        tier: frontend
+    spec:
+      containers:
+      - image: linuxserver/tt-rss
+        name: ttrss
+# TODO inject TT-RSS configuration after the image is updated
+#        env:
+#        - name: WORDPRESS_DB_HOST
+#          value: ttrss-mysql
+#        - name: WORDPRESS_DB_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: ttrss-mysql-pass
+#              key: password
+        ports:
+        - containerPort: 80
+          name: ttrss
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: nginx-site-config-file
+          mountPath: /config/nginx/site-confs/
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: nginx-site-config-file
+        configMap:
+          name: ttrss-config
+          items:
+          - key: nginx_site_config
+            path: default
+      nodeSelector:
+        capability/general-purpose: 'yes'
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ttrss
+  namespace: default
+  labels:
+    app: ttrss
+    tier: frontend
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: ttrss
+    tier: frontend

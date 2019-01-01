@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ttrss-pgsql
+  namespace: default
+  labels:
+    app: ttrss
+    tier: database
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: ttrss
+    tier: database
+  clusterIP: None
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ttrss-pgsql
+  namespace: default
+  labels:
+    app: ttrss
+    tier: database
+spec:
+  selector:
+    matchLabels:
+      app: ttrss
+      tier: database
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: ttrss
+        tier: database
+    spec:
+      containers:
+      - image: postgres:11.1
+        name: pgsql
+        env:
+        - name: POSTGRES_USER
+          value: {{ ttrss_pqsql_user }}
+        - name: POSTGRES_DB
+          value: {{ ttrss_pqsql_database }}
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ttrss-pgsql-pass
+              key: password
+        ports:
+        - containerPort: 5432
+          name: pgsql
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: ttrss-pgsql-pv-claim
+          mountPath: /var/lib/postgresql
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: ttrss-pgsql-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 1G
+      selector:
+        matchLabels:
+          app: ttrss
+          tier: database

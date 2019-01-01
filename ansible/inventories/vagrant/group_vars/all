@@ -35,3 +35,12 @@ kubernetes_local_storage:
     labels:
       app: wordpress
       tier: database
+  - name: ttrss-pgsql
+    capacity: 1G
+    reclaim_policy: Retain
+    storage_class: local-storage
+    affinity:
+      hostname: node1test
+    labels:
+      app: ttrss
+      tier: database
