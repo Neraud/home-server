@@ -48,3 +48,16 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   tags: kubernetes-app-ttrss
+
+- name: Deploy Home Assistant
+  k8s:
+    definition: "{{ lookup('template', 'home-assistant/' + item) }}"
+    state: present
+  with_items:
+    - mysql-password-secret.yaml.j2
+    - mysql.yaml.j2
+    - frontend.yaml.j2
+    - ingress.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  tags: kubernetes-app-homeassistant

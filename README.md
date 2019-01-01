@@ -114,7 +114,16 @@ TODO
 
 ### HomeAssistant
 
-TODO
+HomeAssistant will prompt for the 1st user creation.
+
+The deployment also prepares a MySQL database to use for HomeAssistant [recorder](https://www.home-assistant.io/components/recorder/), but it needs to be manually configured in `configuration.yaml` : 
+
+```yaml
+recorder:
+  db_url: mysql://homeassistant:Passw0rd@homeassistant-mysql/homeassistant?charset=utf8
+```
+
+(for a proper configuration, secrets.yaml should be used)
 
 ### Node-RED
 

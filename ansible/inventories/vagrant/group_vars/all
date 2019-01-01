@@ -44,3 +44,21 @@ kubernetes_local_storage:
     labels:
       app: ttrss
       tier: database
+  - name: homeassistant-frontend
+    capacity: 1G
+    reclaim_policy: Retain
+    storage_class: local-storage
+    affinity:
+      hostname: nodehometest
+    labels:
+      app: homeassistant
+      tier: frontend
+  - name: homeassistant-mysql
+    capacity: 2G
+    reclaim_policy: Retain
+    storage_class: local-storage
+    affinity:
+      hostname: nodehometest
+    labels:
+      app: homeassistant
+      tier: database

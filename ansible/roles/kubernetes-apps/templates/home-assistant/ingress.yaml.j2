@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: homeassistant
+  namespace: default
+spec:
+  rules:
+  - host: home.{{ web_base_domain }}
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: homeassistant
+            servicePort: 80
