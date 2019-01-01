@@ -50,8 +50,14 @@ spec:
         - containerPort: 3306
           name: mysql
         volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
         - name: wordpress-mysql-pv-claim
           mountPath: /var/lib/mysql
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
