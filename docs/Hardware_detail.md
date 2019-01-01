@@ -1,40 +1,53 @@
 
-https://www.amazon.fr/gp/product/B018Q0GN60         437,29
-https://www.amazon.fr/gp/product/B015YPB8ME         110,52
-https://www.amazon.fr/gp/product/B00TGIW1XG         165,32
+# Hardware deail
 
+This page describes the hardware I currently run my 'production' on.
 
-Kubernetes Node Home on a cheap Atom box
+I tried to keep track of the prices of these parts at the time I bought them.
+(that helps to have the real cost and not a remember a vague 'nah, I didn't spend much on that')
 
-https://www.amazon.fr/gp/product/B01DFJH78U         99€
+## Kubernetes cluster
 
+### Kubernetes Master
 
-MiniServeur : 
-Intel NUC BOXDC3217IYE
-CPU : i3 3217U 
-RAM : 2*4 Go DDR3 (G.Skill)
-HDD System : Crucial M4 64 Go
-OS : Debian 7.0 Wheezy x64
+|Part     | Model                      |
+|---------|----------------------------|
+|Barebone | Intel NUC BOXDC3217IYE     |
+|RAM      | 2*4 GB DDR3 (G.Skill)      |
+|Storage  | Crucial M4 64 GB           |
 
+This NUC runs an [Intel i3 3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
 
-Hyperviseur : 
-Intel NUC 6i5SYH
-CPU : i5-6260U
-RAM : 2*16Go DDR4 2133 (Crucial CT2K16G4SFD8213)
-SSD : Samsung 850 EVO M.2 500 Go
-OS : XenServer 7.2
+### Kubernetes Node 1
 
+|Part     | Model                      | Price |
+|---------|----------------------------|-------|
+|Barebone | [Intel NUC 6i5SYH](https://www.amazon.fr/gp/product/B018Q0GN60)       | 437,29 € |
+|RAM      | 2*16 GB DDR4 2133 ([Crucial CT2K16G4SFD8213](https://www.amazon.fr/gp/product/B015YPB8ME))  | 110,52 € |
+|Storage  | [Samsung 850 EVO M.2 500 GB](https://www.amazon.fr/gp/product/B00TGIW1XG)       | 165,32 € |
 
-Domotique : 
-BoLv Z83II Mini PC 
-CPU : Intel Atom x5-Z8350 Processeur
-RAM : DDR3 2GB
-HDD : 32GB
+(ordered 2016-08)
 
+This NUC runs an [Intel i5 6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-) CPU.
 
-(prices when each item was bought)
+### Kubernetes Node Home
 
+|Part     | Model                      | Price |
+|---------|----------------------------|-------|
+|Box      | [BoLv Z83II Mini PC](https://www.amazon.fr/gp/product/B01DFJH78U )  | 99 € |
 
+This box runs an [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-) CPU, with 2 GB of DDR3 RAM and 32GB of onboard flash storage.
 
-+ NAS
-+ Network
+## NAS
+
+Media and backps are stored on a Synology NAS DS415+
+With 4 WD Red 6To (WD60EFRX) in SHR mode.
+
+## Network
+
+|Part     | Model                      | Price |
+|---------|----------------------------|-------|
+|Router   |[UniFi Security Gateway 3P](https://www.amazon.fr/gp/product/B00LV8YZLK)|118,79€|
+|Switch   |[UniFi Switch 8 POE-60W](https://www.amazon.fr/gp/product/B004BQCKXO)|110,72€|
+|Switches | a few Netgear G108/[GS108](https://www.amazon.fr/gp/product/B000092RRM)|30-40€|
+|Wifi Access Point|[UniFi AP-AC-LR](https://www.amazon.fr/gp/product/B016K5A06C)|96,42€|
