@@ -22,7 +22,11 @@
 - name: Provision Kubernetes masters
   hosts: kubernetes_masters
   roles:
-    - nginx
+    - {
+        role: nginx,
+        tags: nginx
+      }
+    - fail2ban
     - kubernetes-master
 
 - name: Provision Kubernetes nodes
@@ -33,7 +37,6 @@
 - name: Provision Kubernetes applications
   hosts: kubernetes_masters
   roles:
-    - fail2ban
     - kubernetes-infra
     - kubernetes-infra-apps
     - {

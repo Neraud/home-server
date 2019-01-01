@@ -66,6 +66,7 @@
       size: "{{ item.capacity }}"
   with_items: "{{ kubernetes_local_storage | default([]) }}"
   when: item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
+  tags: kubernetes-storage
 
 - name: Get current node tags
   command: kubectl get nodes {{ ansible_hostname | lower }} -o yaml
