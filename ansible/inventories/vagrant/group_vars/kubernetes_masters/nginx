@@ -97,6 +97,10 @@ nginx_sites:
       - path: /auth/token
         proxy_enable_websocket: True
         proxy_pass: http://kubernetes-ingress/auth/token
+      # Disable Auth for NodeRED
+      - path: "{{ nodered_context_root }}/"
+        proxy_enable_websocket: True
+        proxy_pass: http://kubernetes-ingress/node-red/
 
   - name: test
     enabled_name: 999-test

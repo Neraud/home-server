@@ -62,3 +62,12 @@ kubernetes_local_storage:
     labels:
       app: homeassistant
       tier: database
+  - name: nodered-frontend
+    capacity: 1G
+    reclaim_policy: Retain
+    storage_class: local-storage
+    affinity:
+      hostname: nodehometest
+    labels:
+      app: nodered
+      tier: frontend

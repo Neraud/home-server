@@ -1,0 +1,72 @@
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nodered
+  namespace: default
+  labels:
+    app: nodered
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: nodered
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nodered
+        tier: frontend
+    spec:
+      containers:
+      - image: nodered/node-red-docker:slim-v8
+        name: nodered
+        ports:
+        - containerPort: 1880
+          name: nodered
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: nodered-pv-claim
+          mountPath: /data
+      securityContext:
+        fsGroup: 1001 # node-red group inside the container
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/home: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: nodered-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 1G
+      selector:
+        matchLabels:
+          app: nodered
+          tier: frontend
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodered
+  namespace: default
+  labels:
+    app: nodered
+    tier: frontend
+spec:
+  ports:
+  - port: 80
+    targetPort: 1880
+  selector:
+    app: nodered
+    tier: frontend

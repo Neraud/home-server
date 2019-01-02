@@ -129,7 +129,19 @@ recorder:
 
 ### Node-RED
 
-TODO
+Node-RED addons can be installed via the web interface.
+
+HomeAssistant integration can be configured using the custom module `node-red-contrib-home-assistant-websocket`.
+
+It requires an HomeAssistant long lived access token (which can be generated on the HomeAssistant profile page)
+
+The configuration on the Node-RED side is :
+
+* I use Hass.io : Unchecked
+* Base URL : http://homeassistant
+* Access Token : [a long lived access token]
+* Use Legacy API Password : Unchecked
+* Accept Unauthorized SSL Certificates: Unchecked
 
 ### TT-RSS
 

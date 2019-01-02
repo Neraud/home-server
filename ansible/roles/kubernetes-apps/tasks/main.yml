@@ -61,3 +61,14 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   tags: kubernetes-app-homeassistant
+
+- name: Deploy Node-RED
+  k8s:
+    definition: "{{ lookup('template', 'node-red/' + item) }}"
+    state: present
+  with_items:
+    - frontend.yaml.j2
+    - ingress.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  tags: kubernetes-app-nodered
