@@ -11,6 +11,7 @@ kubernetes_local_storage_vg: kubernetes_vg
 #    capacity: 20G
 #    filesystem: ext4 (optional)
 #    mount_path: /path/on/kubernetes/node (optional)
+#    prepare_task: group/app/prepare/tasks/main.yml (optional, the path under 'apps')
 #    reclaim_policy: Retain
 #    storage_class: local-storage
 #    affinity:

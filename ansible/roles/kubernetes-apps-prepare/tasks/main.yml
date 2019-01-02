@@ -2,13 +2,15 @@
 
 - name: Create storage LVs
   lvol:
-      vg: "{{ kubernetes_local_storage_vg }}"
-      lv: "{{ item.name }}"
-      resizefs: yes
-      state: present
-      active: yes
-      size: "{{ item.capacity }}"
-  with_items: "{{ kubernetes_local_storage | default([]) }}"
+    vg: "{{ kubernetes_local_storage_vg }}"
+    lv: "{{ item.name }}"
+    resizefs: yes
+    state: present
+    active: yes
+    size: "{{ item.capacity }}"
+  loop: "{{ kubernetes_local_storage | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
   when: item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
   tags: kubernetes-storage
 
@@ -16,21 +18,35 @@
   filesystem:
     fstype: "{{ item.filesystem }}"
     dev: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.name }}"
-  with_items: "{{ kubernetes_local_storage | default([]) }}"
-  when: 
+  loop: "{{ kubernetes_local_storage | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
     - item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
     - item.filesystem is defined
   tags: kubernetes-storage
 
 - name: Mount storage
   mount:
-      state: mounted
-      path: "{{ item.mount_path }}"
-      src: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.name }}"
-      fstype: "{{ item.filesystem }}"
-  with_items: "{{ kubernetes_local_storage | default([]) }}"
-  when: 
+    state: mounted
+    path: "{{ item.mount_path }}"
+    src: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.name }}"
+    fstype: "{{ item.filesystem }}"
+  loop: "{{ kubernetes_local_storage | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
     - item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
     - item.filesystem is defined
     - item.mount_path is defined
+  tags: kubernetes-storage
+
+- name: Prepare storage
+  include_tasks: "{{ kubernetes_app_root_path }}/{{ item.prepare_task }}"
+  loop: "{{ kubernetes_local_storage | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
+    - item.prepare_task is defined
   tags: kubernetes-storage
