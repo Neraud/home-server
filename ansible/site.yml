@@ -38,7 +38,6 @@
   hosts: kubernetes_masters
   roles:
     - kubernetes-infra
-    - kubernetes-infra-apps
     - {
         role: kubernetes-apps,
         tags: kubernetes-apps

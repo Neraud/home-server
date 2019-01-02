@@ -1,0 +1,12 @@
+---
+
+- name: Deploy Node-RED
+  k8s:
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/home/nodered/kubernetes/' + item) }}"
+    state: present
+  with_items:
+    - frontend.yaml.j2
+    - ingress.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  tags: kubernetes-app-nodered
