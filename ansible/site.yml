@@ -33,12 +33,16 @@
   hosts: kubernetes_nodes
   roles:
     - kubernetes-node
+    - {
+        role: kubernetes-apps-prepare,
+        tags: kubernetes-apps
+      }
 
 - name: Provision Kubernetes applications
   hosts: kubernetes_masters
   roles:
     - kubernetes-infra
     - {
-        role: kubernetes-apps,
+        role: kubernetes-apps-deploy,
         tags: kubernetes-apps
       }

@@ -56,18 +56,6 @@
       source <(kubectl completion bash)
     owner: "{{ kubernetes_user.name }}"
 
-- name: Create storage LVs
-  lvol:
-      vg: "{{ kubernetes_local_storage_vg }}"
-      lv: "{{ item.name }}"
-      resizefs: yes
-      state: present
-      active: yes
-      size: "{{ item.capacity }}"
-  with_items: "{{ kubernetes_local_storage | default([]) }}"
-  when: item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
-  tags: kubernetes-storage
-
 - name: Get current node tags
   command: kubectl get nodes {{ ansible_hostname | lower }} -o yaml
   changed_when: false
