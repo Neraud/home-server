@@ -53,6 +53,7 @@ kubernetes_local_storage:
     capacity: 1G
     filesystem: ext4
     mount_path: /opt/kubernetes_storage/nodered-frontend
+    prepare_task: home/nodered/prepare/main.yml
     reclaim_policy: Retain
     storage_class: local-storage
     affinity:

@@ -124,17 +124,14 @@ The deployment also prepares and configures a MySQL database to use for HomeAssi
 
 Node-RED addons can be installed via the web interface.
 
-HomeAssistant integration can be configured using the custom module `node-red-contrib-home-assistant-websocket`.
+A sample flow is already deployed to show how Node-RED integrates with HomeAssistant.
+It requires 
 
-It requires an HomeAssistant long lived access token (which can be generated on the HomeAssistant profile page)
+* generating a HomeAssistant long lived access token (from the HomeAssistant profile page)
+* manually installing the following node :  `node-red-contrib-home-assistant-websocket`
+* configuring the HomeAssistant Server on Nod-RED
 
-The configuration on the Node-RED side is :
-
-* I use Hass.io : Unchecked
-* Base URL : http://homeassistant
-* Access Token : [a long lived access token]
-* Use Legacy API Password : Unchecked
-* Accept Unauthorized SSL Certificates: Unchecked
+The sample flow is commented to help these steps.
 
 ### TT-RSS
 
