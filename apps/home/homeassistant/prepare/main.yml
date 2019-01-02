@@ -1,0 +1,42 @@
+---
+
+- name: Check if HomeAssistant is already configured
+  stat:
+    path: "{{ item.mount_path }}/configuration.yaml"
+  register: homeassistant_configuration_file 
+
+- name: Configure HomeAssistant for the fist run (templates)
+  template:
+    src: "{{ config_item }}.j2"
+    dest: "{{ item.mount_path }}/{{ config_item }}"
+    backup: true
+  loop:
+    - secrets.yaml
+  loop_control:
+    loop_var: config_item
+  when: not homeassistant_configuration_file.stat.exists
+
+- name: Configure HomeAssistant for the fist run (copy)
+  copy:
+    src: "{{ config_item }}"
+    dest: "{{ item.mount_path }}/{{ config_item }}"
+    backup: true
+  loop:
+    - automations.yaml
+    - configuration.yaml
+  loop_control:
+    loop_var: config_item
+  when: not homeassistant_configuration_file.stat.exists
+
+- name: Create empty included files to configure HomeAssistant
+  copy:
+    content: ""
+    dest: "{{ item.mount_path }}/{{ config_item }}"
+    force: no
+  loop:
+    - customize.yaml
+    - groups.yaml
+    - scripts.yaml
+  loop_control:
+    loop_var: config_item
+  when: not homeassistant_configuration_file.stat.exists
