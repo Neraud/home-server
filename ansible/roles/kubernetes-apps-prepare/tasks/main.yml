@@ -11,3 +11,26 @@
   with_items: "{{ kubernetes_local_storage | default([]) }}"
   when: item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
   tags: kubernetes-storage
+
+- name: Create storage filesystems
+  filesystem:
+    fstype: "{{ item.filesystem }}"
+    dev: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.name }}"
+  with_items: "{{ kubernetes_local_storage | default([]) }}"
+  when: 
+    - item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
+    - item.filesystem is defined
+  tags: kubernetes-storage
+
+- name: Mount storage
+  mount:
+      state: mounted
+      path: "{{ item.mount_path }}"
+      src: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.name }}"
+      fstype: "{{ item.filesystem }}"
+  with_items: "{{ kubernetes_local_storage | default([]) }}"
+  when: 
+    - item.affinity is undefined or item.affinity.hostname == ansible_hostname | lower
+    - item.filesystem is defined
+    - item.mount_path is defined
+  tags: kubernetes-storage

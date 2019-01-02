@@ -8,8 +8,9 @@ kubernetes_local_storage_vg: kubernetes_vg
 
 #kubernetes_local_storage:
 #  - name: appname-tiername
-#    path: /path/to/volume
 #    capacity: 20G
+#    filesystem: ext4 (optional)
+#    mount_path: /path/on/kubernetes/node (optional)
 #    reclaim_policy: Retain
 #    storage_class: local-storage
 #    affinity:

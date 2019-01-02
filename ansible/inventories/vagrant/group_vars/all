@@ -46,6 +46,8 @@ kubernetes_local_storage:
       tier: database
   - name: homeassistant-frontend
     capacity: 1G
+    filesystem: ext4
+    mount_path: /opt/kubernetes_storage/homeassistant-frontend
     reclaim_policy: Retain
     storage_class: local-storage
     affinity:
@@ -64,6 +66,8 @@ kubernetes_local_storage:
       tier: database
   - name: nodered-frontend
     capacity: 1G
+    filesystem: ext4
+    mount_path: /opt/kubernetes_storage/nodered-frontend
     reclaim_policy: Retain
     storage_class: local-storage
     affinity:
