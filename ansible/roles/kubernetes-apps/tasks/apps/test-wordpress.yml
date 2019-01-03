@@ -1,8 +1,8 @@
 ---
 
-- name: Deploy Home Assistant
+- name: Deploy wordpress
   k8s:
-    definition: "{{ lookup('template', kubernetes_app_root_path + '/home/homeassistant/kubernetes/' + item) }}"
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/test/wordpress/deploy/' + item) }}"
     state: present
   with_items:
     - mysql-password-secret.yaml.j2
@@ -11,4 +11,4 @@
     - ingress.yaml.j2
   become: yes
   become_user: "{{ kubernetes_user.name }}"
-  tags: kubernetes-app-homeassistant
+  tags: kubernetes-app-wordpress

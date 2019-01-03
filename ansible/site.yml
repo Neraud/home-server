@@ -8,14 +8,10 @@
     - udev
     - firewall
 
-- name: Prepare Ansible requirements
-  hosts: ansible
-  roles:
-    - kubernetes-ansible
-
 - name: Prepare Kubernetes members
   hosts: kubernetes
   roles:
+    - kubernetes-ansible
     - docker
     - kubernetes-common
 
@@ -34,8 +30,8 @@
   roles:
     - kubernetes-node
     - {
-        role: kubernetes-apps-prepare,
-        tags: kubernetes-apps
+        role: kubernetes-storage,
+        tags: kubernetes-storage
       }
 
 - name: Provision Kubernetes applications
@@ -43,6 +39,6 @@
   roles:
     - kubernetes-infra
     - {
-        role: kubernetes-apps-deploy,
+        role: kubernetes-apps,
         tags: kubernetes-apps
       }

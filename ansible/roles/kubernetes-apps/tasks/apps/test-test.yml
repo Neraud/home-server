@@ -2,7 +2,7 @@
 
 - name: Deploy test application
   k8s:
-    definition: "{{ lookup('template', kubernetes_app_root_path + '/test/test/kubernetes/' + item) }}"
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/test/test/deploy/' + item) }}"
     state: present
   with_items:
     - apple.yaml.j2

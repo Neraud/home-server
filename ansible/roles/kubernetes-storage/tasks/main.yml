@@ -1,0 +1,47 @@
+---
+
+- name: Create storage LVs
+  lvol:
+    vg: "{{ kubernetes_local_storage_vg }}"
+    lv: "{{ item.key }}"
+    resizefs: yes
+    state: present
+    active: yes
+    size: "{{ item.value.capacity }}"
+  loop: "{{ kubernetes_local_storage | dict2items | default([]) }}"
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Create storage filesystems
+  filesystem:
+    fstype: "{{ item.value.filesystem }}"
+    dev: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.key }}"
+  loop: "{{ kubernetes_local_storage | dict2items | default([]) }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when: item.value.filesystem is defined
+
+- name: Mount storage
+  mount:
+    state: mounted
+    path: "{{ item.value.mount_path }}"
+    src: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.key }}"
+    fstype: "{{ item.value.filesystem }}"
+  loop: "{{ kubernetes_local_storage | dict2items | default([]) }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - item.value.filesystem is defined
+    - item.value.mount_path is defined
+
+- import_tasks: prepare.yml
+
+- name: Create persistant volumes
+  k8s:
+    definition: "{{ lookup('template', 'persistant-volume.yaml.j2') }}"
+    state: present
+  loop: "{{ kubernetes_local_storage | dict2items | default([]) }}"
+  loop_control:
+    label: "{{ item.key }}"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

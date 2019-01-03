@@ -12,7 +12,7 @@
 
 - name: Install Kubernetes dashboard
   k8s:
-    definition: "{{ lookup('template', kubernetes_app_root_path + '/infra/dashboard/kubernetes/' + item) }}"
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/infra/dashboard/deploy/' + item) }}"
     state: present
   with_items:
     - dashboard.yaml.j2
@@ -22,7 +22,7 @@
 
 - name: Create Kubernetes service account for dashboard
   k8s:
-    definition: "{{ lookup('template',  kubernetes_app_root_path + '/infra/dashboard/kubernetes/service-account.yaml.j2') }}"
+    definition: "{{ lookup('template',  kubernetes_app_root_path + '/infra/dashboard/deploy/service-account.yaml.j2') }}"
     state: present
   become: yes
   become_user: "{{ kubernetes_user.name }}"

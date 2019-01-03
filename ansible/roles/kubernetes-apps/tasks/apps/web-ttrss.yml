@@ -2,7 +2,7 @@
 
 - name: Deploy TT-RSS
   k8s:
-    definition: "{{ lookup('template', kubernetes_app_root_path + '/web/ttrss/kubernetes/' + item) }}"
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/web/ttrss/deploy/' + item) }}"
     state: present
   with_items:
     - pgsql-password-secret.yaml.j2

@@ -1,0 +1,20 @@
+---
+
+- name: Set mount path
+  set_fact:
+    nodered_mount_path: "{{ kubernetes_local_storage['nodered-frontend']['mount_path'] }}"
+
+- name: Check if Node-RED is already configured
+  stat:
+    path: "{{ nodered_mount_path }}/settings.js"
+  register: nodered_settings_file
+
+- name: Configure Node-RED for the fist run
+  template:
+    src: "{{ kubernetes_app_root_path }}/home/nodered/prepare/{{ item }}.j2"
+    dest: "{{ nodered_mount_path }}/{{ item }}"
+    backup: true
+  loop:
+    - settings.js
+    - flows.json
+  when: not nodered_settings_file.stat.exists

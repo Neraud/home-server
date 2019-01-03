@@ -1,0 +1,9 @@
+---
+
+- include_tasks: apps/home-homeassistant.yml
+  tags: kubernetes-app-home-homeassistant
+  when: "'homeassistant-frontend' in kubernetes_local_storage"
+
+- include_tasks: apps/home-nodered.yml
+  tags: kubernetes-app-home-nodered
+  when: "'nodered-frontend' in kubernetes_local_storage"

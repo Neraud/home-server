@@ -19,13 +19,3 @@
     - storage-class.yaml.j2
   become: yes
   become_user: "{{ kubernetes_user.name }}"
-  tags: kubernetes-storage
-
-- name: Create persistant volumes
-  k8s:
-    definition: "{{ lookup('template', 'kubernetes/storage/persistant-volume.yaml.j2') }}"
-    state: present
-  with_items: "{{ kubernetes_local_storage }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-  tags: kubernetes-storage
