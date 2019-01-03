@@ -53,6 +53,15 @@ map:
 recorder:
   db_url: !secret recorder_mysql_url
 
+# https://home-assistant.io/components/mqtt/
+mqtt:
+  # https://home-assistant.io/docs/mqtt/broker/#run-your-own
+  broker: mosquitto
+  port: 1883
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+
+
 # Track the sun
 sun:
 
@@ -60,6 +69,10 @@ sun:
 sensor:
   # Weather prediction
   - platform: yr
+
+  - platform: mqtt
+    name: Test MQTT sensor
+    state_topic: "test/test_sensor"
 
 # Text to speech
 tts:

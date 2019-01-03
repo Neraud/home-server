@@ -120,12 +120,32 @@ HomeAssistant will prompt for the 1st user creation.
 
 The deployment also prepares and configures a MySQL database to use for HomeAssistant [recorder](https://www.home-assistant.io/components/recorder/).
 
+### Mosquitto
+
+The MQTT broker Mosquitto is deployed.
+
+It's available inside the cluster :
+
+`mosquitto_pub -h mosquitto -p 1883 -t test -u user -P Passw0rd -m 'test'`
+
+And from outside, over SSL :
+
+`mosquitto_pub -h home.k8stest.com -p 1883 --insecure -t test -u user -P Passw0rd -m 'test'`
+
+A Fake sensor is created in HomeAssistant, based on the topic `test/test_sensor`.
+
+To push values on this sensor :
+
+```shell
+[user@master$] kubectl run test-mqtt -it --rm --image=aksakalli/mqtt-client --restart=Never -- pub -h mosquitto -p 1883 -u user -P Passw0rd -t test/test_sensor -m "Mock Value"
+```
+
 ### Node-RED
 
 Node-RED addons can be installed via the web interface.
 
 A sample flow is already deployed to show how Node-RED integrates with HomeAssistant.
-It requires 
+It requires
 
 * generating a HomeAssistant long lived access token (from the HomeAssistant profile page)
 * manually installing the following node :  `node-red-contrib-home-assistant-websocket`
