@@ -11,4 +11,3 @@
     - ingress.yaml.j2
   become: yes
   become_user: "{{ kubernetes_user.name }}"
-  tags: kubernetes-app-homeassistant
