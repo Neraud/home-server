@@ -26,3 +26,21 @@ kubernetes_local_storage:
     labels:
       app: nodered
       tier: frontend
+  mosquitto-backend:
+    capacity: 16M
+    filesystem: ext4
+    mount_path: /opt/kubernetes_storage/mosquitto-backend
+    reclaim_policy: Retain
+    storage_class: local-storage
+    labels:
+      app: mosquitto
+      tier: backend
+  mosquitto-data:
+    capacity: 128M
+    filesystem: ext4
+    mount_path: /opt/kubernetes_storage/mosquitto-data
+    reclaim_policy: Retain
+    storage_class: local-storage
+    labels:
+      app: mosquitto
+      tier: data

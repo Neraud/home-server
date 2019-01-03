@@ -7,7 +7,8 @@
   with_items:
     - mandatory.yaml.j2
     - service-nodeport.yaml.j2
-    - configmap.yaml.j2
+    - config.yaml.j2
+    - config-tcp.yaml.j2
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 

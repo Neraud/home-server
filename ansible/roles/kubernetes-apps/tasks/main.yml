@@ -20,3 +20,6 @@
 
 - import_tasks: apps/home-nodered.yml
   tags: kubernetes-app-home-nodered
+
+- import_tasks: apps/home-mosquitto.yml
+  tags: kubernetes-app-home-mosquitto

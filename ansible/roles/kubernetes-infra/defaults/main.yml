@@ -5,3 +5,5 @@ web_base_domain: domain.tld
 kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
+
+#kubernetes_nginx_ingress_mqtt_target: "mqttservice:mqttport"

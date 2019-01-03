@@ -1,0 +1,10 @@
+---
+
+- name: Deploy Mosquitto
+  k8s:
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/home/mosquitto/deploy/' + item) }}"
+    state: present
+  with_items:
+    - backend.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

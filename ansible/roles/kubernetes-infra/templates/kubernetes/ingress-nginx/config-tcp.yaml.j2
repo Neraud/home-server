@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: ingress-nginx
+data:
+{% if kubernetes_nginx_ingress_mqtt_port | default(false) and kubernetes_nginx_ingress_mqtt_target is defined %}
+  1883: "{{ kubernetes_nginx_ingress_mqtt_target }}"
+{% endif %}

@@ -23,6 +23,13 @@ spec:
       targetPort: 443
       protocol: TCP
 {% endif %}
+{% if kubernetes_nginx_ingress_mqtt_port | default(false) %}
+    - name: mqtt
+      port: 1883
+      nodePort: {{ kubernetes_nginx_ingress_mqtt_port }}
+      targetPort: 1883
+      protocol: TCP
+{% endif %}
   selector:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx

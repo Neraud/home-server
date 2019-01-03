@@ -3,11 +3,16 @@
 #nginx_ssl_dhparam_generate: True
 
 nginx_upstreams:
-  - name: kubernetes-ingress
+  - name: kubernetes-http-ingress
     servers:
       - 192.168.100.10:{{ kubernetes_ingress_http_port }}
       - 192.168.100.11:{{ kubernetes_ingress_http_port }}
       - 192.168.100.12:{{ kubernetes_ingress_http_port }}
+  - name: kubernetes-mqtt-ingress
+    servers:
+      - 192.168.100.10:{{ kubernetes_ingress_mqtt_port }}
+      - 192.168.100.11:{{ kubernetes_ingress_mqtt_port }}
+      - 192.168.100.12:{{ kubernetes_ingress_mqtt_port }}
     
 
 nginx_sites:
@@ -45,7 +50,7 @@ nginx_sites:
         auth_basic:
           name: Test Auth Infra
           path: /etc/nginx/htpasswd/htpasswd_test
-        proxy_pass: http://kubernetes-ingress
+        proxy_pass: http://kubernetes-http-ingress
 
   - name: web
     enabled_name: 200-web
@@ -66,7 +71,7 @@ nginx_sites:
         auth_basic:
           name: Test Auth Web
           path: /etc/nginx/htpasswd/htpasswd_test
-        proxy_pass: http://kubernetes-ingress
+        proxy_pass: http://kubernetes-http-ingress
 
   - name: home
     enabled_name: 300-home
@@ -84,7 +89,7 @@ nginx_sites:
     disable_robots: True
     locations:
       - path: /
-        proxy_pass: http://kubernetes-ingress
+        proxy_pass: http://kubernetes-http-ingress
         proxy_enable_websocket: True
         auth_basic:
           name: Test Auth Home
@@ -92,15 +97,15 @@ nginx_sites:
       # Disable Auth for HomeAssistant API
       - path: /api/
         proxy_enable_websocket: True
-        proxy_pass: http://kubernetes-ingress/api/
+        proxy_pass: http://kubernetes-http-ingress/api/
       # Disable Auth for HomeAssistant OAuth
       - path: /auth/token
         proxy_enable_websocket: True
-        proxy_pass: http://kubernetes-ingress/auth/token
+        proxy_pass: http://kubernetes-http-ingress/auth/token
       # Disable Auth for NodeRED
       - path: "{{ nodered_context_root }}/"
         proxy_enable_websocket: True
-        proxy_pass: http://kubernetes-ingress/node-red/
+        proxy_pass: http://kubernetes-http-ingress/node-red/
 
   - name: test
     enabled_name: 999-test
@@ -111,14 +116,25 @@ nginx_sites:
     https_cert:
       mode: selfsigned
       subject: "/C=FR/ST=France/L=Paris/O=Test/CN=test.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/kube.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/kube.{{ web_base_domain }}/server.key
+      cert_path: /etc/nginx/ssl/test.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/test.{{ web_base_domain }}/server.key
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
     locations:
       - path: /
-        proxy_pass: http://kubernetes-ingress
+        proxy_pass: http://kubernetes-http-ingress
+
+nginx_streams:
+  - name: home_mqtt
+    enabled_name: 100-home_mqtt
+    http_port: False
+    https_port: 8883
+    https_cert:
+      mode: file
+      cert_path: /etc/nginx/ssl/home.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/home.{{ web_base_domain }}/server.key
+    proxy_pass: kubernetes-mqtt-ingress
 
 #password generated with : openssl passwd -apr1
 nginx_htpasswd: 

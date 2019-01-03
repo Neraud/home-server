@@ -1,0 +1,44 @@
+# {{ ansible_managed }}
+
+# Config file for mosquitto
+#
+# See mosquitto.conf(5) for more information.
+
+{% for listener in mosquitto_listeners %}
+{% if loop.first %}
+# =================================================================
+# Default listener
+# =================================================================
+port {{ listener.port }}
+{% else %}
+# =================================================================
+# Extra listener
+# =================================================================
+listener {{ listener.port }}
+{% endif %}
+
+{% if listener.websocket %}protocol websockets{% endif %}
+{% if listener.secure %}
+tls_version tlsv1.2
+capath {{ listener.cert.ca_path }}
+certfile {{ listener.cert.cert_path }}
+keyfile {{ listener.cert.cert_key_path }}
+{% endif %}
+
+{% endfor %}
+
+
+# =================================================================
+# Persistence
+# =================================================================
+persistence true
+persistence_location /mosquitto/data/
+
+
+{% if mosquitto_credientials | default([]) | length > 0 %}
+# =================================================================
+# Security
+# =================================================================
+allow_anonymous false
+password_file /mosquitto/config/passwd
+{% endif %}

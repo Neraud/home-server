@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mosquitto
+  namespace: default
+  labels:
+    app: mosquitto
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: mosquitto
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+        tier: backend
+    spec:
+      containers:
+      - image: eclipse-mosquitto
+        name: mosquitto
+        ports:
+        - containerPort: 1883
+          name: mosquitto
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: mosquitto-backend-pv-claim
+          mountPath: /mosquitto/config
+        - name: mosquitto-data-pv-claim
+          mountPath: /mosquitto/data
+      securityContext:
+        fsGroup: 1883 # mosquitto group inside the container
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/home: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: mosquitto-backend-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 16M
+      selector:
+        matchLabels:
+          app: mosquitto
+          tier: backend
+  - metadata:
+      name: mosquitto-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 128M
+      selector:
+        matchLabels:
+          app: mosquitto
+          tier: data
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mosquitto
+  namespace: default
+  labels:
+    app: mosquitto
+    tier: backend
+spec:
+  ports:
+  - port: 1883
+  selector:
+    app: mosquitto
+    tier: backend

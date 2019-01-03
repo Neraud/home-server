@@ -1,0 +1,19 @@
+---
+
+- name: Set mount path
+  set_fact:
+    mosquitto_mount_path: "{{ kubernetes_local_storage['mosquitto-backend']['mount_path'] }}"
+
+- name: Create htpasswd files
+  template:
+    src: "{{ kubernetes_app_root_path }}/home/mosquitto/prepare/passwd.j2"
+    dest: "{{ mosquitto_mount_path }}/passwd"
+  when: mosquitto_credientials is defined
+
+- import_tasks: home-mosquitto-ssl_certs_selfsigned.yml
+
+- name: Configure Mosquitto
+  template:
+    src: "{{ kubernetes_app_root_path }}/home/mosquitto/prepare/mosquitto.conf.j2"
+    dest: "{{ mosquitto_mount_path }}/mosquitto.conf"
+    backup: yes

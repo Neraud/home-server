@@ -9,5 +9,6 @@ stream {
 
 	error_log /var/log/nginx/stream_error.log;
 
+	include {{ nginx_streams_conf_dir }}/*.conf;
 	include {{ nginx_streams_enabled_dir }}/*;
 }

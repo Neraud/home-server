@@ -49,3 +49,8 @@ firewall_applications:
 #    description: Kubernetes Flannel udp
 #    ports: 8285/udp
 #    rule: allow
+  - name: mosquitto
+    title: Mosquitto
+    description: Mosquitto is an open source message broker that implements the MQTT (MQ Telemetry Transport) protocol v3.1.
+    ports: 8883/tcp
+    rule: allow
