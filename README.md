@@ -140,6 +140,12 @@ To push values on this sensor :
 [user@master$] kubectl run test-mqtt -it --rm --image=aksakalli/mqtt-client --restart=Never -- pub -h mosquitto -p 1883 -u user -P Passw0rd -t test/test_sensor -m "Mock Value"
 ```
 
+To debug all messages sent via Mosquitto :
+
+```shell
+[user@master$] kubectl run test-mqtt -it --rm --image=aksakalli/mqtt-client --restart=Never -- sub -h mosquitto -p 1883 -u user -P Passw0rd -t "#" -v
+```
+
 ### Node-RED
 
 Node-RED addons can be installed via the web interface.
@@ -152,6 +158,14 @@ It requires
 * configuring the HomeAssistant Server on Nod-RED
 
 The sample flow is commented to help these steps.
+
+### Room Assistant
+
+RoomAssistant is deployed and configured to use Mosquitto.
+
+A sample Shell script is used to generate a random number and push it as a sensor on Home Assistant.
+
+The real use case would be to use either a real shell, and/or enable the BLE plugin to detect room presence.
 
 ### TT-RSS
 

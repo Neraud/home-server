@@ -60,6 +60,7 @@ mqtt:
   port: 1883
   username: !secret mqtt_username
   password: !secret mqtt_password
+  discovery: true
 
 
 # Track the sun
@@ -70,9 +71,18 @@ sensor:
   # Weather prediction
   - platform: yr
 
+  # Test sensor for manual MQTT
   - platform: mqtt
     name: Test MQTT sensor
     state_topic: "test/test_sensor"
+
+  # Test sensor for RoomAssistant
+  # Manually configuring the sensor is not required, as RoomAssistant exposes the configuration via Discovery.
+  #- platform: mqtt
+  #  name: Test RoomAssistant
+  #  state_topic: "homeassistant/sensor/example-room/example-script/state"
+  #  unit_of_measurement: '%'
+  #  value_template: "{{ '{{ value_json.value }}' }}"
 
 # Text to speech
 tts:

@@ -34,7 +34,32 @@ mosquitto_listeners:
     websocket: False
 
 # password generated with mosquitto_passwd
-#mosquitto_credientials: 
+mosquitto_credientials: 
 #  credentials:
 #      user / Passw0rd
-#    - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==
+    - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==
+
+# Cf https://github.com/mKeRix/room-assistant/wiki/Configuration
+roomassistant_environment_variables:
+  SERVICES: mqtt,shell
+  ROOM: example-room
+  AUTO_DISCOVERY: true
+  MQTT_URL: mqtt://mosquitto
+  MQTT_USERNAME: user
+  MQTT_PASSWORD: Passw0rd
+  MQTT_REJECT_UNAUTHORIZED: true
+  SHELL_COMMANDS: >
+    [
+      {
+        \"channel\": \"example-script\",
+        \"command\": \"echo $(($RANDOM%100))\",
+        \"cron\": \"*/30 * * * * *\",
+        \"number\": true,
+        \"discoveryType\": \"sensor\",
+        \"discoveryConfig\": {
+          \"name\": \"Test RoomAssistant\",
+          \"unit_of_measurement\": \"%\",
+          \"value_template\": \"{{ '{{' }} value_json.value {{ '}}' }}\"
+        }
+      }
+    ]

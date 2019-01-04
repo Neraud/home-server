@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: roomassistant
+  namespace: default
+  labels:
+    app: roomassistant
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: roomassistant
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: roomassistant
+        tier: backend
+    spec:
+      containers:
+      - image: mkerix/room-assistant
+        name: roomassistant
+{% if roomassistant_environment_variables | default({}) | length > 0 %}
+        env:
+{% for env_var in roomassistant_environment_variables | dict2items %}
+        - name: "{{ env_var.key }}"
+          value: "{{ env_var.value }}"
+{% endfor %}
+{% endif %}
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/home: 'yes'

@@ -23,3 +23,6 @@
 
 - import_tasks: apps/home-mosquitto.yml
   tags: kubernetes-app-home-mosquitto
+
+- import_tasks: apps/home-roomassistant.yml
+  tags: kubernetes-app-home-roomassistant
