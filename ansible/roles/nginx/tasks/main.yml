@@ -44,6 +44,12 @@
     - logs
   notify: Restart NGinx
 
+- name: Configure NGinx custom proxy params
+  template:
+    src: "custom_proxy_params.j2"
+    dest: "/etc/nginx/custom_proxy_params"
+  notify: Restart NGinx
+
 - name: Configure NGinx for streams
   template:
     src: streams_include.conf.j2
