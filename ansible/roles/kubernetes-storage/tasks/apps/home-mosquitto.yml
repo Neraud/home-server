@@ -6,7 +6,7 @@
 
 - name: Create htpasswd files
   template:
-    src: "{{ kubernetes_app_root_path }}/home/mosquitto/prepare/passwd.j2"
+    src: "{{ kubernetes_app_root_path }}/home/mosquitto/configure/passwd.j2"
     dest: "{{ mosquitto_mount_path }}/passwd"
   when: mosquitto_credientials is defined
 
@@ -14,6 +14,6 @@
 
 - name: Configure Mosquitto
   template:
-    src: "{{ kubernetes_app_root_path }}/home/mosquitto/prepare/mosquitto.conf.j2"
+    src: "{{ kubernetes_app_root_path }}/home/mosquitto/configure/mosquitto.conf.j2"
     dest: "{{ mosquitto_mount_path }}/mosquitto.conf"
     backup: yes
