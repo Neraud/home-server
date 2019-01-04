@@ -22,3 +22,27 @@ kubernetes_local_storage:
     labels:
       app: ttrss
       tier: database
+  airsonic-data:
+    capacity: 256M
+    reclaim_policy: Retain
+    storage_class: local-storage
+    labels:
+      app: airsonic
+      tier: frontend
+      detail: data
+  airsonic-playlists:
+    capacity: 256M
+    reclaim_policy: Retain
+    storage_class: local-storage
+    labels:
+      app: airsonic
+      tier: frontend
+      detail: playlists
+  airsonic-podcasts:
+    capacity: 1G
+    reclaim_policy: Retain
+    storage_class: local-storage
+    labels:
+      app: airsonic
+      tier: frontend
+      detail: podcasts

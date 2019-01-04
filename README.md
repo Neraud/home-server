@@ -51,7 +51,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.10 home.k8stest.com
 192.168.100.10 web.k8stest.com
 192.168.100.10 dev.k8stest.com
-192.168.100.10 streams.k8stest.com
+192.168.100.10 stream.k8stest.com
 192.168.100.10 plex.k8stest.com
 192.168.100.10 dl.k8stest.com
 ```
@@ -89,7 +89,7 @@ The folowing front-facing services are deployed :
 | [TT-RSS](https://tt-rss.org/)                                    | https://web.k8stest.com/tt-rss/         | News feed (RSS/Atom) reader and aggregator    |
 | [Gitlab](https://about.gitlab.com/)                              | https://dev.k8stest.com/gitlab/         | Source code management and CI/CD              |
 | [Plex](https://www.plex.tv/)                                     | https://plex.k8stest.com/               | Video streaming                               |
-| [Airsonic](https://airsonic.github.io/)                          | https://streams.k8stest.com/airsonic/   | Music streaming                               |
+| [Airsonic](https://airsonic.github.io/)                          | https://stream.k8stest.com/airsonic/    | Music streaming                               |
 | [Sickchill](https://sickchill.github.io/)                        | https://dl.k8stest.com/sickchill/       | Automatic Video Library Manager for TV Shows. |
 | [Deluge](https://deluge-torrent.org/)                            | https://dl.k8stest.com/deluge/          | Torrent client                                |
 | [Pyload](https://pyload.net/)                                    | https://dl.k8stest.com/pyload/          | HTTP download manager                         |

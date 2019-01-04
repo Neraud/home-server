@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: airsonic
+  namespace: default
+  labels:
+    app: airsonic
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: airsonic
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: airsonic
+        tier: frontend
+    spec:
+      containers:
+      - image: airsonic/airsonic
+        name: airsonic
+        ports:
+        - containerPort: 4040
+          name: airsonic
+        env:
+        - name: AIRSONIC_PORT
+          value: "4040"
+        - name: CONTEXT_PATH
+          value: "{{ airsonic_context_path | default ('/') }}"
+{% if airsonic_extra_java_opts | default([]) | length > 0 %}
+        - name: JAVA_OPTS
+          value: "{{ airsonic_extra_java_opts | join(' ') }}"
+{% endif %}
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: airsonic-data-pv-claim
+          mountPath: /data
+        - name: airsonic-playlists-pv-claim
+          mountPath: /playlists
+#        - name: airsonic-podcasts-pv-claim
+#          mountPath: /podcasts
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: airsonic-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          app: airsonic
+          tier: frontend
+          detail: data
+  - metadata:
+      name: airsonic-playlists-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          app: airsonic
+          tier: frontend
+          detail: playlists
+#  - metadata:
+#      name: airsonic-podcasts-pv-claim
+#    spec:
+#      accessModes: [ "ReadWriteOnce" ]
+#      storageClassName: local-storage
+#      resources:
+#        requests:
+#          storage: 1G
+#      selector:
+#        matchLabels:
+#          app: airsonic
+#          tier: frontend
+#          detail: podcasts
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: airsonic
+  namespace: default
+  labels:
+    app: airsonic
+    tier: frontend
+spec:
+  ports:
+  - port: 80
+    targetPort: 4040
+  selector:
+    app: airsonic
+    tier: frontend

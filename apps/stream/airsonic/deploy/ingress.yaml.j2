@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: airsonic
+  namespace: default
+spec:
+  rules:
+  - host: stream.{{ web_base_domain }}
+    http:
+      paths:
+        - path: {{ airsonic_context_path | default('/') }}
+          backend:
+            serviceName: airsonic
+            servicePort: 80

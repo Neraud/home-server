@@ -26,3 +26,6 @@
 
 - import_tasks: apps/home-roomassistant.yml
   tags: kubernetes-app-home-roomassistant
+
+- import_tasks: apps/stream-airsonic.yml
+  tags: kubernetes-app-stream-airsonic

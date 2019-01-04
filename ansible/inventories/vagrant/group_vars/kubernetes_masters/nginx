@@ -107,6 +107,26 @@ nginx_sites:
         proxy_enable_websocket: True
         proxy_pass: http://kubernetes-http-ingress/node-red/
 
+  - name: stream
+    enabled_name: 400-stream
+    server_name: "stream.{{ web_base_domain }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: selfsigned
+      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=stream.{{ web_base_domain }}"
+      cert_path: /etc/nginx/ssl/stream.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/stream.{{ web_base_domain }}/server.key
+    force_http_to_https: True
+    disable_robots: True
+    locations:
+      - path: /
+        proxy_pass: http://kubernetes-http-ingress
+        proxy_enable_websocket: True
+        auth_basic:
+          name: Test Auth Streams
+          path: /etc/nginx/htpasswd/htpasswd_test
+
   - name: test
     enabled_name: 999-test
     server_name: "test.{{ web_base_domain }}"
