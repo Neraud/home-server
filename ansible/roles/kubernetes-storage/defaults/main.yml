@@ -12,7 +12,6 @@ kubernetes_local_storage_vg: kubernetes_vg
 #    filesystem: ext4 (optional)
 #    mount_path: /path/on/kubernetes/node (optional)
 #    reclaim_policy: Retain
-#    storage_class: local-storage
 #    labels:
 #      app: appname
 #      tier: tiername

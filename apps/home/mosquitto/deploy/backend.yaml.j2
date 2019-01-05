@@ -45,7 +45,7 @@ spec:
       name: mosquitto-backend-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-storage
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
       resources:
         requests:
           storage: 16M
@@ -57,7 +57,7 @@ spec:
       name: mosquitto-data-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-storage
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
       resources:
         requests:
           storage: 128M

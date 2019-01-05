@@ -44,7 +44,7 @@ spec:
       name: nodered-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-storage
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
       resources:
         requests:
           storage: 1G

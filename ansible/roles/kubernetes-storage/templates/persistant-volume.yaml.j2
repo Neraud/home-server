@@ -13,7 +13,7 @@ spec:
     storage: {{ item.value.capacity }}
   accessModes: [ "ReadWriteOnce" ]
   persistentVolumeReclaimPolicy: {{ item.value.reclaim_policy }}
-  storageClassName: {{ item.value.storage_class }}
+  storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
   local:
     path: /dev/kubernetes_vg/{{ item.key }}
   nodeAffinity:

@@ -3,3 +3,5 @@
 kubernetes_ingress_http_port: 30080
 kubernetes_ingress_https_port: 30443
 kubernetes_ingress_mqtt_port: 31883
+
+kubernetes_local_lvm_storage_class_name: local-lvm

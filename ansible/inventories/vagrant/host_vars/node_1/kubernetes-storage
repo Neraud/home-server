@@ -4,28 +4,24 @@ kubernetes_local_storage:
   wordpress-frontend: 
     capacity: 1G
     reclaim_policy: Retain
-    storage_class: local-storage
     labels:
       app: wordpress
       tier: frontend
   wordpress-mysql: 
     capacity: 2G
     reclaim_policy: Retain
-    storage_class: local-storage
     labels:
       app: wordpress
       tier: database
   ttrss-pgsql: 
     capacity: 1G
     reclaim_policy: Retain
-    storage_class: local-storage
     labels:
       app: ttrss
       tier: database
   airsonic-data:
     capacity: 256M
     reclaim_policy: Retain
-    storage_class: local-storage
     labels:
       app: airsonic
       tier: frontend
@@ -33,7 +29,6 @@ kubernetes_local_storage:
   airsonic-playlists:
     capacity: 256M
     reclaim_policy: Retain
-    storage_class: local-storage
     labels:
       app: airsonic
       tier: frontend
@@ -41,7 +36,6 @@ kubernetes_local_storage:
   airsonic-podcasts:
     capacity: 1G
     reclaim_policy: Retain
-    storage_class: local-storage
     labels:
       app: airsonic
       tier: frontend
