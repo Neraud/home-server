@@ -41,12 +41,15 @@ spec:
           mountPath: /data
         - name: airsonic-playlists-pv-claim
           mountPath: /playlists
-#        - name: airsonic-podcasts-pv-claim
-#          mountPath: /podcasts
+        - name: airsonic-multimedia
+          mountPath: /mnt/multimetia
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: airsonic-multimedia
+        persistentVolumeClaim:
+          claimName: nfs-multimetia
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
@@ -76,19 +79,6 @@ spec:
           app: airsonic
           tier: frontend
           detail: playlists
-#  - metadata:
-#      name: airsonic-podcasts-pv-claim
-#    spec:
-#      accessModes: [ "ReadWriteOnce" ]
-#      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
-#      resources:
-#        requests:
-#          storage: 1G
-#      selector:
-#        matchLabels:
-#          app: airsonic
-#          tier: frontend
-#          detail: podcasts
 
 ---
 

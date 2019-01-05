@@ -59,7 +59,7 @@ __EOF__
 	done
 
 	echo " - create mock NAS folders"
-	mkdir -p /opt/mock_nas/Multimedia/
+	mkdir -p /opt/mock_nas/Multimedia/{Music,Podcasts}
 
 	echo " - install NFS Server"
 	apt-get -q -y install nfs-kernel-server

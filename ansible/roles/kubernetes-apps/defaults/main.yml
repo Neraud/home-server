@@ -68,3 +68,5 @@ airsonic_context_path: /airsonic
 airsonic_extra_java_opts:
   # https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-tomcat-behind-a-proxy-server
   - -Dserver.use-forward-headers=true
+  - -Dairsonic.defaultMusicFolder=/mnt/multimetia/Music
+  - -Dairsonic.defaultPodcastFolder=/mnt/multimetia/Podcasts
