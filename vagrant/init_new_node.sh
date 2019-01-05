@@ -57,6 +57,25 @@ __EOF__
 			ssh-keyscan -H -T 10 $host_ip >> /root/.ssh/known_hosts 2>/dev/null
 		fi
 	done
+
+	echo " - create mock NAS folders"
+	mkdir -p /opt/mock_nas/Multimedia/
+
+	echo " - install NFS Server"
+	apt-get -q -y install nfs-kernel-server
+
+	network_cidr=$(python - <<'__EOF__'
+import yaml
+config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"))
+print(config['common']['network_cidr'])
+__EOF__
+)
+		echo "    * Allowing "$network_cidr
+
+	cat << EOF > /etc/exports
+/opt/mock_nas/Multimedia $network_cidr(rw)
+EOF
+	systemctl restart nfs-kernel-server
 fi
 
 echo " - add ansible key to authorized keys"

@@ -3,6 +3,12 @@
 # See https://kubernetes.io/docs/setup/independent/install-kubeadm/
 
 firewall_applications:
+  # Only used to allow the mock NAS share on Vagrant
+  - name: nfs
+    title: NFS
+    description: Network File System (NFS)
+    ports: 2049
+    rule: allow
   - name: custom_nginx
     title: Nginx Web Server
     description: Small, but very powerful and efficient web server

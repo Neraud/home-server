@@ -9,3 +9,12 @@ kubernetes_user:
 #kubernetes_nginx_ingress_mqtt_target: "mqttservice:mqttport"
 
 kubernetes_local_lvm_storage_class_name: local-lvm
+kubernetes_nas_nfs_storage_class_name: nas-nfs
+
+#kubernetes_nfs_storage:
+#  nfs-whatever: 
+#    nfs_server: 
+#    nfs_path: 
+#    reclaim_policy: Retain
+#    labels:
+#      detail: whatever

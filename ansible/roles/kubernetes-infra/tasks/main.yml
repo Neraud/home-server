@@ -12,11 +12,22 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
-- name: Create storage
+- name: Create storage classes
   k8s:
     definition: "{{ lookup('template', 'kubernetes/storage/' + item) }}"
     state: present
   with_items:
-    - storage-class.yaml.j2
+    - local-lvm-storage-class.yaml.j2
+    - nas-nfs-storage-class.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Create NFS persistant volumes & claims
+  k8s:
+    definition: "{{ lookup('template', 'kubernetes/storage/nas-nfs-persistant-volume.yaml.j2') }}"
+    state: present
+  loop: "{{ kubernetes_nfs_storage | dict2items | default([]) }}"
+  loop_control:
+    label: "{{ item.key }}"
   become: yes
   become_user: "{{ kubernetes_user.name }}"

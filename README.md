@@ -41,6 +41,10 @@ The Vagrantfile creates 3 *similar* guests :
 
 These settings are configured in `Vagrantconfig.yaml`, feel free to change them or add mode nodes.
 
+### NAS
+
+To simulate a NAS, NFS Server is installed on Master and exports the content of `/opt/mock_nas` to other hosts as NFS shares.
+
 ## Test hosts
 
 To test the deployed services, you will have to add the following domains to your hosts file :
@@ -78,7 +82,7 @@ Unless listed, all credentials are `user` / `Passw0rd`.
 
 ## Services
 
-The folowing front-facing services are deployed : 
+The folowing services are deployed :
 
 | Service                                                          | Test URL                                | Description                                   |
 | ---------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
@@ -86,6 +90,8 @@ The folowing front-facing services are deployed :
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | https://infra.k8stest.com/unifi         | Controller for Unifi devices                  |
 | [HomeAssistant](https://www.home-assistant.io/)                  | https://home.k8stest.com/homeassistant/ | Home automation                               |
 | [Node-RED](https://nodered.org/)                                 | https://home.k8stest.com/node-red/      | Flow-based programming for the IoT            |
+| [Mosquitto](https://mosquitto.org/)                              | mqtts://home.k8stest.com                | MQTT broker                                   |
+| [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                       | Presence tracking                             |
 | [TT-RSS](https://tt-rss.org/)                                    | https://web.k8stest.com/tt-rss/         | News feed (RSS/Atom) reader and aggregator    |
 | [Gitlab](https://about.gitlab.com/)                              | https://dev.k8stest.com/gitlab/         | Source code management and CI/CD              |
 | [Plex](https://www.plex.tv/)                                     | https://plex.k8stest.com/               | Video streaming                               |

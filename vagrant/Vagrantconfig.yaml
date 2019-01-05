@@ -5,6 +5,7 @@ common:
   # Name of the sata controller to add the DATA disk.
   # To find the exact name, start the box a first time and look at the storage settings in VirtualBox
   sata_controller_name: 'SATA Controller'
+  network_cidr: 192.168.100.0/24
 
 master: 
   cpu: 2
