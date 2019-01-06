@@ -189,7 +189,64 @@ TODO
 
 ### Plex
 
-TODO
+Plex Media Server is deployed.
+
+However the configuration is a bit more complicated for this one.
+
+First, you'll need a [Plex account](https://www.plex.tv/sign-up/).
+If you already have one and just want to test this repo on Vagrant, I'd recommend to create a dedicated test account.
+
+#### Using SSH tunnel (recommended)
+
+Basically, we'll follow the [official documentation](https://github.com/plexinc/pms-docker#running-on-a-headless-server-with-container-using-host-networking)
+
+The Master Vagrant guest already has a port forward for port 32400.
+
+We only need to forward this port to the plex container :
+
+```shell
+root@MasterTest:~# ufw allow 32400
+Rule added
+Rule added (v6)
+
+root@MasterTest:~# su - user
+
+user@MasterTest:~$ kubectl port-forward plex-0 32400:32400 --address 0.0.0.0
+Forwarding from 0.0.0.0:32400 -> 32400
+```
+
+The use the [localhost URL](http://localhost:32400/web/) to access PMR and process with the setup.
+Once done, you can use it with the proper URL without any issue.
+
+You can safely stop the port-forwarding and block the port again :
+
+```shell
+user@MasterTest:~$ exit
+logout
+
+root@MasterTest:~# ufw deny 32400
+Rule updated
+Rule updated (v6)
+```
+
+#### Using the Claim token
+
+Using a special environment variable `PLEX_CLAIM` when the container start can automate this setup process.
+
+It's easy to get the Plex Plaim manually (just hit the [claim URL](https://www.plex.tv/claim/)). However, it's only valid for 5 minutes.
+
+To have a less time sensitive method, the playbook can fetch the claim automatically before starting the PMS container. 
+But to do so, it needs your plex token.
+
+To get your Plex Token :
+
+* Go to your [Plex account](https://app.plex.tv/desktop#!/account)
+* (Log in if prompted)
+* Once the page is displayed, open the developer console in your browser (usually with the F12 key)
+* Reload the page
+* You should see around 50 requests captured in your browser, scroll up the list, look for a request that starts *user*, and click on it
+* On the right panel, select the response tab and on the 2nd line look for the authToken property
+* In ansible\inventories\vagrant\group_vars\all\kubernetes-apps, set this token in the variable `plex_plex_token`
 
 ### Airsonic
 

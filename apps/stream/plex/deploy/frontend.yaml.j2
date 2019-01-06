@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: plex
+  namespace: default
+  labels:
+    app: plex
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: plex
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: plex
+        tier: frontend
+    spec:
+      containers:
+      - image: plexinc/pms-docker
+        name: plex
+        ports:
+        - containerPort: 32400
+          name: plex
+{% if plex_claim is defined %}
+        env:
+        - name: PLEX_CLAIM
+          value: "{{ plex_claim }}"
+{% endif %}
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: plex-frontend-pv-claim
+          mountPath: /config
+        - name: plex-multimedia
+          mountPath: /mnt/multimetia
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: plex-multimedia
+        persistentVolumeClaim:
+          claimName: nfs-multimetia
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: plex-frontend-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 2G
+      selector:
+        matchLabels:
+          app: plex
+          tier: frontend
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: plex
+  namespace: default
+  labels:
+    app: plex
+    tier: frontend
+spec:
+  ports:
+  - port: 80
+    targetPort: 32400
+  selector:
+    app: plex
+    tier: frontend

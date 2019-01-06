@@ -40,3 +40,9 @@ kubernetes_local_storage:
       app: airsonic
       tier: frontend
       detail: podcasts
+  plex-frontend:
+    capacity: 2G
+    reclaim_policy: Retain
+    labels:
+      app: plex
+      tier: frontend

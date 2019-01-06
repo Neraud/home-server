@@ -29,3 +29,6 @@
 
 - import_tasks: apps/stream-airsonic.yml
   tags: kubernetes-app-stream-airsonic
+
+- import_tasks: apps/stream-plex.yml
+  tags: kubernetes-app-stream-plex

@@ -127,6 +127,23 @@ nginx_sites:
           name: Test Auth Streams
           path: /etc/nginx/htpasswd/htpasswd_test
 
+  - name: streams-plex
+    enabled_name: 410-stream-plex
+    server_name: "plex.{{ web_base_domain }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: selfsigned
+      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=plex.{{ web_base_domain }}"
+      cert_path: /etc/nginx/ssl/plex.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/plex.{{ web_base_domain }}/server.key
+    force_http_to_https: True
+    disable_robots: True
+    locations:
+      - path: /
+        proxy_pass: http://kubernetes-http-ingress
+        proxy_enable_websocket: True
+
   - name: test
     enabled_name: 999-test
     server_name: "test.{{ web_base_domain }}"
