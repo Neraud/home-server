@@ -4,8 +4,8 @@
 
 firewall_applications:
   # Only used to allow the mock NAS share on Vagrant
-  - name: nfs
-    title: NFS
+  - name: nfs_custom
+    title: Network File System (NFS)
     description: Network File System (NFS)
     ports: 2049
     rule: allow
