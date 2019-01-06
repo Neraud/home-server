@@ -193,7 +193,7 @@ TODO
 
 ### Airsonic
 
-TODO
+Airsonic is deployed and configured to look for music on the NAS share by default.
 
 ### Sickchill
 
