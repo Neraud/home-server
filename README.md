@@ -52,6 +52,7 @@ To test the deployed services, you will have to add the following domains to you
 ```
 192.168.100.10 k8stest.com
 192.168.100.10 infra.k8stest.com
+192.168.100.10 unifi.k8stest.com
 192.168.100.10 home.k8stest.com
 192.168.100.10 web.k8stest.com
 192.168.100.10 dev.k8stest.com
@@ -87,7 +88,7 @@ The folowing services are deployed :
 | Service                                                          | Test URL                                | Description                                   |
 | ---------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | https://infra.k8stest.com/kube          | Kubernetes dashboard                          |
-| [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | https://infra.k8stest.com/unifi         | Controller for Unifi devices                  |
+| [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | https://unifi.k8stest.com/              | Controller for Unifi devices                  |
 | [HomeAssistant](https://www.home-assistant.io/)                  | https://home.k8stest.com/homeassistant/ | Home automation                               |
 | [Node-RED](https://nodered.org/)                                 | https://home.k8stest.com/node-red/      | Flow-based programming for the IoT            |
 | [Mosquitto](https://mosquitto.org/)                              | mqtts://home.k8stest.com                | MQTT broker                                   |
@@ -118,7 +119,17 @@ You can do so using a terminal (assuming you start at the project root) :
 
 ### Unifi Controller
 
-TODO
+The Unifi Controller is installed.
+
+The Web GUI will be available using the standard ReverseProxy + Ingress chain.
+
+However, the controller requires a few other non-http ports, which has 2 impacts on the settings : 
+
+* the IP of the Node that hosts the Pod is configred in the variable `unifi_private_ip`
+* these ports are exposed on a `unifi-private` service on this IP
+* these ports are allowed in this node's firewall
+
+When setting the controller up, the inform URL setting will need to be changed to : `http://[unifi_private_ip]:8080/inform`
 
 ### HomeAssistant
 

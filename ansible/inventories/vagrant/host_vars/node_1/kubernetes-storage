@@ -60,3 +60,9 @@ kubernetes_local_storage:
     labels:
       app: gitlab
       tier: data
+  unifi-config:
+    capacity: 1G
+    reclaim_policy: Retain
+    labels:
+      app: unifi
+      tier: config

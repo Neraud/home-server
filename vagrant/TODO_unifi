@@ -1,0 +1,15 @@
+---
+
+firewall_applications:
+# https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+  - name: unifi-controller
+    title: Unifi Controller
+    description: Unifi Controller
+    ports: "{{ unifi_controller_http_inform_port }},{{ unifi_controller_throughput_port }}/tcp|{{ unifi_controller_stun_port }}/udp"
+    rule: allow
+  - name: unifi-controller-guest-portal
+    title: Unifi Controller Guest Portal
+    description: Unifi Controller Guest Portal
+    ports: "{{ unifi_controller_guest_portal_http_port }},{{ unifi_controller_guest_portal_https_port }}/tcp"
+    rule: allow
+    

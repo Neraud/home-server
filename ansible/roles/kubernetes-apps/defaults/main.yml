@@ -13,6 +13,9 @@ kubernetes_dashboard_https_enabled: true
 kubernetes_dashboard_service_account_enabled: True
 kubernetes_dashboard_service_account_name: admin-user
 
+# Expose Unifi private services on the Node IP
+#unifi_private_ip: 
+
 wordpress_mysql_password: clear_password
 
 ttrss_context_root: /

@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: unifi
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  rules:
+  - host: unifi.{{ web_base_domain }}
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: unifi-frontend
+            servicePort: 443

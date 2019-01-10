@@ -3,6 +3,9 @@
 - import_tasks: apps/infra-dashboard.yml
   tags: kubernetes-app-infra-dashboard
 
+- import_tasks: apps/infra-unifi.yml
+  tags: kubernetes-app-infra-unifi
+
 - import_tasks: apps/test-test.yml
   tags: kubernetes-app-test-test
 

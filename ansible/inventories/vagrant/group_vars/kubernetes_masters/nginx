@@ -52,6 +52,28 @@ nginx_sites:
           path: /etc/nginx/htpasswd/htpasswd_test
         proxy_pass: http://kubernetes-http-ingress
 
+  - name: infra-unifi
+    enabled_name: 110-infra-unifi
+    server_name: "unifi.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: selfsigned
+      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=unifi.{{ web_base_domain }}"
+      cert_path: /etc/nginx/ssl/unifi.{{ web_base_domain }}/server.crt
+      cert_key_path: /etc/nginx/ssl/unifi.{{ web_base_domain }}/server.key
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    locations:
+      - path: /
+        auth_basic:
+          name: Test Auth Infra
+          path: /etc/nginx/htpasswd/htpasswd_test
+        proxy_pass: http://kubernetes-http-ingress
+        proxy_enable_websocket: True
+
   - name: web
     enabled_name: 200-web
     server_name: "web.{{ web_base_domain }}"
