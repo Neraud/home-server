@@ -5,8 +5,6 @@ kubernetes_dashboard_https_enabled: false
 # Unifi private services exposed on Node_1
 unifi_private_ip: 192.168.100.11
 
-wordpress_mysql_password: Passw0rd
-
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss

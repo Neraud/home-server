@@ -6,15 +6,6 @@
 - import_tasks: apps/infra-unifi.yml
   tags: kubernetes-app-infra-unifi
 
-- import_tasks: apps/test-test.yml
-  tags: kubernetes-app-test-test
-
-- import_tasks: apps/test-simple.yml
-  tags: kubernetes-app-test-simple
-
-- import_tasks: apps/test-wordpress.yml
-  tags: kubernetes-app-test-wordpress
-
 - import_tasks: apps/web-ttrss.yml
   tags: kubernetes-app-web-ttrss
 

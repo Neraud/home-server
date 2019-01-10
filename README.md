@@ -218,13 +218,13 @@ The Master Vagrant guest already has a port forward for port 32400.
 We only need to forward this port to the plex container :
 
 ```shell
-root@MasterTest:~# ufw allow 32400
+root@master:~# ufw allow 32400
 Rule added
 Rule added (v6)
 
-root@MasterTest:~# su - user
+root@master:~# su - user
 
-user@MasterTest:~$ kubectl port-forward plex-0 32400:32400 --address 0.0.0.0
+user@master:~$ kubectl port-forward plex-0 32400:32400 --address 0.0.0.0
 Forwarding from 0.0.0.0:32400 -> 32400
 ```
 
@@ -234,10 +234,10 @@ Once done, you can use it with the proper URL without any issue.
 You can safely stop the port-forwarding and block the port again :
 
 ```shell
-user@MasterTest:~$ exit
+user@master:~$ exit
 logout
 
-root@MasterTest:~# ufw deny 32400
+root@master:~# ufw deny 32400
 Rule updated
 Rule updated (v6)
 ```

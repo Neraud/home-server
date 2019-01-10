@@ -1,18 +1,6 @@
 ---
 
 kubernetes_local_storage:
-  wordpress-frontend: 
-    capacity: 1G
-    reclaim_policy: Retain
-    labels:
-      app: wordpress
-      tier: frontend
-  wordpress-mysql: 
-    capacity: 2G
-    reclaim_policy: Retain
-    labels:
-      app: wordpress
-      tier: database
   ttrss-pgsql: 
     capacity: 1G
     reclaim_policy: Retain
