@@ -46,3 +46,17 @@ kubernetes_local_storage:
     labels:
       app: plex
       tier: frontend
+  gitlab-config:
+    capacity: 8M
+    filesystem: ext4
+    mount_path: /opt/kubernetes_storage/gitlab-config
+    reclaim_policy: Retain
+    labels:
+      app: gitlab
+      tier: config
+  gitlab-data:
+    capacity: 2G
+    reclaim_policy: Retain
+    labels:
+      app: gitlab
+      tier: data

@@ -11,3 +11,7 @@
 - include_tasks: apps/home-mosquitto.yml
   when: "'mosquitto-backend' in kubernetes_local_storage"
   tags: kubernetes-app-home-mosquitto
+
+- include_tasks: apps/dev-gitlab.yml
+  when: "'gitlab-config' in kubernetes_local_storage"
+  tags: kubernetes-app-dev-gitlab

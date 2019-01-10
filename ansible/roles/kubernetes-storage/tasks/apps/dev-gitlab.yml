@@ -1,0 +1,11 @@
+---
+
+- name: Set mount path
+  set_fact:
+    gitlab_config_mount_path: "{{ kubernetes_local_storage['gitlab-config']['mount_path'] }}"
+
+- name: Configure Gitlab
+  template:
+    src: "{{ kubernetes_app_root_path }}/dev/gitlab/configure/gitlab.rb.j2"
+    dest: "{{ gitlab_config_mount_path }}/gitlab.rb"
+    backup: yes

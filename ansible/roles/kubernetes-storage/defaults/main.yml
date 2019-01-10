@@ -53,3 +53,24 @@ mosquitto_listeners:
 #  credentials:
 #      user / Passw0rd
 #    - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==
+
+gitlab_context_path: /gitlab
+gitlab_external_url: "https://gitlab.domain{{ gitlab_context_path }}"
+gitlab_time_zone: "{{ time_zone }}"
+gitlab_backup_keep_time: "604800"
+
+# Email configuration.
+gitlab_email_enabled: "false"
+gitlab_email_from: "gitlab@example.com"
+gitlab_email_display_name: "Gitlab"
+gitlab_email_reply_to: "gitlab@example.com"
+gitlab_smtp_enable: "false"
+gitlab_smtp_address: "smtp.server"
+gitlab_smtp_port: 456
+#gitlab_smtp_authentication: "login"
+#gitlab_smtp_user_name: "smtp user"
+#gitlab_smtp_password: "smtp password"
+#gitlab_smtp_domain: "example.com"
+gitlab_smtp_enable_starttls_auto: "true"
+#gitlab_smtp_tls: "true"
+#gitlab_smtp_openssl_verify_mode: 'peer'

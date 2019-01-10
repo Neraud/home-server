@@ -185,7 +185,9 @@ Once installed, the default account is `admin` / `password`
 
 ### Gitlab
 
-TODO
+Gitlab is installed using the omnibus package.
+
+The `root` account password is set the first time the site is displayed.
 
 ### Plex
 

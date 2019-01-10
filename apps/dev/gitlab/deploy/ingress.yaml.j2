@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gitlab
+  namespace: default
+spec:
+  rules:
+  - host: dev.{{ web_base_domain }}
+    http:
+      paths:
+        - path: {{ gitlab_context_path }}
+          backend:
+            serviceName: gitlab
+            servicePort: 80

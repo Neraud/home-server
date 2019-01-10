@@ -1,7 +1,5 @@
 ---
 
-web_base_domain: k8stest.com
-
 kubernetes_nginx_ingress_http_port: "{{ kubernetes_ingress_http_port }}"
 kubernetes_nginx_ingress_https_port: "{{ kubernetes_ingress_https_port }}"
 kubernetes_nginx_ingress_mqtt_port: "{{ kubernetes_ingress_mqtt_port }}"

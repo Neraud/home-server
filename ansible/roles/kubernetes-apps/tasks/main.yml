@@ -32,3 +32,6 @@
 
 - import_tasks: apps/stream-plex.yml
   tags: kubernetes-app-stream-plex
+
+- import_tasks: apps/dev-gitlab.yml
+  tags: kubernetes-app-dev-gitlab

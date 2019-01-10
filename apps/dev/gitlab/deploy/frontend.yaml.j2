@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gitlab
+  namespace: default
+  labels:
+    app: gitlab
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: gitlab
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gitlab
+        tier: frontend
+    spec:
+      containers:
+      - image: gitlab/gitlab-ce
+        name: gitlab
+        ports:
+        - containerPort: 80
+          name: gitlab
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: gitlab-config-pv-claim
+          mountPath: /etc/gitlab
+        - name: gitlab-data-pv-claim
+          mountPath: /var/opt/gitlab
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: gitlab-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 8M
+      selector:
+        matchLabels:
+          app: gitlab
+          tier: config
+  - metadata:
+      name: gitlab-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 2G
+      selector:
+        matchLabels:
+          app: gitlab
+          tier: data
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab
+  namespace: default
+  labels:
+    app: gitlab
+    tier: frontend
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: gitlab
+    tier: frontend
