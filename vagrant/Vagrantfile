@@ -28,11 +28,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 				vb.customize ["modifyvm", :id, "--memory", node_conf['memory']]
 				vb.customize ["modifyvm", :id, "--cpus", node_conf['cpu']]
 				
+				docker_disk_path = '.vagrant/' + node_conf['name'] + '_docker.vdi'
+				unless File.exist?(docker_disk_path)
+					vb.customize ['createmedium', '--filename', docker_disk_path, '--size', node_conf['docker_disk_size']]
+				end
+				vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 1, '--device', 0, '--type', 'hdd', '--medium', docker_disk_path]
+
 				data_disk_path = '.vagrant/' + node_conf['name'] + '_data.vdi'
 				unless File.exist?(data_disk_path)
-					vb.customize ['createhd', '--filename', data_disk_path, '--variant', 'Fixed', '--size', node_conf['data_disk_size']]
+					vb.customize ['createmedium', '--filename', data_disk_path, '--size', node_conf['data_disk_size']]
 				end
-				vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 1, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
+				vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 2, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
 			end
 			
 			node.vm.network "private_network", ip: node_conf['ip']

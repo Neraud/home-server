@@ -17,9 +17,11 @@ nodes:
     cpu: 4
     memory: 8192
     ip: 192.168.100.11
+    docker_disk_size: 20480
     data_disk_size: 51200
   - name: 'node_home'
     cpu: 2
     memory: 2048
     ip: 192.168.100.12
+    docker_disk_size: 5120
     data_disk_size: 10240

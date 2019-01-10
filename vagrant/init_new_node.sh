@@ -91,9 +91,17 @@ if [ "$mode" == "node" ] ; then
 	echo " - install LVM"
 	apt-get -q -y install lvm2
 	
+	echo " - preparing docker disk"
+	# Create a new partition table with a single 'Linux native' partition
+	echo 'type=83' | sfdisk /dev/sdb
+	mkfs.ext4 /dev/sdb1
+	mkdir -p /var/lib/docker
+	echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
+	mount -a
+	
 	echo " - preparing data disk for LVM"
 	# Create a new partition table with a single LVM partition
-	echo 'type=8e' | sfdisk /dev/sdb
-	pvcreate /dev/sdb1
-	vgcreate kubernetes_vg /dev/sdb1
+	echo 'type=8e' | sfdisk /dev/sdc
+	pvcreate /dev/sdc1
+	vgcreate kubernetes_vg /dev/sdc1
 fi
