@@ -14,8 +14,14 @@
   failed_when: false
   register: kubectl_info
 
+- name: Generate kubeadm config file
+  template:
+    dest: /tmp/kubeadm_config.yaml
+    src: kubeadm_config.yaml.j2
+  when: kubectl_info.rc != 0
+
 - name: Initialize first master
-  command: "kubeadm init --pod-network-cidr={{ kubernetes_pod_network_cidr }}{% if kubernetes_apiserver_ip is defined %} --apiserver-advertise-address={{ kubernetes_apiserver_ip }}{% endif %}"
+  command: "kubeadm init --config /tmp/kubeadm_config.yaml"
   register: kubeadm_init
   when: kubectl_info.rc != 0
 
