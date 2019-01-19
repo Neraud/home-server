@@ -34,7 +34,7 @@
     - kubeadm
     state: present
 
-- name: Configure kubelet IP
+- name: Configure kubelet
   template:
     dest: /etc/default/kubelet
     src: kubelet.j2

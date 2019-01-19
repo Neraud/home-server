@@ -1,7 +1,3 @@
 # {{ ansible_managed }}
 
-{% if kubernetes_kubelet_ip is defined %}
-KUBELET_EXTRA_ARGS=" --node-ip {{ kubernetes_kubelet_ip }}"
-{% else %}
-KUBELET_EXTRA_ARGS=""
-{% endif %}
+KUBELET_EXTRA_ARGS=" {{ kubernetes_kubelet_extra_parameters | default([]) | join(' ') }}"

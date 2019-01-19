@@ -1,0 +1,4 @@
+---
+
+kubernetes_kubelet_extra_parameters:
+  - "--node-ip {{ kubernetes_kubelet_ip}}"
