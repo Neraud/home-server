@@ -1429,7 +1429,7 @@ prometheus['enable'] = false
 # }
 
 ##! Advanced settings. Should be changed only if absolutely needed.
-# node_exporter['listen_address'] = 'localhost:9100'
+node_exporter['listen_address'] = '0.0.0.0:9100'
 
 ################################################################################
 ## Prometheus Redis exporter
@@ -1447,7 +1447,7 @@ prometheus['enable'] = false
 # }
 
 ##! Advanced settings. Should be changed only if absolutely needed.
-# redis_exporter['listen_address'] = 'localhost:9121'
+redis_exporter['listen_address'] = '0.0.0.0:9121'
 
 ################################################################################
 ## Prometheus Postgres exporter
@@ -1458,7 +1458,7 @@ prometheus['enable'] = false
 # postgres_exporter['home'] = '/var/opt/gitlab/postgres-exporter'
 # postgres_exporter['log_directory'] = '/var/log/gitlab/postgres-exporter'
 # postgres_exporter['flags'] = {}
-# postgres_exporter['listen_address'] = 'localhost:9187'
+postgres_exporter['listen_address'] = '0.0.0.0:9187'
 # postgres_exporter['env_directory'] = '/opt/gitlab/etc/postgres-exporter/env'
 # postgres_exporter['env'] = {
 #   'SSL_CERT_DIR' => "/opt/gitlab/embedded/ssl/certs/"
@@ -1488,7 +1488,7 @@ prometheus['enable'] = false
 # gitlab_monitor['home'] = "/var/opt/gitlab/gitlab-monitor"
 
 ##! Advanced settings. Should be changed only if absolutely needed.
-# gitlab_monitor['listen_address'] = 'localhost'
+gitlab_monitor['listen_address'] = '0.0.0.0'
 # gitlab_monitor['listen_port'] = '9168'
 
 ##! Manage gitlab-monitor sidekiq probes. false by default when Sentinels are
@@ -1516,7 +1516,7 @@ prometheus['enable'] = false
 # }
 # gitaly['socket_path'] = "/var/opt/gitlab/gitaly/gitaly.socket"
 # gitaly['listen_addr'] = "localhost:8075"
-# gitaly['prometheus_listen_addr'] = "localhost:9236"
+gitaly['prometheus_listen_addr'] = "0.0.0.0:9236"
 # gitaly['logging_level'] = "warn"
 # gitaly['logging_format'] = "json"
 # gitaly['logging_sentry_dsn'] = "https://<key>:<secret>@sentry.io/<project>"

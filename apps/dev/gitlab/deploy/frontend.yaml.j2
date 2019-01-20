@@ -25,6 +25,16 @@ spec:
         ports:
         - containerPort: 80
           name: gitlab
+        - containerPort: 9168
+          name: gitlab-metrics
+        - containerPort: 9236
+          name: gitaly-metrics
+        - containerPort: 9100
+          name: nodeexp-metrics
+        - containerPort: 9121
+          name: redis-metrics
+        - containerPort: 9187
+          name: postgre-metrics
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

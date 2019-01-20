@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab-prometheus
+  namespace: default
+  labels:
+    app: gitlab
+    prometheus-target: gitlab
+spec:
+  ports:
+  - port: 9168
+    name: gitlab-metrics
+    targetPort: gitlab-metrics
+  - port: 9236
+    name: gitaly-metrics
+    targetPort: gitaly-metrics
+  - port: 9100
+    name: nodeexp-metrics
+    targetPort: nodeexp-metrics
+  - port: 9121
+    name: redis-metrics
+    targetPort: redis-metrics
+  - port: 9187
+    name: postgre-metrics
+    targetPort: postgre-metrics
+  selector:
+    app: gitlab
+    tier: frontend

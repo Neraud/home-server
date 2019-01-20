@@ -6,6 +6,7 @@
     state: present
   with_items:
     - frontend.yaml.j2
+    - prometheus-service.yaml.j2
     - ingress.yaml.j2
   become: yes
   become_user: "{{ kubernetes_user.name }}"
