@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: grafana
   namespace: monitoring
+  labels:
+    app: grafana
+    prometheus-target: grafana
 spec:
   ports:
   - name: http
