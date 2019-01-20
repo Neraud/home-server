@@ -6,6 +6,18 @@
 - import_tasks: apps/infra-unifi.yml
   tags: kubernetes-app-infra-unifi
 
+- import_tasks: apps/monitoring-kubernetes.yml
+  tags: kubernetes-app-monitoring-kubernetes
+
+- import_tasks: apps/monitoring-exporters.yml
+  tags: kubernetes-app-monitoring-exporters
+
+- import_tasks: apps/monitoring-prometheus-operator.yml
+  tags: kubernetes-app-monitoring-prometheus-operator
+
+- import_tasks: apps/monitoring-grafana.yml
+  tags: kubernetes-app-monitoring-grafana
+
 - import_tasks: apps/web-ttrss.yml
   tags: kubernetes-app-web-ttrss
 

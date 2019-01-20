@@ -1,0 +1,26 @@
+---
+
+- name: Create monitoring namespace
+  k8s:
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/monitoring/namespace.yaml.j2') }}"
+    state: present
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Kube State metrics
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/exporters/deploy/kube-state-metrics/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy node exporter
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/exporters/deploy/node-exporter/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

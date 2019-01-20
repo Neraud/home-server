@@ -1,0 +1,10 @@
+---
+
+- name: Deploy Kubernetes monitoring
+  k8s:
+    definition: "{{ lookup('template', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/kubernetes/deploy/*.yaml.j2"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

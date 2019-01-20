@@ -1,0 +1,28 @@
+---
+
+- name: Deploy Grafana dashboards
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/grafana/deploy/dashboards/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Grafana
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/grafana/deploy/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Grafana
+  k8s:
+    definition: "{{ lookup('template', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/grafana/deploy/*.yaml.j2"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

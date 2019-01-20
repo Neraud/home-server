@@ -2,3 +2,6 @@
 
 kubernetes_kubelet_extra_parameters:
   - "--node-ip {{ kubernetes_kubelet_ip}}"
+  # Enable WebHook for Prometheus
+  - "--authorization-mode=Webhook"
+  - "--authentication-token-webhook=true"

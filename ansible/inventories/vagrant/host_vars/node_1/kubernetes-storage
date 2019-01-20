@@ -54,3 +54,17 @@ kubernetes_local_storage:
     labels:
       app: unifi
       tier: config
+  prometheus-k8s:
+    capacity: 10G
+    reclaim_policy: Retain
+    labels:
+      app: prometheus-k8s
+      tier: frontend
+  grafana-frontend:
+    capacity: 1G
+    reclaim_policy: Retain
+    filesystem: ext4
+    mount_path: /opt/kubernetes_storage/grafana-frontend
+    labels:
+      app: grafana
+      tier: frontend

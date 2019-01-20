@@ -1,0 +1,78 @@
+---
+
+- name: Create monitoring namespace
+  k8s:
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/monitoring/namespace.yaml.j2') }}"
+    state: present
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Prometheus Operator
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/prometheus-operator/deploy/operator/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Prometheus
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/prometheus-operator/deploy/prometheus/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Prometheus
+  k8s:
+    definition: "{{ lookup('template', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/prometheus-operator/deploy/prometheus/*.yaml.j2"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy AlertManager
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/prometheus-operator/deploy/alertmanager/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy AlertManager
+  k8s:
+    definition: "{{ lookup('template', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/prometheus-operator/deploy/alertmanager/*.yaml.j2"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Prometheus ServiceMonitors
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/prometheus-operator/deploy/service-monitors/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Prometheus Rules
+  k8s:
+    definition: "{{ lookup('file', item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/prometheus-operator/deploy/rules/*.yaml"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy Ingress
+  k8s:
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/monitoring/prometheus-operator/deploy/ingress.yaml.j2') }}"
+    state: present
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

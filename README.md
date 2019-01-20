@@ -88,6 +88,9 @@ The folowing services are deployed :
 | Service                                                          | Test URL                                | Description                                   |
 | ---------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | https://infra.k8stest.com/kube          | Kubernetes dashboard                          |
+| [Prometheus](https://prometheus.io/)                             | https://infra.k8stest.com/prometheus/   | Monitoring solution                           |
+| [AlertManager](https://github.com/prometheus/alertmanager)       | https://infra.k8stest.com/alertmanager/ | Alert manager for Prometheus                  |
+| [Grafana](https://grafana.com/)                                  | https://infra.k8stest.com/grafana/      | Platform for beautiful analytics and monitoring  |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | https://unifi.k8stest.com/              | Controller for Unifi devices                  |
 | [HomeAssistant](https://www.home-assistant.io/)                  | https://home.k8stest.com/homeassistant/ | Home automation                               |
 | [Node-RED](https://nodered.org/)                                 | https://home.k8stest.com/node-red/      | Flow-based programming for the IoT            |
@@ -116,6 +119,21 @@ You can do so using a terminal (assuming you start at the project root) :
 [vagrant@master$] sudo su - user
 [user@master$] kubectl --namespace=kube-system describe secrets $(kubectl --namespace=kube-system get secrets | awk '/admin-user-token/ { print $1 }')
 ```
+
+### Prometheus & AlertManager
+
+Prometheus & AlertManager are deployed, and configured to gather metrics from the usual exporters : 
+
+* [node_exporter](https://github.com/prometheus/node_exporter)
+* [kube_state_metrics](https://github.com/kubernetes/kube-state-metrics)
+
+Their deployment manifests and configurations are based on the examples provided by the contrib project [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus)
+
+### Grafana
+
+Grafana is deployed and configured to use Prometheus as a data source.
+
+Default Kubernetes dashboards are already created, based on [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus)
 
 ### Unifi Controller
 
