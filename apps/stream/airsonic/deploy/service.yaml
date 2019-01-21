@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: airsonic
+  namespace: default
+  labels:
+    app: airsonic
+    tier: frontend
+spec:
+  ports:
+  - port: 80
+    targetPort: 4040
+  selector:
+    app: airsonic
+    tier: frontend

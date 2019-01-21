@@ -59,21 +59,3 @@ spec:
         matchLabels:
           app: plex
           tier: frontend
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: plex
-  namespace: default
-  labels:
-    app: plex
-    tier: frontend
-spec:
-  ports:
-  - port: 80
-    targetPort: 32400
-  selector:
-    app: plex
-    tier: frontend

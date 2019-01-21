@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttrss
+  namespace: default
+  labels:
+    app: ttrss
+    tier: frontend
+spec:
+  selector:
+    matchLabels:
+      app: ttrss
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: ttrss
+        tier: frontend
+    spec:
+      containers:
+      - image: linuxserver/tt-rss
+        name: ttrss
+# TODO inject TT-RSS configuration after the image is updated
+#        env:
+#        - name: TTRSS_DB_HOST
+#          value: ttrss-mysql
+#        - name: TTRSS_DB_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: ttrss-mysql-pass
+#              key: password
+        ports:
+        - containerPort: 80
+          name: ttrss
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: nginx-site-config-file
+          mountPath: /config/nginx/site-confs/
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: nginx-site-config-file
+        configMap:
+          name: ttrss-config
+          items:
+          - key: nginx_site_config
+            path: default
+      nodeSelector:
+        capability/general-purpose: 'yes'

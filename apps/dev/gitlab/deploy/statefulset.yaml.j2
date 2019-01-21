@@ -73,21 +73,3 @@ spec:
         matchLabels:
           app: gitlab
           tier: data
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: gitlab
-  namespace: default
-  labels:
-    app: gitlab
-    tier: frontend
-spec:
-  ports:
-  - port: 80
-    targetPort: 80
-  selector:
-    app: gitlab
-    tier: frontend

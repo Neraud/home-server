@@ -65,20 +65,3 @@ spec:
         matchLabels:
           app: mosquitto
           tier: data
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: mosquitto
-  namespace: default
-  labels:
-    app: mosquitto
-    tier: backend
-spec:
-  ports:
-  - port: 1883
-  selector:
-    app: mosquitto
-    tier: backend
