@@ -2,10 +2,9 @@
 
 - name: Deploy Node-RED
   k8s:
-    definition: "{{ lookup('template', kubernetes_app_root_path + '/home/nodered/deploy/' + item) }}"
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
-  with_items:
-    - frontend.yaml.j2
-    - ingress.yaml.j2
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/home/nodered/deploy/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"

@@ -2,9 +2,9 @@
 
 - name: Deploy Kubernetes monitoring
   k8s:
-    definition: "{{ lookup('template', item) }}"
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
   with_fileglob:
-    - "{{ kubernetes_app_root_path }}/monitoring/kubernetes/deploy/*.yaml.j2"
+    - "{{ kubernetes_app_root_path }}/monitoring/kubernetes/deploy/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
