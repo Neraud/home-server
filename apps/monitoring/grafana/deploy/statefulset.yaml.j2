@@ -36,6 +36,8 @@ spec:
             cpu: 100m
             memory: 100Mi
         volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
         - mountPath: /var/lib/grafana
           name: grafana-pv-claim
           readOnly: false
@@ -76,6 +78,9 @@ spec:
         runAsUser: 65534
       serviceAccountName: grafana
       volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
       - name: grafana-datasources
         secret:
           secretName: grafana-datasources
