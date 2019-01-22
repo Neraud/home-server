@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: elasticsearch
+  namespace: logging
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+spec:
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+        - path: /elasticsearch
+          backend:
+            serviceName: elastic
+            servicePort: 9200

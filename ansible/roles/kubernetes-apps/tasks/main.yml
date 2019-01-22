@@ -41,3 +41,6 @@
 
 - import_tasks: apps/dev-gitlab.yml
   tags: kubernetes-app-dev-gitlab
+
+- import_tasks: apps/logging-elasticsearch.yml
+  tags: kubernetes-app-logging-elasticsearch

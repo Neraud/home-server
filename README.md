@@ -91,6 +91,7 @@ The folowing services are deployed :
 | [Prometheus](https://prometheus.io/)                             | https://infra.k8stest.com/prometheus/   | Monitoring solution                           |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | https://infra.k8stest.com/alertmanager/ | Alert manager for Prometheus                  |
 | [Grafana](https://grafana.com/)                                  | https://infra.k8stest.com/grafana/      | Platform for beautiful analytics and monitoring  |
+| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | https://infra.k8stest.com/elastic       | Distributed, RESTful search and analytics engine |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | https://unifi.k8stest.com/              | Controller for Unifi devices                  |
 | [HomeAssistant](https://www.home-assistant.io/)                  | https://home.k8stest.com/homeassistant/ | Home automation                               |
 | [Node-RED](https://nodered.org/)                                 | https://home.k8stest.com/node-red/      | Flow-based programming for the IoT            |
@@ -134,6 +135,11 @@ Their deployment manifests and configurations are based on the examples provided
 Grafana is deployed and configured to use Prometheus as a data source.
 
 Default Kubernetes dashboards are already created, based on [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus)
+
+
+### ElasticSearch
+
+You can test the 'E' part of the EFK stack by calling : https://infra.k8stest.com/elastic/_cluster/state?pretty
 
 ### Unifi Controller
 

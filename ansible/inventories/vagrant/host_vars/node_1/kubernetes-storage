@@ -68,3 +68,8 @@ kubernetes_local_storage:
     labels:
       app: grafana
       tier: frontend
+  elasticsearch-data:
+    capacity: 10G
+    reclaim_policy: Retain
+    labels:
+      app: elasticsearch
