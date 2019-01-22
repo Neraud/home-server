@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: logging
+  labels:
+    app: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+      - name: kibana
+        image: docker.elastic.co/kibana/kibana-oss:6.4.3
+        resources:
+          limits:
+            cpu: 1000m
+          requests:
+            cpu: 100m
+        env:
+          - name: SERVER_BASEPATH
+            value: {{ logging_kibana_context_path | default('/kibana') }}
+          - name: ELASTICSEARCH_URL
+            value: http://elasticsearch:9200
+        ports:
+        - containerPort: 5601
+      nodeSelector:
+        capability/general-purpose: 'yes'

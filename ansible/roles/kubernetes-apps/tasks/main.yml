@@ -44,3 +44,6 @@
 
 - import_tasks: apps/logging-elasticsearch.yml
   tags: kubernetes-app-logging-elasticsearch
+
+- import_tasks: apps/logging-kibana.yml
+  tags: kubernetes-app-logging-kibana
