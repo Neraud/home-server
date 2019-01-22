@@ -47,3 +47,6 @@
 
 - import_tasks: apps/logging-kibana.yml
   tags: kubernetes-app-logging-kibana
+
+- import_tasks: apps/logging-fluentbit.yml
+  tags: kubernetes-app-logging-fluentbit

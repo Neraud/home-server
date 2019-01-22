@@ -91,6 +91,7 @@ The folowing services are deployed :
 | [Prometheus](https://prometheus.io/)                             | https://infra.k8stest.com/prometheus/   | Monitoring solution                           |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | https://infra.k8stest.com/alertmanager/ | Alert manager for Prometheus                  |
 | [Grafana](https://grafana.com/)                                  | https://infra.k8stest.com/grafana/      | Platform for beautiful analytics and monitoring  |
+| [Fluent Bit](https://fluentbit.io/)                              | -                                       | Log Processor and Forwarder                   |
 | [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | https://infra.k8stest.com/elastic       | Distributed, RESTful search and analytics engine |
 | [Kibana](https://www.elastic.co/products/kibana)                 | https://infra.k8stest.com/kibana/       | Visualize your Elasticsearch data             |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | https://unifi.k8stest.com/              | Controller for Unifi devices                  |
@@ -136,6 +137,10 @@ Their deployment manifests and configurations are based on the examples provided
 Grafana is deployed and configured to use Prometheus as a data source.
 
 Default Kubernetes dashboards are already created, based on [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus)
+
+### Fluent Bit
+
+Fluent Bit is deployed on all nodes to capture logs and forward them to ElasticSearch.
 
 ### ElasticSearch
 

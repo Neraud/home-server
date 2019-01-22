@@ -5,7 +5,7 @@ export ANSIBLE_FORCE_COLOR=true
 
 ANSIBLE_PLAYBOOK_ARGS="-i /opt/provision/ansible/inventories/vagrant/inventory.yml"
 ANSIBLE_PLAYBOOK_ARGS=$ANSIBLE_PLAYBOOK_ARGS" /opt/provision/ansible/site.yml"
-ANSIBLE_PLAYBOOK_ARGS=$ANSIBLE_PLAYBOOK_ARGS" -v"
+#ANSIBLE_PLAYBOOK_ARGS=$ANSIBLE_PLAYBOOK_ARGS" -v"
 
 if [ $# -ne 1 ] ; then
     ANSIBLE_PLAYBOOK_ARGS=$ANSIBLE_PLAYBOOK_ARGS" $*"
