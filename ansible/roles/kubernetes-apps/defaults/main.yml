@@ -76,3 +76,9 @@ airsonic_extra_java_opts:
 #plex_plex_token: 
 
 gitlab_context_path: /gitlab
+
+prometheus_allowed_namespaces:
+  - default
+  - kube-system
+  - monitoring
+  - logging

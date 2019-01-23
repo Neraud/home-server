@@ -1,0 +1,22 @@
+{% for namespace in prometheus_allowed_namespaces %}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prometheus-k8s
+  namespace: {{ namespace }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - services
+  - endpoints
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+{% if not loop.last %}
+---
+{% endif %}
+{% endfor %}
