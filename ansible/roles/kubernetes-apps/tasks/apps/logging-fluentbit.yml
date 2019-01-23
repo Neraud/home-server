@@ -7,6 +7,18 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+- name: List parser files
+  set_fact:
+    fluentbit_parser_files: "{{ fluentbit_parser_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/logging/fluent-bit/config/parsers/*.conf"
+
+- name: List included config files
+  set_fact:
+    fluentbit_included_config_files: "{{ fluentbit_included_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/logging/fluent-bit/config/includes/*.conf"
+
 - name: Deploy Fluent Bit
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

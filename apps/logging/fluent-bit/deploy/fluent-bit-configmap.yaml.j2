@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: logging
+  labels:
+    k8s-app: fluent-bit
+data:
+  # Configuration files: server, input, filters and output
+  # ======================================================
+  fluent-bit.conf: |
+    {{ lookup('template', kubernetes_app_root_path + '/logging/fluent-bit/config/fluent-bit.conf.j2')  | replace('\n', '\n    ') }}
+
+  parsers.conf: |
+{% for fluentbit_parser_file in fluentbit_parser_files %}
+    {{ lookup('file', fluentbit_parser_file)  | replace('\n', '\n    ') }}
+{% endfor %}
+
+{% for fluentbit_included_config_file in fluentbit_included_config_files %}
+  {{ fluentbit_included_config_file | basename }}: |
+    {{ lookup('file', fluentbit_included_config_file)  | replace('\n', '\n    ') }}
+{% endfor %}
