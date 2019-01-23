@@ -17,6 +17,16 @@
 
 * Prometheus : 
     * Scrap other ?
+    * Scrap NGinx ingress
 
 * AlertManager:
     * Notifications
+
+* Grafana:
+    * MOAR dashboards
+
+* Fluent Bit :
+    * ship logs from Master: NGinx, fail2ban, ufw, ...
+
+Kibana: 
+    * Dashboards ? Alerts ?
