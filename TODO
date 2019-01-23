@@ -1,5 +1,7 @@
 
-* Add CPU/mem limits on all containers
+* All
+    * Add CPU/mem limits
+    * clean labels
 
 * Dashboard : without trailing /
 
@@ -28,5 +30,6 @@
 * Fluent Bit :
     * ship logs from Master: NGinx, fail2ban, ufw, ...
 
-Kibana: 
-    * Dashboards ? Alerts ?
+* Kibana: 
+    * Dashboards ?
+    * Alerts ?
