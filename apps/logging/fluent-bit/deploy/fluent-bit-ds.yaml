@@ -25,6 +25,7 @@ spec:
         imagePullPolicy: Always
         ports:
           - containerPort: 2020
+            name: metrics
         env:
         - name: FLUENT_ELASTICSEARCH_HOST
           value: "elasticsearch"
