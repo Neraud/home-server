@@ -15,3 +15,12 @@
     - "{{ kubernetes_app_root_path }}/logging/elasticsearch/deploy/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
+
+- name: Deploy ElasticSearch Exporter
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/logging/elasticsearch/deploy/prometheus_exporter/*.yaml*"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

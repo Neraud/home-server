@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: elastic-exporter
+  namespace: logging
+  labels:
+    app: elastic-exporter
+    prometheus-target: elastic-exporter
+spec:
+  ports:
+  - port: 9108
+    name: metrics
+    targetPort: metrics
+  selector:
+    app: elastic-exporter
