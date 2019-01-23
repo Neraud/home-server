@@ -1,12 +1,5 @@
 ---
 
-- name: Create monitoring namespace
-  k8s:
-    definition: "{{ lookup('template', kubernetes_app_root_path + '/monitoring/namespace.yaml.j2') }}"
-    state: present
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-
 # TODO : analyze why kube-state-metrics-deployment.yaml is always changed
 - name: Deploy Kube State metrics
   k8s:

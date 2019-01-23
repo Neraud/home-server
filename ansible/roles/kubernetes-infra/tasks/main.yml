@@ -31,3 +31,11 @@
     label: "{{ item.key }}"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
+
+- name: Create extra namespaces
+  k8s:
+    definition: "{{ lookup('template', 'kubernetes/namespace.yaml.j2') }}"
+    state: present
+  with_items: "{{ kubernetes_extra_namespaces }}"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

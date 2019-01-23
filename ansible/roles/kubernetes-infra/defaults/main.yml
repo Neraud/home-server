@@ -18,3 +18,7 @@ kubernetes_nas_nfs_storage_class_name: nas-nfs
 #    reclaim_policy: Retain
 #    labels:
 #      detail: whatever
+
+kubernetes_extra_namespaces:
+  - monitoring
+  - logging
