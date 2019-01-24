@@ -11,8 +11,8 @@ data:
   fluent-bit.conf: |
     {{ lookup('template', kubernetes_app_root_path + '/logging/fluent-bit/config/fluent-bit.conf.j2')  | replace('\n', '\n    ') }}
 
-  parsers.conf: |
 {% for fluentbit_parser_file in fluentbit_parser_files %}
+  {{ fluentbit_parser_file | basename }}: |
     {{ lookup('file', fluentbit_parser_file)  | replace('\n', '\n    ') }}
 {% endfor %}
 

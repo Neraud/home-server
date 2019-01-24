@@ -2,7 +2,9 @@
     Flush         1
     Log_Level     info
     Daemon        off
-    Parsers_File  parsers.conf
+{% for fluentbit_parser_file in fluentbit_parser_files %}
+    Parsers_File  {{ fluentbit_parser_file | basename }}
+{% endfor %}
     HTTP_Server   On
     HTTP_Listen   0.0.0.0
     HTTP_Port     2020
