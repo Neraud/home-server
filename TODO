@@ -26,3 +26,16 @@
 * Kibana: 
     * Dashboards ?
     * Alerts ?
+
+* SSO
+    * NGinx [auth_request](http://nginx.org/en/docs/http/ngx_http_auth_request_module.html)
+    * [Vouch Proxy](https://github.com/vouch/vouch-proxy)
+    * ???
+        https://github.com/keycloak/keycloak
+        https://www.gluu.org/
+        https://github.com/ory/hydra
+        https://lemonldap-ng.org/welcome/
+        https://simplesamlphp.org/docs/stable/ ??
+
+(https://developer.okta.com/blog/2018/08/28/nginx-auth-request)
+(https://www.reddit.com/r/selfhosted/comments/9tzkao/sso_centralized_authentication_and_some_kind_of/)
