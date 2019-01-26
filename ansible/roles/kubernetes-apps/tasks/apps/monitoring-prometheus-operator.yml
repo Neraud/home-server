@@ -18,6 +18,12 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+- name: List AlertManager config files
+  set_fact:
+    alertmanager_config_files: "{{ alertmanager_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/monitoring/prometheus-operator/config/alertmanager/*"
+
 - name: Deploy AlertManager
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
