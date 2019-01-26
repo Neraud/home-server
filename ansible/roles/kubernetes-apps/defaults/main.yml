@@ -80,6 +80,7 @@ gitlab_context_path: /gitlab
 prometheus_allowed_namespaces:
   - default
   - kube-system
+  - ingress-nginx
   - monitoring
   - logging
 

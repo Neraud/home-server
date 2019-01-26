@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx-prometheus
+  namespace: ingress-nginx
+  labels:
+    app: ingress-nginx
+    prometheus-target: ingress-nginx
+spec:
+  ports:
+  - port: 10254
+    name: metrics
+    targetPort: 10254
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
