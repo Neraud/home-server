@@ -20,3 +20,8 @@ data:
   {{ fluentbit_included_config_file | basename }}: |
     {{ lookup('file', fluentbit_included_config_file)  | replace('\n', '\n    ') }}
 {% endfor %}
+
+{% for fluentbit_included_script_file in fluentbit_included_script_files %}
+  {{ fluentbit_included_script_file | basename }}: |
+    {{ lookup('file', fluentbit_included_script_file)  | replace('\n', '\n    ') }}
+{% endfor %}

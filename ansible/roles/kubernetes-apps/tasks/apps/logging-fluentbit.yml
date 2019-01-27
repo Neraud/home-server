@@ -12,6 +12,12 @@
   with_fileglob:
     - "{{ kubernetes_app_root_path }}/logging/fluent-bit/config/includes/*.conf"
 
+- name: List included script files
+  set_fact:
+    fluentbit_included_script_files: "{{ fluentbit_included_script_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/logging/fluent-bit/config/scripts/*.lua"
+
 - name: Deploy Fluent Bit
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
