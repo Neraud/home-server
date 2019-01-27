@@ -144,7 +144,7 @@ Fluent Bit is deployed on all nodes to capture logs and forward them to ElasticS
 
 ### ElasticSearch
 
-You can test the 'E' part of the EFK stack by calling : https://infra.k8stest.com/elastic/_cluster/state?pretty
+You can test the 'E' part of the EFK stack by calling : https://infra.k8stest.com/elasticsearch/_cluster/state?pretty
 
 ### Kibana
 
