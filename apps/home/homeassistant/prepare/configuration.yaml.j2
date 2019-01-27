@@ -23,8 +23,10 @@ frontend:
 config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-# http:
-#   base_url: example.duckdns.org:8123
+http:
+  base_url: https://home.{{ web_base_domain }}
+  use_x_forwarded_for: true
+  trusted_proxies: 10.244.0.0/16
 
 # Checks for available updates
 # Note: This component will send some information about your system to
