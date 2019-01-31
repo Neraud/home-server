@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: registry
+  namespace: default
+  labels:
+    app: registry
+spec:
+  type: NodePort
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: {{ kubernetes_registry_port }}
+  selector:
+    app: registry

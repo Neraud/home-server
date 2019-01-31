@@ -5,6 +5,7 @@
     pkg:
     - python-pip
     - python-setuptools
+    - python-docker
     state: present
 
 - name: Install pip dependencies
