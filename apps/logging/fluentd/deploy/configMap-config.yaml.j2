@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: logging
+  labels:
+    app: fluentd
+data:
+  fluent.conf: |
+    {{ lookup('file', kubernetes_app_root_path + '/logging/fluentd/config/fluent.conf')  | replace('\n', '\n    ') }}

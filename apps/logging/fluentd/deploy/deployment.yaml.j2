@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fluentd
+  namespace: logging
+  labels:
+    app: fluentd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fluentd
+  template:
+    metadata:
+      labels:
+        app: fluentd
+    spec:
+      containers:
+      - name: fluentd
+        image: {{ kubernetes_registry_url }}/fluentd
+        ports:
+        - containerPort: 24224
+          name: fluentd
+        env:
+          - name:  FLUENT_ELASTICSEARCH_HOST
+            value: "elasticsearch"
+          - name:  FLUENT_ELASTICSEARCH_PORT
+            value: "9200"
+          - name: FLUENT_ELASTICSEARCH_SCHEME
+            value: "http"
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: fluentd-config
+          mountPath: /fluentd/etc/
+        - name: fluentd-includes
+          mountPath: /fluentd/etc/conf.d
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: fluentd-config
+        configMap:
+          name: fluentd-config
+      - name: fluentd-includes
+        configMap:
+          name: fluentd-includes
+      nodeSelector:
+        capability/general-purpose: 'yes'

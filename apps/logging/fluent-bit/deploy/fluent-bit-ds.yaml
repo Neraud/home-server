@@ -27,10 +27,10 @@ spec:
           - containerPort: 2020
             name: metrics
         env:
-        - name: FLUENT_ELASTICSEARCH_HOST
-          value: "elasticsearch"
-        - name: FLUENT_ELASTICSEARCH_PORT
-          value: "9200"
+        - name: FLUENT_FLUENTD_HOST
+          value: "fluentd"
+        - name: FLUENT_FLUENTD_PORT
+          value: "24224"
         volumeMounts:
         - name: varlog
           mountPath: /var/log

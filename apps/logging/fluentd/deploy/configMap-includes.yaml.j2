@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-includes
+  namespace: logging
+  labels:
+    app: fluentd
+data:
+{% for fluentd_included_config_file in fluentd_included_config_files %}
+  {{ fluentd_included_config_file | basename }}: |
+    {{ lookup('file', fluentd_included_config_file)  | replace('\n', '\n    ') }}
+{% endfor %}
