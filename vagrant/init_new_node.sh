@@ -35,7 +35,7 @@ if [ "$mode" == "ansible" ] ; then
 	# only 2.6 is available in stretch-backports, so we use pip to get the latest 2.7
 	#apt-get -q -y -t stretch-backports install ansible
 	apt-get -q -y install python-pip
-	pip install ansible==2.7
+	pip install ansible==2.7.6
 	
 	echo " - install ansible ssh keys"
 	cp -R /vagrant/ssh/* /root/.ssh/
