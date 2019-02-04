@@ -13,4 +13,5 @@
     name:
     - PyYAML
     - openshift
+    - requests>=2.21  # https://github.com/ansible/ansible/issues/50529#issuecomment-451340890
     state: present
