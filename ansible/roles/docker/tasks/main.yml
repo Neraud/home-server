@@ -15,7 +15,18 @@
     pkg: "docker-ce"
     state: present
 
-- name: Ensure standard user is in docke group
+- name: Prepare Docker daemon systemd configuration directory
+  file: 
+    path: /etc/systemd/system/docker.service.d/
+    state: directory 
+
+- name: Configure Docker daemon
+  template:
+    src: override.conf.j2
+    dest: /etc/systemd/system/docker.service.d/override.conf
+  notify: Restart docker daemon
+
+- name: Ensure standard user is in docker group
   user:
       name: "{{ standard_user.name }}"
       groups: docker
