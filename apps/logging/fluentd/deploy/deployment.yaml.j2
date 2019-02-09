@@ -5,6 +5,8 @@ metadata:
   namespace: logging
   labels:
     app: fluentd
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:

@@ -7,7 +7,11 @@ metadata:
     k8s-app: fluent-bit-logging
     version: v1
     kubernetes.io/cluster-service: "true"
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
+  updateStrategy: 
+    type: RollingUpdate
   template:
     metadata:
       labels:

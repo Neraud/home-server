@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: reloader
+  namespace: default
+  labels:
+    app: reloader
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: reloader
+  template:
+    metadata:
+      labels:
+        app: reloader        
+    spec:
+      containers:
+      - env:
+        image: "stakater/reloader:v0.0.23"
+        imagePullPolicy: IfNotPresent
+        name: reloader
+      serviceAccountName: reloader
+
