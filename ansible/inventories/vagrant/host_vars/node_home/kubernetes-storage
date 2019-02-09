@@ -1,20 +1,20 @@
 ---
 
 kubernetes_local_storage:
-  homeassistant-frontend:
+  homeassistant-config:
     capacity: 1G
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/homeassistant-frontend
+    mount_path: /opt/kubernetes_storage/homeassistant-config
     reclaim_policy: Retain
     labels:
       app: homeassistant
-      tier: frontend
+      app-component: homeassistant
   homeassistant-mysql:
     capacity: 2G
     reclaim_policy: Retain
     labels:
       app: homeassistant
-      tier: database
+      app-component: mysql
   nodered-frontend:
     capacity: 1G
     filesystem: ext4

@@ -5,7 +5,7 @@
   tags: kubernetes-app-monitoring-grafana
 
 - include_tasks: apps/home-homeassistant.yml
-  when: "'homeassistant-frontend' in kubernetes_local_storage"
+  when: "'homeassistant-config' in kubernetes_local_storage"
   tags: kubernetes-app-home-homeassistant
 
 - include_tasks: apps/home-nodered.yml

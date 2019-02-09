@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: homeassistant
   namespace: default
+  labels:
+    app: homeassistant
 spec:
   rules:
   - host: home.{{ web_base_domain }}

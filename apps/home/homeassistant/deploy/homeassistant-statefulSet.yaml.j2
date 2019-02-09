@@ -5,22 +5,22 @@ metadata:
   namespace: default
   labels:
     app: homeassistant
-    tier: frontend
+    app-component: homeassistant
 spec:
   selector:
     matchLabels:
       app: homeassistant
-      tier: frontend
+      app-component: homeassistant
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: homeassistant
-        tier: frontend
+        app-component: homeassistant
     spec:
       containers:
-      - image: homeassistant/home-assistant
+      - image: homeassistant/home-assistant:0.87.0
         name: homeassistant
         ports:
         - containerPort: 8123
@@ -30,6 +30,13 @@ spec:
           mountPath: /etc/localtime
         - name: homeassistant-pv-claim
           mountPath: /config
+        resources:
+          requests:
+            cpu: "{{ homeassistant_homeassistant_requests_cpu | default("500m") }}"
+            memory: "{{ homeassistant_homeassistant_requests_memory | default("512Mi") }}"
+          limits:
+            cpu: "{{ homeassistant_homeassistant_limits_cpu | default("1000m") }}"
+            memory: "{{ homeassistant_homeassistant_limits_memory | default("512Mi") }}"
       volumes:
       - name: tz-config
         hostPath:
@@ -48,4 +55,4 @@ spec:
       selector:
         matchLabels:
           app: homeassistant
-          tier: frontend
+          app-component: homeassistant
