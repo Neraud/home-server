@@ -3,9 +3,10 @@ kind: Ingress
 metadata:
   name: dashboard
   namespace: kube-system
+  labels:
+    app: kubernetes-dashboard
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
-    nginx.ingress.kubernetes.io/backend-protocol: "{{ kubernetes_dashboard_service_proto }}"
 spec:
   rules:
   - host: infra.{{ web_base_domain }}
@@ -14,4 +15,4 @@ spec:
       - path: /kube
         backend:
           serviceName: kubernetes-dashboard
-          servicePort: {{ kubernetes_dashboard_service_port }}
+          servicePort: 80
