@@ -32,7 +32,6 @@ mosquitto_credientials:
 gitlab_context_path: /gitlab
 gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}"
 
-
 logging_elasticsearch_replicas: 1
 
 logging_kibana_context_path: /kibana

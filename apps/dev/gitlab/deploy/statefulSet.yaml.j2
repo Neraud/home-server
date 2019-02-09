@@ -5,22 +5,22 @@ metadata:
   namespace: default
   labels:
     app: gitlab
-    tier: frontend
+    app-component: gitlab
 spec:
   selector:
     matchLabels:
       app: gitlab
-      tier: frontend
+      app-component: gitlab
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: gitlab
-        tier: frontend
+        app-component: gitlab
     spec:
       containers:
-      - image: gitlab/gitlab-ce
+      - image: gitlab/gitlab-ce:11.7.5-ce.0
         name: gitlab
         ports:
         - containerPort: 80
@@ -35,6 +35,13 @@ spec:
           name: redis-metrics
         - containerPort: 9187
           name: postgre-metrics
+        resources:
+          requests:
+            cpu: "{{ gitlab_requests_cpu | default("500m") }}"
+            memory: "{{ gitlab_requests_memory | default("2048Mi") }}"
+          limits:
+            cpu: "{{ gitlab_limits_cpu | default("2000m") }}"
+            memory: "{{ gitlab_limits_memory | default("2048Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -60,7 +67,8 @@ spec:
       selector:
         matchLabels:
           app: gitlab
-          tier: config
+          app-component: gitlab
+          storage: config
   - metadata:
       name: gitlab-data-pv-claim
     spec:
@@ -72,4 +80,5 @@ spec:
       selector:
         matchLabels:
           app: gitlab
-          tier: data
+          app-component: gitlab
+          storage: data

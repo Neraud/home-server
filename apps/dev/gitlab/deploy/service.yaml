@@ -5,11 +5,11 @@ metadata:
   namespace: default
   labels:
     app: gitlab
-    tier: frontend
+    app-component: gitlab
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
     app: gitlab
-    tier: frontend
+    app-component: gitlab

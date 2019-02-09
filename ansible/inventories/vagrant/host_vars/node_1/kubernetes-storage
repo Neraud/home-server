@@ -46,13 +46,15 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: gitlab
-      tier: config
+      app-component: gitlab
+      storage: config
   gitlab-data:
     capacity: 2G
     reclaim_policy: Retain
     labels:
       app: gitlab
-      tier: data
+      app-component: gitlab
+      storage: data
   unifi-config:
     capacity: 1G
     reclaim_policy: Retain

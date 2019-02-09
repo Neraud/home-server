@@ -7,14 +7,15 @@ kubernetes_user:
 kubernetes_local_storage_vg: kubernetes_vg
 
 #kubernetes_local_storage:
-#  appname-tiername: 
+#  appname-componentName-storageDetail: 
 #    capacity: 20G
 #    filesystem: ext4 (optional)
 #    mount_path: /path/on/kubernetes/node (optional)
 #    reclaim_policy: Retain
 #    labels:
-#      app: appname
-#      tier: tiername
+#      app: appName
+#      app-component: componentName
+#      storage: storageDetail
 
 
 

@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: gitlab
   namespace: default
+  labels:
+    app: gitlab
 spec:
   rules:
   - host: dev.{{ web_base_domain }}
