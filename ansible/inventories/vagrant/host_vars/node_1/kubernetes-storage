@@ -81,3 +81,4 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: elasticsearch
+      app-component: elasticsearch

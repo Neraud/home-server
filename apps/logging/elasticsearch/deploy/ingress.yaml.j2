@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: elasticsearch
   namespace: logging
+  labels:
+    app: elasticsearch
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
 spec:

@@ -3,25 +3,25 @@ kind: StatefulSet
 metadata:
   name: es-cluster
   namespace: logging
+  labels:
+    app: elasticsearch
+    app-component: elasticsearch
 spec:
   serviceName: elasticsearch
   replicas: {{ logging_elasticsearch_replicas }}
   selector:
     matchLabels:
       app: elasticsearch
+      app-component: elasticsearch
   template:
     metadata:
       labels:
         app: elasticsearch
+        app-component: elasticsearch
     spec:
       containers:
       - name: elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.0
-        resources:
-            limits:
-              cpu: 1000m
-            requests:
-              cpu: 100m
         ports:
         - containerPort: 9200
           name: rest
@@ -29,6 +29,13 @@ spec:
         - containerPort: 9300
           name: inter-node
           protocol: TCP
+        resources:
+          requests:
+            cpu: "{{ elasticsearch_requests_cpu | default("100m") }}"
+            memory: "{{ elasticsearch_requests_memory | default("1024Mi") }}"
+          limits:
+            cpu: "{{ elasticsearch_limits_cpu | default("1000m") }}"
+            memory: "{{ elasticsearch_limits_memory | default("1024Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -84,3 +91,4 @@ spec:
       selector:
         matchLabels:
           app: elasticsearch
+          app-component: elasticsearch

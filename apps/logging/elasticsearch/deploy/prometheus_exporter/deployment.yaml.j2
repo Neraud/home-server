@@ -1,8 +1,11 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: elastic-exporter
+  name: elasticsearch-exporter
   namespace: logging
+  labels:
+    app: elasticsearch
+    app-component: elastic-exporter
 spec:
   replicas: 1
   strategy:
@@ -13,7 +16,8 @@ spec:
   template:
     metadata:
       labels:
-        app: elastic-exporter
+        app: elasticsearch
+        app-component: elastic-exporter
     spec:
       securityContext:
         runAsNonRoot: true
@@ -59,10 +63,10 @@ spec:
           initialDelaySeconds: 10
           timeoutSeconds: 10
         resources:
-          limits:
-            cpu: 100m
-            memory: 128Mi
           requests:
-            cpu: 25m
-            memory: 64Mi
+            cpu: "{{ prometheus_exporter_requests_cpu | default("25m") }}"
+            memory: "{{ prometheus_exporter_requests_memory | default("64Mi") }}"
+          limits:
+            cpu: "{{ prometheus_exporter_limits_cpu | default("100m") }}"
+            memory: "{{ prometheus_exporter_limits_memory | default("128Mi") }}"
       restartPolicy: Always
