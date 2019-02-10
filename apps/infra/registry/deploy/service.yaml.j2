@@ -5,6 +5,7 @@ metadata:
   namespace: default
   labels:
     app: registry
+    app-component: registry
 spec:
   type: NodePort
   ports:
@@ -13,3 +14,4 @@ spec:
       nodePort: {{ kubernetes_registry_port }}
   selector:
     app: registry
+    app-component: registry

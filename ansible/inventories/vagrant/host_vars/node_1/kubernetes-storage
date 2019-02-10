@@ -6,6 +6,7 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: registry
+      app-component: registry
   ttrss-pgsql: 
     capacity: 1G
     reclaim_policy: Retain
