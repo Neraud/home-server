@@ -12,7 +12,7 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: ttrss
-      tier: database
+      app-component: pgsql
   airsonic-data:
     capacity: 256M
     reclaim_policy: Retain

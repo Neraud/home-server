@@ -5,19 +5,19 @@ metadata:
   namespace: default
   labels:
     app: ttrss
-    tier: database
+    app-component: pgsql
 spec:
   selector:
     matchLabels:
       app: ttrss
-      tier: database
+      app-component: pgsql
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: ttrss
-        tier: database
+        app-component: pgsql
     spec:
       containers:
       - image: postgres:11.1
@@ -35,6 +35,13 @@ spec:
         ports:
         - containerPort: 5432
           name: pgsql
+        resources:
+          requests:
+            cpu: "{{ ttrss_pgsql_requests_cpu | default("250m") }}"
+            memory: "{{ ttrss_pgsql_requests_memory | default("256Mi") }}"
+          limits:
+            cpu: "{{ ttrss_pgsql_limits_cpu | default("500m") }}"
+            memory: "{{ ttrss_pgsql_limits_memory | default("256Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -58,4 +65,4 @@ spec:
       selector:
         matchLabels:
           app: ttrss
-          tier: database
+          app-component: pgsql

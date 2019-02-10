@@ -5,10 +5,10 @@ metadata:
   namespace: default
   labels:
     app: ttrss
-    tier: frontend
+    app-component: ttrss
 spec:
   ports:
   - port: 80
   selector:
     app: ttrss
-    tier: frontend
+    app-component: ttrss
