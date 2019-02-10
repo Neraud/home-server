@@ -9,12 +9,6 @@ kubernetes_local_storage:
     labels:
       app: homeassistant
       app-component: homeassistant
-  homeassistant-mysql:
-    capacity: 2G
-    reclaim_policy: Retain
-    labels:
-      app: homeassistant
-      app-component: mysql
   nodered-data:
     capacity: 1G
     filesystem: ext4

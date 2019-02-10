@@ -57,7 +57,7 @@ spec:
         hostPath:
           path: /etc/localtime
       nodeSelector:
-        capability/home: 'yes'
+        capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
       name: homeassistant-mysql-pv-claim

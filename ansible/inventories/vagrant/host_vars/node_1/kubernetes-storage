@@ -82,3 +82,9 @@ kubernetes_local_storage:
     labels:
       app: elasticsearch
       app-component: elasticsearch
+  homeassistant-mysql:
+    capacity: 2G
+    reclaim_policy: Retain
+    labels:
+      app: homeassistant
+      app-component: mysql
