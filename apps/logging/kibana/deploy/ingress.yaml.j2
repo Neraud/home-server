@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: kibana
   namespace: logging
+  labels:
+    app: kibana
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
 spec:

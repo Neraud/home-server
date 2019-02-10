@@ -5,24 +5,29 @@ metadata:
   namespace: logging
   labels:
     app: kibana
+    app-component: kibana
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: kibana
+      app-component: kibana
   template:
     metadata:
       labels:
         app: kibana
+        app-component: kibana
     spec:
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana-oss:6.4.3
+        image: docker.elastic.co/kibana/kibana-oss:6.6.0
         resources:
-          limits:
-            cpu: 1000m
           requests:
-            cpu: 100m
+            cpu: "{{ kibana_requests_cpu | default("100m") }}"
+            memory: "{{ kibana_requests_memory | default("512Mi") }}"
+          limits:
+            cpu: "{{ kibana_limits_cpu | default("1000m") }}"
+            memory: "{{ kibana_limits_memory | default("512Mi") }}"
         env:
           - name: SERVER_BASEPATH
             value: {{ logging_kibana_context_path | default('/kibana') }}
