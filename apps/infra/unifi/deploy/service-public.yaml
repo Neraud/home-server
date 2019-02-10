@@ -6,7 +6,7 @@ metadata:
   namespace: default
   labels:
     app: unifi
-    tier: frontend
+    app-component: unifi
 spec:
   ports:
   # Port used for controller GUI/API as seen in a web browser
@@ -14,4 +14,4 @@ spec:
     targetPort: 8443
   selector:
     app: unifi
-    tier: frontend
+    app-component: unifi

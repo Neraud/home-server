@@ -6,7 +6,7 @@ metadata:
   namespace: default
   labels:
     app: unifi
-    tier: private
+    app-component: unifi
 spec:
 {% if unifi_private_ip is defined %}
   externalIPs:
@@ -45,4 +45,4 @@ spec:
     protocol: UDP
   selector:
     app: unifi
-    tier: frontend
+    app-component: unifi

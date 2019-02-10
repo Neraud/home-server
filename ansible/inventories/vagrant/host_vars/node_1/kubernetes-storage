@@ -61,7 +61,7 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: unifi
-      tier: config
+      app-component: unifi
   prometheus-k8s:
     capacity: 10G
     reclaim_policy: Retain

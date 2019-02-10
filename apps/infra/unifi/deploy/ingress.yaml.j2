@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: unifi
   namespace: default
+  labels:
+    app: unifi
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
