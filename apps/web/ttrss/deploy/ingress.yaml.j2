@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: ttrss
   namespace: default
+  labels:
+    app: ttrss
 spec:
   rules:
   - host: web.{{ web_base_domain }}

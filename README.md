@@ -262,7 +262,7 @@ user@master:~$ kubectl port-forward plex-0 32400:32400 --address 0.0.0.0
 Forwarding from 0.0.0.0:32400 -> 32400
 ```
 
-The use the [localhost URL](http://localhost:32400/web/) to access PMR and process with the setup.
+Then use the [localhost URL](http://localhost:32400/web/) to access PMS and proceed with the setup process.
 Once done, you can use it with the proper URL without any issue.
 
 You can safely stop the port-forwarding and block the port again :

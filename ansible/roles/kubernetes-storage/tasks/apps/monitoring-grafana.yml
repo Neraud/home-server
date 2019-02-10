@@ -2,7 +2,7 @@
 
 - name: Set mount path
   set_fact:
-    grafana_mount_path: "{{ kubernetes_local_storage['grafana-frontend']['mount_path'] }}"
+    grafana_mount_path: "{{ kubernetes_local_storage['grafana-data']['mount_path'] }}"
 
 - name: Chown folder to Grafana user
   file:

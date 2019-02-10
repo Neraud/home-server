@@ -2,19 +2,28 @@ apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
 metadata:
   labels:
+    app: alertmanager
+    app-component: alertmanager
     alertmanager: main
   name: main
   namespace: monitoring
 spec:
   baseImage: quay.io/prometheus/alertmanager
+  version: v0.16.1
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'
   replicas: 1
   externalUrl: https://infra.{{ web_base_domain }}/alertmanager/
+  resources:
+    requests:
+      cpu: "{{ alertmanager_requests_cpu | default("100m") }}"
+      memory: "{{ alertmanager_requests_memory | default("256Mi") }}"
+    limits:
+      cpu: "{{ alertmanager_limits_cpu | default("250m") }}"
+      memory: "{{ alertmanager_limits_memory | default("256Mi") }}"
   securityContext:
     fsGroup: 2000
     runAsNonRoot: true
     runAsUser: 1000
   serviceAccountName: alertmanager-main
-  version: v0.15.3

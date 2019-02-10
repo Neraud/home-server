@@ -5,22 +5,22 @@ metadata:
   namespace: default
   labels:
     app: unifi
-    tier: frontend
+    app-component: unifi
 spec:
   selector:
     matchLabels:
       app: unifi
-      tier: frontend
+      app-component: unifi
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: unifi
-        tier: frontend
+        app-component: unifi
     spec:
       containers:
-      - image: linuxserver/unifi
+      - image: linuxserver/unifi:188
         name: unifi
         ports:
         #- containerPort: 8081
@@ -45,6 +45,13 @@ spec:
           protocol: UDP
         #- containerPort: 1900 # Port used for "Make controller discoverable on L2 network" in controller settings.
         #  protocol: UDP
+        resources:
+          requests:
+            cpu: "{{ unifi_requests_cpu | default("500m") }}"
+            memory: "{{ unifi_requests_memory | default("1024Mi") }}"
+          limits:
+            cpu: "{{ unifi_limits_cpu | default("1000m") }}"
+            memory: "{{ unifi_limits_memory | default("1024Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -68,4 +75,4 @@ spec:
       selector:
         matchLabels:
           app: unifi
-          tier: config
+          app-component: unifi

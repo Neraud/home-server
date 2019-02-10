@@ -2,6 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   labels:
+    app: prometheus
+    app-component: prometheus
     prometheus: k8s
   name: k8s
   namespace: monitoring
@@ -12,6 +14,7 @@ spec:
       namespace: monitoring
       port: web
   baseImage: quay.io/prometheus/prometheus
+  version: v2.7.1
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'
@@ -19,7 +22,11 @@ spec:
   externalUrl: https://infra.{{ web_base_domain }}/prometheus/
   resources:
     requests:
-      memory: 400Mi
+      cpu: "{{ prometheus_requests_cpu | default("200m") }}"
+      memory: "{{ prometheus_requests_memory | default("400Mi") }}"
+    limits:
+      cpu: "{{ prometheus_limits_cpu | default("500m") }}"
+      memory: "{{ prometheus_limits_memory | default("400Mi") }}"
   ruleSelector:
     matchLabels:
       prometheus: k8s
@@ -31,7 +38,6 @@ spec:
   serviceAccountName: prometheus-k8s
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
-  version: v2.5.0
   volumeClaimTemplate:
     metadata:
       name: prometheus-k8s-pv-claim
@@ -44,4 +50,4 @@ spec:
       selector:
         matchLabels:
           app: prometheus-k8s
-          tier: frontend
+          app-component: prometheus

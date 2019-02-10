@@ -60,8 +60,8 @@ To make sure of it, we use labels.
 Volumes are tagged in the same way other Kubernetes objects are, using the usual `app` and `tier` labels.
 
 For example, if we have a stateful application that has both a frontend and MySQL DB, the pods and associated volumes will have the tags : 
- - `app: my-awesome-app`, `tier: frontend`
- - `app: my-awesome-app`, `tier: mysql`
+ - `app: my-awesome-app`, `app-component: my-awesome-app`
+ - `app: my-awesome-app`, `app-component: mysql`
 
 The Persistant Volume Claim will use these same labels as selectors : 
 
@@ -74,7 +74,7 @@ volumeClaimTemplates:
     selector:
       matchLabels:
         app: my-awesome-app
-        tier: frontend
+        tapp-component: my-awesome-app
 ```
 
 ## Host tagging

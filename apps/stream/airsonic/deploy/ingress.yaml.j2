@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: airsonic
   namespace: default
+  labels:
+    app: airsonic
 spec:
   rules:
   - host: stream.{{ web_base_domain }}

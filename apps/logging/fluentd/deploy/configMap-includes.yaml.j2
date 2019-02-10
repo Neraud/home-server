@@ -5,6 +5,7 @@ metadata:
   namespace: logging
   labels:
     app: fluentd
+    app-component: fluentd
 data:
 {% for fluentd_included_config_file in fluentd_included_config_files %}
   {{ fluentd_included_config_file | basename }}: |

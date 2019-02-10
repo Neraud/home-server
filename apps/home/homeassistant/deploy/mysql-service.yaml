@@ -5,11 +5,11 @@ metadata:
   namespace: default
   labels:
     app: homeassistant
-    tier: database
+    app-component: mysql
 spec:
   ports:
     - port: 3306
   selector:
     app: homeassistant
-    tier: database
+    app-component: mysql
   clusterIP: None

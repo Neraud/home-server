@@ -5,6 +5,7 @@ metadata:
   namespace: default
   labels:
     app: gitlab
+    app-component: gitlab
     prometheus-target: gitlab
 spec:
   ports:
@@ -25,4 +26,4 @@ spec:
     targetPort: postgre-metrics
   selector:
     app: gitlab
-    tier: frontend
+    app-component: gitlab

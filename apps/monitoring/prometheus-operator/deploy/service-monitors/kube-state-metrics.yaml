@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    k8s-app: kube-state-metrics
+    app: kube-state-metrics
   name: kube-state-metrics
   namespace: monitoring
 spec:
@@ -24,5 +24,4 @@ spec:
   jobLabel: k8s-app
   selector:
     matchLabels:
-      k8s-app: kube-state-metrics
       prometheus-target: kube-state-metrics

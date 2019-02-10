@@ -20,5 +20,6 @@ kubernetes_nas_nfs_storage_class_name: nas-nfs
 #      detail: whatever
 
 kubernetes_extra_namespaces:
+  - ingress-nginx
   - monitoring
   - logging

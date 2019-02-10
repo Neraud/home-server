@@ -7,10 +7,11 @@ metadata:
   labels:
     app: fluentd
 spec:
-  selector:
-    app: fluentd
   clusterIP: None
   ports:
     - name: fluentd
       port: 24224
       targetPort: 24224
+  selector:
+    app: fluentd
+    app-component: fluentd

@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: elastic-exporter
+  name: elasticsearch-exporter
   namespace: logging
   labels:
-    app: elastic-exporter
+    app: elasticsearch
+    app-component: elastic-exporter
     prometheus-target: elastic-exporter
 spec:
   ports:
@@ -12,4 +13,5 @@ spec:
     name: metrics
     targetPort: metrics
   selector:
-    app: elastic-exporter
+    app: elasticsearch
+    app-component: elastic-exporter

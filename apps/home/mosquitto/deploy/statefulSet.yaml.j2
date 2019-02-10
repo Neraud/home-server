@@ -5,30 +5,37 @@ metadata:
   namespace: default
   labels:
     app: mosquitto
-    tier: backend
+    app-component: mosquitto
 spec:
   selector:
     matchLabels:
       app: mosquitto
-      tier: backend
+      app-component: mosquitto
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: mosquitto
-        tier: backend
+        app-component: mosquitto
     spec:
       containers:
-      - image: eclipse-mosquitto
+      - image: eclipse-mosquitto:1.5.5
         name: mosquitto
         ports:
         - containerPort: 1883
           name: mosquitto
+        resources:
+          requests:
+            cpu: "{{ mosquitto_requests_cpu | default("100m") }}"
+            memory: "{{ mosquitto_requests_memory | default("32Mi") }}"
+          limits:
+            cpu: "{{ mosquitto_limits_cpu | default("200m") }}"
+            memory: "{{ mosquitto_limits_memory | default("64Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: mosquitto-backend-pv-claim
+        - name: mosquitto-config-pv-claim
           mountPath: /mosquitto/config
         - name: mosquitto-data-pv-claim
           mountPath: /mosquitto/data
@@ -42,7 +49,7 @@ spec:
         capability/home: 'yes'
   volumeClaimTemplates:
   - metadata:
-      name: mosquitto-backend-pv-claim
+      name: mosquitto-config-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
@@ -52,7 +59,8 @@ spec:
       selector:
         matchLabels:
           app: mosquitto
-          tier: backend
+          app-component: mosquitto
+          storage: config
   - metadata:
       name: mosquitto-data-pv-claim
     spec:
@@ -64,4 +72,5 @@ spec:
       selector:
         matchLabels:
           app: mosquitto
-          tier: data
+          app-component: mosquitto
+          storage: data

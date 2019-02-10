@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    k8s-app: kube-state-metrics
+    app: kube-state-metrics
     prometheus-target: kube-state-metrics  
   name: kube-state-metrics
   namespace: monitoring
@@ -17,3 +17,4 @@ spec:
     targetPort: https-self
   selector:
     app: kube-state-metrics
+    app-component: kube-state-metrics

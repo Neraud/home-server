@@ -1,15 +1,5 @@
 ---
 
-- name: Load dashboard HTTPS vars
-  include_vars:
-    file: dashboard_https.yml
-  when: kubernetes_dashboard_https_enabled | default(true) | bool
-
-- name: Load dashboard HTTP vars
-  include_vars:
-    file: dashboard_http.yml
-  when: not (kubernetes_dashboard_https_enabled | default(true) | bool)
-
 - name: Deploy Kubernetes dashboard
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
@@ -18,13 +8,3 @@
     - "{{ kubernetes_app_root_path }}/infra/dashboard/deploy/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
-
-- name: Create Kubernetes service account for dashboard
-  k8s:
-    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
-    state: present
-  with_fileglob:
-    - "{{ kubernetes_app_root_path }}/infra/dashboard/deploy/service-account/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-  when: kubernetes_dashboard_service_account_enabled

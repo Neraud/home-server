@@ -5,11 +5,11 @@ metadata:
   namespace: default
   labels:
     app: airsonic
-    tier: frontend
+    app-component: airsonic
 spec:
   ports:
   - port: 80
     targetPort: 4040
   selector:
     app: airsonic
-    tier: frontend
+    app-component: airsonic

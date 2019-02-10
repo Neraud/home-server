@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   labels:
     app: grafana
+    app-component: grafana
   name: grafana
   namespace: monitoring
   annotations:
@@ -12,13 +13,15 @@ spec:
   selector:
     matchLabels:
       app: grafana
+      app-component: grafana
   template:
     metadata:
       labels:
         app: grafana
+        app-component: grafana
     spec:
       containers:
-      - image: grafana/grafana:5.2.4
+      - image: grafana/grafana:5.4.3
         name: grafana
         env:
         - name: GF_SERVER_ROOT_URL
@@ -31,12 +34,12 @@ spec:
             path: /api/health
             port: http
         resources:
-          limits:
-            cpu: 200m
-            memory: 200Mi
           requests:
-            cpu: 100m
-            memory: 100Mi
+            cpu: "{{ grafana_requests_cpu | default("100m") }}"
+            memory: "{{ grafana_requests_memory | default("100Mi") }}"
+          limits:
+            cpu: "{{ grafana_limits_cpu | default("200m") }}"
+            memory: "{{ grafana_limits_memory | default("200Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -83,4 +86,4 @@ spec:
       selector:
         matchLabels:
           app: grafana
-          tier: frontend
+          app-component: grafana

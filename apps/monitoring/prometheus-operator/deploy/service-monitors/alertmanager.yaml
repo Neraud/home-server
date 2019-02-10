@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    k8s-app: alertmanager
+    app: alertmanager
   name: alertmanager
   namespace: monitoring
 spec:

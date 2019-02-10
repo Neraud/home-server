@@ -5,11 +5,10 @@ metadata:
   namespace: default
   labels:
     app: homeassistant
-    tier: frontend
 spec:
   ports:
   - port: 80
     targetPort: 8123
   selector:
     app: homeassistant
-    tier: frontend
+    app-component: homeassistant

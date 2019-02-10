@@ -6,39 +6,40 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: registry
+      app-component: registry
   ttrss-pgsql: 
     capacity: 1G
     reclaim_policy: Retain
     labels:
       app: ttrss
-      tier: database
+      app-component: pgsql
   airsonic-data:
     capacity: 256M
     reclaim_policy: Retain
     labels:
       app: airsonic
-      tier: frontend
-      detail: data
+      app-component: airsonic
+      storage: data
   airsonic-playlists:
     capacity: 256M
     reclaim_policy: Retain
     labels:
       app: airsonic
-      tier: frontend
-      detail: playlists
+      app-component: airsonic
+      storage: playlists
   airsonic-podcasts:
     capacity: 1G
     reclaim_policy: Retain
     labels:
       app: airsonic
-      tier: frontend
-      detail: podcasts
-  plex-frontend:
+      app-component: airsonic
+      storage: podcasts
+  plex-data:
     capacity: 2G
     reclaim_policy: Retain
     labels:
       app: plex
-      tier: frontend
+      app-component: plex
   gitlab-config:
     capacity: 8M
     filesystem: ext4
@@ -46,35 +47,44 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: gitlab
-      tier: config
+      app-component: gitlab
+      storage: config
   gitlab-data:
     capacity: 2G
     reclaim_policy: Retain
     labels:
       app: gitlab
-      tier: data
+      app-component: gitlab
+      storage: data
   unifi-config:
     capacity: 1G
     reclaim_policy: Retain
     labels:
       app: unifi
-      tier: config
+      app-component: unifi
   prometheus-k8s:
     capacity: 10G
     reclaim_policy: Retain
     labels:
       app: prometheus-k8s
-      tier: frontend
-  grafana-frontend:
+      app-component: prometheus
+  grafana-data:
     capacity: 1G
     reclaim_policy: Retain
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/grafana-frontend
+    mount_path: /opt/kubernetes_storage/grafana-data
     labels:
       app: grafana
-      tier: frontend
+      app-component: grafana
   elasticsearch-data:
     capacity: 10G
     reclaim_policy: Retain
     labels:
       app: elasticsearch
+      app-component: elasticsearch
+  homeassistant-mysql:
+    capacity: 2G
+    reclaim_policy: Retain
+    labels:
+      app: homeassistant
+      app-component: mysql

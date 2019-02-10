@@ -5,11 +5,11 @@ metadata:
   namespace: default
   labels:
     app: ttrss
-    tier: database
+    app-component: pgsql
 spec:
+  clusterIP: None
   ports:
   - port: 5432
   selector:
     app: ttrss
-    tier: database
-  clusterIP: None
+    app-component: pgsql

@@ -5,6 +5,7 @@ metadata:
   namespace: logging
   labels:
     app: fluentd
+    app-component: fluentd
 data:
   fluent.conf: |
     {{ lookup('file', kubernetes_app_root_path + '/logging/fluentd/config/fluent.conf')  | replace('\n', '\n    ') }}

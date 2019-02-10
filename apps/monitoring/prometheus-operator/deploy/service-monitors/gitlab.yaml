@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    k8s-app: gitlab
+    app: gitlab
   name: gitlab
   namespace: monitoring
 spec:

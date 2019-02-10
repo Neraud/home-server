@@ -1,19 +1,19 @@
 ---
 
 - include_tasks: apps/monitoring-grafana.yml
-  when: "'grafana-frontend' in kubernetes_local_storage"
+  when: "'grafana-data' in kubernetes_local_storage"
   tags: kubernetes-app-monitoring-grafana
 
 - include_tasks: apps/home-homeassistant.yml
-  when: "'homeassistant-frontend' in kubernetes_local_storage"
+  when: "'homeassistant-config' in kubernetes_local_storage"
   tags: kubernetes-app-home-homeassistant
 
 - include_tasks: apps/home-nodered.yml
-  when: "'nodered-frontend' in kubernetes_local_storage"
+  when: "'nodered-data' in kubernetes_local_storage"
   tags: kubernetes-app-home-nodered
 
 - include_tasks: apps/home-mosquitto.yml
-  when: "'mosquitto-backend' in kubernetes_local_storage"
+  when: "'mosquitto-config' in kubernetes_local_storage"
   tags: kubernetes-app-home-mosquitto
 
 - include_tasks: apps/dev-gitlab.yml

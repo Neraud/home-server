@@ -4,8 +4,8 @@ metadata:
   name: fluent-bit
   namespace: logging
   labels:
-    k8s-app: fluent-bit-logging
-    version: v1
+    app: fluent-bit
+    app-component: fluent-bit
     kubernetes.io/cluster-service: "true"
   annotations:
     reloader.stakater.com/auto: "true"
@@ -15,8 +15,8 @@ spec:
   template:
     metadata:
       labels:
-        k8s-app: fluent-bit-logging
-        version: v1
+        app: fluent-bit
+        app-component: fluent-bit
         kubernetes.io/cluster-service: "true"
       annotations:
         prometheus.io/scrape: "true"
@@ -43,6 +43,13 @@ spec:
           readOnly: true
         - name: fluent-bit-config
           mountPath: /fluent-bit/etc/
+        resources:
+          requests:
+            cpu: "{{ fluentbit_requests_cpu | default("5m") }}"
+            memory: "{{ fluentbit_requests_memory | default("10Mi") }}"
+          limits:
+            cpu: "{{ fluentbit_limits_cpu | default("50m") }}"
+            memory: "{{ fluentbit_limits_memory | default("60Mi") }}"
       terminationGracePeriodSeconds: 10
       volumes:
       - name: varlog

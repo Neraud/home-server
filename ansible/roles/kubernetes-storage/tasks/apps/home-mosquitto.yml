@@ -2,7 +2,7 @@
 
 - name: Set mount path
   set_fact:
-    mosquitto_mount_path: "{{ kubernetes_local_storage['mosquitto-backend']['mount_path'] }}"
+    mosquitto_mount_path: "{{ kubernetes_local_storage['mosquitto-config']['mount_path'] }}"
 
 - name: Create htpasswd files
   template:

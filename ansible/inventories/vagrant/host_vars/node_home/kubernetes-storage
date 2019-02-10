@@ -1,36 +1,31 @@
 ---
 
 kubernetes_local_storage:
-  homeassistant-frontend:
+  homeassistant-config:
     capacity: 1G
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/homeassistant-frontend
+    mount_path: /opt/kubernetes_storage/homeassistant-config
     reclaim_policy: Retain
     labels:
       app: homeassistant
-      tier: frontend
-  homeassistant-mysql:
-    capacity: 2G
-    reclaim_policy: Retain
-    labels:
-      app: homeassistant
-      tier: database
-  nodered-frontend:
+      app-component: homeassistant
+  nodered-data:
     capacity: 1G
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/nodered-frontend
+    mount_path: /opt/kubernetes_storage/nodered-data
     reclaim_policy: Retain
     labels:
       app: nodered
-      tier: frontend
-  mosquitto-backend:
+      app-component: nodered
+  mosquitto-config:
     capacity: 16M
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/mosquitto-backend
+    mount_path: /opt/kubernetes_storage/mosquitto-config
     reclaim_policy: Retain
     labels:
       app: mosquitto
-      tier: backend
+      app-component: mosquitto
+      storage: config
   mosquitto-data:
     capacity: 128M
     filesystem: ext4
@@ -38,4 +33,5 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: mosquitto
-      tier: data
+      app-component: mosquitto
+      storage: data

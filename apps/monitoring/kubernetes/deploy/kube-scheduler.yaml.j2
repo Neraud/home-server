@@ -4,7 +4,8 @@ metadata:
   name: kube-scheduler-prometheus-discovery
   namespace: kube-system
   labels:
-    k8s-app: kube-scheduler
+    app: kube-scheduler
+    app-component: kube-scheduler
     prometheus-target: kube-scheduler
 spec:
   selector:

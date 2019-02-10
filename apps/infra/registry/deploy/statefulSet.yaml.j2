@@ -5,23 +5,33 @@ metadata:
   namespace: default
   labels:
     app: registry
+    app-component: registry
 spec:
   selector:
     matchLabels:
       app: registry
+      app-component: registry
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: registry
+        app-component: registry
     spec:
       containers:
-      - image: registry:2
+      - image: registry:2.5.2
         name: registry
         ports:
         - containerPort: 5000
           name: registry
+        resources:
+          requests:
+            cpu: "{{ registry_requests_cpu | default("100m") }}"
+            memory: "{{ registry_requests_memory | default("64Mi") }}"
+          limits:
+            cpu: "{{ registry_limits_cpu | default("200m") }}"
+            memory: "{{ registry_limits_memory | default("64Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -45,3 +55,4 @@ spec:
       selector:
         matchLabels:
           app: registry
+          app-component: registry

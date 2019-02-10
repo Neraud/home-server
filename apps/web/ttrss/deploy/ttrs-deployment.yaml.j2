@@ -5,21 +5,21 @@ metadata:
   namespace: default
   labels:
     app: ttrss
-    tier: frontend
+    app-component: ttrss
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
       app: ttrss
-      tier: frontend
+      app-component: ttrss
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: ttrss
-        tier: frontend
+        app-component: ttrss
     spec:
       containers:
       - image: linuxserver/tt-rss
@@ -36,6 +36,13 @@ spec:
         ports:
         - containerPort: 80
           name: ttrss
+        resources:
+          requests:
+            cpu: "{{ ttrss_ttrss_requests_cpu | default("100m") }}"
+            memory: "{{ ttrss_ttrss_requests_memory | default("32Mi") }}"
+          limits:
+            cpu: "{{ ttrss_ttrss_limits_cpu | default("200m") }}"
+            memory: "{{ ttrss_ttrss_limits_memory | default("32Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

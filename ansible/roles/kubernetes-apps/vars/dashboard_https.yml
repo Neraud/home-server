@@ -1,9 +1,0 @@
----
-
-kubernetes_dashboard_container_port: 8443
-
-kubernetes_dashboard_container_args:
-  - "--auto-generate-certificates"
-
-kubernetes_dashboard_service_proto: "HTTPS"
-kubernetes_dashboard_service_port: 443

@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: nodered
   namespace: default
+  labels:
+    app: nodered
 spec:
   rules:
   - host: home.{{ web_base_domain }}

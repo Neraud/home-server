@@ -4,7 +4,8 @@ metadata:
   name: kube-dns-prometheus-discovery
   namespace: kube-system
   labels:
-    k8s-app: kube-dns
+    app: kube-dns
+    app-component: kube-dns
     prometheus-target: kube-dns
 spec:
   selector:

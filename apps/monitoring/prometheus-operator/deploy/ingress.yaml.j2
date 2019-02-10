@@ -3,18 +3,20 @@ kind: Ingress
 metadata:
   name: prometheus
   namespace: monitoring
+  labels:
+    app: prometheus
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:
   rules:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: /prometheus
+        - path: /prometheus/?(.*)
           backend:
             serviceName: prometheus-k8s
             servicePort: 9090
-        - path: /alertmanager
+        - path: /alertmanager/?(.*)
           backend:
             serviceName: alertmanager-main
             servicePort: 9093
