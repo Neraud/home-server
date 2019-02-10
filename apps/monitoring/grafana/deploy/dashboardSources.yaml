@@ -3,6 +3,9 @@ kind: ConfigMap
 metadata:
   name: grafana-dashboards
   namespace: monitoring
+  labels:
+    app: grafana
+    app-component: grafana
 data:
   dashboards.yaml: |-
     {

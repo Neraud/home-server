@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    k8s-app: node-exporter
+    app: node-exporter
   name: node-exporter
   namespace: monitoring
 spec:
@@ -16,5 +16,4 @@ spec:
   jobLabel: k8s-app
   selector:
     matchLabels:
-      k8s-app: node-exporter
       prometheus-target: node-exporter

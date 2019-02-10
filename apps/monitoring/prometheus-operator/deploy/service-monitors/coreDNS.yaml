@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    k8s-app: coredns
+    app: coredns
   name: coredns
   namespace: monitoring
 spec:

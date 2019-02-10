@@ -3,6 +3,9 @@ kind: Secret
 metadata:
   name: grafana-datasources
   namespace: monitoring
+  labels:
+    app: grafana
+    app-component: grafana
 type: Opaque
 data:
   prometheus.yaml: {{ lookup('file', kubernetes_app_root_path + '/monitoring/grafana/config/datasources/prometheus.yaml') | b64encode }}

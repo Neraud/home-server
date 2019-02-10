@@ -67,15 +67,15 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: prometheus-k8s
-      tier: frontend
-  grafana-frontend:
+      app-component: prometheus
+  grafana-data:
     capacity: 1G
     reclaim_policy: Retain
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/grafana-frontend
+    mount_path: /opt/kubernetes_storage/grafana-data
     labels:
       app: grafana
-      tier: frontend
+      app-component: grafana
   elasticsearch-data:
     capacity: 10G
     reclaim_policy: Retain

@@ -4,6 +4,8 @@ metadata:
   name: prometheus-k8s-custom-rules
   namespace: monitoring
   labels:
+    app: prometheus
+    app-component: prometheus
     prometheus: k8s
     role: alert-rules
 spec:

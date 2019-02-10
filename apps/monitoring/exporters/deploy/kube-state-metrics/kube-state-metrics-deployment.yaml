@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: kube-state-metrics
+    app-component: kube-state-metrics
   name: kube-state-metrics
   namespace: monitoring
 spec:
@@ -10,16 +11,20 @@ spec:
   selector:
     matchLabels:
       app: kube-state-metrics
+      app-component: kube-state-metrics
   template:
     metadata:
       labels:
         app: kube-state-metrics
+        app-component: kube-state-metrics
     spec:
       containers:
       - args:
+        - --logtostderr
         - --secure-listen-address=:8443
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
         - --upstream=http://127.0.0.1:8081/
-        image: quay.io/coreos/kube-rbac-proxy:v0.4.0
+        image: quay.io/coreos/kube-rbac-proxy:v0.4.1
         name: kube-rbac-proxy-main
         ports:
         - containerPort: 8443
@@ -32,9 +37,11 @@ spec:
             cpu: 10m
             memory: 20Mi
       - args:
+        - --logtostderr
         - --secure-listen-address=:9443
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
         - --upstream=http://127.0.0.1:8082/
-        image: quay.io/coreos/kube-rbac-proxy:v0.4.0
+        image: quay.io/coreos/kube-rbac-proxy:v0.4.1
         name: kube-rbac-proxy-self
         ports:
         - containerPort: 9443
@@ -51,7 +58,7 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: quay.io/coreos/kube-state-metrics:v1.4.0
+        image: quay.io/coreos/kube-state-metrics:v1.5.0
         name: kube-state-metrics
         resources:
           limits:
