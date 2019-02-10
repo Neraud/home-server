@@ -5,11 +5,11 @@ metadata:
   namespace: default
   labels:
     app: plex
-    tier: frontend
+    app-component: plex
 spec:
   ports:
   - port: 80
     targetPort: 32400
   selector:
     app: plex
-    tier: frontend
+    app-component: plex

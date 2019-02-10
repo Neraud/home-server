@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: plex
   namespace: default
+  labels:
+    app: plex
 spec:
   rules:
   - host: plex.{{ web_base_domain }}

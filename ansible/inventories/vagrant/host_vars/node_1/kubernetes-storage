@@ -34,12 +34,12 @@ kubernetes_local_storage:
       app: airsonic
       app-component: airsonic
       storage: podcasts
-  plex-frontend:
+  plex-data:
     capacity: 2G
     reclaim_policy: Retain
     labels:
       app: plex
-      tier: frontend
+      app-component: plex
   gitlab-config:
     capacity: 8M
     filesystem: ext4
