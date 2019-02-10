@@ -5,6 +5,7 @@ metadata:
   namespace: logging
   labels:
     app: fluentd
+    app-component: fluentd
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
@@ -12,10 +13,12 @@ spec:
   selector:
     matchLabels:
       app: fluentd
+      app-component: fluentd
   template:
     metadata:
       labels:
         app: fluentd
+        app-component: fluentd
     spec:
       containers:
       - name: fluentd
@@ -31,11 +34,12 @@ spec:
           - name: FLUENT_ELASTICSEARCH_SCHEME
             value: "http"
         resources:
-          limits:
-            memory: 200Mi
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: "{{ fluentd_requests_cpu | default("100m") }}"
+            memory: "{{ fluentd_requests_memory | default("200Mi") }}"
+          limits:
+            cpu: "{{ fluentd_limits_cpu | default("500m") }}"
+            memory: "{{ fluentd_limits_memory | default("200Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
