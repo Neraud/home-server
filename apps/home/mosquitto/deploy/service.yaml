@@ -5,10 +5,9 @@ metadata:
   namespace: default
   labels:
     app: mosquitto
-    tier: backend
 spec:
   ports:
   - port: 1883
   selector:
     app: mosquitto
-    tier: backend
+    app-component: mosquitto
