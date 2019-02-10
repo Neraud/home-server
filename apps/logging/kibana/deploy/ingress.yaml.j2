@@ -6,13 +6,13 @@ metadata:
   labels:
     app: kibana
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:
   rules:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ logging_kibana_context_path | default('kibana') }}
+        - path: {{ logging_kibana_context_path | default('kibana') }}/?(.*)
           backend:
             serviceName: kibana
             servicePort: 5601
