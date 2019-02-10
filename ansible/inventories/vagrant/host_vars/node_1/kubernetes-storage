@@ -18,22 +18,22 @@ kubernetes_local_storage:
     reclaim_policy: Retain
     labels:
       app: airsonic
-      tier: frontend
-      detail: data
+      app-component: airsonic
+      storage: data
   airsonic-playlists:
     capacity: 256M
     reclaim_policy: Retain
     labels:
       app: airsonic
-      tier: frontend
-      detail: playlists
+      app-component: airsonic
+      storage: playlists
   airsonic-podcasts:
     capacity: 1G
     reclaim_policy: Retain
     labels:
       app: airsonic
-      tier: frontend
-      detail: podcasts
+      app-component: airsonic
+      storage: podcasts
   plex-frontend:
     capacity: 2G
     reclaim_policy: Retain

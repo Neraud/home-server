@@ -5,22 +5,22 @@ metadata:
   namespace: default
   labels:
     app: airsonic
-    tier: frontend
+    app-component: airsonic
 spec:
   selector:
     matchLabels:
       app: airsonic
-      tier: frontend
+      app-component: airsonic
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: airsonic
-        tier: frontend
+        app-component: airsonic
     spec:
       containers:
-      - image: airsonic/airsonic
+      - image: airsonic/airsonic:10.1.2-RELEASE
         name: airsonic
         ports:
         - containerPort: 4040
@@ -34,6 +34,13 @@ spec:
         - name: JAVA_OPTS
           value: "{{ airsonic_extra_java_opts | join(' ') }}"
 {% endif %}
+        resources:
+          requests:
+            cpu: "{{ airsonic_requests_cpu | default("250m") }}"
+            memory: "{{ airsonic_requests_memory | default("512Mi") }}"
+          limits:
+            cpu: "{{ airsonic_limits_cpu | default("500m") }}"
+            memory: "{{ airsonic_limits_memory | default("512Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -64,8 +71,8 @@ spec:
       selector:
         matchLabels:
           app: airsonic
-          tier: frontend
-          detail: data
+          app-component: airsonic
+          storage: data
   - metadata:
       name: airsonic-playlists-pv-claim
     spec:
@@ -77,5 +84,5 @@ spec:
       selector:
         matchLabels:
           app: airsonic
-          tier: frontend
-          detail: playlists
+          app-component: airsonic
+          storage: playlists
