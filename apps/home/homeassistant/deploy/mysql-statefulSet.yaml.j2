@@ -47,10 +47,10 @@ spec:
           mountPath: /var/lib/mysql
         resources:
           requests:
-            cpu: "{{ homeassistant_mysql_requests_cpu | default("500m") }}"
+            cpu: "{{ homeassistant_mysql_requests_cpu | default("250m") }}"
             memory: "{{ homeassistant_mysql_requests_memory | default("512Mi") }}"
           limits:
-            cpu: "{{ homeassistant_mysql_limits_cpu | default("1000m") }}"
+            cpu: "{{ homeassistant_mysql_limits_cpu | default("500m") }}"
             memory: "{{ homeassistant_mysql_limits_memory | default("512Mi") }}"
       volumes:
       - name: tz-config
