@@ -15,14 +15,14 @@ kubernetes_local_storage:
     labels:
       app: homeassistant
       app-component: mysql
-  nodered-frontend:
+  nodered-data:
     capacity: 1G
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/nodered-frontend
+    mount_path: /opt/kubernetes_storage/nodered-data
     reclaim_policy: Retain
     labels:
       app: nodered
-      tier: frontend
+      app-component: nodered
   mosquitto-config:
     capacity: 16M
     filesystem: ext4

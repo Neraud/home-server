@@ -5,26 +5,33 @@ metadata:
   namespace: default
   labels:
     app: nodered
-    tier: frontend
+    app-component: nodered
 spec:
   selector:
     matchLabels:
       app: nodered
-      tier: frontend
+      app-component: nodered
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: nodered
-        tier: frontend
+        app-component: nodered
     spec:
       containers:
-      - image: nodered/node-red-docker:slim-v8
+      - image: nodered/node-red-docker:0.19.5-slim-v8
         name: nodered
         ports:
         - containerPort: 1880
           name: nodered
+        resources:
+          requests:
+            cpu: "{{ nodered_requests_cpu | default("250m") }}"
+            memory: "{{ nodered_requests_memory | default("256Mi") }}"
+          limits:
+            cpu: "{{ nodered_limits_cpu | default("500m") }}"
+            memory: "{{ nodered_limits_memory | default("256Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -50,4 +57,4 @@ spec:
       selector:
         matchLabels:
           app: nodered
-          tier: frontend
+          app-component: nodered

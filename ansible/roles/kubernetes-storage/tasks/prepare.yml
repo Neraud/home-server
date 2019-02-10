@@ -9,7 +9,7 @@
   tags: kubernetes-app-home-homeassistant
 
 - include_tasks: apps/home-nodered.yml
-  when: "'nodered-frontend' in kubernetes_local_storage"
+  when: "'nodered-data' in kubernetes_local_storage"
   tags: kubernetes-app-home-nodered
 
 - include_tasks: apps/home-mosquitto.yml

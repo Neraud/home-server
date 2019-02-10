@@ -5,11 +5,10 @@ metadata:
   namespace: default
   labels:
     app: nodered
-    tier: frontend
 spec:
   ports:
   - port: 80
     targetPort: 1880
   selector:
     app: nodered
-    tier: frontend
+    app-component: nodered

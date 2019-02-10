@@ -2,7 +2,7 @@
 
 - name: Set mount path
   set_fact:
-    nodered_mount_path: "{{ kubernetes_local_storage['nodered-frontend']['mount_path'] }}"
+    nodered_mount_path: "{{ kubernetes_local_storage['nodered-data']['mount_path'] }}"
 
 - name: Check if Node-RED is already configured
   stat:
