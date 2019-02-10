@@ -5,6 +5,7 @@ metadata:
   namespace: logging
   labels:
     app: fluent-bit
+    app-component: fluent-bit
     prometheus-target: fluent-bit
 spec:
   ports:
@@ -12,4 +13,5 @@ spec:
     name: metrics
     targetPort: metrics
   selector:
-    k8s-app: fluent-bit-logging
+    app: fluent-bit
+    app-component: fluent-bit
