@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+import urllib.request
+import json
+import re
+import os
+import shutil
+
+kibana_root_url = "{{ logging_kibana_internal_url }}"
+output_dir = "{{ logging_kibana_export_saved_output_dir }}"
+
+types = [ "visualization", "dashboard", "search", "index-pattern", "timelion-sheet" ] 
+
+shutil.rmtree(output_dir, True)
+os.makedirs(output_dir)
+
+def saveType(type):    
+    print("Listing " + type)
+    with urllib.request.urlopen(kibana_root_url + "/api/saved_objects/_find?type=" + type + "&per_page=100") as url:
+        data = json.loads(url.read().decode())
+        for savedObject in data['saved_objects']:
+            title = savedObject['attributes']['title']
+            print(" - " + title)
+            cleanedTitle = re.sub(r'\W+', '-', title)
+            cleanedTitle = re.sub(r'^-', '', cleanedTitle)
+            cleanedTitle = re.sub(r'-$', '', cleanedTitle)
+            fileName = type + '_' + cleanedTitle + ".json"
+            exportString = json.dumps(savedObject, sort_keys=True, indent=4, separators=(',', ': '))
+            f = open(output_dir + "/" + fileName, "w")
+            f.write(exportString)
+
+for type in types:
+    saveType(type)
