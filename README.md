@@ -149,7 +149,14 @@ You can test the 'E' part of the EFK stack by calling : https://infra.k8stest.co
 
 ### Kibana
 
-Kibana is installed and configured to read data from ElasticSearch
+Kibana is installed and configured to read data from ElasticSearch.
+Saved Objects (sources, visualizations, dashboards) are loaded from the `apps/logging/kibana/config` folder.
+
+To add new objects, you can :
+
+* configure them via the Kibana web application
+* export them using the `kibana_sav_objects.py` script
+* save the json files under the `apps/logging/kibana/config` folder
 
 ### Unifi Controller
 

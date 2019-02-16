@@ -35,3 +35,5 @@ gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}
 logging_elasticsearch_replicas: 1
 
 logging_kibana_context_path: /kibana
+logging_kibana_valid_certs: False
+logging_kibana_export_saved_output_dir: "/vagant/kibana_saved_objects"

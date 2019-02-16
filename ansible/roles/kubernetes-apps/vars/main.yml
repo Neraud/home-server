@@ -1,3 +1,6 @@
 ---
 
 kubernetes_app_root_path: "{{ playbook_dir }}/../apps"
+
+# Bypass the public URL to avoid auhentications
+logging_kibana_internal_url: "http://infra.{{ web_base_domain }}:{{ kubernetes_ingress_http_port }}{{ logging_kibana_context_path }}"
