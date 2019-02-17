@@ -12,6 +12,9 @@
 - import_tasks: apps/infra-unifi.yml
   tags: kubernetes-app-infra-unifi
 
+- import_tasks: apps/auth-openldap.yml
+  tags: kubernetes-app-auth-openldap
+
 - import_tasks: apps/monitoring-kubernetes.yml
   tags: kubernetes-app-monitoring-kubernetes
 

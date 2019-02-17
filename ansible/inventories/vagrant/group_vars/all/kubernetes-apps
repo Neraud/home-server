@@ -3,6 +3,12 @@
 # Unifi private services exposed on Node_1
 unifi_private_ip: 192.168.100.11
 
+openldap_ldap_organisation: "{{ domain_name }}"
+openldap_ldap_domain: "{{ web_base_domain }}"
+openldap_ldap_basedn: "dc=k8stest,dc=com"
+openldap_ldap_admin_password: Passw0rd
+openldap_ldap_config_password: Passw0rd
+
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss
