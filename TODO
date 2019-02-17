@@ -1,4 +1,8 @@
 
+* NGinx Ingress
+    * X-Forwarded-* headers set by the ReverseProxy seem to be overwritten by the ingress
+        Can be tested with https://infra.k8stest.com/phpldapadmin/cmd.php?cmd=login_form&server_id=1
+
 * Registry
     * Check how to purge old images
 
