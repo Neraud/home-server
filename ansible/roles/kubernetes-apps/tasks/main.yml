@@ -15,6 +15,9 @@
 - import_tasks: apps/auth-openldap.yml
   tags: kubernetes-app-auth-openldap
 
+- import_tasks: apps/auth-phpldapadmin.yml
+  tags: kubernetes-app-auth-phpldapadmin
+
 - import_tasks: apps/monitoring-kubernetes.yml
   tags: kubernetes-app-monitoring-kubernetes
 

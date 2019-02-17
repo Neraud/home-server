@@ -25,6 +25,8 @@ openldap_ldap_readonly_user_enabled: False
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: readonly
 
+phpldapadmin_bind: "cn=admin,{{ openldap_ldap_basedn }}"
+
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss

@@ -9,6 +9,8 @@ openldap_ldap_basedn: "dc=k8stest,dc=com"
 openldap_ldap_admin_password: Passw0rd
 openldap_ldap_config_password: Passw0rd
 
+phpldapadmin_bind: "cn=admin,{{ openldap_ldap_basedn }}"
+
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss

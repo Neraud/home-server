@@ -1,0 +1,27 @@
+PHPLDAPADMIN_LDAP_HOSTS:
+  - openldap:
+    - server:
+      # http://phpldapadmin.sourceforge.net/wiki/index.php/Server:server:host
+      - host: ldaps://openldap:636
+      - tls: false
+      - port: 0
+    - login:
+      - bind_id: {{ phpldapadmin_bind }}
+      - bind_pass: {{ openldap_ldap_admin_password }}
+
+PHPLDAPADMIN_LDAP_HOSTS_FRIENDLY:
+  - OpenLDAP Auth:
+    - server:
+      - host: openldap
+
+# LDAP client tls config
+PHPLDAPADMIN_LDAP_CLIENT_TLS: true
+PHPLDAPADMIN_LDAP_CLIENT_TLS_REQCERT: allow
+PHPLDAPADMIN_LDAP_CLIENT_TLS_CA_CRT_FILENAME: ../server-certs/ca.crt
+PHPLDAPADMIN_LDAP_CLIENT_TLS_CRT_FILENAME: ldap-client.crt
+PHPLDAPADMIN_LDAP_CLIENT_TLS_KEY_FILENAME: ldap-client.key
+
+# ssl-helper environment variables prefix
+LDAP_CLIENT_SSL_HELPER_PREFIX: ldap # ssl-helper first search config from LDAP_SSL_HELPER_* variables, before SSL_HELPER_* variables.
+
+SSL_HELPER_AUTO_RENEW_SERVICES_IMPACTED: :apache2 :php7.0-fpm

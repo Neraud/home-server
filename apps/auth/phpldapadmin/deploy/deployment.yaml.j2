@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpldapadmin
+  namespace: default
+  labels:
+    app: phpldapadmin
+    app-component: phpldapadmin
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpldapadmin
+      app-component: phpldapadmin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: phpldapadmin
+        app-component: phpldapadmin
+    spec:
+      containers:
+      - image: osixia/phpldapadmin:0.7.2
+        name: phpldapadmin
+        ports:
+          - containerPort: 80
+        resources:
+          requests:
+            cpu: "{{ phpldapadmin_requests_cpu | default("100m") }}"
+            memory: "{{ phpldapadmin_requests_memory | default("128Mi") }}"
+          limits:
+            cpu: "{{ phpldapadmin_limits_cpu | default("200m") }}"
+            memory: "{{ phpldapadmin_limits_memory | default("128Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: config-volume
+          mountPath: /container/environment/01-custom
+        - name: certs-volume
+          # workaround : the container chown the /container/service/ldap-client/assets/certs folder, so we can't mount a secret directly inside it
+          mountPath: /container/service/ldap-client/assets/server-certs/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: config-volume
+        secret:
+          secretName: phpldapadmin-config
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
+      nodeSelector:
+        capability/general-purpose: 'yes'

@@ -89,6 +89,7 @@ The folowing services are deployed :
 | ---------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | https://infra.k8stest.com/kube          | Kubernetes dashboard                          |
 | [OpenLDAP](https://www.openldap.org/)                            | -                                       | Open source Lightweight Directory Access Protocol |
+| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | https://infra.k8stest.com/phpldapadmin/ | Web-based LDAP browser                        |
 | [Prometheus](https://prometheus.io/)                             | https://infra.k8stest.com/prometheus/   | Monitoring solution                           |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | https://infra.k8stest.com/alertmanager/ | Alert manager for Prometheus                  |
 | [Grafana](https://grafana.com/)                                  | https://infra.k8stest.com/grafana/      | Platform for beautiful analytics and monitoring  |
@@ -166,6 +167,10 @@ To test the LDAP connection, you can use :
     }
 }'
 ```
+
+### phpLDAPadmin
+
+You can login using the `admin`/`Passw0rd` account to manage the LDAP.
 
 ### Prometheus & AlertManager
 

@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: phpldapadmin
+  namespace: default
+  labels:
+    app: phpldapadmin
+spec:
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: /phpldapadmin
+        backend:
+          serviceName: phpldapadmin
+          servicePort: 80
