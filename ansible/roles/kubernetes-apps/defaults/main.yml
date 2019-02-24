@@ -19,13 +19,17 @@ kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 openldap_ldap_organisation: Example Inc.
 openldap_ldap_domain: example.org
 openldap_ldap_basedn: "dc=example,dc=org" #if empty automatically set from LDAP_DOMAIN
+openldap_ldap_admin_dn: "cn=admin,{{ openldap_ldap_basedn }}"
 openldap_ldap_admin_password: admin
 openldap_ldap_config_password: config
 openldap_ldap_readonly_user_enabled: False
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: readonly
 
-phpldapadmin_bind: "cn=admin,{{ openldap_ldap_basedn }}"
+
+phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
+phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
+
 
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss

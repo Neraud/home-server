@@ -6,8 +6,8 @@ PHPLDAPADMIN_LDAP_HOSTS:
       - tls: true
       - port: 389
     - login:
-      - bind_id: {{ phpldapadmin_bind }}
-      - bind_pass: {{ openldap_ldap_admin_password }}
+      - bind_id: {{ phpldapadmin_bind_id }}
+      - bind_pass: {{ phpldapadmin_bind_password }}
 
 PHPLDAPADMIN_LDAP_HOSTS_FRIENDLY:
   - OpenLDAP Auth:

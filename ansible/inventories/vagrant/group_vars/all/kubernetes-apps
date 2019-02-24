@@ -6,10 +6,17 @@ unifi_private_ip: 192.168.100.11
 openldap_ldap_organisation: "{{ domain_name }}"
 openldap_ldap_domain: "{{ web_base_domain }}"
 openldap_ldap_basedn: "dc=k8stest,dc=com"
+openldap_ldap_group_basedn: "ou=groups,{{ openldap_ldap_basedn }}"
 openldap_ldap_admin_password: Passw0rd
 openldap_ldap_config_password: Passw0rd
+openldap_ldap_readonly_user_enabled: True
+openldap_ldap_readonly_user_username: readonly
+openldap_ldap_readonly_user_password: Passw0rd
 
-phpldapadmin_bind: "cn=admin,{{ openldap_ldap_basedn }}"
+
+phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
+phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
+
 
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
