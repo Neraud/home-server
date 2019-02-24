@@ -30,10 +30,10 @@ spec:
         resources:
           requests:
             cpu: "{{ phpldapadmin_requests_cpu | default("100m") }}"
-            memory: "{{ phpldapadmin_requests_memory | default("128Mi") }}"
+            memory: "{{ phpldapadmin_requests_memory | default("256Mi") }}"
           limits:
             cpu: "{{ phpldapadmin_limits_cpu | default("200m") }}"
-            memory: "{{ phpldapadmin_limits_memory | default("128Mi") }}"
+            memory: "{{ phpldapadmin_limits_memory | default("256Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
