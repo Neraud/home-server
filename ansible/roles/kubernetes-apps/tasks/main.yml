@@ -18,6 +18,9 @@
 - import_tasks: apps/auth-phpldapadmin.yml
   tags: kubernetes-app-auth-phpldapadmin
 
+- import_tasks: apps/auth-lemonldap.yml
+  tags: kubernetes-app-auth-lemonldap
+
 - import_tasks: apps/monitoring-kubernetes.yml
   tags: kubernetes-app-monitoring-kubernetes
 

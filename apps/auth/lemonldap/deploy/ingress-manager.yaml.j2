@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lemonldap-manager
+  namespace: default
+  labels:
+    app: lemonldap
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    nginx.ingress.kubernetes.io/upstream-vhost: manager.{{ web_base_domain }}
+spec:
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: /lemonldap/manager/?(.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80
+      - path: /(manager.fcgi.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80
+      - path: /(static/bwr/.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80
+      - path: /(doc/.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80
+      - path: /(diff/.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80

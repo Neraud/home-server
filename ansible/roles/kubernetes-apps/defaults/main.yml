@@ -49,6 +49,17 @@ openldap_ldap_structure_groups_ou_dn: "ou=groups,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
 
+lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
+lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+
+lemonldap_smtp_host: "smtp.gmail.com"
+lemonldap_smtp_port: 587
+lemonldap_smtp_user: ""
+lemonldap_smtp_password: ""
+lemonldap_smtp_tls: starttls
+lemonldap_smtp_from: ""
+lemonldap_smtp_replyTo: ""
 
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss

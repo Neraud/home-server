@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lemonldap
+  namespace: default
+  labels:
+    app: lemonldap
+    app-component: lemonldap
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lemonldap
+      app-component: lemonldap
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: lemonldap
+        app-component: lemonldap
+    spec:
+      containers:
+      - name: lemonldap
+        # TODO use official image once it's updated to 2.X
+        #image: coudot/lemonldap-ng:1.9.18
+        image: {{ kubernetes_registry_url }}/lemonldap-ng
+        ports:
+          - containerPort: 80
+        env:
+          - name: SSODOMAIN
+            value: "{{ web_base_domain }}"
+        resources:
+          requests:
+            cpu: "{{ lemonldap_requests_cpu | default("100m") }}"
+            memory: "{{ lemonldap_requests_memory | default("256Mi") }}"
+          limits:
+            cpu: "{{ lemonldap_limits_cpu | default("200m") }}"
+            memory: "{{ lemonldap_limits_memory | default("256Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: config-volume
+          mountPath: /etc/lemonldap-ng/lemonldap-ng.ini
+          subPath: lemonldap-ng.ini
+        - name: config-volume
+          mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
+          subPath: lmConf.json
+        - name: certs-volume
+          mountPath: /var/lib/lemonldap-ng/server-certs/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: config-volume
+        configMap:
+          name: lemonldap
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
+      nodeSelector:
+        capability/general-purpose: 'yes'

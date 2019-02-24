@@ -1,0 +1,79 @@
+---
+
+######################################################################################
+# TODO Workaround while waiting for the official docker image to be updated to 2.0.X #
+######################################################################################
+- name: Clone LemonLDAP Docker repo
+  git:
+    dest: /opt/lemonldap-ng-docker
+    repo: https://github.com/LemonLDAPNG/lemonldap-ng-docker
+    force: yes
+
+- name: Override version
+  copy:
+    dest: /opt/lemonldap-ng-docker/lemonldap-ng.list
+    content: |
+      # LemonLDAP::NG repository
+      deb     https://lemonldap-ng.org/deb stable main
+      deb-src https://lemonldap-ng.org/deb stable main
+
+- name: Override apt-get list
+  lineinfile:
+    path: /opt/lemonldap-ng-docker/Dockerfile
+    state: present
+    regexp: " && apt-get -y install apache2 libapache2-mod-perl2 libapache2-mod-fcgid lemonldap-ng lemonldap-ng-fr-doc \\\\"
+    line: " && apt-get -y install apache2 libapache2-mod-perl2 libapache2-mod-fcgid lemonldap-ng libyaml-libyaml-perl\\"
+
+- name: Override sed in conf
+  lineinfile:
+    path: /opt/lemonldap-ng-docker/Dockerfile
+    state: absent
+    regexp: "/var/lib/lemonldap-ng/conf/lmConf-1.js"
+
+
+- name: Override sed in entrypoint
+  copy:
+      dest: /opt/lemonldap-ng-docker/docker-entrypoint.sh
+      content:  |
+        #!/bin/bash
+
+        if [ "$SSODOMAIN" != 'example.com' ]; then
+            echo "Work in progress $SSODOMAIN"
+        fi
+
+        echo "ServerName $SSODOMAIN" >> /etc/apache2/apache2.conf
+
+        sed -i "s/example\.com/${SSODOMAIN}/g" /etc/lemonldap-ng/*.ini
+        sed -i "s/example\.com/${SSODOMAIN}/g" /etc/lemonldap-ng/*.conf
+        sed -i "s/example\.com/${SSODOMAIN}/g" /var/lib/lemonldap-ng/conf/lmConf-1.js*
+        sed -i "s/example\.com/${SSODOMAIN}/g" /var/lib/lemonldap-ng/test/index.pl
+
+        find /etc/apache2/sites-available/ -name '*.conf' ! -name '000-default.conf' \
+            -exec ln -sf {} /etc/apache2/sites-enabled/ \;
+        find /vhosts/ -name '*.conf' \
+            -exec ln -sf {} /etc/apache2/sites-enabled/ \;
+
+        exec "$@"
+
+  # TODO not idempotent
+  # Push always registers a change : https://github.com/ansible/ansible/issues/25040
+  # And build doesn't update an existing image without force=yes ...
+- name: Build and push LemonLDAP Docker image
+  docker_image:
+    path: "/opt/lemonldap-ng-docker"
+    name: "{{ kubernetes_registry_url }}/lemonldap-ng"
+    force: yes
+    push: yes
+
+######################################################################################
+# TODO Workaround while waiting for the official docker image to be updated to 2.0.X #
+######################################################################################
+
+- name: Deploy LemonLDAP
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/auth/lemonldap/deploy/*.yaml*"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

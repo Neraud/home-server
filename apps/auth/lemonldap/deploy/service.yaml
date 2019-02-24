@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lemonldap
+  namespace: default
+  labels:
+    app: lemonldap
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: lemonldap
+    app-component: lemonldap

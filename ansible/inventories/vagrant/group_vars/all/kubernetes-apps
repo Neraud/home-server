@@ -28,6 +28,14 @@ openldap_ldap_groups:
 phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
 
+lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
+lemonldap_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
+lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+
+#lemonldap_smtp_user: whatever@gmail.com
+#lemonldap_smtp_password: todo
+#lemonldap_smtp_from: "{{ lemonldap_smtp_user }}"
+#lemonldap_smtp_replyTo: "{{ lemonldap_smtp_user }}"
 
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
