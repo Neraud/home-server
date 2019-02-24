@@ -1,5 +1,11 @@
 ---
 
+- name: Install python dependencies
+  apt:
+    pkg:
+    - python-ldap
+    - python-passlib
+    state: present
 
 - name: Ensure directory exists for local self-signed TLS certs
   file:
@@ -71,3 +77,144 @@
     - "{{ kubernetes_app_root_path }}/auth/openldap/deploy/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
+
+- name: Fetch openldap internal endpoint
+  k8s_facts:
+    api_version: v1
+    kind: Service
+    name: openldap
+    namespace: default
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  register: openldap_service
+
+- name: Set openldap internal endpoint
+  set_fact:
+    openldap_internal_uri: "ldap://{{ openldap_service.resources[0].spec.clusterIP }}"
+
+- name: Wait for OpenLDAP to be available
+  wait_for:
+    host: "{{ openldap_service.resources[0].spec.clusterIP }}"
+    port: 389
+    sleep: 5
+    timeout: 300
+  register: wait_for_openldap_result
+
+# When the container starts, the port may be open but the OpenLDAP service might not be available yet, so we wait a bit more
+# TODO : find a better way to detect that OpenLDAP is available
+- name: Wait for OpenLDAP to be really available
+  wait_for:
+    timeout: 30
+  when: wait_for_openldap_result.elapsed > 0
+
+- name: Create LDAP base OUs
+  ldap_entry:
+    server_uri: "{{ openldap_internal_uri }}"
+    bind_dn: "{{ openldap_ldap_admin_dn }}"
+    bind_pw: "{{ openldap_ldap_admin_password }}"
+    start_tls: yes
+    validate_certs: no
+    dn: "{{ item }}"
+    objectClass: organizationalUnit
+    state: present
+  with_items: 
+    - "{{ openldap_ldap_structure_users_ou_dn }}"
+    - "{{ openldap_ldap_structure_groups_ou_dn }}"
+
+- name: Create LDAP users
+  ldap_entry:
+    server_uri: "{{ openldap_internal_uri }}"
+    bind_dn: "{{ openldap_ldap_admin_dn }}"
+    bind_pw: "{{ openldap_ldap_admin_password }}"
+    start_tls: yes
+    validate_certs: no
+    dn: "cn={{ item.id }},{{ openldap_ldap_structure_users_ou_dn }}"
+    objectClass: inetOrgPerson
+    state: present
+    attributes:
+      sn: "{{ item.sn }}"
+  with_items: "{{ openldap_ldap_users | default([]) }}"
+  loop_control:
+    label: "{{ item.id }}"
+
+- name: Set LDAP users attributes
+  ldap_attr:
+    server_uri: "{{ openldap_internal_uri }}"
+    bind_dn: "{{ openldap_ldap_admin_dn }}"
+    bind_pw: "{{ openldap_ldap_admin_password }}"
+    start_tls: yes
+    validate_certs: no
+    dn: "cn={{ item.0.id }},{{ openldap_ldap_structure_users_ou_dn }}"
+    name: "{{ item.1.name }}"
+    values: "{{ item.0[item.1.key] }}"
+    state: exact
+  with_nested:
+     - "{{ openldap_ldap_users | default([]) }}"
+     - - name: displayName
+         key: displayName
+       - name: uid
+         key: id
+       - name: mail
+         key: email
+  loop_control:
+    label: "{{ item.0.id }} : {{ item.1.name }} = {{ item.0[item.1.key] }}"
+
+- name: Set LDAP users password
+  ldap_passwd:
+    server_uri: "{{ openldap_internal_uri }}"
+    bind_dn: "{{ openldap_ldap_admin_dn }}"
+    bind_pw: "{{ openldap_ldap_admin_password }}"
+    start_tls: yes
+    validate_certs: no
+    dn: "cn={{ item.id }},{{ openldap_ldap_structure_users_ou_dn }}"
+    passwd: "{{ item.password }}"
+  with_items: "{{ openldap_ldap_users | default([]) }}"
+  loop_control:
+    label: "{{ item.id }}"
+
+- name: Create LDAP groups
+  ldap_entry:
+    server_uri: "{{ openldap_internal_uri }}"
+    bind_dn: "{{ openldap_ldap_admin_dn }}"
+    bind_pw: "{{ openldap_ldap_admin_password }}"
+    start_tls: yes
+    validate_certs: no
+    dn: "cn={{ item.id }},{{ openldap_ldap_structure_groups_ou_dn }}"
+    objectClass: GroupOfNames
+    state: present
+    attributes:
+      member: ""
+  with_items: "{{ openldap_ldap_groups | default([]) }}"
+
+- name: Set LDAP groups attributes
+  ldap_attr:
+    server_uri: "{{ openldap_internal_uri }}"
+    bind_dn: "{{ openldap_ldap_admin_dn }}"
+    bind_pw: "{{ openldap_ldap_admin_password }}"
+    start_tls: yes
+    validate_certs: no
+    dn: "cn={{ item.0.id }},{{ openldap_ldap_structure_groups_ou_dn }}"
+    name: "{{ item.1.name }}"
+    values: "{{ item.0[item.1.key] }}"
+    state: exact
+  with_nested:
+     - "{{ openldap_ldap_groups | default([]) }}"
+     - - name: description
+         key: description
+  loop_control:
+    label: "{{ item.0.id }} : {{ item.1.name }} = {{ item.0[item.1.key] }}"
+
+- name: Set LDAP groups members
+  ldap_attr:
+    server_uri: "{{ openldap_internal_uri }}"
+    bind_dn: "{{ openldap_ldap_admin_dn }}"
+    bind_pw: "{{ openldap_ldap_admin_password }}"
+    start_tls: yes
+    validate_certs: no
+    dn: "cn={{ item.id }},{{ openldap_ldap_structure_groups_ou_dn }}"
+    name: "member"
+    values: "{{ item.members | map('regex_replace', '(.*)', 'cn=\\1,' + openldap_ldap_structure_users_ou_dn) | list }}"
+    state: exact
+  with_items: "{{ openldap_ldap_groups | default([]) }}"
+  loop_control:
+    label: "{{ item.id }} : {{ item.members }}"

@@ -13,6 +13,17 @@ openldap_ldap_readonly_user_enabled: True
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: Passw0rd
 
+openldap_ldap_users:
+  - id: user
+    sn: User
+    password: Passw0rd
+    email: user@mail.net
+    displayName: User
+openldap_ldap_groups:
+  - id: infra
+    description: Infra
+    members: 
+      - user
 
 phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"

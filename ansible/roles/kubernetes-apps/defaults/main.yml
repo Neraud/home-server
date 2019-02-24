@@ -26,6 +26,25 @@ openldap_ldap_readonly_user_enabled: False
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: readonly
 
+openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
+openldap_ldap_structure_groups_ou_dn: "ou=groups,{{ openldap_ldap_basedn }}"
+#openldap_ldap_users:
+#  - id: user1
+#    sn: User1
+#    password: clear_password1
+#    email: user1@mail.net
+#    displayName: User1
+#  - id: user2
+#    sn: User2
+#    password: clear_password2
+#    email: user2@mail.net
+#    displayName: User2
+#openldap_ldap_groups:
+#  - id: test_group
+#    description: Test group
+#    members: 
+#      - user1
+#      - user2
 
 phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
