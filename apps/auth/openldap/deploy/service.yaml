@@ -7,8 +7,8 @@ metadata:
     app: openldap
 spec:
   ports:
-  - port: 636
-    name: ldaps
+  - port: 389
+    name: ldap
   selector:
     app: openldap
     app-component: openldap

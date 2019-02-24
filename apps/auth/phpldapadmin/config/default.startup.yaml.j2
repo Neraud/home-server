@@ -2,9 +2,9 @@ PHPLDAPADMIN_LDAP_HOSTS:
   - openldap:
     - server:
       # http://phpldapadmin.sourceforge.net/wiki/index.php/Server:server:host
-      - host: ldaps://openldap:636
-      - tls: false
-      - port: 0
+      - host: ldap://openldap
+      - tls: true
+      - port: 389
     - login:
       - bind_id: {{ phpldapadmin_bind }}
       - bind_pass: {{ openldap_ldap_admin_password }}
