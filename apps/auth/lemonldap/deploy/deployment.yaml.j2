@@ -24,14 +24,23 @@ spec:
     spec:
       containers:
       - name: lemonldap
-        # TODO use official image once it's updated to 2.X
-        #image: coudot/lemonldap-ng:1.9.18
-        image: {{ kubernetes_registry_url }}/lemonldap-ng
+        image: tiredofit/lemonldap:2.0_alpine-1.2.1
         ports:
           - containerPort: 80
+            name: http
+          - containerPort: 2884
+            name: handler
         env:
-          - name: SSODOMAIN
+          - name: SETUP_TYPE
+            value: MANUAL
+          - name: DOMAIN_NAME
             value: "{{ web_base_domain }}"
+          - name: MANAGER_HOSTNAME
+            value: "infra.{{ web_base_domain }}"
+          - name: PORTAL_HOSTNAME
+            value: "auth.{{ web_base_domain }}"
+          - name: HANDLER_HOSTNAME
+            value: "reloader.{{ web_base_domain }}"
         resources:
           requests:
             cpu: "{{ lemonldap_requests_cpu | default("100m") }}"
