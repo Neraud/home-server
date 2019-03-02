@@ -41,6 +41,10 @@ spec:
             value: "auth.{{ web_base_domain }}"
           - name: HANDLER_HOSTNAME
             value: "reloader.{{ web_base_domain }}"
+          - name: ENABLE_ZABBIX
+            value: "FALSE"
+          - name: ENABLE_SMTP
+            value: "FALSE"
         resources:
           requests:
             cpu: "{{ lemonldap_requests_cpu | default("100m") }}"
