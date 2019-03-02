@@ -35,6 +35,25 @@ server {
 		{% if item.disable_robots %}
 	location /robots.txt { alias {{ nginx_default_disabled_robots_path }}; }
 		{% endif %}
+		
+		{% if item.lemonLdap is defined %}
+	# Internal authentication request
+	location = {{ item.lemonLdap.path | default("/lmauth") }} {
+		internal;
+		include /etc/nginx/fastcgi_params;
+		fastcgi_pass {{ item.lemonLdap.proxy_pass }};
+
+		# Drop post datas
+		fastcgi_pass_request_body  off;
+		fastcgi_param CONTENT_LENGTH "";
+
+		# Keep original hostname
+		fastcgi_param HOST $http_host;
+
+		# Keep original request (LLNG server will received {{ item.lemonLdap.path | default("/lmauth") }})
+		fastcgi_param X_ORIGINAL_URI  $request_uri;
+	}
+		{% endif %}
 			
 		{% for location in item.locations | default() %}
 	location {{ location.path }} {
@@ -57,6 +76,12 @@ server {
 		auth_basic "{{ location.auth_basic.name }}";
 		auth_basic_user_file {{ location.auth_basic.path }};
 		proxy_set_header Authorization "";
+			{% endif %}
+			{% if location.lemonLdap_protected | default(false) %}
+		auth_request {{ item.lemonLdap.path | default("/lmauth") }};
+		auth_request_set $lmremote_user $upstream_http_lm_remote_user;
+		auth_request_set $lmlocation $upstream_http_location;
+		error_page 401 $lmlocation;
 			{% endif %}
 			
 			{% if location.php_fpm_pool is defined %}
@@ -126,7 +151,26 @@ server {
 	{% if item.disable_robots %}
 	location /robots.txt { alias {{ nginx_default_disabled_robots_path }}; }
 	{% endif %}
-			
+
+	{% if item.lemonLdap is defined %}
+	# Internal authentication request
+	location = {{ item.lemonLdap.path | default("/lmauth") }} {
+		internal;
+		include /etc/nginx/fastcgi_params;
+		fastcgi_pass {{ item.lemonLdap.proxy_pass }};
+
+		# Drop post datas
+		fastcgi_pass_request_body  off;
+		fastcgi_param CONTENT_LENGTH "";
+
+		# Keep original hostname
+		fastcgi_param HOST $http_host;
+
+		# Keep original request (LLNG server will received {{ item.lemonLdap.path | default("/lmauth") }})
+		fastcgi_param X_ORIGINAL_URI  $request_uri;
+	}
+	{% endif %}
+
 		{% for location in item.locations | default() %}
 	location {{ location.path }} {
 			{% if location.root is defined %}
@@ -148,6 +192,12 @@ server {
 		auth_basic "{{ location.auth_basic.name }}";
 		auth_basic_user_file {{ location.auth_basic.path }};
 		proxy_set_header Authorization "";
+			{% endif %}
+			{% if location.lemonLdap_protected | default(false) %}
+		auth_request {{ item.lemonLdap.path | default("/lmauth") }};
+		auth_request_set $lmremote_user $upstream_http_lm_remote_user;
+		auth_request_set $lmlocation $upstream_http_location;
+		error_page 401 $lmlocation;
 			{% endif %}
 			
 			{% if location.php_fpm_pool is defined %}

@@ -8,6 +8,11 @@ nginx_upstreams:
       - 192.168.100.10:{{ kubernetes_ingress_http_port }}
       - 192.168.100.11:{{ kubernetes_ingress_http_port }}
       - 192.168.100.12:{{ kubernetes_ingress_http_port }}
+  - name: kubernetes-lemonldap-handler-ingress
+    servers:
+      - 192.168.100.10:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - 192.168.100.11:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - 192.168.100.12:{{ kubernetes_ingress_lemonLdap_handler_port }}
   - name: kubernetes-mqtt-ingress
     servers:
       - 192.168.100.10:{{ kubernetes_ingress_mqtt_port }}
@@ -45,11 +50,12 @@ nginx_sites:
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        auth_basic:
-          name: Test Auth Infra
-          path: /etc/nginx/htpasswd/htpasswd_test
+        lemonLdap_protected: True 
         proxy_pass: http://kubernetes-http-ingress
 
   - name: infra-unifi
@@ -66,11 +72,12 @@ nginx_sites:
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        auth_basic:
-          name: Test Auth Infra
-          path: /etc/nginx/htpasswd/htpasswd_test
+        lemonLdap_protected: True 
         proxy_pass: http://kubernetes-http-ingress
         proxy_enable_websocket: True
 
@@ -88,11 +95,12 @@ nginx_sites:
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        auth_basic:
-          name: Test Auth Web
-          path: /etc/nginx/htpasswd/htpasswd_test
+        lemonLdap_protected: True 
         proxy_pass: http://kubernetes-http-ingress
 
   - name: home
@@ -109,13 +117,14 @@ nginx_sites:
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
         proxy_pass: http://kubernetes-http-ingress
         proxy_enable_websocket: True
-        auth_basic:
-          name: Test Auth Home
-          path: /etc/nginx/htpasswd/htpasswd_test
+        lemonLdap_protected: True 
       # Disable Auth for HomeAssistant API
       - path: /api/
         proxy_enable_websocket: True
@@ -141,13 +150,14 @@ nginx_sites:
       cert_key_path: /etc/nginx/ssl/stream.{{ web_base_domain }}/server.key
     force_http_to_https: True
     disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
         proxy_pass: http://kubernetes-http-ingress
         proxy_enable_websocket: True
-        auth_basic:
-          name: Test Auth Streams
-          path: /etc/nginx/htpasswd/htpasswd_test
+        lemonLdap_protected: True 
 
   - name: streams-plex
     enabled_name: 410-stream-plex
@@ -178,13 +188,14 @@ nginx_sites:
       cert_key_path: /etc/nginx/ssl/dev.{{ web_base_domain }}/server.key
     force_http_to_https: True
     disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
         proxy_pass: http://kubernetes-http-ingress
         proxy_enable_websocket: True
-        auth_basic:
-          name: Test Auth Streams
-          path: /etc/nginx/htpasswd/htpasswd_test
+        lemonLdap_protected: True 
 
 nginx_streams:
   - name: home_mqtt
@@ -197,9 +208,3 @@ nginx_streams:
       cert_key_path: /etc/nginx/ssl/home.{{ web_base_domain }}/server.key
     proxy_pass: kubernetes-mqtt-ingress
 
-#password generated with : openssl passwd -apr1
-nginx_htpasswd: 
-  - path: /etc/nginx/htpasswd/htpasswd_test
-    credentials:
-      # user : Passw0rd
-      - user:$apr1$CQwNXUoa$pjHpzlRJHwM2iFrDP.tC8.

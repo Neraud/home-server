@@ -9,8 +9,6 @@ spec:
   ports:
   - port: 80
     name: http
-  - port: 2884
-    name: handler
   selector:
     app: lemonldap
     app-component: lemonldap

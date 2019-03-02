@@ -61,6 +61,14 @@ lemonldap_smtp_tls: starttls
 lemonldap_smtp_from: ""
 lemonldap_smtp_replyTo: ""
 
+lemonldap_location_rules:
+  - domain: "infra.{{ web_base_domain }}"
+    rules: 
+      default: accept
+  - domain: "web.{{ web_base_domain }}"
+    rules: 
+      default: accept
+
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss
