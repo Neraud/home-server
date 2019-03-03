@@ -47,10 +47,15 @@ spec:
           mountPath: /etc/localtime
         - name: ttrss-pgsql-pv-claim
           mountPath: /var/lib/postgresql
+        - name: ttrss-pgsql-init
+          mountPath: /docker-entrypoint-initdb.d/
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: ttrss-pgsql-init
+        configMap:
+          name: ttrss-pgsql-init
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
