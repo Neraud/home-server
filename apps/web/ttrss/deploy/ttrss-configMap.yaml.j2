@@ -27,14 +27,10 @@ data:
 
         location ~ \.php$ {
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
-          # With php5-cgi alone:
           fastcgi_pass 127.0.0.1:9000;
-          # With php5-fpm:
-          #fastcgi_pass unix:/var/run/php5-fpm.sock;
           fastcgi_index index.php;
           include /etc/nginx/fastcgi_params;
           {% if ttrss_context_root != "/" %}fastcgi_param SCRIPT_FILENAME $request_filename;{% endif %}
-
         }
       }
     }
