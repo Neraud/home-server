@@ -49,10 +49,10 @@ spec:
         resources:
           requests:
             cpu: "{{ ttrss_ttrss_requests_cpu | default("100m") }}"
-            memory: "{{ ttrss_ttrss_requests_memory | default("32Mi") }}"
+            memory: "{{ ttrss_ttrss_requests_memory | default("64Mi") }}"
           limits:
             cpu: "{{ ttrss_ttrss_limits_cpu | default("200m") }}"
-            memory: "{{ ttrss_ttrss_limits_memory | default("32Mi") }}"
+            memory: "{{ ttrss_ttrss_limits_memory | default("64Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
