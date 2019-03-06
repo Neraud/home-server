@@ -227,13 +227,8 @@ The real use case would be to use either a real shell, and/or enable the BLE plu
 
 ### TT-RSS
 
-The first time the site is displayed, you should see the install page.
-
-Use the DB [settings](ansible\inventories\vagrant\group_vars\kubernetes_masters\kubernetes-apps) from the Vagrant environment.
-
-The DB Host is : ttrss-pgsql
-
-Once installed, the default account is `admin` / `password`
+TT-RSS is installed. 
+The default account is `admin` / `password`.
 
 ### Gitlab
 

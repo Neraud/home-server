@@ -22,27 +22,37 @@ spec:
         app-component: ttrss
     spec:
       containers:
-      - image: linuxserver/tt-rss
+      # Keep the image version in sync with the ttrss_schema_url variable
+      - image: linuxserver/tt-rss:amd64-19.2-ls6
         name: ttrss
-# TODO inject TT-RSS configuration after the image is updated
-#        env:
-#        - name: TTRSS_DB_HOST
-#          value: ttrss-mysql
-#        - name: TTRSS_DB_PASSWORD
-#          valueFrom:
-#            secretKeyRef:
-#              name: ttrss-mysql-pass
-#              key: password
+        env:
+        - name: DB_TYPE
+          value: pgsql
+        - name: DB_HOST
+          value: ttrss-pgsql
+        - name: DB_USER
+          value: "{{ ttrss_pqsql_user }}"
+        - name: DB_NAME
+          value: "{{ ttrss_pqsql_database }}"
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: ttrss-pgsql-pass
+              key: password
+        - name: DB_PORT
+          value: "5432"
+        - name: SELF_URL_PATH
+          value: "https://web.{{ web_base_domain }}{{ ttrss_context_root }}/"
         ports:
         - containerPort: 80
           name: ttrss
         resources:
           requests:
             cpu: "{{ ttrss_ttrss_requests_cpu | default("100m") }}"
-            memory: "{{ ttrss_ttrss_requests_memory | default("32Mi") }}"
+            memory: "{{ ttrss_ttrss_requests_memory | default("64Mi") }}"
           limits:
             cpu: "{{ ttrss_ttrss_limits_cpu | default("200m") }}"
-            memory: "{{ ttrss_ttrss_limits_memory | default("32Mi") }}"
+            memory: "{{ ttrss_ttrss_limits_memory | default("64Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

@@ -10,7 +10,7 @@ data:
   nginx_site_config: |
     server {
       listen 80 default_server;
-      root /config/www/tt-rss;
+      root /var/www/html;
       index index.html index.htm index.php;
 
       server_name _;
@@ -21,20 +21,16 @@ data:
       client_max_body_size 0;
 
       location {{ ttrss_context_root }} {
-        {% if ttrss_context_root != "/" %}alias /config/www/tt-rss;{% endif %}
+        {% if ttrss_context_root != "/" %}alias /var/www/html;{% endif %}
         
         try_files $uri $uri/ /index.html /index.php?$args =404;
 
         location ~ \.php$ {
           fastcgi_split_path_info ^(.+\.php)(/.+)$;
-          # With php5-cgi alone:
           fastcgi_pass 127.0.0.1:9000;
-          # With php5-fpm:
-          #fastcgi_pass unix:/var/run/php5-fpm.sock;
           fastcgi_index index.php;
           include /etc/nginx/fastcgi_params;
           {% if ttrss_context_root != "/" %}fastcgi_param SCRIPT_FILENAME $request_filename;{% endif %}
-
         }
       }
     }

@@ -18,6 +18,8 @@ ttrss_context_root: /
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss
 ttrss_pqsql_password: clear_password
+# Keep the schema URL in sync with the image version
+ttrss_schema_url: https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql
 
 homeassistant_mysql_user: homeassistant
 homeassistant_mysql_database: homeassistant
