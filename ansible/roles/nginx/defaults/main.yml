@@ -44,12 +44,19 @@ nginx_ssl_dhparam_size: 2048
 
 #    force_http_to_https: True
 #    disable_robots: True
+#    lemonLdap:
+#      path: /lmauth
+#      proxy_pass: http://SomeWhere:8080/
 #    locations:
 #      - path: /
 #        proxy_pass: http://SomeWhere:8080/
+#
 #        auth_basic:
 #          name: Basic Authentication
 #          path: /path/to/htpasswd_something
+#   OR
+#        lemonLdap_protected: True 
+#
 #      - path: /php-application/
 #        root: /opt/php_app
 #        php_fpm_pool:  www

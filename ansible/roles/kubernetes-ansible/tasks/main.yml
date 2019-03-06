@@ -5,6 +5,7 @@
     pkg:
     - python-pip
     - python-setuptools
+    - python-openssl
     - python-docker
     state: present
 

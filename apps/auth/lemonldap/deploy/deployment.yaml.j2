@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lemonldap
+  namespace: default
+  labels:
+    app: lemonldap
+    app-component: lemonldap
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lemonldap
+      app-component: lemonldap
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: lemonldap
+        app-component: lemonldap
+    spec:
+      containers:
+      - name: lemonldap
+        image: tiredofit/lemonldap:2.0_alpine-1.2.1
+        ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 2884
+            name: handler
+        env:
+          - name: SETUP_TYPE
+            value: MANUAL
+          - name: DOMAIN_NAME
+            value: "{{ web_base_domain }}"
+          - name: MANAGER_HOSTNAME
+            value: "infra.{{ web_base_domain }}"
+          - name: PORTAL_HOSTNAME
+            value: "auth.{{ web_base_domain }}"
+          - name: HANDLER_HOSTNAME
+            value: "reloader.{{ web_base_domain }}"
+          - name: ENABLE_ZABBIX
+            value: "FALSE"
+          - name: ENABLE_SMTP
+            value: "FALSE"
+        resources:
+          requests:
+            cpu: "{{ lemonldap_requests_cpu | default("100m") }}"
+            memory: "{{ lemonldap_requests_memory | default("256Mi") }}"
+          limits:
+            cpu: "{{ lemonldap_limits_cpu | default("200m") }}"
+            memory: "{{ lemonldap_limits_memory | default("256Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: config-volume
+          mountPath: /etc/lemonldap-ng/lemonldap-ng.ini
+          subPath: lemonldap-ng.ini
+        - name: config-volume
+          mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
+          subPath: lmConf.json
+        - name: certs-volume
+          mountPath: /var/lib/lemonldap-ng/server-certs/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: config-volume
+        configMap:
+          name: lemonldap
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
+      nodeSelector:
+        capability/general-purpose: 'yes'

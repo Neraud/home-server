@@ -8,11 +8,66 @@ kubernetes_user:
 
 kubernetes_defnitions_root_dir: /opt/provision/kubernetes
 
+custom_ssl_certs_root_dir: /etc/ssl/private
+
 kubernetes_registry_port: 30500
 kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 
 # Expose Unifi private services on the Node IP
 #unifi_private_ip: 
+
+openldap_ldap_organisation: Example Inc.
+openldap_ldap_domain: example.org
+openldap_ldap_basedn: "dc=example,dc=org" #if empty automatically set from LDAP_DOMAIN
+openldap_ldap_admin_dn: "cn=admin,{{ openldap_ldap_basedn }}"
+openldap_ldap_admin_password: admin
+openldap_ldap_config_password: config
+openldap_ldap_readonly_user_enabled: False
+openldap_ldap_readonly_user_username: readonly
+openldap_ldap_readonly_user_password: readonly
+
+openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
+openldap_ldap_structure_groups_ou_dn: "ou=groups,{{ openldap_ldap_basedn }}"
+#openldap_ldap_users:
+#  - id: user1
+#    sn: User1
+#    password: clear_password1
+#    email: user1@mail.net
+#    displayName: User1
+#  - id: user2
+#    sn: User2
+#    password: clear_password2
+#    email: user2@mail.net
+#    displayName: User2
+#openldap_ldap_groups:
+#  - id: test_group
+#    description: Test group
+#    members: 
+#      - user1
+#      - user2
+
+phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
+phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
+
+lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
+lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+
+lemonldap_smtp_host: "smtp.gmail.com"
+lemonldap_smtp_port: 587
+lemonldap_smtp_user: ""
+lemonldap_smtp_password: ""
+lemonldap_smtp_tls: starttls
+lemonldap_smtp_from: ""
+lemonldap_smtp_replyTo: ""
+
+lemonldap_location_rules:
+  - domain: "infra.{{ web_base_domain }}"
+    rules: 
+      default: accept
+  - domain: "web.{{ web_base_domain }}"
+    rules: 
+      default: accept
 
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss

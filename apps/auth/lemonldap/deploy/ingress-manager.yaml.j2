@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lemonldap-manager
+  namespace: default
+  labels:
+    app: lemonldap
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    #nginx.ingress.kubernetes.io/upstream-vhost: manager.{{ web_base_domain }}
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Accept-Encoding "";
+      sub_filter_types text/html;
+      sub_filter 'href="{{ '{{scriptname}}' }}/diff.html' 'href="/lemonldap{{ '{{scriptname}}' }}/diff.html';
+spec:
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: /lemonldap/?(.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80
+      - path: /(manager.psgi.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80
+      - path: /(static/bwr/.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80
+      - path: /(doc/.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80
+      - path: /(diff.html.*)
+        backend:
+          serviceName: lemonldap
+          servicePort: 80

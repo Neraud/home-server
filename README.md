@@ -88,6 +88,8 @@ The folowing services are deployed :
 | Service                                                          | Test URL                                | Description                                   |
 | ---------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | https://infra.k8stest.com/kube          | Kubernetes dashboard                          |
+| [OpenLDAP](https://www.openldap.org/)                            | -                                       | Open source Lightweight Directory Access Protocol |
+| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | https://infra.k8stest.com/phpldapadmin/ | Web-based LDAP browser                        |
 | [Prometheus](https://prometheus.io/)                             | https://infra.k8stest.com/prometheus/   | Monitoring solution                           |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | https://infra.k8stest.com/alertmanager/ | Alert manager for Prometheus                  |
 | [Grafana](https://grafana.com/)                                  | https://infra.k8stest.com/grafana/      | Platform for beautiful analytics and monitoring  |
@@ -123,6 +125,52 @@ You can do so using a terminal (assuming you start at the project root) :
 [vagrant@master$] sudo su - user
 [user@master$] kubectl --namespace=kube-system describe secrets $(kubectl --namespace=kube-system get secrets | awk '/admin-user-token/ { print $1 }')
 ```
+
+### OpenLDAP
+
+OpenLDAP is installed and configured for the base domain.
+`admin` and `config` accounts are created with a default password `Passw0rd`.
+
+It enforces TLS with a self-signed CA.
+This `ca.crt` is available in the Kubernetes secret `openldap-ca`
+
+To test the LDAP connection, you can use : 
+
+```shell
+[user@master$] kubectl run test-ldap -it --rm --image=particlekit/ldap-client --restart=Never --overrides='
+{
+    "spec": {
+      "containers": [
+        {
+          "name": "test-ldap",
+          "image": "particlekit/ldap-client",
+          "args": [
+            "ldapsearch", "-x", "-H", "ldaps://openldap", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
+          ],
+          "stdin": true,
+          "stdinOnce": true,
+          "tty": true,
+          "env": [
+              { "name": "LDAPTLS_CACERT", "value": "/certs/ca.crt" },
+              { "name": "LDAPTLS_REQCERT", "value": "never" }
+          ],
+          "volumeMounts": [{
+            "mountPath": "/certs",
+            "name": "certs-volume"
+          }]
+        }
+      ],
+      "volumes": [{
+        "name":"certs-volume",
+        "secret":{"secretName": "openldap-ca"}
+      }]
+    }
+}'
+```
+
+### phpLDAPadmin
+
+You can login using the `admin`/`Passw0rd` account to manage the LDAP.
 
 ### Prometheus & AlertManager
 

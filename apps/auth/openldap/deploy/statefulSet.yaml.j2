@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: openldap
+  namespace: default
+  labels:
+    app: openldap
+    app-component: openldap
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openldap
+      app-component: openldap
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: openldap
+        app-component: openldap
+    spec:
+      containers:
+      - name: openldap
+        # Avoid 1.2.2/1.2.3 until https://github.com/osixia/docker-openldap/issues/242
+        image: osixia/openldap:1.2.1
+        args: ["--copy-service"]
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: openldap-data-pv-claim
+          mountPath: /var/lib/ldap
+        - name: openldap-config-pv-claim
+          mountPath: /etc/ldap/slapd.d
+        - name: config-volume
+          mountPath: /container/environment/01-custom
+        - name: certs-volume
+          mountPath: /container/service/slapd/assets/certs
+        - name: container-run
+          mountPath: /container/run
+        ports:
+        - containerPort: 389
+          name: openldap
+        resources:
+          requests:
+            cpu: "{{ openldap_requests_cpu | default("100m") }}"
+            memory: "{{ openldap_requests_memory | default("128Mi") }}"
+          limits:
+            cpu: "{{ openldap_limits_cpu | default("200m") }}"
+            memory: "{{ openldap_limits_memory | default("128Mi") }}"
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: config-volume
+        secret:
+          secretName: openldap-config
+      - name: certs-volume
+        secret:
+          secretName: openldap-certs
+      - name: container-run
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: openldap-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          app: openldap
+          app-component: openldap
+          storage: data
+  - metadata:
+      name: openldap-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 16M
+      selector:
+        matchLabels:
+          app: openldap
+          app-component: openldap
+          storage: config

@@ -3,6 +3,60 @@
 # Unifi private services exposed on Node_1
 unifi_private_ip: 192.168.100.11
 
+openldap_ldap_organisation: "{{ domain_name }}"
+openldap_ldap_domain: "{{ web_base_domain }}"
+openldap_ldap_basedn: "dc=k8stest,dc=com"
+openldap_ldap_group_basedn: "ou=groups,{{ openldap_ldap_basedn }}"
+openldap_ldap_admin_password: Passw0rd
+openldap_ldap_config_password: Passw0rd
+openldap_ldap_readonly_user_enabled: True
+openldap_ldap_readonly_user_username: readonly
+openldap_ldap_readonly_user_password: Passw0rd
+
+openldap_ldap_users:
+  - id: user
+    sn: User
+    password: Passw0rd
+    email: user@mail.net
+    displayName: User
+openldap_ldap_groups:
+  - id: infra
+    description: Infra
+    members: 
+      - user
+
+phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
+phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
+
+lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
+lemonldap_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
+lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+
+#lemonldap_smtp_user: whatever@gmail.com
+#lemonldap_smtp_password: todo
+#lemonldap_smtp_from: "{{ lemonldap_smtp_user }}"
+#lemonldap_smtp_replyTo: "{{ lemonldap_smtp_user }}"
+
+lemonldap_location_rules:
+  - domain: "infra.{{ web_base_domain }}"
+    rules: 
+      default: accept
+  - domain: "unifi.{{ web_base_domain }}"
+    rules: 
+      default: accept
+  - domain: "web.{{ web_base_domain }}"
+    rules: 
+      default: accept
+  - domain: "home.{{ web_base_domain }}"
+    rules: 
+      default: accept
+  - domain: "stream.{{ web_base_domain }}"
+    rules: 
+      default: accept
+  - domain: "dev.{{ web_base_domain }}"
+    rules: 
+      default: accept
+
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss

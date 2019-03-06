@@ -7,6 +7,20 @@ kubernetes_local_storage:
     labels:
       app: registry
       app-component: registry
+  openldap-data:
+    capacity: 256M
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: data
+  openldap-config:
+    capacity: 16M
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: config
   ttrss-pgsql: 
     capacity: 1G
     reclaim_policy: Retain
