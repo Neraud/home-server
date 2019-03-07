@@ -32,6 +32,8 @@ spec:
             secretKeyRef:
               name: ttrss-pgsql-pass
               key: password
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
         ports:
         - containerPort: 5432
           name: pgsql
@@ -46,7 +48,7 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
         - name: ttrss-pgsql-pv-claim
-          mountPath: /var/lib/postgresql
+          mountPath: /var/lib/postgresql/data
         - name: ttrss-pgsql-init
           mountPath: /docker-entrypoint-initdb.d/
       volumes:
