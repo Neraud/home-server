@@ -48,10 +48,10 @@ spec:
         resources:
           requests:
             cpu: "{{ lemonldap_requests_cpu | default("100m") }}"
-            memory: "{{ lemonldap_requests_memory | default("256Mi") }}"
+            memory: "{{ lemonldap_requests_memory | default("384Mi") }}"
           limits:
             cpu: "{{ lemonldap_limits_cpu | default("200m") }}"
-            memory: "{{ lemonldap_limits_memory | default("256Mi") }}"
+            memory: "{{ lemonldap_limits_memory | default("384Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
