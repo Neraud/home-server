@@ -24,27 +24,17 @@ spec:
     spec:
       containers:
       - name: lemonldap
-        image: tiredofit/lemonldap:2.0_alpine-1.2.1
+        image: coudot/lemonldap-ng:2.0.2
         ports:
           - containerPort: 80
             name: http
-          - containerPort: 2884
-            name: handler
+          - containerPort: {{ lemonldap_fastcgi_port }}
+            name: fastcgi
         env:
-          - name: SETUP_TYPE
-            value: MANUAL
-          - name: DOMAIN_NAME
+          - name: SSODOMAIN
             value: "{{ web_base_domain }}"
-          - name: MANAGER_HOSTNAME
-            value: "infra.{{ web_base_domain }}"
-          - name: PORTAL_HOSTNAME
-            value: "auth.{{ web_base_domain }}"
-          - name: HANDLER_HOSTNAME
-            value: "reloader.{{ web_base_domain }}"
-          - name: ENABLE_ZABBIX
-            value: "FALSE"
-          - name: ENABLE_SMTP
-            value: "FALSE"
+          - name: LISTEN
+            value: "0.0.0.0:{{ lemonldap_fastcgi_port }}"
         resources:
           requests:
             cpu: "{{ lemonldap_requests_cpu | default("100m") }}"
@@ -55,10 +45,9 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: config-volume
-          mountPath: /etc/lemonldap-ng/lemonldap-ng.ini
-          subPath: lemonldap-ng.ini
-        - name: config-volume
+        - name: etc-volume
+          mountPath: /etc/lemonldap-ng
+        - name: lmconf-volume
           mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
           subPath: lmConf.json
         - name: certs-volume
@@ -68,9 +57,12 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: config-volume
+      - name: lmconf-volume
         configMap:
-          name: lemonldap
+          name: lemonldap-lmconf
+      - name: etc-volume
+        configMap:
+          name: lemonldap-etc
       - name: certs-volume
         secret:
           secretName: openldap-ca

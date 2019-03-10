@@ -35,7 +35,8 @@
 ;
 ; 1 - Defined logging level
 ;   Set here one of error, warn, notice, info or debug
-logLevel     = warn
+logLevel=info
+logger     = Lemonldap::NG::Common::Logger::Std
 ; Note that this has no effect for Apache2 logging: Apache LogLevel is used
 ; instead
 ;
@@ -89,7 +90,7 @@ logLevel     = warn
 ; mechanism local cache will be updated. configuration is checked locally every
 ; 10 minutes by each LLNG component. You can change this value using
 ; `checkTime` (time in seconds):
-;checkTime = 600
+checkTime = 1
 
 [configuration]
 
@@ -118,7 +119,7 @@ logLevel     = warn
 ;         You have to set 'baseUrl' parameter. Example:
 ;
 ;           type         = REST
-;           baseUrl      = https://auth.example.com/config
+;           baseUrl      = https://auth.{{ web_base_domain }}/config
 ;           proxyOptions = { timeout => 5 }
 ;           User         = lemonldap
 ;           Password     = mypassword
@@ -129,7 +130,7 @@ logLevel     = warn
 ;         You have to set 'proxy' parameter. Example:
 ;
 ;           type         = SOAP
-;           proxy        = https://auth.example.com/config
+;           proxy        = https://auth.{{ web_base_domain }}/config
 ;           proxyOptions = { timeout => 5 }
 ;           User         = lemonldap
 ;           Password     = mypassword
@@ -219,7 +220,7 @@ languages    = en, fr, vi, it, ar
 ; error(language, code)
 ;Soap = 1
 ; Note that getAttibutes() will be activated but on a different URI
-; (http://auth.example.com/sessions)
+; (http://auth.{{ web_base_domain }}/sessions)
 ; You can also restrict attributes and macros exported by getAttributes
 ;exportedAttr = uid mail
 
@@ -239,11 +240,11 @@ languages    = en, fr, vi, it, ar
 ; SMTP auth password
 ;SMTPAuthPass = secret
 ; Mail From address
-;mailFrom = noreply@example.com
+;mailFrom = noreply@{{ web_base_domain }}
 ; Reply To
-;mailReplyTo = noreply@example.com
+;mailReplyTo = noreply@{{ web_base_domain }}
 ; Mail confirmation URL
-;mailUrl = http://reset.example.com
+;mailUrl = http://reset.{{ web_base_domain }}
 ; Mail subject for confirmation message
 ;mailConfirmSubject = [LemonLDAP::NG] Password reset confirmation
 ; Mail body for confiramtion (can use $url for confirmation URL, and other session
@@ -276,7 +277,7 @@ languages    = en, fr, vi, it, ar
 ; Use it to be able to notify messages during authentication
 ;notification = 1
 ; Note that the SOAP function newNotification will be activated on
-; http://auth.example.com/notification
+; http://auth.{{ web_base_domain }}/notification
 ; If you want to hide this, just protect "/index.fcgi/notification" in
 ; your Apache configuration file
 ; XSS protection bypass
@@ -352,7 +353,7 @@ protection   = manager
 staticPrefix = /lemonldap/static
 ;
 ; location of HTML templates directory
-templateDir  = /usr/share/lemonldap-ng/manager/templates
+templateDir  = /usr/share/lemonldap-ng/manager/htdocs/templates
 
 ; languages: available languages for manager interface
 languages    = fr, en, vi, ar
@@ -365,4 +366,4 @@ enabledModules = conf, sessions, notifications, 2ndFA
 ;[node-handler]
 ;
 ;This section is for node-lemonldap-ng-handler
-;nodeVhosts = test3.example.com, test4.example.com
+;nodeVhosts = test3.{{ web_base_domain }}, test4.example.com

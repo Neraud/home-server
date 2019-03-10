@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lemonldap-lmconf
+  namespace: default
+  labels:
+    app: lemonldap
+    app-component: lemonldap
+data:
+  lmConf.json: |
+    {{ lookup('template', kubernetes_app_root_path + '/auth/lemonldap/config/lmConf.json.j2') | replace('\n', '\n    ') }}
