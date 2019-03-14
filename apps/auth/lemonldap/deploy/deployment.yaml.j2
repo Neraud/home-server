@@ -24,7 +24,8 @@ spec:
     spec:
       containers:
       - name: lemonldap
-        image: coudot/lemonldap-ng:2.0.2
+        #image: coudot/lemonldap-ng:2.0.2
+        image: {{ kubernetes_registry_url }}/lemonldap-ng:latest
         ports:
           - containerPort: 80
             name: http
@@ -33,8 +34,10 @@ spec:
         env:
           - name: SSODOMAIN
             value: "{{ web_base_domain }}"
-          - name: LISTEN
-            value: "0.0.0.0:{{ lemonldap_fastcgi_port }}"
+          - name: FASTCGI_LISTEN_PORT
+            value: "{{ lemonldap_fastcgi_port }}"
+          - name: MANAGER_HOSTNAME
+            value: "infra.{{ web_base_domain }}"
         resources:
           requests:
             cpu: "{{ lemonldap_requests_cpu | default("100m") }}"
@@ -45,8 +48,6 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: etc-volume
-          mountPath: /etc/lemonldap-ng
         - name: lmconf-volume
           mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
           subPath: lmConf.json
@@ -60,9 +61,6 @@ spec:
       - name: lmconf-volume
         configMap:
           name: lemonldap-lmconf
-      - name: etc-volume
-        configMap:
-          name: lemonldap-etc
       - name: certs-volume
         secret:
           secretName: openldap-ca

@@ -1,10 +1,24 @@
 ---
 
-- name: List config files
-  set_fact:
-    lemonldap_config_files: "{{ lemonldap_config_files | default([]) + [ item ] }}"
-  with_fileglob:
-    - "{{ kubernetes_app_root_path }}/auth/lemonldap/config/etc/*"
+###################
+# TEMP WORKAROUND #
+###################
+
+- name: Clone forked repo
+  git:
+    dest: /tmp/lemonldap-ng-docker
+    repo: https://github.com/Neraud/lemonldap-ng-docker
+
+- name: Build and push LemonLDAP image
+  docker_image:
+    path: "/tmp/lemonldap-ng-docker"
+    name: "{{ kubernetes_registry_url }}/lemonldap-ng"
+    force: yes
+    push: yes
+
+###################
+# TEMP WORKAROUND #
+###################
 
 - name: Deploy LemonLDAP
   k8s:
