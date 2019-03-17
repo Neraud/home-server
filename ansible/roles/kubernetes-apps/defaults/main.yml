@@ -50,6 +50,7 @@ phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
 
 lemonldap_fastcgi_port: 9000
+lemonldap_persistent_volume_path: /var/lib/lemonldap-ng-pv
 lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
 lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"

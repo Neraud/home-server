@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: lemonldap
   namespace: default
@@ -22,6 +22,20 @@ spec:
         app: lemonldap
         app-component: lemonldap
     spec:
+      initContainers:
+      - name: create-folders
+        image: busybox
+        command: 
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p {{ lemonldap_persistent_volume_path }}/sessions/lock
+            mkdir -p {{ lemonldap_persistent_volume_path }}/psessions/lock
+            mkdir -p {{ lemonldap_persistent_volume_path }}/notifications
+            chown -R www-data:www-data {{ lemonldap_persistent_volume_path }}
+        volumeMounts:
+        - name: lemonldap-data-pv-claim
+          mountPath: {{ lemonldap_persistent_volume_path }}
       containers:
       - name: lemonldap
         #image: coudot/lemonldap-ng:2.0.2
@@ -48,6 +62,8 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+        - name: lemonldap-data-pv-claim
+          mountPath: {{ lemonldap_persistent_volume_path }}
         - name: lmconf-volume
           mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
           subPath: lmConf.json
@@ -66,3 +82,18 @@ spec:
           secretName: openldap-ca
       nodeSelector:
         capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: lemonldap-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          app: lemonldap
+          app-component: lemonldap
+          storage: data
+

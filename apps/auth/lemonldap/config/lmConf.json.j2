@@ -167,9 +167,9 @@
 {# generalParameters > sessionParams > sessionStorage #}
    "globalStorage" : "Apache::Session::File",
    "globalStorageOptions": {
-       "Directory": "/var/lib/lemonldap-ng/sessions",
+       "Directory": "{{ lemonldap_persistent_volume_path }}/sessions",
        "generateModule": "Lemonldap::NG::Common::Apache::Session::Generate::SHA256",
-       "LockDirectory": "/var/lib/lemonldap-ng/sessions/lock"
+       "LockDirectory": "{{ lemonldap_persistent_volume_path }}/sessions/lock"
    },
    "localSessionStorage": "Cache::FileCache",
    "localSessionStorageOptions" : {
@@ -189,8 +189,8 @@
 {# generalParameters > sessionParams > persistentSessions #}
    "persistentStorage" : "Apache::Session::File",
    "persistentStorageOptions" : {
-      "Directory" : "/var/lib/lemonldap-ng/psessions",
-      "LockDirectory" : "/var/lib/lemonldap-ng/psessions/lock"
+      "Directory" : "{{ lemonldap_persistent_volume_path }}/psessions",
+      "LockDirectory" : "{{ lemonldap_persistent_volume_path }}/psessions/lock"
    },
 {# generalParameters > reloadParams #}
    "reloadUrls" : {
@@ -220,7 +220,7 @@
    "oldNotifFormat": 0,
    "notificationStorage": "File",
    "notificationStorageOptions": {
-       "dirName": "/var/lib/lemonldap-ng/notifications"
+       "dirName": "{{ lemonldap_persistent_volume_path }}/notifications"
    },
    "notificationWildcard": "allusers",
    "notificationXSLTfile": "",
