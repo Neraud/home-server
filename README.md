@@ -81,6 +81,8 @@ The playbook supports [Let's Encrypt](https://letsencrypt.org/) to generate vali
 
 Unless listed, all credentials are `user` / `Passw0rd`.
 
+For more information, take a look at the [authentication and authorization page](docs/Authentication_authorization.md).
+
 ## Services
 
 The folowing services are deployed :

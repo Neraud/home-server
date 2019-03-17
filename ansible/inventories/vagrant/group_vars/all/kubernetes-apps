@@ -14,6 +14,7 @@ openldap_ldap_readonly_user_password: Passw0rd
 
 openldap_ldap_structure_groups_ou_dns: 
   sso_groups: "ou=sso_groups,{{ openldap_ldap_basedn }}"
+  app_groups: "ou=app_groups,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
   - id: user
@@ -21,10 +22,44 @@ openldap_ldap_users:
     password: Passw0rd
     email: user@mail.net
     displayName: User
+
 openldap_ldap_groups:
+  # SSO Groups, used to filter access via LemonLDAP
   - id: infra
     description: Infra
     ou: sso_groups
+    members: 
+      - user
+  - id: unifi
+    description: Unifi
+    ou: sso_groups
+    members: 
+      - user
+  - id: web
+    description: Web
+    ou: sso_groups
+    members: 
+      - user
+  - id: home
+    description: Home
+    ou: sso_groups
+    members: 
+      - user
+  - id: stream
+    description: Stream
+    ou: sso_groups
+    members: 
+      - user
+  - id: dev
+    description: Dev
+    ou: sso_groups
+    members: 
+      - user
+
+  # App Groups, used to filter access on each app
+  - id: test-app
+    description: Test App
+    ou: app_groups
     members: 
       - user
 
@@ -44,18 +79,36 @@ lemonldap_ldap_group_base: "{{ openldap_ldap_structure_groups_ou_dns['sso_groups
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
     # To require TOTP, set the level to >= 4
-    requiredAuthnLevel: 1
-    default_rule: accept
+    #requiredAuthnLevel: 4
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
   - domain: "unifi.{{ web_base_domain }}"
-    default_rule: accept
+    default_rule: groupMatch($hGroups, 'cn', 'unifi')
+    # To require TOTP, set the level to >= 4
+    #requiredAuthnLevel: 4
   - domain: "web.{{ web_base_domain }}"
-    default_rule: accept
+    default_rule: groupMatch($hGroups, 'cn', 'web')
   - domain: "home.{{ web_base_domain }}"
-    default_rule: accept
+    default_rule: groupMatch($hGroups, 'cn', 'home')
+    rules:
+      # Disable Auth for HomeAssistant API
+      - name: 00-HomeAssistant_API
+        uri: ^/api/
+        rule: skip
+      # Disable Auth for HomeAssistant OAuth
+      - name: 00-HomeAssistant_OAuth
+        uri: ^/auth/token
+        rule: skip
   - domain: "stream.{{ web_base_domain }}"
-    default_rule: accept
+    default_rule: groupMatch($hGroups, 'cn', 'stream')
+  - domain: "plex.{{ web_base_domain }}"
+    default_rule: skip
   - domain: "dev.{{ web_base_domain }}"
-    default_rule: accept
+    default_rule: groupMatch($hGroups, 'cn', 'dev')
+    rules:
+      # Skip gitlab to enable https clone
+      - name: 00-Gitlab
+        uri: ^/gitlab
+        rule: skip
 
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss

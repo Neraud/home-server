@@ -125,18 +125,6 @@ nginx_sites:
         proxy_pass: http://kubernetes-http-ingress
         proxy_enable_websocket: True
         lemonLdap_protected: True 
-      # Disable Auth for HomeAssistant API
-      - path: /api/
-        proxy_enable_websocket: True
-        proxy_pass: http://kubernetes-http-ingress/api/
-      # Disable Auth for HomeAssistant OAuth
-      - path: /auth/token
-        proxy_enable_websocket: True
-        proxy_pass: http://kubernetes-http-ingress/auth/token
-      # Disable Auth for NodeRED
-      - path: "{{ nodered_context_root }}/"
-        proxy_enable_websocket: True
-        proxy_pass: http://kubernetes-http-ingress/node-red/
 
   - name: stream
     enabled_name: 400-stream
