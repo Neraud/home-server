@@ -99,7 +99,7 @@ The folowing services are deployed :
 | [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | https://infra.k8stest.com/elastic       | Distributed, RESTful search and analytics engine |
 | [Kibana](https://www.elastic.co/products/kibana)                 | https://infra.k8stest.com/kibana/       | Visualize your Elasticsearch data             |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | https://unifi.k8stest.com/              | Controller for Unifi devices                  |
-| [HomeAssistant](https://www.home-assistant.io/)                  | https://home.k8stest.com/homeassistant/ | Home automation                               |
+| [HomeAssistant](https://www.home-assistant.io/)                  | https://home.k8stest.com/               | Home automation                               |
 | [Node-RED](https://nodered.org/)                                 | https://home.k8stest.com/node-red/      | Flow-based programming for the IoT            |
 | [Mosquitto](https://mosquitto.org/)                              | mqtts://home.k8stest.com                | MQTT broker                                   |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                       | Presence tracking                             |
