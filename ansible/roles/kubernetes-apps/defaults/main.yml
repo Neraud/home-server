@@ -64,11 +64,16 @@ lemonldap_smtp_replyTo: ""
 
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
+#    requiredAuthnLevel: 1
+#    rules: 
+#      - name: New Rule
+#        uri: ^new
+#        rule: accept
   - domain: "web.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
+
+
 
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss

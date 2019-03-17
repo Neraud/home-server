@@ -39,23 +39,19 @@ lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    # To require TOTP, set the level to >= 4
+    requiredAuthnLevel: 1
+    default_rule: accept
   - domain: "unifi.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
   - domain: "web.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
   - domain: "home.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
   - domain: "stream.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
   - domain: "dev.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
 
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss

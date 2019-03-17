@@ -371,21 +371,28 @@
    "groups": {},
 {# virtualHosts #}
    "locationRules" : {
-{% for locationRule in lemonldap_location_rules %}
+{% for locationRule in lemonldap_location_rules | default([]) %}
    {% set locationLoop = loop %}
       "{{ locationRule.domain }}" : {
-      {% for ruleName, ruleValue in locationRule.rules.items() %}
-         "{{ ruleName }}" : "{{ ruleValue }}"{% if not loop.last %},{% endif %}
-      }{% if not locationLoop.last %},{% endif %}
+         "default": "{{ locationRule.default_rule }}"{% if locationRule.rules | default([]) | length > 0 %},{% endif %}
+      {% for oneRule in locationRule.rules | default([]) %}
+         "(?#{{ oneRule.name }}){{ oneRule.uri }}": "{{ oneRule.rule }}"{% if not loop.last %},{% endif %}
       {% endfor %}
+      }{% if not locationLoop.last %},{% endif %}
 {% endfor %}
    },
    "exportedHeaders" : {},
    "vhostOptions": {
-      "infra.{{ web_base_domain }}": {
-          "vhostPort": -1,
-          "vhostHttps": -1
-      }
+{% for locationRule in lemonldap_location_rules | default([]) %}
+   {% set locationLoop = loop %}
+      "{{ locationRule.domain }}" : {
+         "vhostType": "Main",
+         "vhostPort": -1,
+         "vhostMaintenance": 0,
+         "vhostAuthnLevel": {{ locationRule.requiredAuthnLevel | default(1) }},
+         "vhostHttps": -1
+      }{% if not locationLoop.last %},{% endif %}
+{% endfor %}
    }
 
 {# samlServiceMetaData #}
