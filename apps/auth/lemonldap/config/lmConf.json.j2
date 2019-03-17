@@ -130,7 +130,7 @@
    "mailLDAPFilter": "(&(mail=$mail)(objectClass=inetOrgPerson))",
    "ldapSearchDeref": "find",
 {# generalParameters > authParams > ldapParams > ldapGroups #}
-   "ldapGroupBase": "{{ openldap_ldap_structure_groups_ou_dn }}",
+   "ldapGroupBase": "{{ lemonldap_ldap_group_base }}",
    "ldapGroupObjectClass": "groupOfNames",
    "ldapGroupAttributeName": "member",
    "ldapGroupAttributeNameUser": "dn",
