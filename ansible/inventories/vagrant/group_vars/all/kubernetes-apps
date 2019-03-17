@@ -6,12 +6,15 @@ unifi_private_ip: 192.168.100.11
 openldap_ldap_organisation: "{{ domain_name }}"
 openldap_ldap_domain: "{{ web_base_domain }}"
 openldap_ldap_basedn: "dc=k8stest,dc=com"
-openldap_ldap_group_basedn: "ou=groups,{{ openldap_ldap_basedn }}"
 openldap_ldap_admin_password: Passw0rd
 openldap_ldap_config_password: Passw0rd
 openldap_ldap_readonly_user_enabled: True
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: Passw0rd
+
+openldap_ldap_structure_groups_ou_dns: 
+  sso_groups: "ou=sso_groups,{{ openldap_ldap_basedn }}"
+  app_groups: "ou=app_groups,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
   - id: user
@@ -19,9 +22,44 @@ openldap_ldap_users:
     password: Passw0rd
     email: user@mail.net
     displayName: User
+
 openldap_ldap_groups:
+  # SSO Groups, used to filter access via LemonLDAP
   - id: infra
     description: Infra
+    ou: sso_groups
+    members: 
+      - user
+  - id: unifi
+    description: Unifi
+    ou: sso_groups
+    members: 
+      - user
+  - id: web
+    description: Web
+    ou: sso_groups
+    members: 
+      - user
+  - id: home
+    description: Home
+    ou: sso_groups
+    members: 
+      - user
+  - id: stream
+    description: Stream
+    ou: sso_groups
+    members: 
+      - user
+  - id: dev
+    description: Dev
+    ou: sso_groups
+    members: 
+      - user
+
+  # App Groups, used to filter access on each app
+  - id: test-app
+    description: Test App
+    ou: app_groups
     members: 
       - user
 
@@ -31,6 +69,7 @@ phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
 lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
 lemonldap_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+lemonldap_ldap_group_base: "{{ openldap_ldap_structure_groups_ou_dns['sso_groups'] }}"
 
 #lemonldap_smtp_user: whatever@gmail.com
 #lemonldap_smtp_password: todo
@@ -39,23 +78,37 @@ lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    # To require TOTP, set the level to >= 4
+    #requiredAuthnLevel: 4
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
   - domain: "unifi.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: groupMatch($hGroups, 'cn', 'unifi')
+    # To require TOTP, set the level to >= 4
+    #requiredAuthnLevel: 4
   - domain: "web.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: groupMatch($hGroups, 'cn', 'web')
   - domain: "home.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: groupMatch($hGroups, 'cn', 'home')
+    rules:
+      # Disable Auth for HomeAssistant API
+      - name: 00-HomeAssistant_API
+        uri: ^/api/
+        rule: skip
+      # Disable Auth for HomeAssistant OAuth
+      - name: 00-HomeAssistant_OAuth
+        uri: ^/auth/token
+        rule: skip
   - domain: "stream.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: groupMatch($hGroups, 'cn', 'stream')
+  - domain: "plex.{{ web_base_domain }}"
+    default_rule: skip
   - domain: "dev.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: groupMatch($hGroups, 'cn', 'dev')
+    rules:
+      # Skip gitlab to enable https clone
+      - name: 00-Gitlab
+        uri: ^/gitlab
+        rule: skip
 
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss

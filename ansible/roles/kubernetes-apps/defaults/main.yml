@@ -27,7 +27,9 @@ openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: readonly
 
 openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
-openldap_ldap_structure_groups_ou_dn: "ou=groups,{{ openldap_ldap_basedn }}"
+#openldap_ldap_structure_groups_ou_dns: 
+#  groups: "ou=groups,{{ openldap_ldap_basedn }}"
+#
 #openldap_ldap_users:
 #  - id: user1
 #    sn: User1
@@ -42,6 +44,7 @@ openldap_ldap_structure_groups_ou_dn: "ou=groups,{{ openldap_ldap_basedn }}"
 #openldap_ldap_groups:
 #  - id: test_group
 #    description: Test group
+#    ou: groups
 #    members: 
 #      - user1
 #      - user2
@@ -49,9 +52,12 @@ openldap_ldap_structure_groups_ou_dn: "ou=groups,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
 
+lemonldap_fastcgi_port: 9000
+lemonldap_persistent_volume_path: /var/lib/lemonldap-ng-pv
 lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
 lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+lemonldap_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
 lemonldap_smtp_host: "smtp.gmail.com"
 lemonldap_smtp_port: 587
@@ -63,11 +69,16 @@ lemonldap_smtp_replyTo: ""
 
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
+#    requiredAuthnLevel: 1
+#    rules: 
+#      - name: New Rule
+#        uri: ^new
+#        rule: accept
   - domain: "web.{{ web_base_domain }}"
-    rules: 
-      default: accept
+    default_rule: accept
+
+
 
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss

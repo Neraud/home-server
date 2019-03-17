@@ -21,19 +21,7 @@ spec:
         backend:
           serviceName: lemonldap
           servicePort: 80
-      - path: /(manager.psgi.*)
-        backend:
-          serviceName: lemonldap
-          servicePort: 80
-      - path: /(static/bwr/.*)
-        backend:
-          serviceName: lemonldap
-          servicePort: 80
-      - path: /(doc/.*)
-        backend:
-          serviceName: lemonldap
-          servicePort: 80
-      - path: /(diff.html.*)
+      - path: /((static/|doc/|manager.psgi).*)
         backend:
           serviceName: lemonldap
           servicePort: 80

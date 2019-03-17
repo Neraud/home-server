@@ -119,7 +119,7 @@
     state: present
   with_items: 
     - "{{ openldap_ldap_structure_users_ou_dn }}"
-    - "{{ openldap_ldap_structure_groups_ou_dn }}"
+    - "{{ openldap_ldap_structure_groups_ou_dns | dict2items | map(attribute='value') | list }}"
 
 - name: Create LDAP users
   ldap_entry:
@@ -179,7 +179,7 @@
     bind_pw: "{{ openldap_ldap_admin_password }}"
     start_tls: yes
     validate_certs: no
-    dn: "cn={{ item.id }},{{ openldap_ldap_structure_groups_ou_dn }}"
+    dn: "cn={{ item.id }},{{ openldap_ldap_structure_groups_ou_dns[item.ou] }}"
     objectClass: GroupOfNames
     state: present
     attributes:
@@ -193,7 +193,7 @@
     bind_pw: "{{ openldap_ldap_admin_password }}"
     start_tls: yes
     validate_certs: no
-    dn: "cn={{ item.0.id }},{{ openldap_ldap_structure_groups_ou_dn }}"
+    dn: "cn={{ item.0.id }},{{ openldap_ldap_structure_groups_ou_dns[item.0.ou] }}"
     name: "{{ item.1.name }}"
     values: "{{ item.0[item.1.key] }}"
     state: exact
@@ -211,7 +211,7 @@
     bind_pw: "{{ openldap_ldap_admin_password }}"
     start_tls: yes
     validate_certs: no
-    dn: "cn={{ item.id }},{{ openldap_ldap_structure_groups_ou_dn }}"
+    dn: "cn={{ item.id }},{{ openldap_ldap_structure_groups_ou_dns[item.ou] }}"
     name: "member"
     values: "{{ item.members | map('regex_replace', '(.*)', 'cn=\\1,' + openldap_ldap_structure_users_ou_dn) | list }}"
     state: exact

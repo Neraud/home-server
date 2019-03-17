@@ -81,6 +81,8 @@ The playbook supports [Let's Encrypt](https://letsencrypt.org/) to generate vali
 
 Unless listed, all credentials are `user` / `Passw0rd`.
 
+For more information, take a look at the [authentication and authorization page](docs/Authentication_authorization.md).
+
 ## Services
 
 The folowing services are deployed :
@@ -89,6 +91,7 @@ The folowing services are deployed :
 | ---------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | https://infra.k8stest.com/kube          | Kubernetes dashboard                          |
 | [OpenLDAP](https://www.openldap.org/)                            | -                                       | Open source Lightweight Directory Access Protocol |
+| [LemonDAP](https://lemonldap-ng.org/welcome/)                    | https://infra.k8stest.com/lemonldap/manager.html | Web Single Sign On and Access Management Free Software |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | https://infra.k8stest.com/phpldapadmin/ | Web-based LDAP browser                        |
 | [Prometheus](https://prometheus.io/)                             | https://infra.k8stest.com/prometheus/   | Monitoring solution                           |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | https://infra.k8stest.com/alertmanager/ | Alert manager for Prometheus                  |
@@ -98,7 +101,7 @@ The folowing services are deployed :
 | [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | https://infra.k8stest.com/elastic       | Distributed, RESTful search and analytics engine |
 | [Kibana](https://www.elastic.co/products/kibana)                 | https://infra.k8stest.com/kibana/       | Visualize your Elasticsearch data             |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | https://unifi.k8stest.com/              | Controller for Unifi devices                  |
-| [HomeAssistant](https://www.home-assistant.io/)                  | https://home.k8stest.com/homeassistant/ | Home automation                               |
+| [HomeAssistant](https://www.home-assistant.io/)                  | https://home.k8stest.com/               | Home automation                               |
 | [Node-RED](https://nodered.org/)                                 | https://home.k8stest.com/node-red/      | Flow-based programming for the IoT            |
 | [Mosquitto](https://mosquitto.org/)                              | mqtts://home.k8stest.com                | MQTT broker                                   |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                       | Presence tracking                             |
@@ -167,6 +170,14 @@ To test the LDAP connection, you can use :
     }
 }'
 ```
+
+### LemonDAP
+
+LemonLDAP is used as a SSO for all applications.
+User, credentials and groups are stored in OpenLDAP, while access rules are configured in LemonLDAP.
+
+User `user` has access to everything.
+You can add a TOTP device for `user` and force its use by setting the `requiredAuthnLevel` property under each domain in `lemonldap_location_rules` in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps`
 
 ### phpLDAPadmin
 

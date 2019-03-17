@@ -17,7 +17,7 @@
                "display" : "auto",
                "logo" : "configure.png",
                "name" : "WebSSO Manager",
-               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/manager/manager.html"
+               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/manager.html"
             },
             "type" : "application"
          },
@@ -27,7 +27,7 @@
                "display" : "auto",
                "logo" : "database.png",
                "name" : "Notifications explorer",
-               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/manager/notifications.html"
+               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/notifications.html"
             },
             "type" : "application"
          },
@@ -37,7 +37,7 @@
                "display" : "auto",
                "logo" : "database.png",
                "name" : "Sessions explorer",
-               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/manager/sessions.html"
+               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/sessions.html"
             },
             "type" : "application"
          },
@@ -109,7 +109,7 @@
    "passwordDB": "LDAP",
    "registerDB": "LDAP",
 {# generalParameters > authParams > ldapParams #}
-   "ldapAuthnLevel": 2,
+   "ldapAuthnLevel": 1,
    "ldapExportedVars": {
        "uid": "uid",
        "mail": "mail",
@@ -130,7 +130,7 @@
    "mailLDAPFilter": "(&(mail=$mail)(objectClass=inetOrgPerson))",
    "ldapSearchDeref": "find",
 {# generalParameters > authParams > ldapParams > ldapGroups #}
-   "ldapGroupBase": "{{ openldap_ldap_structure_groups_ou_dn }}",
+   "ldapGroupBase": "{{ lemonldap_ldap_group_base }}",
    "ldapGroupObjectClass": "groupOfNames",
    "ldapGroupAttributeName": "member",
    "ldapGroupAttributeNameUser": "dn",
@@ -167,9 +167,9 @@
 {# generalParameters > sessionParams > sessionStorage #}
    "globalStorage" : "Apache::Session::File",
    "globalStorageOptions": {
-       "Directory": "/var/lib/lemonldap-ng/sessions",
+       "Directory": "{{ lemonldap_persistent_volume_path }}/sessions",
        "generateModule": "Lemonldap::NG::Common::Apache::Session::Generate::SHA256",
-       "LockDirectory": "/var/lib/lemonldap-ng/sessions/lock"
+       "LockDirectory": "{{ lemonldap_persistent_volume_path }}/sessions/lock"
    },
    "localSessionStorage": "Cache::FileCache",
    "localSessionStorageOptions" : {
@@ -189,8 +189,8 @@
 {# generalParameters > sessionParams > persistentSessions #}
    "persistentStorage" : "Apache::Session::File",
    "persistentStorageOptions" : {
-      "Directory" : "/var/lib/lemonldap-ng/psessions",
-      "LockDirectory" : "/var/lib/lemonldap-ng/psessions/lock"
+      "Directory" : "{{ lemonldap_persistent_volume_path }}/psessions",
+      "LockDirectory" : "{{ lemonldap_persistent_volume_path }}/psessions/lock"
    },
 {# generalParameters > reloadParams #}
    "reloadUrls" : {
@@ -220,7 +220,7 @@
    "oldNotifFormat": 0,
    "notificationStorage": "File",
    "notificationStorageOptions": {
-       "dirName": "/var/lib/lemonldap-ng/notifications"
+       "dirName": "{{ lemonldap_persistent_volume_path }}/notifications"
    },
    "notificationWildcard": "allusers",
    "notificationXSLTfile": "",
@@ -256,8 +256,8 @@
    "utotp2fActivation": 0,
    "utotp2fAuthnLevel": 4,
 {# generalParameters > secondFactors > totp #}
-   "totp2fActivation": 0,
-   "totp2fSelfRegistration": 0,
+   "totp2fActivation": 1,
+   "totp2fSelfRegistration": 1,
    "totp2fAuthnLevel": 4,
    "totp2fIssuer": "{{ web_base_domain }}",
    "totp2fInterval": 30,
@@ -277,17 +277,17 @@
    "mail2fTimeout": 120,
    "mail2fSubject": "",
    "mail2fBody": "",
-   "mail2fAuthnLevel": "",
+   "mail2fAuthnLevel": 2,
    "mail2fLogo": "",
 {# generalParameters > secondFactors > external2f #}
    "ext2fActivation": 0,
    "ext2FSendCommand": "",
    "ext2FValidateCommand": "",
-   "ext2fAuthnLevel": "",
+   "ext2fAuthnLevel": 2,
    "ext2fLogo": "",
 {# generalParameters > secondFactors > rest2f #}
    "rest2fActivation": 0,
-   "rest2fInitUrl": "",
+   "rest2fInitUrl": "http://disabled",
    "rest2fInitArgs": {},
    "rest2fVerifyUrl": "",
    "rest2fVerifyArgs": {},
@@ -371,21 +371,28 @@
    "groups": {},
 {# virtualHosts #}
    "locationRules" : {
-{% for locationRule in lemonldap_location_rules %}
+{% for locationRule in lemonldap_location_rules | default([]) %}
    {% set locationLoop = loop %}
       "{{ locationRule.domain }}" : {
-      {% for ruleName, ruleValue in locationRule.rules.items() %}
-         "{{ ruleName }}" : "{{ ruleValue }}"{% if not loop.last %},{% endif %}
-      }{% if not locationLoop.last %},{% endif %}
+         "default": "{{ locationRule.default_rule }}"{% if locationRule.rules | default([]) | length > 0 %},{% endif %}
+      {% for oneRule in locationRule.rules | default([]) %}
+         "(?#{{ oneRule.name }}){{ oneRule.uri }}": "{{ oneRule.rule }}"{% if not loop.last %},{% endif %}
       {% endfor %}
+      }{% if not locationLoop.last %},{% endif %}
 {% endfor %}
    },
    "exportedHeaders" : {},
    "vhostOptions": {
-      "infra.{{ web_base_domain }}": {
-          "vhostPort": -1,
-          "vhostHttps": -1
-      }
+{% for locationRule in lemonldap_location_rules | default([]) %}
+   {% set locationLoop = loop %}
+      "{{ locationRule.domain }}" : {
+         "vhostType": "Main",
+         "vhostPort": -1,
+         "vhostMaintenance": 0,
+         "vhostAuthnLevel": {{ locationRule.requiredAuthnLevel | default(1) }},
+         "vhostHttps": -1
+      }{% if not locationLoop.last %},{% endif %}
+{% endfor %}
    }
 
 {# samlServiceMetaData #}
