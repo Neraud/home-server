@@ -47,6 +47,9 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+        - name: certs-volume
+          mountPath: /etc/openldap/server/ca.crt
+          subPath: ca.crt
         - name: gitlab-config-pv-claim
           mountPath: /etc/gitlab
         - name: gitlab-data-pv-claim
@@ -61,6 +64,9 @@ spec:
       - name: gitlab-config-volume
         configMap:
           name: gitlab
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

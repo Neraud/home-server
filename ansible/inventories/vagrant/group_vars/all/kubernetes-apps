@@ -57,8 +57,8 @@ openldap_ldap_groups:
       - user
 
   # App Groups, used to filter access on each app
-  - id: test-app
-    description: Test App
+  - id: gitlab
+    description: Gitlab
     ou: app_groups
     members: 
       - user
@@ -138,6 +138,11 @@ mosquitto_credientials:
 
 gitlab_context_path: /gitlab
 gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}"
+
+gitlab_ldap_user_base: "{{ openldap_ldap_structure_users_ou_dn }}"
+gitlab_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
+gitlab_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 logging_elasticsearch_replicas: 1
 

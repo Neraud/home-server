@@ -234,50 +234,32 @@ gitlab_rails['gitlab_email_subject_suffix'] = '{{ gitlab_email_subject_suffix }}
 ###! **Be careful not to break the indentation in the ldap_servers block. It is
 ###!   in yaml format and the spaces must be retained. Using tabs will not work.**
 
-# gitlab_rails['ldap_enabled'] = false
+gitlab_rails['ldap_enabled'] = true
 
-###! **remember to close this block with 'EOS' below**
-# gitlab_rails['ldap_servers'] = YAML.load <<-'EOS'
-#   main: # 'main' is the GitLab 'provider ID' of this LDAP server
-#     label: 'LDAP'
-#     host: '_your_ldap_server'
-#     port: 389
-#     uid: 'sAMAccountName'
-#     bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
-#     password: '_the_password_of_the_bind_user'
-#     encryption: 'plain' # "start_tls" or "simple_tls" or "plain"
-#     verify_certificates: true
-#     active_directory: true
-#     allow_username_or_email_login: false
-#     lowercase_usernames: false
-#     block_auto_created_users: false
-#     base: ''
-#     user_filter: ''
-#     ## EE only
-#     group_base: ''
-#     admin_group: ''
-#     sync_ssh_keys: false
-#
-#   secondary: # 'secondary' is the GitLab 'provider ID' of second LDAP server
-#     label: 'LDAP'
-#     host: '_your_ldap_server'
-#     port: 389
-#     uid: 'sAMAccountName'
-#     bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
-#     password: '_the_password_of_the_bind_user'
-#     encryption: 'plain' # "start_tls" or "simple_tls" or "plain"
-#     verify_certificates: true
-#     active_directory: true
-#     allow_username_or_email_login: false
-#     lowercase_usernames: false
-#     block_auto_created_users: false
-#     base: ''
-#     user_filter: ''
-#     ## EE only
-#     group_base: ''
-#     admin_group: ''
-#     sync_ssh_keys: false
-# EOS
+gitlab_rails['ldap_servers'] = YAML.load <<-'EOS'
+  main: # 'main' is the GitLab 'provider ID' of this LDAP server
+    label: 'OpenLDAP'
+    host: 'openldap'
+    port: 389
+    uid: 'uid'
+    bind_dn: '{{ gitlab_ldap_manager_dn }}'
+    password: '{{ gitlab_ldap_manager_password }}'
+    encryption: 'start_tls' # "start_tls" or "simple_tls" or "plain"
+    verify_certificates: false
+    tls_options:
+      ca_file: '/etc/openldap/server/ca.crt'
+    timeout: 10
+    active_directory: false
+    allow_username_or_email_login: false
+    lowercase_usernames: false
+    block_auto_created_users: false
+    base: '{{ gitlab_ldap_user_base }}'
+    user_filter: '(&(objectClass=inetOrgPerson)(memberOf={{ gitlab_ldap_group }}))'
+    ## EE only
+    #group_base: ''
+    #admin_group: ''
+    #sync_ssh_keys: false
+EOS
 
 ### Smartcard authentication settings
 ###! Docs: https://docs.gitlab.com/ee/administration/auth/smartcard.html
