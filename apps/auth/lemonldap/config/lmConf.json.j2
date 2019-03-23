@@ -131,8 +131,8 @@
    "ldapSearchDeref": "find",
 {# generalParameters > authParams > ldapParams > ldapGroups #}
    "ldapGroupBase": "{{ lemonldap_ldap_group_base }}",
-   "ldapGroupObjectClass": "groupOfNames",
-   "ldapGroupAttributeName": "member",
+   "ldapGroupObjectClass": "groupOfUniqueNames",
+   "ldapGroupAttributeName": "uniqueMember",
    "ldapGroupAttributeNameUser": "dn",
    "ldapGroupAttributeNameSearch": "cn",
    "ldapGroupDecodeSearchedValue": 0,

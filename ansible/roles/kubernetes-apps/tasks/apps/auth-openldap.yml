@@ -180,10 +180,10 @@
     start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap_ldap_structure_groups_ou_dns[item.ou] }}"
-    objectClass: GroupOfNames
+    objectClass: GroupOfUniqueNames
     state: present
     attributes:
-      member: ""
+      uniqueMember: ""
   with_items: "{{ openldap_ldap_groups | default([]) }}"
 
 - name: Set LDAP groups attributes
@@ -212,9 +212,10 @@
     start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap_ldap_structure_groups_ou_dns[item.ou] }}"
-    name: "member"
+    name: "uniqueMember"
     values: "{{ item.members | map('regex_replace', '(.*)', 'cn=\\1,' + openldap_ldap_structure_users_ou_dn) | list }}"
     state: exact
   with_items: "{{ openldap_ldap_groups | default([]) }}"
+  when: item.members | default([]) | length > 0
   loop_control:
-    label: "{{ item.id }} : {{ item.members }}"
+    label: "{{ item.id }} : {{ item.members | default([]) }}"
