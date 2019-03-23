@@ -13,6 +13,19 @@ homeassistant:
   # Customization file
   customize: !include customize.yaml
 
+  # https://www.home-assistant.io/docs/authentication/providers/
+  auth_providers:
+    # the native provider is required the first time HomeAssistant is accessed.
+    # Once the first user has been created, it can be disabled
+    - type: homeassistant
+    - type: command_line
+      command: /opt/ldap-auth/ldap-auth.sh
+      args: ["/opt/ldap-auth/config.cfg"]
+      meta: true
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
 # Show links to resources in log and frontend
 introduction:
 

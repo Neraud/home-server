@@ -62,6 +62,11 @@ openldap_ldap_groups:
     ou: app_groups
     members: 
       - user
+  - id: homeassistant
+    description: HomeAssistant
+    ou: app_groups
+    members: 
+      - user
 
 phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
@@ -121,6 +126,7 @@ homeassistant_mysql_password: Passw0rd
 homeassistant_mysql_root_password: Passw0rd
 homeassistant_mqtt_user: user
 homeassistant_mqtt_password: Passw0rd
+homeassistant_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 nodered_context_root: /node-red
 

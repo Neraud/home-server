@@ -93,6 +93,7 @@ homeassistant_mysql_password: clear_password
 homeassistant_mysql_root_password: clear_password
 homeassistant_mqtt_user: homeassistant
 homeassistant_mqtt_password: clear_password
+homeassistant_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 
 nodered_context_root: /
 
