@@ -25,6 +25,7 @@ spec:
       containers:
       - name: openldap
         # Avoid 1.2.2/1.2.3 until https://github.com/osixia/docker-openldap/issues/242
+        # With 1.2.4, the bug is fixed, however openldap only works once and can't restart ...
         image: osixia/openldap:1.2.1
         args: ["--copy-service"]
         volumeMounts:
