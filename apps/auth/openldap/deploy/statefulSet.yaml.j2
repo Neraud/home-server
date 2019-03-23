@@ -43,7 +43,9 @@ spec:
           mountPath: /container/run
         ports:
         - containerPort: 389
-          name: openldap
+          name: ldap
+        - containerPort: 636
+          name: ldaps
         resources:
           requests:
             cpu: "{{ openldap_requests_cpu | default("100m") }}"
