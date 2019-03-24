@@ -58,8 +58,7 @@ spec:
       nodeSelector:
         capability/general-purpose: 'yes'
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
+        fsGroup: 472 # grafana group inside the container
       serviceAccountName: grafana
       volumes:
       - name: tz-config
