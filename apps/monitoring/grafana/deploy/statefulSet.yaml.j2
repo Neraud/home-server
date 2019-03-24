@@ -50,7 +50,7 @@ spec:
           name: grafana-datasources
           readOnly: false
         - mountPath: /etc/grafana/provisioning/dashboards
-          name: grafana-dashboards
+          name: grafana-dashboard-providers
           readOnly: false
         - mountPath: /grafana-dashboard-definitions/0/grafana-dashboards-config
           name: grafana-dashboards-config
@@ -69,8 +69,8 @@ spec:
         secret:
           secretName: grafana-datasources
       - configMap:
-          name: grafana-dashboards
-        name: grafana-dashboards
+          name: grafana-dashboard-providers
+        name: grafana-dashboard-providers
       - configMap:
           name: grafana-dashboards-config
         name: grafana-dashboards-config
