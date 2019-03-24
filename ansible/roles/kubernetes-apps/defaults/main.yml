@@ -194,6 +194,9 @@ alertmanager_alerts_smtp_enabled: False
 
 grafana_admin_user: admin
 grafana_admin_password: clear_password
+grafana_ldap_base: "{{ openldap_ldap_basedn }}"
+grafana_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+grafana_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 
 logging_kibana_valid_certs: True
 logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"

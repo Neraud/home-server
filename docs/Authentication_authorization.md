@@ -129,3 +129,11 @@ Contrib modules exist, however they all seem old and unmaintained. For example [
 
 Instead, I've developed a custom script to perform the LDAP Authentication.
 It is enabled by default, and filers on the `app_groups` `nodered`.
+
+### Grafana
+
+Grafana natively supports LDAP Authentication.
+LDAP users are allowed to access the dashboards in View mode.
+Members of the `app_groups` `grafana` are given Admin access.
+
+The default `admin` account is still created. It can safely be removed once logged in with an LDAP account

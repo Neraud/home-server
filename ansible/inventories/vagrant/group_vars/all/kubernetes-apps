@@ -72,6 +72,11 @@ openldap_ldap_groups:
     ou: app_groups
     members: 
       - user
+  - id: grafana
+    description: Grafana
+    ou: app_groups
+    members: 
+      - user
 
 phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
@@ -161,6 +166,7 @@ gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_grou
 logging_elasticsearch_replicas: 1
 
 grafana_admin_password: Passw0rd
+grafana_ldap_group: "cn=grafana,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 logging_kibana_context_path: /kibana
 logging_kibana_valid_certs: False
