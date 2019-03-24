@@ -26,6 +26,11 @@ openldap_ldap_readonly_user_enabled: False
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: readonly
 
+# Create the CA secret in the following namespaces
+openldap_exposed_namespaces:
+  - default
+  - monitoring
+
 openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 #openldap_ldap_structure_groups_ou_dns: 
 #  groups: "ou=groups,{{ openldap_ldap_basedn }}"

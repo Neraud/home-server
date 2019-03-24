@@ -78,6 +78,16 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+- name: Expose OpenLDAP in allowed namespaces
+  k8s:
+    definition: "{{ lookup(item.0 | regex_search('.j2$') | ternary('template','file'), item.0) }}"
+    state: present
+  with_nested:
+    - "{{ lookup('fileglob', kubernetes_app_root_path + '/auth/openldap/deploy/exposed/*.yaml*').split(',') }}"
+    - "{{ openldap_exposed_namespaces }}"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
 - name: Fetch openldap internal endpoint
   k8s_facts:
     api_version: v1
