@@ -20,7 +20,7 @@ spec:
         app-component: nodered
     spec:
       containers:
-      - image: nodered/node-red-docker:0.19.5-slim-v8
+      - image: {{ kubernetes_registry_url }}/nodered
         name: nodered
         ports:
         - containerPort: 1880
