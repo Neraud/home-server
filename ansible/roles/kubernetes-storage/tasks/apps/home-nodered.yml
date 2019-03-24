@@ -15,6 +15,5 @@
     dest: "{{ nodered_mount_path }}/{{ item }}"
     backup: true
   loop:
-    - settings.js
     - flows.json
   when: not nodered_settings_file.stat.exists
