@@ -6,6 +6,9 @@
     * passthrough USB
     * Depends MQTT ?
 
+* Mosquitto :
+    * Use ConfigMap/Secret instead of volumes when possible
+
 * RoomAssistant :
     * BLE
     * Depends MQTT ?
@@ -30,3 +33,6 @@
 
 * Kube Bench
     https://blog.aquasec.com/announcing-kube-bench-an-open-source-tool-for-running-kubernetes-cis-benchmark-tests
+
+* Email
+    * Centralized SMTP Relay ?
