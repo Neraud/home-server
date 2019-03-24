@@ -46,6 +46,12 @@ spec:
         - mountPath: /var/lib/grafana
           name: grafana-pv-claim
           readOnly: false
+        - mountPath: /etc/grafana/grafana.ini
+          name: grafana-etc
+          subPath: grafana.ini
+        - mountPath: /etc/grafana/ldap.toml
+          name: grafana-etc
+          subPath: ldap.toml
         - mountPath: /etc/grafana/provisioning/datasources
           name: grafana-datasources
           readOnly: false
@@ -64,15 +70,18 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: grafana-etc
+        configMap:
+          name: grafana-etc
       - name: grafana-datasources
         secret:
           secretName: grafana-datasources
-      - configMap:
+      - name: grafana-dashboard-providers
+        configMap:
           name: grafana-dashboard-providers
-        name: grafana-dashboard-providers
-      - configMap:
+      - name: grafana-dashboards-config
+        configMap:
           name: grafana-dashboards-config
-        name: grafana-dashboards-config
   volumeClaimTemplates:
   - metadata:
       name: grafana-pv-claim
