@@ -16,6 +16,8 @@ kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 # Expose Unifi private services on the Node IP
 #unifi_private_ip: 
 
+# OpenLDAP sererver name. We use the Kubernetes [service].[namespace] format
+openldap_ldap_servername: openldap.default
 openldap_ldap_organisation: Example Inc.
 openldap_ldap_domain: example.org
 openldap_ldap_basedn: "dc=example,dc=org" #if empty automatically set from LDAP_DOMAIN
@@ -54,11 +56,13 @@ openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 #      - user1
 #      - user2
 
+phpldapadmin_ldap_servername: "{{ openldap_ldap_servername }}"
 phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
 
 lemonldap_fastcgi_port: 9000
 lemonldap_persistent_volume_path: /var/lib/lemonldap-ng-pv
+lemonldap_ldap_servername: "{{ openldap_ldap_servername }}"
 lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
 lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
@@ -98,9 +102,11 @@ homeassistant_mysql_password: clear_password
 homeassistant_mysql_root_password: clear_password
 homeassistant_mqtt_user: homeassistant
 homeassistant_mqtt_password: clear_password
+homeassistant_ldap_servername: "{{ openldap_ldap_servername }}"
 homeassistant_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 
 nodered_context_root: /
+nodered_ldap_servername: "{{ openldap_ldap_servername }}"
 nodered_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 nodered_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 nodered_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
@@ -173,6 +179,7 @@ gitlab_smtp_port: 456
 gitlab_smtp_enable_starttls_auto: "true"
 #gitlab_smtp_tls: "true"
 #gitlab_smtp_openssl_verify_mode: 'peer'
+gitlab_ldap_servername: "{{ openldap_ldap_servername }}"
 
 prometheus_allowed_namespaces:
   - default
@@ -194,6 +201,7 @@ alertmanager_alerts_smtp_enabled: False
 
 grafana_admin_user: admin
 grafana_admin_password: clear_password
+grafana_ldap_servername: "{{ openldap_ldap_servername }}"
 grafana_ldap_base: "{{ openldap_ldap_basedn }}"
 grafana_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 grafana_ldap_manager_password: "{{ openldap_ldap_admin_password }}"

@@ -21,6 +21,8 @@
     path: "{{ custom_ssl_certs_root_dir }}/openldap/ca.csr"
     privatekey_path: "{{ custom_ssl_certs_root_dir }}/openldap/ca.key"
     common_name: "{{ web_base_domain }}"
+    basicConstraints:
+      - CA:TRUE
 
 - name: Generate a Self Signed OpenSSL CA certificate
   openssl_certificate:
@@ -37,7 +39,7 @@
   openssl_csr:
     path: "{{ custom_ssl_certs_root_dir }}/openldap/ldap.csr"
     privatekey_path: "{{ custom_ssl_certs_root_dir }}/openldap/ldap.key"
-    common_name: "openldap"
+    common_name: "{{ openldap_ldap_servername }}"
 
 - name: Generate a CA Signed OpenSSL server certificate
   openssl_certificate:

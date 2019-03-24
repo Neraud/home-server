@@ -129,7 +129,7 @@ module.exports = {
             maxAge: 120, // in seconds
         },
         ldapOptions: {
-            url: 'ldaps://openldap:636',
+            url: 'ldaps://{{ nodered_ldap_servername }}:636',
             bindDN: '{{ nodered_ldap_manager_dn }}',
             bindCredentials: '{{ nodered_ldap_manager_password }}',
             searchBase: '{{ nodered_ldap_users_dn }}',
@@ -137,7 +137,7 @@ module.exports = {
             searchAttributes: ['dn', 'displayName'],
             tlsOptions: {
                 ca: [require('fs').readFileSync('/opt/openldap-ca.crt')],
-                rejectUnauthorized: false
+                rejectUnauthorized: true
             }
         }
     }),

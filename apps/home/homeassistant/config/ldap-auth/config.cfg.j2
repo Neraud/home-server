@@ -21,7 +21,7 @@
 CLIENT="curl"
 
 # Add SERVER, USERDN etc. here...
-SERVER="ldaps://openldap"
+SERVER="ldaps://{{ homeassistant_ldap_servername }}"
 export SSL_CERT_FILE=/opt/openldap-ca.crt
 
 USERDN="cn=$(ldap_dn_escape "$username"),{{ homeassistant_ldap_users_dn }}"

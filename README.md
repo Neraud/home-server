@@ -148,14 +148,14 @@ To test the LDAP connection, you can use :
           "name": "test-ldap",
           "image": "particlekit/ldap-client",
           "args": [
-            "ldapsearch", "-x", "-H", "ldaps://openldap", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
+            "ldapsearch", "-x", "-H", "ldaps://openldap.default", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
           ],
           "stdin": true,
           "stdinOnce": true,
           "tty": true,
           "env": [
               { "name": "LDAPTLS_CACERT", "value": "/certs/ca.crt" },
-              { "name": "LDAPTLS_REQCERT", "value": "never" }
+              { "name": "LDAPTLS_REQCERT", "value": "demand" }
           ],
           "volumeMounts": [{
             "mountPath": "/certs",

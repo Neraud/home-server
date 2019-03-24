@@ -4,7 +4,7 @@
 
 [[servers]]
 # Ldap server host (specify multiple hosts space separated)
-host = "openldap.default"
+host = "{{ grafana_ldap_servername }}"
 # Default port is 389 or 636 if use_ssl = true
 port = 389
 # Set to true if ldap server supports TLS
@@ -12,8 +12,7 @@ use_ssl = true
 # Set to true if connect ldap server with STARTTLS pattern (create connection in insecure, then upgrade to secure connection with TLS)
 start_tls = true
 # set to true if you want to skip ssl cert validation
-# TODO Cert is generated for openldap, not openldap.default
-ssl_skip_verify = true
+ssl_skip_verify = false
 # set to the path to your root CA certificate or leave unset to use system defaults
 root_ca_cert = "/etc/ldap/ca.crt"
 # Authentication against LDAP servers requiring client certificates
