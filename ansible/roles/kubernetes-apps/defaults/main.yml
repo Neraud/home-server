@@ -192,6 +192,9 @@ alertmanager_alerts_smtp_enabled: False
 #   emails_to: 
 #     - whatever@gmail.com
 
+grafana_admin_user: admin
+grafana_admin_password: clear_password
+
 logging_kibana_valid_certs: True
 logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"
 logging_kibana_export_saved_output_dir: "{{ standard_user.home }}/kibana_saved_objects"

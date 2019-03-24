@@ -196,7 +196,9 @@ Their deployment manifests and configurations are based on the examples provided
 
 Grafana is deployed and configured to use Prometheus as a data source.
 
-Default Kubernetes dashboards are already created, based on [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus)
+Default Kubernetes dashboards are already created, based on [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus).
+
+You can use the default admin account : `admin` / `Passw0rd`
 
 ### Fluent Bit
 

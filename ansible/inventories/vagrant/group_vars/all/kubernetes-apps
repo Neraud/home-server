@@ -160,6 +160,8 @@ gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_grou
 
 logging_elasticsearch_replicas: 1
 
+grafana_admin_password: Passw0rd
+
 logging_kibana_context_path: /kibana
 logging_kibana_valid_certs: False
 logging_kibana_export_saved_output_dir: "/vagant/kibana_saved_objects"
