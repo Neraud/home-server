@@ -268,10 +268,9 @@ To debug all messages sent via Mosquitto :
 Node-RED addons can be installed via the web interface.
 
 A sample flow is already deployed to show how Node-RED integrates with HomeAssistant.
-It requires
+It requires :
 
 * generating a HomeAssistant long lived access token (from the HomeAssistant profile page)
-* manually installing the following node :  `node-red-contrib-home-assistant-websocket`
 * configuring the HomeAssistant Server on Nod-RED
 
 The sample flow is commented to help these steps.
