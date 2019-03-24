@@ -122,3 +122,10 @@ The standard process wants to create a user in the local HomeAssistant provider.
 In the deployed configuration, both providers are enabled.
 After the first access, the HomeAssistant provider can be disabled.
 
+### Node-RED
+
+Node-RED doesn't natively support LDAP authentication.
+Contrib modules exist, however they all seem old and unmaintained. For example [node-red-contrib-ldap-auth](https://www.npmjs.com/package/node-red-contrib-ldap-auth) is at version 0.0.3 and was last updated in 2017-03.
+
+Instead, I've developed a custom script to perform the LDAP Authentication.
+It is enabled by default, and filers on the `app_groups` `nodered`.

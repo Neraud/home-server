@@ -67,6 +67,11 @@ openldap_ldap_groups:
     ou: app_groups
     members: 
       - user
+  - id: nodered
+    description: Node-RED
+    ou: app_groups
+    members: 
+      - user
 
 phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
@@ -129,6 +134,7 @@ homeassistant_mqtt_password: Passw0rd
 homeassistant_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 nodered_context_root: /node-red
+nodered_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 mosquitto_listeners: 
   - port: 1883
