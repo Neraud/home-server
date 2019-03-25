@@ -137,3 +137,12 @@ LDAP users are allowed to access the dashboards in View mode.
 Members of the `app_groups` `grafana` are given Admin access.
 
 The default `admin` account is still created. It can safely be removed once logged in with an LDAP account
+
+### Airsonic
+
+Airsonic natively supports LDAP Authentication.
+Members of the `app_groups` `airsonic` are allowed to access to the app with standard permissions.
+
+However, the email address for these users is not imported in Airsonic. It can be set manually in the Settings > Users section of Airsonic.
+
+The default `admin` account is still created. After logging in with `admin` and giving the Administrative role to an LDAP user, it can safely be removed.

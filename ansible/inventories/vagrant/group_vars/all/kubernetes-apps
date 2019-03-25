@@ -77,6 +77,11 @@ openldap_ldap_groups:
     ou: app_groups
     members: 
       - user
+  - id: airsonic
+    description: Airsonic
+    ou: app_groups
+    members: 
+      - user
 
 phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
@@ -154,6 +159,8 @@ mosquitto_credientials:
 
 # Look at the README.md to find out how to get your token
 #plex_plex_token: 
+
+airsonic_ldap_group: "cn=airsonic,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 gitlab_context_path: /gitlab
 gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}"

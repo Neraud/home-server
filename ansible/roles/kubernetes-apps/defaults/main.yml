@@ -155,6 +155,11 @@ airsonic_extra_java_opts:
   - -Dserver.use-forward-headers=true
   - -Dairsonic.defaultMusicFolder=/mnt/multimetia/Music
   - -Dairsonic.defaultPodcastFolder=/mnt/multimetia/Podcasts
+airsonic_ldap_servername: "{{ openldap_ldap_servername }}"
+airsonic_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+airsonic_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+airsonic_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+airsonic_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
 # Look at the README.md to find out how to get your token
 #plex_plex_token: 

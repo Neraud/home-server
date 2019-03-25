@@ -6,6 +6,8 @@ metadata:
   labels:
     app: airsonic
     app-component: airsonic
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -28,6 +30,23 @@ spec:
           mountPath: /airsonic/data
         - name: airsonic-config
           mountPath: /config
+      - name: inject-certificates
+        image: airsonic/airsonic:10.2.1-RELEASE
+        command:
+          - "sh"
+          - "-c"
+          - |
+            cp /etc/ssl/certs/java/cacerts /etc/ssl/certs/java_target/cacerts
+            /usr/bin/keytool \
+              -importcert -noprompt \
+              -keystore /etc/ssl/certs/java_target/cacerts -storepass changeit \
+              -alias openldap -file /etc/ldap/ca.crt
+        volumeMounts:
+        - name: keystore-volume
+          mountPath: /etc/ssl/certs/java_target
+        - name: certs-volume
+          mountPath: /etc/ldap/ca.crt
+          subPath: ca.crt
       containers:
       - image: airsonic/airsonic:10.2.1-RELEASE
         name: airsonic
@@ -53,12 +72,18 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+        - name: keystore-volume
+          mountPath: /etc/ssl/certs/java
         - name: airsonic-data-pv-claim
           mountPath: /airsonic/data
         - name: airsonic-playlists-pv-claim
           mountPath: /airsonic/playlists
         - name: airsonic-multimedia
           mountPath: /mnt/multimetia
+        # airsonic-config is not used by the container directly
+        # But mounting it enables the use of the reloader
+        - name: airsonic-config
+          mountPath: /config
       volumes:
       - name: tz-config
         hostPath:
@@ -70,6 +95,11 @@ spec:
       - name: airsonic-multimedia
         persistentVolumeClaim:
           claimName: nfs-multimetia
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
+      - name: keystore-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
