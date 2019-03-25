@@ -19,6 +19,15 @@ spec:
         app: airsonic
         app-component: airsonic
     spec:
+      initContainers:
+      - name: inject-properties
+        image: busybox
+        command: [ "sh", "/config/inject_properties.sh" ]
+        volumeMounts:
+        - name: airsonic-data-pv-claim
+          mountPath: /airsonic/data
+        - name: airsonic-config
+          mountPath: /config
       containers:
       - image: airsonic/airsonic:10.2.1-RELEASE
         name: airsonic
@@ -54,6 +63,10 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: airsonic-config
+        configMap:
+          name: airsonic-config
+          defaultMode: 0555
       - name: airsonic-multimedia
         persistentVolumeClaim:
           claimName: nfs-multimetia
