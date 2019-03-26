@@ -146,3 +146,13 @@ Members of the `app_groups` `airsonic` are allowed to access to the app with sta
 However, the email address for these users is not imported in Airsonic. It can be set manually in the Settings > Users section of Airsonic.
 
 The default `admin` account is still created. After logging in with `admin` and giving the Administrative role to an LDAP user, it can safely be removed.
+
+### TT-RSS
+
+TT-RSS doesn't natively support LDAP authentication.
+A [contrib plugin](https://github.com/hydrian/TTRSS-Auth-LDAP) enables it.
+Members of the `app_groups` `ttrss` are given access.
+
+However, the email address for these users is not imported in TT-RSS. It can be set manually in Preferences > Preferences > Personal data.
+
+The internal authentication system (with the default `admin` / `password` account) is disabled.

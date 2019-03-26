@@ -43,6 +43,9 @@ spec:
         - name: ttrss-config
           mountPath: /config/config.php
           subPath: config.php
+        - name: certs-volume
+          mountPath: /etc/ldap/ca.crt
+          subPath: ca.crt
       volumes:
       - name: tz-config
         hostPath:
@@ -50,5 +53,8 @@ spec:
       - name: ttrss-config
         configMap:
           name: ttrss-config
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
       nodeSelector:
         capability/general-purpose: 'yes'

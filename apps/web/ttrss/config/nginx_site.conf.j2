@@ -12,7 +12,7 @@ server {
 
   location {{ ttrss_context_root }} {
     {% if ttrss_context_root != "/" %}alias /var/www/html;{% endif %}
-    
+
     try_files $uri $uri/ /index.html /index.php?$args =404;
 
     location ~ \.php$ {
@@ -20,7 +20,8 @@ server {
       fastcgi_pass 127.0.0.1:9000;
       fastcgi_index index.php;
       include /etc/nginx/fastcgi_params;
-      {% if ttrss_context_root != "/" %}fastcgi_param SCRIPT_FILENAME $request_filename;{% endif %}
+      {% if ttrss_context_root != "/" %}fastcgi_param SCRIPT_FILENAME $request_filename;
+      {% endif %}
     }
   }
 }

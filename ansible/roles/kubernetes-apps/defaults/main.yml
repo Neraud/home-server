@@ -96,6 +96,12 @@ ttrss_pqsql_password: clear_password
 # Keep the schema URL in sync with the image version
 ttrss_schema_url: https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql
 
+ttrss_ldap_servername: "{{ openldap_ldap_servername }}"
+ttrss_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+ttrss_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+ttrss_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+ttrss_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
+
 homeassistant_mysql_user: homeassistant
 homeassistant_mysql_database: homeassistant
 homeassistant_mysql_password: clear_password
