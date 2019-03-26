@@ -22,8 +22,7 @@ spec:
         app-component: ttrss
     spec:
       containers:
-      # Keep the image version in sync with the ttrss_schema_url variable
-      - image: linuxserver/tt-rss:amd64-19.2-ls6
+      - image: {{ kubernetes_registry_url }}/ttrss
         name: ttrss
         ports:
         - containerPort: 80
