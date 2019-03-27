@@ -148,14 +148,14 @@ To test the LDAP connection, you can use :
           "name": "test-ldap",
           "image": "particlekit/ldap-client",
           "args": [
-            "ldapsearch", "-x", "-H", "ldaps://openldap", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
+            "ldapsearch", "-x", "-H", "ldaps://openldap.default", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
           ],
           "stdin": true,
           "stdinOnce": true,
           "tty": true,
           "env": [
               { "name": "LDAPTLS_CACERT", "value": "/certs/ca.crt" },
-              { "name": "LDAPTLS_REQCERT", "value": "never" }
+              { "name": "LDAPTLS_REQCERT", "value": "demand" }
           ],
           "volumeMounts": [{
             "mountPath": "/certs",
@@ -196,7 +196,9 @@ Their deployment manifests and configurations are based on the examples provided
 
 Grafana is deployed and configured to use Prometheus as a data source.
 
-Default Kubernetes dashboards are already created, based on [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus)
+Default Kubernetes dashboards are already created, based on [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus).
+
+You can use the default admin account : `admin` / `Passw0rd`
 
 ### Fluent Bit
 
@@ -268,10 +270,9 @@ To debug all messages sent via Mosquitto :
 Node-RED addons can be installed via the web interface.
 
 A sample flow is already deployed to show how Node-RED integrates with HomeAssistant.
-It requires
+It requires :
 
 * generating a HomeAssistant long lived access token (from the HomeAssistant profile page)
-* manually installing the following node :  `node-red-contrib-home-assistant-websocket`
 * configuring the HomeAssistant Server on Nod-RED
 
 The sample flow is commented to help these steps.
@@ -294,6 +295,7 @@ The default account is `admin` / `password`.
 Gitlab is installed using the omnibus package.
 
 The `root` account password is set the first time the site is displayed.
+The default `user` account (from OpenLDAP) also has access.
 
 ### Plex
 

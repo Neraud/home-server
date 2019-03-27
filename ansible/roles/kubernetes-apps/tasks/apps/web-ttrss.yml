@@ -1,8 +1,17 @@
 ---
 
+  # TODO not idempotent
+  # Push always registers a change : https://github.com/ansible/ansible/issues/25040
+  # And build doesn't update an existing image without force=yes ...
+- name: Build and push TT-RSS image
+  docker_image:
+    path: "{{ kubernetes_app_root_path }}/web/ttrss/build"
+    name: "{{ kubernetes_registry_url }}/ttrss"
+    force: yes
+    push: yes
+
 # We can't just use a lookup('url', ttrss_schema_url) to inject the schema file directly.
 # This gets blocked by a 403, probably due to a user-agent filter on TT-RSS Gogs.
-
 - name: Download the TT-RSS schema
   get_url:
     dest: "{{ ttrss_temp_schema_path }}"

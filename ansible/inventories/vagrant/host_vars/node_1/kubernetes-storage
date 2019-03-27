@@ -92,8 +92,6 @@ kubernetes_local_storage:
   grafana-data:
     capacity: 1G
     reclaim_policy: Retain
-    filesystem: ext4
-    mount_path: /opt/kubernetes_storage/grafana-data
     labels:
       app: grafana
       app-component: grafana

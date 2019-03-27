@@ -22,27 +22,8 @@ spec:
         app-component: ttrss
     spec:
       containers:
-      # Keep the image version in sync with the ttrss_schema_url variable
-      - image: linuxserver/tt-rss:amd64-19.2-ls6
+      - image: {{ kubernetes_registry_url }}/ttrss
         name: ttrss
-        env:
-        - name: DB_TYPE
-          value: pgsql
-        - name: DB_HOST
-          value: ttrss-pgsql
-        - name: DB_USER
-          value: "{{ ttrss_pqsql_user }}"
-        - name: DB_NAME
-          value: "{{ ttrss_pqsql_database }}"
-        - name: DB_PASS
-          valueFrom:
-            secretKeyRef:
-              name: ttrss-pgsql-pass
-              key: password
-        - name: DB_PORT
-          value: "5432"
-        - name: SELF_URL_PATH
-          value: "https://web.{{ web_base_domain }}{{ ttrss_context_root }}/"
         ports:
         - containerPort: 80
           name: ttrss
@@ -56,17 +37,24 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: nginx-site-config-file
-          mountPath: /config/nginx/site-confs/
+        - name: ttrss-config
+          mountPath: /config/nginx/site-confs/default
+          subPath: nginx_site.conf
+        - name: ttrss-config
+          mountPath: /config/config.php
+          subPath: config.php
+        - name: certs-volume
+          mountPath: /etc/ldap/ca.crt
+          subPath: ca.crt
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: nginx-site-config-file
+      - name: ttrss-config
         configMap:
           name: ttrss-config
-          items:
-          - key: nginx_site_config
-            path: default
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
       nodeSelector:
         capability/general-purpose: 'yes'

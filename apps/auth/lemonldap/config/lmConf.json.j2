@@ -116,7 +116,7 @@
        "cn": "cn"
    },
 {# generalParameters > authParams > ldapParams > ldapConnection #}
-   "ldapServer": "ldap+tls://openldap/cafile=/var/lib/lemonldap-ng/server-certs/ca.crt",
+   "ldapServer": "ldap+tls://{{ lemonldap_ldap_servername }}/cafile=/var/lib/lemonldap-ng/server-certs/ca.crt",
    "ldapPort": 389,
    "ldapBase": "{{ lemonldap_ldap_base }}",
    "managerDn": "{{ lemonldap_ldap_manager_dn }}",
@@ -131,8 +131,8 @@
    "ldapSearchDeref": "find",
 {# generalParameters > authParams > ldapParams > ldapGroups #}
    "ldapGroupBase": "{{ lemonldap_ldap_group_base }}",
-   "ldapGroupObjectClass": "groupOfNames",
-   "ldapGroupAttributeName": "member",
+   "ldapGroupObjectClass": "groupOfUniqueNames",
+   "ldapGroupAttributeName": "uniqueMember",
    "ldapGroupAttributeNameUser": "dn",
    "ldapGroupAttributeNameSearch": "cn",
    "ldapGroupDecodeSearchedValue": 0,

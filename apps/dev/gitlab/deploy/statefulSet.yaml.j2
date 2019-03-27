@@ -6,6 +6,8 @@ metadata:
   labels:
     app: gitlab
     app-component: gitlab
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -45,14 +47,26 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+        - name: certs-volume
+          mountPath: /etc/openldap/server/ca.crt
+          subPath: ca.crt
         - name: gitlab-config-pv-claim
           mountPath: /etc/gitlab
         - name: gitlab-data-pv-claim
           mountPath: /var/opt/gitlab
+        - name: gitlab-config-volume
+          mountPath: /etc/gitlab/gitlab.rb
+          subPath: gitlab.rb
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: gitlab-config-volume
+        configMap:
+          name: gitlab
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

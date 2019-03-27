@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homeassistant-ldap-auth
+  namespace: default
+  labels:
+    app: homeassistant
+    app-component: homeassistant
+data:
+{% for homeassistant_ldapauth_file in homeassistant_ldapauth_files %}
+  {{ homeassistant_ldapauth_file | basename | replace(".j2", "") }}: |-
+    {{ lookup(homeassistant_ldapauth_file | regex_search('.j2$') | ternary('template','file'), homeassistant_ldapauth_file) | replace('\n', '\n    ') }}
+{% endfor %}

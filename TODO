@@ -6,7 +6,8 @@
     * passthrough USB
     * Depends MQTT ?
 
-* Node-RED : automatically install custom nodes
+* Mosquitto :
+    * Use ConfigMap/Secret instead of volumes when possible
 
 * RoomAssistant :
     * BLE
@@ -22,8 +23,16 @@
     * Dashboards ?
     * Alerts ?
 
+* OpenLDAP
+    * Upgrade image to 1.2.4+
+        It works at first start
+        It refuses to restart after that ...
+
 * SSO 
     * Optional use of TOTP ?
 
 * Kube Bench
     https://blog.aquasec.com/announcing-kube-bench-an-open-source-tool-for-running-kubernetes-cis-benchmark-tests
+
+* Email
+    * Centralized SMTP Relay ?

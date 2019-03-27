@@ -120,14 +120,27 @@ module.exports = {
     // -----------------
     // To password protect the Node-RED editor and admin API, the following
     // property can be used. See http://nodered.org/docs/security.html for details.
-    //adminAuth: {
-    //    type: "credentials",
-    //    users: [{
-    //        username: "admin",
-    //        password: "$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN.",
-    //        permissions: "*"
-    //    }]
-    //},
+    adminAuth: require('/usr/src/node-red/ldap-user-authentication.js').setup({
+        defaultToAnonymous: false,
+        displayNameProperty: 'displayName',
+        userCacheOptions: {
+            enabled: false,
+            size: 100,
+            maxAge: 120, // in seconds
+        },
+        ldapOptions: {
+            url: 'ldaps://{{ nodered_ldap_servername }}:636',
+            bindDN: '{{ nodered_ldap_manager_dn }}',
+            bindCredentials: '{{ nodered_ldap_manager_password }}',
+            searchBase: '{{ nodered_ldap_users_dn }}',
+            searchFilter: '(&(cn={{ '{{username}}' }})(objectClass=inetOrgPerson)(memberOf={{ nodered_ldap_group }}))',
+            searchAttributes: ['dn', 'displayName'],
+            tlsOptions: {
+                ca: [require('fs').readFileSync('/opt/openldap-ca.crt')],
+                rejectUnauthorized: true
+            }
+        }
+    }),
 
     // To password protect the node-defined HTTP endpoints (httpNodeRoot), or
     // the static content (httpStatic), the following properties can be used.

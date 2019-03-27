@@ -6,6 +6,8 @@ metadata:
   labels:
     app: homeassistant
     app-component: homeassistant
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -20,7 +22,7 @@ spec:
         app-component: homeassistant
     spec:
       containers:
-      - image: homeassistant/home-assistant:0.87.0
+      - image: homeassistant/home-assistant:0.89.2
         name: homeassistant
         ports:
         - containerPort: 8123
@@ -30,6 +32,11 @@ spec:
           mountPath: /etc/localtime
         - name: homeassistant-pv-claim
           mountPath: /config
+        - mountPath: /opt/ldap-auth
+          name: homeassistant-ldap-auth
+        - name: certs-volume
+          mountPath: /opt/openldap-ca.crt
+          subPath: ca.crt
         resources:
           requests:
             cpu: "{{ homeassistant_homeassistant_requests_cpu | default("500m") }}"
@@ -41,6 +48,13 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: homeassistant-ldap-auth
+        configMap:
+          name: homeassistant-ldap-auth
+          defaultMode: 0755
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca   
       nodeSelector:
         capability/home: 'yes'
   volumeClaimTemplates:

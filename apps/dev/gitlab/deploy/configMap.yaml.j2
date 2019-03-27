@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab
+  namespace: default
+  labels:
+    app: gitlab
+    app-component: gitlab
+data:
+  gitlab.rb: |
+    {{ lookup('template', kubernetes_app_root_path + '/dev/gitlab/config/gitlab.rb.j2') | replace('\n', '\n    ') }}

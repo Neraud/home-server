@@ -6,6 +6,8 @@ metadata:
   labels:
     app: nodered
     app-component: nodered
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -20,7 +22,7 @@ spec:
         app-component: nodered
     spec:
       containers:
-      - image: nodered/node-red-docker:0.19.5-slim-v8
+      - image: {{ kubernetes_registry_url }}/nodered
         name: nodered
         ports:
         - containerPort: 1880
@@ -37,12 +39,24 @@ spec:
           mountPath: /etc/localtime
         - name: nodered-pv-claim
           mountPath: /data
+        - name: nodered-config
+          mountPath: /data/settings.js
+          subPath: settings.js
+        - name: certs-volume
+          mountPath: /opt/openldap-ca.crt
+          subPath: ca.crt
       securityContext:
         fsGroup: 1001 # node-red group inside the container
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: nodered-config
+        configMap:
+          name: nodered
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
       nodeSelector:
         capability/home: 'yes'
   volumeClaimTemplates:

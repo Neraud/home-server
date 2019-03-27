@@ -57,8 +57,33 @@ openldap_ldap_groups:
       - user
 
   # App Groups, used to filter access on each app
-  - id: test-app
-    description: Test App
+  - id: gitlab
+    description: Gitlab
+    ou: app_groups
+    members: 
+      - user
+  - id: homeassistant
+    description: HomeAssistant
+    ou: app_groups
+    members: 
+      - user
+  - id: nodered
+    description: Node-RED
+    ou: app_groups
+    members: 
+      - user
+  - id: grafana
+    description: Grafana
+    ou: app_groups
+    members: 
+      - user
+  - id: airsonic
+    description: Airsonic
+    ou: app_groups
+    members: 
+      - user
+  - id: ttrss
+    description: TT-RSS
     ou: app_groups
     members: 
       - user
@@ -114,13 +139,18 @@ ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss
 ttrss_pqsql_password: Passw0rd
+ttrss_ldap_group: "cn=ttrss,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 homeassistant_mysql_user: homeassistant
 homeassistant_mysql_database: homeassistant
 homeassistant_mysql_password: Passw0rd
 homeassistant_mysql_root_password: Passw0rd
+homeassistant_mqtt_user: user
+homeassistant_mqtt_password: Passw0rd
+homeassistant_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 nodered_context_root: /node-red
+nodered_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 mosquitto_listeners: 
   - port: 1883
@@ -136,10 +166,20 @@ mosquitto_credientials:
 # Look at the README.md to find out how to get your token
 #plex_plex_token: 
 
+airsonic_ldap_group: "cn=airsonic,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
+
 gitlab_context_path: /gitlab
 gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}"
 
+gitlab_ldap_user_base: "{{ openldap_ldap_structure_users_ou_dn }}"
+gitlab_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
+gitlab_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
+
 logging_elasticsearch_replicas: 1
+
+grafana_admin_password: Passw0rd
+grafana_ldap_group: "cn=grafana,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 logging_kibana_context_path: /kibana
 logging_kibana_valid_certs: False

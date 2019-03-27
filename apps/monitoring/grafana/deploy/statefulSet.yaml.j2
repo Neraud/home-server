@@ -46,34 +46,48 @@ spec:
         - mountPath: /var/lib/grafana
           name: grafana-pv-claim
           readOnly: false
+        - mountPath: /etc/grafana/grafana.ini
+          name: grafana-etc
+          subPath: grafana.ini
+        - mountPath: /etc/grafana/ldap.toml
+          name: grafana-etc
+          subPath: ldap.toml
         - mountPath: /etc/grafana/provisioning/datasources
           name: grafana-datasources
           readOnly: false
         - mountPath: /etc/grafana/provisioning/dashboards
-          name: grafana-dashboards
+          name: grafana-dashboard-providers
           readOnly: false
         - mountPath: /grafana-dashboard-definitions/0/grafana-dashboards-config
           name: grafana-dashboards-config
           readOnly: false
+        - name: certs-volume
+          mountPath: /etc/ldap/ca.crt
+          subPath: ca.crt
       nodeSelector:
         capability/general-purpose: 'yes'
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
+        fsGroup: 472 # grafana group inside the container
       serviceAccountName: grafana
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: grafana-etc
+        configMap:
+          name: grafana-etc
       - name: grafana-datasources
         secret:
           secretName: grafana-datasources
-      - configMap:
-          name: grafana-dashboards
-        name: grafana-dashboards
-      - configMap:
+      - name: grafana-dashboard-providers
+        configMap:
+          name: grafana-dashboard-providers
+      - name: grafana-dashboards-config
+        configMap:
           name: grafana-dashboards-config
-        name: grafana-dashboards-config
+      - name: certs-volume
+        secret:
+          secretName: openldap-ca
   volumeClaimTemplates:
   - metadata:
       name: grafana-pv-claim

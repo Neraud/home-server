@@ -16,6 +16,8 @@ kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 # Expose Unifi private services on the Node IP
 #unifi_private_ip: 
 
+# OpenLDAP sererver name. We use the Kubernetes [service].[namespace] format
+openldap_ldap_servername: openldap.default
 openldap_ldap_organisation: Example Inc.
 openldap_ldap_domain: example.org
 openldap_ldap_basedn: "dc=example,dc=org" #if empty automatically set from LDAP_DOMAIN
@@ -25,6 +27,11 @@ openldap_ldap_config_password: config
 openldap_ldap_readonly_user_enabled: False
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: readonly
+
+# Create the CA secret in the following namespaces
+openldap_exposed_namespaces:
+  - default
+  - monitoring
 
 openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 #openldap_ldap_structure_groups_ou_dns: 
@@ -49,11 +56,13 @@ openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 #      - user1
 #      - user2
 
+phpldapadmin_ldap_servername: "{{ openldap_ldap_servername }}"
 phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
 
 lemonldap_fastcgi_port: 9000
 lemonldap_persistent_volume_path: /var/lib/lemonldap-ng-pv
+lemonldap_ldap_servername: "{{ openldap_ldap_servername }}"
 lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
 lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
@@ -87,12 +96,27 @@ ttrss_pqsql_password: clear_password
 # Keep the schema URL in sync with the image version
 ttrss_schema_url: https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql
 
+ttrss_ldap_servername: "{{ openldap_ldap_servername }}"
+ttrss_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+ttrss_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+ttrss_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+ttrss_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
+
 homeassistant_mysql_user: homeassistant
 homeassistant_mysql_database: homeassistant
 homeassistant_mysql_password: clear_password
 homeassistant_mysql_root_password: clear_password
+homeassistant_mqtt_user: homeassistant
+homeassistant_mqtt_password: clear_password
+homeassistant_ldap_servername: "{{ openldap_ldap_servername }}"
+homeassistant_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 
 nodered_context_root: /
+nodered_ldap_servername: "{{ openldap_ldap_servername }}"
+nodered_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+nodered_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+nodered_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+nodered_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
 # First listener is used as default
 mosquitto_listeners: 
@@ -137,11 +161,36 @@ airsonic_extra_java_opts:
   - -Dserver.use-forward-headers=true
   - -Dairsonic.defaultMusicFolder=/mnt/multimetia/Music
   - -Dairsonic.defaultPodcastFolder=/mnt/multimetia/Podcasts
+airsonic_ldap_servername: "{{ openldap_ldap_servername }}"
+airsonic_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+airsonic_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+airsonic_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+airsonic_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
 # Look at the README.md to find out how to get your token
 #plex_plex_token: 
 
 gitlab_context_path: /gitlab
+gitlab_external_url: "https://gitlab.domain{{ gitlab_context_path }}"
+gitlab_time_zone: "{{ time_zone }}"
+gitlab_backup_keep_time: "604800"
+
+# Email configuration.
+gitlab_email_enabled: "false"
+gitlab_email_from: "gitlab@example.com"
+gitlab_email_display_name: "Gitlab"
+gitlab_email_reply_to: "gitlab@example.com"
+gitlab_smtp_enable: "false"
+gitlab_smtp_address: "smtp.server"
+gitlab_smtp_port: 456
+#gitlab_smtp_authentication: "login"
+#gitlab_smtp_user_name: "smtp user"
+#gitlab_smtp_password: "smtp password"
+#gitlab_smtp_domain: "example.com"
+gitlab_smtp_enable_starttls_auto: "true"
+#gitlab_smtp_tls: "true"
+#gitlab_smtp_openssl_verify_mode: 'peer'
+gitlab_ldap_servername: "{{ openldap_ldap_servername }}"
 
 prometheus_allowed_namespaces:
   - default
@@ -160,6 +209,13 @@ alertmanager_alerts_smtp_enabled: False
 # - name: "{{ alertmanager_alerts_default_receiver }}"
 #   emails_to: 
 #     - whatever@gmail.com
+
+grafana_admin_user: admin
+grafana_admin_password: clear_password
+grafana_ldap_servername: "{{ openldap_ldap_servername }}"
+grafana_ldap_base: "{{ openldap_ldap_basedn }}"
+grafana_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+grafana_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 
 logging_kibana_valid_certs: True
 logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"

@@ -101,3 +101,58 @@ When supported, applications also use OpenLDAP to authenticate their users.
 
 A dedicated group under the OU `app_groups` is created for each application. 
 
+### Gitlab
+
+With Gitlab CE, login via LDAP is enabled.
+A filter on the `app_groups` `gitlab` is configured.
+
+However, the groups inside Gitlab can't be mapped with LDAP groups (it requires Gitlab EE)
+
+### HomeAssistant
+
+HomeAssistant doesn't natively support LDAP authentication.
+However, it supports a generic [command line](https://www.home-assistant.io/docs/authentication/providers/#command-line) authentication provider.
+And the community has developped an [LDAP script](https://github.com/efficiosoft/ldap-auth-sh).
+
+This works well, and allows filtering on the `app_groups` `homeassistant`.
+
+However, it does't seem like this authentication provider can be used the first time HomeAssistant is accessed.
+The standard process wants to create a user in the local HomeAssistant provider.
+
+In the deployed configuration, both providers are enabled.
+After the first access, the HomeAssistant provider can be disabled.
+
+### Node-RED
+
+Node-RED doesn't natively support LDAP authentication.
+Contrib modules exist, however they all seem old and unmaintained. For example [node-red-contrib-ldap-auth](https://www.npmjs.com/package/node-red-contrib-ldap-auth) is at version 0.0.3 and was last updated in 2017-03.
+
+Instead, I've developed a custom script to perform the LDAP Authentication.
+It is enabled by default, and filers on the `app_groups` `nodered`.
+
+### Grafana
+
+Grafana natively supports LDAP Authentication.
+LDAP users are allowed to access the dashboards in View mode.
+Members of the `app_groups` `grafana` are given Admin access.
+
+The default `admin` account is still created. It can safely be removed once logged in with an LDAP account
+
+### Airsonic
+
+Airsonic natively supports LDAP Authentication.
+Members of the `app_groups` `airsonic` are allowed to access to the app with standard permissions.
+
+However, the email address for these users is not imported in Airsonic. It can be set manually in the Settings > Users section of Airsonic.
+
+The default `admin` account is still created. After logging in with `admin` and giving the Administrative role to an LDAP user, it can safely be removed.
+
+### TT-RSS
+
+TT-RSS doesn't natively support LDAP authentication.
+A [contrib plugin](https://github.com/hydrian/TTRSS-Auth-LDAP) enables it.
+Members of the `app_groups` `ttrss` are given access.
+
+However, the email address for these users is not imported in TT-RSS. It can be set manually in Preferences > Preferences > Personal data.
+
+The internal authentication system (with the default `admin` / `password` account) is disabled.
