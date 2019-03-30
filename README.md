@@ -214,7 +214,8 @@ You can use the exporter's user to test : `exporter` / `password`
 
 ### Kibana
 
-Kibana is installed and configured to read data from ElasticSearch.
+The [OpenDistro](https://opendistro.github.io/for-elasticsearch/) variant of Kibana is deployed and configured to read data from ElasticSearch.
+
 Saved Objects (sources, visualizations, dashboards) are loaded from the `apps/logging/kibana/config` folder.
 
 To add new objects, you can :
