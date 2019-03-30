@@ -9,7 +9,7 @@ metadata:
     prometheus-target: elastic-exporter
 spec:
   ports:
-  - port: 9108
+  - port: 9114
     name: metrics
     targetPort: metrics
   selector:
