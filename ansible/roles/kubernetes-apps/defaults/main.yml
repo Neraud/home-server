@@ -217,6 +217,18 @@ grafana_ldap_base: "{{ openldap_ldap_basedn }}"
 grafana_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 grafana_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 
+# TODO : these user / passwords can't easily be changed without wiping the ES cluster.
+# We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
+logging_elasticsearch_internal_users: []
+#  - name: userName
+#    password: clear_password
+#    readonly: True
+#    roles: 
+#      - role1
+#      - role2
+elasticsearch_exposed_namespaces:
+  - logging
+
 logging_kibana_valid_certs: True
 logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"
 logging_kibana_export_saved_output_dir: "{{ standard_user.home }}/kibana_saved_objects"

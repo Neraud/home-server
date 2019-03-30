@@ -1,11 +1,13 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: es-cluster
+  name: elasticsearch
   namespace: logging
   labels:
     app: elasticsearch
     app-component: elasticsearch
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   serviceName: elasticsearch
   replicas: {{ logging_elasticsearch_replicas }}
@@ -21,13 +23,16 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.6.0
+        image: amazon/opendistro-for-elasticsearch:0.7.0
         ports:
         - containerPort: 9200
           name: rest
           protocol: TCP
         - containerPort: 9300
           name: inter-node
+          protocol: TCP
+        - containerPort: 9600
+          name: perftop
           protocol: TCP
         resources:
           requests:
@@ -41,6 +46,13 @@ spec:
           mountPath: /etc/localtime
         - name: elasticsearch-pv-claim
           mountPath: /usr/share/elasticsearch/data
+        - name: elasticsearch-config
+          mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+          subPath: elasticsearch.yml
+        - name: elasticsearch-security
+          mountPath: /usr/share/elasticsearch/plugins/opendistro_security/securityconfig
+        - name: certs-volume
+          mountPath: /usr/share/elasticsearch/config/certs
         env:
           - name: cluster.name
             value: k8s-logs
@@ -49,7 +61,7 @@ spec:
               fieldRef:
                 fieldPath: metadata.name
           - name: discovery.zen.ping.unicast.hosts
-            value: "{% for i in range(0, logging_elasticsearch_replicas) %}{% if i > 0 %},{% endif %}es-cluster-{{ i }}.elasticsearch{% endfor %}"
+            value: "{% for i in range(0, logging_elasticsearch_replicas) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}.elasticsearch{% endfor %}"
           - name: discovery.zen.minimum_master_nodes
             value: "{{ (logging_elasticsearch_replicas / 2 + 1) | int }}"
           - name: ES_JAVA_OPTS
@@ -77,6 +89,15 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: elasticsearch-config
+        configMap:
+          name: elasticsearch-config
+      - name: elasticsearch-security
+        configMap:
+          name: elasticsearch-security
+      - name: certs-volume
+        secret:
+          secretName: elasticsearch-certs
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

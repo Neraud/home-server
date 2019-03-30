@@ -206,7 +206,11 @@ Fluent Bit is deployed on all nodes to capture logs and forward them to ElasticS
 
 ### ElasticSearch
 
+The [OpenDistro](https://opendistro.github.io/for-elasticsearch/) variant of ElasticSearch is deployed.
+
 You can test the 'E' part of the EFK stack by calling : https://infra.k8stest.com/elasticsearch/_cluster/state?pretty
+
+You can use the exporter's user to test : `exporter` / `password`
 
 ### Kibana
 
