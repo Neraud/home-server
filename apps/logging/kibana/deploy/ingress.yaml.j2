@@ -12,7 +12,7 @@ spec:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ logging_kibana_context_path | default('kibana') }}/?(.*)
+        - path: {{ logging_kibana_context_path | default('/kibana') }}/?(.*)
           backend:
             serviceName: kibana
             servicePort: 5601

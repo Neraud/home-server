@@ -203,6 +203,7 @@ logging_elasticsearch_internal_users:
     roles:
       - kibana_server
 
+logging_elasticsearch_context_path: /elasticsearch
 logging_elasticsearch_exporter_user: exporter
 logging_elasticsearch_exporter_password: password
 
