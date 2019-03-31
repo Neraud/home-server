@@ -32,6 +32,7 @@ openldap_ldap_readonly_user_password: readonly
 openldap_exposed_namespaces:
   - default
   - monitoring
+  - logging
 
 openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 #openldap_ldap_structure_groups_ou_dns: 
@@ -226,6 +227,10 @@ logging_elasticsearch_internal_users: []
 #    roles: 
 #      - role1
 #      - role2
+logging_elasticsearch_ldap_servername: "{{ openldap_ldap_servername }}"
+logging_elasticsearch_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
+logging_elasticsearch_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+logging_elasticsearch_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 elasticsearch_exposed_namespaces:
   - logging
 

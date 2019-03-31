@@ -83,9 +83,62 @@ opendistro_security:
       basic_internal_auth_domain: 
         http_enabled: true
         transport_enabled: true
-        order: 4
+        order: 2
         http_authenticator:
           type: basic
           challenge: true
         authentication_backend:
           type: intern
+      ldap:
+        enabled: true
+        http_enabled: true
+        transport_enabled: true
+        order: 4
+        http_authenticator:
+          type: basic
+          challenge: true
+        authentication_backend:
+          type: ldap
+          config:
+            hosts:
+              - {{ logging_elasticsearch_ldap_servername }}:636
+            enable_ssl: true
+            enable_start_tls: false
+            enable_ssl_client_auth: false
+            verify_hostnames: true
+            pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/ldap/ca.crt
+            bind_dn: {{ logging_elasticsearch_ldap_manager_dn }}
+            password: {{ logging_elasticsearch_ldap_manager_password }}
+            userbase: '{{ logging_elasticsearch_ldap_users_dn }}'
+            usersearch: '(&(objectClass=inetOrgPerson)(cn={0})(memberOf={{ logging_elasticsearch_group }}))'
+            username_attribute: cn
+
+    authz:
+      ldap:
+        enabled: true
+        authorization_backend:
+          type: ldap
+          config:
+            hosts:
+              - {{ logging_elasticsearch_ldap_servername }}:636
+            enable_ssl: true
+            enable_start_tls: false
+            enable_ssl_client_auth: false
+            verify_hostnames: true
+            pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/ldap/ca.crt
+            bind_dn: {{ logging_elasticsearch_ldap_manager_dn }}
+            password: {{ logging_elasticsearch_ldap_manager_password }}
+            userroleattribute: null
+            userrolename: none
+            rolesearch_enabled: true
+            rolebase: '{{ logging_elasticsearch_roles_dn }}'
+            rolesearch: '(uniqueMember={0})'
+            rolename: cn
+            resolve_nested_roles: false
+{% if logging_elasticsearch_internal_users | default([]) | length > 0 %}
+            skip_users:
+{% for user in logging_elasticsearch_internal_users | default([]) %}
+              - {{ user.name }}
+{% endfor %}
+{% endif %}
+

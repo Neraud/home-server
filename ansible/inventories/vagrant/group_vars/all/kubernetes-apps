@@ -15,6 +15,7 @@ openldap_ldap_readonly_user_password: Passw0rd
 openldap_ldap_structure_groups_ou_dns: 
   sso_groups: "ou=sso_groups,{{ openldap_ldap_basedn }}"
   app_groups: "ou=app_groups,{{ openldap_ldap_basedn }}"
+  elasticsearch_roles: "ou=elasticsearch_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
   - id: user
@@ -85,6 +86,23 @@ openldap_ldap_groups:
   - id: ttrss
     description: TT-RSS
     ou: app_groups
+    members: 
+      - user
+  - id: elasticsearch
+    description: ElasticSearch
+    ou: app_groups
+    members: 
+      - user
+
+
+  - id: admin
+    description: All access
+    ou: elasticsearch_roles
+    members: 
+      - user
+  - id: kibanauser
+    description: Kibana user
+    ou: elasticsearch_roles
     members: 
       - user
 
@@ -204,6 +222,9 @@ logging_elasticsearch_internal_users:
       - kibana_server
 
 logging_elasticsearch_context_path: /elasticsearch
+logging_elasticsearch_group: "cn=elasticsearch,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
+logging_elasticsearch_roles_dn: "{{ openldap_ldap_structure_groups_ou_dns['elasticsearch_roles'] }}"
+
 logging_elasticsearch_exporter_user: exporter
 logging_elasticsearch_exporter_password: password
 
