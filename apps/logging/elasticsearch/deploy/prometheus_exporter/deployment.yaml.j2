@@ -23,11 +23,18 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
       containers:
-      - command:
-        - /bin/elasticsearch_exporter
-        - -es.uri=http://elasticsearch:9200
-        - -es.all=true
-        image: justwatch/elasticsearch_exporter:1.0.2
+      - name: elastic-exporter
+        # TODO change for a stable version when available. We need this RC to have the ssl-skip-verify flag
+        image: justwatch/elasticsearch_exporter:1.1.0rc1
+        env:
+        - name: "ES_URI"
+          value: "https://{{ logging_elasticsearch_exporter_user }}:{{ logging_elasticsearch_exporter_password }}@elasticsearch:9200"
+        - name: "ES_ALL"
+          value: "true"
+        - name: "ES_SSL_SKIP_VERIFY"
+          value: "false"
+        - name: "ES_CA"
+          value: "/etc/elasticsearch/ssl/ca.crt"
         securityContext:
           capabilities:
             drop:
@@ -49,17 +56,16 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 9108
+            port: 9114
           initialDelaySeconds: 30
           timeoutSeconds: 10
-        name: p8s-elastic-exporter
         ports:
-        - containerPort: 9108
+        - containerPort: 9114
           name: metrics
         readinessProbe:
           httpGet:
             path: /health
-            port: 9108
+            port: 9114
           initialDelaySeconds: 10
           timeoutSeconds: 10
         resources:
@@ -69,4 +75,17 @@ spec:
           limits:
             cpu: "{{ prometheus_exporter_limits_cpu | default("100m") }}"
             memory: "{{ prometheus_exporter_limits_memory | default("128Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: certs-volume
+          mountPath: /etc/elasticsearch/ssl/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: certs-volume
+        secret:
+          secretName: elasticsearch-ca
       restartPolicy: Always

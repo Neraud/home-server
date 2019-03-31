@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: kibana
-        image: docker.elastic.co/kibana/kibana-oss:6.6.0
+        image: amazon/opendistro-for-elasticsearch-kibana:0.7.1
         resources:
           requests:
             cpu: "{{ kibana_requests_cpu | default("100m") }}"
@@ -32,8 +32,27 @@ spec:
           - name: SERVER_BASEPATH
             value: {{ logging_kibana_context_path | default('/kibana') }}
           - name: ELASTICSEARCH_URL
-            value: http://elasticsearch:9200
+            value: https://elasticsearch:9200
         ports:
         - containerPort: 5601
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: kibana-config
+          mountPath: /usr/share/kibana/config/kibana.yml
+          subPath: kibana.yml
+        - name: certs-volume
+          mountPath: /etc/elasticsearch/ssl/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: kibana-config
+        configMap:
+          name: kibana
+      - name: certs-volume
+        secret:
+          secretName: elasticsearch-ca
       nodeSelector:
         capability/general-purpose: 'yes'

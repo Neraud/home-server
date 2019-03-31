@@ -1,11 +1,80 @@
 ---
 
+- name: Ensure directory exists for local self-signed TLS certs
+  file:
+    path: "{{ custom_ssl_certs_root_dir }}/elasticsearch"
+    state: directory
+
+- name: Generate an OpenSSL CA private key
+  openssl_privatekey:
+    path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.key"
+
+- name: Generate an OpenSSL CA CSR
+  openssl_csr:
+    path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.csr"
+    privatekey_path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.key"
+    common_name: "{{ web_base_domain }}"
+    basicConstraints:
+      - CA:TRUE
+
+- name: Generate a Self Signed OpenSSL CA certificate
+  openssl_certificate:
+    path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.crt"
+    privatekey_path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.key"
+    csr_path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.csr"
+    provider: selfsigned
+
+- name: Generate an OpenSSL server private key
+  openssl_privatekey:
+    path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.key"
+
+- name: Generate an OpenSSL server CSR
+  openssl_csr:
+    path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.csr"
+    privatekey_path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.key"
+    common_name: "elasticsearch"
+
+- name: Generate a CA Signed OpenSSL server certificate
+  openssl_certificate:
+    path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.crt"
+    privatekey_path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.key"
+    csr_path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.csr"
+    ownca_path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.crt"
+    ownca_privatekey_path: "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.key"
+    provider: ownca
+
+- name: Read generated files
+  slurp:
+    src: "{{ item }}"
+  register: elasticsearch_generated_certificate_files
+  with_items: 
+    - "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.crt"
+    - "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.crt"
+    - "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.key"
+
+- name: List included security config files
+  set_fact:
+    elasticsearch_security_config_files: "{{ elasticsearch_security_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/logging/elasticsearch/config/security/*.yml*"
+
 - name: Deploy ElasticSearch
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+  register: elasticsearch_deployment
   with_fileglob:
     - "{{ kubernetes_app_root_path }}/logging/elasticsearch/deploy/*.yaml*"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Expose ElasticSearch in allowed namespaces
+  k8s:
+    definition: "{{ lookup(item.0 | regex_search('.j2$') | ternary('template','file'), item.0) }}"
+    state: present
+  with_nested:
+    - "{{ lookup('fileglob', kubernetes_app_root_path + '/logging/elasticsearch/deploy/exposed/*.yaml*').split(',') }}"
+    - "{{ elasticsearch_exposed_namespaces }}"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
@@ -17,3 +86,33 @@
     - "{{ kubernetes_app_root_path }}/logging/elasticsearch/deploy/prometheus_exporter/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
+
+- name: Wait for EasticSearch to be available
+  uri:
+    url: "{{ logging_elasticsearch_internal_url }}/_cluster/state?pretty"
+    method: GET
+    return_content: no
+#    validate_certs: "{{ logging_kibana_valid_certs }}"
+    user: "{{ logging_elasticsearch_exporter_user }}"
+    password: "{{ logging_elasticsearch_exporter_password }}"
+  register: elasticsearch_available
+  until:
+  - elasticsearch_available.status == 200
+  retries: 18
+  delay: 10
+  when: elasticsearch_deployment.changed
+
+# Security configuration changes are only taken into account the first time ES is deployed, or after running securityadmin.sh
+# The following tasks ensures that each time something changes in ES deployment, security configurations are properly updated.
+- name: Reconfigure security
+  command:
+    kubectl --namespace=logging exec -it elasticsearch-0 -- \
+      bash /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh \
+      -icl -nhnv \
+      -cd /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/ \
+      -cacert /usr/share/elasticsearch/config/certs/ca.crt \
+      -cert /usr/share/elasticsearch/config/certs/es-node.crt \
+      -key /usr/share/elasticsearch/config/certs/es-node.key
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  when: elasticsearch_deployment.changed

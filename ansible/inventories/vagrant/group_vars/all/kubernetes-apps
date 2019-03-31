@@ -15,6 +15,7 @@ openldap_ldap_readonly_user_password: Passw0rd
 openldap_ldap_structure_groups_ou_dns: 
   sso_groups: "ou=sso_groups,{{ openldap_ldap_basedn }}"
   app_groups: "ou=app_groups,{{ openldap_ldap_basedn }}"
+  elasticsearch_roles: "ou=elasticsearch_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
   - id: user
@@ -87,6 +88,23 @@ openldap_ldap_groups:
     ou: app_groups
     members: 
       - user
+  - id: elasticsearch
+    description: ElasticSearch
+    ou: app_groups
+    members: 
+      - user
+
+
+  - id: admin
+    description: All access
+    ou: elasticsearch_roles
+    members: 
+      - user
+  - id: kibanauser
+    description: Kibana user
+    ou: elasticsearch_roles
+    members: 
+      - user
 
 phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
 phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
@@ -106,6 +124,11 @@ lemonldap_location_rules:
     # To require TOTP, set the level to >= 4
     #requiredAuthnLevel: 4
     default_rule: groupMatch($hGroups, 'cn', 'infra')
+    rules:
+      # Disable Auth for ElasticSearch
+      - name: 00-ElasticSearch
+        uri: ^/elasticsearch/
+        rule: skip
   - domain: "unifi.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'unifi')
     # To require TOTP, set the level to >= 4
@@ -176,10 +199,40 @@ gitlab_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
 gitlab_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
-logging_elasticsearch_replicas: 1
 
 grafana_admin_password: Passw0rd
 grafana_ldap_group: "cn=grafana,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
+
+logging_elasticsearch_replicas: 1
+logging_elasticsearch_internal_users:
+  - name: "{{ logging_elasticsearch_exporter_user }}"
+    password: "{{ logging_elasticsearch_exporter_password }}"
+    readonly: True
+    roles:
+      - readall
+  - name: "{{ logging_fluentd_elasticsearch_user }}"
+    password: "{{ logging_fluentd_elasticsearch_password }}"
+    readonly: True
+    roles: 
+      - logstash
+  - name: "{{ logging_kibana_elasticsearch_user }}"
+    password: "{{ logging_kibana_elasticsearch_password }}"
+    readonly: True
+    roles:
+      - kibana_server
+
+logging_elasticsearch_context_path: /elasticsearch
+logging_elasticsearch_group: "cn=elasticsearch,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
+logging_elasticsearch_roles_dn: "{{ openldap_ldap_structure_groups_ou_dns['elasticsearch_roles'] }}"
+
+logging_elasticsearch_exporter_user: exporter
+logging_elasticsearch_exporter_password: password
+
+logging_fluentd_elasticsearch_user: fluent
+logging_fluentd_elasticsearch_password: password
+
+logging_kibana_elasticsearch_user: kibana
+logging_kibana_elasticsearch_password: password
 
 logging_kibana_context_path: /kibana
 logging_kibana_valid_certs: False

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elasticsearch-security
+  namespace: logging
+  labels:
+    app: elasticsearch
+    app-component: elasticsearch
+data:
+{% for elasticsearch_security_config_file in elasticsearch_security_config_files %}
+  {{ elasticsearch_security_config_file | basename | replace(".j2", "") }}: |-
+    {{ lookup(elasticsearch_security_config_file | regex_search('.j2$') | ternary('template','file'), elasticsearch_security_config_file) | replace('\n', '\n    ') }}
+{% endfor %}
