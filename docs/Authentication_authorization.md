@@ -156,3 +156,12 @@ Members of the `app_groups` `ttrss` are given access.
 However, the email address for these users is not imported in TT-RSS. It can be set manually in Preferences > Preferences > Personal data.
 
 The internal authentication system (with the default `admin` / `password` account) is disabled.
+
+### Elasticsearch & Kibana
+
+Using the security plugin of the OpenDistro package of Elasticsearch and Kibana enables to use LDAP authentication and authorization.
+
+Technical accounts are stored in the internal database (see `logging_elasticsearch_internal_users` in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps`)
+
+User accounts are stored in LDAP, using the `app_groups` `elasticsearch`.
+Roles are using dedicated LDAP groups, under a dedicated `elasticsearch_roles` ou, and are mapped to elasticsearch roles.
