@@ -11,10 +11,10 @@
     state: present
     filename: "debian"
   with_items:
-#    - "deb http://deb.debian.org/debian/ {{ ansible_distribution_release }} main"
-#    - "deb-src http://deb.debian.org/debian/ {{ ansible_distribution_release }} main"
-    - "deb http://deb.debian.org/debian/ {{ ansible_distribution_release }}-updates main"
-    - "deb-src http://deb.debian.org/debian/ {{ ansible_distribution_release }}-updates main"
-#    - "deb http://deb.debian.org/debian-security/ {{ ansible_distribution_release }}/updates main"
-#    - "deb-src http://deb.debian.org/debian-security/ {{ ansible_distribution_release }}/updates main"
+#    - "deb http://deb.debian.org/debian/ {{ ansible_lsb.codename }} main"
+#    - "deb-src http://deb.debian.org/debian/ {{ ansible_lsb.codename }} main"
+    - "deb http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates main"
+    - "deb-src http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates main"
+#    - "deb http://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}/updates main"
+#    - "deb-src http://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}/updates main"
   when: ansible_distribution == 'Debian'
