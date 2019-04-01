@@ -17,6 +17,8 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.box = settings['common']['box_name']
 	config.ssh.insert_key = false
+	# TODO : re-enable guest aditions once the stable contrib-buster64 box is released
+	config.vbguest.auto_update = false
 	
 	####################
 	#      Nodes       #
