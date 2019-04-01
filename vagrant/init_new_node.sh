@@ -16,6 +16,8 @@ echo "=================================================="
 	#echo "deb http://ftp.fr.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list
 #fi
 
+export DEBIAN_FRONTEND=noninteractive
+
 echo " - update"
 apt-get -y update
 
