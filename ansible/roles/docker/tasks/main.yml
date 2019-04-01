@@ -16,9 +16,9 @@
     state: present
 
 - name: Prepare Docker daemon systemd configuration directory
-  file: 
+  file:
     path: /etc/systemd/system/docker.service.d/
-    state: directory 
+    state: directory
 
 - name: Configure Docker daemon
   template:

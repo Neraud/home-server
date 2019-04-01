@@ -8,6 +8,7 @@
   git:
     dest: /tmp/lemonldap-ng-docker
     repo: https://github.com/Neraud/lemonldap-ng-docker
+    version: master
 
 - name: Build and push LemonLDAP image
   docker_image:

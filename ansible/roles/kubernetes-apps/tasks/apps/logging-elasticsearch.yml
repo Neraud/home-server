@@ -47,7 +47,7 @@
   slurp:
     src: "{{ item }}"
   register: elasticsearch_generated_certificate_files
-  with_items: 
+  with_items:
     - "{{ custom_ssl_certs_root_dir }}/elasticsearch/ca.crt"
     - "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.crt"
     - "{{ custom_ssl_certs_root_dir }}/elasticsearch/es-node.key"
@@ -67,6 +67,7 @@
     - "{{ kubernetes_app_root_path }}/logging/elasticsearch/deploy/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
+  notify: "Reconfigure Elasticsearch security"
 
 - name: Expose ElasticSearch in allowed namespaces
   k8s:
@@ -87,32 +88,5 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
-- name: Wait for EasticSearch to be available
-  uri:
-    url: "{{ logging_elasticsearch_internal_url }}/_cluster/state?pretty"
-    method: GET
-    return_content: no
-#    validate_certs: "{{ logging_kibana_valid_certs }}"
-    user: "{{ logging_elasticsearch_exporter_user }}"
-    password: "{{ logging_elasticsearch_exporter_password }}"
-  register: elasticsearch_available
-  until:
-  - elasticsearch_available.status == 200
-  retries: 18
-  delay: 10
-  when: elasticsearch_deployment.changed
-
-# Security configuration changes are only taken into account the first time ES is deployed, or after running securityadmin.sh
-# The following tasks ensures that each time something changes in ES deployment, security configurations are properly updated.
-- name: Reconfigure security
-  command:
-    kubectl --namespace=logging exec -it elasticsearch-0 -- \
-      bash /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh \
-      -icl -nhnv \
-      -cd /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/ \
-      -cacert /usr/share/elasticsearch/config/certs/ca.crt \
-      -cert /usr/share/elasticsearch/config/certs/es-node.crt \
-      -key /usr/share/elasticsearch/config/certs/es-node.key
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-  when: elasticsearch_deployment.changed
+- name: Flush handlers
+  meta: flush_handlers

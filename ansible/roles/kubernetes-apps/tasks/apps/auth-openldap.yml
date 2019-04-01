@@ -59,7 +59,7 @@
   slurp:
     src: "{{ item }}"
   register: openldap_generated_certificate_files
-  with_items: 
+  with_items:
     - "{{ custom_ssl_certs_root_dir }}/openldap/ca.crt"
     - "{{ custom_ssl_certs_root_dir }}/openldap/ldap.crt"
     - "{{ custom_ssl_certs_root_dir }}/openldap/ldap.key"
@@ -129,7 +129,7 @@
     dn: "{{ item }}"
     objectClass: organizationalUnit
     state: present
-  with_items: 
+  with_items:
     - "{{ openldap_ldap_structure_users_ou_dn }}"
     - "{{ openldap_ldap_structure_groups_ou_dns | dict2items | map(attribute='value') | list }}"
 

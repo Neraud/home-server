@@ -17,7 +17,7 @@
     dest: "{{ ttrss_temp_schema_path }}"
     url: "{{ ttrss_schema_url }}"
   changed_when: False
-      
+
 - name: Deploy TT-RSS
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
