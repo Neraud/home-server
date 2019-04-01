@@ -63,7 +63,7 @@
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
   register: existing_kibana_saved_objects
-  with_together: 
+  with_together:
     - "{{ kibana_config_saved_objects_files }}"
     - "{{ kibana_config_contents }}"
   loop_control:
@@ -74,7 +74,7 @@
     url: "{{ logging_kibana_internal_url }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: POST
     follow_redirects: false
-    body: 
+    body:
       attributes: "{{ item.1.attributes }}"
     body_format: json
     headers:
@@ -83,7 +83,7 @@
     force_basic_auth: true
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
-  with_together: 
+  with_together:
     - "{{ kibana_config_saved_objects_files }}"
     - "{{ kibana_config_contents }}"
     - "{{ existing_kibana_saved_objects.results }}"
@@ -97,7 +97,7 @@
     url: "{{ logging_kibana_internal_url }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: PUT
     follow_redirects: false
-    body: 
+    body:
       attributes: "{{ item.1.attributes }}"
     body_format: json
     headers:
@@ -106,13 +106,13 @@
     force_basic_auth: true
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
-  with_together: 
+  with_together:
     - "{{ kibana_config_saved_objects_files }}"
     - "{{ kibana_config_contents }}"
     - "{{ existing_kibana_saved_objects.results }}"
   loop_control:
     label: "{{ item.0 }} -> {{ item.1.id }}"
   changed_when: True
-  when: 
+  when:
     - item.2.status == 200
     - item.2.json.attributes != item.1.attributes

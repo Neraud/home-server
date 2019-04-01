@@ -1,0 +1,30 @@
+---
+
+- name: Wait for EasticSearch to be available
+  uri:
+    url: "{{ logging_elasticsearch_internal_url }}/_cluster/state?pretty"
+    method: GET
+    return_content: no
+    user: "{{ logging_elasticsearch_exporter_user }}"
+    password: "{{ logging_elasticsearch_exporter_password }}"
+  register: elasticsearch_available
+  until:
+  - elasticsearch_available.status == 200
+  retries: 18
+  delay: 10
+  listen: "Reconfigure Elasticsearch security"
+
+# Security configuration changes are only taken into account the first time ES is deployed, or after running securityadmin.sh
+# The following tasks ensures that each time something changes in ES deployment, security configurations are properly updated.
+- name: Reconfigure security
+  command:
+    kubectl --namespace=logging exec -it elasticsearch-0 -- \
+      bash /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh \
+      -icl -nhnv \
+      -cd /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/ \
+      -cacert /usr/share/elasticsearch/config/certs/ca.crt \
+      -cert /usr/share/elasticsearch/config/certs/es-node.crt \
+      -key /usr/share/elasticsearch/config/certs/es-node.key
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  listen: "Reconfigure Elasticsearch security"
