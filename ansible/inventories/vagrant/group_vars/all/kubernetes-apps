@@ -158,6 +158,17 @@ lemonldap_location_rules:
         uri: ^/gitlab
         rule: skip
 
+
+#mailhog_forward_smtp_enabled: true
+#mailhog_forward_smtp_name: "Gmail"
+#mailhog_forward_smtp_host: "smtp.gmail.com"
+#mailhog_forward_smtp_port: "587"
+#mailhog_forward_smtp_email: "whatever@gmail.com"
+#mailhog_forward_smtp_username: "whatever@gmail.com"
+#mailhog_forward_smtp_password: "whatever"
+#mailhog_forward_smtp_mechanism: "PLAIN"
+
+
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss

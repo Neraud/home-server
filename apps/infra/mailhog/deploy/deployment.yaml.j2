@@ -6,6 +6,8 @@ metadata:
   labels:
     app: mailhog
     app-component: mailhog
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
@@ -31,6 +33,10 @@ spec:
         env:
           - name: MH_UI_WEB_PATH
             value: mailhog
+{% if mailhog_forward_smtp_enabled | bool %}
+          - name: MH_OUTGOING_SMTP
+            value: /etc/mailhog/smtp.json
+{% endif %}
         ports:
         - containerPort: 1025
           name: smtp
@@ -39,9 +45,15 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+        - name: mailhog-smtp
+          mountPath: /etc/mailhog/smtp.json
+          subPath: smtp.json
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: mailhog-smtp
+        secret:
+          secretName: mailhog-smtp
       nodeSelector:
         capability/general-purpose: 'yes'
