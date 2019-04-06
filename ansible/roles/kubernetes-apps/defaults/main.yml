@@ -89,6 +89,8 @@ lemonldap_location_rules:
     default_rule: accept
 
 
+mailhog_exposed_smtp: mailhog.default:1025
+
 
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss

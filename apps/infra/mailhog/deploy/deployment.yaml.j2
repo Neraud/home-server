@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mailhog
+  namespace: default
+  labels:
+    app: mailhog
+    app-component: mailhog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mailhog
+      app-component: mailhog
+  template:
+    metadata:
+      labels:
+        app: mailhog
+        app-component: mailhog
+    spec:
+      containers:
+      - name: mailhog
+        image: mailhog/mailhog:v1.0.0
+        resources:
+          requests:
+            cpu: "{{ mailhog_requests_cpu | default("100m") }}"
+            memory: "{{ mailhog_requests_memory | default("64Mi") }}"
+          limits:
+            cpu: "{{ mailhog_limits_cpu | default("1000m") }}"
+            memory: "{{ mailhog_limits_memory | default("64Mi") }}"
+        env:
+          - name: MH_UI_WEB_PATH
+            value: mailhog
+        ports:
+        - containerPort: 1025
+          name: smtp
+        - containerPort: 8025
+          name: http
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'

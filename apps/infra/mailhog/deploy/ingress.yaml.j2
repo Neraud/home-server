@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mailhog
+  namespace: default
+  labels:
+    app: mailhog
+spec:
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+        - path: /mailhog/?(.*)
+          backend:
+            serviceName: mailhog
+            servicePort: 8025

@@ -93,6 +93,7 @@ The folowing services are deployed :
 | [OpenLDAP](https://www.openldap.org/)                            | -                                       | Open source Lightweight Directory Access Protocol |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | https://infra.k8stest.com/lemonldap/manager.html | Web Single Sign On and Access Management Free Software |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | https://infra.k8stest.com/phpldapadmin/ | Web-based LDAP browser                        |
+| [MailHog](https://github.com/mailhog/MailHog)                    | https://infra.k8stest.com/mailhog/      | MailHog is an email testing tool for developers |
 | [Prometheus](https://prometheus.io/)                             | https://infra.k8stest.com/prometheus/   | Monitoring solution                           |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | https://infra.k8stest.com/alertmanager/ | Alert manager for Prometheus                  |
 | [Grafana](https://grafana.com/)                                  | https://infra.k8stest.com/grafana/      | Platform for beautiful analytics and monitoring  |
@@ -182,6 +183,22 @@ You can add a TOTP device for `user` and force its use by setting the `requiredA
 ### phpLDAPadmin
 
 You can login using the `admin`/`Passw0rd` account to manage the LDAP.
+
+### MailHog
+
+MailHog is used to capture all emails sent by the various deployed services.
+
+Out of the box, it is only used for testing purposes : you can view those emails using a web interface.
+
+But it can be configured to use an external SMTP server (gor example gmail) to really send them.
+
+You can easily test MailHog by sending a email via the command line : 
+
+```shell
+[root@master$] apt-get -q -y install swaks
+ 
+[user@master$] echo "This is the message body" | swaks --to someone@gmail.com --from "you@example.com" --server $(kubectl get endpoints mailhog -o=jsonpath='{.subsets[0].addresses[0].ip}'):1025
+```
 
 ### Prometheus & AlertManager
 
