@@ -1,0 +1,38 @@
+# This is the main config file
+
+name="ZoneMTA"
+
+# Process identifier
+ident="zone-mta"
+
+[log]
+# Logging options
+# @include "log.toml"
+
+[dbs]
+# MongoDB and Redis connection options
+# @include "dbs.toml"
+
+[queue]
+# @include "queue.toml"
+
+[dns]
+# @include "dns.toml"
+
+[api]
+# @include "api.toml"
+
+[smtpInterfaces]
+# @include "interface_*.toml"
+
+[plugins]
+# @include "plugin_*.toml"
+
+[pools]
+# @include "pools.toml"
+
+[zones]
+# @include "zone_*.toml"
+
+[domainConfig]
+# @include "domains.toml"

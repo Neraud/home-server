@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zonemta-mongo
+  namespace: default
+  labels:
+    app: zonemta
+    app-component: mongo
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: zonemta
+      app-component: mongo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: zonemta
+        app-component: mongo
+    spec:
+      containers:
+      - image: mongo:4.1.9-bionic
+        name: mongo
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: {{ zonemta_mongo_root_user }}
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: zonemta-mongo-pass
+              key: password
+        - name: MONGO_INITDB_DATABASE
+          value: {{ zonemta_mongo_database }}
+        ports:
+        - containerPort: 27017
+          name: mongo
+        resources:
+          requests:
+            cpu: "{{ zonemta_mongo_requests_cpu | default("100m") }}"
+            memory: "{{ zonemta_mongo_requests_memory | default("384Mi") }}"
+          limits:
+            cpu: "{{ zonemta_mongo_limits_cpu | default("200m") }}"
+            memory: "{{ zonemta_mongo_limits_memory | default("384Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: zonemta-mongo-pv-claim
+          mountPath: /data/db
+        - name: zonemta-mongo-init
+          mountPath: /docker-entrypoint-initdb.d/
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: zonemta-mongo-init
+        secret:
+          secretName: zonemta-mongo-init
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: zonemta-mongo-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 512M
+      selector:
+        matchLabels:
+          app: zonemta
+          app-component: mongo

@@ -1,0 +1,37 @@
+# Default SMTP interface for accepting mail for delivery
+
+[feeder]
+enabled=true
+
+# How many worker processes to spawn
+processes=1
+
+# Maximum allowed message size 30MB
+maxSize=31457280
+
+# Local IP and port to bind to
+host="0.0.0.0"
+port=2525
+
+# Set to true to require authentication
+# If authentication is enabled then you need to use a plugin with an authentication hook
+# TODO enable authentication
+authentication=false
+
+# How many recipients to allow per message
+maxRecipients=1000
+
+# Set to true to enable STARTTLS. Do not forget to change default TLS keys
+# TODO enable TLS
+starttls=false
+
+# set to true to start in TLS mode if using port 465
+# this probably does not work as TLS support with 465 in ZoneMTA is a bit buggy
+secure=false
+
+# define keys for STARTTLS/TLS. These paths are relative to CWD
+#key="./keys/example.com-key.pem"
+#cert="./keys/example.com-cert.pem"
+
+#key="/usr/local/etc/nginx/privkey.pem"
+#cert="/usr/local/etc/nginx/fullchain.pem"

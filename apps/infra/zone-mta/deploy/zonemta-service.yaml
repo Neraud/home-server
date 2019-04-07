@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zonemta
+  namespace: default
+  labels:
+    app: zonemta
+spec:
+  ports:
+  - port: 2525
+    name: smtp
+  selector:
+    app: zonemta
+    app-component: zonemta

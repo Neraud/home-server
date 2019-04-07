@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zonemta-redis
+  namespace: default
+  labels:
+    app: zonemta
+    app-component: redis
+spec:
+  selector:
+    matchLabels:
+      app: zonemta
+      app-component: redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: zonemta
+        app-component: redis
+    spec:
+      containers:
+      - image: redis:5.0.4-alpine
+        name: redis
+        command: 
+        - redis-server 
+        - "--requirepass {{ zonemta_redis_password }}"
+        ports:
+        - containerPort: 6379
+          name: redis
+        resources:
+          requests:
+            cpu: "{{ zonemta_redis_requests_cpu | default("25m") }}"
+            memory: "{{ zonemta_redis_requests_memory | default("32Mi") }}"
+          limits:
+            cpu: "{{ zonemta_redis_limits_cpu | default("50m") }}"
+            memory: "{{ zonemta_redis_limits_memory | default("32Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: zonemta-redis-pv-claim
+          mountPath: /data
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: zonemta-redis-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          app: zonemta
+          app-component: redis

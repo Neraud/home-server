@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zonemta
+  namespace: default
+  labels:
+    app: zonemta
+    app-component: zonemta
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: zonemta
+      app-component: zonemta
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: zonemta
+        app-component: zonemta
+    spec:
+      containers:
+      - image: {{ kubernetes_registry_url }}/zone-mta
+        name: zonemta
+        env:
+        - name: NODE_OPTIONS
+          value: "--max-old-space-size=24"
+        ports:
+        - containerPort: 2525
+          name: smtp
+        resources:
+          requests:
+            cpu: "{{ zonemta_zonemta_requests_cpu | default("100m") }}"
+            memory: "{{ zonemta_zonemta_requests_memory | default("128Mi") }}"
+          limits:
+            cpu: "{{ zonemta_zonemta_limits_cpu | default("200m") }}"
+            memory: "{{ zonemta_zonemta_limits_memory | default("128Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: zonemta-config
+          mountPath: /opt/zone-mta/config
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: zonemta-config
+        secret:
+          secretName: zonemta-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

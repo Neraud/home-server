@@ -159,14 +159,17 @@ lemonldap_location_rules:
         rule: skip
 
 
-#mailhog_forward_smtp_enabled: true
-#mailhog_forward_smtp_name: "Gmail"
-#mailhog_forward_smtp_host: "smtp.gmail.com"
-#mailhog_forward_smtp_port: "587"
-#mailhog_forward_smtp_email: "whatever@gmail.com"
-#mailhog_forward_smtp_username: "whatever@gmail.com"
-#mailhog_forward_smtp_password: "whatever"
-#mailhog_forward_smtp_mechanism: "PLAIN"
+zonemta_mongo_user: zonemta
+zonemta_mongo_root_password: Passw0rd
+zonemta_mongo_password: Passw0rd
+zonemta_redis_password: Passw0rd
+# Forward to GMail by default
+#zonemta_forward_mta_host: smtp.gmail.com
+#zonemta_forward_mta_port: 587
+#zonemta_forward_mta_auth_enabled: true
+#zonemta_forward_mta_user: "whatever@gmail.com"
+#zonemta_forward_mta_password: "whatever"
+
 
 
 ttrss_context_root: /tt-rss
