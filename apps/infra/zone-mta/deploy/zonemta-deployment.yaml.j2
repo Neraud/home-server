@@ -30,6 +30,8 @@ spec:
         ports:
         - containerPort: 2525
           name: smtp
+        - containerPort: 12080
+          name: metrics
         resources:
           requests:
             cpu: "{{ zonemta_zonemta_requests_cpu | default("100m") }}"
