@@ -195,7 +195,7 @@ You can easily test ZoneMTA by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks
  
-[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get endpoints zonemta -o=jsonpath='{.subsets[0].addresses[0].ip}'):2525
+[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
 ```
 
 ### MailHog
@@ -209,7 +209,7 @@ You can easily test MailHog by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks
  
-[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get endpoints mailhog -o=jsonpath='{.subsets[0].addresses[0].ip}'):1025
+[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
 ```
 
 ### Prometheus & AlertManager

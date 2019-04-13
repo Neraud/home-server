@@ -28,7 +28,7 @@ spec:
         - name: NODE_OPTIONS
           value: "--max-old-space-size=24"
         ports:
-        - containerPort: 2525
+        - containerPort: 1587
           name: smtp
         - containerPort: 12080
           name: metrics
@@ -44,6 +44,8 @@ spec:
           mountPath: /etc/localtime
         - name: zonemta-config
           mountPath: /opt/zone-mta/config
+        - name: zonemta-certificates
+          mountPath: /opt/zone-mta/certs
       volumes:
       - name: tz-config
         hostPath:
@@ -51,5 +53,8 @@ spec:
       - name: zonemta-config
         secret:
           secretName: zonemta-config
+      - name: zonemta-certificates
+        secret:
+          secretName: zonemta-certificates
       nodeSelector:
         capability/general-purpose: 'yes'

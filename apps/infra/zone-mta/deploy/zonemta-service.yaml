@@ -7,7 +7,8 @@ metadata:
     app: zonemta
 spec:
   ports:
-  - port: 2525
+  - port: 587
+    targetPort: 1587
     name: smtp
   selector:
     app: zonemta

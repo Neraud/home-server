@@ -1,5 +1,57 @@
 ---
 
+- name: Ensure directory exists for local self-signed TLS certs
+  file:
+    path: "{{ custom_ssl_certs_root_dir }}/zone-mta"
+    state: directory
+
+- name: Generate an OpenSSL CA private key
+  openssl_privatekey:
+    path: "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.key"
+
+- name: Generate an OpenSSL CA CSR
+  openssl_csr:
+    path: "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.csr"
+    privatekey_path: "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.key"
+    common_name: "{{ web_base_domain }}"
+    basicConstraints:
+      - CA:TRUE
+
+- name: Generate a Self Signed OpenSSL CA certificate
+  openssl_certificate:
+    path: "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.crt"
+    privatekey_path: "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.key"
+    csr_path: "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.csr"
+    provider: selfsigned
+
+- name: Generate an OpenSSL server private key
+  openssl_privatekey:
+    path: "{{ custom_ssl_certs_root_dir }}/zone-mta/server.key"
+
+- name: Generate an OpenSSL server CSR
+  openssl_csr:
+    path: "{{ custom_ssl_certs_root_dir }}/zone-mta/server.csr"
+    privatekey_path: "{{ custom_ssl_certs_root_dir }}/zone-mta/server.key"
+    common_name: "{{ zonemta_smtp_servername }}"
+
+- name: Generate a CA Signed OpenSSL server certificate
+  openssl_certificate:
+    path: "{{ custom_ssl_certs_root_dir }}/zone-mta/server.crt"
+    privatekey_path: "{{ custom_ssl_certs_root_dir }}/zone-mta/server.key"
+    csr_path: "{{ custom_ssl_certs_root_dir }}/zone-mta/server.csr"
+    ownca_path: "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.crt"
+    ownca_privatekey_path: "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.key"
+    provider: ownca
+
+- name: Read generated files
+  slurp:
+    src: "{{ item }}"
+  register: zonemta_generated_certificate_files
+  with_items:
+    - "{{ custom_ssl_certs_root_dir }}/zone-mta/ca.crt"
+    - "{{ custom_ssl_certs_root_dir }}/zone-mta/server.crt"
+    - "{{ custom_ssl_certs_root_dir }}/zone-mta/server.key"
+
 - name: List config files
   set_fact:
     zonemta_config_files: "{{ zonemta_config_files | default([]) + [ item ] }}"
