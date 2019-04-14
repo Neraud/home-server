@@ -497,10 +497,10 @@ gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls }}
 ###! Docs: http://api.rubyonrails.org/classes/ActionMailer/Base.html
 gitlab_rails['smtp_openssl_verify_mode'] = "{{ gitlab_smtp_openssl_verify_mode }}"
 {% endif %}
-{% endif %}
 
 # gitlab_rails['smtp_ca_path'] = "/etc/ssl/certs"
-# gitlab_rails['smtp_ca_file'] = "/etc/ssl/certs/ca-certificates.crt"
+gitlab_rails['smtp_ca_file'] = "/etc/gitlab/smtp-certs/ca.crt"
+{% endif %}
 
 ################################################################################
 ## Container Registry settings

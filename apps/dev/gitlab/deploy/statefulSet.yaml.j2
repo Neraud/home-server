@@ -57,6 +57,9 @@ spec:
         - name: gitlab-config-volume
           mountPath: /etc/gitlab/gitlab.rb
           subPath: gitlab.rb
+        - name: smtp-certs-volume
+          mountPath: /etc/gitlab/smtp-certs/ca.crt
+          subPath: ca.crt
       volumes:
       - name: tz-config
         hostPath:
@@ -67,6 +70,9 @@ spec:
       - name: certs-volume
         secret:
           secretName: openldap-ca
+      - name: smtp-certs-volume
+        secret:
+          secretName: zonemta-certificates
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
