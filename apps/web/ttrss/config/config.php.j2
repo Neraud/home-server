@@ -134,10 +134,28 @@
 	// If you need SMTP support, take a look here:
 	// https://git.tt-rss.org/fox/ttrss-mailer-smtp
 
-	define('SMTP_FROM_NAME', 'Tiny Tiny RSS');
-	define('SMTP_FROM_ADDRESS', 'noreply@your.domain.dom');
+	define('SMTP_FROM_NAME', '{{ ttrss_smtp_displayName }}');
+	define('SMTP_FROM_ADDRESS', '{{ ttrss_smtp_from }}');
 	// Name, address and subject for sending outgoing mail. This applies
 	// to password reset notifications, digest emails and any other mail.
+
+	define('SMTP_SERVER', '{{ ttrss_smtp_host }}:{{ ttrss_smtp_port }}');
+	// Hostname:port combination to send outgoing mail (i.e. localhost:25).
+	// Blank - use system MTA.
+
+	define('SMTP_LOGIN', '{{ ttrss_smtp_user }}');
+	define('SMTP_PASSWORD', '{{ ttrss_smtp_password }}');
+	// These two options enable SMTP authentication when sending
+	// outgoing mail. Only used with SMTP_SERVER.
+
+	define('SMTP_SECURE', '{{ ttrss_smtp_secure }}');
+	// Used to select a secure SMTP connection. Allowed values: ssl, tls,
+	// or empty.
+
+	define('SMTP_SKIP_CERT_CHECKS', false);
+	
+	define('SMTP_CA_FILE', '/etc/smtp/ca.crt');
+	// Use a custom CA to validate the SMTP server certificate
 
 	define('DIGEST_SUBJECT', '[tt-rss] New headlines for last 24 hours');
 	// Subject line for email digests
@@ -156,7 +174,7 @@
 	// if you experience weird errors and tt-rss failing to start, blank pages
 	// after login, or content encoding errors, disable it.
 
-	define('PLUGINS', 'auth_ldap, note');
+	define('PLUGINS', 'auth_ldap, note, mailer_smtp');
 	// Comma-separated list of plugins to load automatically for all users.
 	// System plugins have to be specified here. Please enable at least one
 	// authentication plugin here (auth_*).

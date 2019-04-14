@@ -133,6 +133,15 @@ ttrss_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 ttrss_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 ttrss_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
+ttrss_smtp_host: "{{ zonemta_smtp_servername }}"
+ttrss_smtp_port: 587
+ttrss_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+ttrss_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+#  ssl, tls or empty
+ttrss_smtp_secure: tls
+ttrss_smtp_from: "noreply@{{ web_base_domain }}"
+ttrss_smtp_displayName: "Tiny Tiny RSS"
+
 homeassistant_mysql_user: homeassistant
 homeassistant_mysql_database: homeassistant
 homeassistant_mysql_password: clear_password
