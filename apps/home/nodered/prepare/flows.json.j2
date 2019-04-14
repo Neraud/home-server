@@ -56,6 +56,24 @@
         ]
     },
     {
+        "id": "98bee1c8.a412c",
+        "type": "api-call-service",
+        "z": "5cf77e32.54a47",
+        "name": "Email",
+        "server": "3925f1ad.f3636e",
+        "service_domain": "notify",
+        "service": "email_user",
+        "data": "{\"title\":\"Test from NodeRED !\",\"message\":\"The sun is : {{ '{{' }} payload {{ '}}' }}\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 690,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
         "id": "675da9de.c7ff7",
         "type": "api-current-state",
         "z": "5cf77e32.54a47",
@@ -74,7 +92,8 @@
         "y": 320,
         "wires": [
             [
-                "6007c54a.af0e04"
+                "6007c54a.af0e04",
+                "98bee1c8.a412c"
             ]
         ]
     },
@@ -142,7 +161,7 @@
         "id": "965bf194.aa89d8",
         "type": "comment",
         "z": "5cf77e32.54a47",
-        "name": "Each time you click on the grey button, you should see a notification on HomeAssistant",
+        "name": "Each time you click on the grey button, you should see a notification on HomeAssistant and receive an email",
         "info": "",
         "x": 440,
         "y": 240,
