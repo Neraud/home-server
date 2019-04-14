@@ -40,10 +40,10 @@ spec:
         resources:
           requests:
             cpu: "{{ gitlab_requests_cpu | default("500m") }}"
-            memory: "{{ gitlab_requests_memory | default("2048Mi") }}"
+            memory: "{{ gitlab_requests_memory | default("3072Mi") }}"
           limits:
             cpu: "{{ gitlab_limits_cpu | default("2000m") }}"
-            memory: "{{ gitlab_limits_memory | default("2048Mi") }}"
+            memory: "{{ gitlab_limits_memory | default("3072Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
