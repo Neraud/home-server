@@ -193,9 +193,9 @@ By default, it forwards to MailHog for debugging purposes. But it can be set up 
 You can easily test ZoneMTA by sending a email via the command line : 
 
 ```shell
-[root@master$] apt-get -q -y install swaks
+[root@master$] apt-get -q -y install swaks libnet-ssleay-perl
  
-[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
+[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" -tls --server $(kubectl get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
 ```
 
 ### MailHog
