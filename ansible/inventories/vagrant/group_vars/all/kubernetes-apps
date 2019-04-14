@@ -114,11 +114,6 @@ lemonldap_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 lemonldap_ldap_group_base: "{{ openldap_ldap_structure_groups_ou_dns['sso_groups'] }}"
 
-#lemonldap_smtp_user: whatever@gmail.com
-#lemonldap_smtp_password: todo
-#lemonldap_smtp_from: "{{ lemonldap_smtp_user }}"
-#lemonldap_smtp_replyTo: "{{ lemonldap_smtp_user }}"
-
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
     # To require TOTP, set the level to >= 4
