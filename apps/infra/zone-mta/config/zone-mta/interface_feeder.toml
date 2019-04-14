@@ -15,8 +15,7 @@ port=1587
 
 # Set to true to require authentication
 # If authentication is enabled then you need to use a plugin with an authentication hook
-# TODO enable authentication
-authentication=false
+authentication=true
 
 # How many recipients to allow per message
 maxRecipients=1000

@@ -13,6 +13,7 @@ USER node
 WORKDIR /opt/zone-mta
 COPY package.json /opt/zone-mta
 COPY index.js /opt/zone-mta
+COPY plugins /opt/zone-mta/plugins
 
 RUN npm install --production
 
