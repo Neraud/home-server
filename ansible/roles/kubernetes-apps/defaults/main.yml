@@ -69,13 +69,13 @@ lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 lemonldap_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
-lemonldap_smtp_host: "smtp.gmail.com"
+lemonldap_smtp_host: "{{ zonemta_smtp_servername }}"
 lemonldap_smtp_port: 587
-lemonldap_smtp_user: ""
-lemonldap_smtp_password: ""
+lemonldap_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+lemonldap_smtp_password: "{{ zonemta_feeder_authentication_password }}"
 lemonldap_smtp_tls: starttls
-lemonldap_smtp_from: ""
-lemonldap_smtp_replyTo: ""
+lemonldap_smtp_from: "noreply@{{ web_base_domain }}"
+lemonldap_smtp_replyTo: "noreply@{{ web_base_domain }}"
 
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
@@ -89,6 +89,36 @@ lemonldap_location_rules:
     default_rule: accept
 
 
+zonemta_smtp_servername: zonemta.default
+zonemta_feeder_authentication_enabled: true
+zonemta_feeder_authentication_username: smtp
+zonemta_feeder_authentication_password: clear_password
+zonemta_mongo_root_user: root
+zonemta_mongo_root_password: clear_password
+zonemta_mongo_user: zonemta
+zonemta_mongo_database: zonemta
+zonemta_mongo_password: clear_password
+zonemta_redis_password: clear_password
+# Forward to Mailhog by default
+zonemta_forward_mta_host: mailhog.default.svc.cluster.local
+zonemta_forward_mta_port: 1025
+zonemta_forward_mta_auth_enabled: false
+#zonemta_forward_mta_user: user
+#zonemta_forward_mta_password: password
+zonemta_exposed_namespaces: 
+  - default
+  - monitoring
+  - logging
+
+mailhog_exposed_smtp: mailhog.default.svc.cluster.local:1025
+mailhog_forward_smtp_enabled: false
+#mailhog_forward_smtp_name: "TODO"
+#mailhog_forward_smtp_host: "..."
+#mailhog_forward_smtp_port: "587"
+#mailhog_forward_smtp_email: "..."
+#mailhog_forward_smtp_username: "..."
+#mailhog_forward_smtp_password: "..."
+#mailhog_forward_smtp_mechanism: "PLAIN"
 
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss
@@ -102,6 +132,15 @@ ttrss_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 ttrss_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 ttrss_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 ttrss_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
+
+ttrss_smtp_host: "{{ zonemta_smtp_servername }}"
+ttrss_smtp_port: 587
+ttrss_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+ttrss_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+#  ssl, tls or empty
+ttrss_smtp_secure: tls
+ttrss_smtp_from: "noreply@{{ web_base_domain }}"
+ttrss_smtp_displayName: "Tiny Tiny RSS"
 
 homeassistant_mysql_user: homeassistant
 homeassistant_mysql_database: homeassistant
@@ -167,6 +206,13 @@ airsonic_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 airsonic_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 airsonic_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 airsonic_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
+airsonic_smtp_host: "{{ zonemta_smtp_servername }}"
+airsonic_smtp_port: 587
+# STARTTLS, SSL/TLS, or anything else
+airsonic_smtp_encryption: STARTTLS
+airsonic_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+airsonic_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+airsonic_smtp_from: "noreply@{{ web_base_domain }}"
 
 # Look at the README.md to find out how to get your token
 #plex_plex_token: 
@@ -177,19 +223,20 @@ gitlab_time_zone: "{{ time_zone }}"
 gitlab_backup_keep_time: "604800"
 
 # Email configuration.
-gitlab_email_enabled: "false"
-gitlab_email_from: "gitlab@example.com"
+gitlab_email_enabled: "true"
+gitlab_email_from: "gitlab@{{ web_base_domain }}"
 gitlab_email_display_name: "Gitlab"
-gitlab_email_reply_to: "gitlab@example.com"
-gitlab_smtp_enable: "false"
-gitlab_smtp_address: "smtp.server"
-gitlab_smtp_port: 456
-#gitlab_smtp_authentication: "login"
-#gitlab_smtp_user_name: "smtp user"
-#gitlab_smtp_password: "smtp password"
+gitlab_email_reply_to: "gitlab{{ web_base_domain }}"
+gitlab_email_subject_suffix: "[Gitlab] "
+gitlab_smtp_enable: "true"
+gitlab_smtp_address: "{{ zonemta_smtp_servername }}"
+gitlab_smtp_port: 587
+gitlab_smtp_authentication: "login"
+gitlab_smtp_user_name: "{{ zonemta_feeder_authentication_username }}"
+gitlab_smtp_password: "{{ zonemta_feeder_authentication_password }}"
 #gitlab_smtp_domain: "example.com"
 gitlab_smtp_enable_starttls_auto: "true"
-#gitlab_smtp_tls: "true"
+gitlab_smtp_tls: "false"
 #gitlab_smtp_openssl_verify_mode: 'peer'
 gitlab_ldap_servername: "{{ openldap_ldap_servername }}"
 
@@ -200,11 +247,12 @@ prometheus_allowed_namespaces:
   - monitoring
   - logging
 
-alertmanager_alerts_smtp_enabled: False
-#alertmanager_alerts_smtp_smarthost: smtp.gmail.com:587
-#alertmanager_alerts_smtp_from: whatever@gmail.com
-#alertmanager_alerts_smtp_auth_username: whatever@gmail.com
-#alertmanager_alerts_smtp_auth_password: Passw0rd
+alertmanager_alerts_smtp_enabled: True
+alertmanager_alerts_smtp_smarthost: "{{ zonemta_smtp_servername }}:587"
+alertmanager_alerts_smtp_require_tls: true
+alertmanager_alerts_smtp_from: "alertmanager@{{ web_base_domain }}"
+alertmanager_alerts_smtp_auth_username: "{{ zonemta_feeder_authentication_username }}"
+alertmanager_alerts_smtp_auth_password: "{{ zonemta_feeder_authentication_password }}"
 #alertmanager_alerts_default_receiver: default
 #alertmanager_alerts_receivers: 
 # - name: "{{ alertmanager_alerts_default_receiver }}"

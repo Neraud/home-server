@@ -93,6 +93,8 @@ The folowing services are deployed :
 | [OpenLDAP](https://www.openldap.org/)                            | -                                       | Open source Lightweight Directory Access Protocol |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | https://infra.k8stest.com/lemonldap/manager.html | Web Single Sign On and Access Management Free Software |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | https://infra.k8stest.com/phpldapadmin/ | Web-based LDAP browser                        |
+| [ZoneMTA](https://github.com/zone-eu/zone-mta)                    | -                                      | Modern outbound SMTP relay                    |
+| [MailHog](https://github.com/mailhog/MailHog)                    | https://infra.k8stest.com/mailhog/      | MailHog is an email testing tool for developers |
 | [Prometheus](https://prometheus.io/)                             | https://infra.k8stest.com/prometheus/   | Monitoring solution                           |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | https://infra.k8stest.com/alertmanager/ | Alert manager for Prometheus                  |
 | [Grafana](https://grafana.com/)                                  | https://infra.k8stest.com/grafana/      | Platform for beautiful analytics and monitoring  |
@@ -182,6 +184,36 @@ You can add a TOTP device for `user` and force its use by setting the `requiredA
 ### phpLDAPadmin
 
 You can login using the `admin`/`Passw0rd` account to manage the LDAP.
+
+### ZoneMTA
+
+ZoneMTA is used to collect all emails sent by applications on the platform and forward them to another MTA.
+By default, it forwards to MailHog for debugging purposes. But it can be set up to forward to a proper MTA (using a gmail account for example)
+
+You can easily test ZoneMTA by sending a email via the command line : 
+
+```shell
+[root@master$] apt-get -q -y install swaks libnet-ssleay-perl
+ 
+[user@master$] echo "This is the message body" | swaks \
+    --to "someone@example.com" --from "you@example.com" \
+    --auth --auth-user=smtp --auth-password=Passw0rd \
+    --server $(kubectl get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
+```
+
+### MailHog
+
+MailHog is used to capture all emails sent by the various deployed services.
+
+Out of the box, it is only used for testing purposes : you can view those emails using a web interface.
+
+You can easily test MailHog by sending a email via the command line : 
+
+```shell
+[root@master$] apt-get -q -y install swaks
+ 
+[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
+```
 
 ### Prometheus & AlertManager
 

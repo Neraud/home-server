@@ -56,6 +56,19 @@ mqtt:
   password: !secret mqtt_password
   discovery: true
 
+notify:
+  - name: email_user
+    platform: smtp
+    server: {{ homeassistant_smtp_host }}
+    port: {{ homeassistant_smtp_port }}
+    timeout: 15
+    sender: {{ homeassistant_smtp_from }}
+    sender_name: {{ homeassistant_smtp_displayFrom }}
+    encryption: {{ homeassistant_smtp_encryption }}
+    username: !secret smtp_username
+    password: !secret smtp_password
+    recipient:
+      - !secret smtp_recipient_user
 
 # Track the sun
 sun:

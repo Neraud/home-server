@@ -114,11 +114,6 @@ lemonldap_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 lemonldap_ldap_group_base: "{{ openldap_ldap_structure_groups_ou_dns['sso_groups'] }}"
 
-#lemonldap_smtp_user: whatever@gmail.com
-#lemonldap_smtp_password: todo
-#lemonldap_smtp_from: "{{ lemonldap_smtp_user }}"
-#lemonldap_smtp_replyTo: "{{ lemonldap_smtp_user }}"
-
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
     # To require TOTP, set the level to >= 4
@@ -157,6 +152,21 @@ lemonldap_location_rules:
       - name: 00-Gitlab
         uri: ^/gitlab
         rule: skip
+
+
+zonemta_mongo_user: zonemta
+zonemta_mongo_root_password: Passw0rd
+zonemta_mongo_password: Passw0rd
+zonemta_redis_password: Passw0rd
+zonemta_feeder_authentication_password: Passw0rd
+# Forward to GMail by default
+#zonemta_forward_mta_host: smtp.gmail.com
+#zonemta_forward_mta_port: 587
+#zonemta_forward_mta_auth_enabled: true
+#zonemta_forward_mta_user: "whatever@gmail.com"
+#zonemta_forward_mta_password: "whatever"
+
+
 
 ttrss_context_root: /tt-rss
 ttrss_pqsql_user: ttrss
@@ -199,6 +209,11 @@ gitlab_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
 gitlab_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
+alertmanager_alerts_default_receiver: default
+alertmanager_alerts_receivers: 
+ - name: "{{ alertmanager_alerts_default_receiver }}"
+   emails_to: 
+     - user@mail.net
 
 grafana_admin_password: Passw0rd
 grafana_ldap_group: "cn=grafana,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"

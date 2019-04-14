@@ -40,10 +40,10 @@ spec:
         resources:
           requests:
             cpu: "{{ gitlab_requests_cpu | default("500m") }}"
-            memory: "{{ gitlab_requests_memory | default("2048Mi") }}"
+            memory: "{{ gitlab_requests_memory | default("3072Mi") }}"
           limits:
             cpu: "{{ gitlab_limits_cpu | default("2000m") }}"
-            memory: "{{ gitlab_limits_memory | default("2048Mi") }}"
+            memory: "{{ gitlab_limits_memory | default("3072Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -57,6 +57,9 @@ spec:
         - name: gitlab-config-volume
           mountPath: /etc/gitlab/gitlab.rb
           subPath: gitlab.rb
+        - name: smtp-certs-volume
+          mountPath: /etc/gitlab/smtp-certs/ca.crt
+          subPath: ca.crt
       volumes:
       - name: tz-config
         hostPath:
@@ -67,6 +70,9 @@ spec:
       - name: certs-volume
         secret:
           secretName: openldap-ca
+      - name: smtp-certs-volume
+        secret:
+          secretName: zonemta-ca
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

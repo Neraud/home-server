@@ -18,6 +18,17 @@ kubernetes_local_storage_vg: kubernetes_vg
 #      storage: storageDetail
 
 
+# TODO : these zomemta vars are defined in kubernetes-apps/default/main.yml and are not visible here.
+zonemta_smtp_servername: zonemta.default
+zonemta_feeder_authentication_username: smtp
+
+homeassistant_smtp_host: "{{ zonemta_smtp_servername }}"
+homeassistant_smtp_port: 587
+homeassistant_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+homeassistant_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+homeassistant_smtp_encryption: starttls
+homeassistant_smtp_from: "noreply@{{ web_base_domain }}"
+homeassistant_smtp_displayFrom: "HomeAssistant"
 
 # First listener is used as default
 mosquitto_listeners: 

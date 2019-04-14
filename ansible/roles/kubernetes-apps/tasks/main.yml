@@ -9,6 +9,12 @@
 - import_tasks: apps/infra-registry.yml
   tags: kubernetes-app-infra-registry
 
+- import_tasks: apps/infra-zonemta.yml
+  tags: kubernetes-app-infra-zonemta
+
+- import_tasks: apps/infra-mailhog.yml
+  tags: kubernetes-app-infra-mailhog
+
 - import_tasks: apps/infra-unifi.yml
   tags: kubernetes-app-infra-unifi
 

@@ -1,0 +1,21 @@
+{
+{% if mailhog_forward_smtp_enabled | bool %}
+    "{{ mailhog_forward_smtp_name }}": {
+{% if mailhog_forward_smtp_email is defined %}
+        "email": "{{ mailhog_forward_smtp_email }}",
+{% endif %}
+{% if mailhog_forward_smtp_username is defined %}
+        "username": "{{ mailhog_forward_smtp_username }}",
+{% endif %}
+{% if mailhog_forward_smtp_password is defined %}
+        "password": "{{ mailhog_forward_smtp_password }}",
+{% endif %}
+{% if mailhog_forward_smtp_mechanism is defined %}
+        "mechanism": "{{ mailhog_forward_smtp_mechanism }}",
+{% endif %}
+        "name": "{{ mailhog_forward_smtp_name }}",
+        "host": "{{ mailhog_forward_smtp_host }}",
+        "port": "{{ mailhog_forward_smtp_port }}"
+    }
+{% endif %}
+}

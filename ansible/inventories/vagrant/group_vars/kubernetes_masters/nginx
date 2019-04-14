@@ -53,6 +53,7 @@ nginx_sites:
     locations:
       - path: /
         proxy_pass: http://kubernetes-http-ingress
+        proxy_enable_websocket: True
 
   - name: infra
     enabled_name: 100-infra
@@ -75,6 +76,7 @@ nginx_sites:
       - path: /
         lemonLdap_protected: True 
         proxy_pass: http://kubernetes-http-ingress
+        proxy_enable_websocket: True
 
   - name: infra-unifi
     enabled_name: 110-infra-unifi
@@ -120,6 +122,7 @@ nginx_sites:
       - path: /
         lemonLdap_protected: True 
         proxy_pass: http://kubernetes-http-ingress
+        proxy_enable_websocket: True
 
   - name: home
     enabled_name: 300-home

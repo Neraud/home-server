@@ -4,6 +4,7 @@ global:
 {% if alertmanager_alerts_smtp_enabled %}
   # The smarthost and SMTP sender used for mail notifications.
   smtp_smarthost: '{{ alertmanager_alerts_smtp_smarthost }}'
+  smtp_require_tls: {{ alertmanager_alerts_smtp_require_tls }}
   smtp_from: '{{ alertmanager_alerts_smtp_from }}'
   smtp_auth_username: '{{ alertmanager_alerts_smtp_auth_username }}'
   smtp_auth_password: '{{ alertmanager_alerts_smtp_auth_password }}'
@@ -29,7 +30,9 @@ receivers:
 {% for receiver in alertmanager_alerts_receivers | default([]) %}
 - name: '{{ receiver.name }}'
   email_configs:
-  {% for email_to in receiver.emails_to %}
+{% for email_to in receiver.emails_to %}
   - to: '{{ email_to }}'
-  {% endfor %}
+    tls_config:
+      ca_file: /etc/alertmanager/secrets/zonemta-ca/ca.crt
+{% endfor %}
 {% endfor %}
