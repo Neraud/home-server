@@ -85,7 +85,7 @@ spec:
           secretName: openldap-ca
       - name: smtp-certs-volume
         secret:
-          secretName: zonemta-certificates
+          secretName: zonemta-ca
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

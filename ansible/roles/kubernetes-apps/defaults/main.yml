@@ -105,8 +105,10 @@ zonemta_forward_mta_port: 1025
 zonemta_forward_mta_auth_enabled: false
 #zonemta_forward_mta_user: user
 #zonemta_forward_mta_password: password
-
-
+zonemta_exposed_namespaces: 
+  - default
+  - monitoring
+  - logging
 
 mailhog_exposed_smtp: mailhog.default.svc.cluster.local:1025
 mailhog_forward_smtp_enabled: false
