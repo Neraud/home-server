@@ -197,6 +197,13 @@ airsonic_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 airsonic_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 airsonic_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 airsonic_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
+airsonic_smtp_host: "{{ zonemta_smtp_servername }}"
+airsonic_smtp_port: 587
+# STARTTLS, SSL/TLS, or anything else
+airsonic_smtp_encryption: STARTTLS
+airsonic_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+airsonic_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+airsonic_smtp_from: "noreply@{{ web_base_domain }}"
 
 # Look at the README.md to find out how to get your token
 #plex_plex_token: 
