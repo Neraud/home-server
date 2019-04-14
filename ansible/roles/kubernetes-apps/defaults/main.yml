@@ -69,13 +69,13 @@ lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
 lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 lemonldap_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
-lemonldap_smtp_host: "smtp.gmail.com"
+lemonldap_smtp_host: "{{ zonemta_smtp_servername }}"
 lemonldap_smtp_port: 587
-lemonldap_smtp_user: ""
-lemonldap_smtp_password: ""
+lemonldap_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+lemonldap_smtp_password: "{{ zonemta_feeder_authentication_password }}"
 lemonldap_smtp_tls: starttls
-lemonldap_smtp_from: ""
-lemonldap_smtp_replyTo: ""
+lemonldap_smtp_from: "noreply@{{ web_base_domain }}"
+lemonldap_smtp_replyTo: "noreply@{{ web_base_domain }}"
 
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"

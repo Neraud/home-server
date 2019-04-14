@@ -316,7 +316,9 @@
    "SMTPAuthUser": "{{ lemonldap_smtp_user }}",
    "SMTPAuthPass": "{{ lemonldap_smtp_password }}",
    "SMTPTLS": "{{ lemonldap_smtp_tls }}",
-   "SMTPTLSOpts": {},
+   "SMTPTLSOpts": {
+      "SSL_ca_file": "/var/lib/lemonldap-ng/smtp-certs/ca.crt"
+   },
 {# generalParameters > advancedParams > SMTP > mailHeaders #}
    "mailFrom": "{{ lemonldap_smtp_from }}",
    "mailReplyTo": "{{ lemonldap_smtp_replyTo }}",
