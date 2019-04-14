@@ -26,7 +26,7 @@ spec:
         name: zonemta
         env:
         - name: NODE_OPTIONS
-          value: "--max-old-space-size=24"
+          value: "--max-old-space-size={{ zonemta_zonemta_nodejs_max_memory | default("32") }}"
         ports:
         - containerPort: 1587
           name: smtp
@@ -35,10 +35,11 @@ spec:
         resources:
           requests:
             cpu: "{{ zonemta_zonemta_requests_cpu | default("100m") }}"
-            memory: "{{ zonemta_zonemta_requests_memory | default("128Mi") }}"
+            # ZoneMTA runs multiple node processes, be sure to have at least 5 times 'max-old-space-size' (and more if you use more processes)
+            memory: "{{ zonemta_zonemta_requests_memory | default("160Mi") }}"
           limits:
             cpu: "{{ zonemta_zonemta_limits_cpu | default("200m") }}"
-            memory: "{{ zonemta_zonemta_limits_memory | default("128Mi") }}"
+            memory: "{{ zonemta_zonemta_limits_memory | default("160Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
