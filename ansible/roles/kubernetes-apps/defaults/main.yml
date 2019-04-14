@@ -231,11 +231,12 @@ prometheus_allowed_namespaces:
   - monitoring
   - logging
 
-alertmanager_alerts_smtp_enabled: False
-#alertmanager_alerts_smtp_smarthost: smtp.gmail.com:587
-#alertmanager_alerts_smtp_from: whatever@gmail.com
-#alertmanager_alerts_smtp_auth_username: whatever@gmail.com
-#alertmanager_alerts_smtp_auth_password: Passw0rd
+alertmanager_alerts_smtp_enabled: True
+alertmanager_alerts_smtp_smarthost: "{{ zonemta_smtp_servername }}:587"
+alertmanager_alerts_smtp_require_tls: true
+alertmanager_alerts_smtp_from: "alertmanager@{{ web_base_domain }}"
+alertmanager_alerts_smtp_auth_username: "{{ zonemta_feeder_authentication_username }}"
+alertmanager_alerts_smtp_auth_password: "{{ zonemta_feeder_authentication_password }}"
 #alertmanager_alerts_default_receiver: default
 #alertmanager_alerts_receivers: 
 # - name: "{{ alertmanager_alerts_default_receiver }}"
