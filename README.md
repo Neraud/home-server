@@ -280,26 +280,66 @@ The deployment also prepares and configures a MySQL database to use for HomeAssi
 
 The MQTT broker Mosquitto is deployed.
 
-It's available inside the cluster :
-
-`mosquitto_pub -h mosquitto -p 1883 -t test -u user -P Passw0rd -m 'test'`
-
-And from outside, over SSL :
-
-`mosquitto_pub -h home.k8stest.com -p 1883 --insecure -t test -u user -P Passw0rd -m 'test'`
-
 A Fake sensor is created in HomeAssistant, based on the topic `test/test_sensor`.
 
 To push values on this sensor :
 
 ```shell
-[user@master$] kubectl run test-mqtt -it --rm --image=aksakalli/mqtt-client --restart=Never -- pub -h mosquitto -p 1883 -u user -P Passw0rd -t test/test_sensor -m "Mock Value"
+[user@master$] kubectl run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+{
+    "spec": {
+      "containers": [
+        {
+          "name": "test-ldap",
+          "image": "aksakalli/mqtt-client",
+          "args": [
+            "pub", "-h", "mosquitto.default", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "test/test_sensor", "-m", "Mock Value"
+          ],
+          "stdin": true,
+          "stdinOnce": true,
+          "tty": true,
+          "volumeMounts": [{
+            "mountPath": "/certs",
+            "name": "certs-volume"
+          }]
+        }
+      ],
+      "volumes": [{
+        "name":"certs-volume",
+        "secret":{"secretName": "mosquitto-ca"}
+      }]
+    }
+}'
 ```
 
 To debug all messages sent via Mosquitto :
 
 ```shell
-[user@master$] kubectl run test-mqtt -it --rm --image=aksakalli/mqtt-client --restart=Never -- sub -h mosquitto -p 1883 -u user -P Passw0rd -t "#" -v
+[user@master$] kubectl run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+{
+    "spec": {
+      "containers": [
+        {
+          "name": "test-ldap",
+          "image": "aksakalli/mqtt-client",
+          "args": [
+            "sub", "-h", "mosquitto.default", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "#"
+          ],
+          "stdin": true,
+          "stdinOnce": true,
+          "tty": true,
+          "volumeMounts": [{
+            "mountPath": "/certs",
+            "name": "certs-volume"
+          }]
+        }
+      ],
+      "volumes": [{
+        "name":"certs-volume",
+        "secret":{"secretName": "mosquitto-ca"}
+      }]
+    }
+}'
 ```
 
 ### Node-RED

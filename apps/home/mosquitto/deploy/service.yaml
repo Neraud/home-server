@@ -8,6 +8,9 @@ metadata:
 spec:
   ports:
   - port: 1883
+    name: mqtt
+  - port: 8883
+    name: mqtts
   selector:
     app: mosquitto
     app-component: mosquitto

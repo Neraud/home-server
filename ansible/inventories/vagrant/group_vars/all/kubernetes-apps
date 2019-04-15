@@ -185,10 +185,15 @@ homeassistant_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou
 nodered_context_root: /node-red
 nodered_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
-mosquitto_listeners: 
+mosquitto_listeners:
+  # Keep the "non tls" listener to avoid breaking the NGinx Ingress
   - port: 1883
     secure: False
     websocket: False
+  - port: 8883
+    secure: True
+    websocket: False
+    cert_cn: mosquitto.default
 
 # password generated with mosquitto_passwd
 mosquitto_credientials: 

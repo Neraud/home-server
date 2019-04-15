@@ -18,6 +18,12 @@ listener {{ listener.port }}
 {% endif %}
 
 {% if listener.websocket %}protocol websockets{% endif %}
+{% if listener.secure %}
+tls_version tlsv1.2
+capath /etc/ssl/mqtt/ca.crt
+certfile /etc/ssl/mqtt/{{ listener.cert_cn }}.crt
+keyfile /etc/ssl/mqtt/{{ listener.cert_cn }}.key
+{% endif %}
 
 {% endfor %}
 
