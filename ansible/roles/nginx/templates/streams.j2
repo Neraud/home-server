@@ -5,7 +5,10 @@
 server {
 	listen {{ item.http_port }};
 	listen [::]:{{ item.http_port }};
-	
+
+	access_log /var/log/nginx/{{ item.name }}_stream_access.log basic buffer=32k;
+	error_log /var/log/nginx/{{ item.name }}_stream_error.log;
+
 	proxy_pass {{ item.proxy_pass }};
 	{% if item.content is defined %}
 	{{ item.content }}
@@ -17,6 +20,9 @@ server {
 server {
 	listen {{ item.https_port }} ssl;
 	listen [::]:{{ item.https_port }} ssl;
+
+	access_log /var/log/nginx/{{ item.name }}_stream_ssl_access.log basic buffer=32k;
+	error_log /var/log/nginx/{{ item.name }}_stream_ssl_error.log;
 
 	# SSL configuration
 	ssl_certificate {{ item.https_cert.cert_path }};

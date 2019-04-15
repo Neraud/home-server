@@ -6,6 +6,8 @@ metadata:
   labels:
     app: mosquitto
     app-component: mosquitto
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -24,7 +26,9 @@ spec:
         name: mosquitto
         ports:
         - containerPort: 1883
-          name: mosquitto
+          name: mqtt
+        - containerPort: 8883
+          name: mqtts
         resources:
           requests:
             cpu: "{{ mosquitto_requests_cpu | default("100m") }}"
@@ -35,8 +39,10 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: mosquitto-config-pv-claim
+        - name: mosquitto-config
           mountPath: /mosquitto/config
+        - name: certs-volume
+          mountPath: /etc/ssl/mqtt
         - name: mosquitto-data-pv-claim
           mountPath: /mosquitto/data
       securityContext:
@@ -45,22 +51,15 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: mosquitto-config
+        configMap:
+          name: mosquitto-config
+      - name: certs-volume
+        secret:
+          secretName: mosquitto-certs
       nodeSelector:
         capability/home: 'yes'
   volumeClaimTemplates:
-  - metadata:
-      name: mosquitto-config-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
-      resources:
-        requests:
-          storage: 16M
-      selector:
-        matchLabels:
-          app: mosquitto
-          app-component: mosquitto
-          storage: config
   - metadata:
       name: mosquitto-data-pv-claim
     spec:

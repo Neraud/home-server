@@ -42,8 +42,8 @@ spec:
         - name: nodered-config
           mountPath: /data/settings.js
           subPath: settings.js
-        - name: certs-volume
-          mountPath: /opt/openldap-ca.crt
+        - name: ldap-certs-volume
+          mountPath: /etc/ssl/ldap/ca.cert
           subPath: ca.crt
       securityContext:
         fsGroup: 1001 # node-red group inside the container
@@ -54,7 +54,7 @@ spec:
       - name: nodered-config
         configMap:
           name: nodered
-      - name: certs-volume
+      - name: ldap-certs-volume
         secret:
           secretName: openldap-ca
       nodeSelector:

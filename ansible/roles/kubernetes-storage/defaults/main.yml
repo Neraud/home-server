@@ -30,38 +30,3 @@ homeassistant_smtp_encryption: starttls
 homeassistant_smtp_from: "noreply@{{ web_base_domain }}"
 homeassistant_smtp_displayFrom: "HomeAssistant"
 
-# First listener is used as default
-mosquitto_listeners: 
-  - port: 1883
-    secure: False
-    websocket: False
-#  - port: 8883
-#    secure: True
-#    websocket: False
-
-#    cert:
-#      mode: file
-#      cert_path: /path/to/cert.pem
-#      ca_path: /path/to/chain.pem
-#      cert_key_path: /path/to/privkey.pem
-
-# OR
-
-#    cert:
-#      mode: selfsigned
-#      subject: "/C=US/ST=Oregon/L=Portland/O=IT/CN=localhost"
-#      ca_path: /etc/mosquitto/certs/ca.pem
-#      ca_key_path: /etc/mosquitto/certs/ca.key
-#      cert_path: /etc/mosquitto/certs/server.pem
-#      cert_key_path: /etc/mosquitto/certs/server.key
-
-#  - port: 8083
-#    secure: False
-#    websocket: True
-
-# password generated with mosquitto_passwd
-#mosquitto_credientials: 
-#  path: /etc/mosquitto/passwd
-#  credentials:
-#      user / Passw0rd
-#    - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==
