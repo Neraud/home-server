@@ -1,5 +1,11 @@
 ---
 
+- name: List config files
+  set_fact:
+    mosquitto_config_files: "{{ mosquitto_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/home/mosquitto/config/*"
+
 - name: Deploy Mosquitto
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

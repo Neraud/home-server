@@ -6,6 +6,8 @@ metadata:
   labels:
     app: mosquitto
     app-component: mosquitto
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -35,8 +37,8 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: mosquitto-config-pv-claim
-          mountPath: /mosquitto/config
+        - name: mosquitto-config
+          mountPath:  /mosquitto/config
         - name: mosquitto-data-pv-claim
           mountPath: /mosquitto/data
       securityContext:
@@ -45,22 +47,12 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: mosquitto-config
+        configMap:
+          name: mosquitto-config
       nodeSelector:
         capability/home: 'yes'
   volumeClaimTemplates:
-  - metadata:
-      name: mosquitto-config-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
-      resources:
-        requests:
-          storage: 16M
-      selector:
-        matchLabels:
-          app: mosquitto
-          app-component: mosquitto
-          storage: config
   - metadata:
       name: mosquitto-data-pv-claim
     spec:

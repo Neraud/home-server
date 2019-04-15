@@ -7,7 +7,3 @@
 - include_tasks: apps/home-nodered.yml
   when: "'nodered-data' in kubernetes_local_storage"
   tags: kubernetes-app-home-nodered
-
-- include_tasks: apps/home-mosquitto.yml
-  when: "'mosquitto-config' in kubernetes_local_storage"
-  tags: kubernetes-app-home-mosquitto

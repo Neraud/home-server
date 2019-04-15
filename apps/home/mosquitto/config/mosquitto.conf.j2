@@ -18,12 +18,6 @@ listener {{ listener.port }}
 {% endif %}
 
 {% if listener.websocket %}protocol websockets{% endif %}
-{% if listener.secure %}
-tls_version tlsv1.2
-capath {{ listener.cert.ca_path }}
-certfile {{ listener.cert.cert_path }}
-keyfile {{ listener.cert.cert_key_path }}
-{% endif %}
 
 {% endfor %}
 

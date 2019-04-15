@@ -17,15 +17,6 @@ kubernetes_local_storage:
     labels:
       app: nodered
       app-component: nodered
-  mosquitto-config:
-    capacity: 16M
-    filesystem: ext4
-    mount_path: /opt/kubernetes_storage/mosquitto-config
-    reclaim_policy: Retain
-    labels:
-      app: mosquitto
-      app-component: mosquitto
-      storage: config
   mosquitto-data:
     capacity: 128M
     filesystem: ext4
