@@ -20,7 +20,8 @@ kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 openldap_ldap_servername: openldap.default
 openldap_ldap_organisation: Example Inc.
 openldap_ldap_domain: example.org
-openldap_ldap_basedn: "dc=example,dc=org" #if empty automatically set from LDAP_DOMAIN
+#if empty automatically set from LDAP_DOMAIN
+openldap_ldap_basedn: "dc=example,dc=org"
 openldap_ldap_admin_dn: "cn=admin,{{ openldap_ldap_basedn }}"
 openldap_ldap_admin_password: admin
 openldap_ldap_config_password: config

@@ -22,10 +22,8 @@
     * Alerts ?
 
 * OpenLDAP
-    * Readonly user broken ?
+    * Use readonly user for apps that only needs to lookup users/groups
     * Upgrade image to 1.2.4+
-        It works at first start
-        It refuses to restart after that ...
 
 * SSO 
     * Optional use of TOTP ?
