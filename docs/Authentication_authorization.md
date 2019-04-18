@@ -147,6 +147,8 @@ However, the email address for these users is not imported in Airsonic. It can b
 
 The default `admin` account is still created. After logging in with `admin` and giving the Administrative role to an LDAP user, it can safely be removed.
 
+Beware, using the "Forgotten password" feature will convert an LDAP account to a local account.
+
 ### TT-RSS
 
 TT-RSS doesn't natively support LDAP authentication.

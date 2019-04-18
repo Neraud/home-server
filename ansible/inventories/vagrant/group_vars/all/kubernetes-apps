@@ -8,8 +8,6 @@ openldap_ldap_domain: "{{ web_base_domain }}"
 openldap_ldap_basedn: "dc=k8stest,dc=com"
 openldap_ldap_admin_password: Passw0rd
 openldap_ldap_config_password: Passw0rd
-openldap_ldap_readonly_user_enabled: True
-openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: Passw0rd
 
 openldap_ldap_structure_groups_ou_dns: 
@@ -106,12 +104,7 @@ openldap_ldap_groups:
     members: 
       - user
 
-phpldapadmin_bind_id: "cn=admin,{{ openldap_ldap_basedn }}"
-phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
 
-lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
-lemonldap_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
-lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 lemonldap_ldap_group_base: "{{ openldap_ldap_structure_groups_ou_dns['sso_groups'] }}"
 
 lemonldap_location_rules:
@@ -209,9 +202,6 @@ airsonic_ldap_group: "cn=airsonic,{{ openldap_ldap_structure_groups_ou_dns['app_
 gitlab_context_path: /gitlab
 gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}"
 
-gitlab_ldap_user_base: "{{ openldap_ldap_structure_users_ou_dn }}"
-gitlab_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
-gitlab_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 alertmanager_alerts_default_receiver: default
