@@ -27,6 +27,7 @@ openldap_ldap_admin_password: admin
 openldap_ldap_config_password: config
 openldap_ldap_readonly_user_enabled: True
 openldap_ldap_readonly_user_username: readonly
+openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
 openldap_ldap_readonly_user_password: readonly
 
 # Create the CA secret in the following namespaces
@@ -59,15 +60,15 @@ openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 #      - user2
 
 phpldapadmin_ldap_servername: "{{ openldap_ldap_servername }}"
-phpldapadmin_bind_id: "{{ openldap_ldap_admin_dn }}"
-phpldapadmin_bind_password: "{{ openldap_ldap_admin_password }}"
+phpldapadmin_bind_id: "{{ openldap_ldap_readonly_user_dn }}"
+phpldapadmin_bind_password: "{{ openldap_ldap_readonly_user_password }}"
 
 lemonldap_fastcgi_port: 9000
 lemonldap_persistent_volume_path: /var/lib/lemonldap-ng-pv
 lemonldap_ldap_servername: "{{ openldap_ldap_servername }}"
 lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
-lemonldap_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
-lemonldap_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+lemonldap_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+lemonldap_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 lemonldap_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
 lemonldap_smtp_host: "{{ zonemta_smtp_servername }}"
@@ -130,9 +131,8 @@ ttrss_schema_url: https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema
 
 ttrss_ldap_servername: "{{ openldap_ldap_servername }}"
 ttrss_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
-ttrss_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
-ttrss_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
-ttrss_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
+ttrss_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+ttrss_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 
 ttrss_smtp_host: "{{ zonemta_smtp_servername }}"
 ttrss_smtp_port: 587
@@ -155,8 +155,8 @@ homeassistant_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 nodered_context_root: /
 nodered_ldap_servername: "{{ openldap_ldap_servername }}"
 nodered_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
-nodered_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
-nodered_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+nodered_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+nodered_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 nodered_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
 # First listener is used as default
@@ -215,9 +215,8 @@ airsonic_extra_java_opts:
   - -Dairsonic.defaultPodcastFolder=/mnt/multimetia/Podcasts
 airsonic_ldap_servername: "{{ openldap_ldap_servername }}"
 airsonic_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
-airsonic_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
-airsonic_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
-airsonic_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
+airsonic_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+airsonic_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 airsonic_smtp_host: "{{ zonemta_smtp_servername }}"
 airsonic_smtp_port: 587
 # STARTTLS, SSL/TLS, or anything else
@@ -252,8 +251,8 @@ gitlab_smtp_tls: "false"
 #gitlab_smtp_openssl_verify_mode: 'peer'
 gitlab_ldap_servername: "{{ openldap_ldap_servername }}"
 gitlab_ldap_user_base: "{{ openldap_ldap_structure_users_ou_dn }}"
-gitlab_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
-gitlab_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+gitlab_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+gitlab_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 
 prometheus_allowed_namespaces:
   - default
@@ -278,8 +277,8 @@ grafana_admin_user: admin
 grafana_admin_password: clear_password
 grafana_ldap_servername: "{{ openldap_ldap_servername }}"
 grafana_ldap_base: "{{ openldap_ldap_basedn }}"
-grafana_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
-grafana_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+grafana_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+grafana_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 
 # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
 # We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
@@ -291,8 +290,8 @@ logging_elasticsearch_internal_users: []
 #      - role1
 #      - role2
 logging_elasticsearch_ldap_servername: "{{ openldap_ldap_servername }}"
-logging_elasticsearch_ldap_manager_dn: "{{ openldap_ldap_admin_dn }}"
-logging_elasticsearch_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
+logging_elasticsearch_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+logging_elasticsearch_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 logging_elasticsearch_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 elasticsearch_exposed_namespaces:
   - logging
