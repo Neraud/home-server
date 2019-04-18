@@ -25,7 +25,7 @@ openldap_ldap_basedn: "dc=example,dc=org"
 openldap_ldap_admin_dn: "cn=admin,{{ openldap_ldap_basedn }}"
 openldap_ldap_admin_password: admin
 openldap_ldap_config_password: config
-openldap_ldap_readonly_user_enabled: False
+openldap_ldap_readonly_user_enabled: True
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_password: readonly
 
@@ -251,6 +251,9 @@ gitlab_smtp_enable_starttls_auto: "true"
 gitlab_smtp_tls: "false"
 #gitlab_smtp_openssl_verify_mode: 'peer'
 gitlab_ldap_servername: "{{ openldap_ldap_servername }}"
+gitlab_ldap_user_base: "{{ openldap_ldap_structure_users_ou_dn }}"
+gitlab_ldap_manager_dn: "cn=admin,{{ openldap_ldap_basedn }}"
+gitlab_ldap_manager_password: "{{ openldap_ldap_admin_password }}"
 
 prometheus_allowed_namespaces:
   - default
