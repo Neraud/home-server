@@ -107,7 +107,7 @@ spec:
           secretName: cluster-ca
       - name: smtp-certs-volume
         secret:
-          secretName: zonemta-ca
+          secretName: cluster-ca
       - name: keystore-volume
         emptyDir: {}
       nodeSelector:

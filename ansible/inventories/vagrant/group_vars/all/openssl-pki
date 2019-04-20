@@ -82,3 +82,10 @@ openssl_custom_pki:
         email_address: user@mail.net
         generate_dh_param_enabled: true
         generate_dh_param_size: 1024
+      - name: "smtp"
+        common_name: "{{ zonemta_smtp_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net

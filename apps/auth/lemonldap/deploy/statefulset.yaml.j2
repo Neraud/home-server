@@ -85,7 +85,7 @@ spec:
           secretName: cluster-ca
       - name: smtp-certs-volume
         secret:
-          secretName: zonemta-ca
+          secretName: cluster-ca
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
