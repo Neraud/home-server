@@ -14,6 +14,8 @@ openssl_custom_pki: []
 #        organization_name: Organization
 #        common_name: cn1.test1.com
 #        email_address: user@mail.net
+#        generate_dh_param_enabled: true
+#        generate_dh_param_size: 4096
 #      - name: cert_2
 #        country_name: US
 #        state_or_province_name: State
