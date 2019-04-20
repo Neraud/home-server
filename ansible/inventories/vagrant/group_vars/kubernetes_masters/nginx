@@ -28,10 +28,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN={{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/_star_.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/_star_.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/{{ web_base_domain }}/server.key"
     force_http_to_https: False
     root: /var/www/html
     disable_robots: True
@@ -43,10 +42,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=auth.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/auth.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/auth.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/auth.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/auth.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
@@ -62,10 +60,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=infra.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/infra.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/infra.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/infra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/infra.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
@@ -85,10 +82,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=unifi.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/unifi.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/unifi.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/unifi.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/unifi.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
@@ -108,10 +104,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=web.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/web.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/web.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/web.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/web.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
@@ -131,10 +126,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=home.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/home.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/home.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
@@ -153,10 +147,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=stream.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/stream.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/stream.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/stream.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/stream.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     disable_robots: True
     lemonLdap:
@@ -174,10 +167,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=plex.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/plex.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/plex.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/plex.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/plex.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     disable_robots: True
     locations:
@@ -191,10 +183,9 @@ nginx_sites:
     http_port: 80
     https_port: 443
     https_cert:
-      mode: selfsigned
-      subject: "/C=FR/ST=France/L=Paris/O=Test/CN=dev.{{ web_base_domain }}"
-      cert_path: /etc/nginx/ssl/dev.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/dev.{{ web_base_domain }}/server.key
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dev.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dev.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     disable_robots: True
     lemonLdap:
@@ -213,7 +204,6 @@ nginx_streams:
     https_port: 8883
     https_cert:
       mode: file
-      cert_path: /etc/nginx/ssl/home.{{ web_base_domain }}/server.crt
-      cert_key_path: /etc/nginx/ssl/home.{{ web_base_domain }}/server.key
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
     proxy_pass: kubernetes-mqtt-ingress
-
