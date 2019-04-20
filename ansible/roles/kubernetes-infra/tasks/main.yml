@@ -28,6 +28,19 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+- name: Read the cluster CA file
+  slurp:
+    src: "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
+  register: cluster_ca_file 
+
+- name: Expose the cluster CA in allowed namespaces
+  k8s:
+    definition: "{{ lookup('template', 'kubernetes/cluster-ca-secret.yaml.j2') }}"
+    state: present
+  with_items: "{{ kubernetes_cluster_ca_namespaces }}"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
 - name: Deploy Nginx Ingress
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
