@@ -61,8 +61,8 @@ spec:
         - mountPath: /grafana-dashboard-definitions/0/grafana-dashboards-config
           name: grafana-dashboards-config
           readOnly: false
-        - name: certs-volume
-          mountPath: /etc/ldap/ca.crt
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       nodeSelector:
         capability/general-purpose: 'yes'
@@ -85,7 +85,7 @@ spec:
       - name: grafana-dashboards-config
         configMap:
           name: grafana-dashboards-config
-      - name: certs-volume
+      - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
   volumeClaimTemplates:

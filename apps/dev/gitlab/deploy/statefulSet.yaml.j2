@@ -47,8 +47,8 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: certs-volume
-          mountPath: /etc/openldap/server/ca.crt
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
         - name: gitlab-config-pv-claim
           mountPath: /etc/gitlab
@@ -57,9 +57,6 @@ spec:
         - name: gitlab-config-volume
           mountPath: /etc/gitlab/gitlab.rb
           subPath: gitlab.rb
-        - name: smtp-certs-volume
-          mountPath: /etc/gitlab/smtp-certs/ca.crt
-          subPath: ca.crt
       volumes:
       - name: tz-config
         hostPath:
@@ -67,10 +64,7 @@ spec:
       - name: gitlab-config-volume
         configMap:
           name: gitlab
-      - name: certs-volume
-        secret:
-          secretName: cluster-ca
-      - name: smtp-certs-volume
+      - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
       nodeSelector:

@@ -42,8 +42,8 @@ spec:
         - name: nodered-config
           mountPath: /data/settings.js
           subPath: settings.js
-        - name: ldap-certs-volume
-          mountPath: /etc/ssl/ldap/ca.cert
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.cert
           subPath: ca.crt
       securityContext:
         fsGroup: 1001 # node-red group inside the container
@@ -54,7 +54,7 @@ spec:
       - name: nodered-config
         configMap:
           name: nodered
-      - name: ldap-certs-volume
+      - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
       nodeSelector:

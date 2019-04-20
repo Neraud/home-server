@@ -34,11 +34,8 @@ spec:
           mountPath: /config
         - mountPath: /opt/ldap-auth
           name: homeassistant-ldap-auth
-        - name: ldap-certs-volume
-          mountPath: /etc/ssl/ldap/ca.cert
-          subPath: ca.crt
-        - name: mqtt-certs-volume
-          mountPath: /etc/ssl/mqtt/ca.cert
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.cert
           subPath: ca.crt
         resources:
           requests:
@@ -55,12 +52,9 @@ spec:
         configMap:
           name: homeassistant-ldap-auth
           defaultMode: 0755
-      - name: ldap-certs-volume
+      - name: cluster-ca-volume
         secret:
-          secretName: cluster-ca   
-      - name: mqtt-certs-volume
-        secret:
-          secretName: mosquitto-certs
+          secretName: cluster-ca
       nodeSelector:
         capability/home: 'yes'
   volumeClaimTemplates:

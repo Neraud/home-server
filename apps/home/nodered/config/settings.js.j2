@@ -136,7 +136,7 @@ module.exports = {
             searchFilter: '(&(cn={{ '{{username}}' }})(objectClass=inetOrgPerson)(memberOf={{ nodered_ldap_group }}))',
             searchAttributes: ['dn', 'displayName'],
             tlsOptions: {
-                ca: [require('fs').readFileSync('/etc/ssl/ldap/ca.cert')],
+                ca: [require('fs').readFileSync('/etc/ssl/cluster/ca.cert')],
                 rejectUnauthorized: true
             }
         }

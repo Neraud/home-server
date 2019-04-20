@@ -41,8 +41,8 @@ spec:
         - name: kibana-config
           mountPath: /usr/share/kibana/config/kibana.yml
           subPath: kibana.yml
-        - name: certs-volume
-          mountPath: /etc/elasticsearch/ssl/ca.crt
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       volumes:
       - name: tz-config
@@ -51,7 +51,7 @@ spec:
       - name: kibana-config
         configMap:
           name: kibana
-      - name: certs-volume
+      - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
       nodeSelector:

@@ -22,7 +22,7 @@ CLIENT="curl"
 
 # Add SERVER, USERDN etc. here...
 SERVER="ldaps://{{ homeassistant_ldap_servername }}"
-export SSL_CERT_FILE=/etc/ssl/ldap/ca.cert
+export SSL_CERT_FILE=/etc/ssl/cluster/ca.cert
 
 USERDN="cn=$(ldap_dn_escape "$username"),{{ homeassistant_ldap_users_dn }}"
 BASEDN="$USERDN"

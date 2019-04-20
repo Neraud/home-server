@@ -53,8 +53,8 @@ spec:
           mountPath: /usr/share/elasticsearch/plugins/opendistro_security/securityconfig
         - name: certs-volume
           mountPath: /usr/share/elasticsearch/config/certs
-        - name: openldap-certs-volume
-          mountPath: /usr/share/elasticsearch/plugins/opendistro_security/ldap/ca.crt
+        - name: cluster-ca-volume
+          mountPath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
           subPath: ca.crt
         env:
           - name: cluster.name
@@ -101,7 +101,7 @@ spec:
       - name: certs-volume
         secret:
           secretName: elasticsearch-certs
-      - name: openldap-certs-volume
+      - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
       nodeSelector:

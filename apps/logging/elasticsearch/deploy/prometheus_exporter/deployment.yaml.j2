@@ -34,7 +34,7 @@ spec:
         - name: "ES_SSL_SKIP_VERIFY"
           value: "false"
         - name: "ES_CA"
-          value: "/etc/elasticsearch/ssl/ca.crt"
+          value: "/etc/ssl/cluster/ca.crt"
         securityContext:
           capabilities:
             drop:
@@ -78,14 +78,14 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: certs-volume
-          mountPath: /etc/elasticsearch/ssl/ca.crt
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: certs-volume
+      - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
       restartPolicy: Always
