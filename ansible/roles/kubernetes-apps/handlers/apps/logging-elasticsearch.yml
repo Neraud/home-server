@@ -23,8 +23,8 @@
       -icl -nhnv \
       -cd /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/ \
       -cacert /usr/share/elasticsearch/config/certs/ca.crt \
-      -cert /usr/share/elasticsearch/config/certs/es-node.crt \
-      -key /usr/share/elasticsearch/config/certs/es-node.key
+      -cert /usr/share/elasticsearch/config/certs/server.crt \
+      -key /usr/share/elasticsearch/config/certs/server.key
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   listen: "Reconfigure Elasticsearch security"

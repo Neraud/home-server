@@ -214,6 +214,9 @@ alertmanager_alerts_receivers:
 grafana_admin_password: Passw0rd
 grafana_ldap_group: "cn=grafana,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
+# FIXME : using a longer name (like elasticsearch.logging) breaks the workaround in place to update security
+# The server cert is improperly used in ansible/roles/kubernetes-apps/handlers/apps/logging-elasticsearch.yml
+logging_elasticsearch_servername: elasticsearch
 logging_elasticsearch_replicas: 1
 logging_elasticsearch_internal_users:
   - name: "{{ logging_elasticsearch_exporter_user }}"

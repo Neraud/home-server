@@ -53,6 +53,6 @@ spec:
           name: kibana
       - name: certs-volume
         secret:
-          secretName: elasticsearch-ca
+          secretName: cluster-ca
       nodeSelector:
         capability/general-purpose: 'yes'
