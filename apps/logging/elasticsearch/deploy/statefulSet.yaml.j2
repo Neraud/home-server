@@ -103,7 +103,7 @@ spec:
           secretName: elasticsearch-certs
       - name: openldap-certs-volume
         secret:
-          secretName: openldap-ca
+          secretName: cluster-ca
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

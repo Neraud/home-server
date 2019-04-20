@@ -87,7 +87,7 @@ spec:
           name: grafana-dashboards-config
       - name: certs-volume
         secret:
-          secretName: openldap-ca
+          secretName: cluster-ca
   volumeClaimTemplates:
   - metadata:
       name: grafana-pv-claim

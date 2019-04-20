@@ -52,6 +52,6 @@ spec:
           secretName: phpldapadmin-config
       - name: certs-volume
         secret:
-          secretName: openldap-ca
+          secretName: cluster-ca
       nodeSelector:
         capability/general-purpose: 'yes'

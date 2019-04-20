@@ -137,7 +137,7 @@ OpenLDAP is installed and configured for the base domain.
 `admin` and `config` accounts are created with a default password `Passw0rd`.
 
 It enforces TLS with a self-signed CA.
-This `ca.crt` is available in the Kubernetes secret `openldap-ca`
+This `ca.crt` is available in the Kubernetes secret `cluster-ca`
 
 To test the LDAP connection, you can use : 
 
@@ -167,7 +167,7 @@ To test the LDAP connection, you can use :
       ],
       "volumes": [{
         "name":"certs-volume",
-        "secret":{"secretName": "openldap-ca"}
+        "secret":{"secretName": "cluster-ca"}
       }]
     }
 }'
