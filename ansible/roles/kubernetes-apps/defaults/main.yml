@@ -8,8 +8,6 @@ kubernetes_user:
 
 kubernetes_defnitions_root_dir: /opt/provision/kubernetes
 
-custom_ssl_certs_root_dir: /etc/ssl/private
-
 kubernetes_registry_port: 30500
 kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 
@@ -168,7 +166,7 @@ mosquitto_listeners:
 #  - port: 8883
 #    secure: True
 #    websocket: False
-#    cert_cn: listener_cname
+#    cert_name: certificate_name
 
 #  - port: 8083
 #    websocket: True

@@ -96,3 +96,10 @@ openssl_custom_pki:
         locality_name: Paris
         organization_name: Test
         email_address: user@mail.net
+      - name: "mqtt"
+        common_name: "{{ mosquitto_default_listener_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net

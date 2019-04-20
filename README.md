@@ -306,7 +306,7 @@ To push values on this sensor :
       ],
       "volumes": [{
         "name":"certs-volume",
-        "secret":{"secretName": "mosquitto-ca"}
+        "secret":{"secretName": "cluster-ca"}
       }]
     }
 }'
@@ -336,7 +336,7 @@ To debug all messages sent via Mosquitto :
       ],
       "volumes": [{
         "name":"certs-volume",
-        "secret":{"secretName": "mosquitto-ca"}
+        "secret":{"secretName": "cluster-ca"}
       }]
     }
 }'

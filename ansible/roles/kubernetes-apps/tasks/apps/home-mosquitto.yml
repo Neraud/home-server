@@ -1,61 +1,13 @@
 ---
 
-- name: Ensure directory exists for local self-signed TLS certs
-  file:
-    path: "{{ custom_ssl_certs_root_dir }}/mosquitto"
-    state: directory
-
-- name: Generate an OpenSSL CA private key
-  openssl_privatekey:
-    path: "{{ custom_ssl_certs_root_dir }}/mosquitto/ca.key"
-
-- name: Generate an OpenSSL CA CSR
-  openssl_csr:
-    path: "{{ custom_ssl_certs_root_dir }}/mosquitto/ca.csr"
-    privatekey_path: "{{ custom_ssl_certs_root_dir }}/mosquitto/ca.key"
-    common_name: "{{ web_base_domain }}"
-    basicConstraints:
-      - CA:TRUE
-
-- name: Generate a Self Signed OpenSSL CA certificate
-  openssl_certificate:
-    path: "{{ custom_ssl_certs_root_dir }}/mosquitto/ca.crt"
-    privatekey_path: "{{ custom_ssl_certs_root_dir }}/mosquitto/ca.key"
-    csr_path: "{{ custom_ssl_certs_root_dir }}/mosquitto/ca.csr"
-    provider: selfsigned
-
-- name: Generate an OpenSSL server private key
-  openssl_privatekey:
-    path: "{{ custom_ssl_certs_root_dir }}/mosquitto/{{ item.cert_cn }}.key"
-  with_items: "{{ mosquitto_listeners }}"
-  when: item.secure | default(false)
-
-- name: Generate an OpenSSL server CSR
-  openssl_csr:
-    path: "{{ custom_ssl_certs_root_dir }}/mosquitto/{{ item.cert_cn }}.csr"
-    privatekey_path: "{{ custom_ssl_certs_root_dir }}/mosquitto/{{ item.cert_cn }}.key"
-    common_name: "{{ item.cert_cn }}"
-  with_items: "{{ mosquitto_listeners }}"
-  when: item.secure | default(false)
-
-- name: Generate a CA Signed OpenSSL server certificate
-  openssl_certificate:
-    path: "{{ custom_ssl_certs_root_dir }}/mosquitto/{{ item.cert_cn }}.crt"
-    privatekey_path: "{{ custom_ssl_certs_root_dir }}/mosquitto/{{ item.cert_cn }}.key"
-    csr_path: "{{ custom_ssl_certs_root_dir }}/mosquitto/{{ item.cert_cn }}.csr"
-    ownca_path: "{{ custom_ssl_certs_root_dir }}/mosquitto/ca.crt"
-    ownca_privatekey_path: "{{ custom_ssl_certs_root_dir }}/mosquitto/ca.key"
-    provider: ownca
-  with_items: "{{ mosquitto_listeners }}"
-  when: item.secure | default(false)
-
 - name: Read generated files
   slurp:
     src: "{{ item }}"
   register: mosquitto_generated_certificate_files
   with_fileglob:
-    - "{{ custom_ssl_certs_root_dir }}/mosquitto/*.crt"
-    - "{{ custom_ssl_certs_root_dir }}/mosquitto/*.key"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/mqtt/server.crt"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/mqtt/server.key"
 
 - name: List config files
   set_fact:
@@ -69,15 +21,5 @@
     state: present
   with_fileglob:
     - "{{ kubernetes_app_root_path }}/home/mosquitto/deploy/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-
-- name: Expose Mosquitto in allowed namespaces
-  k8s:
-    definition: "{{ lookup(item.0 | regex_search('.j2$') | ternary('template','file'), item.0) }}"
-    state: present
-  with_nested:
-    - "{{ lookup('fileglob', kubernetes_app_root_path + '/home/mosquitto/deploy/exposed/*.yaml*').split(',') }}"
-    - "{{ mosquitto_exposed_namespaces }}"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
