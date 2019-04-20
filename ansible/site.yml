@@ -19,6 +19,10 @@
   hosts: kubernetes_masters
   roles:
     - {
+        role: openssl-pki,
+        tags: openssl-pki
+      }
+    - {
         role: nginx,
         tags: nginx
       }
