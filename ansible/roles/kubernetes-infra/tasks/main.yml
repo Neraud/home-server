@@ -41,6 +41,24 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+- name: Read the ingress TLS cert
+  slurp:
+    src: "{{ custom_ssl_pki_root_dir }}/cluster/ingress/server.crt"
+  register: ingress_tls_cert_file 
+
+- name: Read the ingress TLS key
+  slurp:
+    src: "{{ custom_ssl_pki_root_dir }}/cluster/ingress/server.key"
+  register: ingress_tls_key_file 
+
+- name: Deploy TLS secret
+  k8s:
+    definition: "{{ lookup('template', kubernetes_app_root_path + '/infra/ingress-nginx/deploy/tls/tls-secret.yaml.j2') }}"
+    state: present
+  with_items: "{{ kubernetes_ingress_tls_secret_namespaces }}"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
 - name: Deploy Nginx Ingress
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

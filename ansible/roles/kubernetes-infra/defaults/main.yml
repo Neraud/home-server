@@ -29,3 +29,8 @@ kubernetes_cluster_ca_namespaces:
   - ingress-nginx
   - monitoring
   - logging
+
+kubernetes_ingress_tls_secret_namespaces:
+  - default
+  - monitoring
+  - logging
