@@ -37,7 +37,7 @@ spec:
           mountPath: /container/environment/01-custom
         - name: certs-volume
           mountPath: /container/service/slapd/assets/certs
-        - name: container-run
+        - name: openldap-run-pv-claim
           mountPath: /container/run
         ports:
         - containerPort: 389
@@ -61,8 +61,6 @@ spec:
       - name: certs-volume
         secret:
           secretName: openldap-certs
-      - name: container-run
-        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
@@ -92,3 +90,16 @@ spec:
           app: openldap
           app-component: openldap
           storage: config
+  - metadata:
+      name: openldap-run-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 16M
+      selector:
+        matchLabels:
+          app: openldap
+          app-component: openldap
+          storage: run

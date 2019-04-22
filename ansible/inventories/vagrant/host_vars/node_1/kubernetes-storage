@@ -21,6 +21,13 @@ kubernetes_local_storage:
       app: openldap
       app-component: openldap
       storage: config
+  openldap-run:
+    capacity: 16M
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: run
   lemonldap-data:
     capacity: 32M
     reclaim_policy: Retain
