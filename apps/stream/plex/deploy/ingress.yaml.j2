@@ -6,6 +6,10 @@ metadata:
   labels:
     app: plex
 spec:
+  tls:
+    - hosts:
+      - plex.{{ web_base_domain }}
+      secretName: ingress-tls
   rules:
   - host: plex.{{ web_base_domain }}
     http:

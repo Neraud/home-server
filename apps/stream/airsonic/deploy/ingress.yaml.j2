@@ -6,6 +6,10 @@ metadata:
   labels:
     app: airsonic
 spec:
+  tls:
+    - hosts:
+      - stream.{{ web_base_domain }}
+      secretName: ingress-tls
   rules:
   - host: stream.{{ web_base_domain }}
     http:

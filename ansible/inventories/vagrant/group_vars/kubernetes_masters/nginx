@@ -3,11 +3,11 @@
 #nginx_ssl_dhparam_generate: True
 
 nginx_upstreams:
-  - name: kubernetes-http-ingress
+  - name: kubernetes-https-ingress
     servers:
-      - 192.168.100.10:{{ kubernetes_ingress_http_port }}
-      - 192.168.100.11:{{ kubernetes_ingress_http_port }}
-      - 192.168.100.12:{{ kubernetes_ingress_http_port }}
+      - 192.168.100.10:{{ kubernetes_ingress_https_port }}
+      - 192.168.100.11:{{ kubernetes_ingress_https_port }}
+      - 192.168.100.12:{{ kubernetes_ingress_https_port }}
   - name: kubernetes-lemonldap-handler-ingress
     servers:
       - 192.168.100.10:{{ kubernetes_ingress_lemonLdap_handler_port }}
@@ -50,7 +50,7 @@ nginx_sites:
     disable_robots: True
     locations:
       - path: /
-        proxy_pass: http://kubernetes-http-ingress
+        proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
   - name: infra
@@ -72,7 +72,7 @@ nginx_sites:
     locations:
       - path: /
         lemonLdap_protected: True 
-        proxy_pass: http://kubernetes-http-ingress
+        proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
   - name: infra-unifi
@@ -94,7 +94,7 @@ nginx_sites:
     locations:
       - path: /
         lemonLdap_protected: True 
-        proxy_pass: http://kubernetes-http-ingress
+        proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
   - name: web
@@ -116,7 +116,7 @@ nginx_sites:
     locations:
       - path: /
         lemonLdap_protected: True 
-        proxy_pass: http://kubernetes-http-ingress
+        proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
   - name: home
@@ -137,7 +137,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        proxy_pass: http://kubernetes-http-ingress
+        proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
         lemonLdap_protected: True 
 
@@ -157,7 +157,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        proxy_pass: http://kubernetes-http-ingress
+        proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
         lemonLdap_protected: True 
 
@@ -174,7 +174,7 @@ nginx_sites:
     disable_robots: True
     locations:
       - path: /
-        proxy_pass: http://kubernetes-http-ingress
+        proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
   - name: dev
@@ -193,7 +193,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        proxy_pass: http://kubernetes-http-ingress
+        proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
         lemonLdap_protected: True 
 

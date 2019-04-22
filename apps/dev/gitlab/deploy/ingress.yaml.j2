@@ -6,6 +6,10 @@ metadata:
   labels:
     app: gitlab
 spec:
+  tls:
+    - hosts:
+      - dev.{{ web_base_domain }}
+      secretName: ingress-tls
   rules:
   - host: dev.{{ web_base_domain }}
     http:

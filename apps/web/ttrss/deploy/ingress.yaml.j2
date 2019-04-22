@@ -6,6 +6,10 @@ metadata:
   labels:
     app: ttrss
 spec:
+  tls:
+    - hosts:
+      - web.{{ web_base_domain }}
+      secretName: ingress-tls
   rules:
   - host: web.{{ web_base_domain }}
     http:
