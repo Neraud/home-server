@@ -294,6 +294,5 @@ logging_elasticsearch_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 elasticsearch_exposed_namespaces:
   - logging
 
-logging_kibana_valid_certs: True
 logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"
 logging_kibana_export_saved_output_dir: "{{ standard_user.home }}/kibana_saved_objects"

@@ -26,10 +26,12 @@
 
 - name: Wait for Kibana to be available
   uri:
-    url: "{{ logging_kibana_internal_url }}/app/kibana"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/kibana/app/kibana"
     method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
     return_content: no
-    validate_certs: "{{ logging_kibana_valid_certs }}"
+    validate_certs: no
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
   register: kibana_available
@@ -51,14 +53,16 @@
 
 - name: Check if objects already exist
   uri:
-    url: "{{ logging_kibana_internal_url }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/kibana/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
     return_content: yes
     follow_redirects: false
     status_code:
       - 200
       - 404
-    validate_certs: "{{ logging_kibana_valid_certs }}"
+    validate_certs: no
     force_basic_auth: true
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
@@ -71,15 +75,16 @@
 
 - name: Create missing objects
   uri:
-    url: "{{ logging_kibana_internal_url }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/kibana/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: POST
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+      kbn-xsrf: kbn-xsrf
     follow_redirects: false
     body:
       attributes: "{{ item.1.attributes }}"
     body_format: json
-    headers:
-      kbn-xsrf: kbn-xsrf
-    validate_certs: "{{ logging_kibana_valid_certs }}"
+    validate_certs: no
     force_basic_auth: true
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
@@ -94,15 +99,16 @@
 
 - name: Updating changed objects
   uri:
-    url: "{{ logging_kibana_internal_url }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/kibana/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: PUT
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+      kbn-xsrf: kbn-xsrf
     follow_redirects: false
     body:
       attributes: "{{ item.1.attributes }}"
     body_format: json
-    headers:
-      kbn-xsrf: kbn-xsrf
-    validate_certs: "{{ logging_kibana_valid_certs }}"
+    validate_certs: no
     force_basic_auth: true
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
