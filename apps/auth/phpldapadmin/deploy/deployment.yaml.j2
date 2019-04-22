@@ -39,7 +39,7 @@ spec:
           mountPath: /etc/localtime
         - name: config-volume
           mountPath: /container/environment/01-custom
-        - name: certs-volume
+        - name: cluster-ca-volume
           # workaround : the container chown the /container/service/ldap-client/assets/certs folder, so we can't mount a secret directly inside it
           mountPath: /container/service/ldap-client/assets/server-certs/ca.crt
           subPath: ca.crt
@@ -50,8 +50,8 @@ spec:
       - name: config-volume
         secret:
           secretName: phpldapadmin-config
-      - name: certs-volume
+      - name: cluster-ca-volume
         secret:
-          secretName: openldap-ca
+          secretName: cluster-ca
       nodeSelector:
         capability/general-purpose: 'yes'

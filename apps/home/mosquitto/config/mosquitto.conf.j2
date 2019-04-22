@@ -21,8 +21,8 @@ listener {{ listener.port }}
 {% if listener.secure %}
 tls_version tlsv1.2
 capath /etc/ssl/mqtt/ca.crt
-certfile /etc/ssl/mqtt/{{ listener.cert_cn }}.crt
-keyfile /etc/ssl/mqtt/{{ listener.cert_cn }}.key
+certfile /etc/ssl/mqtt/{{ listener.cert_name }}.crt
+keyfile /etc/ssl/mqtt/{{ listener.cert_name }}.key
 {% endif %}
 
 {% endfor %}

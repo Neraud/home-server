@@ -106,7 +106,7 @@ opendistro_security:
             enable_start_tls: false
             enable_ssl_client_auth: false
             verify_hostnames: true
-            pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/ldap/ca.crt
+            pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
             bind_dn: {{ logging_elasticsearch_ldap_manager_dn }}
             password: {{ logging_elasticsearch_ldap_manager_password }}
             userbase: '{{ logging_elasticsearch_ldap_users_dn }}'
@@ -125,7 +125,7 @@ opendistro_security:
             enable_start_tls: false
             enable_ssl_client_auth: false
             verify_hostnames: true
-            pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/ldap/ca.crt
+            pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
             bind_dn: {{ logging_elasticsearch_ldap_manager_dn }}
             password: {{ logging_elasticsearch_ldap_manager_password }}
             userroleattribute: null

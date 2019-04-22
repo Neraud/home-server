@@ -40,19 +40,12 @@ spec:
             /usr/bin/keytool \
               -importcert -noprompt \
               -keystore /etc/ssl/certs/java_target/cacerts -storepass changeit \
-              -alias openldap -file /etc/ldap/ca.crt
-            /usr/bin/keytool \
-              -importcert -noprompt \
-              -keystore /etc/ssl/certs/java_target/cacerts -storepass changeit \
-              -alias zonemta -file /etc/smtp/ca.crt
+              -alias cluster -file /etc/ssl/cluster/ca.crt
         volumeMounts:
         - name: keystore-volume
           mountPath: /etc/ssl/certs/java_target
-        - name: ldap-certs-volume
-          mountPath: /etc/ldap/ca.crt
-          subPath: ca.crt
-        - name: smtp-certs-volume
-          mountPath: /etc/smtp/ca.crt
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       containers:
       - image: airsonic/airsonic:10.2.1-RELEASE
@@ -102,12 +95,9 @@ spec:
       - name: airsonic-multimedia
         persistentVolumeClaim:
           claimName: nfs-multimetia
-      - name: ldap-certs-volume
+      - name: cluster-ca-volume
         secret:
-          secretName: openldap-ca
-      - name: smtp-certs-volume
-        secret:
-          secretName: zonemta-ca
+          secretName: cluster-ca
       - name: keystore-volume
         emptyDir: {}
       nodeSelector:

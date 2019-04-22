@@ -154,7 +154,7 @@
 
 	define('SMTP_SKIP_CERT_CHECKS', false);
 	
-	define('SMTP_CA_FILE', '/etc/smtp/ca.crt');
+	define('SMTP_CA_FILE', '/etc/ssl/cluster/ca.crt');
 	// Use a custom CA to validate the SMTP server certificate
 
 	define('DIGEST_SUBJECT', '[tt-rss] New headlines for last 24 hours');
@@ -196,7 +196,7 @@
 	// if necessary (after migrating all new options from this file).
 
 	// Configurations for auth_ldap plugin
-	putenv('LDAPTLS_CACERT=/etc/ldap/ca.crt');
+	putenv('LDAPTLS_CACERT=/etc/ssl/cluster/ca.crt');
 	putenv('LDAPTLS_REQCERT=demand');
 
 	// Required parameters:

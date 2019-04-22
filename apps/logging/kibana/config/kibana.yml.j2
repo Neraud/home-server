@@ -3,7 +3,7 @@ server.name: kibana
 server.host: "0"
 elasticsearch.url: https://elasticsearch:9200
 elasticsearch.ssl.verificationMode: full
-elasticsearch.ssl.certificateAuthorities: /etc/elasticsearch/ssl/ca.crt
+elasticsearch.ssl.certificateAuthorities: /etc/ssl/cluster/ca.crt
 elasticsearch.username: {{ logging_kibana_elasticsearch_user }}
 elasticsearch.password: {{ logging_kibana_elasticsearch_password }}
 elasticsearch.requestHeadersWhitelist: ["securitytenant","Authorization"]

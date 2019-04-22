@@ -6,6 +6,10 @@ metadata:
   labels:
     app: lemonldap
 spec:
+  tls:
+    - hosts:
+      - auth.{{ web_base_domain }}
+      secretName: ingress-tls
   rules:
   - host: auth.{{ web_base_domain }}
     http:

@@ -247,7 +247,7 @@ gitlab_rails['ldap_servers'] = YAML.load <<-'EOS'
     encryption: 'start_tls' # "start_tls" or "simple_tls" or "plain"
     verify_certificates: false
     tls_options:
-      ca_file: '/etc/openldap/server/ca.crt'
+      ca_file: '/etc/ssl/cluster/ca.crt'
     timeout: 10
     active_directory: false
     allow_username_or_email_login: false
@@ -499,7 +499,7 @@ gitlab_rails['smtp_openssl_verify_mode'] = "{{ gitlab_smtp_openssl_verify_mode }
 {% endif %}
 
 # gitlab_rails['smtp_ca_path'] = "/etc/ssl/certs"
-gitlab_rails['smtp_ca_file'] = "/etc/gitlab/smtp-certs/ca.crt"
+gitlab_rails['smtp_ca_file'] = "/etc/ssl/cluster/ca.crt"
 {% endif %}
 
 ################################################################################

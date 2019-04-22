@@ -1,0 +1,112 @@
+---
+
+custom_ssl_pki_root_dir: /etc/ssl/custom
+
+openssl_custom_pki: 
+  - pki_name: web
+    ca_common_name: "{{ web_base_domain }}"
+    certs:
+      - name: "{{ web_base_domain }}"
+        common_name: "{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "auth.{{ web_base_domain }}"
+        common_name: "auth.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "infra.{{ web_base_domain }}"
+        common_name: "infra.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "unifi.{{ web_base_domain }}"
+        common_name: "unifi.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "web.{{ web_base_domain }}"
+        common_name: "web.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "home.{{ web_base_domain }}"
+        common_name: "home.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "stream.{{ web_base_domain }}"
+        common_name: "stream.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "plex.{{ web_base_domain }}"
+        common_name: "plex.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "dev.{{ web_base_domain }}"
+        common_name: "dev.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+
+  - pki_name: cluster
+    ca_common_name: "cluster.local"
+    certs:
+      - name: "ingress"
+        common_name: "*.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "ldap"
+        common_name: "{{ openldap_ldap_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+        generate_dh_param_enabled: true
+        generate_dh_param_size: 1024
+      - name: "smtp"
+        common_name: "{{ zonemta_smtp_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "elasticsearch"
+        common_name: "{{ logging_elasticsearch_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "mqtt"
+        common_name: "{{ mosquitto_default_listener_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net

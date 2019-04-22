@@ -4,19 +4,26 @@ import json
 import re
 import os
 import shutil
+from base64 import b64encode
 
-kibana_root_url = "{{ logging_kibana_internal_url }}"
+kibana_root_url = "http://127.0.0.1:{{ kubernetes_ingress_http_port }}/kibana"
 output_dir = "{{ logging_kibana_export_saved_output_dir }}"
 
-types = [ "visualization", "dashboard", "search", "index-pattern", "timelion-sheet" ] 
+headers = {
+    "Host": "infra.{{ web_base_domain }}",
+    "Authorization": "Basic %s" % b64encode(b"{{ logging_kibana_elasticsearch_user }}:{{ logging_kibana_elasticsearch_password }}").decode("ascii")
+}
+
+types = ["visualization", "dashboard", "search", "index-pattern", "timelion-sheet"]
 
 shutil.rmtree(output_dir, True)
 os.makedirs(output_dir)
 
-def saveType(type):    
+def saveType(type):
     print("Listing " + type)
-    with urllib.request.urlopen(kibana_root_url + "/api/saved_objects/_find?type=" + type + "&per_page=100") as url:
-        data = json.loads(url.read().decode())
+    request = urllib.request.Request(kibana_root_url + "/api/saved_objects/_find?type=" + type + "&per_page=100", headers=headers)
+    with urllib.request.urlopen(request) as response:
+        data = json.loads(response.read().decode())
         for savedObject in data['saved_objects']:
             title = savedObject['attributes']['title']
             print(" - " + title)

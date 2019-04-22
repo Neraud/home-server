@@ -10,6 +10,10 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^(/kube)$ $1/ permanent;
 spec:
+  tls:
+    - hosts:
+      - infra.{{ web_base_domain }}
+      secretName: ingress-tls
   rules:
   - host: infra.{{ web_base_domain }}
     http:

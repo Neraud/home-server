@@ -38,7 +38,7 @@ spec:
           - name: FLUENT_ELASTICSEARCH_PASSWORD
             value: "{{ logging_fluentd_elasticsearch_password }}"
           - name: SSL_CERT_FILE
-            value: "/etc/elasticsearch/ssl/ca.crt"
+            value: "/etc/ssl/cluster/ca.crt"
         resources:
           requests:
             cpu: "{{ fluentd_requests_cpu | default("100m") }}"
@@ -53,8 +53,8 @@ spec:
           mountPath: /fluentd/etc/
         - name: fluentd-includes
           mountPath: /fluentd/etc/conf.d
-        - name: certs-volume
-          mountPath: /etc/elasticsearch/ssl/ca.crt
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       volumes:
       - name: tz-config
@@ -66,8 +66,8 @@ spec:
       - name: fluentd-includes
         configMap:
           name: fluentd-includes
-      - name: certs-volume
+      - name: cluster-ca-volume
         secret:
-          secretName: elasticsearch-ca
+          secretName: cluster-ca
       nodeSelector:
         capability/general-purpose: 'yes'

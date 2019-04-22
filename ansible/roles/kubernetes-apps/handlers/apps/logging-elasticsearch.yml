@@ -2,9 +2,12 @@
 
 - name: Wait for EasticSearch to be available
   uri:
-    url: "{{ logging_elasticsearch_internal_url }}/_cluster/state?pretty"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/elasticsearch/_cluster/state?pretty"
     method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
     return_content: no
+    validate_certs: no
     user: "{{ logging_elasticsearch_exporter_user }}"
     password: "{{ logging_elasticsearch_exporter_password }}"
   register: elasticsearch_available
@@ -23,8 +26,8 @@
       -icl -nhnv \
       -cd /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/ \
       -cacert /usr/share/elasticsearch/config/certs/ca.crt \
-      -cert /usr/share/elasticsearch/config/certs/es-node.crt \
-      -key /usr/share/elasticsearch/config/certs/es-node.key
+      -cert /usr/share/elasticsearch/config/certs/server.crt \
+      -key /usr/share/elasticsearch/config/certs/server.key
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   listen: "Reconfigure Elasticsearch security"

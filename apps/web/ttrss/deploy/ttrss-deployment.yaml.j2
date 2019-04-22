@@ -43,11 +43,8 @@ spec:
         - name: ttrss-config
           mountPath: /config/config.php
           subPath: config.php
-        - name: ldap-certs-volume
-          mountPath: /etc/ldap/ca.crt
-          subPath: ca.crt
-        - name: smtp-certs-volume
-          mountPath: /etc/smtp/ca.crt
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       volumes:
       - name: tz-config
@@ -56,11 +53,8 @@ spec:
       - name: ttrss-config
         configMap:
           name: ttrss-config
-      - name: ldap-certs-volume
+      - name: cluster-ca-volume
         secret:
-          secretName: openldap-ca
-      - name: smtp-certs-volume
-        secret:
-          secretName: zonemta-ca
+          secretName: cluster-ca
       nodeSelector:
         capability/general-purpose: 'yes'

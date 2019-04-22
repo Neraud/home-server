@@ -67,11 +67,8 @@ spec:
         - name: lmconf-volume
           mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
           subPath: lmConf.json
-        - name: certs-volume
+        - name: cluster-ca-volume
           mountPath: /var/lib/lemonldap-ng/server-certs/ca.crt
-          subPath: ca.crt
-        - name: smtp-certs-volume
-          mountPath: /var/lib/lemonldap-ng/smtp-certs/ca.crt
           subPath: ca.crt
       volumes:
       - name: tz-config
@@ -80,12 +77,9 @@ spec:
       - name: lmconf-volume
         configMap:
           name: lemonldap-lmconf
-      - name: certs-volume
+      - name: cluster-ca-volume
         secret:
-          secretName: openldap-ca
-      - name: smtp-certs-volume
-        secret:
-          secretName: zonemta-ca
+          secretName: cluster-ca
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

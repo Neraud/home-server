@@ -33,6 +33,6 @@ receivers:
 {% for email_to in receiver.emails_to %}
   - to: '{{ email_to }}'
     tls_config:
-      ca_file: /etc/alertmanager/secrets/zonemta-ca/ca.crt
+      ca_file: /etc/alertmanager/secrets/cluster-ca/ca.crt
 {% endfor %}
 {% endfor %}

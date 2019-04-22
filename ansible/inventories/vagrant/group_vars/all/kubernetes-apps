@@ -3,6 +3,7 @@
 # Unifi private services exposed on Node_1
 unifi_private_ip: 192.168.100.11
 
+openldap_ldap_servername: openldap.default
 openldap_ldap_organisation: "{{ domain_name }}"
 openldap_ldap_domain: "{{ web_base_domain }}"
 openldap_ldap_basedn: "dc=k8stest,dc=com"
@@ -146,7 +147,7 @@ lemonldap_location_rules:
         uri: ^/gitlab
         rule: skip
 
-
+zonemta_smtp_servername: zonemta.default
 zonemta_mongo_user: zonemta
 zonemta_mongo_root_password: Passw0rd
 zonemta_mongo_password: Passw0rd
@@ -178,6 +179,7 @@ homeassistant_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou
 nodered_context_root: /node-red
 nodered_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
+mosquitto_default_listener_servername: mosquitto.default
 mosquitto_listeners:
   # Keep the "non tls" listener to avoid breaking the NGinx Ingress
   - port: 1883
@@ -186,7 +188,7 @@ mosquitto_listeners:
   - port: 8883
     secure: True
     websocket: False
-    cert_cn: mosquitto.default
+    cert_name: server
 
 # password generated with mosquitto_passwd
 mosquitto_credientials: 
@@ -213,6 +215,9 @@ alertmanager_alerts_receivers:
 grafana_admin_password: Passw0rd
 grafana_ldap_group: "cn=grafana,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
+# FIXME : using a longer name (like elasticsearch.logging) breaks the workaround in place to update security
+# The server cert is improperly used in ansible/roles/kubernetes-apps/handlers/apps/logging-elasticsearch.yml
+logging_elasticsearch_servername: elasticsearch
 logging_elasticsearch_replicas: 1
 logging_elasticsearch_internal_users:
   - name: "{{ logging_elasticsearch_exporter_user }}"
@@ -245,5 +250,4 @@ logging_kibana_elasticsearch_user: kibana
 logging_kibana_elasticsearch_password: password
 
 logging_kibana_context_path: /kibana
-logging_kibana_valid_certs: False
 logging_kibana_export_saved_output_dir: "/vagant/kibana_saved_objects"

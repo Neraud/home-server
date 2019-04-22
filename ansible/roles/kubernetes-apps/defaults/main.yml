@@ -8,8 +8,6 @@ kubernetes_user:
 
 kubernetes_defnitions_root_dir: /opt/provision/kubernetes
 
-custom_ssl_certs_root_dir: /etc/ssl/private
-
 kubernetes_registry_port: 30500
 kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 
@@ -168,7 +166,7 @@ mosquitto_listeners:
 #  - port: 8883
 #    secure: True
 #    websocket: False
-#    cert_cn: listener_cname
+#    cert_name: certificate_name
 
 #  - port: 8083
 #    websocket: True
@@ -296,6 +294,5 @@ logging_elasticsearch_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 elasticsearch_exposed_namespaces:
   - logging
 
-logging_kibana_valid_certs: True
 logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"
 logging_kibana_export_saved_output_dir: "{{ standard_user.home }}/kibana_saved_objects"

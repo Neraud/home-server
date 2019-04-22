@@ -16,7 +16,7 @@ spec:
   replicas: 1
   externalUrl: https://infra.{{ web_base_domain }}/alertmanager/
   secrets:  # The Secrets are mounted into /etc/alertmanager/secrets/<secret-name>
-  - zonemta-ca
+  - cluster-ca
   resources:
     requests:
       cpu: "{{ alertmanager_requests_cpu | default("100m") }}"
