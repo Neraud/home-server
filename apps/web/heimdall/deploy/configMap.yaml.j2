@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: heimdall-config
+  namespace: default
+  labels:
+    app: heimdall
+    app-component: heimdall
+data:
+  .env: |
+    {{ lookup('template', kubernetes_app_root_path + '/web/heimdall/config/env.j2')  | replace('\n', '\n    ') }}

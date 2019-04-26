@@ -53,6 +53,12 @@ kubernetes_local_storage:
     labels:
       app: ttrss
       app-component: pgsql
+  heimdall-data: 
+    capacity: 128M
+    reclaim_policy: Retain
+    labels:
+      app: heimdall
+      app-component: heimdall
   airsonic-data:
     capacity: 256M
     reclaim_policy: Retain

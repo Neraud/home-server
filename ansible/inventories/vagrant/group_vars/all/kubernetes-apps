@@ -124,6 +124,8 @@ lemonldap_location_rules:
     #requiredAuthnLevel: 4
   - domain: "web.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'web')
+  - domain: "heimdall.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'web')
   - domain: "home.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'home')
     rules:

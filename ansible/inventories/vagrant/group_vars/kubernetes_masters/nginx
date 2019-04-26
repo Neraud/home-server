@@ -119,6 +119,30 @@ nginx_sites:
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
+  - name: heimdall
+    enabled_name: 210-heimdall
+    server_name: "heimdall.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/heimdall.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/heimdall.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True 
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        content: |
+          client_max_body_size 10m;
+
   - name: home
     enabled_name: 300-home
     server_name: "home.{{ web_base_domain }}"

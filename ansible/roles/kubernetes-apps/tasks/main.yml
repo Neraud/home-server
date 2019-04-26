@@ -42,6 +42,9 @@
 - import_tasks: apps/web-ttrss.yml
   tags: kubernetes-app-web-ttrss
 
+- import_tasks: apps/web-heimdall.yml
+  tags: kubernetes-app-web-heimdall
+
 - import_tasks: apps/home-homeassistant.yml
   tags: kubernetes-app-home-homeassistant
 
