@@ -9,3 +9,6 @@ metadata:
 data:
   .env: |
     {{ lookup('template', kubernetes_app_root_path + '/web/heimdall/config/env.j2')  | replace('\n', '\n    ') }}
+
+  applicationsLoader.php: |
+    {{ lookup('template', kubernetes_app_root_path + '/web/heimdall/config/applicationsLoader.php.j2')  | replace('\n', '\n    ') }}

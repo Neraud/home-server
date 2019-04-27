@@ -120,6 +120,23 @@ mailhog_forward_smtp_enabled: false
 #mailhog_forward_smtp_password: "..."
 #mailhog_forward_smtp_mechanism: "PLAIN"
 
+heimdall_applications: []
+#- username: admin
+#  tags:
+#    title: 'Tag1'
+#    colour: '#161b1f'
+#    icon: ''
+#    pinned: true
+#  apps:
+#  - title: 'App1'
+#    colour: '#161b1f'
+#    icon: 'icons/grafana.png'
+#    url: 'http://app1'
+#    description: ''
+#    pinned: true
+#    tags: ['Tag1', 'Tag2']
+#    class: '\App\SupportedApps\Grafana\Grafa'
+
 ttrss_context_root: /
 ttrss_pqsql_user: ttrss
 ttrss_pqsql_database: ttrss

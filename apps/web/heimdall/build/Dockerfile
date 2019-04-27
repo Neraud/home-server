@@ -14,3 +14,7 @@ RUN echo "Installing Heimdall" && \
 RUN echo "Inject read-only workaround" && \
     echo -e "\nchown -R abc:abc /var/www/localhost/heimdall" >> /etc/cont-init.d/50-config && \
     echo -e '\necho "Done"' >> /etc/cont-init.d/50-config
+
+# Required to manually inject data to the SQLite DB
+RUN echo "Install PHP SQLite3" && \
+    apk add --no-cache --upgrade php-sqlite3

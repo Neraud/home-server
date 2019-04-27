@@ -373,6 +373,8 @@ The default account is `admin` / `password`.
 
 Heimdall is installed. 
 
+Apps deployed in the cluster are added on the dashboard.
+
 ### Gitlab
 
 Gitlab is installed using the omnibus package.

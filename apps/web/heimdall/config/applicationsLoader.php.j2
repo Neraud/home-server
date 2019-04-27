@@ -1,0 +1,178 @@
+<?php
+
+$dataToLoad = [
+{% for appBlock in heimdall_applications %}
+    {% set appBlockLoop = loop %}
+    [
+        'username' => '{{ appBlock.username }}',
+        'tags' => [
+            {% for tag in appBlock.tags %}
+            [
+                'title' => '{{ tag.title }}',
+                'colour' => '{{ tag.colour | default('') }}',
+                'icon' => '{{ tag.icon | default('') }}',
+                'pinned' => {{ tag.pinned | default(false) | ternary(1, 0) }}
+            ]{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ],
+        'apps' => [
+            {% for app in appBlock.apps %}
+            [
+                'title' => '{{ app.title }}',
+                'colour' => '{{ app.colour | default('') }}',
+                'icon' => '{{ app.icon | default('') }}',
+                'url' => '{{ app.url }}',
+                'description' => '{{ app.description | default('') }}',
+                'pinned' => {{ app.pinned | default(false) | ternary(1, 0) }},
+                'tags' => [ '{{ app.tags | default([]) | join("', '") }}' ], 
+                'class' => '{{ app.class | default('') }}',
+            ]{% if not loop.last %},{% endif %}
+            {% endfor %}
+        ]
+    ]{% if not appBlockLoop.last %},{% endif %}
+{% endfor %}
+];
+
+class DbLoader {
+
+    public function init() {
+        echo "Opening database ...\n";
+        $this->db = new SQLite3('/config/www/app.sqlite');
+    }
+
+    public function load($dataToLoad) {
+        foreach($dataToLoad as $dataForOneUser) {
+            $this->loadOne($dataForOneUser);
+        }
+    }
+
+    private function loadOne($dataForOneUser) {
+        echo "==================================================\n";
+        $userName = $dataForOneUser['username'];
+        echo "User : $userName\n";
+        $userId = $this->handleUser($userName);
+
+        echo "userId = $userId\n";
+        
+        $this->handleTags($userId, $dataForOneUser['tags']);
+        $this->handleApps($userId, $dataForOneUser['apps']);
+        
+        echo "==================================================\n";
+    }
+
+    private function handleUser($userName) {
+        $userQuery = $this->db->prepare('SELECT id FROM users WHERE username = :username');
+        $userQuery->bindValue(':username', $userName);
+    
+        $result = $userQuery->execute()->fetchArray();
+        if($result === false) {
+            echo "[changed] User '$userName' doesn't exist, creating\n";
+            $this->db->exec("INSERT INTO users (username, email) VALUES ('$userName', '-')");
+            $result = $userQuery->execute()->fetchArray();
+        } else {
+            echo "[ok] User '$userName' already exists\n";
+        }
+        return $result["id"];
+    }
+
+    private function handleTags($userId, $tags) {
+        echo "--------------------------------------------------\n";
+        $tagQuery = $this->db->prepare('SELECT id FROM items WHERE title = :title AND type = 1 AND user_id = :user_id AND deleted_at IS NULL');
+        $tagQuery->bindValue(':user_id', $userId);
+
+        foreach($tags as $tag) {
+            $tagTitle = $tag['title'];
+            echo "- Tag '$tagTitle'\n";
+            $tagQuery->bindValue(':title', $tagTitle);
+            $result = $tagQuery->execute()->fetchArray();
+            if($result === false) {
+                echo "[changed] * Tag '$tagTitle' doesn't exist, creating\n";
+                $tagColour = $tag['colour'];
+                $tagIcon = $tag['icon'];
+                $tagUrl = preg_replace("/[^a-zA-Z0-9]+/", "-", $tagTitle);
+                $tagPinned = $tag['pinned'];
+                $this->db->exec("INSERT INTO items (title, colour, icon, url, pinned, type, user_id) 
+                    VALUES ('$tagTitle', '$tagColour', '$tagIcon', '$tagUrl', $tagPinned, 1, $userId)");
+            } else {
+                echo "[ok] * Tag '$tagTitle' already exists\n";
+            }
+        }
+        echo "--------------------------------------------------\n";
+    }
+
+    private function handleApps($userId, $apps) {
+        echo "--------------------------------------------------\n";
+        $appQuery = $this->db->prepare('SELECT id FROM items WHERE title = :title AND type = 0 AND user_id = :user_id AND deleted_at IS NULL');
+        $appQuery->bindValue(':user_id', $userId);
+
+        foreach($apps as $app) {
+            $appTitle = $app['title'];
+            echo "- App '$appTitle'\n";
+            $appQuery->bindValue(':title', $appTitle);
+            $result = $appQuery->execute()->fetchArray();
+            if($result === false) {
+                echo "[changed] * App '$appTitle' doesn't exist, creating\n";
+                $appColour = $app['colour'];
+                $appIcon = $app['icon'];
+                $appUrl = $app['url'];
+                $appDescription = $app['description'];
+                $appPinned = $app['pinned'];
+                $appClass = $app['class'];
+
+                $this->db->exec("INSERT INTO items (title, colour, icon, url, description, pinned, type, user_id, class) 
+                    VALUES ('$appTitle', '$appColour', '$appIcon', '$appUrl', '$appDescription', $appPinned, 0, $userId, '$appClass')");
+
+                $this->handleAppTags($userId, $app);
+            } else {
+                echo "[ok] * App '$appTitle' already exists\n";
+                $this->handleAppTags($userId, $app);
+            }
+        }
+        echo "--------------------------------------------------\n";
+    }
+
+    private function handleAppTags($userId, $app) {
+        $appTitle = $app['title'];
+        $appTagNames = $app['tags'];
+        //echo "Adding tags on $appTitle : ".join(", ", $appTagNames)."\n";
+
+        $tagQuery = $this->db->prepare('SELECT id FROM items WHERE title = :title AND type = 1 AND user_id = :user_id AND deleted_at IS NULL');
+        $tagQuery->bindValue(':user_id', $userId);
+        $appQuery = $this->db->prepare('SELECT id FROM items WHERE title = :title AND type = 0 AND user_id = :user_id AND deleted_at IS NULL');
+        $appQuery->bindValue(':user_id', $userId);
+        $appQuery->bindValue(':title', $appTitle);
+        $linkQuery = $this->db->prepare('SELECT item_id, tag_id FROM item_tag WHERE item_id = :item_id AND tag_id = :tag_id');
+        $appResult = $appQuery->execute()->fetchArray();
+
+        if($appResult === false) {
+            echo "[error] Missing app $appTitle !\n";
+            return;
+        }
+
+        $appId = $appResult['id'];
+        $linkQuery->bindValue(':item_id', $appId);
+
+        foreach($appTagNames as $tagTitle) {
+            $tagQuery->bindValue(':title', $tagTitle);
+            $tagResult = $tagQuery->execute()->fetchArray();
+
+            if($tagResult === false) {
+                echo "[skipped] * Missing tag $tagTitle !\n";
+            } else {
+                $tagId = $tagResult['id'];
+                $linkQuery->bindValue(':tag_id', $tagId);
+                $linkResult = $linkQuery->execute()->fetchArray();
+                if($linkResult === false) {
+                    echo "[changed] * adding link to tag '$tagTitle'\n";
+                    $this->db->exec("INSERT INTO item_tag (item_id, tag_id) VALUES ($appId, $tagId)");
+                } else {
+                    echo "[ok] * link to tag already exists '$tagTitle'\n";
+                }
+            }
+        }
+    }
+}
+
+$loader = new DbLoader;
+$loader->init();
+$loader->load($dataToLoad);
