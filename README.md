@@ -52,6 +52,7 @@ To test the deployed services, you will have to add the following domains to you
 ```
 192.168.100.10 k8stest.com
 192.168.100.10 infra.k8stest.com
+192.168.100.10 auth.k8stest.com
 192.168.100.10 unifi.k8stest.com
 192.168.100.10 home.k8stest.com
 192.168.100.10 web.k8stest.com
