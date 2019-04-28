@@ -196,6 +196,8 @@ nginx_sites:
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
         lemonLdap_protected: True 
+        content: |
+          client_max_body_size 250m;
 
 nginx_streams:
   - name: home_mqtt
