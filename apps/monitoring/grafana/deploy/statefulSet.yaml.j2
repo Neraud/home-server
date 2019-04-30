@@ -21,7 +21,7 @@ spec:
         app-component: grafana
     spec:
       containers:
-      - image: grafana/grafana:5.4.3
+      - image: grafana/grafana:6.0.1
         name: grafana
         env:
         - name: GF_SERVER_ROOT_URL
@@ -65,9 +65,11 @@ spec:
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       nodeSelector:
+        beta.kubernetes.io/os: linux
         capability/general-purpose: 'yes'
       securityContext:
-        fsGroup: 472 # grafana group inside the container
+        runAsNonRoot: true
+        runAsUser: 65534
       serviceAccountName: grafana
       volumes:
       - name: tz-config
