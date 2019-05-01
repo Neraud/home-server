@@ -2,3 +2,7 @@
 
 #log_format combined 	'$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"';
 log_format main 		'$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" $request_length $body_bytes_sent';
+
+{% for nginx_extra_log_format in nginx_extra_log_formats %}
+log_format {{ nginx_extra_log_format.name }} '{{ nginx_extra_log_format.format }}';
+{% endfor %}
