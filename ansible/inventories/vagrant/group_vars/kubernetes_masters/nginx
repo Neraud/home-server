@@ -2,6 +2,10 @@
 
 #nginx_ssl_dhparam_generate: True
 
+nginx_extra_log_formats:
+  - name: lemonldap-auth
+    format: '$remote_addr - $remote_user [$time_local] "$upstream_http_lm_auth_failed" "$http_user_agent"'
+
 nginx_upstreams:
   - name: kubernetes-https-ingress
     servers:
@@ -36,7 +40,7 @@ nginx_sites:
     disable_robots: True
 
   - name: auth
-    enabled_name: 000-auth
+    enabled_name: 010-auth
     server_name: "auth.{{ web_base_domain }}"
     default: False
     http_port: 80
@@ -52,6 +56,9 @@ nginx_sites:
       - path: /
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
+        content: |
+          access_log /var/log/nginx/auth_lemonldap_auth_failed.log lemonldap-auth if=$upstream_http_lm_auth_failed;
+          proxy_hide_header Lm-Auth-Failed;
 
   - name: infra
     enabled_name: 100-infra
