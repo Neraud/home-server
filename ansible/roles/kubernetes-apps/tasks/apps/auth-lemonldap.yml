@@ -1,26 +1,5 @@
 ---
 
-###################
-# TEMP WORKAROUND #
-###################
-
-- name: Clone forked repo
-  git:
-    dest: /tmp/lemonldap-ng-docker
-    repo: https://github.com/Neraud/lemonldap-ng-docker
-    version: master
-
-- name: Build and push LemonLDAP image
-  docker_image:
-    path: "/tmp/lemonldap-ng-docker"
-    name: "{{ kubernetes_registry_url }}/lemonldap-ng"
-    force: yes
-    push: yes
-
-###################
-# TEMP WORKAROUND #
-###################
-
 - name: Deploy LemonLDAP
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
