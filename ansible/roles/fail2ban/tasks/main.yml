@@ -5,11 +5,18 @@
     pkg: fail2ban
     state: present
 
+- name: Configure filters
+  template:
+    src: filter.conf.j2
+    dest: "/etc/fail2ban/filter.d/{{ item.name }}.conf"
+  with_items: "{{ fail2ban_filters | default([]) }}"
+  notify: Restart Fail2Ban
+
 - name: Configure jails
   template:
     src: jail.conf.j2
     dest: "/etc/fail2ban/jail.d/{{ item.name }}.conf"
-  with_items: "{{ fail2ban_jails }}"
+  with_items: "{{ fail2ban_jails | default([]) }}"
   notify: Restart Fail2Ban
 
 - name: Auto-start Fail2Ban

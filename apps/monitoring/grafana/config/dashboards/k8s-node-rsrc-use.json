@@ -26,7 +26,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 0,
+                    "id": 1,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -55,7 +55,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_cpu_utilisation:avg1m{node=\"$node\"}",
+                            "expr": "node:node_cpu_utilisation:avg1m{cluster=\"$cluster\", node=\"$node\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "Utilisation",
@@ -70,7 +70,7 @@
                     "timeShift": null,
                     "title": "CPU Utilisation",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -112,7 +112,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 1,
+                    "id": 2,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -141,7 +141,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_cpu_saturation_load1:{node=\"$node\"}",
+                            "expr": "node:node_cpu_saturation_load1:{cluster=\"$cluster\", node=\"$node\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "Saturation",
@@ -156,7 +156,7 @@
                     "timeShift": null,
                     "title": "CPU Saturation (Load1)",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -210,7 +210,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 2,
+                    "id": 3,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -239,7 +239,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_memory_utilisation:{node=\"$node\"}",
+                            "expr": "node:node_memory_utilisation:{cluster=\"$cluster\", node=\"$node\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "Memory",
@@ -254,7 +254,7 @@
                     "timeShift": null,
                     "title": "Memory Utilisation",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -296,7 +296,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 3,
+                    "id": 4,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -325,7 +325,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_memory_swap_io_bytes:sum_rate{node=\"$node\"}",
+                            "expr": "node:node_memory_swap_io_bytes:sum_rate{cluster=\"$cluster\", node=\"$node\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "Swap IO",
@@ -340,7 +340,7 @@
                     "timeShift": null,
                     "title": "Memory Saturation (Swap I/O)",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -394,7 +394,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 4,
+                    "id": 5,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -423,7 +423,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_disk_utilisation:avg_irate{node=\"$node\"}",
+                            "expr": "node:node_disk_utilisation:avg_irate{cluster=\"$cluster\", node=\"$node\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "Utilisation",
@@ -438,7 +438,7 @@
                     "timeShift": null,
                     "title": "Disk IO Utilisation",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -480,7 +480,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 5,
+                    "id": 6,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -509,7 +509,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_disk_saturation:avg_irate{node=\"$node\"}",
+                            "expr": "node:node_disk_saturation:avg_irate{cluster=\"$cluster\", node=\"$node\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "Saturation",
@@ -524,7 +524,7 @@
                     "timeShift": null,
                     "title": "Disk IO Saturation",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -578,7 +578,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 6,
+                    "id": 7,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -607,7 +607,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_net_utilisation:sum_irate{node=\"$node\"}",
+                            "expr": "node:node_net_utilisation:sum_irate{cluster=\"$cluster\", node=\"$node\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "Utilisation",
@@ -622,7 +622,7 @@
                     "timeShift": null,
                     "title": "Net Utilisation (Transmitted)",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -664,7 +664,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 7,
+                    "id": 8,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -693,7 +693,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_net_saturation:sum_irate{node=\"$node\"}",
+                            "expr": "node:node_net_saturation:sum_irate{cluster=\"$cluster\", node=\"$node\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "Saturation",
@@ -708,7 +708,7 @@
                     "timeShift": null,
                     "title": "Net Saturation (Dropped)",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -762,7 +762,7 @@
                     "dashes": false,
                     "datasource": "$datasource",
                     "fill": 1,
-                    "id": 8,
+                    "id": 9,
                     "legend": {
                         "avg": false,
                         "current": false,
@@ -791,7 +791,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "node:node_filesystem_usage:\n* on (namespace, pod) group_left (node) node_namespace_pod:kube_pod_info:{node=\"$node\"}\n",
+                            "expr": "node:node_filesystem_usage:{cluster=\"$cluster\"}\n* on (namespace, pod) group_left (node) node_namespace_pod:kube_pod_info:{cluster=\"$cluster\", node=\"$node\"}\n",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{device}}",
@@ -806,7 +806,7 @@
                     "timeShift": null,
                     "title": "Disk Utilisation",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -879,6 +879,33 @@
                     "value": "prod"
                 },
                 "datasource": "$datasource",
+                "hide": 2,
+                "includeAll": false,
+                "label": "cluster",
+                "multi": false,
+                "name": "cluster",
+                "options": [
+
+                ],
+                "query": "label_values(kube_node_info, cluster)",
+                "refresh": 1,
+                "regex": "",
+                "sort": 2,
+                "tagValuesQuery": "",
+                "tags": [
+
+                ],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "allValue": null,
+                "current": {
+                    "text": "prod",
+                    "value": "prod"
+                },
+                "datasource": "$datasource",
                 "hide": 0,
                 "includeAll": false,
                 "label": "node",
@@ -887,13 +914,13 @@
                 "options": [
 
                 ],
-                "query": "label_values(kube_node_info, node)",
+                "query": "label_values(kube_node_info{cluster=\"$cluster\"}, node)",
                 "refresh": 1,
                 "regex": "",
                 "sort": 2,
                 "tagValuesQuery": "",
                 "tags": [
-                    
+
                 ],
                 "tagsQuery": "",
                 "type": "query",
@@ -931,7 +958,7 @@
         ]
     },
     "timezone": "",
-    "title": "K8s / USE Method / Node",
+    "title": "Kubernetes / USE Method / Node",
     "uid": "4ac4f123aae0ff6dbaf4f4f66120033b",
     "version": 0
 }

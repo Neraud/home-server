@@ -7,3 +7,14 @@ fail2ban_jails:
     enabled: True
   - name: nginx-limit-req
     enabled: True
+  - name: lemonldap-ng-auth
+    enabled: true
+    port: http,https
+    filter: lemonldap-ng-auth
+    logpath: /var/log/nginx/auth_lemonldap_auth_failed.log
+
+fail2ban_filters:
+  - name: lemonldap-ng-auth
+    failregex:
+      - '^<HOST> \- \S+ \[\] \"User failed for.*'
+      - '^<HOST> \- \S+ \[\] \"Password failed for.*'

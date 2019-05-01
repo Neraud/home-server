@@ -14,7 +14,7 @@ spec:
       namespace: monitoring
       port: web
   baseImage: quay.io/prometheus/prometheus
-  version: v2.7.1
+  version: v2.7.2
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'
@@ -38,16 +38,18 @@ spec:
   serviceAccountName: prometheus-k8s
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
-  volumeClaimTemplate:
-    metadata:
-      name: prometheus-k8s-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
-      resources:
-        requests:
-          storage: 10G
-      selector:
-        matchLabels:
-          app: prometheus-k8s
-          app-component: prometheus
+  retention: {{ prometheus_retention | default('7d') }}
+  storage:
+    volumeClaimTemplate:
+      metadata:
+        name: prometheus-k8s-pv-claim
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+        resources:
+          requests:
+            storage: 10G
+        selector:
+          matchLabels:
+            app: prometheus-k8s
+            app-component: prometheus

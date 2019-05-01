@@ -7,3 +7,25 @@ fail2ban_jails:
     enabled: False
   - name: nginx-limit-req
     enabled: False
+#  - name: custom-jail
+#    enabled: true
+#    port: http,https
+#    filter: custom-filter
+#    action: iptables-multiport[name=whatever, port="http,https"]
+#    logpath: /path/to/file.log
+#    maxretry: 3
+
+#fail2ban_filters:
+#  - name: custom-filter
+#    failregex:
+#      - Whatever fails 1
+#      - Whatever fails 2
+#      - Whatever fails 3
+#    ignoreregex:
+#      - Nope 1
+#      - Nope 2
+#      - Nope 3
+#    datepattern: 
+#      - "{^LN-BEG 1}"
+#      - "{^LN-BEG 2}"
+#      - "{^LN-BEG 3}"

@@ -38,8 +38,7 @@ spec:
           mountPath: {{ lemonldap_persistent_volume_path }}
       containers:
       - name: lemonldap
-        #image: coudot/lemonldap-ng:2.0.2
-        image: {{ kubernetes_registry_url }}/lemonldap-ng:latest
+        image: {{ kubernetes_registry_url }}/lemonldap
         ports:
           - containerPort: 80
             name: http
