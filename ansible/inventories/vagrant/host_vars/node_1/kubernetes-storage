@@ -132,3 +132,9 @@ kubernetes_local_storage:
     labels:
       app: sickchill
       app-component: sickchill
+  deluge-config:
+    capacity: 256M
+    reclaim_policy: Retain
+    labels:
+      app: deluge
+      app-component: deluge

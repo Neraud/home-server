@@ -305,3 +305,5 @@ sickchill_smtp_tls: True
 sickchill_smtp_user: "{{ zonemta_feeder_authentication_username }}"
 sickchill_smtp_password: "{{ zonemta_feeder_authentication_password }}"
 sickchill_smtp_from: "noreply@{{ web_base_domain }}"
+
+deluge_context_root: /
