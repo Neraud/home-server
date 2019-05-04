@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pyload
+  namespace: default
+  labels:
+    app: pyload
+    app-component: pyload
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: pyload
+      app-component: pyload
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: pyload
+        app-component: pyload
+    spec:
+      containers:
+      - image: {{ kubernetes_registry_url }}/pyload
+        name: pyload
+        ports:
+        - containerPort: 8000
+          name: webui
+        env:
+          - name: PYLOAD_DEFAULT_USER
+            value: "{{ pyload_default_user }}"
+          - name: PYLOAD_DEFAULT_PASSWORD
+            value: "{{ pyload_default_password }}"
+          - name: PYLOAD_WEB_PATH
+            value: "{{ pyload_context_root }}"
+        resources:
+          requests:
+            cpu: "{{ pyload_requests_cpu | default("100m") }}"
+            memory: "{{ pyload_requests_memory | default("256Mi") }}"
+          limits:
+            cpu: "{{ pyload_limits_cpu | default("200m") }}"
+            memory: "{{ pyload_limits_memory | default("256Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: pyload-config-pv-claim
+          mountPath: /config
+        - name: pyload-download
+          mountPath: /mnt/download
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: pyload-download
+        persistentVolumeClaim:
+          claimName: nfs-download
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: pyload-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          app: pyload
+          app-component: pyload

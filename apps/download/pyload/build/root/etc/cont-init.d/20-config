@@ -1,0 +1,51 @@
+#!/usr/bin/with-contenv bash
+
+# make folders
+mkdir -p \
+	/downloads
+
+# permissions
+chown -R abc:abc \
+	/app \
+	/downloads
+
+if [ ! -f /config/pyload.conf ] ; then
+	echo "New install detected"
+	echo "- deploying default configuration"
+	cp /app/pyload_default.conf /config/pyload.conf
+	chown abc:abc /config/pyload.conf
+else
+	echo "Existing install detected, nothing to do"
+fi
+
+echo "- creating/updateing default user : $PYLOAD_DEFAULT_USER"
+export PYTHONUNBUFFERED=1
+/usr/bin/expect <<EOD
+spawn s6-setuidgid abc python /app/pyload/pyLoadCore.py --configdir=/config --user
+set timeout 10
+
+expect -re {.*\[1\]/2/3/4:.*}
+send -- "1\r"
+
+expect -re {.*Username \[User\]:.*}
+send -- "$PYLOAD_DEFAULT_USER\r"
+
+expect -re {.*Password:.*}
+send -- "$PYLOAD_DEFAULT_PASSWORD\r"
+
+expect -re {.*Password \(again\):.*}
+send -- "$PYLOAD_DEFAULT_PASSWORD\r"
+
+expect -re {.*\[1\]/2/3/4:.*}
+send -- "2\r"
+
+expect -re {.*\[1\]/2/3/4:.*}       
+send -- "4\r"
+
+expect eof
+EOD
+
+echo "- setting the web path to $PYLOAD_WEB_PATH"
+sed -i "s|\"Path Prefix\" *= *.*|\"Path Prefix\" = $PYLOAD_WEB_PATH|" /config/pyload.conf
+echo "- setting download path to $PYLOAD_DOWNLOAD_PATH"
+sed -i "s|\"Download Folder\" *= *.*|\"Download Folder\" = $PYLOAD_DOWNLOAD_PATH|" /config/pyload.conf

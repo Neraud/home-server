@@ -138,3 +138,9 @@ kubernetes_local_storage:
     labels:
       app: deluge
       app-component: deluge
+  pyload-config:
+    capacity: 32M
+    reclaim_policy: Retain
+    labels:
+      app: pyload
+      app-component: pyload

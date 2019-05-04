@@ -80,3 +80,6 @@
 
 - import_tasks: apps/download-deluge.yml
   tags: kubernetes-app-download-deluge
+
+- import_tasks: apps/download-pyload.yml
+  tags: kubernetes-app-download-pyload

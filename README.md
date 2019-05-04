@@ -114,7 +114,7 @@ The folowing services are deployed :
 | [Airsonic](https://airsonic.github.io/)                          | https://stream.k8stest.com/airsonic/    | Music streaming                               |
 | [Sickchill](https://sickchill.github.io/)                        | https://dl.k8stest.com/sickchill/       | Automatic Video Library Manager for TV Shows. |
 | [Deluge](https://deluge-torrent.org/)                            | https://dl.k8stest.com/deluge/          | Torrent client                                |
-| [Pyload](https://pyload.net/)                                    | https://dl.k8stest.com/pyload/          | HTTP download manager                         |
+| [pyload](https://pyload.net/)                                    | https://dl.k8stest.com/pyload/          | HTTP download manager                         |
 | [SABnzbd](https://sabnzbd.org/)                                  | https://dl.k8stest.com/sabnzbd/         | Binary newsreader                             |
 
 ### Kubernetes dashboard
@@ -456,9 +456,13 @@ The mock NAS storage is used as media storage.
 
 The webui uses the default password : `deluge`.
 
-### Pyload
+### pyload
 
-TODO
+pyLoad is installed.
+
+The mock NAS storage is used as media storage.
+
+A default `pyload` / `Passw0rd` user is created.
 
 ### SABnzbd
 
