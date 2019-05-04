@@ -55,6 +55,11 @@ openldap_ldap_groups:
     ou: sso_groups
     members: 
       - user
+  - id: dl
+    description: Download
+    ou: sso_groups
+    members: 
+      - user
 
   # App Groups, used to filter access on each app
   - id: gitlab
@@ -146,6 +151,8 @@ lemonldap_location_rules:
       - name: 00-Gitlab
         uri: ^/gitlab
         rule: skip
+  - domain: "dl.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'dl')
 
 zonemta_smtp_servername: zonemta.default
 zonemta_mongo_user: zonemta
