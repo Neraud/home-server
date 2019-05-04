@@ -442,7 +442,11 @@ Airsonic is deployed and configured to look for music on the NAS share by defaul
 
 ### Sickchill
 
-TODO
+Sickchill is installed.
+
+Search providers are not configured by default.
+
+The mock NAS storage is used as media storage.
 
 ### Deluge
 

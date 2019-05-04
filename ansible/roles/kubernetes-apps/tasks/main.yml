@@ -74,3 +74,6 @@
 
 - import_tasks: apps/logging-kibana.yml
   tags: kubernetes-app-logging-kibana
+
+- import_tasks: apps/download-sickchill.yml
+  tags: kubernetes-app-download-sickchill
