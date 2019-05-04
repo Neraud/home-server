@@ -62,6 +62,7 @@ __EOF__
 
 	echo " - create mock NAS folders"
 	mkdir -p /opt/mock_nas/Multimedia/{Anime,Movies,Music,Podcasts,TV Shows}
+	mkdir -p /opt/mock_nas/Download/{done}
 
 	echo " - install NFS Server"
 	apt-get -q -y install nfs-kernel-server
@@ -76,6 +77,7 @@ __EOF__
 
 	cat << EOF > /etc/exports
 /opt/mock_nas/Multimedia $network_cidr(rw)
+/opt/mock_nas/Download $network_cidr(rw)
 EOF
 	systemctl restart nfs-kernel-server
 fi
