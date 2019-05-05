@@ -466,4 +466,8 @@ A default `pyload` / `Passw0rd` user is created.
 
 ### SABnzbd
 
-TODO
+pyLoad is installed.
+
+The mock NAS storage is used as media storage.
+
+A default `sabnzbd` / `Passw0rd` user is created.

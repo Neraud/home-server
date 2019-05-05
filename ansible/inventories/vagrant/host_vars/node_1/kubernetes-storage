@@ -144,3 +144,9 @@ kubernetes_local_storage:
     labels:
       app: pyload
       app-component: pyload
+  sabnzbd-config:
+    capacity: 32M
+    reclaim_policy: Retain
+    labels:
+      app: sabnzbd
+      app-component: sabnzbd

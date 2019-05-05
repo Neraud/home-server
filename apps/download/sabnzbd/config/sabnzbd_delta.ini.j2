@@ -1,0 +1,29 @@
+__version__ = 19
+__encoding__ = utf-8
+
+[misc]
+
+host = 0.0.0.0
+port = 8080
+url_base = {{ sabnzbd_context_root | regex_replace('/$', '') }}
+host_whitelist = sabnzbd-0,dl.{{ web_base_domain }}
+
+enable_https = 0
+https_port = ""
+https_cert = server.cert
+https_key = server.key
+https_chain = ""
+
+dirscan_dir = /mnt/download/newsgroup/nzbFiles
+download_dir = /mnt/download/newsgroup/pending
+complete_dir = /mnt/download/newsgroup/done
+
+username = "{{ sabnzbd_user }}"
+password = "{{ sabnzbd_password }}"
+
+#nzb_key = 12345678901234567890123456789012
+#api_key = 12345678901234567890123456789012
+
+email_server = "{{ sabnzbd_smtp_host }}:{{ sabnzbd_smtp_port }}"
+email_account = "{{ sabnzbd_smtp_user }}"
+email_pwd = "{{ sabnzbd_smtp_password }}"

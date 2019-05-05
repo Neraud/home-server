@@ -311,3 +311,11 @@ deluge_context_root: /
 pyload_context_root: /
 pyload_default_user: pyload
 pyload_default_password: clear_password
+
+sabnzbd_context_root: /
+sabnzbd_user: sabnzbd
+sabnzbd_password: clear_password
+sabnzbd_smtp_host: "{{ zonemta_smtp_servername }}"
+sabnzbd_smtp_port: 587
+sabnzbd_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+sabnzbd_smtp_password: "{{ zonemta_feeder_authentication_password }}"

@@ -64,6 +64,7 @@ __EOF__
 	mkdir -p /opt/mock_nas/Multimedia/{Anime,Movies,Music,Podcasts,TV\ Shows}
 	mkdir -p /opt/mock_nas/Download/done
 	mkdir -p /opt/mock_nas/Download/torrent/{pending,done,auto-load,torrent-files}
+	mkdir -p /opt/mock_nas/Download/newsgroup/{nzbFiles,pending,done}
 	chmod -R 777 /opt/mock_nas
 	
 	echo " - install NFS Server"

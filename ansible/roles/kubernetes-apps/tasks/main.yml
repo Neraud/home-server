@@ -83,3 +83,6 @@
 
 - import_tasks: apps/download-pyload.yml
   tags: kubernetes-app-download-pyload
+
+- import_tasks: apps/download-sabnzbd.yml
+  tags: kubernetes-app-download-sabnzbd
