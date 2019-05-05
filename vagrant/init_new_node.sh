@@ -61,8 +61,8 @@ __EOF__
 	done
 
 	echo " - create mock NAS folders"
-	mkdir -p /opt/mock_nas/Multimedia/{Anime,Movies,Music,Podcasts,TV Shows}
-	mkdir -p /opt/mock_nas/Download/{done}
+	mkdir -p /opt/mock_nas/Multimedia/{Anime,Movies,Music,Podcasts,TV\ Shows}
+	mkdir -p /opt/mock_nas/Download/done
 	mkdir -p /opt/mock_nas/Download/torrent/{pending,done,auto-load,torrent-files}
 	chmod -R 777 /opt/mock_nas
 	
