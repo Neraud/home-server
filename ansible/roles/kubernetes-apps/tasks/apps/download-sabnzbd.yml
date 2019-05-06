@@ -1,5 +1,15 @@
 ---
 
+# TODO not idempotent
+# Push always registers a change : https://github.com/ansible/ansible/issues/25040
+# And build doesn't update an existing image without force=yes ...
+- name: Build and push sabnzbd image
+  docker_image:
+    path: "{{ kubernetes_app_root_path }}/download/sabnzbd/build"
+    name: "{{ kubernetes_registry_url }}/sabnzbd"
+    force: yes
+    push: yes
+
 - name: Deploy sabnzbd
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

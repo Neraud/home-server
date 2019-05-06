@@ -31,7 +31,7 @@ spec:
         - name: sabnzbd-config
           mountPath: /tmp/config
       containers:
-      - image: linuxserver/sabnzbd:2.3.8-0ubuntu1jcfp118.04-ls12
+      - image: {{ kubernetes_registry_url }}/sabnzbd
         name: sabnzbd
         ports:
         - containerPort: 8080
