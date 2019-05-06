@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv bash
+
+if [ ! -f /config/autoProcessMedia.cfg ] ; then
+    cp /opt/nzbToMedia/autoProcessMedia.cfg.spec /config/autoProcessMedia.cfg
+fi
+
+ln -s /config/autoProcessMedia.cfg /opt/nzbToMedia/autoProcessMedia.cfg
+
+# permissions
+chown -R abc:abc /opt/nzbToMedia /config/autoProcessMedia.cfg

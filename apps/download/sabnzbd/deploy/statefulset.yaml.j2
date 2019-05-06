@@ -39,10 +39,10 @@ spec:
         resources:
           requests:
             cpu: "{{ sabnzbd_requests_cpu | default("100m") }}"
-            memory: "{{ sabnzbd_requests_memory | default("128Mi") }}"
+            memory: "{{ sabnzbd_requests_memory | default("256Mi") }}"
           limits:
             cpu: "{{ sabnzbd_limits_cpu | default("200m") }}"
-            memory: "{{ sabnzbd_limits_memory | default("128Mi") }}"
+            memory: "{{ sabnzbd_limits_memory | default("256Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

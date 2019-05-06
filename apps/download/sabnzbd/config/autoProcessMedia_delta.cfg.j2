@@ -1,0 +1,54 @@
+# {{ ansible_managed }}
+
+# nzbToMedia Configuration
+# For more information, visit https://github.com/clinton-hall/nzbToMedia/wiki
+
+[SickBeard]
+    #### autoProcessing for TV Series
+{% for category_name in sabnzbd_nzbToMedia_config_sickbeard %}{% set category_config = sabnzbd_nzbToMedia_config_sickbeard[category_name] %}
+    #### {{ category_name }} - category that gets called for post-processing with SB
+    [[{{ category_name }}]]
+        enabled = {{ category_config.enabled }}
+        host = {{ category_config.host }}
+        port = {{ category_config.port }}
+        apikey = {{ category_config.apikey | default("") }}
+        username = {{ category_config.username | default("") }}
+        password = {{ category_config.password | default("") }}
+        ###### ADVANCED USE - ONLY EDIT IF YOU KNOW WHAT YOU'RE DOING ######
+        web_root = {{ category_config.web_root | default("") }}
+        ssl = {{ category_config.ssl | default(0) }}
+        fork = auto
+        delete_failed = 0
+        # Enable/Disable linking for Torrents
+        Torrent_NoLink = 0
+        keep_archive = 1
+        process_method =
+        # force processing of already processed content when running a manual scan.
+        force = 0
+        # tell SickRage/Medusa to delete all source files after processing.
+        delete_on = 0
+        # tell Medusa to ignore check for associated subtitle check when postponing release
+        ignore_subs = 0
+        extract = 1
+        nzbExtractionBy = Downloader
+        # Set this to minimum required size to consider a media file valid (in MB)
+        minSize = 0
+        # Enable/Disable deleting ignored files (samples and invalid media files)
+        delete_ignored = 0
+        ##### Enable if SickBeard is on a remote server for this category
+        remote_path = 0
+        ##### Set to path where download client places completed downloads locally for this category
+        watch_dir =
+        ##### Set the recursive directory permissions to the following (0 to disable)
+        chmodDirectory = 0
+{% endfor %}
+
+[Nzb]
+    ###### clientAgent - Supported clients: sabnzbd, nzbget
+    clientAgent = sabnzbd
+    ###### SabNZBD (You must edit this if you're using nzbToMedia.py with SabNZBD)
+    sabnzbd_host = sabnzbd.default
+    sabnzbd_port = 80
+    sabnzbd_apikey = {{ sabnzbd_api_key }}
+    ###### Enter the default path to your default download directory (non-category downloads). this directory is protected by safe_mode.
+    default_downloadDirectory =

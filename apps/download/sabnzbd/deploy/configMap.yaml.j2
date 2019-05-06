@@ -9,6 +9,8 @@ metadata:
 data:
   sabnzbd_delta.ini: |
     {{ lookup('template', kubernetes_app_root_path + '/download/sabnzbd/config/sabnzbd_delta.ini.j2') | replace('\n', '\n    ') }}
+  autoProcessMedia_delta.cfg: |
+    {{ lookup('template', kubernetes_app_root_path + '/download/sabnzbd/config/autoProcessMedia_delta.cfg.j2') | replace('\n', '\n    ') }}
   mergeConf.py: |
     {{ lookup('file', kubernetes_app_root_path + '/download/sabnzbd/config/mergeConf.py') | replace('\n', '\n    ') }}
   configobj.py: |
