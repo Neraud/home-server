@@ -55,6 +55,11 @@ openldap_ldap_groups:
     ou: sso_groups
     members: 
       - user
+  - id: dl
+    description: Download
+    ou: sso_groups
+    members: 
+      - user
 
   # App Groups, used to filter access on each app
   - id: gitlab
@@ -146,6 +151,8 @@ lemonldap_location_rules:
       - name: 00-Gitlab
         uri: ^/gitlab
         rule: skip
+  - domain: "dl.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'dl')
 
 zonemta_smtp_servername: zonemta.default
 zonemta_mongo_user: zonemta
@@ -251,3 +258,33 @@ logging_kibana_elasticsearch_password: password
 
 logging_kibana_context_path: /kibana
 logging_kibana_export_saved_output_dir: "/vagant/kibana_saved_objects"
+
+sickchill_context_root: /sickchill
+sickchill_api_key: "abcdefghijklmnopqrstuvwxyz123456"
+
+deluge_context_root: /deluge
+
+pyload_context_root: /pyload
+pyload_default_user: pyload
+pyload_default_password: Passw0rd
+
+sabnzbd_context_root: /sabnzbd
+sabnzbd_user: sabnzbd
+sabnzbd_password: Passw0rd
+sabnzbd_api_key: "abcdefghijklmnopqrstuvwxyz123456"
+
+sabnzbd_nzbToMedia_config_sickbeard:
+  tv:
+    enabled: 1
+    host: sickchill.default
+    port: 80
+    api_key: "{{ sickchill_api_key }}"
+    web_root: "{{ sickchill_context_root }}"
+    ssl: 0
+  anime:
+    enabled: 1
+    host: sickchill.default
+    port: 80
+    api_key: "{{ sickchill_api_key }}"
+    web_root: "{{ sickchill_context_root }}"
+    ssl: 0

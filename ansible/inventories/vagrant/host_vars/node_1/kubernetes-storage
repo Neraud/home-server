@@ -126,3 +126,27 @@ kubernetes_local_storage:
     labels:
       app: homeassistant
       app-component: mysql
+  sickchill-config:
+    capacity: 1G
+    reclaim_policy: Retain
+    labels:
+      app: sickchill
+      app-component: sickchill
+  deluge-config:
+    capacity: 256M
+    reclaim_policy: Retain
+    labels:
+      app: deluge
+      app-component: deluge
+  pyload-config:
+    capacity: 32M
+    reclaim_policy: Retain
+    labels:
+      app: pyload
+      app-component: pyload
+  sabnzbd-config:
+    capacity: 32M
+    reclaim_policy: Retain
+    labels:
+      app: sabnzbd
+      app-component: sabnzbd

@@ -206,6 +206,26 @@ nginx_sites:
         content: |
           client_max_body_size 250m;
 
+  - name: download
+    enabled_name: 600-download
+    server_name: "dl.{{ web_base_domain }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dl.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dl.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        lemonLdap_protected: True 
+
 nginx_streams:
   - name: home_mqtt
     enabled_name: 100-home_mqtt

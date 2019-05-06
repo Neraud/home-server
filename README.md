@@ -114,7 +114,7 @@ The folowing services are deployed :
 | [Airsonic](https://airsonic.github.io/)                          | https://stream.k8stest.com/airsonic/    | Music streaming                               |
 | [Sickchill](https://sickchill.github.io/)                        | https://dl.k8stest.com/sickchill/       | Automatic Video Library Manager for TV Shows. |
 | [Deluge](https://deluge-torrent.org/)                            | https://dl.k8stest.com/deluge/          | Torrent client                                |
-| [Pyload](https://pyload.net/)                                    | https://dl.k8stest.com/pyload/          | HTTP download manager                         |
+| [pyload](https://pyload.net/)                                    | https://dl.k8stest.com/pyload/          | HTTP download manager                         |
 | [SABnzbd](https://sabnzbd.org/)                                  | https://dl.k8stest.com/sabnzbd/         | Binary newsreader                             |
 
 ### Kubernetes dashboard
@@ -442,16 +442,34 @@ Airsonic is deployed and configured to look for music on the NAS share by defaul
 
 ### Sickchill
 
-TODO
+Sickchill is installed.
+
+Search providers are not configured by default.
+
+The mock NAS storage is used as media storage.
 
 ### Deluge
 
-TODO
+Deluge is installed.
 
-### Pyload
+The mock NAS storage is used as media storage.
 
-TODO
+The webui uses the default password : `deluge`.
+
+### pyload
+
+pyLoad is installed.
+
+The mock NAS storage is used as media storage.
+
+A default `pyload` / `Passw0rd` user is created.
 
 ### SABnzbd
 
-TODO
+pyLoad is installed.
+
+The mock NAS storage is used as media storage.
+
+A default `sabnzbd` / `Passw0rd` user is created.
+
+[nzbToMedia](https://github.com/clinton-hall/nzbToMedia) is added and configured to notify Sickchill of finished downloads.

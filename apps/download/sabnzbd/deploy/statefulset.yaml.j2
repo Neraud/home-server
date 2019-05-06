@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sabnzbd
+  namespace: default
+  labels:
+    app: sabnzbd
+    app-component: sabnzbd
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: sabnzbd
+      app-component: sabnzbd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sabnzbd
+        app-component: sabnzbd
+    spec:
+      initContainers:
+      - name: inject-config
+        image: python:2.7.16-alpine3.9
+        command: [ "python", "/tmp/config/mergeConf.py" ]
+        volumeMounts:
+        - name: sabnzbd-config-pv-claim
+          mountPath: /config
+        - name: sabnzbd-config
+          mountPath: /tmp/config
+      containers:
+      - image: {{ kubernetes_registry_url }}/sabnzbd
+        name: sabnzbd
+        ports:
+        - containerPort: 8080
+          name: http
+        resources:
+          requests:
+            cpu: "{{ sabnzbd_requests_cpu | default("100m") }}"
+            memory: "{{ sabnzbd_requests_memory | default("256Mi") }}"
+          limits:
+            cpu: "{{ sabnzbd_limits_cpu | default("200m") }}"
+            memory: "{{ sabnzbd_limits_memory | default("256Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: sabnzbd-config-pv-claim
+          mountPath: /config
+        - name: sabnzbd-download
+          mountPath: /mnt/download
+        # sabnzbd-config is not used by the container directly
+        # But mounting it enables the use of the reloader
+        - name: sabnzbd-config
+          mountPath: /tmp/config
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: sabnzbd-config
+        configMap:
+          name: sabnzbd-config
+      - name: sabnzbd-download
+        persistentVolumeClaim:
+          claimName: nfs-download
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: sabnzbd-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          app: sabnzbd
+          app-component: sabnzbd
