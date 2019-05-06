@@ -299,6 +299,7 @@ logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_
 logging_kibana_export_saved_output_dir: "{{ standard_user.home }}/kibana_saved_objects"
 
 sickchill_context_root: /
+sickchill_api_key: "abcdefghijklmnopqrstuvwxyz123456"
 sickchill_smtp_host: "{{ zonemta_smtp_servername }}"
 sickchill_smtp_port: 587
 sickchill_smtp_tls: True
