@@ -31,6 +31,16 @@ log_dir = Logs
 log_size = 10.0
 log_nr = 5
 
+[Blackhole]
+nzb_dir = /mnt/download/newsgroup/nzbFiles
+torrent_dir = /mnt/download/torrent/auto-load
+
+[SABnzbd]
+sab_host = http://sabnzbd.default:80/
+sab_apikey = {{ sabnzbd_api_key }}
+sab_username = {{ sabnzbd_user }}
+sab_password = {{ sabnzbd_password }}
+
 [Email]
 #use_email = 0
 #email_notify_onsnatch = 0
