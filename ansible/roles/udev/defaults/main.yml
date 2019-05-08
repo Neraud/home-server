@@ -1,8 +1,0 @@
----
-
-# cf http://www.reactivated.net/writing_udev_rules.html
-
-#udev_rules:
-#  - name: "10-rule_name"
-#    rules:
-#      - KERNEL=="fd[0-9]*", NAME="floppy/%n", SYMLINK+="%k"

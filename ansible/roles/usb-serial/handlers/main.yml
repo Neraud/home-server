@@ -1,0 +1,17 @@
+---
+
+- name: Reload udev rules
+  shell: udevadm control --reload ; udevadm trigger
+
+- name: Restart ser2net
+  systemd:
+    name: ser2net
+    state: restarted
+    daemon_reload: yes
+
+- name: Restart socat
+  systemd:
+    name: socat-serial@{{ item.key }}
+    state: restarted
+    daemon_reload: yes
+  with_dict: "{{ serial_remote_devices }}"
