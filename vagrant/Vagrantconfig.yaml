@@ -12,6 +12,7 @@ master:
   cpu: 2
   memory: 4096
   ip: 192.168.100.10
+  docker_disk_size: 10240
 
 nodes:
   - name: 'node_1'
