@@ -32,8 +32,9 @@ spec:
           mountPath: /etc/localtime
         - name: homeassistant-pv-claim
           mountPath: /config
-        - mountPath: /opt/ldap-auth
-          name: homeassistant-ldap-auth
+        - name: homeassistant-ldap-auth
+          mountPath: /opt/ldap-auth/config.cfg
+          subPath: config.cfg
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.cert
           subPath: ca.crt
@@ -51,7 +52,6 @@ spec:
       - name: homeassistant-ldap-auth
         configMap:
           name: homeassistant-ldap-auth
-          defaultMode: 0755
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca

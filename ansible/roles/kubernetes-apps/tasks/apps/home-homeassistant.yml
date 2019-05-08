@@ -10,12 +10,6 @@
     force: yes
     push: yes
 
-- name: List LDAP Auth files
-  set_fact:
-    homeassistant_ldapauth_files: "{{ homeassistant_ldapauth_files | default([]) + [ item ] }}"
-  with_fileglob:
-    - "{{ kubernetes_app_root_path }}/home/homeassistant/config/ldap-auth/*.*"
-
 - name: Deploy Home Assistant
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
