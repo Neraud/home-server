@@ -1,0 +1,7 @@
+---
+
+kubernetes_node_labels:
+  - name: capability/general-purpose
+    value: 'yes'
+  - name: capability/home
+    value: 'no'

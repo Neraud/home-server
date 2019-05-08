@@ -32,13 +32,14 @@ The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.m
 
 ## Vagrant
 
-The Vagrantfile creates 3 *similar* guests :
+The Vagrantfile creates 4 *similar* guests :
 
 | Type      | Cores |  RAM  | Storage |
 | --------- | :---: | :---: | :-----: |
-| Master    |   2   |  4G   |    -    |
-| Node_1    |   4   |  8G   |   50G   |
-| Node_Home |   2   |  2G   |   10G   |
+| Master    |   2   |  2G   |    -    |
+| Node_1    |   4   |  8G   |   80G   |
+| Node_2    |   6   |  8G   |   80G   |
+| Node_Home |   2   |  1G   |   16G   |
 
 These settings are configured in `Vagrantconfig.yaml`, feel free to change them or add mode nodes.
 

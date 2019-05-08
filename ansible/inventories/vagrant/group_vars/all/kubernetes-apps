@@ -1,7 +1,7 @@
 ---
 
-# Unifi private services exposed on Node_1
-unifi_private_ip: 192.168.100.11
+# Unifi private services exposed on Node_2
+unifi_private_ip: 192.168.100.12
 
 openldap_ldap_servername: openldap.default
 openldap_ldap_organisation: "{{ domain_name }}"

@@ -1,0 +1,64 @@
+---
+
+kubernetes_local_storage:
+  airsonic-data:
+    capacity: 256M
+    reclaim_policy: Retain
+    labels:
+      app: airsonic
+      app-component: airsonic
+      storage: data
+  airsonic-playlists:
+    capacity: 256M
+    reclaim_policy: Retain
+    labels:
+      app: airsonic
+      app-component: airsonic
+      storage: playlists
+  airsonic-podcasts:
+    capacity: 1G
+    reclaim_policy: Retain
+    labels:
+      app: airsonic
+      app-component: airsonic
+      storage: podcasts
+  plex-data:
+    capacity: 2G
+    reclaim_policy: Retain
+    labels:
+      app: plex
+      app-component: plex
+  gitlab-config:
+    capacity: 8M
+    filesystem: ext4
+    mount_path: /opt/kubernetes_storage/gitlab-config
+    reclaim_policy: Retain
+    labels:
+      app: gitlab
+      app-component: gitlab
+      storage: config
+  gitlab-data:
+    capacity: 2G
+    reclaim_policy: Retain
+    labels:
+      app: gitlab
+      app-component: gitlab
+      storage: data
+  unifi-config:
+    capacity: 1G
+    reclaim_policy: Retain
+    labels:
+      app: unifi
+      app-component: unifi
+  prometheus-k8s:
+    capacity: 10G
+    reclaim_policy: Retain
+    labels:
+      app: prometheus-k8s
+      app-component: prometheus
+  grafana-data:
+    capacity: 1G
+    reclaim_policy: Retain
+    labels:
+      app: grafana
+      app-component: grafana
