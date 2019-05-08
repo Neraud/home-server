@@ -2,3 +2,9 @@
 
 - name: Reload udev rules
   shell: udevadm control --reload ; udevadm trigger
+
+- name: Restart ser2net
+  systemd:
+    name: ser2net
+    state: restarted
+    daemon_reload: yes

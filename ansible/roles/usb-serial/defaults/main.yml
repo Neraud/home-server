@@ -6,3 +6,16 @@
 #  - name: "10-rule_name"
 #    rules:
 #      - KERNEL=="fd[0-9]*", NAME="floppy/%n", SYMLINK+="%k"
+
+# cf https://blog.paul-steele.com/tech/2018/12/25/homeassistant-kubernetes-zwave-oh-my.html
+
+#serial_exposed_devices:
+#  - device: /dev/ttyUSB0
+#    port: 3333
+#    state: raw
+#    timeout: 0
+#    options:
+#     - 115200
+#     - 8DATABITS
+#     - NONE
+#     - 1STOPBIT
