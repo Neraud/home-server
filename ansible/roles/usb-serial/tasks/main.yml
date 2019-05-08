@@ -12,3 +12,7 @@
 - include_tasks:
     file: ser2net.yml
   when: serial_exposed_devices | default([]) | length > 0
+
+- include_tasks:
+    file: socat.yml
+  when: serial_remote_devices | default([]) | length > 0

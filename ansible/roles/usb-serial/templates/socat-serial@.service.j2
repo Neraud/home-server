@@ -1,0 +1,16 @@
+[Unit]
+Description=Socat Serial Loopback for %I
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/default/socat-serial@%i
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=socat-serial-%i
+
+ExecStart=/usr/bin/socat pty,link=${DEVICE},${STATE},user=${USER},group=${GROUP},mode=${MODE} tcp:${HOST}:${PORT}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -8,3 +8,10 @@
     name: ser2net
     state: restarted
     daemon_reload: yes
+
+- name: Restart socat
+  systemd:
+    name: socat-serial@{{ item.key }}
+    state: restarted
+    daemon_reload: yes
+  with_dict: "{{ serial_remote_devices }}"
