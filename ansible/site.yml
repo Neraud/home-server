@@ -5,8 +5,8 @@
   roles:
     - common
     - common-apt
-    - usb-serial
     - firewall
+    - usb-serial
 
 - name: Prepare Kubernetes members
   hosts: kubernetes
