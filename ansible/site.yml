@@ -5,7 +5,7 @@
   roles:
     - common
     - common-apt
-    - udev
+    - usb-serial
     - firewall
 
 - name: Prepare Kubernetes members
