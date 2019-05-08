@@ -23,11 +23,12 @@ Going the self-hosted route has a few [consequences on the infrastructure](docs/
 
 The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.md), but to keep it short :
 
-| Type      | Cores | CPU Model                                                                                                          |  RAM  | Storage   |
-| --------- | :---: | ------------------------------------------------------------------------------------------------------------------ | :---: | --------- |
-| Master    |  2/4  | [Intel i3 3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-)            |  8G   | SSD 64G   |
-| Node_1    |  2/4  | [Intel i5 6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-)      |  32G  | SSD 500G  |
-| Node_Home |  4/4  | [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-) |  2G   | Flash 32G |
+| Type      | Cores | CPU Model                                                                                                                                |  RAM  | Storage   |
+| --------- | :---: | ---------------------------------------------------------------------------------------------------------------------------------------- | :---: | --------- |
+| Master    |  2/4  | [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-)                                  |  8G   | SSD 64G   |
+| Node_1    |  2/4  | [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-)                            |  32G  | SSD 500G  |
+| Node_2    |  4/8  | [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) |  32G  | SSD 500G  |
+| Node_Home |  4/4  | [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-)                       |  2G   | Flash 32G |
 
 ## Vagrant
 
