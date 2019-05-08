@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+# Format : name=[socat parameters]
+
+{% for name in homeassistant_serial_remote_devices | default({}) %}
+{% set remote_device = homeassistant_serial_remote_devices[name] %}
+{{ name }}=pty,link={{ remote_device.device }},{{ remote_device.state }},user={{ remote_device.user }},group={{ remote_device.group }},mode={{ remote_device.mode }} tcp:{{ remote_device.host }}:{{ remote_device.port }}
+{% endfor %}
