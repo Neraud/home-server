@@ -58,7 +58,7 @@ spec:
         secret:
           secretName: mosquitto-certs
       nodeSelector:
-        capability/home: 'yes'
+        capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
       name: mosquitto-data-pv-claim
