@@ -11,7 +11,7 @@ common:
 master: 
   cpu: 2
   cpu_execution_cap: 75
-  memory: 3072
+  memory: 2048
   ip: 192.168.100.10
   docker_disk_size: 16384
 
@@ -33,7 +33,7 @@ nodes:
   - name: 'node_home'
     cpu: 2
     cpu_execution_cap: 75
-    memory: 2048
+    memory: 1024
     ip: 192.168.100.13
     docker_disk_size: 8192
     data_disk_size: 8192
