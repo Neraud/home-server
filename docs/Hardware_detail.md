@@ -16,7 +16,7 @@ I tried to keep track of the prices of these parts at the time I bought them.
 |RAM      | 2*4 GB DDR3 (G.Skill)      |
 |Storage  | Crucial M4 64 GB           |
 
-This NUC runs an [Intel i3 3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
+This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
 
 ### Kubernetes Node 1
 
@@ -28,7 +28,19 @@ This NUC runs an [Intel i3 3217U](https://ark.intel.com/products/65697/Intel-Cor
 
 (ordered 2016-08)
 
-This NUC runs an [Intel i5 6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-) CPU.
+This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-) CPU.
+
+### Kubernetes Node 2
+
+| Part     | Model                                                                                                                              | Price    |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-Nuc-Kit-Nuc8I3Beh-Cartes/dp/B07JB2M5JS)                                              | 373,01 € |
+| RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 168,25 € |
+| Storage  | [WD Blue SN500](https://www.amazon.fr/gp/product/B07P7TFKRH)                                                                       | 65,45 €  |
+
+(ordered 2019-05)
+
+This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
 
 ### Kubernetes Node Home
 

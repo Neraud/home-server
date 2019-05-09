@@ -30,6 +30,9 @@ apt-get -q -y upgrade
 echo " - install python"
 apt-get -q -y install python
 
+echo " - workaround obsolete kernel in buster"
+apt-get -q -y install linux-image-amd64 linux-headers-amd64
+
 mkdir -p /root/.ssh
 
 if [ "$mode" == "ansible" ] ; then
@@ -94,18 +97,18 @@ fi
 
 chmod -R 700 /root/.ssh
 
+echo " - install LVM"
+apt-get -q -y install lvm2
+
+echo " - preparing docker disk"
+# Create a new partition table with a single 'Linux native' partition
+echo 'type=83' | sfdisk /dev/sdb
+mkfs.ext4 /dev/sdb1
+mkdir -p /var/lib/docker
+echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
+mount -a
+	
 if [ "$mode" == "node" ] ; then
-	echo " - install LVM"
-	apt-get -q -y install lvm2
-	
-	echo " - preparing docker disk"
-	# Create a new partition table with a single 'Linux native' partition
-	echo 'type=83' | sfdisk /dev/sdb
-	mkfs.ext4 /dev/sdb1
-	mkdir -p /var/lib/docker
-	echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
-	mount -a
-	
 	echo " - preparing data disk for LVM"
 	# Create a new partition table with a single LVM partition
 	echo 'type=8e' | sfdisk /dev/sdc
