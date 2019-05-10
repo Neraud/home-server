@@ -9,22 +9,22 @@ nginx_extra_log_formats:
 nginx_upstreams:
   - name: kubernetes-https-ingress
     servers:
-      - 192.168.100.10:{{ kubernetes_ingress_https_port }}
-      - 192.168.100.11:{{ kubernetes_ingress_https_port }}
-      - 192.168.100.12:{{ kubernetes_ingress_https_port }}
-      - 192.168.100.13:{{ kubernetes_ingress_https_port }}
+      - MasterTest:{{ kubernetes_ingress_https_port }}
+      - Node1Test:{{ kubernetes_ingress_https_port }}
+      - Node2Test:{{ kubernetes_ingress_https_port }}
+      - NodeHomeTest:{{ kubernetes_ingress_https_port }}
   - name: kubernetes-lemonldap-handler-ingress
     servers:
-      - 192.168.100.10:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - 192.168.100.11:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - 192.168.100.12:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - 192.168.100.13:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - MasterTest:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - Node1Test:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - Node2Test:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - NodeHomeTest:{{ kubernetes_ingress_lemonLdap_handler_port }}
   - name: kubernetes-mqtt-ingress
     servers:
-      - 192.168.100.10:{{ kubernetes_ingress_mqtt_port }}
-      - 192.168.100.11:{{ kubernetes_ingress_mqtt_port }}
-      - 192.168.100.12:{{ kubernetes_ingress_mqtt_port }}
-      - 192.168.100.13:{{ kubernetes_ingress_mqtt_port }}
+      - MasterTest:{{ kubernetes_ingress_mqtt_port }}
+      - Node1Test:{{ kubernetes_ingress_mqtt_port }}
+      - Node2Test:{{ kubernetes_ingress_mqtt_port }}
+      - NodeHomeTest:{{ kubernetes_ingress_mqtt_port }}
     
 
 nginx_sites:
