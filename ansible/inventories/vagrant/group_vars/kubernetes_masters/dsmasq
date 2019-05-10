@@ -1,0 +1,13 @@
+---
+
+dns_local_domain: k8stest.com
+
+dns_local_hosts:
+  - name: MasterTest
+    ip: 192.168.100.10
+  - name: Node1Test
+    ip: 192.168.100.11
+  - name: Node2Test
+    ip: 192.168.100.12
+  - name: NodeHomeTest
+    ip: 192.168.100.13
