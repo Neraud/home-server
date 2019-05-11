@@ -25,6 +25,21 @@
     - docker
     - kubernetes-common
 
+- name: Prepare GlusterFS hosts
+  hosts: glusterfs
+  roles:
+    - glusterfs
+
+- name: Prepare GlusterFS servers
+  hosts: glusterfs_servers
+  roles:
+    - glusterfs-server
+
+- name: Prepare GlusterFS servers
+  hosts: glusterfs_clients
+  roles:
+    - glusterfs-client
+
 - name: Provision Kubernetes masters
   hosts: kubernetes_masters
   roles:

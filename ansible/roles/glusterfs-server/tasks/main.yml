@@ -1,0 +1,23 @@
+---
+
+- name: Install GlusterFS server
+  apt:
+    pkg:
+    - glusterfs-server
+    state: present
+
+- name: Auto-start glusterd
+  service:
+    name: glusterd
+    state: started
+    enabled: yes
+
+- name: Create a trusted storage pool
+  gluster_peer:
+    state: present
+    nodes:
+      - "{{ item }}"
+  run_once: true
+  delegate_to: "{{ groups['glusterfs_servers'][0] }}"
+  with_items: "{{ groups['glusterfs_servers'] }}"
+  when: item != groups['glusterfs_servers'][0]

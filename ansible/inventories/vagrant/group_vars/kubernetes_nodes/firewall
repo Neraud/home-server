@@ -41,3 +41,10 @@ firewall_applications:
     description: Unifi Controller Guest Portal
     ports: "8880,8843/tcp"
     rule: allow
+
+  - name: glusterfs-server
+    title: GlusterFS Server
+    description: GlusterFS Server
+    ports: "24007,24008,49152:49664/tcp"
+    rule: allow
+    src: 192.168.100.0/24

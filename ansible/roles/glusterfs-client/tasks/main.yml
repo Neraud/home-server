@@ -1,0 +1,7 @@
+---
+
+- name: Install GlusterFS client
+  apt:
+    pkg:
+    - glusterfs-client
+    state: present
