@@ -30,9 +30,6 @@ apt-get -q -y upgrade
 echo " - install python"
 apt-get -q -y install python
 
-echo " - workaround obsolete kernel in buster"
-apt-get -q -y install linux-image-amd64 linux-headers-amd64
-
 mkdir -p /root/.ssh
 
 if [ "$mode" == "ansible" ] ; then
