@@ -14,6 +14,11 @@ firewall_applications:
     description: Small, but very powerful and efficient web server
     ports: 80,443/tcp
     rule: allow
+  - name: custom_dnsmasq
+    title: Dnsmasq
+    description: Dnsmasq
+    ports: 53
+    rule: allow
   - name: kubernetes_api_server
     title: Kubernetes API server
     description: Kubernetes API server

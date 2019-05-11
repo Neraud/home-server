@@ -8,6 +8,16 @@
     - firewall
     - usb-serial
 
+- name: Configure DNS server
+  hosts: kubernetes_masters
+  roles:
+    - dnsmasq
+
+- name: Configure DNS clients
+  hosts: all
+  roles:
+    - dns-client
+
 - name: Prepare Kubernetes members
   hosts: kubernetes
   roles:

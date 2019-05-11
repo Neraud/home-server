@@ -29,3 +29,15 @@ firewall_applications:
     description: Prometheus Node Exporter
     ports: 9100/tcp
     rule: allow
+  
+  # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+  - name: unifi-controller
+    title: Unifi Controller
+    description: Unifi Controller
+    ports: "8080,6789/tcp|3478,10001/udp"
+    rule: allow
+  - name: unifi-controller-guest-portal
+    title: Unifi Controller Guest Portal
+    description: Unifi Controller Guest Portal
+    ports: "8880,8843/tcp"
+    rule: allow
