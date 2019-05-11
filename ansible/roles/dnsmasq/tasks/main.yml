@@ -13,6 +13,13 @@
     backup: yes
   notify: Restart dnsmasq
 
+- name: Configure dnsmasq default
+  template:
+    src: dnsmasq_default.j2
+    dest: /etc/default/dnsmasq
+    backup: yes
+  notify: Restart dnsmasq
+
 - name: Fill /etc/hosts with local machines
   blockinfile:
     path: /etc/hosts
