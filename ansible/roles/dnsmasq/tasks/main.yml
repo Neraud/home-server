@@ -20,10 +20,10 @@
     backup: yes
   notify: Restart dnsmasq
 
-- name: Fill /etc/hosts with local machines
-  blockinfile:
-    path: /etc/hosts
-    block: |
+- name: Fill dnsmasq hosts with local machines
+  copy:
+    dest: /etc/dnsmasq_hosts
+    content: |
       {% for dns_local_host in dns_local_hosts %}
       {{ dns_local_host.ip }} {{ dns_local_host.name }}
       {% endfor %}

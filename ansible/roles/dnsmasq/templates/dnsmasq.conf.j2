@@ -127,10 +127,10 @@ local=/{{ dns_local_domain }}/
 
 # If you don't want dnsmasq to read /etc/hosts, uncomment the
 # following line.
-#no-hosts
+no-hosts
 # or if you want it to read another file, as well as /etc/hosts, use
 # this.
-#addn-hosts=/etc/banner_add_hosts
+addn-hosts=/etc/dnsmasq_hosts
 
 # Set this (and domain: see below) if you want to have a domain
 # automatically added to simple names in a hosts-file.
