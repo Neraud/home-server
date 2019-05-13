@@ -3,7 +3,7 @@
 galaxy_info:
   author: "Neraud"
   license: MIT
-  description: "Create kubernetes storage"
+  description: "Prepare local-lvm storage"
   min_ansible_version: 2.7
   platforms:
   - name: Debian
@@ -11,5 +11,3 @@ galaxy_info:
     - stretch
     - buster
 
-#dependencies:
-#  - { role: kubernetes-common }

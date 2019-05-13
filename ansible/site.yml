@@ -24,6 +24,7 @@
     - kubernetes-ansible
     - docker
     - kubernetes-common
+    - local-lvm
 
 - name: Prepare GlusterFS hosts
   hosts: glusterfs
@@ -59,15 +60,17 @@
   hosts: kubernetes_nodes
   roles:
     - kubernetes-node
-    - {
-        role: kubernetes-storage,
-        tags: kubernetes-storage
-      }
+
+- name: Prepare storage
+  hosts: kubernetes
+  roles:
+    - storage-prepare
 
 - name: Provision Kubernetes applications
   hosts: kubernetes_masters
   roles:
     - kubernetes-infra
+    - kubernetes-storage
     - {
         role: kubernetes-apps,
         tags: kubernetes-apps

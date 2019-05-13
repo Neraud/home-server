@@ -1,11 +1,8 @@
 ---
 
-- import_tasks: create-local.yml
-- import_tasks: prepare.yml
-
-- name: Create persistant volumes
+- name: Create local-lvm persistant volumes
   k8s:
-    definition: "{{ lookup('template', 'persistant-volume-local.yaml.j2') }}"
+    definition: "{{ lookup('template', 'local-persistant-volume.yaml.j2') }}"
     state: present
   loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:
