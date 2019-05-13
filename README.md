@@ -37,8 +37,8 @@ The Vagrantfile creates 4 *similar* guests :
 | Type      | Cores |  RAM  | Storage |
 | --------- | :---: | :---: | :-----: |
 | master    |   2   |  2G   |    -    |
-| node-1    |   4   |  8G   |   80G   |
-| node-2    |   6   |  8G   |   80G   |
+| node-1    |   4   |  8G   |   96G   |
+| node-2    |   6   |  8G   |   96G   |
 | node-home |   2   |  1G   |   16G   |
 
 These settings are configured in `Vagrantconfig.yaml`, feel free to change them or add mode nodes.
