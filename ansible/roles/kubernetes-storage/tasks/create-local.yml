@@ -2,21 +2,21 @@
 
 - name: Create storage LVs
   lvol:
-    vg: "{{ kubernetes_local_storage_vg }}"
+    vg: "{{ local_storage_vg }}"
     lv: "{{ item.key }}"
     resizefs: yes
     state: present
     active: yes
     size: "{{ item.value.capacity }}"
-  loop: "{{ kubernetes_local_storage | default({}) | dict2items }}"
+  loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
 
 - name: Create storage filesystems
   filesystem:
     fstype: "{{ item.value.filesystem }}"
-    dev: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.key }}"
-  loop: "{{ kubernetes_local_storage | default({}) | dict2items }}"
+    dev: "/dev/{{ local_storage_vg }}/{{ item.key }}"
+  loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
   when: item.value.filesystem is defined
@@ -25,9 +25,9 @@
   mount:
     state: mounted
     path: "{{ item.value.mount_path }}"
-    src: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.key }}"
+    src: "/dev/{{ local_storage_vg }}/{{ item.key }}"
     fstype: "{{ item.value.filesystem }}"
-  loop: "{{ kubernetes_local_storage | default({}) | dict2items }}"
+  loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
   when:

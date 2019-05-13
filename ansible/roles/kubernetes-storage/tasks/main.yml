@@ -7,7 +7,7 @@
   k8s:
     definition: "{{ lookup('template', 'persistant-volume-local.yaml.j2') }}"
     state: present
-  loop: "{{ kubernetes_local_storage | default({}) | dict2items }}"
+  loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
   become: yes

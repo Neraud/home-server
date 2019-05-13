@@ -4,9 +4,9 @@ kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
 
-kubernetes_local_storage_vg: data_vg
+local_storage_vg: data_vg
 
-#kubernetes_local_storage:
+#local_lvm_storage:
 #  appname-componentName-storageDetail: 
 #    capacity: 20G
 #    filesystem: ext4 (optional)

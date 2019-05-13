@@ -2,7 +2,7 @@
 
 - name: Set mount path
   set_fact:
-    homeassistant_mount_path: "{{ kubernetes_local_storage['homeassistant-config']['mount_path'] }}"
+    homeassistant_mount_path: "{{ local_lvm_storage['homeassistant-config']['mount_path'] }}"
 
 - name: Check if HomeAssistant is already configured
   stat:

@@ -1,6 +1,6 @@
 ---
 
-kubernetes_local_storage:
+local_lvm_storage:
   registry-data:
     capacity: 10G
     reclaim_policy: Retain

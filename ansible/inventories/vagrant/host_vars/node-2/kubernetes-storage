@@ -1,6 +1,6 @@
 ---
 
-kubernetes_local_storage:
+local_lvm_storage:
   airsonic-data:
     capacity: 256M
     reclaim_policy: Retain
