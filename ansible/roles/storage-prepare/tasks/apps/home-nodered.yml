@@ -2,7 +2,7 @@
 
 - name: Set mount path
   set_fact:
-    nodered_mount_path: "{{ local_lvm_storage['nodered-data']['mount_path'] }}"
+    nodered_mount_path: "{{ all_volumes['nodered-data']['mount_path'] }}"
 
 - name: Check if Node-RED is already configured
   stat:

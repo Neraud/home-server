@@ -5,3 +5,11 @@
     pkg:
     - glusterfs-client
     state: present
+
+- name: Mount volumes
+  mount:
+    state: mounted
+    path: "{{ item.value.mount_path }}"
+    src: "{{ groups['glusterfs_servers'][0] }}:/{{ item.key }}"
+    fstype: "glusterfs"
+  loop: "{{ glusterfs_volume_mounts | default({}) | dict2items }}"
