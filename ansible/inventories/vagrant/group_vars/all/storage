@@ -1,0 +1,13 @@
+---
+
+glusterfs_volumes:
+  registry-data:
+    replicas: 2
+    capacity: 10G
+    arbiterCapacity: 256M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: registry
+      app-component: registry

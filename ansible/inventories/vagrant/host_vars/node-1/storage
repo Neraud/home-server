@@ -1,12 +1,6 @@
 ---
 
 local_lvm_storage:
-  registry-data:
-    capacity: 10G
-    reclaim_policy: Retain
-    labels:
-      app: registry
-      app-component: registry
   openldap-data:
     capacity: 256M
     reclaim_policy: Retain
