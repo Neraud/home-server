@@ -105,10 +105,8 @@ mkdir -p /var/lib/docker
 echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
 mount -a
 	
-if [ "$mode" == "node" ] ; then
-	echo " - preparing data disk for LVM"
-	# Create a new partition table with a single LVM partition
-	echo 'type=8e' | sfdisk /dev/sdc
-	pvcreate /dev/sdc1
-	vgcreate kubernetes_vg /dev/sdc1
-fi
+echo " - preparing data disk for LVM"
+# Create a new partition table with a single LVM partition
+echo 'type=8e' | sfdisk /dev/sdc
+pvcreate /dev/sdc1
+vgcreate kubernetes_vg /dev/sdc1

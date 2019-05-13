@@ -13,6 +13,7 @@ master:
   memory: 2048
   ip: 192.168.100.10
   docker_disk_size: 16384
+  data_disk_size: 8192
 
 nodes:
   - name: 'node-1'
