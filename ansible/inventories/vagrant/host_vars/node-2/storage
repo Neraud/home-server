@@ -31,7 +31,7 @@ local_lvm_storage:
   gitlab-config:
     capacity: 8M
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/gitlab-config
+    mount_path: /data/volumes/gitlab-config
     reclaim_policy: Retain
     labels:
       app: gitlab

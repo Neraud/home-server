@@ -92,7 +92,7 @@ local_lvm_storage:
   homeassistant-config:
     capacity: 1G
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/homeassistant-config
+    mount_path: /data/volumes/homeassistant-config
     reclaim_policy: Retain
     labels:
       app: homeassistant
@@ -100,7 +100,7 @@ local_lvm_storage:
   nodered-data:
     capacity: 1G
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/nodered-data
+    mount_path: /data/volumes/nodered-data
     reclaim_policy: Retain
     labels:
       app: nodered
@@ -108,7 +108,7 @@ local_lvm_storage:
   mosquitto-data:
     capacity: 128M
     filesystem: ext4
-    mount_path: /opt/kubernetes_storage/mosquitto-data
+    mount_path: /data/volumes/mosquitto-data
     reclaim_policy: Retain
     labels:
       app: mosquitto
