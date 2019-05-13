@@ -8,7 +8,7 @@
     state: present
     active: yes
     size: "{{ item.value.capacity }}"
-  loop: "{{ kubernetes_local_storage | dict2items | default([]) }}"
+  loop: "{{ kubernetes_local_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
 
@@ -16,7 +16,7 @@
   filesystem:
     fstype: "{{ item.value.filesystem }}"
     dev: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.key }}"
-  loop: "{{ kubernetes_local_storage | dict2items | default([]) }}"
+  loop: "{{ kubernetes_local_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
   when: item.value.filesystem is defined
@@ -27,7 +27,7 @@
     path: "{{ item.value.mount_path }}"
     src: "/dev/{{ kubernetes_local_storage_vg }}/{{ item.key }}"
     fstype: "{{ item.value.filesystem }}"
-  loop: "{{ kubernetes_local_storage | dict2items | default([]) }}"
+  loop: "{{ kubernetes_local_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
   when:
@@ -40,7 +40,7 @@
   k8s:
     definition: "{{ lookup('template', 'persistant-volume.yaml.j2') }}"
     state: present
-  loop: "{{ kubernetes_local_storage | dict2items | default([]) }}"
+  loop: "{{ kubernetes_local_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
   become: yes

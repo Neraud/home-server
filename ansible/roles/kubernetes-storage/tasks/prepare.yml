@@ -1,9 +1,9 @@
 ---
 
 - include_tasks: apps/home-homeassistant.yml
-  when: "'homeassistant-config' in kubernetes_local_storage"
+  when: "'homeassistant-config' in kubernetes_local_storage | default({})"
   tags: kubernetes-app-home-homeassistant
 
 - include_tasks: apps/home-nodered.yml
-  when: "'nodered-data' in kubernetes_local_storage"
+  when: "'nodered-data' in kubernetes_local_storage | default({})"
   tags: kubernetes-app-home-nodered
