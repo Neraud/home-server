@@ -4,7 +4,7 @@ kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
 
-kubernetes_local_storage_vg: kubernetes_vg
+kubernetes_local_storage_vg: data_vg
 
 #kubernetes_local_storage:
 #  appname-componentName-storageDetail: 

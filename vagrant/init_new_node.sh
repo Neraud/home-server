@@ -109,4 +109,4 @@ echo " - preparing data disk for LVM"
 # Create a new partition table with a single LVM partition
 echo 'type=8e' | sfdisk /dev/sdc
 pvcreate /dev/sdc1
-vgcreate kubernetes_vg /dev/sdc1
+vgcreate data_vg /dev/sdc1

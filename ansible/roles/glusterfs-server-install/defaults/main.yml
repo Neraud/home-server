@@ -1,6 +1,6 @@
 ---
 
-glusterfs_storage_vg: kubernetes_vg
+glusterfs_storage_vg: data_vg
 glusterfs_brick_root: /data/glusterfs
 glusterfs_brick_filesystem: ext4
 
