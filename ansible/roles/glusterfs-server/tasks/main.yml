@@ -12,6 +12,11 @@
     state: started
     enabled: yes
 
+- name: Add glusterfs bash autocompletion
+  get_url:
+    dest: /etc/bash_completion.d/gluster
+    url: https://raw.githubusercontent.com/gluster/glusterfs/master/extras/command-completion/gluster.bash
+
 - name: Create a trusted storage pool
   gluster_peer:
     state: present
@@ -21,3 +26,4 @@
   delegate_to: "{{ groups['glusterfs_servers'][0] }}"
   with_items: "{{ groups['glusterfs_servers'] }}"
   when: item != groups['glusterfs_servers'][0]
+
