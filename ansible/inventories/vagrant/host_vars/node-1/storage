@@ -29,18 +29,6 @@ local_lvm_storage:
       app: lemonldap
       app-component: lemonldap
       storage: data
-  zonemta-mongo-data:
-    capacity: 512M
-    reclaim_policy: Retain
-    labels:
-      app: zonemta
-      app-component: mongo
-  zonemta-redis-data:
-    capacity: 32M
-    reclaim_policy: Retain
-    labels:
-      app: zonemta
-      app-component: redis
   ttrss-pgsql: 
     capacity: 1G
     reclaim_policy: Retain
