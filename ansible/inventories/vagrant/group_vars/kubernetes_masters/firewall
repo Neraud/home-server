@@ -60,6 +60,14 @@ firewall_applications:
 #    description: Kubernetes Flannel udp
 #    ports: 8285/udp
 #    rule: allow
+
+  - name: glusterfs-server
+    title: GlusterFS Server
+    description: GlusterFS Server
+    ports: "24007,24008,49152:49664/tcp"
+    rule: allow
+    src: 192.168.100.0/24
+
   - name: prometheus_node_exporter
     title: Prometheus Node Exporter
     description: Prometheus Node Exporter
