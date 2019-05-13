@@ -1,0 +1,14 @@
+---
+
+glusterfs_storage_vg: kubernetes_vg
+glusterfs_brick_root: /data/glusterfs
+glusterfs_brick_filesystem: ext4
+
+#glusterfs_volumes:
+#  test-app:
+#    replicas: 2
+#    capacity: 2G
+#    arbiterCapacity: 256M
+#    nodes: [node-1, node-2]
+#    arbiters: [master]
+#    mount_path: /path/on/kubernetes/node
