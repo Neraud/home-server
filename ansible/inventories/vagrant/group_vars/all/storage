@@ -74,3 +74,14 @@ glusterfs_volumes:
       app: openldap
       app-component: openldap
       storage: run
+  lemonldap-data:
+    replicas: 2
+    capacity: 32M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: lemonldap
+      app-component: lemonldap
+      storage: data
