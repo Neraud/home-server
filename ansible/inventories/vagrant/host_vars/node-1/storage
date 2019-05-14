@@ -7,12 +7,6 @@ local_lvm_storage:
     labels:
       app: elasticsearch
       app-component: elasticsearch
-  homeassistant-mysql:
-    capacity: 2G
-    reclaim_policy: Retain
-    labels:
-      app: homeassistant
-      app-component: mysql
   sickchill-config:
     capacity: 1G
     reclaim_policy: Retain
@@ -37,14 +31,6 @@ local_lvm_storage:
     labels:
       app: sabnzbd
       app-component: sabnzbd
-  homeassistant-config:
-    capacity: 1G
-    filesystem: ext4
-    mount_path: /data/volumes/homeassistant-config
-    reclaim_policy: Retain
-    labels:
-      app: homeassistant
-      app-component: homeassistant
   nodered-data:
     capacity: 1G
     filesystem: ext4

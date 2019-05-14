@@ -115,3 +115,23 @@ glusterfs_volumes:
     labels:
       app: ttrss
       app-component: pgsql
+  homeassistant-config:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: homeassistant
+      app-component: homeassistant
+  homeassistant-mysql:
+    replicas: 2
+    capacity: 2G
+    arbiterCapacity: 32M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: homeassistant
+      app-component: mysql
