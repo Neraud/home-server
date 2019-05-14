@@ -1,12 +1,6 @@
 ---
 
 local_lvm_storage:
-  ttrss-pgsql: 
-    capacity: 1G
-    reclaim_policy: Retain
-    labels:
-      app: ttrss
-      app-component: pgsql
   elasticsearch-data:
     capacity: 10G
     reclaim_policy: Retain

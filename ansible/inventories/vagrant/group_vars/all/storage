@@ -105,3 +105,13 @@ glusterfs_volumes:
     labels:
       app: grafana
       app-component: grafana
+  ttrss-pgsql:
+    replicas: 2
+    capacity: 1G
+    arbiterCapacity: 16M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: ttrss
+      app-component: pgsql
