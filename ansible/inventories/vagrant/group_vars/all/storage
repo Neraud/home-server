@@ -85,3 +85,13 @@ glusterfs_volumes:
       app: lemonldap
       app-component: lemonldap
       storage: data
+  prometheus-k8s:
+    replicas: 2
+    capacity: 4G
+    arbiterCapacity: 64M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: prometheus-k8s
+      app-component: prometheus

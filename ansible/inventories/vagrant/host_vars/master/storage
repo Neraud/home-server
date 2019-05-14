@@ -1,5 +1,5 @@
 ---
 
-#glusterfs_volume_mounts:
-#  registry-data: 
-#    mount_path: /data/volumes/registry-data
+glusterfs_volume_mounts:
+  prometheus-k8s: 
+    mount_path: /data/volumes/prometheus-k8s

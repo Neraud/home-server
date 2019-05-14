@@ -5,6 +5,10 @@
     all_volumes: "{{ local_lvm_storage | default({}) | combine(glusterfs_volume_mounts | default({})) }}"
   tags: always
 
+- include_tasks: apps/monitoring-prometheus.yml
+  when: "'prometheus-k8s' in all_volumes"
+  tags: kubernetes-app-monitoring-prometheus-operator
+
 - include_tasks: apps/home-homeassistant.yml
   when: "'homeassistant-config' in all_volumes"
   tags: kubernetes-app-home-homeassistant
