@@ -24,7 +24,7 @@
     - kubernetes-ansible
     - docker
     - kubernetes-common
-    - local-lvm
+    - { role: local-lvm, tags: kubernetes-storage }
 
 - name: Prepare GlusterFS hosts
   hosts: glusterfs
@@ -34,25 +34,19 @@
 - name: Prepare GlusterFS servers
   hosts: glusterfs_servers
   roles:
-    - glusterfs-server-install
-    - glusterfs-server-configure
+    - { role: glusterfs-server-install, tags: kubernetes-storage }
+    - { role: glusterfs-server-configure, tags: kubernetes-storage }
 
 - name: Prepare GlusterFS servers
   hosts: glusterfs_clients
   roles:
-    - glusterfs-client
+    - { role: glusterfs-client, tags: kubernetes-storage }
 
 - name: Provision Kubernetes masters
   hosts: kubernetes_masters
   roles:
-    - {
-        role: openssl-pki,
-        tags: openssl-pki
-      }
-    - {
-        role: nginx,
-        tags: nginx
-      }
+    - { role: openssl-pki, tags: openssl-pki }
+    - { role: nginx, tags: nginx }
     - fail2ban
     - kubernetes-master
 
@@ -64,14 +58,11 @@
 - name: Prepare storage
   hosts: kubernetes
   roles:
-    - storage-prepare
+    - { role: storage-prepare, tags: kubernetes-storage }
 
 - name: Provision Kubernetes applications
   hosts: kubernetes_masters
   roles:
     - kubernetes-infra
-    - kubernetes-storage
-    - {
-        role: kubernetes-apps,
-        tags: kubernetes-apps
-      }
+    - { role: kubernetes-storage, tags: kubernetes-storage }
+    - { role: kubernetes-apps, tags: kubernetes-apps }
