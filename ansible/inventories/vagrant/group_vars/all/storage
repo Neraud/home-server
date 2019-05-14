@@ -41,3 +41,36 @@ glusterfs_volumes:
     labels:
       app: unifi
       app-component: unifi
+  openldap-data:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: data
+  openldap-config:
+    replicas: 2
+    capacity: 16M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: config
+  openldap-run:
+    replicas: 2
+    capacity: 16M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: run
