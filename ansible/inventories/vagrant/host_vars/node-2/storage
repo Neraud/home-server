@@ -44,12 +44,6 @@ local_lvm_storage:
       app: gitlab
       app-component: gitlab
       storage: data
-  unifi-config:
-    capacity: 1G
-    reclaim_policy: Retain
-    labels:
-      app: unifi
-      app-component: unifi
   prometheus-k8s:
     capacity: 10G
     reclaim_policy: Retain
