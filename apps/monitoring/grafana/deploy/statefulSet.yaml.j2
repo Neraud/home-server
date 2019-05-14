@@ -46,6 +46,7 @@ spec:
         - mountPath: /var/lib/grafana
           name: grafana-pv-claim
           readOnly: false
+          subPath: data
         - mountPath: /etc/grafana/grafana.ini
           name: grafana-etc
           subPath: grafana.ini
@@ -96,10 +97,10 @@ spec:
       name: grafana-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 1G
+          storage: 128M
       selector:
         matchLabels:
           app: grafana

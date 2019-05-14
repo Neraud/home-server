@@ -44,9 +44,3 @@ local_lvm_storage:
       app: gitlab
       app-component: gitlab
       storage: data
-  grafana-data:
-    capacity: 1G
-    reclaim_policy: Retain
-    labels:
-      app: grafana
-      app-component: grafana
