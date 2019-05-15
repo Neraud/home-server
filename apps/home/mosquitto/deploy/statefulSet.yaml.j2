@@ -45,6 +45,7 @@ spec:
           mountPath: /etc/ssl/mqtt
         - name: mosquitto-data-pv-claim
           mountPath: /mosquitto/data
+          subPath: data
       securityContext:
         fsGroup: 1883 # mosquitto group inside the container
       volumes:
@@ -64,7 +65,7 @@ spec:
       name: mosquitto-data-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
           storage: 128M

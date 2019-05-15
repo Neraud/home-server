@@ -31,12 +31,3 @@ local_lvm_storage:
     labels:
       app: sabnzbd
       app-component: sabnzbd
-  mosquitto-data:
-    capacity: 128M
-    filesystem: ext4
-    mount_path: /data/volumes/mosquitto-data
-    reclaim_policy: Retain
-    labels:
-      app: mosquitto
-      app-component: mosquitto
-      storage: data

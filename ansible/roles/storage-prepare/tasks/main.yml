@@ -20,3 +20,7 @@
 - include_tasks: apps/home-nodered.yml
   when: "'nodered-data' in all_volumes"
   tags: kubernetes-app-home-nodered
+
+- include_tasks: apps/home-mosquitto.yml
+  when: "'mosquitto-data' in all_volumes"
+  tags: kubernetes-app-home-mosquitto

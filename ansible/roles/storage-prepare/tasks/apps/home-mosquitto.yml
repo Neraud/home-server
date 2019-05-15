@@ -1,0 +1,11 @@
+---
+
+- name: Set mount path
+  set_fact:
+    mosquitto_mount_path: "{{ all_volumes['mosquitto-data']['mount_path'] }}"
+
+- name: Ensure Mosquitto folder exists and is writable
+  file:
+    path: "{{ mosquitto_mount_path }}/data"
+    state: directory
+    mode: 0777
