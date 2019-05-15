@@ -156,3 +156,25 @@ glusterfs_volumes:
       app: mosquitto
       app-component: mosquitto
       storage: data
+  airsonic-data:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: airsonic
+      app-component: airsonic
+      storage: data
+  airsonic-playlists:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: airsonic
+      app-component: airsonic
+      storage: playlists

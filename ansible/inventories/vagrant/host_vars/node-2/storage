@@ -1,27 +1,6 @@
 ---
 
 local_lvm_storage:
-  airsonic-data:
-    capacity: 256M
-    reclaim_policy: Retain
-    labels:
-      app: airsonic
-      app-component: airsonic
-      storage: data
-  airsonic-playlists:
-    capacity: 256M
-    reclaim_policy: Retain
-    labels:
-      app: airsonic
-      app-component: airsonic
-      storage: playlists
-  airsonic-podcasts:
-    capacity: 1G
-    reclaim_policy: Retain
-    labels:
-      app: airsonic
-      app-component: airsonic
-      storage: podcasts
   plex-data:
     capacity: 2G
     reclaim_policy: Retain
