@@ -135,3 +135,13 @@ glusterfs_volumes:
     labels:
       app: homeassistant
       app-component: mysql
+  nodered-data:
+    replicas: 2
+    capacity: 128M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: nodered
+      app-component: nodered

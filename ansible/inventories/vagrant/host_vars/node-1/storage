@@ -31,14 +31,6 @@ local_lvm_storage:
     labels:
       app: sabnzbd
       app-component: sabnzbd
-  nodered-data:
-    capacity: 1G
-    filesystem: ext4
-    mount_path: /data/volumes/nodered-data
-    reclaim_policy: Retain
-    labels:
-      app: nodered
-      app-component: nodered
   mosquitto-data:
     capacity: 128M
     filesystem: ext4

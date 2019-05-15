@@ -4,16 +4,23 @@
   set_fact:
     nodered_mount_path: "{{ all_volumes['nodered-data']['mount_path'] }}"
 
+- name: Ensure Node-RED folder exists and is writable
+  file:
+    path: "{{ nodered_mount_path }}/data"
+    state: directory
+    mode: 0777
+
 - name: Check if Node-RED is already configured
   stat:
-    path: "{{ nodered_mount_path }}/settings.js"
+    path: "{{ nodered_mount_path }}/data/settings.js"
   register: nodered_settings_file
 
 - name: Configure Node-RED for the fist run
   template:
     src: "{{ kubernetes_app_root_path }}/home/nodered/prepare/{{ item }}.j2"
-    dest: "{{ nodered_mount_path }}/{{ item }}"
+    dest: "{{ nodered_mount_path }}/data/{{ item }}"
     backup: true
+    mode: 0777
   loop:
     - flows.json
   when: not nodered_settings_file.stat.exists
