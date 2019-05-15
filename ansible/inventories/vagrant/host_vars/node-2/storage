@@ -1,12 +1,6 @@
 ---
 
 local_lvm_storage:
-  plex-data:
-    capacity: 2G
-    reclaim_policy: Retain
-    labels:
-      app: plex
-      app-component: plex
   gitlab-config:
     capacity: 8M
     filesystem: ext4

@@ -58,10 +58,10 @@ spec:
       name: plex-frontend-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 2G
+          storage: 1G
       selector:
         matchLabels:
           app: plex
