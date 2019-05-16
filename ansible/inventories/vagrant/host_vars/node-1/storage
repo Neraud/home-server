@@ -7,9 +7,3 @@ local_lvm_storage:
     labels:
       app: sickchill
       app-component: sickchill
-  sabnzbd-config:
-    capacity: 32M
-    reclaim_policy: Retain
-    labels:
-      app: sabnzbd
-      app-component: sabnzbd
