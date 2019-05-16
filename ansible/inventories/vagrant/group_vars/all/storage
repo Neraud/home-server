@@ -188,3 +188,25 @@ glusterfs_volumes:
     labels:
       app: plex
       app-component: plex
+  gitlab-config:
+    replicas: 2
+    capacity: 8M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: gitlab
+      app-component: gitlab
+      storage: config
+  gitlab-data:
+    replicas: 2
+    capacity: 1G
+    arbiterCapacity: 16M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: gitlab
+      app-component: gitlab
+      storage: data
