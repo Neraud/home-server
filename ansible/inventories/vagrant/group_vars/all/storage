@@ -220,3 +220,13 @@ glusterfs_volumes:
     labels:
       app: elasticsearch
       app-component: elasticsearch
+  deluge-config:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: deluge
+      app-component: deluge
