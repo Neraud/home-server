@@ -250,3 +250,13 @@ glusterfs_volumes:
     labels:
       app: sabnzbd
       app-component: sabnzbd
+  sickchill-config:
+    replicas: 2
+    capacity: 1G
+    arbiterCapacity: 16M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: sickchill
+      app-component: sickchill

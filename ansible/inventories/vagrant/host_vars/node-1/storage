@@ -1,9 +1,3 @@
 ---
 
-local_lvm_storage:
-  sickchill-config:
-    capacity: 1G
-    reclaim_policy: Retain
-    labels:
-      app: sickchill
-      app-component: sickchill
+local_lvm_storage: {}
