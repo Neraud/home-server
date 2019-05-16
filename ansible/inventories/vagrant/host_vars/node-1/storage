@@ -7,12 +7,6 @@ local_lvm_storage:
     labels:
       app: sickchill
       app-component: sickchill
-  pyload-config:
-    capacity: 32M
-    reclaim_policy: Retain
-    labels:
-      app: pyload
-      app-component: pyload
   sabnzbd-config:
     capacity: 32M
     reclaim_policy: Retain
