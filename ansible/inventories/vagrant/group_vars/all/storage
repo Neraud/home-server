@@ -210,3 +210,13 @@ glusterfs_volumes:
       app: gitlab
       app-component: gitlab
       storage: data
+  elasticsearch-data:
+    replicas: 2
+    capacity: 4G
+    arbiterCapacity: 64M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: elasticsearch
+      app-component: elasticsearch

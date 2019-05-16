@@ -1,12 +1,6 @@
 ---
 
 local_lvm_storage:
-  elasticsearch-data:
-    capacity: 10G
-    reclaim_policy: Retain
-    labels:
-      app: elasticsearch
-      app-component: elasticsearch
   sickchill-config:
     capacity: 1G
     reclaim_policy: Retain
