@@ -15,7 +15,7 @@ spec:
   persistentVolumeReclaimPolicy: {{ item.value.reclaim_policy }}
   storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
   local:
-    path: /dev/{{ local_storage_vg }}/{{ item.key }}
+    path: /dev/{{ local_storage_vg }}/{{ local_lv_prefix }}{{ item.key }}
   nodeAffinity:
     required:
       nodeSelectorTerms:

@@ -38,7 +38,7 @@
 - name: Create bricks LVs
   lvol:
     vg: "{{ glusterfs_storage_vg }}"
-    lv: "{{ item.name }}"
+    lv: "{{ glusterfs_lv_prefix }}{{ item.name }}"
     resizefs: yes
     state: present
     active: yes
@@ -48,7 +48,7 @@
 - name: Create bricks filesystems
   filesystem:
     fstype: "{{ glusterfs_brick_filesystem }}"
-    dev: "/dev/{{ glusterfs_storage_vg }}/{{ item.name }}"
+    dev: "/dev/{{ glusterfs_storage_vg }}/{{ glusterfs_lv_prefix }}{{ item.name }}"
   loop: "{{ glusterfs_brick_lvs }}"
 
 - name: Create bricks mount point
@@ -61,6 +61,6 @@
   mount:
     state: mounted
     path: "{{ glusterfs_brick_root }}/{{ item.name }}/brick1"
-    src: "/dev/{{ glusterfs_storage_vg }}/{{ item.name }}"
+    src: "/dev/{{ glusterfs_storage_vg }}/{{ glusterfs_lv_prefix }}{{ item.name }}"
     fstype: "{{ glusterfs_brick_filesystem }}"
   loop: "{{ glusterfs_brick_lvs }}"

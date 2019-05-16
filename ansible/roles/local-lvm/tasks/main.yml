@@ -3,7 +3,7 @@
 - name: Create storage LVs
   lvol:
     vg: "{{ local_storage_vg }}"
-    lv: "{{ item.key }}"
+    lv: "{{ local_lv_prefix }}{{ item.key }}"
     resizefs: yes
     state: present
     active: yes
@@ -15,7 +15,7 @@
 - name: Create storage filesystems
   filesystem:
     fstype: "{{ item.value.filesystem }}"
-    dev: "/dev/{{ local_storage_vg }}/{{ item.key }}"
+    dev: "/dev/{{ local_storage_vg }}/{{ local_lv_prefix }}{{ item.key }}"
   loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
@@ -25,7 +25,7 @@
   mount:
     state: mounted
     path: "{{ item.value.mount_path }}"
-    src: "/dev/{{ local_storage_vg }}/{{ item.key }}"
+    src: "/dev/{{ local_storage_vg }}/{{ local_lv_prefix }}{{ item.key }}"
     fstype: "{{ item.value.filesystem }}"
   loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:

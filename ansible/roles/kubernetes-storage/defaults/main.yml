@@ -5,6 +5,7 @@ kubernetes_user:
   home: "{{ standard_user.home }}"
 
 local_storage_vg: data_vg
+local_lv_prefix: local_
 
 #local_lvm_storage:
 #  appname-componentName-storageDetail: 

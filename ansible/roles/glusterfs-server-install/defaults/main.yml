@@ -1,6 +1,7 @@
 ---
 
 glusterfs_storage_vg: data_vg
+glusterfs_lv_prefix: gluster_
 glusterfs_brick_root: /data/glusterfs
 glusterfs_brick_filesystem: ext4
 
