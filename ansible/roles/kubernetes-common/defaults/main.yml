@@ -1,7 +1,11 @@
 ---
 
+kubernetes_kubelet_system_reserved_cpu: 250m
+kubernetes_kubelet_system_reserved_memory: 256M
+
 kubernetes_kubelet_extra_parameters:
   - "--node-ip {{ kubernetes_kubelet_ip}}"
   # Enable WebHook for Prometheus
   - "--authorization-mode=Webhook"
   - "--authentication-token-webhook=true"
+  - "--system-reserved=cpu={{ kubernetes_kubelet_system_reserved_cpu }},memory={{ kubernetes_kubelet_system_reserved_memory }}"
