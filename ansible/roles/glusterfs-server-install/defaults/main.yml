@@ -13,3 +13,5 @@ glusterfs_brick_filesystem: ext4
 #    nodes: [node-1, node-2]
 #    arbiters: [master]
 #    mount_path: /path/on/kubernetes/node
+
+gluster_exporter_port: 8090

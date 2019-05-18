@@ -1,0 +1,14 @@
+
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: gluster-exporter
+  namespace: monitoring
+subsets:
+{% for glusterfs_node in groups['glusterfs_servers'] | map('extract', hostvars, ['ansible_host']) %}
+- addresses:
+  - ip: {{ glusterfs_node }}
+  ports:
+  - name: metrics
+    port: {{ gluster_exporter_port }}
+{% endfor %}

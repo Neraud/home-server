@@ -1,0 +1,74 @@
+---
+
+- name: Install GO requirements
+  apt:
+    pkg:
+      - golang-go
+      - go-dep
+    state: present
+
+- name: Install build requirements
+  command: go get github.com/alecthomas/gometalinter
+  environment:
+    GOPATH: "{{ gluster_prometheus_exporter_go_path }}"
+  register: build_dependencies_result
+  changed_when: "build_dependencies_result.stdout_lines | length > 0"
+
+- name: Install gometalinter
+  command: "{{ gluster_prometheus_exporter_go_path }}/bin/gometalinter --install --update"
+  when: build_dependencies_result.changed
+  tags:
+    # ansible-lint warns : [503] Tasks that run when changed should likely be handlers
+    # But it's not a handler, we just want to only trigger a new install if gometalinter has been updated
+    - skip_ansible_lint
+
+- name: Clone Gluster Prometheus Exporter repo
+  git:
+    repo: https://github.com/gluster/gluster-prometheus.git
+    dest: "{{ gluster_prometheus_exporter_go_path }}/src/github.com/gluster/gluster-prometheus"
+    version: master
+  register: clone_gluster_prometheus_result
+
+- name: Make Gluster Prometheus Exporter
+  make:
+    chdir: "{{ gluster_prometheus_exporter_go_path }}/src/github.com/gluster/gluster-prometheus"
+    params:
+      PREFIX: /usr
+  environment:
+    GOPATH: "{{ gluster_prometheus_exporter_go_path }}"
+    PATH: "{{ ansible_env.PATH }}:{{ gluster_prometheus_exporter_go_path }}/bin"
+  when: build_dependencies_result.changed or clone_gluster_prometheus_result.changed
+  notify: Restart Gluster Prometheus Exporter
+  tags:
+    # ansible-lint warns : [503] Tasks that run when changed should likely be handlers
+    # But it's not a handler, we just want to only trigger a new make if files have changed
+    - skip_ansible_lint
+
+- name: Install Gluster Prometheus Exporter
+  make:
+    chdir: "{{ gluster_prometheus_exporter_go_path }}/src/github.com/gluster/gluster-prometheus"
+    target: install
+    params:
+      PREFIX: /usr
+  environment:
+    GOPATH: "{{ gluster_prometheus_exporter_go_path }}"
+    PATH: "{{ ansible_env.PATH }}:{{ gluster_prometheus_exporter_go_path }}/bin"
+  when: build_dependencies_result.changed or clone_gluster_prometheus_result.changed
+  notify: Restart Gluster Prometheus Exporter
+  become: yes
+  tags:
+    # ansible-lint warns : [503] Tasks that run when changed should likely be handlers
+    # But it's not a handler, we just want to only trigger a new make if files have changed
+    - skip_ansible_lint
+
+- name: Configure Gluster Prometheus Exporter
+  template:
+    src: gluster-exporter.toml.j2
+    dest: /etc/gluster-exporter/gluster-exporter.toml
+  notify: Restart Gluster Prometheus Exporter
+
+- name: Auto-start gluster-exporter
+  service:
+    name: gluster-exporter.service
+    state: started
+    enabled: yes

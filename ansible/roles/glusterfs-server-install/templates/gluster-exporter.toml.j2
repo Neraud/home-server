@@ -1,0 +1,51 @@
+# {{ ansible_managed }}
+
+[globals]
+gluster-cluster-id = ""
+gluster-mgmt = "glusterd"
+glusterd-dir = "/var/lib/glusterd"
+gluster-binary-path = "gluster"
+port = {{ gluster_exporter_port }}
+metrics-path = "/metrics"
+log-dir = "/var/log/gluster-exporter"
+log-file = "exporter.log"
+log-level = "info"
+# cache-ttl-in-sec = 0, disables caching
+cache-ttl-in-sec = 30
+# by default caching is turned off
+# to enable caching, add the function-name to 'cache-enabled-funcs' list
+# supported functions are,
+# 'IsLeader', 'LocalPeerID', 'VolumeInfo'
+# 'EnableVolumeProfiling', 'HealInfo', 'Peers',
+# 'Snapshots', 'VolumeBrickStatus', 'VolumeProfileInfo'
+cache-enabled-funcs = [ 'IsLeader', 'LocalPeerID', 'VolumeInfo' ]
+
+[collectors.gluster_ps]
+name = "gluster_ps"
+sync-interval = 5
+disabled = false
+
+[collectors.gluster_brick]
+name = "gluster_brick"
+sync-interval = 5
+disabled = false
+
+[collectors.gluster_volume_counts]
+name = "gluster_volume_counts"
+sync-interval = 5
+disabled = false
+
+[collectors.gluster_volume_heal]
+name = "gluster_volume_heal"
+sync-interval = 5
+disabled = false
+
+[collectors.gluster_volume_profile]
+name = "gluster_volume_profile"
+sync-interval = 5
+disabled = false
+
+[collectors.gluster_brick_status]
+name = "gluster_brick_status"
+sync-interval = 15
+disabled = false

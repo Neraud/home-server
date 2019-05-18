@@ -262,6 +262,7 @@ gitlab_ldap_user_base: "{{ openldap_ldap_structure_users_ou_dn }}"
 gitlab_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
 gitlab_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 
+gluster_exporter_port: 8090
 prometheus_retention: 7d
 prometheus_allowed_namespaces:
   - default

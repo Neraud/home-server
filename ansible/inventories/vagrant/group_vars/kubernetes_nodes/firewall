@@ -29,6 +29,11 @@ firewall_applications:
     description: Prometheus Node Exporter
     ports: 9100/tcp
     rule: allow
+  - name: prometheus_gluster_exporter
+    title: Prometheus Gluster Exporter
+    description: Prometheus Gluster Exporter
+    ports: 8090/tcp
+    rule: allow
   
   # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
   - name: unifi-controller

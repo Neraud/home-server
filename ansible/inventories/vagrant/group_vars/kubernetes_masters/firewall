@@ -73,6 +73,11 @@ firewall_applications:
     description: Prometheus Node Exporter
     ports: 9100/tcp
     rule: allow
+  - name: prometheus_gluster_exporter
+    title: Prometheus Gluster Exporter
+    description: Prometheus Gluster Exporter
+    ports: 8090/tcp
+    rule: allow
   - name: mosquitto
     title: Mosquitto
     description: Mosquitto is an open source message broker that implements the MQTT (MQ Telemetry Transport) protocol v3.1.
