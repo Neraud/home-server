@@ -23,7 +23,7 @@
   roles:
     - kubernetes-ansible
     - docker
-    - kubernetes-common
+    - kubernetes-preinstall
     - { role: local-lvm, tags: kubernetes-storage }
 
 - name: Prepare GlusterFS hosts
