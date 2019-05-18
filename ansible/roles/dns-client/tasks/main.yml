@@ -1,20 +1,6 @@
 ---
-
-- name: Install resolvconf
-  apt:
-    pkg:
-    - resolvconf
-    state: present
-
 - name: Set DNS configuration
   template:
-    src: resolvconf_head.j2
-    dest: /etc/resolvconf/resolv.conf.d/head
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
     backup: yes
-  notify: Restart resolvconf
-
-- name: Auto-start resolvconf
-  service:
-    name: resolvconf
-    state: started
-    enabled: yes
