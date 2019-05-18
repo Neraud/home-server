@@ -11,3 +11,7 @@ dns_local_hosts:
     ip: 192.168.100.12
   - name: node-home
     ip: 192.168.100.13
+
+dnsmasq_upstreams:
+  # use the host DNS while running in VirtualBox
+  - 10.0.2.3

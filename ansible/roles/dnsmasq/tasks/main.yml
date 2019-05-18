@@ -29,6 +29,15 @@
       {% endfor %}
   notify: Restart dnsmasq
 
+- name: Set dnsmasq upstreams
+  copy:
+    dest: /etc/dnsmasq_upstreams
+    content: |
+      {% for dnsmasq_upstream in dnsmasq_upstreams %}
+      nameserver {{ dnsmasq_upstream }}
+      {% endfor %}
+  notify: Restart dnsmasq
+
 - name: Auto-start dnsmasq
   service:
     name: dnsmasq
