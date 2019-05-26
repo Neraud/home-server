@@ -229,11 +229,6 @@ heimdall_applications:
     pinned: true
     tags: ['All', 'Monitoring']
     class: '\App\SupportedApps\Grafana\Grafana'
-  - title: 'ElasticSearch'
-    colour: '#fafbfc'
-    url: 'https://infra.{{ web_base_domain }}/elastic'
-    pinned: true
-    tags: ['All', 'Logging']
   - title: 'Kibana'
     colour: '#fafbfc'
     icon: 'icons/kibana.png'
