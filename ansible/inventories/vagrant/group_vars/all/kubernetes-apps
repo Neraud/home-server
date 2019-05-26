@@ -195,19 +195,24 @@ heimdall_applications:
     pinned: true
   apps:
   - title: 'Dashboard Kubernetes'
+    icon: 'icons/kubernetesdashboard.svg'
     url: 'https://infra.{{ web_base_domain }}/kube'
     pinned: true
     tags: ['All', 'Infra']
+    class: '\App\SupportedApps\KubernetesDashboard\KubernetesDashboard'
   - title: 'LemonLDAP'
+    icon: 'icons/lemonldapng.png'
     colour: '#fafbfc'
     url: 'https://infra.{{ web_base_domain }}/lemonldap/manager.html'
     pinned: true
     tags: ['All', 'Auth']
-  - title: 'PHP LDAP Admin'
-    colour: '#fafbfc'
+    class: '\App\SupportedApps\LemonLDAPNG\LemonLDAPNG'
+  - title: 'Php LDAP Admin'
+    icon: 'icons/phpldapadmin.png'
     url: 'https://infra.{{ web_base_domain }}/phpldapadmin/'
     pinned: true
     tags: ['All', 'Auth']
+    class: '\App\SupportedApps\phpLDAPadmin\phpLDAPadmin'
   - title: 'MailHog'
     icon: 'icons/mailhog.png'
     url: 'https://infra.{{ web_base_domain }}/mailhog/'
@@ -215,14 +220,18 @@ heimdall_applications:
     tags: ['All', 'Infra']
     class: '\App\SupportedApps\Mailhog\Mailhog'
   - title: 'Prometheus'
+    icon: 'icons/prometheus.png'
     url: 'https://infra.{{ web_base_domain }}/prometheus/'
     pinned: true
     tags: ['All', 'Monitoring']
+    class: '\App\SupportedApps\Prometheus\Prometheus'
   - title: 'AlertManager'
+    icon: 'icons/alertmanager.png'
     colour: '#161b1f'
     url: 'https://infra.{{ web_base_domain }}/alertmanager/'
     pinned: true
     tags: ['All', 'Monitoring']
+    class: '\App\SupportedApps\Alertmanager\Alertmanager'
   - title: 'Grafana'
     icon: 'icons/grafana.png'
     url: 'https://infra.{{ web_base_domain }}/grafana/'
