@@ -115,6 +115,16 @@ glusterfs_volumes:
     labels:
       app: ttrss
       app-component: pgsql
+  heimdall-data:
+    replicas: 2
+    capacity: 128M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: heimdall
+      app-component: heimdall
   homeassistant-config:
     replicas: 2
     capacity: 256M

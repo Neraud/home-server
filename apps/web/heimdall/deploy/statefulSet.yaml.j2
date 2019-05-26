@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: heimdall
+  namespace: default
+  labels:
+    app: heimdall
+    app-component: heimdall
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: heimdall
+      app-component: heimdall
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: heimdall
+        app-component: heimdall
+    spec:
+      containers:
+      - image: {{ kubernetes_registry_url }}/heimdall
+        name: heimdall
+        ports:
+        - containerPort: 80
+          name: http
+        resources:
+          requests:
+            cpu: "{{ heimdall_requests_cpu | default("100m") }}"
+            memory: "{{ heimdall_requests_memory | default("128Mi") }}"
+          limits:
+            cpu: "{{ heimdall_limits_cpu | default("200m") }}"
+            memory: "{{ heimdall_limits_memory | default("128Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: heimdall-data-pv-claim
+          mountPath: /config
+        - name: heimdall-config
+          mountPath: /config/www/.env
+          subPath: .env
+        - name: heimdall-config
+          mountPath: /config/applicationsLoader.php
+          subPath: applicationsLoader.php
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: heimdall-config
+        configMap:
+          name: heimdall-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: heimdall-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M
+      selector:
+        matchLabels:
+          app: heimdall
+          app-component: heimdall

@@ -1,0 +1,41 @@
+---
+
+  # TODO not idempotent
+  # Push always registers a change : https://github.com/ansible/ansible/issues/25040
+  # And build doesn't update an existing image without force=yes ...
+- name: Build and push Heimdall image
+  docker_image:
+    path: "{{ kubernetes_app_root_path }}/web/heimdall/build"
+    name: "{{ kubernetes_registry_url }}/heimdall"
+    force: yes
+    push: yes
+
+- name: Deploy Heimdall
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+  with_fileglob:
+    - "{{ kubernetes_app_root_path }}/web/heimdall/deploy/*.yaml*"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Wait for Heimdall to be available
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}"
+    method: GET
+    headers:
+      Host: "heimdall.{{ web_base_domain }}"
+    return_content: no
+    validate_certs: no
+  register: heimdall_available
+  until:
+  - heimdall_available.status == 200
+  retries: 18
+  delay: 10
+
+- name: Inject applications in Heimdall
+  command: kubectl exec -it heimdall-0 -- php /config/applicationsLoader.php
+  register: heimdall_applications_loader
+  changed_when: "'[changed]' in heimdall_applications_loader.stdout"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
