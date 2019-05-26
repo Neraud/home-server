@@ -1,15 +1,21 @@
 
+* DNS
+    * Vagrant overwrites /etc/resolv.conf at startup
+
+* Docker GC
+    https://github.com/spotify/docker-gc
+
+* Multi-masters
+
 * Registry
     * Check how to purge old images
     * quiq/docker-registry-ui ?
 
-* HomeAssistant : 
-    * passthrough USB
-    * Depends MQTT ?
+* APC UPS
+    * Remote USB ?
 
 * RoomAssistant :
     * BLE
-    * Depends MQTT ?
 
 * Prometheus : 
     * Scrap other ?
@@ -26,3 +32,14 @@
 
 * Kube Bench
     https://blog.aquasec.com/announcing-kube-bench-an-open-source-tool-for-running-kubernetes-cis-benchmark-tests
+
+* Polaris
+    https://github.com/reactiveops/polaris
+
+* GlusterFS
+    * Fix unifi exposed on node-x ip
+
+* Gotify ?
+    https://github.com/gotify/server
+
+* Default 404 page on each domain 
