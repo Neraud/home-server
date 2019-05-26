@@ -1,8 +1,8 @@
 The various dashboards here are usually initialiazed from a remote source, and customized.
 
-
-extracted from https://github.com/coreos/kube-prometheus/tree/773a9c73e9e1a817d079cf6db13603a1cb830c8b/manifests/grafana-dashboardDefinitions.yaml
-(2019-04-24T10:31:22Z)
+Generated with helpers\mixin-generator
+- apiserver.json
+- controller-manager.json
 - k8s-cluster-rsrc-use.json
 - k8s-node-rsrc-use.json
 - k8s-resources-cluster.json
@@ -10,10 +10,14 @@ extracted from https://github.com/coreos/kube-prometheus/tree/773a9c73e9e1a817d0
 - k8s-resources-pod.json
 - k8s-resources-workload.json
 - k8s-resources-workloads-namespace.json
+- kubelet.json
 - nodes.json
 - persistentvolumesusage.json
 - pods.json
+- proxy.json
+- scheduler.json
 - statefulset.json
+
 
 elastic-search-exporter.json : https://raw.githubusercontent.com/justwatchcom/elasticsearch_exporter/master/examples/grafana/dashboard.json
 (adapted as we haven't updated the node_exporter to add the cluster)
