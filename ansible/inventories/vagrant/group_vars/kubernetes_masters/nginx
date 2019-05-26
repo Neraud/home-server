@@ -2,22 +2,29 @@
 
 #nginx_ssl_dhparam_generate: True
 
+nginx_extra_log_formats:
+  - name: lemonldap-auth
+    format: '$remote_addr - $remote_user [$time_local] "$upstream_http_lm_auth_failed" "$http_user_agent"'
+
 nginx_upstreams:
   - name: kubernetes-https-ingress
     servers:
-      - 192.168.100.10:{{ kubernetes_ingress_https_port }}
-      - 192.168.100.11:{{ kubernetes_ingress_https_port }}
-      - 192.168.100.12:{{ kubernetes_ingress_https_port }}
+      - master:{{ kubernetes_ingress_https_port }}
+      - node-1:{{ kubernetes_ingress_https_port }}
+      - node-2:{{ kubernetes_ingress_https_port }}
+      - node-home:{{ kubernetes_ingress_https_port }}
   - name: kubernetes-lemonldap-handler-ingress
     servers:
-      - 192.168.100.10:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - 192.168.100.11:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - 192.168.100.12:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - master:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - node-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - node-2:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - node-home:{{ kubernetes_ingress_lemonLdap_handler_port }}
   - name: kubernetes-mqtt-ingress
     servers:
-      - 192.168.100.10:{{ kubernetes_ingress_mqtt_port }}
-      - 192.168.100.11:{{ kubernetes_ingress_mqtt_port }}
-      - 192.168.100.12:{{ kubernetes_ingress_mqtt_port }}
+      - master:{{ kubernetes_ingress_mqtt_port }}
+      - node-1:{{ kubernetes_ingress_mqtt_port }}
+      - node-2:{{ kubernetes_ingress_mqtt_port }}
+      - node-home:{{ kubernetes_ingress_mqtt_port }}
     
 
 nginx_sites:
@@ -36,7 +43,7 @@ nginx_sites:
     disable_robots: True
 
   - name: auth
-    enabled_name: 000-auth
+    enabled_name: 010-auth
     server_name: "auth.{{ web_base_domain }}"
     default: False
     http_port: 80
@@ -52,6 +59,9 @@ nginx_sites:
       - path: /
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
+        content: |
+          access_log /var/log/nginx/auth_lemonldap_auth_failed.log lemonldap-auth if=$upstream_http_lm_auth_failed;
+          proxy_hide_header Lm-Auth-Failed;
 
   - name: infra
     enabled_name: 100-infra
@@ -210,6 +220,28 @@ nginx_sites:
       mode: file
       cert_path: "{{ custom_ssl_pki_root_dir }}/web/dev.{{ web_base_domain }}/server.crt"
       cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dev.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        lemonLdap_protected: True 
+        content: |
+          client_max_body_size 250m;
+
+  - name: download
+    enabled_name: 600-download
+    server_name: "dl.{{ web_base_domain }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dl.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dl.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     disable_robots: True
     lemonLdap:

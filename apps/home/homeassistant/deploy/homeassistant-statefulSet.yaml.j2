@@ -22,7 +22,7 @@ spec:
         app-component: homeassistant
     spec:
       containers:
-      - image: homeassistant/home-assistant:0.89.2
+      - image: {{ kubernetes_registry_url }}/homeassistant
         name: homeassistant
         ports:
         - containerPort: 8123
@@ -32,8 +32,12 @@ spec:
           mountPath: /etc/localtime
         - name: homeassistant-pv-claim
           mountPath: /config
-        - mountPath: /opt/ldap-auth
-          name: homeassistant-ldap-auth
+        - name: homeassistant-config
+          mountPath: /config/socat.cfg
+          subPath: socat.cfg
+        - name: homeassistant-config
+          mountPath: /opt/ldap-auth/config.cfg
+          subPath: ldap-auth-config.cfg
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.cert
           subPath: ca.crt
@@ -48,24 +52,23 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: homeassistant-ldap-auth
+      - name: homeassistant-config
         configMap:
-          name: homeassistant-ldap-auth
-          defaultMode: 0755
+          name: homeassistant-config
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
       nodeSelector:
-        capability/home: 'yes'
+        capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
       name: homeassistant-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 1G
+          storage: 256M
       selector:
         matchLabels:
           app: homeassistant

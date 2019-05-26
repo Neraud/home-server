@@ -37,9 +37,9 @@ However, it statically binds a path to a container, so it's far from a dynamic s
 
 [NFS](https://kubernetes.io/docs/concepts/storage/#nfs) would also be a simple solution, however that would be yet another SPOF in the system, and it would offer poor IO.
 
-On the opposite side of the spectrum, you can use a network filesystem with a dynamic provider ([GlusterFS](https://kubernetes.io/docs/concepts/storage/#glusterfs) and [CephFS](https://kubernetes.io/docs/concepts/storage/#cephfs)), but for a small home installation it's probably overkill.
+On the opposite side of the spectrum, you can use a network filesystem with a dynamic provider ([GlusterFS](https://kubernetes.io/docs/concepts/storage/#glusterfs) and [CephFS](https://kubernetes.io/docs/concepts/storage/#cephfs)), but for a small home installation it's probably overkill (more on that later ;p).
 
-To try and find a middle ground, the [local](https://kubernetes.io/docs/concepts/storage/#local) allows the static creation of Volumes, and a dynamic claim from pods.
+To try and find a middle ground, the [local](https://kubernetes.io/docs/concepts/storage/#local) type allows the static creation of Volumes, and a dynamic claim from pods.
 
 ### On to local volumes !
 
@@ -100,3 +100,44 @@ Accordingly, the pods use a NodeSelector :
 nodeSelector:
   capability/general-purpose: 'yes'
 ```
+
+## GlusterFS
+
+As I said earlier, a distributed storage solution is probably overkill.
+
+But that shouldn't stop us from using it !
+
+### Long term target
+
+Ideally, GlusterFS will be deployed using the new [Gluster Container Storage](https://github.com/gluster/gcs) project.
+
+It uses an Operator to automatically deploy Glusterd2 containers, a dynamic volume provisioner, a prometheus exporter ... pretty much the whole stack.
+
+But it's not stable yet.
+
+### Heketi
+
+A standalone GlusterFS cluster with [Heketi](https://github.com/heketi/heketi) is another solution. 
+
+However, Heketi has a few [requirements](https://github.com/heketi/heketi/blob/master/docs/admin/readme.md#requirements) that I don't particularly like.
+
+I would rather avoid having a container that can SSH to all my nodes, and then password-lessly sudo whatever they want.
+
+### Selected solution
+
+To avoid Heketi's requirements, I've chosen to skip the dynamic provisioner part.
+
+
+The ansible playbook :
+
+* installs a standalone GlusterFS cluster
+* creates the required brick LVs on each node
+* creates the volumes
+* creates the Kubernetes PersistentVolumes
+
+Only 2 of my NUCs have enough storage (500G SSD). I've decided to use a default volume template with : 
+
+* 2 replicas (node-1, node-2)
+* 1 arbiter (master)
+
+As with the local volumes, tags are used to target the proper volume.

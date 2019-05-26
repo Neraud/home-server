@@ -1,0 +1,17 @@
+---
+
+dns_local_domain: local
+
+dns_local_hosts: []
+#  - ip: 192.168.1.1
+#    name: host1
+#  - ip: 192.168.1.2
+#    name: host2
+
+dnsmasq_upstreams:
+  - 8.8.8.8
+  - 8.8.4.4
+
+dns_ignored_interfaces:
+  # Ignore lo to avoid having dnsmasq inject nameserver 127.0.0.1 automatically. It messes up Kubernetes' CoreDNS
+  - lo

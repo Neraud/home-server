@@ -3,7 +3,7 @@
 galaxy_info:
   author: "Neraud"
   license: MIT
-  description: "Prepare application storage"
+  description: "Create kubernetes storage"
   min_ansible_version: 2.7
   platforms:
   - name: Debian
@@ -12,4 +12,4 @@ galaxy_info:
     - buster
 
 #dependencies:
-#  - { role: kubernetes-common }
+#  - { role: kubernetes-preinstall }

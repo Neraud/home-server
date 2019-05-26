@@ -61,8 +61,12 @@ __EOF__
 	done
 
 	echo " - create mock NAS folders"
-	mkdir -p /opt/mock_nas/Multimedia/{Music,Podcasts}
-
+	mkdir -p /opt/mock_nas/Multimedia/{Anime,Movies,Music,Podcasts,TV\ Shows}
+	mkdir -p /opt/mock_nas/Download/done
+	mkdir -p /opt/mock_nas/Download/torrent/{pending,done,auto-load,torrent-files}
+	mkdir -p /opt/mock_nas/Download/newsgroup/{nzbFiles,pending,done}
+	chmod -R 777 /opt/mock_nas
+	
 	echo " - install NFS Server"
 	apt-get -q -y install nfs-kernel-server
 
@@ -76,6 +80,7 @@ __EOF__
 
 	cat << EOF > /etc/exports
 /opt/mock_nas/Multimedia $network_cidr(rw)
+/opt/mock_nas/Download $network_cidr(rw)
 EOF
 	systemctl restart nfs-kernel-server
 fi
@@ -89,21 +94,19 @@ fi
 
 chmod -R 700 /root/.ssh
 
-if [ "$mode" == "node" ] ; then
-	echo " - install LVM"
-	apt-get -q -y install lvm2
+echo " - install LVM"
+apt-get -q -y install lvm2
+
+echo " - preparing docker disk"
+# Create a new partition table with a single 'Linux native' partition
+echo 'type=83' | sfdisk /dev/sdb
+mkfs.ext4 /dev/sdb1
+mkdir -p /var/lib/docker
+echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
+mount -a
 	
-	echo " - preparing docker disk"
-	# Create a new partition table with a single 'Linux native' partition
-	echo 'type=83' | sfdisk /dev/sdb
-	mkfs.ext4 /dev/sdb1
-	mkdir -p /var/lib/docker
-	echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
-	mount -a
-	
-	echo " - preparing data disk for LVM"
-	# Create a new partition table with a single LVM partition
-	echo 'type=8e' | sfdisk /dev/sdc
-	pvcreate /dev/sdc1
-	vgcreate kubernetes_vg /dev/sdc1
-fi
+echo " - preparing data disk for LVM"
+# Create a new partition table with a single LVM partition
+echo 'type=8e' | sfdisk /dev/sdc
+pvcreate /dev/sdc1
+vgcreate data_vg /dev/sdc1

@@ -1,0 +1,9 @@
+---
+
+local_lvm_storage:
+  heimdall-data: 
+    capacity: 128M
+    reclaim_policy: Retain
+    labels:
+      app: heimdall
+      app-component: heimdall

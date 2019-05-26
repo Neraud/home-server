@@ -1,25 +1,14 @@
 ---
 
-###################
-# TEMP WORKAROUND #
-###################
-
-- name: Clone forked repo
-  git:
-    dest: /tmp/lemonldap-ng-docker
-    repo: https://github.com/Neraud/lemonldap-ng-docker
-    version: master
-
+# TODO not idempotent
+# Push always registers a change : https://github.com/ansible/ansible/issues/25040
+# And build doesn't update an existing image without force=yes ...
 - name: Build and push LemonLDAP image
   docker_image:
-    path: "/tmp/lemonldap-ng-docker"
-    name: "{{ kubernetes_registry_url }}/lemonldap-ng"
+    path: "{{ kubernetes_app_root_path }}/auth/lemonldap/build"
+    name: "{{ kubernetes_registry_url }}/lemonldap"
     force: yes
     push: yes
-
-###################
-# TEMP WORKAROUND #
-###################
 
 - name: Deploy LemonLDAP
   k8s:

@@ -33,6 +33,9 @@
 - import_tasks: apps/monitoring-exporters.yml
   tags: kubernetes-app-monitoring-exporters
 
+- import_tasks: apps/monitoring-gluster-exporter.yml
+  tags: kubernetes-app-monitoring-gluster-exporter
+
 - import_tasks: apps/monitoring-prometheus-operator.yml
   tags: kubernetes-app-monitoring-prometheus-operator
 
@@ -77,3 +80,15 @@
 
 - import_tasks: apps/logging-kibana.yml
   tags: kubernetes-app-logging-kibana
+
+- import_tasks: apps/download-sickchill.yml
+  tags: kubernetes-app-download-sickchill
+
+- import_tasks: apps/download-deluge.yml
+  tags: kubernetes-app-download-deluge
+
+- import_tasks: apps/download-pyload.yml
+  tags: kubernetes-app-download-pyload
+
+- import_tasks: apps/download-sabnzbd.yml
+  tags: kubernetes-app-download-sabnzbd

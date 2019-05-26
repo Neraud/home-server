@@ -1,0 +1,18 @@
+#{{ ansible_managed }}
+
+[Definition]
+
+{% if item.failregex | default([]) | length > 0 %}
+failregex = {% for regex in item.failregex %}{{ regex }}
+            {% endfor %}
+{% endif %}
+
+{% if item.ignoreregex | default([]) | length > 0 %}
+ignoreregex = {% for regex in item.ignoreregex %}{{ regex }}
+              {% endfor %}
+{% endif %}
+
+{% if item.datepattern | default([]) | length > 0 %}
+datepattern = {% for pattern in item.datepattern %}{{ pattern }}
+              {% endfor %}
+{% endif %}

@@ -17,8 +17,6 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.box = settings['common']['box_name']
 	config.ssh.insert_key = false
-	# TODO : re-enable guest aditions once the stable contrib-buster64 box is released
-	config.vbguest.auto_update = false
 	
 	####################
 	#      Nodes       #
@@ -29,6 +27,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 				vb.customize ["modifyvm", :id, "--ioapic", "on"]
 				vb.customize ["modifyvm", :id, "--memory", node_conf['memory']]
 				vb.customize ["modifyvm", :id, "--cpus", node_conf['cpu']]
+				vb.customize ["modifyvm", :id, "--cpuexecutioncap", node_conf['cpu_execution_cap']]
 				
 				docker_disk_path = '.vagrant/' + node_conf['name'] + '_docker.vdi'
 				unless File.exist?(docker_disk_path)
@@ -57,6 +56,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			vb.customize ["modifyvm", :id, "--ioapic", "on"]
 			vb.customize ["modifyvm", :id, "--memory", master_conf['memory']]
 			vb.customize ["modifyvm", :id, "--cpus", master_conf['cpu']]
+
+			docker_disk_path = '.vagrant/master_docker.vdi'
+			unless File.exist?(docker_disk_path)
+				vb.customize ['createmedium', '--filename', docker_disk_path, '--size', master_conf['docker_disk_size']]
+			end
+			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 1, '--device', 0, '--type', 'hdd', '--medium', docker_disk_path]
+
+			data_disk_path = '.vagrant/master_data.vdi'
+			unless File.exist?(data_disk_path)
+				vb.customize ['createmedium', '--filename', data_disk_path, '--size', master_conf['data_disk_size']]
+			end
+			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 2, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
 		end
 		
 		# Used to set up Plex Media Server.

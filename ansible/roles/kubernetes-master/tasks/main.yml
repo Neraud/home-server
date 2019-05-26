@@ -39,16 +39,6 @@
     owner: "{{ kubernetes_user.name }}"
     backup: yes
 
-- name: Enable k8s autocompletion for standard user
-  copy:
-    dest: "{{ kubernetes_user.home }}/.bashrc.d/k8s_autocomplete.bashrc"
-    content: |
-      # kubectl completion
-      source <(kubectl completion bash)
-      # kubeadm completion
-      source <(kubeadm completion bash)
-    owner: "{{ kubernetes_user.name }}"
-
 - name: Pass bridged IPv4 traffic to iptables’ chains
   sysctl:
     name: net.bridge.bridge-nf-call-iptables

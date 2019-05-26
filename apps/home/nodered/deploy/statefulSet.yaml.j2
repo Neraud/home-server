@@ -39,6 +39,7 @@ spec:
           mountPath: /etc/localtime
         - name: nodered-pv-claim
           mountPath: /data
+          subPath: data
         - name: nodered-config
           mountPath: /data/settings.js
           subPath: settings.js
@@ -58,16 +59,16 @@ spec:
         secret:
           secretName: cluster-ca
       nodeSelector:
-        capability/home: 'yes'
+        capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
       name: nodered-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 1G
+          storage: 128M
       selector:
         matchLabels:
           app: nodered

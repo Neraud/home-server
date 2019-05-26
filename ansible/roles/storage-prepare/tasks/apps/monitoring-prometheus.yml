@@ -1,0 +1,11 @@
+---
+
+- name: Set mount path
+  set_fact:
+    prometheus_mount_path: "{{ all_volumes['prometheus-k8s']['mount_path'] }}"
+
+- name: Ensure Prometheus DB folder exists and is writable
+  file:
+    path: "{{ prometheus_mount_path }}/prometheus-db"
+    state: directory
+    mode: 0777

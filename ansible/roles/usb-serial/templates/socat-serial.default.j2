@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+# Configuration for device {{ item.key }}
+
+DEVICE={{ item.value.device }}
+STATE={{ item.value.state }}
+USER={{ item.value.user }}
+GROUP={{ item.value.group }}
+MODE={{ item.value.mode }}
+HOST={{ item.value.host }}
+PORT={{ item.value.port }}

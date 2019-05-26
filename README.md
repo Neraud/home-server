@@ -23,21 +23,23 @@ Going the self-hosted route has a few [consequences on the infrastructure](docs/
 
 The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.md), but to keep it short :
 
-| Type      | Cores | CPU Model                                                                                                          |  RAM  | Storage   |
-| --------- | :---: | ------------------------------------------------------------------------------------------------------------------ | :---: | --------- |
-| Master    |  2/4  | [Intel i3 3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-)            |  8G   | SSD 64G   |
-| Node_1    |  2/4  | [Intel i5 6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-)      |  32G  | SSD 500G  |
-| Node_Home |  4/4  | [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-) |  2G   | Flash 32G |
+| Type      | Cores | CPU Model                                                                                                                                |  RAM  | Storage   |
+| --------- | :---: | ---------------------------------------------------------------------------------------------------------------------------------------- | :---: | --------- |
+| master    |  2/4  | [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-)                                  |  8G   | SSD 64G   |
+| node-1    |  2/4  | [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-)                            |  32G  | SSD 500G  |
+| node-2    |  4/8  | [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) |  32G  | SSD 500G  |
+| node-home |  4/4  | [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-)                       |  2G   | Flash 32G |
 
 ## Vagrant
 
-The Vagrantfile creates 3 *similar* guests :
+The Vagrantfile creates 4 *similar* guests :
 
 | Type      | Cores |  RAM  | Storage |
 | --------- | :---: | :---: | :-----: |
-| Master    |   2   |  4G   |    -    |
-| Node_1    |   4   |  8G   |   50G   |
-| Node_Home |   2   |  2G   |   10G   |
+| master    |   2   |  2G   |    -    |
+| node-1    |   4   |  8G   |   96G   |
+| node-2    |   6   |  8G   |   96G   |
+| node-home |   2   |  1G   |   16G   |
 
 These settings are configured in `Vagrantconfig.yaml`, feel free to change them or add mode nodes.
 
@@ -52,6 +54,7 @@ To test the deployed services, you will have to add the following domains to you
 ```
 192.168.100.10 k8stest.com 
 192.168.100.10 infra.k8stest.com
+192.168.100.10 auth.k8stest.com
 192.168.100.10 unifi.k8stest.com
 192.168.100.10 home.k8stest.com
 192.168.100.10 web.k8stest.com
@@ -115,7 +118,7 @@ The folowing services are deployed :
 | [Airsonic](https://airsonic.github.io/)                          | https://stream.k8stest.com/airsonic/    | Music streaming                               |
 | [Sickchill](https://sickchill.github.io/)                        | https://dl.k8stest.com/sickchill/       | Automatic Video Library Manager for TV Shows. |
 | [Deluge](https://deluge-torrent.org/)                            | https://dl.k8stest.com/deluge/          | Torrent client                                |
-| [Pyload](https://pyload.net/)                                    | https://dl.k8stest.com/pyload/          | HTTP download manager                         |
+| [pyload](https://pyload.net/)                                    | https://dl.k8stest.com/pyload/          | HTTP download manager                         |
 | [SABnzbd](https://sabnzbd.org/)                                  | https://dl.k8stest.com/sabnzbd/         | Binary newsreader                             |
 
 ### Kubernetes dashboard
@@ -195,11 +198,12 @@ By default, it forwards to MailHog for debugging purposes. But it can be set up 
 You can easily test ZoneMTA by sending a email via the command line : 
 
 ```shell
-[root@master$] apt-get -q -y install swaks libnet-ssleay-perl
- 
+[root@master$] apt-get -q -y install swaks libnet-ssleay-perl libnet-dns-perl
+
 [user@master$] echo "This is the message body" | swaks \
     --to "someone@example.com" --from "you@example.com" \
     --auth --auth-user=smtp --auth-password=Passw0rd \
+    -tls \
     --server $(kubectl get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
 ```
 
@@ -449,16 +453,34 @@ Airsonic is deployed and configured to look for music on the NAS share by defaul
 
 ### Sickchill
 
-TODO
+Sickchill is installed.
+
+Search providers are not configured by default.
+
+The mock NAS storage is used as media storage.
 
 ### Deluge
 
-TODO
+Deluge is installed.
 
-### Pyload
+The mock NAS storage is used as media storage.
 
-TODO
+The webui uses the default password : `deluge`.
+
+### pyload
+
+pyLoad is installed.
+
+The mock NAS storage is used as media storage.
+
+A default `pyload` / `Passw0rd` user is created.
 
 ### SABnzbd
 
-TODO
+pyLoad is installed.
+
+The mock NAS storage is used as media storage.
+
+A default `sabnzbd` / `Passw0rd` user is created.
+
+[nzbToMedia](https://github.com/clinton-hall/nzbToMedia) is added and configured to notify Sickchill of finished downloads.

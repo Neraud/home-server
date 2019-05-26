@@ -1,5 +1,19 @@
 ---
 
+- name: Search for iptables-legacy
+  stat:
+    path: /usr/sbin/iptables-legacy
+  register: iptables_legacy_stat
+
+# Cf https://github.com/kubernetes/kubernetes/issues/71305#issuecomment-479558920
+- name: Force iptables to legacy mode on Buster
+  alternatives:
+    path: /usr/sbin/iptables-legacy
+    name: iptables
+  when: 
+    - ansible_lsb.codename == "buster"
+    - iptables_legacy_stat.stat.exists
+
 - name: Install ufw
   apt:
     pkg: ufw

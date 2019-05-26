@@ -14,6 +14,11 @@ firewall_applications:
     description: Small, but very powerful and efficient web server
     ports: 80,443/tcp
     rule: allow
+  - name: custom_dnsmasq
+    title: Dnsmasq
+    description: Dnsmasq
+    ports: 53
+    rule: allow
   - name: kubernetes_api_server
     title: Kubernetes API server
     description: Kubernetes API server
@@ -55,10 +60,23 @@ firewall_applications:
 #    description: Kubernetes Flannel udp
 #    ports: 8285/udp
 #    rule: allow
+
+  - name: glusterfs-server
+    title: GlusterFS Server
+    description: GlusterFS Server
+    ports: "24007,24008,49152:49664/tcp"
+    rule: allow
+    src: 192.168.100.0/24
+
   - name: prometheus_node_exporter
     title: Prometheus Node Exporter
     description: Prometheus Node Exporter
     ports: 9100/tcp
+    rule: allow
+  - name: prometheus_gluster_exporter
+    title: Prometheus Gluster Exporter
+    description: Prometheus Gluster Exporter
+    ports: 8090/tcp
     rule: allow
   - name: mosquitto
     title: Mosquitto

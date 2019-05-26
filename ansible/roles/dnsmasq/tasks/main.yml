@@ -1,0 +1,45 @@
+---
+
+- name: Install dnsmasq
+  apt:
+    pkg:
+    - dnsmasq
+    state: present
+
+- name: Configure dnsmasq
+  template:
+    src: dnsmasq.conf.j2
+    dest: /etc/dnsmasq.conf
+    backup: yes
+  notify: Restart dnsmasq
+
+- name: Configure dnsmasq default
+  template:
+    src: dnsmasq_default.j2
+    dest: /etc/default/dnsmasq
+    backup: yes
+  notify: Restart dnsmasq
+
+- name: Fill dnsmasq hosts with local machines
+  copy:
+    dest: /etc/dnsmasq_hosts
+    content: |
+      {% for dns_local_host in dns_local_hosts %}
+      {{ dns_local_host.ip }} {{ dns_local_host.name }}
+      {% endfor %}
+  notify: Restart dnsmasq
+
+- name: Set dnsmasq upstreams
+  copy:
+    dest: /etc/dnsmasq_upstreams
+    content: |
+      {% for dnsmasq_upstream in dnsmasq_upstreams %}
+      nameserver {{ dnsmasq_upstream }}
+      {% endfor %}
+  notify: Restart dnsmasq
+
+- name: Auto-start dnsmasq
+  service:
+    name: dnsmasq
+    state: started
+    enabled: yes

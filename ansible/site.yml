@@ -5,44 +5,66 @@
   roles:
     - common
     - common-apt
-    - udev
     - firewall
+    - usb-serial
+
+- name: Configure DNS server
+  hosts: kubernetes_masters
+  roles:
+    - dnsmasq
+
+- name: Configure DNS clients
+  hosts: all
+  roles:
+    - dns-client
 
 - name: Prepare Kubernetes members
   hosts: kubernetes
   roles:
     - kubernetes-ansible
     - docker
-    - kubernetes-common
+    - kubernetes-preinstall
+    - { role: local-lvm, tags: kubernetes-storage }
+
+- name: Prepare GlusterFS hosts
+  hosts: glusterfs
+  roles:
+    - glusterfs
+
+- name: Prepare GlusterFS servers
+  hosts: glusterfs_servers
+  roles:
+    - { role: glusterfs-server-install, tags: kubernetes-storage }
+    - { role: glusterfs-server-configure, tags: kubernetes-storage }
+
+- name: Prepare GlusterFS servers
+  hosts: glusterfs_clients
+  roles:
+    - { role: glusterfs-client, tags: kubernetes-storage }
 
 - name: Provision Kubernetes masters
   hosts: kubernetes_masters
   roles:
-    - {
-        role: openssl-pki,
-        tags: openssl-pki
-      }
-    - {
-        role: nginx,
-        tags: nginx
-      }
+    - { role: openssl-pki, tags: openssl-pki }
+    - { role: nginx, tags: nginx }
     - fail2ban
     - kubernetes-master
+    - kubernetes-postinstall
 
 - name: Provision Kubernetes nodes
   hosts: kubernetes_nodes
   roles:
     - kubernetes-node
-    - {
-        role: kubernetes-storage,
-        tags: kubernetes-storage
-      }
+    - kubernetes-postinstall
+
+- name: Prepare storage
+  hosts: kubernetes
+  roles:
+    - { role: storage-prepare, tags: kubernetes-storage }
 
 - name: Provision Kubernetes applications
   hosts: kubernetes_masters
   roles:
     - kubernetes-infra
-    - {
-        role: kubernetes-apps,
-        tags: kubernetes-apps
-      }
+    - { role: kubernetes-storage, tags: kubernetes-storage }
+    - { role: kubernetes-apps, tags: kubernetes-apps }

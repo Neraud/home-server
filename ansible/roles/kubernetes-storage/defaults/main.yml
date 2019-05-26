@@ -4,9 +4,10 @@ kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
 
-kubernetes_local_storage_vg: kubernetes_vg
+local_storage_vg: data_vg
+local_lv_prefix: local_
 
-#kubernetes_local_storage:
+#local_lvm_storage:
 #  appname-componentName-storageDetail: 
 #    capacity: 20G
 #    filesystem: ext4 (optional)
@@ -17,16 +18,19 @@ kubernetes_local_storage_vg: kubernetes_vg
 #      app-component: componentName
 #      storage: storageDetail
 
+kubernetes_glusterfs_endpoint: glusterfs-cluster
 
-# TODO : these zomemta vars are defined in kubernetes-apps/default/main.yml and are not visible here.
-zonemta_smtp_servername: zonemta.default
-zonemta_feeder_authentication_username: smtp
+kubernetes_glusterfs_available_namespaces:
+  - default
+  - ingress-nginx
+  - monitoring
+  - logging
 
-homeassistant_smtp_host: "{{ zonemta_smtp_servername }}"
-homeassistant_smtp_port: 587
-homeassistant_smtp_user: "{{ zonemta_feeder_authentication_username }}"
-homeassistant_smtp_password: "{{ zonemta_feeder_authentication_password }}"
-homeassistant_smtp_encryption: starttls
-homeassistant_smtp_from: "noreply@{{ web_base_domain }}"
-homeassistant_smtp_displayFrom: "HomeAssistant"
-
+#glusterfs_volumes:
+#  appname-componentName-storageDetail: 
+#    mount_path: /path/on/kubernetes/node (optional)
+#    reclaim_policy: Retain
+#    labels:
+#      app: appName
+#      app-component: componentName
+#      storage: storageDetail

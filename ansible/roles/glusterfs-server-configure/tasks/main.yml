@@ -1,0 +1,31 @@
+---
+
+- name: Create a trusted storage pool
+  gluster_peer:
+    state: present
+    nodes:
+      - "{{ item }}"
+  run_once: true
+  delegate_to: "{{ groups['glusterfs_servers'][0] }}"
+  with_items: "{{ groups['glusterfs_servers'] }}"
+  when: item != groups['glusterfs_servers'][0]
+
+- name: Create volumes
+  gluster_volume:
+    name: "{{ item.key }}"
+    bricks: "{{glusterfs_brick_root}}/{{ item.key }}/brick1/brick"
+    replicas: "{{ item.value.replicas }}"
+    arbiters: "{{ item.value.arbiters | default([]) | length }}"
+    cluster: "{{ item.value.nodes + item.value.arbiters }}"
+    state: present
+  run_once: true
+  delegate_to: "{{ groups['glusterfs_servers'][0] }}"
+  loop: "{{ glusterfs_volumes | default({}) | dict2items }}"
+
+- name: Start volumes
+  gluster_volume:
+    name: "{{ item.key }}"
+    state: started
+  run_once: true
+  delegate_to: "{{ groups['glusterfs_servers'][0] }}"
+  loop: "{{ glusterfs_volumes | default({}) | dict2items }}"

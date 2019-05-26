@@ -167,6 +167,16 @@ homeassistant_mqtt_password: clear_password
 homeassistant_ldap_servername: "{{ openldap_ldap_servername }}"
 homeassistant_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
 
+#homeassistant_serial_remote_devices:
+#  test_tty1:
+#    device: /dev/test_tty1
+#    state: raw
+#    user: 0
+#    group: 0
+#    mode: 777
+#    host: 192.168.100.11
+#    port: 3333
+
 nodered_context_root: /
 nodered_ldap_servername: "{{ openldap_ldap_servername }}"
 nodered_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
@@ -269,6 +279,8 @@ gitlab_ldap_user_base: "{{ openldap_ldap_structure_users_ou_dn }}"
 gitlab_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
 gitlab_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 
+gluster_exporter_port: 8090
+prometheus_retention: 7d
 prometheus_allowed_namespaces:
   - default
   - kube-system
@@ -313,3 +325,36 @@ elasticsearch_exposed_namespaces:
 
 logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"
 logging_kibana_export_saved_output_dir: "{{ standard_user.home }}/kibana_saved_objects"
+
+sickchill_context_root: /
+sickchill_api_key: "abcdefghijklmnopqrstuvwxyz123456"
+sickchill_smtp_host: "{{ zonemta_smtp_servername }}"
+sickchill_smtp_port: 587
+sickchill_smtp_tls: True
+sickchill_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+sickchill_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+sickchill_smtp_from: "noreply@{{ web_base_domain }}"
+
+deluge_context_root: /
+
+pyload_context_root: /
+pyload_default_user: pyload
+pyload_default_password: clear_password
+
+sabnzbd_context_root: /
+sabnzbd_user: sabnzbd
+sabnzbd_password: clear_password
+sabnzbd_api_key: "abcdefghijklmnopqrstuvwxyz123456"
+sabnzbd_smtp_host: "{{ zonemta_smtp_servername }}"
+sabnzbd_smtp_port: 587
+sabnzbd_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+sabnzbd_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+
+sabnzbd_nzbToMedia_config_sickbeard:
+  tv:
+    enabled: 0
+    host: sickchill.default
+    port: 80
+    api_key: "{{ sickchill_api_key }}"
+    web_root: "{{ sickchill_context_root }}"
+    ssl: 0

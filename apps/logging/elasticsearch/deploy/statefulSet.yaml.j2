@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: amazon/opendistro-for-elasticsearch:0.7.1
+        image: amazon/opendistro-for-elasticsearch:0.8.0
         ports:
         - containerPort: 9200
           name: rest
@@ -111,10 +111,10 @@ spec:
       name: elasticsearch-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 10G
+          storage: 4G
       selector:
         matchLabels:
           app: elasticsearch

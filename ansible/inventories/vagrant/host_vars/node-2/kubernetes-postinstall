@@ -1,0 +1,9 @@
+---
+
+kubernetes_node_labels:
+  - name: capability/glusterfs-server
+    value: 'yes'
+  - name: capability/general-purpose
+    value: 'yes'
+  - name: capability/home
+    value: 'no'
