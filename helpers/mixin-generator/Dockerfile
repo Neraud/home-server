@@ -18,5 +18,3 @@ VOLUME /out
 
 ADD entrypoint.sh /root/entrypoint.sh
 ENTRYPOINT /root/entrypoint.sh
-
-
