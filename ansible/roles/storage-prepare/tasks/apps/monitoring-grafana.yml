@@ -1,0 +1,11 @@
+---
+
+- name: Set mount path
+  set_fact:
+    grafana_mount_path: "{{ all_volumes['grafana-data']['mount_path'] }}"
+
+- name: Ensure Grafana folder exists and is writable
+  file:
+    path: "{{ grafana_mount_path }}/data"
+    state: directory
+    mode: 0777

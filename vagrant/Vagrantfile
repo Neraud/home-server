@@ -62,6 +62,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 				vb.customize ['createmedium', '--filename', docker_disk_path, '--size', master_conf['docker_disk_size']]
 			end
 			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 1, '--device', 0, '--type', 'hdd', '--medium', docker_disk_path]
+
+			data_disk_path = '.vagrant/master_data.vdi'
+			unless File.exist?(data_disk_path)
+				vb.customize ['createmedium', '--filename', data_disk_path, '--size', master_conf['data_disk_size']]
+			end
+			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 2, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
 		end
 		
 		# Used to set up Plex Media Server.

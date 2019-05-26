@@ -1,0 +1,49 @@
+---
+
+- name: Read data bricks to create
+  set_fact:
+    glusterfs_brick_lvs: "{{ glusterfs_brick_lvs | default([]) + [ {
+        'name': item.0.key,
+        'capacity': item.0.value.capacity
+    } ] }}"
+  loop: "{{ glusterfs_volumes | default({}) | dict2items | subelements('value.nodes') }}"
+  when: ansible_hostname == item.1
+
+- name: Read arbiter bricks to create
+  set_fact:
+    glusterfs_brick_lvs: "{{ glusterfs_brick_lvs | default([]) + [ {
+        'name': item.0.key,
+        'capacity': item.0.value.arbiterCapacity
+    } ] }}"
+  loop: "{{ glusterfs_volumes | default({}) | dict2items | subelements('value.arbiters') }}"
+  when: ansible_hostname == item.1
+
+- name: Create bricks LVs
+  lvol:
+    vg: "{{ glusterfs_storage_vg }}"
+    lv: "{{ glusterfs_lv_prefix }}{{ item.name }}"
+    resizefs: yes
+    state: present
+    active: yes
+    size: "{{ item.capacity }}"
+  loop: "{{ glusterfs_brick_lvs }}"
+
+- name: Create bricks filesystems
+  filesystem:
+    fstype: "{{ glusterfs_brick_filesystem }}"
+    dev: "/dev/{{ glusterfs_storage_vg }}/{{ glusterfs_lv_prefix }}{{ item.name }}"
+  loop: "{{ glusterfs_brick_lvs }}"
+
+- name: Create bricks mount point
+  file:
+    path: "{{ glusterfs_brick_root }}/{{ item.name }}/brick1"
+    state: directory
+  loop: "{{ glusterfs_brick_lvs }}"
+
+- name: Mount bricks
+  mount:
+    state: mounted
+    path: "{{ glusterfs_brick_root }}/{{ item.name }}/brick1"
+    src: "/dev/{{ glusterfs_storage_vg }}/{{ glusterfs_lv_prefix }}{{ item.name }}"
+    fstype: "{{ glusterfs_brick_filesystem }}"
+  loop: "{{ glusterfs_brick_lvs }}"

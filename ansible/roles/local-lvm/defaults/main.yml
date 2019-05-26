@@ -1,0 +1,15 @@
+---
+
+local_storage_vg: data_vg
+local_lv_prefix: local_
+
+#local_lvm_storage:
+#  appname-componentName-storageDetail: 
+#    capacity: 20G
+#    filesystem: ext4 (optional)
+#    mount_path: /path/on/kubernetes/node (optional)
+#    reclaim_policy: Retain
+#    labels:
+#      app: appName
+#      app-component: componentName
+#      storage: storageDetail

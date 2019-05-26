@@ -1,0 +1,262 @@
+---
+
+glusterfs_volumes:
+  registry-data:
+    replicas: 2
+    capacity: 10G
+    arbiterCapacity: 256M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: registry
+      app-component: registry
+  zonemta-mongo-data:
+    replicas: 2
+    capacity: 512M
+    arbiterCapacity: 32M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: zonemta
+      app-component: mongo
+  zonemta-redis-data:
+    replicas: 2
+    capacity: 32M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: zonemta
+      app-component: redis
+  unifi-config:
+    replicas: 2
+    capacity: 1G
+    arbiterCapacity: 16M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: unifi
+      app-component: unifi
+  openldap-data:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: data
+  openldap-config:
+    replicas: 2
+    capacity: 16M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: config
+  openldap-run:
+    replicas: 2
+    capacity: 16M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: openldap
+      app-component: openldap
+      storage: run
+  lemonldap-data:
+    replicas: 2
+    capacity: 32M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: lemonldap
+      app-component: lemonldap
+      storage: data
+  prometheus-k8s:
+    replicas: 2
+    capacity: 4G
+    arbiterCapacity: 64M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: prometheus-k8s
+      app-component: prometheus
+  grafana-data:
+    replicas: 2
+    capacity: 128M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: grafana
+      app-component: grafana
+  ttrss-pgsql:
+    replicas: 2
+    capacity: 1G
+    arbiterCapacity: 16M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: ttrss
+      app-component: pgsql
+  homeassistant-config:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: homeassistant
+      app-component: homeassistant
+  homeassistant-mysql:
+    replicas: 2
+    capacity: 2G
+    arbiterCapacity: 32M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: homeassistant
+      app-component: mysql
+  nodered-data:
+    replicas: 2
+    capacity: 128M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: nodered
+      app-component: nodered
+  mosquitto-data:
+    replicas: 2
+    capacity: 128M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: mosquitto
+      app-component: mosquitto
+      storage: data
+  airsonic-data:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: airsonic
+      app-component: airsonic
+      storage: data
+  airsonic-playlists:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: airsonic
+      app-component: airsonic
+      storage: playlists
+  plex-data:
+    replicas: 2
+    capacity: 1G
+    arbiterCapacity: 16M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: plex
+      app-component: plex
+  gitlab-config:
+    replicas: 2
+    capacity: 8M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: gitlab
+      app-component: gitlab
+      storage: config
+  gitlab-data:
+    replicas: 2
+    capacity: 1G
+    arbiterCapacity: 16M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: gitlab
+      app-component: gitlab
+      storage: data
+  elasticsearch-data:
+    replicas: 2
+    capacity: 4G
+    arbiterCapacity: 64M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: elasticsearch
+      app-component: elasticsearch
+  deluge-config:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: deluge
+      app-component: deluge
+  pyload-config:
+    replicas: 2
+    capacity: 32M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: pyload
+      app-component: pyload
+  sabnzbd-config:
+    replicas: 2
+    capacity: 32M
+    arbiterCapacity: 4M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: sabnzbd
+      app-component: sabnzbd
+  sickchill-config:
+    replicas: 2
+    capacity: 1G
+    arbiterCapacity: 16M
+    nodes: [node-1, node-2]
+    arbiters: [master]
+    reclaim_policy: Retain
+    labels:
+      app: sickchill
+      app-component: sickchill

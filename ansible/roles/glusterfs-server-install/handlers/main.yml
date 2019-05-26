@@ -1,0 +1,6 @@
+---
+
+- name: Restart Gluster Prometheus Exporter
+  service:
+    name: gluster-exporter.service
+    state: restarted
