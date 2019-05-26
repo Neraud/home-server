@@ -38,6 +38,7 @@ class DbLoader {
     public function init() {
         echo "Opening database ...\n";
         $this->db = new SQLite3('/config/www/app.sqlite');
+        $this->db->busyTimeout(10000);
     }
 
     public function load($dataToLoad) {
