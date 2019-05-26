@@ -203,10 +203,6 @@ heimdall_applications:
     url: 'https://infra.{{ web_base_domain }}/lemonldap/manager.html'
     pinned: true
     tags: ['All', 'Auth']
-  - title: 'Php LDAP Admin'
-    url: 'https://infra.{{ web_base_domain }}/phpldapadmin/'
-    pinned: true
-    tags: ['All', 'Auth']
   - title: 'PHP LDAP Admin'
     colour: '#fafbfc'
     url: 'https://infra.{{ web_base_domain }}/phpldapadmin/'
