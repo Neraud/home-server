@@ -8,6 +8,11 @@
     - firewall
     - usb-serial
 
+- name: Provision OpenSSL PKI
+  hosts: controller
+  roles:
+    - { role: openssl-pki, tags: openssl-pki }
+
 - name: Configure DNS server
   hosts: dns_servers
   roles:
@@ -45,7 +50,6 @@
 - name: Provision Kubernetes masters
   hosts: kubernetes_masters
   roles:
-    - { role: openssl-pki, tags: openssl-pki }
     - { role: nginx, tags: nginx }
     - fail2ban
     - kubernetes-master
@@ -63,7 +67,7 @@
     - { role: storage-prepare, tags: kubernetes-storage }
 
 - name: Provision Kubernetes applications
-  hosts: kubernetes_masters
+  hosts: controller
   roles:
     - kubernetes-infra
     - { role: kubernetes-storage, tags: kubernetes-storage }
