@@ -7,7 +7,8 @@ common:
   sata_controller_name: 'SATA Controller'
   network_cidr: 192.168.100.0/24
 
-master: 
+controller:
+  name: master
   cpu: 2
   cpu_execution_cap: 75
   memory: 2048
