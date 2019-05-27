@@ -23,6 +23,12 @@
   roles:
     - dns-client
 
+- name: Provision Reverse Proxies
+  hosts: reverse_proxies
+  roles:
+    - { role: nginx, tags: nginx }
+    - fail2ban
+
 - name: Prepare Kubernetes members
   hosts: kubernetes
   roles:
@@ -50,8 +56,6 @@
 - name: Provision Kubernetes masters
   hosts: kubernetes_masters
   roles:
-    - { role: nginx, tags: nginx }
-    - fail2ban
     - kubernetes-master
     - kubernetes-postinstall
 

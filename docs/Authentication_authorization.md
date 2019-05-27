@@ -51,7 +51,7 @@ Most the of exposed sites are protected by LemonLDAP.
 In the NGinx reverse proxy configuration, a dedicated `/lmauth` Location is configured to proxy to LemonLDAP.
 Each protected Location has an `auth_request`.
 
-These settings are configured in `ansible/inventories/vagrant/group_vars/kubernetes_masters/nginx` :
+These settings are configured in `ansible/inventories/vagrant/group_vars/reverse_proxies/nginx` :
 
 ```
 nginx_sites:
