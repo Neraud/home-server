@@ -8,33 +8,33 @@ common:
   network_cidr: 192.168.100.0/24
 
 controller:
-  name: master
+  name: 'master-1'
   cpu: 2
   cpu_execution_cap: 75
   memory: 2048
-  ip: 192.168.100.10
+  ip: 192.168.100.11
   docker_disk_size: 16384
   data_disk_size: 8192
 
 nodes:
-  - name: 'node-1'
+  - name: 'master-2'
     cpu: 4
     cpu_execution_cap: 75
     memory: 8192
-    ip: 192.168.100.11
+    ip: 192.168.100.12
     docker_disk_size: 32768
     data_disk_size: 65536
-  - name: 'node-2'
+  - name: 'master-3'
     cpu: 6
     cpu_execution_cap: 75
     memory: 8192
-    ip: 192.168.100.12
+    ip: 192.168.100.13
     docker_disk_size: 32768
     data_disk_size: 65536
   - name: 'node-home'
     cpu: 2
     cpu_execution_cap: 75
     memory: 1024
-    ip: 192.168.100.13
+    ip: 192.168.100.14
     docker_disk_size: 8192
     data_disk_size: 8192

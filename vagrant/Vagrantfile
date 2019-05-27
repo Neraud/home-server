@@ -52,7 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	#    Controller    #
 	####################
 	controller_conf = settings['controller']
-	config.vm.define "controller" do |controller|
+	config.vm.define controller_conf['name'] do |controller|
 		controller.vm.provider :virtualbox do |vb|
 			vb.customize ["modifyvm", :id, "--ioapic", "on"]
 			vb.customize ["modifyvm", :id, "--memory", controller_conf['memory']]

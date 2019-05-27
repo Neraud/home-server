@@ -7,13 +7,13 @@ kubernetes_nginx_ingress_mqtt_target: "default/mosquitto:1883"
 
 kubernetes_nfs_storage:
   nfs-multimetia: 
-    nfs_server: "{{ hostvars['master'].ansible_host }}"
+    nfs_server: "{{ hostvars['master-1'].ansible_host }}"
     nfs_path: /opt/mock_nas/Multimedia
     reclaim_policy: Retain
     labels:
       detail: multimetia
   nfs-download: 
-    nfs_server: "{{ hostvars['master'].ansible_host }}"
+    nfs_server: "{{ hostvars['master-1'].ansible_host }}"
     nfs_path: /opt/mock_nas/Download
     reclaim_policy: Retain
     labels:

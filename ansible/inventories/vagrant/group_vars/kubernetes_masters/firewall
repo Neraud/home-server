@@ -49,7 +49,7 @@ firewall_applications:
     description: Kubelet Ingress
     ports: "{{ kubernetes_ingress_http_port }},{{ kubernetes_ingress_https_port }}/tcp"
     rule: allow
-#    src: 192.168.100.10
+#    src: 192.168.100.11
   - name: kubernetes_flannel_vxlan
     title: Kubernetes Flannel vxlan
     description: Kubernetes Flannel vxlan

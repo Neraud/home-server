@@ -5,8 +5,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 10G
     arbiterCapacity: 256M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: registry
@@ -15,8 +15,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 512M
     arbiterCapacity: 32M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: zonemta
@@ -25,8 +25,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: zonemta
@@ -35,8 +35,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 16M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: unifi
@@ -45,8 +45,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: openldap
@@ -56,8 +56,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 16M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: openldap
@@ -67,8 +67,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 16M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: openldap
@@ -78,8 +78,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: lemonldap
@@ -89,8 +89,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 4G
     arbiterCapacity: 64M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: prometheus-k8s
@@ -99,8 +99,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 128M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: grafana
@@ -109,8 +109,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 16M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: ttrss
@@ -119,8 +119,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 128M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: heimdall
@@ -129,8 +129,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: homeassistant
@@ -139,8 +139,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 2G
     arbiterCapacity: 32M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: homeassistant
@@ -149,8 +149,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 128M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: nodered
@@ -159,8 +159,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 128M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: mosquitto
@@ -170,8 +170,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: airsonic
@@ -181,8 +181,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: airsonic
@@ -192,8 +192,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 16M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: plex
@@ -202,8 +202,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 8M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: gitlab
@@ -213,8 +213,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 16M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: gitlab
@@ -224,8 +224,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 4G
     arbiterCapacity: 64M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: elasticsearch
@@ -234,8 +234,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: deluge
@@ -244,8 +244,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: pyload
@@ -254,8 +254,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 4M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: sabnzbd
@@ -264,8 +264,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 16M
-    nodes: [node-1, node-2]
-    arbiters: [master]
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
     reclaim_policy: Retain
     labels:
       app: sickchill

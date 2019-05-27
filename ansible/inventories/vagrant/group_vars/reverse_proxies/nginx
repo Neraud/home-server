@@ -9,21 +9,21 @@ nginx_extra_log_formats:
 nginx_upstreams:
   - name: kubernetes-https-ingress
     servers:
-      - master:{{ kubernetes_ingress_https_port }}
-      - node-1:{{ kubernetes_ingress_https_port }}
-      - node-2:{{ kubernetes_ingress_https_port }}
+      - master-1:{{ kubernetes_ingress_https_port }}
+      - master-2:{{ kubernetes_ingress_https_port }}
+      - master-3:{{ kubernetes_ingress_https_port }}
       - node-home:{{ kubernetes_ingress_https_port }}
   - name: kubernetes-lemonldap-handler-ingress
     servers:
-      - master:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - node-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - node-2:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - master-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - master-2:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - master-3:{{ kubernetes_ingress_lemonLdap_handler_port }}
       - node-home:{{ kubernetes_ingress_lemonLdap_handler_port }}
   - name: kubernetes-mqtt-ingress
     servers:
-      - master:{{ kubernetes_ingress_mqtt_port }}
-      - node-1:{{ kubernetes_ingress_mqtt_port }}
-      - node-2:{{ kubernetes_ingress_mqtt_port }}
+      - master-1:{{ kubernetes_ingress_mqtt_port }}
+      - master-2:{{ kubernetes_ingress_mqtt_port }}
+      - master-3:{{ kubernetes_ingress_mqtt_port }}
       - node-home:{{ kubernetes_ingress_mqtt_port }}
     
 

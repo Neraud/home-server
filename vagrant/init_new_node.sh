@@ -47,7 +47,7 @@ if [ "$mode" == "ansible" ] ; then
 	host_ips=$(python - <<'__EOF__'
 import yaml
 config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"))
-print(config['master']['ip'])
+print(config['controller']['ip'])
 for node_conf in config['nodes']:
   print(node_conf['ip'])
 __EOF__
