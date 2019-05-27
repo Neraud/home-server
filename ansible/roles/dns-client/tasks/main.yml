@@ -1,6 +1,13 @@
 ---
-- name: Set DNS configuration
+
+- name: Generate DNS configuration
   template:
     src: resolv.conf.j2
     dest: /etc/resolv.conf
     backup: yes
+
+- name: Generate backup DNS configuration
+  template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf.bak
+  when: dns_generate_backup_configuration
