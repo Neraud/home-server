@@ -1,0 +1,36 @@
+---
+
+- name: Install docker-gc requirements
+  apt:
+    pkg:
+      - git-core
+      - devscripts
+      - debhelper
+      - build-essential
+      - dh-make
+    state: present
+
+- name: Clone docker-gc repo
+  git:
+    dest: "{{ docker_gc_path }}/docker-gc"
+    repo: https://github.com/spotify/docker-gc
+    version: 131a786886f571b656e0e4bdda967b7abc1fa7d1
+  register: docker_gc_clone_result
+
+- name: Build docker-gc
+  command: debuild -us -uc -b
+  args:
+    chdir: "{{ docker_gc_path }}/docker-gc"
+  when: docker_gc_clone_result.changed
+
+- name: Install docker-gc
+  apt:
+    deb: "{{ docker_gc_path }}/docker-gc_0.1.0_all.deb"
+
+- name: Generate docker-gc cron
+  cron:
+    name: docker-gc
+    cron_file: docker-gc
+    user: root
+    special_time: daily
+    job: /usr/sbin/docker-gc
