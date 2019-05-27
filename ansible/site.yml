@@ -9,7 +9,7 @@
     - usb-serial
 
 - name: Configure DNS server
-  hosts: kubernetes_masters
+  hosts: dns_servers
   roles:
     - dnsmasq
 
