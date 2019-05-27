@@ -44,6 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			
 			node.vm.network "private_network", ip: node_conf['ip']
 			node.vm.provision "shell", path: "init_new_node.sh", args: "node", keep_color: true
+			node.vm.provision "shell", path: "up_node.sh", run: "always", keep_color: true
 		end
 	end
 
@@ -78,5 +79,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		master.vm.synced_folder "../", "/opt/provision", type: "virtualbox"
 		master.vm.provision "shell", path: "init_new_node.sh", args: "ansible", keep_color: true
 		master.vm.provision "shell", path: "ansible_provisioning.sh", keep_color: true
+		master.vm.provision "shell", path: "up_node.sh", run: "always", keep_color: true
 	end
 end
