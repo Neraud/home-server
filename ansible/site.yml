@@ -58,6 +58,7 @@
 - name: Provision Kubernetes masters
   hosts: kubernetes_masters
   roles:
+    - kubernetes-master-haproxy
     - kubernetes-master
     - kubernetes-postinstall
 
