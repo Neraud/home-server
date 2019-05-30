@@ -1,0 +1,29 @@
+---
+
+- name: Allow non local ip bind
+  sysctl:
+    name: "net.ipv4.ip_nonlocal_bind"
+    value: "1"
+    state: present
+
+- name: Allow VRRP multicast
+  ufw:
+    dest: 224.0.0.18
+    rule: allow
+
+- name: Install Keepalived
+  apt:
+    pkg: keepalived
+    state: present
+
+- name: Configure Keepalived
+  template:
+    dest: /etc/keepalived/keepalived.conf
+    src: keepalived.conf.j2
+  notify: Restart Keepalived
+
+- name: Auto-start Keepalived
+  service:
+    name: keepalived
+    state: started
+    enabled: yes

@@ -28,6 +28,7 @@
   roles:
     - { role: openssl-pki-deploy, tags: openssl-pki }
     - { role: nginx, tags: nginx }
+    - keepalived
     - fail2ban
 
 - name: Prepare Kubernetes members
