@@ -1,5 +1,10 @@
 ---
 
+- name: Configure UFW for gluster
+  import_tasks: ../../firewall/tasks/add-applications.yml
+  vars:
+    ufw_applications: "{{ gluster_ufw_applications }}"
+
 - name: Install GlusterFS server
   apt:
     pkg:
@@ -16,7 +21,6 @@
   get_url:
     dest: /etc/bash_completion.d/gluster
     url: https://raw.githubusercontent.com/gluster/glusterfs/master/extras/command-completion/gluster.bash
-
 
 - import_tasks: bricks.yml
 

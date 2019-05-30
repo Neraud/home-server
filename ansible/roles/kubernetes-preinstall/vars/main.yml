@@ -1,8 +1,7 @@
 ---
 
 # See https://kubernetes.io/docs/setup/independent/install-kubeadm/
-
-firewall_applications:
+kubernetes_ufw_applications:
   - name: kubelet_api
     title: Kubelet API
     description: Kubelet API
@@ -34,22 +33,4 @@ firewall_applications:
     description: Prometheus Gluster Exporter
     ports: 8090/tcp
     rule: allow
-  
-  # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
-  - name: unifi-controller
-    title: Unifi Controller
-    description: Unifi Controller
-    ports: "8080,6789/tcp|3478,10001/udp"
-    rule: allow
-  - name: unifi-controller-guest-portal
-    title: Unifi Controller Guest Portal
-    description: Unifi Controller Guest Portal
-    ports: "8880,8843/tcp"
-    rule: allow
 
-  - name: glusterfs-server
-    title: GlusterFS Server
-    description: GlusterFS Server
-    ports: "24007,24008,49152:49664/tcp"
-    rule: allow
-    src: 192.168.100.0/24

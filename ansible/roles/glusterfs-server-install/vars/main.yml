@@ -1,3 +1,11 @@
 ---
 
+gluster_ufw_applications:
+  - name: glusterfs-server
+    title: GlusterFS Server
+    description: GlusterFS Server
+    ports: "24007,24008,49152:49664/tcp"
+    rule: allow
+    #src: 192.168.100.0/24
+
 gluster_prometheus_exporter_go_path: /opt/gluster-exporter

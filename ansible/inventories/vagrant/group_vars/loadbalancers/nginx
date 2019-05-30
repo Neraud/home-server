@@ -264,3 +264,29 @@ nginx_streams:
       cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
       cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
     proxy_pass: kubernetes-mqtt-ingress
+
+
+nginx_ufw_applications:
+  - name: custom_nginx
+    title: Nginx Web Server
+    description: Small, but very powerful and efficient web server
+    ports: 80,443/tcp
+    rule: allow
+  - name: mosquitto
+    title: Mosquitto
+    description: Mosquitto is an open source message broker that implements the MQTT (MQ Telemetry Transport) protocol v3.1.
+    ports: 8883/tcp
+    rule: allow
+
+  # TODO find a better place for these rules
+    # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+  - name: unifi-controller
+    title: Unifi Controller
+    description: Unifi Controller
+    ports: "8080,6789/tcp|3478,10001/udp"
+    rule: allow
+  - name: unifi-controller-guest-portal
+    title: Unifi Controller Guest Portal
+    description: Unifi Controller Guest Portal
+    ports: "8880,8843/tcp"
+    rule: allow

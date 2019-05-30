@@ -6,6 +6,11 @@
     value: "1"
     state: present
 
+- name: Configure UFW for NGinx
+  import_tasks: ../../firewall/tasks/add-applications.yml
+  vars:
+    ufw_applications: "{{ nginx_ufw_applications }}"
+
 - name: Install NGinx
   apt:
     pkg: nginx

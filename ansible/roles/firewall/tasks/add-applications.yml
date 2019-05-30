@@ -1,0 +1,14 @@
+---
+
+- name: Declare ufw applications
+  template:
+    src: "{{ playbook_dir }}/roles/firewall/templates/application.j2"
+    dest: /etc/ufw/applications.d/{{ item.name }}
+  with_items: "{{ ufw_applications | default([]) }}"
+
+- name: Allow ufw applications
+  ufw:
+    name: "{{ item.name }}"
+    rule: "{{ item.rule }}"
+    src: "{{ item.src | default('any') }}"
+  with_items: "{{ ufw_applications | default([]) }}"

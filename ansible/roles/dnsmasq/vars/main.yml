@@ -1,0 +1,8 @@
+---
+
+dnsmasq_ufw_applications:
+  - name: custom_dnsmasq
+    title: Dnsmasq
+    description: Dnsmasq
+    ports: 53
+    rule: allow
