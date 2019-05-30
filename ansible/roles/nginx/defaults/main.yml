@@ -1,5 +1,6 @@
 ---
 
+nginx_listen_ip: "*"
 nginx_ssl_dhparam_generate: False
 nginx_ssl_dhparam_path: /etc/nginx/dhparams.pem
 nginx_ssl_dhparam_size: 2048

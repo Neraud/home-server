@@ -52,17 +52,17 @@ To simulate a NAS, NFS Server is installed on Master and exports the content of 
 To test the deployed services, you will have to add the following domains to your hosts file :
 
 ```
-192.168.100.11 k8stest.com 
-192.168.100.11 infra.k8stest.com
-192.168.100.11 auth.k8stest.com
-192.168.100.11 unifi.k8stest.com
-192.168.100.11 home.k8stest.com
-192.168.100.11 web.k8stest.com
-192.168.100.11 heimdall.k8stest.com
-192.168.100.11 dev.k8stest.com
-192.168.100.11 stream.k8stest.com
-192.168.100.11 plex.k8stest.com
-192.168.100.11 dl.k8stest.com
+192.168.100.10 k8stest.com 
+192.168.100.10 infra.k8stest.com
+192.168.100.10 auth.k8stest.com
+192.168.100.10 unifi.k8stest.com
+192.168.100.10 home.k8stest.com
+192.168.100.10 web.k8stest.com
+192.168.100.10 heimdall.k8stest.com
+192.168.100.10 dev.k8stest.com
+192.168.100.10 stream.k8stest.com
+192.168.100.10 plex.k8stest.com
+192.168.100.10 dl.k8stest.com
 ```
 
 ### User

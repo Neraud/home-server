@@ -1,5 +1,6 @@
 ---
 
+nginx_listen_ip: "{{ keepalived_virtual_ip }}"
 #nginx_ssl_dhparam_generate: True
 
 nginx_extra_log_formats:

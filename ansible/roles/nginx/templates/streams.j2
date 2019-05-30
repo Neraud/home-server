@@ -3,7 +3,7 @@
 
 {% if item.http_port | default(False) %}
 server {
-	listen {{ item.http_port }};
+	listen {{ nginx_listen_ip }}:{{ item.http_port }};
 	listen [::]:{{ item.http_port }};
 
 	access_log /var/log/nginx/{{ item.name }}_stream_access.log basic buffer=32k;
@@ -18,7 +18,7 @@ server {
 
 {% if item.https_port | default(False) %}
 server {
-	listen {{ item.https_port }} ssl;
+	listen {{ nginx_listen_ip }}:{{ item.https_port }} ssl;
 	listen [::]:{{ item.https_port }} ssl;
 
 	access_log /var/log/nginx/{{ item.name }}_stream_ssl_access.log basic buffer=32k;

@@ -3,7 +3,7 @@
 
 {% if item.0.http_port | default(False) %}
 server {
-	listen {{ item.0.http_port }}{% if item.0.default | default(False) %} default_server{% endif %};
+	listen {{ nginx_listen_ip }}:{{ item.0.http_port }}{% if item.0.default | default(False) %} default_server{% endif %};
 	listen [::]:{{ item.0.http_port }}{% if item.0.default | default(False) %} default_server{% endif %};
 	server_name {% if item.0.default | default(False) %}_ {% endif %}{{ item.0.server_name | default("_") }};
 	root /var/www/html;
