@@ -11,7 +11,7 @@
 - name: Provision OpenSSL PKI
   hosts: controller
   roles:
-    - { role: openssl-pki, tags: openssl-pki }
+    - { role: openssl-pki-generate, tags: openssl-pki }
 
 - name: Configure DNS server
   hosts: dns_servers
@@ -24,8 +24,9 @@
     - dns-client
 
 - name: Provision Reverse Proxies
-  hosts: reverse_proxies
+  hosts: loadbalancers
   roles:
+    - { role: openssl-pki-deploy, tags: openssl-pki }
     - { role: nginx, tags: nginx }
     - fail2ban
 
