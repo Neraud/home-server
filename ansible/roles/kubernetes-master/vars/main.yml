@@ -1,11 +1,15 @@
 ---
 
+kubernetes_apiserver_bind_ip: "{{ keepalived_virtual_ip }}"
+kubernetes_apiserver_port: 6443
+haproxy_kubernetes_apiserver_port: 6444
+
 # See https://kubernetes.io/docs/setup/independent/install-kubeadm/
 kubernetes_master_ufw_applications:
   - name: kubernetes_api_server
     title: Kubernetes API server
     description: Kubernetes API server
-    ports: 6443/tcp
+    ports: "{{ kubernetes_apiserver_port }}/tcp"
     rule: allow
   - name: kubernetes_etcd_server_client_api
     title: etcd server client API

@@ -1,6 +1,7 @@
 apiVersion: kubeadm.k8s.io/v1beta1
 kind: ClusterConfiguration
 clusterName: {{ kubernetes_cluster_name }}
+controlPlaneEndpoint: "{{ kubernetes_apiserver_bind_ip }}:{{ haproxy_kubernetes_apiserver_port }}"
 networking:
   podSubnet: {{ kubernetes_pod_network_cidr }}
 
