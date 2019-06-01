@@ -32,7 +32,7 @@
     - fail2ban
 
 - name: Prepare Kubernetes members
-  hosts: kubernetes
+  hosts: kubernetes_nodes
   roles:
     - kubernetes-ansible
     - docker
@@ -70,13 +70,13 @@
   roles:
     - kubernetes-node
 
-- name: PostInstall Kubernetes hosts
-  hosts: kubernetes
+- name: PostInstall Kubernetes nodes
+  hosts: kubernetes_nodes
   roles:
     - kubernetes-postinstall
 
 - name: Prepare storage
-  hosts: kubernetes
+  hosts: kubernetes_nodes
   roles:
     - { role: storage-prepare, tags: kubernetes-storage }
 
