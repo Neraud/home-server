@@ -1,5 +1,16 @@
 ---
 
+- name: Configure UFW for Kubernetes masters
+  import_tasks: ../../firewall/tasks/add-applications.yml
+  vars:
+    ufw_applications: "{{ kubernetes_master_ufw_applications }}"
+  when: "'kubernetes_masters' in group_names"
+
+- name: Configure UFW for Kubernetes workers
+  import_tasks: ../../firewall/tasks/add-applications.yml
+  vars:
+    ufw_applications: "{{ kubernetes_worker_ufw_applications }}"
+
 - name: Check if the node is already added in the cluster
   stat:
     path: /etc/kubernetes/kubelet.conf

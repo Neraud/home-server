@@ -1,10 +1,5 @@
 ---
 
-- name: Configure UFW for Kubernetes masters
-  import_tasks: ../../firewall/tasks/add-applications.yml
-  vars:
-    ufw_applications: "{{ kubernetes_master_ufw_applications }}"
-
 - name: Install kubectl
   apt:
     pkg: kubectl

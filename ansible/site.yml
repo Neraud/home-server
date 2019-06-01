@@ -65,14 +65,10 @@
   roles:
     - kubernetes-master-bootstrap
 
-- name: Provision Kubernetes workers
-  hosts: kubernetes_workers
-  roles:
-    - kubernetes-node
-
-- name: PostInstall Kubernetes nodes
+- name: Provision Kubernetes nodes
   hosts: kubernetes_nodes
   roles:
+    - kubernetes-node
     - kubernetes-postinstall
 
 - name: Prepare storage
