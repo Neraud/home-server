@@ -12,7 +12,7 @@
 - name: Generate token to join on master
   command: kubeadm token create --ttl=5m --description="Token to allow {{ inventory_hostname }} to join" --print-join-command
   register: join_command
-  delegate_to: "{{ groups['kubernetes_masters'][0] }}"
+  delegate_to: "{{ groups['kubernetes_master_bootstrap'][0] }}"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   when: not has_already_joined_kubernetes_cluster
@@ -32,4 +32,4 @@
   synchronize:
     src: /etc/kubernetes/admin.conf
     dest: /etc/kubernetes/admin.conf
-  delegate_to: "{{ groups['kubernetes_masters'][0] }}"
+  delegate_to: "{{ groups['kubernetes_master_bootstrap'][0] }}"

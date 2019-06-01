@@ -55,17 +55,24 @@
   roles:
     - { role: glusterfs-client, tags: kubernetes-storage }
 
-- name: Provision Kubernetes masters
+- name: Prepare Kubernetes masters
   hosts: kubernetes_masters
   roles:
     - kubernetes-master-haproxy
+
+- name: Bootstrap Kubernetes masters
+  hosts: kubernetes_master_bootstrap
+  roles:
     - kubernetes-master-bootstrap
-    - kubernetes-postinstall
 
 - name: Provision Kubernetes nodes
   hosts: kubernetes_nodes
   roles:
     - kubernetes-node
+
+- name: PostInstall Kubernetes hosts
+  hosts: kubernetes
+  roles:
     - kubernetes-postinstall
 
 - name: Prepare storage
