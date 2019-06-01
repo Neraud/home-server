@@ -59,7 +59,7 @@
   hosts: kubernetes_masters
   roles:
     - kubernetes-master-haproxy
-    - kubernetes-master
+    - kubernetes-master-bootstrap
     - kubernetes-postinstall
 
 - name: Provision Kubernetes nodes
