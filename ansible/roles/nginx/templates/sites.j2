@@ -3,7 +3,7 @@
 
 {% if item.http_port | default(False) %}
 server {
-	listen {{ item.http_port }}{% if item.default | default(False) %} default_server{% endif %};
+	listen {{ nginx_listen_ip }}:{{ item.http_port }}{% if item.default | default(False) %} default_server{% endif %};
 	listen [::]:{{ item.http_port }}{% if item.default | default(False) %} default_server{% endif %};
 	server_name {% if item.default | default(False) %}_ {% endif %}{{ item.server_name | default("_") }};
 	root /var/www/html;
@@ -109,7 +109,7 @@ server {
 
 {% if item.https_port | default(False) %}
 server {
-	listen {{ item.https_port }} ssl{% if item.default | default(False) %} default_server{% endif %};
+	listen {{ nginx_listen_ip }}:{{ item.https_port }} ssl{% if item.default | default(False) %} default_server{% endif %};
 	listen [::]:{{ item.https_port }} ssl{% if item.default | default(False) %} default_server{% endif %};
 	server_name {% if item.default | default(False) %}_ {% endif %}{{ item.server_name | default("_") }};
 	root /var/www/html;

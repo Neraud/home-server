@@ -1,0 +1,98 @@
+---
+
+- name: Install python dependencies
+  apt:
+    pkg:
+    - python-openssl
+    state: present
+  
+- name: Ensure directory exists for custom PKIs
+  file:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}"
+    state: directory
+  with_items: "{{ openssl_custom_pki }}"
+  loop_control:
+    label: "{{ item.pki_name }}"
+
+- name: Generate OpenSSL CA private key
+  openssl_privatekey:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key"
+  with_items: "{{ openssl_custom_pki }}"
+  loop_control:
+    label: "{{ item.pki_name }}"
+
+- name: Generate an OpenSSL CA CSR
+  openssl_csr:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.csr"
+    privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key"
+    common_name: "{{ item.ca_common_name }}"
+    basicConstraints:
+      - CA:TRUE
+  with_items: "{{ openssl_custom_pki }}"
+  loop_control:
+    label: "{{ item.pki_name }}"
+
+- name: Generate a Self Signed OpenSSL CA certificate
+  openssl_certificate:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.crt"
+    privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key"
+    csr_path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.csr"
+    provider: selfsigned
+  with_items: "{{ openssl_custom_pki }}"
+  loop_control:
+    label: "{{ item.pki_name }}"
+
+- name: Ensure directory exists for each server certificate
+  file:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}"
+    state: directory
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
+
+- name: Generate an OpenSSL server private key
+  openssl_privatekey:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
+
+- name: Generate an OpenSSL server CSR
+  openssl_csr:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
+    privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    common_name: "{{ item.1.common_name }}"
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
+
+- name: Generate a CA Signed OpenSSL server certificate
+  openssl_certificate:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.crt"
+    privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    csr_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
+    ownca_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/ca.crt"
+    ownca_privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/ca.key"
+    provider: ownca
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
+
+- name: Generate DH Parameters
+  openssl_dhparam:
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/dhparam.pem"
+    size: "{{ item.1.generate_dh_param_size | default(2048) }}"
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  when: item.1.generate_dh_param_enabled | default(false)
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"

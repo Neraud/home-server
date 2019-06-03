@@ -1,4 +1,5 @@
 ---
+
 - name: Create kube configuration folder for standard user
   file:
     path: "{{ kubernetes_user.home }}/.kube"
@@ -21,16 +22,17 @@
       source <(kubectl completion bash)
     owner: "{{ kubernetes_user.name }}"
 
-- name: Get current node tags
+- name: Get current node info
   command: kubectl get nodes {{ ansible_hostname | lower }} -o yaml
   changed_when: false
   register: current_node_tags_results
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
-- name: Extract current node tags
+- name: Extract current node tags and taints
   set_fact:
     current_node_tags: "{{ (current_node_tags_results.stdout | from_yaml).metadata.labels }}"
+    current_node_taints: "{{ (current_node_tags_results.stdout | from_yaml).spec.taints | default([]) }}"
 
 - name: Tag node
   command: kubectl label nodes {{ ansible_hostname | lower }} --overwrite=true {{ item.name }}={{ item.value }}
@@ -47,3 +49,51 @@
   when:
     - "'kubernetes.io' not in item"
     - item not in (kubernetes_node_labels | default([]) | map(attribute='name'))
+
+- name: Look for taints to add (with value)
+  set_fact:
+    node_taints_to_add: "{{ node_taints_to_add | default([]) + [ item ] }}"
+  with_items: "{{ kubernetes_node_taints | default([]) }}"
+  when:
+    - item.state == 'present'
+    - item.value is defined
+    - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'defined') | selectattr('value', 'equalto', item.value | default('')) | selectattr('effect', 'equalto', item.effect) | list | length == 0
+
+- name: Look for taints to add (without value)
+  set_fact:
+    node_taints_to_add: "{{ node_taints_to_add | default([]) + [ item ] }}"
+  with_items: "{{ kubernetes_node_taints | default([]) }}"
+  when:
+    - item.state == 'present'
+    - item.value is not defined
+    - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'undefined') | selectattr('effect', 'equalto', item.effect) | list | length == 0
+
+- name: Look for taints to remove (with value)
+  set_fact:
+    node_taints_to_remove: "{{ node_taints_to_remove | default([]) + [ item ] }}"
+  with_items: "{{ kubernetes_node_taints | default([]) }}"
+  when:
+    - item.state == 'absent'
+    - item.value is defined
+    - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'defined') | selectattr('value', 'equalto', item.value | default('')) | selectattr('effect', 'equalto', item.effect) | list | length > 0
+
+- name: Look for taints to remove (without value)
+  set_fact:
+    node_taints_to_remove: "{{ node_taints_to_remove | default([]) + [ item ] }}"
+  with_items: "{{ kubernetes_node_taints | default([]) }}"
+  when:
+    - item.state == 'absent'
+    - item.value is not defined
+    - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'undefined') | selectattr('effect', 'equalto', item.effect) | list | length > 0
+
+- name: Taint node
+  command: kubectl taint nodes {{ ansible_hostname | lower }} {{ item.key }}={{ item.value }}:{{ item.effect }}
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  with_items: "{{ node_taints_to_add | default([]) }}"
+
+- name: Untaint node
+  command: kubectl taint nodes {{ ansible_hostname | lower }} {{ item.key }}:{{ item.effect }}-
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  with_items: "{{ node_taints_to_remove | default([]) }}"

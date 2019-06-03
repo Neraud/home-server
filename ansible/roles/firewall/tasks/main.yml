@@ -38,15 +38,7 @@
     policy: allow
     direction: outgoing
 
-- name: Declare custom applications
-  template:
-    src: application.j2
-    dest: /etc/ufw/applications.d/{{ item.name }}
-  with_items: "{{ firewall_applications }}"
-
-- name: Allow custom applications
-  ufw:
-    name: "{{ item.name }}"
-    rule: "{{ item.rule }}"
-    src: "{{ item.src | default('any') }}"
-  with_items: "{{ firewall_applications }}"
+- name: Configure custom applications
+  import_tasks: add-applications.yml
+  vars:
+    ufw_applications: "{{ custom_ufw_applications | default([]) }}"

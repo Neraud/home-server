@@ -137,7 +137,7 @@ The ansible playbook :
 
 Only 2 of my NUCs have enough storage (500G SSD). I've decided to use a default volume template with : 
 
-* 2 replicas (node-1, node-2)
-* 1 arbiter (master)
+* 2 replicas (master-2, master-3)
+* 1 arbiter (master-1)
 
 As with the local volumes, tags are used to target the proper volume.

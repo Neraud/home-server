@@ -8,7 +8,7 @@ I tried to keep track of the prices of these parts at the time I bought them.
 
 ## Kubernetes cluster
 
-### Kubernetes Master
+### Kubernetes Master-1
 
 |Part     | Model                      |
 |---------|----------------------------|
@@ -18,7 +18,7 @@ I tried to keep track of the prices of these parts at the time I bought them.
 
 This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
 
-### Kubernetes Node 1
+### Kubernetes Master-2
 
 |Part     | Model                      | Price |
 |---------|----------------------------|-------|
@@ -30,7 +30,7 @@ This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Cor
 
 This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-) CPU.
 
-### Kubernetes Node 2
+### Kubernetes Master-3
 
 | Part     | Model                                                                                                                              | Price    |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |

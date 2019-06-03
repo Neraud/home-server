@@ -7,3 +7,9 @@ kubernetes_user:
 #kubernetes_node_labels:
 #  - name: foo
 #    value: bar
+
+#kubernetes_node_taints:
+#  - key: key
+#    value: value
+#    effect: NoSchedule
+#    state: present|absent

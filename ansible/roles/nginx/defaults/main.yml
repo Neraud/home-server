@@ -1,8 +1,11 @@
 ---
 
+nginx_listen_ip: "*"
 nginx_ssl_dhparam_generate: False
 nginx_ssl_dhparam_path: /etc/nginx/dhparams.pem
 nginx_ssl_dhparam_size: 2048
+nginx_ssl_certbot_enabled: false
+nginx_ssl_certbot_slaves: []
 
 nginx_extra_log_formats: []
 #  - name: extra
@@ -81,3 +84,17 @@ nginx_extra_log_formats: []
 #  - path: /path/to/htpasswd_something
 #    credentials:
 #      - userName:$apr1$XT1TxDG3$g1A8VB02XE9oCMHYdqd98. #password generated with : openssl passwd -apr1
+
+
+nginx_ufw_applications:
+  - name: custom_nginx
+    title: Nginx Web Server
+    description: Small, but very powerful and efficient web server
+    ports: 80,443/tcp
+    rule: allow
+#  - name: some_stream
+#    title: Some Stream
+#    description: Some Stream
+#    ports: 8880,8443/tcp
+#    rule: allow
+

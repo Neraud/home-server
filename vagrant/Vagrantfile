@@ -49,36 +49,36 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	end
 
 	####################
-	#      Master      #
+	#    Controller    #
 	####################
-	master_conf = settings['master']
-	config.vm.define "master" do |master|
-		master.vm.provider :virtualbox do |vb|
+	controller_conf = settings['controller']
+	config.vm.define controller_conf['name'] do |controller|
+		controller.vm.provider :virtualbox do |vb|
 			vb.customize ["modifyvm", :id, "--ioapic", "on"]
-			vb.customize ["modifyvm", :id, "--memory", master_conf['memory']]
-			vb.customize ["modifyvm", :id, "--cpus", master_conf['cpu']]
-
-			docker_disk_path = '.vagrant/master_docker.vdi'
+			vb.customize ["modifyvm", :id, "--memory", controller_conf['memory']]
+			vb.customize ["modifyvm", :id, "--cpus", controller_conf['cpu']]
+				
+			docker_disk_path = '.vagrant/' + controller_conf['name'] + '_docker.vdi'
 			unless File.exist?(docker_disk_path)
-				vb.customize ['createmedium', '--filename', docker_disk_path, '--size', master_conf['docker_disk_size']]
+				vb.customize ['createmedium', '--filename', docker_disk_path, '--size', controller_conf['docker_disk_size']]
 			end
 			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 1, '--device', 0, '--type', 'hdd', '--medium', docker_disk_path]
 
-			data_disk_path = '.vagrant/master_data.vdi'
+			data_disk_path = '.vagrant/' + controller_conf['name'] + '_data.vdi'
 			unless File.exist?(data_disk_path)
-				vb.customize ['createmedium', '--filename', data_disk_path, '--size', master_conf['data_disk_size']]
+				vb.customize ['createmedium', '--filename', data_disk_path, '--size', controller_conf['data_disk_size']]
 			end
 			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 2, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
 		end
 		
 		# Used to set up Plex Media Server.
 		# It needs to be called using localhost the first time
-		master.vm.network "forwarded_port", guest: 32400, host: 32400
+		controller.vm.network "forwarded_port", guest: 32400, host: 32400
 
-		master.vm.network "private_network", ip: master_conf['ip']
-		master.vm.synced_folder "../", "/opt/provision", type: "virtualbox"
-		master.vm.provision "shell", path: "init_new_node.sh", args: "ansible", keep_color: true
-		master.vm.provision "shell", path: "ansible_provisioning.sh", keep_color: true
-		master.vm.provision "shell", path: "up_node.sh", run: "always", keep_color: true
+		controller.vm.network "private_network", ip: controller_conf['ip']
+		controller.vm.synced_folder "../", "/opt/provision", type: "virtualbox"
+		controller.vm.provision "shell", path: "init_new_node.sh", args: "ansible", keep_color: true
+		controller.vm.provision "shell", path: "ansible_provisioning.sh", keep_color: true
+		controller.vm.provision "shell", path: "up_node.sh", run: "always", keep_color: true
 	end
 end

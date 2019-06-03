@@ -1,5 +1,10 @@
 ---
 
+- name: Configure UFW for dnsmasq
+  import_tasks: ../../firewall/tasks/add-applications.yml
+  vars:
+    ufw_applications: "{{ dnsmasq_ufw_applications }}"
+
 - name: Install dnsmasq
   apt:
     pkg:

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+function handleRemoteHost() {
+    remoteHost="$1"
+    echo " - remote : $remoteHost"
+    rsync -arv --delete /etc/letsencrypt $remoteHost:/etc/letsencrypt
+    ssh $remoteHost "systemctl reload nginx"
+}
+
+function handleLocalHost() {
+    echo " - local"
+    systemctl reload nginx
+}
+
+handleLocalHost
+{% for host in nginx_ssl_certbot_slaves | default([]) %}
+handleRemoteHost {{ host }}
+{% endfor %}

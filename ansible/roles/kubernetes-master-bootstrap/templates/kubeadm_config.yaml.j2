@@ -1,0 +1,24 @@
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+clusterName: {{ kubernetes_cluster_name }}
+controlPlaneEndpoint: "{{ kubernetes_apiserver_bind_ip }}:{{ haproxy_kubernetes_apiserver_port }}"
+networking:
+  podSubnet: {{ kubernetes_pod_network_cidr }}
+
+# To allow Prometheus to gather metrics from kube controllerManager and scheduler, 
+# we need to bind on 0.0.0.0 and not the dedault 127.0.0.1
+controllerManager:
+  extraArgs:
+    address: 0.0.0.0
+scheduler:
+  extraArgs:
+    address: 0.0.0.0
+
+---
+
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: InitConfiguration
+localAPIEndpoint:
+{% if kubernetes_apiserver_ip is defined %}
+  advertiseAddress: "{{ kubernetes_apiserver_ip }}"
+{% endif %}

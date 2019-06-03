@@ -1,0 +1,292 @@
+---
+
+nginx_listen_ip: "{{ keepalived_virtual_ip }}"
+#nginx_ssl_dhparam_generate: True
+
+nginx_extra_log_formats:
+  - name: lemonldap-auth
+    format: '$remote_addr - $remote_user [$time_local] "$upstream_http_lm_auth_failed" "$http_user_agent"'
+
+nginx_upstreams:
+  - name: kubernetes-https-ingress
+    servers:
+      - master-1:{{ kubernetes_ingress_https_port }}
+      - master-2:{{ kubernetes_ingress_https_port }}
+      - master-3:{{ kubernetes_ingress_https_port }}
+      - node-home:{{ kubernetes_ingress_https_port }}
+  - name: kubernetes-lemonldap-handler-ingress
+    servers:
+      - master-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - master-2:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - master-3:{{ kubernetes_ingress_lemonLdap_handler_port }}
+      - node-home:{{ kubernetes_ingress_lemonLdap_handler_port }}
+  - name: kubernetes-mqtt-ingress
+    servers:
+      - master-1:{{ kubernetes_ingress_mqtt_port }}
+      - master-2:{{ kubernetes_ingress_mqtt_port }}
+      - master-3:{{ kubernetes_ingress_mqtt_port }}
+      - node-home:{{ kubernetes_ingress_mqtt_port }}
+    
+
+nginx_sites:
+  - name: default-site
+    enabled_name: 000-default-site
+    server_name: "{{ web_base_domain }}"
+    default: True
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/{{ web_base_domain }}/server.key"
+    force_http_to_https: False
+    root: /var/www/html
+    disable_robots: True
+
+  - name: auth
+    enabled_name: 010-auth
+    server_name: "auth.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/auth.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/auth.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        content: |
+          access_log /var/log/nginx/auth_lemonldap_auth_failed.log lemonldap-auth if=$upstream_http_lm_auth_failed;
+          proxy_hide_header Lm-Auth-Failed;
+
+  - name: infra
+    enabled_name: 100-infra
+    server_name: "infra.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/infra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/infra.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True 
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
+  - name: infra-unifi
+    enabled_name: 110-infra-unifi
+    server_name: "unifi.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/unifi.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/unifi.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True 
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
+  - name: web
+    enabled_name: 200-web
+    server_name: "web.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/web.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/web.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True 
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
+  - name: heimdall
+    enabled_name: 210-heimdall
+    server_name: "heimdall.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/heimdall.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/heimdall.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True 
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        content: |
+          client_max_body_size 10m;
+
+  - name: home
+    enabled_name: 300-home
+    server_name: "home.{{ web_base_domain }}"
+    default: False
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        lemonLdap_protected: True 
+
+  - name: stream
+    enabled_name: 400-stream
+    server_name: "stream.{{ web_base_domain }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/stream.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/stream.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        lemonLdap_protected: True 
+
+  - name: streams-plex
+    enabled_name: 410-stream-plex
+    server_name: "plex.{{ web_base_domain }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/plex.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/plex.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    disable_robots: True
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
+  - name: dev
+    enabled_name: 500-dev
+    server_name: "dev.{{ web_base_domain }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dev.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dev.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        lemonLdap_protected: True 
+        content: |
+          client_max_body_size 250m;
+
+  - name: download
+    enabled_name: 600-download
+    server_name: "dl.{{ web_base_domain }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dl.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dl.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        lemonLdap_protected: True 
+
+nginx_streams:
+  - name: home_mqtt
+    enabled_name: 100-home_mqtt
+    http_port: False
+    https_port: 8883
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
+    proxy_pass: kubernetes-mqtt-ingress
+
+
+nginx_ufw_applications:
+  - name: custom_nginx
+    title: Nginx Web Server
+    description: Small, but very powerful and efficient web server
+    ports: 80,443/tcp
+    rule: allow
+  - name: mosquitto
+    title: Mosquitto
+    description: Mosquitto is an open source message broker that implements the MQTT (MQ Telemetry Transport) protocol v3.1.
+    ports: 8883/tcp
+    rule: allow
+
+  # TODO find a better place for these rules
+    # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+  - name: unifi-controller
+    title: Unifi Controller
+    description: Unifi Controller
+    ports: "8080,6789/tcp|3478,10001/udp"
+    rule: allow
+  - name: unifi-controller-guest-portal
+    title: Unifi Controller Guest Portal
+    description: Unifi Controller Guest Portal
+    ports: "8880,8843/tcp"
+    rule: allow

@@ -1,0 +1,12 @@
+---
+
+haproxy_apiserver_bind_ip: "{{ keepalived_virtual_ip }}"
+haproxy_apiserver_port: 6444
+kubernetes_apiserver_port: 6443
+
+haproxy_ufw_applications:
+  - name: haproxy_kubernetes_api_server
+    title: Kubernetes API server (behind HAproxy)
+    description: Kubernetes API server (behind HAproxy)
+    ports: "{{ haproxy_apiserver_port }}/tcp"
+    rule: allow

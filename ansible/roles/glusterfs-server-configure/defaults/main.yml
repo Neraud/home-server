@@ -8,6 +8,6 @@ glusterfs_brick_root: /data/glusterfs
 #    replicas: 2
 #    capacity: 2G
 #    arbiterCapacity: 256M
-#    nodes: [node-1, node-2]
-#    arbiters: [master]
+#    nodes: [master-2, master-3]
+#    arbiters: [master-1]
 #    mount_path: /path/on/kubernetes/node

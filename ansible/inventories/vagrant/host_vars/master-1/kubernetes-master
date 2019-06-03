@@ -1,0 +1,7 @@
+---
+
+kubernetes_cluster_name: kubernetes_vagrant
+kubernetes_apiserver_ip: 192.168.100.11
+# Flannel uses the interface associated with the default route by default.
+# For Vagrant, the default interface is natted and won't work, so we need to use the 'private_network' interface
+kubernetes_flannel_interface: eth1
