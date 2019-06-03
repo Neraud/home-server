@@ -85,7 +85,9 @@
   when: nginx_ssl_dhparam_generate
 
 - import_tasks: ssl_certs_selfsigned.yml
+
 - import_tasks: ssl_certs_letsencrypt.yml
+  when: nginx_ssl_certbot_enabled | default(false)
 
 - name: Configure site upstreams
   template:
