@@ -110,3 +110,12 @@ echo " - preparing data disk for LVM"
 echo 'type=8e' | sfdisk /dev/sdc
 pvcreate /dev/sdc1
 vgcreate data_vg /dev/sdc1
+
+
+## see https://github.com/ansible/ansible/issues/45446#issuecomment-467829815
+## But the proposed workaround doesn't work if we simply add it in the ansible playbook
+echo " - install and enable ufw (workaround to avoid hanging)"
+update-alternatives --set iptables /usr/sbin/iptables-legacy
+apt-get -q -y install ufw
+ufw allow OpenSSH
+yes | sudo ufw enable
