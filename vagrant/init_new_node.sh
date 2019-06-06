@@ -38,6 +38,10 @@ if [ "$mode" == "ansible" ] ; then
 	#apt-get -q -y -t stretch-backports install ansible
 	apt-get -q -y install python-pip
 	pip install ansible==2.7.9
+
+	# Workaround for https://github.com/ansible/ansible/issues/57509
+	# If the playbook itself installs passlib, bcrypt hash won't be available in the same run
+	apt-get -q -y install python-passlib
 	
 	echo " - install ansible ssh keys"
 	cp -R /vagrant/ssh/* /root/.ssh/
