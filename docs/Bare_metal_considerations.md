@@ -16,9 +16,10 @@ It matches the [Using a self-provisioned edge](https://kubernetes.github.io/ingr
 ![Architecture - Incoming web traffic](diagrams/Architecture_Incoming_web_traffic.png "Architecture - Incoming web traffic")
 
 This NGinx RP is used for :
- - SSL termination
- - Basic Authentication when needed
- - Basic load balancer to the various nodes
+
+* SSL termination
+* Authentication when needed
+* Basic load balancer to the various nodes
 
 It also provides error logs parsed by [Fail2Ban](https://www.fail2ban.org/wiki/index.php/Fail2Ban).
 
@@ -30,7 +31,7 @@ The NGinx Ingress is exposed as a NodePort in Kubernetes and the RP merely forwa
 
 Kubernetes doesn't provide a dynamic storage provider on bare metal installations.
 
-### Many bare metal options ...
+### Many bare metal options
 
 To keep things simple, you can use a [hostPath](https://kubernetes.io/docs/concepts/storage/#hostpath) provisioner.
 However, it statically binds a path to a container, so it's far from a dynamic system.
@@ -41,7 +42,7 @@ On the opposite side of the spectrum, you can use a network filesystem with a dy
 
 To try and find a middle ground, the [local](https://kubernetes.io/docs/concepts/storage/#local) type allows the static creation of Volumes, and a dynamic claim from pods.
 
-### On to local volumes !
+### On to local volumes
 
 Scripting the creation of local volumes is trivial  (`mkdir` and `kubectl`). However, using plain folders means that the `capacity` attribute of volumes is not enforced. A single rogue container can fill the whole host filesystem that contain the volume.
 
@@ -60,8 +61,9 @@ To make sure of it, we use labels.
 Volumes are tagged in the same way other Kubernetes objects are, using the usual `app` and `tier` labels.
 
 For example, if we have a stateful application that has both a frontend and MySQL DB, the pods and associated volumes will have the tags :
- - `app: my-awesome-app`, `app-component: my-awesome-app`
- - `app: my-awesome-app`, `app-component: mysql`
+
+* `app: my-awesome-app`, `app-component: my-awesome-app`
+* `app: my-awesome-app`, `app-component: mysql`
 
 The Persistant Volume Claim will use these same labels as selectors :
 
@@ -81,13 +83,14 @@ volumeClaimTemplates:
 
 We can't really schedule all our applications on any Kubernetes node.
 
-- Some applications require dedicated hardware on the machine (Home automation requires USB sticks plugged in)
-- Some node are far less powerful (Plex transcoding on a Atom CPU is not a good idea)
+* Some applications require dedicated hardware on the machine (Home automation requires USB sticks plugged in)
+* Some node are far less powerful (Plex transcoding on a Atom CPU is not a good idea)
 
 To avoid those issues without hard-pinning the applications on dedicated nodes, we use a looser tagging system.
 
 Nodes are tagged according to their capabilities.
 For example :
+
 ```yaml
 labels:
   capability/general-purpose: "yes"
@@ -126,7 +129,6 @@ I would rather avoid having a container that can SSH to all my nodes, and then p
 ### Selected solution
 
 To avoid Heketi's requirements, I've chosen to skip the dynamic provisioner part.
-
 
 The ansible playbook :
 
