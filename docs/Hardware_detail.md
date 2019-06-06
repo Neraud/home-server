@@ -10,21 +10,21 @@ I tried to keep track of the prices of these parts at the time I bought them.
 
 ### Kubernetes Master-1
 
-|Part     | Model                      |
-|---------|----------------------------|
-|Barebone | Intel NUC BOXDC3217IYE     |
-|RAM      | 2*4 GB DDR3 (G.Skill)      |
-|Storage  | Crucial M4 64 GB           |
+| Part     | Model                  |
+| -------- | ---------------------- |
+| Barebone | Intel NUC BOXDC3217IYE |
+| RAM      | 2*4 GB DDR3 (G.Skill)  |
+| Storage  | Crucial M4 64 GB       |
 
 This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
 
 ### Kubernetes Master-2
 
-|Part     | Model                      | Price |
-|---------|----------------------------|-------|
-|Barebone | [Intel NUC 6i5SYH](https://www.amazon.fr/gp/product/B018Q0GN60)       | 437,29 € |
-|RAM      | 2*16 GB DDR4 2133 ([Crucial CT2K16G4SFD8213](https://www.amazon.fr/gp/product/B015YPB8ME))  | 110,52 € |
-|Storage  | [Samsung 850 EVO M.2 500 GB](https://www.amazon.fr/gp/product/B00TGIW1XG)       | 165,32 € |
+| Part     | Model                                                                                      | Price    |
+| -------- | ------------------------------------------------------------------------------------------ | -------- |
+| Barebone | [Intel NUC 6i5SYH](https://www.amazon.fr/gp/product/B018Q0GN60)                            | 437,29 € |
+| RAM      | 2*16 GB DDR4 2133 ([Crucial CT2K16G4SFD8213](https://www.amazon.fr/gp/product/B015YPB8ME)) | 110,52 € |
+| Storage  | [Samsung 850 EVO M.2 500 GB](https://www.amazon.fr/gp/product/B00TGIW1XG)                  | 165,32 € |
 
 (ordered 2016-08)
 
@@ -44,9 +44,9 @@ This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/pr
 
 ### Kubernetes Node Home
 
-|Part     | Model                      | Price |
-|---------|----------------------------|-------|
-|Box      | [BoLv Z83II Mini PC](https://www.amazon.fr/gp/product/B01DFJH78U )  | 99 € |
+| Part | Model                                                              | Price |
+| ---- | ------------------------------------------------------------------ | ----- |
+| Box  | [BoLv Z83II Mini PC](https://www.amazon.fr/gp/product/B01DFJH78U ) | 99 €  |
 
 This box runs an [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-) CPU, with 2 GB of DDR3 RAM and 32GB of onboard flash storage.
 
@@ -57,9 +57,9 @@ With 4 WD Red 6To (WD60EFRX) in SHR mode.
 
 ## Network
 
-|Part     | Model                      | Price |
-|---------|----------------------------|-------|
-|Router   |[UniFi Security Gateway 3P](https://www.amazon.fr/gp/product/B00LV8YZLK)|118,79€|
-|Switch   |[UniFi Switch 8 POE-60W](https://www.amazon.fr/gp/product/B004BQCKXO)|110,72€|
-|Switches | a few Netgear G108/[GS108](https://www.amazon.fr/gp/product/B000092RRM)|30-40€|
-|Wifi Access Point|[UniFi AP-AC-LR](https://www.amazon.fr/gp/product/B016K5A06C)|96,42€|
+| Part              | Model                                                                    | Price   |
+| ----------------- | ------------------------------------------------------------------------ | ------- |
+| Router            | [UniFi Security Gateway 3P](https://www.amazon.fr/gp/product/B00LV8YZLK) | 118,79€ |
+| Switch            | [UniFi Switch 8 POE-60W](https://www.amazon.fr/gp/product/B004BQCKXO)    | 110,72€ |
+| Switches          | a few Netgear G108/[GS108](https://www.amazon.fr/gp/product/B000092RRM)  | 30-40€  |
+| Wifi Access Point | [UniFi AP-AC-LR](https://www.amazon.fr/gp/product/B016K5A06C)            | 96,42€  |
