@@ -24,7 +24,7 @@ $dataToLoad = [
                 'url' => '{{ app.url }}',
                 'description' => '{{ app.description | default('') }}',
                 'pinned' => {{ app.pinned | default(false) | ternary(1, 0) }},
-                'tags' => [ '{{ app.tags | default([]) | join("', '") }}' ], 
+                'tags' => [ '{{ app.tags | default([]) | join("', '") }}' ],
                 'class' => '{{ app.class | default('') }}',
             ]{% if not loop.last %},{% endif %}
             {% endfor %}
@@ -54,17 +54,17 @@ class DbLoader {
         $userId = $this->handleUser($userName);
 
         echo "userId = $userId\n";
-        
+
         $this->handleTags($userId, $dataForOneUser['tags']);
         $this->handleApps($userId, $dataForOneUser['apps']);
-        
+
         echo "==================================================\n";
     }
 
     private function handleUser($userName) {
         $userQuery = $this->db->prepare('SELECT id FROM users WHERE username = :username');
         $userQuery->bindValue(':username', $userName);
-    
+
         $result = $userQuery->execute()->fetchArray();
         if($result === false) {
             echo "[changed] User '$userName' doesn't exist, creating\n";
@@ -92,7 +92,7 @@ class DbLoader {
                 $tagIcon = $tag['icon'];
                 $tagUrl = preg_replace("/[^a-zA-Z0-9]+/", "-", $tagTitle);
                 $tagPinned = $tag['pinned'];
-                $this->db->exec("INSERT INTO items (title, colour, icon, url, pinned, type, user_id) 
+                $this->db->exec("INSERT INTO items (title, colour, icon, url, pinned, type, user_id)
                     VALUES ('$tagTitle', '$tagColour', '$tagIcon', '$tagUrl', $tagPinned, 1, $userId)");
             } else {
                 echo "[ok] * Tag '$tagTitle' already exists\n";
@@ -120,7 +120,7 @@ class DbLoader {
                 $appPinned = $app['pinned'];
                 $appClass = $app['class'];
 
-                $this->db->exec("INSERT INTO items (title, colour, icon, url, description, pinned, type, user_id, class) 
+                $this->db->exec("INSERT INTO items (title, colour, icon, url, description, pinned, type, user_id, class)
                     VALUES ('$appTitle', '$appColour', '$appIcon', '$appUrl', '$appDescription', $appPinned, 0, $userId, '$appClass')");
 
                 $this->handleAppTags($userId, $app);

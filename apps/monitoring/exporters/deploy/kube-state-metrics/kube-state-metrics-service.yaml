@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: kube-state-metrics
-    prometheus-target: kube-state-metrics  
+    prometheus-target: kube-state-metrics
   name: kube-state-metrics
   namespace: monitoring
 spec:

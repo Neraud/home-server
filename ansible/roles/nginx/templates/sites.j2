@@ -53,7 +53,7 @@ server {
 		# Keep original request (LLNG server will received {{ item.lemonLdap.path | default("/lmauth") }})
 		fastcgi_param X_ORIGINAL_URI  $request_uri;
 
-		fastcgi_buffers 16 16k; 
+		fastcgi_buffers 16 16k;
 		fastcgi_buffer_size 32k;
 	}
 		{% endif %}
@@ -172,7 +172,7 @@ server {
 		# Keep original request (LLNG server will received {{ item.lemonLdap.path | default("/lmauth") }})
 		fastcgi_param X_ORIGINAL_URI  $request_uri;
 		
-		fastcgi_buffers 16 16k; 
+		fastcgi_buffers 16 16k;
 		fastcgi_buffer_size 32k;
 	}
 	{% endif %}

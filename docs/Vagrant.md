@@ -20,7 +20,7 @@ To simulate a NAS, NFS Server is installed on Master and exports the content of 
 To test the deployed services, you will have to add the following domains to your hosts file :
 
 ```
-192.168.100.10 k8stest.com 
+192.168.100.10 k8stest.com
 192.168.100.10 infra.k8stest.com
 192.168.100.10 auth.k8stest.com
 192.168.100.10 unifi.k8stest.com
@@ -112,7 +112,7 @@ OpenLDAP is installed and configured for the base domain.
 It enforces TLS with a self-signed CA.
 This `ca.crt` is available in the Kubernetes secret `cluster-ca`
 
-To test the LDAP connection, you can use : 
+To test the LDAP connection, you can use :
 
 ```shell
 [user@master$] kubectl run test-ldap -it --rm --image=particlekit/ldap-client --restart=Never --overrides='
@@ -163,7 +163,7 @@ You can login using the `admin`/`Passw0rd` account to manage the LDAP.
 ZoneMTA is used to collect all emails sent by applications on the platform and forward them to another MTA.
 By default, it forwards to MailHog for debugging purposes. But it can be set up to forward to a proper MTA (using a gmail account for example)
 
-You can easily test ZoneMTA by sending a email via the command line : 
+You can easily test ZoneMTA by sending a email via the command line :
 
 ```shell
 [root@master$] apt-get -q -y install swaks libnet-ssleay-perl libnet-dns-perl
@@ -181,17 +181,17 @@ MailHog is used to capture all emails sent by the various deployed services.
 
 Out of the box, it is only used for testing purposes : you can view those emails using a web interface.
 
-You can easily test MailHog by sending a email via the command line : 
+You can easily test MailHog by sending a email via the command line :
 
 ```shell
 [root@master$] apt-get -q -y install swaks
- 
+
 [user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
 ```
 
 ## Prometheus & AlertManager
 
-Prometheus & AlertManager are deployed, and configured to gather metrics from the usual exporters : 
+Prometheus & AlertManager are deployed, and configured to gather metrics from the usual exporters :
 
 * [node_exporter](https://github.com/prometheus/node_exporter)
 * [kube_state_metrics](https://github.com/kubernetes/kube-state-metrics)
@@ -236,7 +236,7 @@ The Unifi Controller is installed.
 
 The Web GUI will be available using the standard ReverseProxy + Ingress chain.
 
-However, the controller requires a few other non-http ports, which has 2 impacts on the settings : 
+However, the controller requires a few other non-http ports, which has 2 impacts on the settings :
 
 * the IP of the Node that hosts the Pod is configred in the variable `unifi_private_ip`
 * these ports are exposed on a `unifi-private` service on this IP
@@ -338,12 +338,12 @@ The real use case would be to use either a real shell, and/or enable the BLE plu
 
 ## TT-RSS
 
-TT-RSS is installed. 
+TT-RSS is installed.
 The default account is `admin` / `password`.
 
 ## Heimdall
 
-Heimdall is installed. 
+Heimdall is installed.
 
 Apps deployed in the cluster are added on the dashboard.
 
@@ -402,7 +402,7 @@ Using a special environment variable `PLEX_CLAIM` when the container start can a
 
 It's easy to get the Plex Plaim manually (just hit the [claim URL](https://www.plex.tv/claim/)). However, it's only valid for 5 minutes.
 
-To have a less time sensitive method, the playbook can fetch the claim automatically before starting the PMS container. 
+To have a less time sensitive method, the playbook can fetch the claim automatically before starting the PMS container.
 But to do so, it needs your plex token.
 
 To get your Plex Token :

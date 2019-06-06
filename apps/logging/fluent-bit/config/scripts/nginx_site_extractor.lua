@@ -1,7 +1,7 @@
 
 function extract_site(tag, timestamp, record)
     new_record = record
-    
+
     if string.match(record["file"], "_ssl_") then
         new_record["nginx_ssl"] = 1
     else

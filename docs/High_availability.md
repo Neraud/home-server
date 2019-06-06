@@ -4,7 +4,7 @@ To be clear, the cluster installed by this playbook isn't high available.
 
 ## Hardware
 
-On the hardware side of things, at least 2 major points of failure remain : 
+On the hardware side of things, at least 2 major points of failure remain :
 
 * Single internet link
 * Single power delivery (allviated by a UPS)
@@ -53,11 +53,11 @@ On each master node, an NGinx instance is configured to access all the published
 
 **Reverse proxy tolerates the loss of 2 master nodes**
 
-There are 2 limitations with this setup : 
+There are 2 limitations with this setup :
 
 #### SSL Cert
 
-`master-1` is responsible for SSL cert renewal using certbot. 
+`master-1` is responsible for SSL cert renewal using certbot.
 
 If it stays down for a long period, SSL certs will expire.
 

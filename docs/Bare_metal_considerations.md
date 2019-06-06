@@ -15,7 +15,7 @@ It matches the [Using a self-provisioned edge](https://kubernetes.github.io/ingr
 
 ![Architecture - Incoming web traffic](diagrams/Architecture_Incoming_web_traffic.png "Architecture - Incoming web traffic")
 
-This NGinx RP is used for : 
+This NGinx RP is used for :
  - SSL termination
  - Basic Authentication when needed
  - Basic load balancer to the various nodes
@@ -59,11 +59,11 @@ To make sure of it, we use labels.
 
 Volumes are tagged in the same way other Kubernetes objects are, using the usual `app` and `tier` labels.
 
-For example, if we have a stateful application that has both a frontend and MySQL DB, the pods and associated volumes will have the tags : 
+For example, if we have a stateful application that has both a frontend and MySQL DB, the pods and associated volumes will have the tags :
  - `app: my-awesome-app`, `app-component: my-awesome-app`
  - `app: my-awesome-app`, `app-component: mysql`
 
-The Persistant Volume Claim will use these same labels as selectors : 
+The Persistant Volume Claim will use these same labels as selectors :
 
 ```yaml
 volumeClaimTemplates:
@@ -87,14 +87,14 @@ We can't really schedule all our applications on any Kubernetes node.
 To avoid those issues without hard-pinning the applications on dedicated nodes, we use a looser tagging system.
 
 Nodes are tagged according to their capabilities.
-For example : 
+For example :
 ```yaml
 labels:
   capability/general-purpose: "yes"
   capability/home: "no"
 ```
 
-Accordingly, the pods use a NodeSelector : 
+Accordingly, the pods use a NodeSelector :
 
 ```yaml
 nodeSelector:
@@ -117,7 +117,7 @@ But it's not stable yet.
 
 ### Heketi
 
-A standalone GlusterFS cluster with [Heketi](https://github.com/heketi/heketi) is another solution. 
+A standalone GlusterFS cluster with [Heketi](https://github.com/heketi/heketi) is another solution.
 
 However, Heketi has a few [requirements](https://github.com/heketi/heketi/blob/master/docs/admin/readme.md#requirements) that I don't particularly like.
 
@@ -135,7 +135,7 @@ The ansible playbook :
 * creates the volumes
 * creates the Kubernetes PersistentVolumes
 
-Only 2 of my NUCs have enough storage (500G SSD). I've decided to use a default volume template with : 
+Only 2 of my NUCs have enough storage (500G SSD). I've decided to use a default volume template with :
 
 * 2 replicas (master-2, master-3)
 * 1 arbiter (master-1)

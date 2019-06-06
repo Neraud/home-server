@@ -8,7 +8,7 @@ time_zone: Europe/Paris
 
 bashrc_include_dir: .bashrc.d
 
-#standard_user: 
+#standard_user:
 #  name: user
 #  # https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
 #  # ansible all -i localhost, -m debug -a "msg={{ 'password' | password_hash('sha512', 'mysecretsalt') }}"
@@ -16,12 +16,12 @@ bashrc_include_dir: .bashrc.d
 #  home: /home/user
 #  ssh_authorized_keys:
 #    - "ssh-rsa XXXXXXXXX user@machine"
-  
+
 
 sysctl_properties:
   # Check source (UDP spoofing)
   - name: net.ipv4.conf.default.rp_filter
-    value: 1  
+    value: 1
   # SYN cookies (against SYN flooding)
   - name: net.ipv4.tcp_syncookies
     value: 1

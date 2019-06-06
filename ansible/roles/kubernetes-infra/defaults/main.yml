@@ -13,9 +13,9 @@ kubernetes_glusterfs_storage_class_name: glusterfs
 kubernetes_nas_nfs_storage_class_name: nas-nfs
 
 #kubernetes_nfs_storage:
-#  nfs-whatever: 
-#    nfs_server: 
-#    nfs_path: 
+#  nfs-whatever:
+#    nfs_server:
+#    nfs_path:
 #    reclaim_policy: Retain
 #    labels:
 #      detail: whatever

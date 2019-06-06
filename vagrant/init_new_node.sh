@@ -4,7 +4,7 @@ mode=$1
 
 if [ "$mode" != "ansible" ] ; then
 	mode="node"
-fi 
+fi
 
 echo ""
 echo "=================================================="

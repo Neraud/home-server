@@ -12,7 +12,7 @@ kubernetes_registry_port: 30500
 kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 
 # Expose Unifi private services on the Node IP
-#unifi_private_ip: 
+#unifi_private_ip:
 
 # OpenLDAP sererver name. We use the Kubernetes [service].[namespace] format
 openldap_ldap_servername: openldap.default
@@ -35,7 +35,7 @@ openldap_exposed_namespaces:
   - logging
 
 openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
-#openldap_ldap_structure_groups_ou_dns: 
+#openldap_ldap_structure_groups_ou_dns:
 #  groups: "ou=groups,{{ openldap_ldap_basedn }}"
 #
 #openldap_ldap_users:
@@ -53,7 +53,7 @@ openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 #  - id: test_group
 #    description: Test group
 #    ou: groups
-#    members: 
+#    members:
 #      - user1
 #      - user2
 
@@ -81,7 +81,7 @@ lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"
     default_rule: accept
 #    requiredAuthnLevel: 1
-#    rules: 
+#    rules:
 #      - name: New Rule
 #        uri: ^new
 #        rule: accept
@@ -105,7 +105,7 @@ zonemta_forward_mta_port: 1025
 zonemta_forward_mta_auth_enabled: false
 #zonemta_forward_mta_user: user
 #zonemta_forward_mta_password: password
-zonemta_exposed_namespaces: 
+zonemta_exposed_namespaces:
   - default
   - monitoring
   - logging
@@ -185,11 +185,11 @@ nodered_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
 nodered_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
 
 # First listener is used as default
-mosquitto_listeners: 
+mosquitto_listeners:
   - port: 1883
     secure: False
     websocket: False
-    
+
 #  - port: 8883
 #    secure: True
 #    websocket: False
@@ -199,7 +199,7 @@ mosquitto_listeners:
 #    websocket: True
 
 # password generated with mosquitto_passwd
-#mosquitto_credientials: 
+#mosquitto_credientials:
 #  credentials:
 #      user / Passw0rd
 #    - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==
@@ -251,7 +251,7 @@ airsonic_smtp_password: "{{ zonemta_feeder_authentication_password }}"
 airsonic_smtp_from: "noreply@{{ web_base_domain }}"
 
 # Look at the README.md to find out how to get your token
-#plex_plex_token: 
+#plex_plex_token:
 
 gitlab_context_path: /gitlab
 gitlab_external_url: "https://gitlab.domain{{ gitlab_context_path }}"
@@ -295,9 +295,9 @@ alertmanager_alerts_smtp_from: "alertmanager@{{ web_base_domain }}"
 alertmanager_alerts_smtp_auth_username: "{{ zonemta_feeder_authentication_username }}"
 alertmanager_alerts_smtp_auth_password: "{{ zonemta_feeder_authentication_password }}"
 #alertmanager_alerts_default_receiver: default
-#alertmanager_alerts_receivers: 
+#alertmanager_alerts_receivers:
 # - name: "{{ alertmanager_alerts_default_receiver }}"
-#   emails_to: 
+#   emails_to:
 #     - whatever@gmail.com
 
 grafana_admin_user: admin
@@ -313,7 +313,7 @@ logging_elasticsearch_internal_users: []
 #  - name: userName
 #    password: clear_password
 #    readonly: True
-#    roles: 
+#    roles:
 #      - role1
 #      - role2
 logging_elasticsearch_ldap_servername: "{{ openldap_ldap_servername }}"

@@ -3,7 +3,7 @@ kind: PersistentVolume
 metadata:
   name: {{ item.key }}
 {% if item.value.labels | default([]) | length > 0%}
-  labels: 
+  labels:
 {% for label_name, label_value in item.value.labels.items() %}
     {{ label_name }}: {{ label_value }}
 {% endfor %}

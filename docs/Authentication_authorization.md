@@ -3,7 +3,7 @@
 ## User and password
 
 Users and their passwords are stored in OpenLDAP.
-They are created via the ansible playbook and can be configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` : 
+They are created via the ansible playbook and can be configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
 
 ```
 openldap_ldap_users:
@@ -23,7 +23,7 @@ You can use [phpLDAPAdmin](https://infra.k8stest.com/phpldapadmin/) to manually 
 * SSO groups, used by the Web SSO
 * Application groups, used by compatible applications
 
-These groups and their members are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` : 
+These groups and their members are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
 
 ```
 openldap_ldap_groups:
@@ -31,14 +31,14 @@ openldap_ldap_groups:
   - id: sso-group-name-1
     description: SSO Group Name 1
     ou: sso_groups
-    members: 
+    members:
       - user
 
   # App Groups, used to filter access on each app
   - id: app-group-name-1
     description: Application Group Name 1
     ou: app_groups
-    members: 
+    members:
       - user
 ```
 
@@ -62,7 +62,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
         proxy_pass: http://kubernetes-http-ingress
 ```
 
@@ -70,7 +70,7 @@ nginx_sites:
 
 LemonLDAP exposes its handler port to receive the NGinx `auth_request`.
 
-The security rules are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` : 
+The security rules are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
 
 ```
 lemonldap_location_rules:
@@ -99,7 +99,7 @@ However it can be forced per site by changing the `requiredAuthnLevel` variable.
 
 When supported, applications also use OpenLDAP to authenticate their users.
 
-A dedicated group under the OU `app_groups` is created for each application. 
+A dedicated group under the OU `app_groups` is created for each application.
 
 ### Gitlab
 

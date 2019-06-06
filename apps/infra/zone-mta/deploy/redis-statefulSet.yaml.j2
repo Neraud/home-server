@@ -22,8 +22,8 @@ spec:
       containers:
       - image: redis:5.0.4-alpine
         name: redis
-        command: 
-        - redis-server 
+        command:
+        - redis-server
         - "--requirepass {{ zonemta_redis_password }}"
         ports:
         - containerPort: 6379

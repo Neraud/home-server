@@ -11,7 +11,7 @@ openldap_ldap_admin_password: Passw0rd
 openldap_ldap_config_password: Passw0rd
 openldap_ldap_readonly_user_password: Passw0rd
 
-openldap_ldap_structure_groups_ou_dns: 
+openldap_ldap_structure_groups_ou_dns:
   sso_groups: "ou=sso_groups,{{ openldap_ldap_basedn }}"
   app_groups: "ou=app_groups,{{ openldap_ldap_basedn }}"
   elasticsearch_roles: "ou=elasticsearch_roles,{{ openldap_ldap_basedn }}"
@@ -28,86 +28,86 @@ openldap_ldap_groups:
   - id: infra
     description: Infra
     ou: sso_groups
-    members: 
+    members:
       - user
   - id: unifi
     description: Unifi
     ou: sso_groups
-    members: 
+    members:
       - user
   - id: web
     description: Web
     ou: sso_groups
-    members: 
+    members:
       - user
   - id: home
     description: Home
     ou: sso_groups
-    members: 
+    members:
       - user
   - id: stream
     description: Stream
     ou: sso_groups
-    members: 
+    members:
       - user
   - id: dev
     description: Dev
     ou: sso_groups
-    members: 
+    members:
       - user
   - id: dl
     description: Download
     ou: sso_groups
-    members: 
+    members:
       - user
 
   # App Groups, used to filter access on each app
   - id: gitlab
     description: Gitlab
     ou: app_groups
-    members: 
+    members:
       - user
   - id: homeassistant
     description: HomeAssistant
     ou: app_groups
-    members: 
+    members:
       - user
   - id: nodered
     description: Node-RED
     ou: app_groups
-    members: 
+    members:
       - user
   - id: grafana
     description: Grafana
     ou: app_groups
-    members: 
+    members:
       - user
   - id: airsonic
     description: Airsonic
     ou: app_groups
-    members: 
+    members:
       - user
   - id: ttrss
     description: TT-RSS
     ou: app_groups
-    members: 
+    members:
       - user
   - id: elasticsearch
     description: ElasticSearch
     ou: app_groups
-    members: 
+    members:
       - user
 
 
   - id: admin
     description: All access
     ou: elasticsearch_roles
-    members: 
+    members:
       - user
   - id: kibanauser
     description: Kibana user
     ou: elasticsearch_roles
-    members: 
+    members:
       - user
 
 
@@ -368,13 +368,13 @@ mosquitto_listeners:
     cert_name: server
 
 # password generated with mosquitto_passwd
-mosquitto_credientials: 
+mosquitto_credientials:
   credentials:
 #      user / Passw0rd
     - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==
 
 # Look at the README.md to find out how to get your token
-#plex_plex_token: 
+#plex_plex_token:
 
 airsonic_ldap_group: "cn=airsonic,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
@@ -384,9 +384,9 @@ gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}
 gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
 
 alertmanager_alerts_default_receiver: default
-alertmanager_alerts_receivers: 
+alertmanager_alerts_receivers:
  - name: "{{ alertmanager_alerts_default_receiver }}"
-   emails_to: 
+   emails_to:
      - user@mail.net
 
 grafana_admin_password: Passw0rd
@@ -405,7 +405,7 @@ logging_elasticsearch_internal_users:
   - name: "{{ logging_fluentd_elasticsearch_user }}"
     password: "{{ logging_fluentd_elasticsearch_password }}"
     readonly: True
-    roles: 
+    roles:
       - logstash
   - name: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
