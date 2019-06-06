@@ -10,7 +10,7 @@
   alternatives:
     path: /usr/sbin/iptables-legacy
     name: iptables
-  when: 
+  when:
     - ansible_lsb.codename == "buster"
     - iptables_legacy_stat.stat.exists
 

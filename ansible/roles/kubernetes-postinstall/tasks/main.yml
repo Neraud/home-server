@@ -91,9 +91,13 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   with_items: "{{ node_taints_to_add | default([]) }}"
+  # Without an explicit changed_when, the linter complains with: [301] Commands should not change things if nothing needs doing
+  changed_when: True
 
 - name: Untaint node
   command: kubectl taint nodes {{ ansible_hostname | lower }} {{ item.key }}:{{ item.effect }}-
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   with_items: "{{ node_taints_to_remove | default([]) }}"
+  # Without an explicit changed_when, the linter complains with: [301] Commands should not change things if nothing needs doing
+  changed_when: True

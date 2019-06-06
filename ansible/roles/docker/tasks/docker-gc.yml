@@ -22,6 +22,10 @@
   args:
     chdir: "{{ docker_gc_path }}/docker-gc"
   when: docker_gc_clone_result.changed
+  tags:
+    # ansible-lint warns : [503] Tasks that run when changed should likely be handlers
+    # But it's not a handler, we just want to only trigger a new build if docker-gc has been updated
+    - skip_ansible_lint
 
 - name: Install docker-gc
   apt:
