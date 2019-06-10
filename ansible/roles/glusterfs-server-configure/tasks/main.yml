@@ -13,7 +13,7 @@
 - name: Create volumes
   gluster_volume:
     name: "{{ item.key }}"
-    bricks: "{{glusterfs_brick_root}}/{{ item.key }}/brick1/brick"
+    bricks: "{{ glusterfs_brick_root }}/{{ item.key }}/brick1/brick"
     replicas: "{{ item.value.replicas }}"
     arbiters: "{{ item.value.arbiters | default([]) | length }}"
     cluster: "{{ item.value.nodes + item.value.arbiters }}"

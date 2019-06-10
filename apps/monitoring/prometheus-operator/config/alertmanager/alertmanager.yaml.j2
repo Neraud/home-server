@@ -1,4 +1,4 @@
-global: 
+global:
   resolve_timeout: 5m
 
 {% if alertmanager_alerts_smtp_enabled %}
@@ -13,19 +13,19 @@ global:
 templates:
 - '*.tmpl'
 
-route: 
-  group_by: 
+route:
+  group_by:
   - job
   group_interval: 5m
   group_wait: 30s
   receiver: "{{ alertmanager_alerts_default_receiver | default("null") }}"
   repeat_interval: 12h
-  routes: 
-  - match: 
+  routes:
+  - match:
       alertname: Watchdog
     receiver: "null"
 
-receivers: 
+receivers:
 - name: "null"
 {% for receiver in alertmanager_alerts_receivers | default([]) %}
 - name: '{{ receiver.name }}'

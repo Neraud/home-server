@@ -3,9 +3,9 @@
 ## User and password
 
 Users and their passwords are stored in OpenLDAP.
-They are created via the ansible playbook and can be configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` : 
+They are created via the ansible playbook and can be configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
 
-```
+```yaml
 openldap_ldap_users:
   - id: user
     sn: User
@@ -23,22 +23,22 @@ You can use [phpLDAPAdmin](https://infra.k8stest.com/phpldapadmin/) to manually 
 * SSO groups, used by the Web SSO
 * Application groups, used by compatible applications
 
-These groups and their members are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` : 
+These groups and their members are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
 
-```
+```yaml
 openldap_ldap_groups:
   # SSO Groups, used to filter access via LemonLDAP
   - id: sso-group-name-1
     description: SSO Group Name 1
     ou: sso_groups
-    members: 
+    members:
       - user
 
   # App Groups, used to filter access on each app
   - id: app-group-name-1
     description: Application Group Name 1
     ou: app_groups
-    members: 
+    members:
       - user
 ```
 
@@ -53,7 +53,7 @@ Each protected Location has an `auth_request`.
 
 These settings are configured in `ansible/inventories/vagrant/group_vars/reverse_proxies/nginx` :
 
-```
+```yaml
 nginx_sites:
   - name: protected-site
     [...]
@@ -62,7 +62,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
         proxy_pass: http://kubernetes-http-ingress
 ```
 
@@ -70,9 +70,9 @@ nginx_sites:
 
 LemonLDAP exposes its handler port to receive the NGinx `auth_request`.
 
-The security rules are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` : 
+The security rules are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
 
-```
+```yaml
 lemonldap_location_rules:
   - domain: "domain.{{ web_base_domain }}"
     # To require TOTP, set the level to >= 4
@@ -99,7 +99,7 @@ However it can be forced per site by changing the `requiredAuthnLevel` variable.
 
 When supported, applications also use OpenLDAP to authenticate their users.
 
-A dedicated group under the OU `app_groups` is created for each application. 
+A dedicated group under the OU `app_groups` is created for each application.
 
 ### Gitlab
 

@@ -4,7 +4,7 @@ mode=$1
 
 if [ "$mode" != "ansible" ] ; then
 	mode="node"
-fi 
+fi
 
 echo ""
 echo "=================================================="
@@ -38,6 +38,10 @@ if [ "$mode" == "ansible" ] ; then
 	#apt-get -q -y -t stretch-backports install ansible
 	apt-get -q -y install python-pip
 	pip install ansible==2.7.9
+
+	# Workaround for https://github.com/ansible/ansible/issues/57509
+	# If the playbook itself installs passlib, bcrypt hash won't be available in the same run
+	apt-get -q -y install python-passlib
 	
 	echo " - install ansible ssh keys"
 	cp -R /vagrant/ssh/* /root/.ssh/
@@ -110,3 +114,12 @@ echo " - preparing data disk for LVM"
 echo 'type=8e' | sfdisk /dev/sdc
 pvcreate /dev/sdc1
 vgcreate data_vg /dev/sdc1
+
+
+## see https://github.com/ansible/ansible/issues/45446#issuecomment-467829815
+## But the proposed workaround doesn't work if we simply add it in the ansible playbook
+echo " - install and enable ufw (workaround to avoid hanging)"
+update-alternatives --set iptables /usr/sbin/iptables-legacy
+apt-get -q -y install ufw
+ufw allow OpenSSH
+yes | sudo ufw enable

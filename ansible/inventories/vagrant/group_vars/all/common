@@ -4,7 +4,7 @@
 domain_name: k8stest
 time_zone: Europe/Paris
 
-standard_user: 
+standard_user:
   name: user
   # https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
   # ansible all -i localhost, -m debug -a "msg={{ 'password' | password_hash('sha512', 'mysecretsalt') }}"

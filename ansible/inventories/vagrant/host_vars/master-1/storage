@@ -1,9 +1,9 @@
 ---
 
 glusterfs_volume_mounts:
-  prometheus-k8s: 
+  prometheus-k8s:
     mount_path: /data/volumes/prometheus-k8s
-  grafana-data: 
+  grafana-data:
     mount_path: /data/volumes/grafana-data
   homeassistant-config:
     mount_path: /data/volumes/homeassistant-config

@@ -44,32 +44,32 @@ To test this cluster, take a look at the [Vagrant page](docs/Vagrant.md).
 
 The folowing services are deployed :
 
-| Service                                                          | Description                                   |
-| ---------------------------------------------------------------- | --------------------------------------------- |
-| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | Kubernetes dashboard                          |
-| [OpenLDAP](https://www.openldap.org/)                            | Open source Lightweight Directory Access Protocol |
+| Service                                                          | Description                                            |
+| ---------------------------------------------------------------- | ------------------------------------------------------ |
+| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | Kubernetes dashboard                                   |
+| [OpenLDAP](https://www.openldap.org/)                            | Open source Lightweight Directory Access Protocol      |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | Web Single Sign On and Access Management Free Software |
-| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | Web-based LDAP browser                        |
-| [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | Modern outbound SMTP relay                    |
-| [MailHog](https://github.com/mailhog/MailHog)                    | MailHog is an email testing tool for developers |
-| [Prometheus](https://prometheus.io/)                             | Monitoring solution                           |
-| [AlertManager](https://github.com/prometheus/alertmanager)       | Alert manager for Prometheus                  |
-| [Grafana](https://grafana.com/)                                  | Platform for beautiful analytics and monitoring  |
-| [Fluent Bit](https://fluentbit.io/)                              | Lightweight log Processor and Forwarder       |
-| [FluentD](https://www.fluentd.org/)                              | Log Processor and Forwarder                   |
-| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | Distributed, RESTful search and analytics engine |
-| [Kibana](https://www.elastic.co/products/kibana)                 | Visualize your Elasticsearch data             |
-| [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | Controller for Unifi devices                  |
-| [HomeAssistant](https://www.home-assistant.io/)                  | Home automation                               |
-| [Node-RED](https://nodered.org/)                                 | Flow-based programming for the IoT            |
-| [Mosquitto](https://mosquitto.org/)                              | MQTT broker                                   |
-| [RoomAssistant](https://github.com/mKeRix/room-assistant)        | Presence tracking                             |
-| [TT-RSS](https://tt-rss.org/)                                    | News feed (RSS/Atom) reader and aggregator    |
-| [Heimdall](https://heimdall.site/)                               | Application dashboard                         |
-| [Gitlab](https://about.gitlab.com/)                              | Source code management and CI/CD              |
-| [Plex](https://www.plex.tv/)                                     | Video streaming                               |
-| [Airsonic](https://airsonic.github.io/)                          | Music streaming                               |
-| [Sickchill](https://sickchill.github.io/)                        | Automatic Video Library Manager for TV Shows. |
-| [Deluge](https://deluge-torrent.org/)                            | Torrent client                                |
-| [pyload](https://pyload.net/)                                    | HTTP download manager                         |
-| [SABnzbd](https://sabnzbd.org/)                                  | Binary newsreader                             |
+| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | Web-based LDAP browser                                 |
+| [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | Modern outbound SMTP relay                             |
+| [MailHog](https://github.com/mailhog/MailHog)                    | MailHog is an email testing tool for developers        |
+| [Prometheus](https://prometheus.io/)                             | Monitoring solution                                    |
+| [AlertManager](https://github.com/prometheus/alertmanager)       | Alert manager for Prometheus                           |
+| [Grafana](https://grafana.com/)                                  | Platform for beautiful analytics and monitoring        |
+| [Fluent Bit](https://fluentbit.io/)                              | Lightweight log Processor and Forwarder                |
+| [FluentD](https://www.fluentd.org/)                              | Log Processor and Forwarder                            |
+| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | Distributed, RESTful search and analytics engine       |
+| [Kibana](https://www.elastic.co/products/kibana)                 | Visualize your Elasticsearch data                      |
+| [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | Controller for Unifi devices                           |
+| [HomeAssistant](https://www.home-assistant.io/)                  | Home automation                                        |
+| [Node-RED](https://nodered.org/)                                 | Flow-based programming for the IoT                     |
+| [Mosquitto](https://mosquitto.org/)                              | MQTT broker                                            |
+| [RoomAssistant](https://github.com/mKeRix/room-assistant)        | Presence tracking                                      |
+| [TT-RSS](https://tt-rss.org/)                                    | News feed (RSS/Atom) reader and aggregator             |
+| [Heimdall](https://heimdall.site/)                               | Application dashboard                                  |
+| [Gitlab](https://about.gitlab.com/)                              | Source code management and CI/CD                       |
+| [Plex](https://www.plex.tv/)                                     | Video streaming                                        |
+| [Airsonic](https://airsonic.github.io/)                          | Music streaming                                        |
+| [Sickchill](https://sickchill.github.io/)                        | Automatic Video Library Manager for TV Shows.          |
+| [Deluge](https://deluge-torrent.org/)                            | Torrent client                                         |
+| [pyload](https://pyload.net/)                                    | HTTP download manager                                  |
+| [SABnzbd](https://sabnzbd.org/)                                  | Binary newsreader                                      |

@@ -2,7 +2,7 @@
 
 custom_ssl_pki_root_dir: /etc/ssl/custom
 
-openssl_custom_pki: 
+openssl_custom_pki:
   - pki_name: web
     ca_common_name: "{{ web_base_domain }}"
     certs:

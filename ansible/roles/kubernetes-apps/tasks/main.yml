@@ -15,9 +15,6 @@
 - import_tasks: apps/infra-mailhog.yml
   tags: kubernetes-app-infra-mailhog
 
-- import_tasks: apps/infra-unifi.yml
-  tags: kubernetes-app-infra-unifi
-
 - import_tasks: apps/auth-openldap.yml
   tags: kubernetes-app-auth-openldap
 
@@ -26,6 +23,18 @@
 
 - import_tasks: apps/auth-lemonldap.yml
   tags: kubernetes-app-auth-lemonldap
+
+- import_tasks: apps/logging-elasticsearch.yml
+  tags: kubernetes-app-logging-elasticsearch
+
+- import_tasks: apps/logging-fluentd.yml
+  tags: kubernetes-app-logging-fluentd
+
+- import_tasks: apps/logging-fluentbit.yml
+  tags: kubernetes-app-logging-fluentbit
+
+- import_tasks: apps/logging-kibana.yml
+  tags: kubernetes-app-logging-kibana
 
 - import_tasks: apps/monitoring-kubernetes.yml
   tags: kubernetes-app-monitoring-kubernetes
@@ -48,6 +57,9 @@
 - import_tasks: apps/web-heimdall.yml
   tags: kubernetes-app-web-heimdall
 
+- import_tasks: apps/infra-unifi.yml
+  tags: kubernetes-app-infra-unifi
+
 - import_tasks: apps/home-homeassistant.yml
   tags: kubernetes-app-home-homeassistant
 
@@ -68,18 +80,6 @@
 
 - import_tasks: apps/dev-gitlab.yml
   tags: kubernetes-app-dev-gitlab
-
-- import_tasks: apps/logging-elasticsearch.yml
-  tags: kubernetes-app-logging-elasticsearch
-
-- import_tasks: apps/logging-fluentd.yml
-  tags: kubernetes-app-logging-fluentd
-
-- import_tasks: apps/logging-fluentbit.yml
-  tags: kubernetes-app-logging-fluentbit
-
-- import_tasks: apps/logging-kibana.yml
-  tags: kubernetes-app-logging-kibana
 
 - import_tasks: apps/download-sickchill.yml
   tags: kubernetes-app-download-sickchill

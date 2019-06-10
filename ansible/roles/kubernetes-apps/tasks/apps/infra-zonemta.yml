@@ -15,9 +15,6 @@
   with_fileglob:
     - "{{ kubernetes_app_root_path }}/infra/zone-mta/config/zone-mta/*.toml*"
 
-  # TODO not idempotent
-  # Push always registers a change : https://github.com/ansible/ansible/issues/25040
-  # And build doesn't update an existing image without force=yes ...
 - name: Build and push ZoneMTA image
   docker_image:
     path: "{{ kubernetes_app_root_path }}/infra/zone-mta/build"

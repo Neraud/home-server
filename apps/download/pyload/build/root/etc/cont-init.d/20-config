@@ -39,7 +39,7 @@ send -- "$PYLOAD_DEFAULT_PASSWORD\r"
 expect -re {.*\[1\]/2/3/4:.*}
 send -- "2\r"
 
-expect -re {.*\[1\]/2/3/4:.*}       
+expect -re {.*\[1\]/2/3/4:.*}
 send -- "4\r"
 
 expect eof

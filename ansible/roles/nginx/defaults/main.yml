@@ -46,7 +46,7 @@ nginx_extra_log_formats: []
 #      mode: letsencrypt
 #      email: whatever@example.com
 #      # Should certbot use the live or staging letsencrypt url
-#      live: False  
+#      live: False
 #      docroot: /opt/letsencrypt/rp-to-something
 
 #    force_http_to_https: True
@@ -62,12 +62,12 @@ nginx_extra_log_formats: []
 #          name: Basic Authentication
 #          path: /path/to/htpasswd_something
 #   OR
-#        lemonLdap_protected: True 
+#        lemonLdap_protected: True
 #
 #      - path: /php-application/
 #        root: /opt/php_app
 #        php_fpm_pool:  www
-        
+
 #nginx_streams:
 #  - name: stream_01
 #    enabled_name: 000-stream_01
@@ -79,8 +79,8 @@ nginx_extra_log_formats: []
 #      cert_key_path: /path/to/server.key
 #    proxy_pass: SomeWhere:8080
 
-    
-#nginx_htpasswd: 
+
+#nginx_htpasswd:
 #  - path: /path/to/htpasswd_something
 #    credentials:
 #      - userName:$apr1$XT1TxDG3$g1A8VB02XE9oCMHYdqd98. #password generated with : openssl passwd -apr1

@@ -263,7 +263,7 @@ spec:
         100 * sum(increase(container_cpu_cfs_throttled_periods_total{container!="", }[5m])) by (container, pod, namespace)
           /
         sum(increase(container_cpu_cfs_periods_total{}[5m])) by (container, pod, namespace)
-          > 25 
+          > 25
       "for": "15m"
       "labels":
         "severity": "warning"
@@ -433,4 +433,3 @@ spec:
         apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 86400
       "labels":
         "severity": "critical"
-  

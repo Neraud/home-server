@@ -7,12 +7,12 @@ if [ -f /config/socat.cfg ] ; then
 
         SOCAT_NAME=$(echo $line | cut -d"=" -f1)
         SOCAT_PARAMETERS=$(echo $line | cut -d"=" -f2-)
-        
+
         echo " - $SOCAT_NAME"
 
         cat <<EOF > /etc/init.d/socat-${SOCAT_NAME}
 #!/bin/bash
-case "\$1" in 
+case "\$1" in
     start)
         socat $SOCAT_PARAMETERS &
         ;;
@@ -28,7 +28,7 @@ case "\$1" in
     *)
         echo "Usage: $0 {start|stop|status|restart}"
 esac
-exit 0 
+exit 0
 EOF
         chmod +x /etc/init.d/socat-${SOCAT_NAME}
         service socat-${SOCAT_NAME} start

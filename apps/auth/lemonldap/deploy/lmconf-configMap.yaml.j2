@@ -8,4 +8,4 @@ metadata:
     app-component: lemonldap
 data:
   lmConf.json: |
-    {{ lookup('template', kubernetes_app_root_path + '/auth/lemonldap/config/lmConf.json.j2') | replace('\n', '\n    ') }}
+    {{ lookup('template', kubernetes_app_root_path + '/auth/lemonldap/config/lmConf.json.j2', convert_data=False) | replace('\n', '\n    ') }}

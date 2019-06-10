@@ -9,7 +9,7 @@ echo "Deleting OpenLDAP PVCs"
 su user -c "kubectl delete persistentvolumeclaims openldap-config-pv-claim-openldap-0"
 su user -c "kubectl delete persistentvolumeclaims openldap-data-pv-claim-openldap-0"
 su user -c "kubectl delete persistentvolumeclaims openldap-run-pv-claim-openldap-0"
- 
+
 echo ""
 echo "Deleting OpenLDAP PVs"
 su user -c "kubectl delete persistentvolume openldap-config"

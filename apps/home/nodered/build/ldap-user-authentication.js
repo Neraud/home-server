@@ -10,11 +10,11 @@ var opts = {};
  */
 function UserCache(opts) {
     this.opts = opts;
-        
+
     if (typeof this.opts.enabled === 'undefined') this.opts.enabled = true;
     if (typeof this.opts.size === 'undefined')    this.opts.size = 100;
     if (typeof this.opts.maxAge === 'undefined')  this.opts.maxAge = 120;
-    
+
     if (this.opts.enabled) {
         console.log("Init user cache");
         this.cache = new LRU({
@@ -48,7 +48,7 @@ module.exports = {
 
     setup: function (options) {
         console.log("Setting up ldap-user-authentication");
-        
+
         opts = options;
         //console.log(opts);
 
@@ -56,7 +56,7 @@ module.exports = {
         ldap.on('error', function (err) {
             console.error('LdapAuth error : ', err);
         });
-        
+
         userCache = new UserCache(opts.userCacheOptions)
 
         return this;
@@ -85,7 +85,7 @@ module.exports = {
                         if (opts.displayNameProperty && user[opts.displayNameProperty]) {
                             displayName = user[opts.displayNameProperty];
                         }
-                        
+
                         var resolvedUser = { username: displayName, permissions: "*" };
                         userCache.set(username, resolvedUser);
                         resolve(resolvedUser);

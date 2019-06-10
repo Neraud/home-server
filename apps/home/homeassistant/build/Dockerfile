@@ -9,7 +9,7 @@ RUN echo "Installing socat" && \
     chmod -R 777 /tmp && \
     apt-get update && \
     apt-get install -y socat && \
-    echo "Cleaning" && \    
+    echo "Cleaning" && \
     apt-get clean && \
     rm -rf \
         /tmp/* \

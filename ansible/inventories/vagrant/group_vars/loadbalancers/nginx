@@ -26,7 +26,7 @@ nginx_upstreams:
       - master-2:{{ kubernetes_ingress_mqtt_port }}
       - master-3:{{ kubernetes_ingress_mqtt_port }}
       - node-home:{{ kubernetes_ingress_mqtt_port }}
-    
+
 
 nginx_sites:
   - name: default-site
@@ -82,7 +82,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
@@ -104,7 +104,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
@@ -126,7 +126,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
@@ -148,7 +148,7 @@ nginx_sites:
       proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
         content: |
@@ -174,7 +174,7 @@ nginx_sites:
       - path: /
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
 
   - name: stream
     enabled_name: 400-stream
@@ -194,7 +194,7 @@ nginx_sites:
       - path: /
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
 
   - name: streams-plex
     enabled_name: 410-stream-plex
@@ -230,7 +230,7 @@ nginx_sites:
       - path: /
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
         content: |
           client_max_body_size 250m;
 
@@ -252,7 +252,7 @@ nginx_sites:
       - path: /
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
-        lemonLdap_protected: True 
+        lemonLdap_protected: True
 
 nginx_streams:
   - name: home_mqtt
