@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: release-watcher
+  name: release-watcher
+  namespace: monitoring
+spec:
+  endpoints:
+    - interval: 120s
+      port: metrics
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  selector:
+    matchLabels:
+      prometheus-target: release-watcher

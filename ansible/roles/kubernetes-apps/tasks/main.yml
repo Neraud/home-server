@@ -45,6 +45,9 @@
 - import_tasks: apps/monitoring-gluster-exporter.yml
   tags: kubernetes-app-monitoring-gluster-exporter
 
+- import_tasks: apps/monitoring-release-watcher.yml
+  tags: kubernetes-app-monitoring-release-watcher
+
 - import_tasks: apps/monitoring-prometheus-operator.yml
   tags: kubernetes-app-monitoring-prometheus-operator
 
