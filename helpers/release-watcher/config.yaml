@@ -1,0 +1,16 @@
+logger:
+  type: stdout
+  level: INFO
+
+core:
+  threads: 5
+  runMode: once
+
+sources:
+  - type: file
+    path: data/watchers.yaml
+
+outputs:
+  - type: yaml_file
+    path: data/out.yaml
+    displayUpToDate: yes

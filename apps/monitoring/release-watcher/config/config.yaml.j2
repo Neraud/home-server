@@ -1,0 +1,20 @@
+logger:
+  type: stdout
+  level: INFO
+
+core:
+  threads: 5
+  runMode: repeat
+  # once every 24h
+  sleepDuration: 86400
+
+sources:
+  - type: file
+    path: watchers.yaml
+
+outputs:
+  - type: yaml_file
+    path: out.yaml
+    displayUpToDate: yes
+  - type: prometheus_http
+    port: 8080

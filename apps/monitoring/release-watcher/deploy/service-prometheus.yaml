@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-watcher-prometheus
+  namespace: monitoring
+  labels:
+    app: release-watcher
+    app-component: release-watcher
+    prometheus-target: release-watcher
+spec:
+  ports:
+    - port: 8080
+      name: metrics
+      targetPort: metrics
+  selector:
+    app: release-watcher
+    app-component: release-watcher

@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: release-watcher-alerts
+  namespace: monitoring
+  labels:
+    app: prometheus
+    app-component: prometheus
+    prometheus: k8s
+    role: alert-rules
+spec:
+  groups:
+  - name: release-watcher
+    rules:
+    - alert: ReleaseWatcherMissedReleasesWarning
+      annotations:
+        message: The application {{ $labels.name }} has {{ $value }} new releases.
+      expr: missed_releases > 10
+      for: 3m
+      labels:
+        severity: warning
+    - alert: ReleaseWatcherMissedReleasesCritical
+      annotations:
+        message: The application {{ $labels.name }} has {{ $value }} new releases.
+      expr: missed_releases > 25
+      for: 5m
+      labels:
+        severity: critical
