@@ -11,4 +11,10 @@
     name: "{{ item.name }}"
     rule: "{{ item.rule }}"
     src: "{{ item.src | default('any') }}"
+  # UFW sometimes fails with 'Another app is currently holding the xtables lock. Perhaps you want to use the -w option'
+  # We retry up to 3 times before consider it a failure
+  retries: 3
+  delay: 1
+  register: ufw_allow_app_result
+  until: ufw_allow_app_result is succeeded
   with_items: "{{ ufw_applications | default([]) }}"

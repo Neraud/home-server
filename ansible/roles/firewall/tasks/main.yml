@@ -32,11 +32,23 @@
   ufw:
     policy: deny
     direction: incoming
+  # UFW sometimes fails with 'Could not load logging rules'
+  # We retry up to 3 times before consider it a failure
+  retries: 3
+  delay: 1
+  register: ufw_deny_incoming_result
+  until: ufw_deny_incoming_result is succeeded
 
 - name: Set ufw policy to allow all ougoing connections
   ufw:
     policy: allow
     direction: outgoing
+  # UFW sometimes fails with 'Could not load logging rules'
+  # We retry up to 3 times before consider it a failure
+  retries: 3
+  delay: 1
+  register: ufw_allow_outgoing_result
+  until: ufw_allow_outgoing_result is succeeded
 
 - name: Configure custom applications
   import_tasks: add-applications.yml
