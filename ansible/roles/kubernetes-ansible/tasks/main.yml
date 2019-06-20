@@ -6,6 +6,8 @@
     - python-pip
     - python-setuptools
     - python-docker
+    - python-passlib
+    - python-bcrypt
     state: present
 
 - name: Install pip dependencies

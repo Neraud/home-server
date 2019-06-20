@@ -4,7 +4,6 @@
   apt:
     pkg:
     - python-ldap
-    - python-passlib
     state: present
 
 - name: Read certificate files
