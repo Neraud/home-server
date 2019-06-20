@@ -8,5 +8,5 @@
 - name: Add Gluster repo
   apt_repository:
     filename: "gluster"
-    repo: "deb https://download.gluster.org/pub/gluster/glusterfs/6/LATEST/Debian/{{ ansible_lsb.codename }}/amd64/apt {{ ansible_lsb.codename }} main"
+    repo: "deb https://download.gluster.org/pub/gluster/glusterfs/6/6.2/Debian/{{ ansible_lsb.codename }}/amd64/apt {{ ansible_lsb.codename }} main"
     state: present
