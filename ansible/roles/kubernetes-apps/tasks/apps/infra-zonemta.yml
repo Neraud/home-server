@@ -17,9 +17,11 @@
 
 - name: Build and push ZoneMTA image
   docker_image:
-    path: "{{ kubernetes_app_root_path }}/infra/zone-mta/build"
     name: "{{ kubernetes_registry_url }}/zone-mta"
-    force: yes
+    source: build
+    build:
+      path: "{{ kubernetes_app_root_path }}/infra/zone-mta/build"
+      pull: yes
     push: yes
 
 - name: Deploy ZoneMTA

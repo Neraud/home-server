@@ -23,15 +23,15 @@ spec:
     spec:
       initContainers:
       - name: inject-config
-        image: linuxserver/deluge:amd64-ab9135a6-ls19
-        command: [ "python", "/tmp/config/mergeConf.py" ]
+        image: linuxserver/deluge:amd64-2.0.3-2201906121747ubuntu18.04.1-ls27
+        command: [ "python3", "/tmp/config/mergeConf.py" ]
         volumeMounts:
         - name: deluge-config-pv-claim
           mountPath: /config
         - name: deluge-config
           mountPath: /tmp/config
       containers:
-      - image: linuxserver/deluge:amd64-ab9135a6-ls19
+      - image: linuxserver/deluge:amd64-2.0.3-2201906121747ubuntu18.04.1-ls27
         name: deluge
         ports:
         - containerPort: 8112

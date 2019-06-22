@@ -1,4 +1,4 @@
-FROM linuxserver/sabnzbd:2.3.8-0ubuntu1jcfp118.04-ls12
+FROM linuxserver/sabnzbd:amd64-2.3.9-0ubuntu1jcfp118.04-u-ls20
 
 RUN echo "Install nzbToMedia dependencies" && \
     apt-get update && \

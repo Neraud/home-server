@@ -2,9 +2,11 @@
 
 - name: Build and push Fluentd image
   docker_image:
-    path: "{{ kubernetes_app_root_path }}/logging/fluentd/build"
     name: "{{ kubernetes_registry_url }}/fluentd"
-    force: yes
+    source: build
+    build:
+      path: "{{ kubernetes_app_root_path }}/logging/fluentd/build"
+      pull: yes
     push: yes
 
 - name: List included config files

@@ -1,4 +1,4 @@
-FROM nodered/node-red-docker:0.20.3-slim-v10
+FROM nodered/node-red-docker:0.20.5-slim-v10
 
 # Authentication
 RUN npm install ldapauth-fork@4.2.0

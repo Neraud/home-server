@@ -2,9 +2,11 @@
 
 - name: Build and push TT-RSS image
   docker_image:
-    path: "{{ kubernetes_app_root_path }}/web/ttrss/build"
     name: "{{ kubernetes_registry_url }}/ttrss"
-    force: yes
+    source: build
+    build:
+      path: "{{ kubernetes_app_root_path }}/web/ttrss/build"
+      pull: yes
     push: yes
 
 # We can't just use a lookup('url', ttrss_schema_url) to inject the schema file directly.

@@ -2,9 +2,11 @@
 
 - name: Build and push sabnzbd image
   docker_image:
-    path: "{{ kubernetes_app_root_path }}/download/sabnzbd/build"
     name: "{{ kubernetes_registry_url }}/sabnzbd"
-    force: yes
+    source: build
+    build:
+      path: "{{ kubernetes_app_root_path }}/download/sabnzbd/build"
+      pull: yes
     push: yes
 
 - name: Deploy sabnzbd

@@ -11,11 +11,6 @@ echo "=================================================="
 echo "Updating package list and distribution"
 echo "=================================================="
 
-#if [ "$mode" == "ansible" ] ; then
-	#echo " - add stretch-backports"
-	#echo "deb http://ftp.fr.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list
-#fi
-
 export DEBIAN_FRONTEND=noninteractive
 
 echo " - update"
@@ -34,15 +29,13 @@ mkdir -p /root/.ssh
 
 if [ "$mode" == "ansible" ] ; then
 	echo " - install ansible from"
-	# only 2.6 is available in stretch-backports, so we use pip to get the latest 2.7
-	#apt-get -q -y -t stretch-backports install ansible
 	apt-get -q -y install python-pip
-	pip install ansible==2.7.9
+	pip install ansible==2.8.1
 
 	# Workaround for https://github.com/ansible/ansible/issues/57509
 	# If the playbook itself installs passlib, bcrypt hash won't be available in the same run
 	apt-get -q -y install python-passlib
-	
+
 	echo " - install ansible ssh keys"
 	cp -R /vagrant/ssh/* /root/.ssh/
 
@@ -56,7 +49,7 @@ for node_conf in config['nodes']:
   print(node_conf['ip'])
 __EOF__
 )
-	for host_ip in $host_ips ; do
+	for host_ip in $host_ips; do
 		echo "    * "$host_ip
 		knownKey=$(ssh-keygen -F $host_ip)
 		if [ "$knownKey" == "" ] ; then
@@ -70,7 +63,7 @@ __EOF__
 	mkdir -p /opt/mock_nas/Download/torrent/{pending,done,auto-load,torrent-files}
 	mkdir -p /opt/mock_nas/Download/newsgroup/{nzbFiles,pending,done}
 	chmod -R 777 /opt/mock_nas
-	
+
 	echo " - install NFS Server"
 	apt-get -q -y install nfs-kernel-server
 
@@ -80,7 +73,7 @@ config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"))
 print(config['common']['network_cidr'])
 __EOF__
 )
-		echo "    * Allowing "$network_cidr
+	echo "    * Allowing "$network_cidr
 
 	cat << EOF > /etc/exports
 /opt/mock_nas/Multimedia $network_cidr(rw)
@@ -93,7 +86,7 @@ echo " - add ansible key to authorized keys"
 touch /root/.ssh/authorized_keys
 searchLocalKey=$(grep -c "$(cat /vagrant/ssh/id_rsa.pub)" /root/.ssh/authorized_keys)
 if [ $searchLocalKey -eq 0 ] ; then
-	cat /vagrant/ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+	cat /vagrant/ssh/id_rsa.pub >>/root/.ssh/authorized_keys
 fi
 
 chmod -R 700 /root/.ssh
@@ -108,13 +101,12 @@ mkfs.ext4 /dev/sdb1
 mkdir -p /var/lib/docker
 echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
 mount -a
-	
+
 echo " - preparing data disk for LVM"
 # Create a new partition table with a single LVM partition
 echo 'type=8e' | sfdisk /dev/sdc
 pvcreate /dev/sdc1
 vgcreate data_vg /dev/sdc1
-
 
 ## see https://github.com/ansible/ansible/issues/45446#issuecomment-467829815
 ## But the proposed workaround doesn't work if we simply add it in the ansible playbook
