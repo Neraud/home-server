@@ -193,7 +193,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: amazon/opendistro-for-elasticsearch
-    tag: 0.8.0
+    tag: 0.9.0
     excludes:
       - latest
   - type: docker_registry
