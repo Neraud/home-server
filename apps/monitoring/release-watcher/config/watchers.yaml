@@ -73,7 +73,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/sickchill
-    tag: amd64-b3da866c-ls9
+    tag: amd64-6bfdb223-ls14
     includes:
       - amd64.*
     excludes:
