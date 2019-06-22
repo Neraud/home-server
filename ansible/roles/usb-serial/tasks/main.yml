@@ -9,10 +9,8 @@
   when: udev_rules is defined and udev_rules | default([]) | length  > 0
   notify: Reload udev rules
 
-- include_tasks:
-    file: ser2net.yml
+- include_tasks: ser2net.yml
   when: serial_exposed_devices | default([]) | length > 0
 
-- include_tasks:
-    file: socat.yml
+- include_tasks: socat.yml
   when: serial_remote_devices | default([]) | length > 0
