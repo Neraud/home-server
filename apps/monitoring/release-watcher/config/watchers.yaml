@@ -26,10 +26,10 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: osixia/phpldapadmin
-    tag: 0.7.2
+    tag: 0.8.0
     excludes:
       - latest
-      - ^0\.6\.
+      - ^0\.[1-7]\.
   # Dev
   - type: docker_registry
     repo: registry-1.docker.io
