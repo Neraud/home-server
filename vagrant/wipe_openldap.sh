@@ -30,9 +30,9 @@ gluster --mode=script volume delete openldap-run
 
 echo ""
 echo "Disable auto brick mount"
-ssh 192.168.100.11 "sed -i 's|^/dev/data_vg/openldap-.*||' /etc/fstab"
-ssh 192.168.100.12 "sed -i 's|^/dev/data_vg/openldap-.*||' /etc/fstab"
-ssh 192.168.100.13 "sed -i 's|^/dev/data_vg/openldap-.*||' /etc/fstab"
+ssh 192.168.100.11 "sed -i 's|^/dev/data_vg/gluster_openldap-.*||' /etc/fstab"
+ssh 192.168.100.12 "sed -i 's|^/dev/data_vg/gluster_openldap-.*||' /etc/fstab"
+ssh 192.168.100.13 "sed -i 's|^/dev/data_vg/gluster_openldap-.*||' /etc/fstab"
 
 echo ""
 echo "Unmounting bricks"

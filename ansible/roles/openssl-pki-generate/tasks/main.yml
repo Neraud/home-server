@@ -16,7 +16,15 @@
 
 - name: Generate OpenSSL CA private key
   openssl_privatekey:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key"
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.pkcs1.key"
+  with_items: "{{ openssl_custom_pki }}"
+  loop_control:
+    label: "{{ item.pki_name }}"
+
+- name: Convert OpenSSL CA private key to PKCS8
+  command: openssl pkcs8 -topk8 -inform PEM -in {{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.pkcs1.key -out {{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key -nocrypt
+  args:
+    creates: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key"
   with_items: "{{ openssl_custom_pki }}"
   loop_control:
     label: "{{ item.pki_name }}"
@@ -54,7 +62,17 @@
 
 - name: Generate an OpenSSL server private key
   openssl_privatekey:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key"
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
+
+- name: Convert an OpenSSL server private key to PKCS8
+  command: openssl pkcs8 -topk8 -inform PEM -in {{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key -out {{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key -nocrypt
+  args:
+    creates: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
   with_subelements:
     - "{{ openssl_custom_pki }}"
     - certs

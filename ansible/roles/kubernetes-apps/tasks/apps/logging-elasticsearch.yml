@@ -1,11 +1,5 @@
 ---
 
-- name: Install python dependencies
-  apt:
-    pkg:
-    - python-passlib
-    state: present
-
 - name: Read generated files
   slurp:
     src: "{{ item }}"
