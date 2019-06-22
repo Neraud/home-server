@@ -61,13 +61,15 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/sabnzbd
-    tag: 2.3.8-0ubuntu1jcfp118.04-ls12
+    tag: amd64-2.3.9-0ubuntu1jcfp118.04-u-ls20
     includes:
       - amd64.*
     excludes:
       - amd64-unstable
       - amd64-latest
       - .*(rc[0-9]|alpha|beta).*
+      - amd64-[0-1]\..*
+      - amd64-2\.[0-2]\..*
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/sickchill
