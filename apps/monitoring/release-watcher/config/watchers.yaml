@@ -253,7 +253,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/tt-rss
-    tag: amd64-19.2-ls6
+    tag: amd64-19.2-ls21
     includes:
       - amd64.*
     excludes:
