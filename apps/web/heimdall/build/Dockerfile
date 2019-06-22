@@ -1,4 +1,4 @@
-FROM linuxserver/heimdall:amd64-2.1.13-ls40
+FROM linuxserver/heimdall:amd64-2.2.1-ls47
 
 # Execute the install step that's currently inside /etc/cont-init.d/50-config
 RUN echo "Installing Heimdall" && \
