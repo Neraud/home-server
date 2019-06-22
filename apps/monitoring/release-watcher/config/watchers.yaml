@@ -47,11 +47,12 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/deluge
-    tag: amd64-ab9135a6-ls19
+    tag: amd64-2.0.3-2201906121747ubuntu18.04.1-ls27
     includes:
       - amd64-[0-9]+\.[0-9]+\.[0-9]+-
     excludes:
       - amd64-latest
+      - amd64-[0-1]\.
   #  # Used to build pyload
   #  - type: docker_registry
   #    repo: registry-1.docker.io
