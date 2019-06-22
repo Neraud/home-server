@@ -58,12 +58,11 @@
     headers:
       Host: "infra.{{ web_base_domain }}"
     return_content: yes
-    follow_redirects: false
     status_code:
       - 200
       - 404
     validate_certs: no
-    force_basic_auth: true
+    force_basic_auth: yes
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
   register: existing_kibana_saved_objects
@@ -80,12 +79,11 @@
     headers:
       Host: "infra.{{ web_base_domain }}"
       kbn-xsrf: kbn-xsrf
-    follow_redirects: false
     body:
       attributes: "{{ item.1.attributes }}"
     body_format: json
     validate_certs: no
-    force_basic_auth: true
+    force_basic_auth: yes
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
   with_together:
@@ -104,12 +102,11 @@
     headers:
       Host: "infra.{{ web_base_domain }}"
       kbn-xsrf: kbn-xsrf
-    follow_redirects: false
     body:
       attributes: "{{ item.1.attributes }}"
     body_format: json
     validate_certs: no
-    force_basic_auth: true
+    force_basic_auth: yes
     user: "{{ logging_kibana_elasticsearch_user }}"
     password: "{{ logging_kibana_elasticsearch_password }}"
   with_together:
