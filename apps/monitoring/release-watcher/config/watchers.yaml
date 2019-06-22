@@ -139,11 +139,11 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: registry
-    tag: 2.5.2
+    tag: 2.7.1
     excludes:
       - latest
       - .*-rc\.[0-9]+
-      - 2\.[0-4]\.
+      - 2\.[0-6]\.
     includes:
       - "[2-9]+\\.[0-9]+\\.[0-9]+.*"
   - type: docker_registry
