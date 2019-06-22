@@ -23,10 +23,10 @@ spec:
   resources:
     requests:
       cpu: "{{ prometheus_requests_cpu | default("200m") }}"
-      memory: "{{ prometheus_requests_memory | default("512Mi") }}"
+      memory: "{{ prometheus_requests_memory | default("768Mi") }}"
     limits:
       cpu: "{{ prometheus_limits_cpu | default("500m") }}"
-      memory: "{{ prometheus_limits_memory | default("512Mi") }}"
+      memory: "{{ prometheus_limits_memory | default("768Mi") }}"
   ruleSelector:
     matchLabels:
       prometheus: k8s
