@@ -2,7 +2,7 @@ watchers:
   - type: github_commit
     repo: spotify/docker-gc
     branch: master
-    commit: 131a786886f571b656e0e4bdda967b7abc1fa7d1
+    commit: 1543fc22e448536ea300517619dd60aff2d70b2a
   - type: github_commit
     repo: gluster/gluster-prometheus
     branch: master
@@ -109,15 +109,15 @@ watchers:
       - latest
       - master
   # Infra
-# TODO KO
-#  - type: docker_registry
-#    repo: k8s.gcr.io
-#    image: kubernetes-dashboard-amd64
-#    tag: v1.10.1
-#    excludes:
-#      - .*-beta.*
-#      - canary
-#      - v0\.
+  # TODO KO
+  #  - type: docker_registry
+  #    repo: k8s.gcr.io
+  #    image: kubernetes-dashboard-amd64
+  #    tag: v1.10.1
+  #    excludes:
+  #      - .*-beta.*
+  #      - canary
+  #      - v0\.
   - type: docker_registry
     repo: quay.io
     image: kubernetes-ingress-controller/nginx-ingress-controller
