@@ -6,7 +6,7 @@ watchers:
   - type: github_commit
     repo: gluster/gluster-prometheus
     branch: master
-    commit: ec6f41bc9500a5c1ce718fa5b7466ee5552417d5
+    commit: 567cf6d017b4c91f7faf2e68b36ed3f2616169f8
   # Auth
   - type: docker_registry
     repo: registry-1.docker.io
