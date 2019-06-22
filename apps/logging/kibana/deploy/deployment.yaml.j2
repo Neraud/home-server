@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: kibana
-        image: amazon/opendistro-for-elasticsearch-kibana:0.8.0
+        image: amazon/opendistro-for-elasticsearch-kibana:0.9.0
         resources:
           requests:
             cpu: "{{ kibana_requests_cpu | default("100m") }}"
