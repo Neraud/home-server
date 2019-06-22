@@ -226,7 +226,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: airsonic/airsonic
-    tag: 10.2.1-RELEASE
+    tag: 10.3.1-RELEASE
     includes:
       - .*-RELEASE
     excludes:
