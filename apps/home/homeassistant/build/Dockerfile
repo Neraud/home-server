@@ -1,4 +1,4 @@
-FROM homeassistant/home-assistant:0.89.2
+FROM homeassistant/home-assistant:0.94.4
 
 ADD entrypoint.sh /opt/entrypoint.sh
 
