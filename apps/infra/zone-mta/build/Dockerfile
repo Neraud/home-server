@@ -1,4 +1,4 @@
-FROM node:10.15.3-alpine
+FROM node:10.16.0-alpine
 
 ARG ZONE_MTA_VERSION=v1.16.0
 

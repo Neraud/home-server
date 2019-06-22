@@ -169,9 +169,26 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: redis
-    tag: 5.0.4-alpine
+    tag: 5.0.5-alpine3.9
     includes:
       - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine3\\.9"
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: mongo
+    tag: 4.1.13-bionic
+    includes:
+      - 4\.[0-9]+.[0-9]+-bionic
+    excludes:
+      - 4\.0\..*
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: node
+    tag: 10.16.0-alpine
+    includes:
+      - 10\.[0-9]+\.[0-9]+-alpine
+    exclude:
+      - 10\.[0-9]\..*
+      - 10\.1[0-5]\..*
   # Logging
   - type: docker_registry
     repo: registry-1.docker.io
