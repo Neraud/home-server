@@ -8,9 +8,11 @@
 
 - name: Build and push release-watcher image
   docker_image:
-    path: "{{ release_watcher_path }}"
     name: "{{ kubernetes_registry_url }}/release-watcher"
-    force: yes
+    source: build
+    build:
+      path: "{{ release_watcher_path }}"
+      pull: yes
     push: yes
 
 - name: Deploy release-watcher

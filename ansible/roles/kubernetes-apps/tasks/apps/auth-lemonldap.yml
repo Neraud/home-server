@@ -2,9 +2,11 @@
 
 - name: Build and push LemonLDAP image
   docker_image:
-    path: "{{ kubernetes_app_root_path }}/auth/lemonldap/build"
     name: "{{ kubernetes_registry_url }}/lemonldap"
-    force: yes
+    source: build
+    build:
+      path: "{{ kubernetes_app_root_path }}/auth/lemonldap/build"
+      pull: yes
     push: yes
 
 - name: Deploy LemonLDAP
