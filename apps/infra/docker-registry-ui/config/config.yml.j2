@@ -20,7 +20,7 @@ verify_tls: true
 
 # Event listener token.
 # The same one should be configured on Docker registry as Authorization Bearer token.
-event_listener_token: token
+event_listener_token: {{ docker_registry_ui_event_api_token }}
 # Retention of records to keep.
 event_retention_days: 7
 

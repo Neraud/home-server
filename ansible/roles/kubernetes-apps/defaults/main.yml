@@ -12,6 +12,21 @@ registry_servername: registry.default
 kubernetes_registry_port: 30500
 kubernetes_registry_url: 127.0.0.1:{{ kubernetes_registry_port }}
 
+
+registry_notification_endpoints:
+  - name: docker-registry-ui
+    url: http://docker-registry-ui.default:8000/docker-regitry-ui/api/events
+    headers:
+      Authorization: Bearer {{ docker_registry_ui_event_api_token }}
+    timeout: 1s
+    threshold: 5
+    backoff: 10s
+    ignoredmediatypes:
+      - application/octet-stream
+
+
+docker_registry_ui_event_api_token: token
+
 # Expose Unifi private services on the Node IP
 #unifi_private_ip:
 
