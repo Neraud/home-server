@@ -6,6 +6,8 @@ metadata:
   labels:
     app: registry
     app-component: registry
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -44,12 +46,18 @@ spec:
           mountPath: /etc/localtime
         - name: registry-pv-claim
           mountPath: /var/lib/registry
+        - name: registry-config
+          mountPath: /etc/docker/registry/config.yml
+          subPath: config.yml
         - name: certs-volume
           mountPath: /certs
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: registry-config
+        configMap:
+          name: registry-config
       - name: certs-volume
         secret:
           secretName: registry-certs
