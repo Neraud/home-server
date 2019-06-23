@@ -62,6 +62,8 @@ The folowing services are deployed :
 | Service                                                          | Test URL                                           | Description                                            |
 | ---------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------ |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://infra.k8stest.com/kube>                   | Kubernetes dashboard                                   |
+| [Docker Registry](https://docs.docker.com/registry/deploying/)   | -                                                  | Docker Registry                                        |
+| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://infra.k8stest.com/docker-regitry-ui/>     | Web UI for Docker Registry                             |
 | [OpenLDAP](https://www.openldap.org/)                            | -                                                  | Open source Lightweight Directory Access Protocol      |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | <https://infra.k8stest.com/lemonldap/manager.html> | Web Single Sign On and Access Management Free Software |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://infra.k8stest.com/phpldapadmin/>          | Web-based LDAP browser                                 |
@@ -103,6 +105,10 @@ You can do so using a terminal (assuming you start at the project root) :
 [vagrant@master$] sudo su - user
 [user@master$] kubectl --namespace=kube-system describe secrets $(kubectl --namespace=kube-system get secrets | awk '/admin-user-token/ { print $1 }')
 ```
+
+### Docker Registry UI
+
+Docker Registry UI is installed and configured to show the images stored in the local private registry.
 
 ### OpenLDAP
 

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-registry-ui
+  namespace: default
+  labels:
+    app: docker-registry-ui
+    app-component: docker-registry-ui
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: docker-registry-ui
+      app-component: docker-registry-ui
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: docker-registry-ui
+        app-component: docker-registry-ui
+    spec:
+      containers:
+      - image: quiq/docker-registry-ui:0.8.1
+        name: docker-registry-ui
+        ports:
+        - containerPort: 8000
+          name: http
+        resources:
+          requests:
+            cpu: "{{ docker_registry_ui_requests_cpu | default("100m") }}"
+            memory: "{{ docker_registry_ui_requests_memory | default("32Mi") }}"
+          limits:
+            cpu: "{{ docker_registry_ui_limits_cpu | default("200m") }}"
+            memory: "{{ docker_registry_ui_limits_memory | default("32Mi") }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: docker-registry-ui-config
+          mountPath: /opt/config.yml
+          subPath: config.yml
+        - name: data-volume
+          mountPath: /opt/data
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/certs/ca-certificates.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: docker-registry-ui-config
+        configMap:
+          name: docker-registry-ui-config
+      - name: data-volume
+        emptyDir: {}
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      nodeSelector:
+        capability/general-purpose: 'yes'

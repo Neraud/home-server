@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: docker-registry-ui
+  namespace: default
+  labels:
+    app: docker-registry-ui
+spec:
+  tls:
+    - hosts:
+      - infra.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+        - path: /docker-regitry-ui
+          backend:
+            serviceName: docker-registry-ui
+            servicePort: 8000
