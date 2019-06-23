@@ -1,5 +1,14 @@
 ---
 
+- name: Read certificate files
+  slurp:
+    src: "{{ item }}"
+  register: registry_generated_certificate_files
+  with_items:
+    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/registry/server.crt"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/registry/server.key"
+
 - name: Deploy Docker registry
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

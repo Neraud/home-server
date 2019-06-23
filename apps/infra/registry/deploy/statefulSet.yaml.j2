@@ -22,8 +22,15 @@ spec:
       containers:
       - image: registry:2.7.1
         name: registry
+        env:
+        - name: REGISTRY_HTTP_ADDR
+          value: 0.0.0.0:443
+        - name: REGISTRY_HTTP_TLS_CERTIFICATE
+          value: /certs/server.crt
+        - name: REGISTRY_HTTP_TLS_KEY
+          value: /certs/server.key
         ports:
-        - containerPort: 5000
+        - containerPort: 443
           name: registry
         resources:
           requests:
@@ -37,10 +44,15 @@ spec:
           mountPath: /etc/localtime
         - name: registry-pv-claim
           mountPath: /var/lib/registry
+        - name: certs-volume
+          mountPath: /certs
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: certs-volume
+        secret:
+          secretName: registry-certs
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

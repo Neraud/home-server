@@ -3,6 +3,9 @@
 # TODO Unifi private services exposed XXX
 unifi_private_ip: 192.168.100.12
 
+# It's required to refefine this variable even if it's the same value as the default one to have it available for openssl-pki
+registry_servername: registry.default
+
 openldap_ldap_servername: openldap.default
 openldap_ldap_organisation: "{{ domain_name }}"
 openldap_ldap_domain: "{{ web_base_domain }}"

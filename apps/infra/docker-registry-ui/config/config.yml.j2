@@ -4,9 +4,9 @@ listen_addr: 0.0.0.0:8000
 base_path: /docker-regitry-ui
 
 # Registry URL with schema and port.
-registry_url: http://registry:5000
+registry_url: https://{{ registry_servername }}
 # Verify TLS certificate when using https.
-verify_tls: false
+verify_tls: true
 
 # Docker registry credentials.
 # They need to have a full access to the registry.
