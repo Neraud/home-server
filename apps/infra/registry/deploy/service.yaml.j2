@@ -9,8 +9,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 5000
-      targetPort: 5000
+    - port: 443
+      targetPort: 443
       nodePort: {{ kubernetes_registry_port }}
   selector:
     app: registry

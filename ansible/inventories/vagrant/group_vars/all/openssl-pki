@@ -87,6 +87,13 @@ openssl_custom_pki:
   - pki_name: cluster
     ca_common_name: "cluster.local"
     certs:
+      - name: "registry"
+        common_name: "{{ registry_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
       - name: "ingress"
         common_name: "*.{{ web_base_domain }}"
         country_name: FR

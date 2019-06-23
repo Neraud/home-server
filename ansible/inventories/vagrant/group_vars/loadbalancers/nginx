@@ -83,6 +83,9 @@ nginx_sites:
     locations:
       - path: /
         lemonLdap_protected: True
+        lemonLdap_exported_headers:
+          # Header for Docker Registry UI
+          X-WEBAUTH-USER: Auth-User
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
@@ -279,7 +282,7 @@ nginx_ufw_applications:
     rule: allow
 
   # TODO find a better place for these rules
-    # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+  # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
   - name: unifi-controller
     title: Unifi Controller
     description: Unifi Controller

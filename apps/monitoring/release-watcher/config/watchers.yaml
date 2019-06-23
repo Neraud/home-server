@@ -124,6 +124,12 @@ watchers:
   #      - canary
   #      - v0\.
   - type: docker_registry
+    repo: registry-1.docker.io
+    image: quiq/docker-registry-ui
+    tag: 0.8.1
+    excludes:
+      - latest
+  - type: docker_registry
     repo: quay.io
     image: kubernetes-ingress-controller/nginx-ingress-controller
     # We are using 0.24.1, but the registry API doesn't list this version for some reason.

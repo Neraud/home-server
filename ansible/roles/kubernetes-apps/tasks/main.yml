@@ -15,6 +15,9 @@
 - import_tasks: apps/infra-mailhog.yml
   tags: kubernetes-app-infra-mailhog
 
+- import_tasks: apps/infra-docker-registry-ui.yml
+  tags: kubernetes-app-infra-docker-registry-ui
+
 - import_tasks: apps/auth-openldap.yml
   tags: kubernetes-app-auth-openldap
 

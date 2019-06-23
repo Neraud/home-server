@@ -85,6 +85,10 @@ server {
 		auth_request_set $lmremote_user $upstream_http_lm_remote_user;
 		auth_request_set $lmlocation $upstream_http_location;
 		error_page 401 $lmlocation;
+				{% for exported_header in location.lemonLdap_exported_headers | default({}) | dict2items %}
+		auth_request_set ${{ exported_header.key | replace("-", "_") | lower }} $upstream_http_{{ exported_header.value | replace("-", "_") | lower  }};
+		proxy_set_header {{ exported_header.key }} ${{ exported_header.key | replace("-", "_") | lower }};
+				{% endfor %}
 			{% endif %}
 			
 			{% if location.php_fpm_pool is defined %}
@@ -204,6 +208,10 @@ server {
 		auth_request_set $lmremote_user $upstream_http_lm_remote_user;
 		auth_request_set $lmlocation $upstream_http_location;
 		error_page 401 $lmlocation;
+				{% for exported_header in location.lemonLdap_exported_headers | default({}) | dict2items %}
+		auth_request_set ${{ exported_header.key | replace("-", "_") | lower }} $upstream_http_{{ exported_header.value | replace("-", "_") | lower  }};
+		proxy_set_header {{ exported_header.key }} ${{ exported_header.key | replace("-", "_") | lower }};
+				{% endfor %}
 			{% endif %}
 			
 			{% if location.php_fpm_pool is defined %}

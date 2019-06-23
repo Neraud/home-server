@@ -1,0 +1,43 @@
+version: 0.1
+log:
+  fields:
+    service: registry
+storage:
+  cache:
+    blobdescriptor: inmemory
+  filesystem:
+    rootdirectory: /var/lib/registry
+  delete:
+    enabled: true
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
+{% if registry_notification_endpoints | default([]) %}
+notifications:
+  endpoints:
+{% for registry_notification_endpoint in registry_notification_endpoints %}
+    - name: {{ registry_notification_endpoint.name }}
+      url:  {{ registry_notification_endpoint.url }}
+{% if registry_notification_endpoint.headers | default([]) %}
+      headers:
+{% for registry_notification_endpoint_header in registry_notification_endpoint.headers | dict2items %}
+        {{ registry_notification_endpoint_header.key }}: [{{ registry_notification_endpoint_header.value }}]
+{% endfor %}
+{% endif %}
+      timeout: {{ registry_notification_endpoint.timeout | default("1s") }}
+      threshold: {{ registry_notification_endpoint.threshold | default(5) }}
+      backoff: {{ registry_notification_endpoint.backoff | default("10s") }}
+{% if registry_notification_endpoint.ignoredmediatypes | default([]) %}
+      ignoredmediatypes:
+{% for registry_notification_endpoint_ignoredmediatype in registry_notification_endpoint.ignoredmediatypes %}
+        - {{ registry_notification_endpoint_ignoredmediatype }}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}

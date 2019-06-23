@@ -63,6 +63,8 @@ nginx_extra_log_formats: []
 #          path: /path/to/htpasswd_something
 #   OR
 #        lemonLdap_protected: True
+#        lemonLdap_exported_headers:
+#          targetName: lemonLdapName
 #
 #      - path: /php-application/
 #        root: /opt/php_app
