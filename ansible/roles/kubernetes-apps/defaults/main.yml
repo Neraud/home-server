@@ -25,6 +25,7 @@ registry_notification_endpoints:
       - application/octet-stream
 
 
+docker_registry_ui_admin_users: []
 docker_registry_ui_event_api_token: token
 
 # Expose Unifi private services on the Node IP

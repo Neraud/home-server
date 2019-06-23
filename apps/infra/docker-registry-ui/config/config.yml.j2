@@ -38,7 +38,7 @@ cache_refresh_interval: 10
 anyone_can_delete: false
 # Users allowed to delete tags.
 # This should be sent via X-WEBAUTH-USER header from your proxy.
-admins: []
+admins: [ {{ docker_registry_ui_admin_users  | map("regex_replace", "(.+)", "\"\\1\"") | join(',') }} ]
 
 # Debug mode. Affects only templates.
 debug: false

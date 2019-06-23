@@ -110,6 +110,8 @@ You can do so using a terminal (assuming you start at the project root) :
 
 Docker Registry UI is installed and configured to show the images stored in the local private registry.
 
+The LdemonLDAP user name is sent to Docker Registry UI, and usernames added in the `docker_registry_ui_admin_users` variables are allowed to remove tags from the registry (by default `user` is allowed).
+
 ### OpenLDAP
 
 OpenLDAP is installed and configured for the base domain.

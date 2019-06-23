@@ -8,6 +8,9 @@ registry_servername: registry.default
 
 docker_registry_ui_event_api_token: "abcdefghijklmnopqrstuvwxyz123456"
 
+docker_registry_ui_admin_users:
+  - user
+
 openldap_ldap_servername: openldap.default
 openldap_ldap_organisation: "{{ domain_name }}"
 openldap_ldap_domain: "{{ web_base_domain }}"
@@ -128,6 +131,8 @@ lemonldap_location_rules:
       - name: 00-ElasticSearch
         uri: ^/elasticsearch/
         rule: skip
+    exportedHeaders:
+      Auth-User: "$uid"
   - domain: "unifi.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'unifi')
     # To require TOTP, set the level to >= 4
