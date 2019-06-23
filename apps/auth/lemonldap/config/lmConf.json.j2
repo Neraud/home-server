@@ -383,7 +383,16 @@
       }{% if not locationLoop.last %},{% endif %}
 {% endfor %}
    },
-   "exportedHeaders" : {},
+   "exportedHeaders" : {
+{% for locationRule in lemonldap_location_rules | default([]) %}
+   {% set locationLoop = loop %}
+      "{{ locationRule.domain }}": {
+   {% for exportedHeader in locationRule.exportedHeaders | default({}) | dict2items %}
+         "{{ exportedHeader.key }}": "{{ exportedHeader.value }}"{% if not loop.last %},{% endif %}
+   {% endfor %}
+      }{% if not locationLoop.last %},{% endif %}
+{% endfor %}
+   },
    "vhostOptions": {
 {% for locationRule in lemonldap_location_rules | default([]) %}
    {% set locationLoop = loop %}

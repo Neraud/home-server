@@ -101,6 +101,8 @@ lemonldap_location_rules:
 #      - name: New Rule
 #        uri: ^new
 #        rule: accept
+    exportedHeaders:
+      name: value
   - domain: "web.{{ web_base_domain }}"
     default_rule: accept
 
