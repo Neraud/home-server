@@ -2,7 +2,7 @@
 
 - name: Build and push pyLoad image
   docker_image:
-    name: "{{ kubernetes_registry_url }}/pyload"
+    name: "{{ docker_registry_url }}/pyload"
     source: build
     build:
       path: "{{ kubernetes_app_root_path }}/download/pyload/build"

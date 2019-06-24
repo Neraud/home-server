@@ -2,7 +2,7 @@
 
 - name: Build and push TT-RSS image
   docker_image:
-    name: "{{ kubernetes_registry_url }}/ttrss"
+    name: "{{ docker_registry_url }}/ttrss"
     source: build
     build:
       path: "{{ kubernetes_app_root_path }}/web/ttrss/build"

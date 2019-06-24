@@ -22,7 +22,7 @@ spec:
         app-component: homeassistant
     spec:
       containers:
-      - image: {{ kubernetes_registry_url }}/homeassistant
+      - image: {{ docker_registry_url }}/homeassistant
         name: homeassistant
         ports:
         - containerPort: 8123

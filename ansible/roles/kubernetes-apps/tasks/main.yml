@@ -6,8 +6,8 @@
 - import_tasks: apps/infra-reloader.yml
   tags: kubernetes-app-infra-reloader
 
-- import_tasks: apps/infra-registry.yml
-  tags: kubernetes-app-infra-registry
+- import_tasks: apps/infra-docker-registry.yml
+  tags: kubernetes-app-infra-docker-registry
 
 - import_tasks: apps/infra-zonemta.yml
   tags: kubernetes-app-infra-zonemta

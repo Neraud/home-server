@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: registry
+  name: docker-registry
   namespace: default
   labels:
-    app: registry
+    app: docker-registry
     app-component: registry
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: registry
+      app: docker-registry
       app-component: registry
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: registry
+        app: docker-registry
         app-component: registry
     spec:
       containers:
       - image: registry:2.7.1
-        name: registry
+        name: docker-registry
         env:
         - name: REGISTRY_HTTP_ADDR
           value: 0.0.0.0:443
@@ -33,20 +33,20 @@ spec:
           value: /certs/server.key
         ports:
         - containerPort: 443
-          name: registry
+          name: docker-registry
         resources:
           requests:
-            cpu: "{{ registry_requests_cpu | default("100m") }}"
-            memory: "{{ registry_requests_memory | default("64Mi") }}"
+            cpu: "{{ docker_registry_requests_cpu | default("50m") }}"
+            memory: "{{ docker_registry_requests_memory | default("64Mi") }}"
           limits:
-            cpu: "{{ registry_limits_cpu | default("200m") }}"
-            memory: "{{ registry_limits_memory | default("64Mi") }}"
+            cpu: "{{ docker_registry_limits_cpu | default("100m") }}"
+            memory: "{{ docker_registry_limits_memory | default("64Mi") }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
-        - name: registry-pv-claim
+        - name: docker-registry-pv-claim
           mountPath: /var/lib/registry
-        - name: registry-config
+        - name: docker-registry-config
           mountPath: /etc/docker/registry/config.yml
           subPath: config.yml
         - name: certs-volume
@@ -55,17 +55,17 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: registry-config
+      - name: docker-registry-config
         configMap:
-          name: registry-config
+          name: docker-registry-config
       - name: certs-volume
         secret:
-          secretName: registry-certs
+          secretName: docker-registry-certs
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
-      name: registry-pv-claim
+      name: docker-registry-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
@@ -74,5 +74,5 @@ spec:
           storage: 10G
       selector:
         matchLabels:
-          app: registry
+          app: docker-registry
           app-component: registry
