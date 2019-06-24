@@ -1,5 +1,7 @@
 ---
 
+gitlab_enabled: true
+
 gitlab_context_path: /gitlab
 gitlab_external_url: "https://gitlab.domain{{ gitlab_context_path }}"
 gitlab_time_zone: "{{ time_zone }}"

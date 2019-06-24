@@ -1,5 +1,7 @@
 ---
 
+nodered_enabled: true
+
 nodered_context_root: /
 nodered_ldap_servername: "{{ openldap_ldap_servername }}"
 nodered_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"

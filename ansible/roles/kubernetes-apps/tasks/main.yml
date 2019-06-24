@@ -2,99 +2,132 @@
 
 - import_tasks: apps/infra-dashboard.yml
   tags: kubernetes-app-infra-dashboard
+  when: kubernetes_dashboard_enabled | bool
 
 - import_tasks: apps/infra-reloader.yml
   tags: kubernetes-app-infra-reloader
+  when: reloader_enabled | bool
 
 - import_tasks: apps/infra-docker-registry.yml
   tags: kubernetes-app-infra-docker-registry
+  when: docker_registry_enabled | bool
 
 - import_tasks: apps/infra-zonemta.yml
   tags: kubernetes-app-infra-zonemta
+  when: zonemta_enabled | bool
 
 - import_tasks: apps/infra-mailhog.yml
   tags: kubernetes-app-infra-mailhog
+  when: mailhog_enabled | bool
 
 - import_tasks: apps/infra-docker-registry-ui.yml
   tags: kubernetes-app-infra-docker-registry-ui
+  when: docker_registry_ui_enabled | bool
 
 - import_tasks: apps/auth-openldap.yml
   tags: kubernetes-app-auth-openldap
+  when: openldap_enabled | bool
 
 - import_tasks: apps/auth-phpldapadmin.yml
   tags: kubernetes-app-auth-phpldapadmin
+  when: phpldapadmin_enabled | bool
 
 - import_tasks: apps/auth-lemonldap.yml
   tags: kubernetes-app-auth-lemonldap
+  when: lemonldap_enabled | bool
 
 - import_tasks: apps/logging-elasticsearch.yml
   tags: kubernetes-app-logging-elasticsearch
+  when: elasticsearch_enabled | bool
 
 - import_tasks: apps/logging-fluentd.yml
   tags: kubernetes-app-logging-fluentd
+  when: fluentd_enabled | bool
 
 - import_tasks: apps/logging-fluentbit.yml
   tags: kubernetes-app-logging-fluentbit
+  when: fluentbit_enabled | bool
 
 - import_tasks: apps/logging-kibana.yml
   tags: kubernetes-app-logging-kibana
+  when: kibana_enabled | bool
 
 - import_tasks: apps/monitoring-kubernetes.yml
   tags: kubernetes-app-monitoring-kubernetes
+  when: kubernetes_monitoring_enabled | bool
 
 - import_tasks: apps/monitoring-exporters.yml
   tags: kubernetes-app-monitoring-exporters
+  when: kubernetes_exporters_enabled | bool
 
 - import_tasks: apps/monitoring-gluster-exporter.yml
   tags: kubernetes-app-monitoring-gluster-exporter
+  when: gluster_exporter_enabled | bool
 
 - import_tasks: apps/monitoring-release-watcher.yml
   tags: kubernetes-app-monitoring-release-watcher
+  when: release_watcher_enabled | bool
 
 - import_tasks: apps/monitoring-prometheus-operator.yml
   tags: kubernetes-app-monitoring-prometheus-operator
+  when: prometheus_operator_enabled | bool
 
 - import_tasks: apps/monitoring-grafana.yml
   tags: kubernetes-app-monitoring-grafana
+  when: grafana_enabled | bool
 
 - import_tasks: apps/web-ttrss.yml
   tags: kubernetes-app-web-ttrss
+  when: ttrss_enabled | bool
 
 - import_tasks: apps/web-heimdall.yml
   tags: kubernetes-app-web-heimdall
+  when: heimdall_enabled | bool
 
 - import_tasks: apps/infra-unifi.yml
   tags: kubernetes-app-infra-unifi
+  when: unifi_enabled | bool
 
 - import_tasks: apps/home-homeassistant.yml
   tags: kubernetes-app-home-homeassistant
+  when: homeassistant_enabled | bool
 
 - import_tasks: apps/home-nodered.yml
   tags: kubernetes-app-home-nodered
+  when: nodered_enabled | bool
 
 - import_tasks: apps/home-mosquitto.yml
   tags: kubernetes-app-home-mosquitto
+  when: mosquitto_enabled | bool
 
 - import_tasks: apps/home-roomassistant.yml
   tags: kubernetes-app-home-roomassistant
+  when: roomassistant_enabled | bool
 
 - import_tasks: apps/stream-airsonic.yml
   tags: kubernetes-app-stream-airsonic
+  when: airsonic_enabled | bool
 
 - import_tasks: apps/stream-plex.yml
   tags: kubernetes-app-stream-plex
+  when: plex_enabled | bool
 
 - import_tasks: apps/dev-gitlab.yml
   tags: kubernetes-app-dev-gitlab
+  when: gitlab_enabled | bool
 
 - import_tasks: apps/download-sickchill.yml
   tags: kubernetes-app-download-sickchill
+  when: sickchill_enabled | bool
 
 - import_tasks: apps/download-deluge.yml
   tags: kubernetes-app-download-deluge
+  when: deluge_enabled | bool
 
 - import_tasks: apps/download-pyload.yml
   tags: kubernetes-app-download-pyload
+  when: pyload_enabled | bool
 
 - import_tasks: apps/download-sabnzbd.yml
   tags: kubernetes-app-download-sabnzbd
+  when: sabnzbd_enabled | bool

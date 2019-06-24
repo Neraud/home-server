@@ -1,5 +1,7 @@
 ---
 
+lemonldap_enabled: true
+
 lemonldap_fastcgi_port: 9000
 lemonldap_persistent_volume_path: /var/lib/lemonldap-ng-pv
 lemonldap_ldap_servername: "{{ openldap_ldap_servername }}"

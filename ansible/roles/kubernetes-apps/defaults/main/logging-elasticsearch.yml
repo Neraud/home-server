@@ -1,5 +1,7 @@
 ---
 
+elasticsearch_enabled: true
+
 # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
 # We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
 logging_elasticsearch_internal_users: []

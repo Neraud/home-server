@@ -1,5 +1,7 @@
 ---
 
+mosquitto_enabled: true
+
 # First listener is used as default
 mosquitto_listeners:
   - port: 1883

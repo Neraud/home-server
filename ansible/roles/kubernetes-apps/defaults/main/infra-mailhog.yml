@@ -1,5 +1,7 @@
 ---
 
+mailhog_enabled: true
+
 mailhog_exposed_smtp: mailhog.default.svc.cluster.local:1025
 mailhog_forward_smtp_enabled: false
 #mailhog_forward_smtp_name: "TODO"

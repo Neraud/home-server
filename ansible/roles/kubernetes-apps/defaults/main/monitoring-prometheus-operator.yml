@@ -1,5 +1,7 @@
 ---
 
+prometheus_operator_enabled: true
+
 prometheus_retention: 7d
 prometheus_allowed_namespaces:
   - default

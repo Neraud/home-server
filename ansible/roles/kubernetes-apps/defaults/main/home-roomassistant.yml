@@ -1,5 +1,7 @@
 ---
 
+roomassistant_enabled: true
+
 # See https://github.com/mKeRix/room-assistant/wiki/Configuration
 roomassistant_environment_variables:
   SERVICES: mqtt,shell

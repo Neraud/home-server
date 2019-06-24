@@ -1,5 +1,7 @@
 ---
 
+sickchill_enabled: true
+
 sickchill_context_root: /
 sickchill_api_key: "abcdefghijklmnopqrstuvwxyz123456"
 sickchill_smtp_host: "{{ zonemta_smtp_servername }}"

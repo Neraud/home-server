@@ -1,5 +1,7 @@
 ---
 
+openldap_enabled: true
+
 # OpenLDAP sererver name. We use the Kubernetes [service].[namespace] format
 openldap_ldap_servername: openldap.default
 openldap_ldap_organisation: Example Inc.
