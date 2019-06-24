@@ -41,6 +41,11 @@ heimdall_applications:
     pinned: true
     tags: ['All', 'Infra']
     class: '\App\SupportedApps\KubernetesDashboard\KubernetesDashboard'
+  - title: 'Docker Registry UI'
+    colour: '#161b1f'
+    url: 'https://infra.{{ web_base_domain }}/docker-regitry-ui'
+    pinned: true
+    tags: ['All', 'Infra']
   - title: 'LemonLDAP'
     icon: 'icons/lemonldapng.png'
     colour: '#161b1f'
