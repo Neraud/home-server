@@ -1,0 +1,18 @@
+---
+
+mosquitto_default_listener_servername: mosquitto.default
+mosquitto_listeners:
+  # Keep the "non tls" listener to avoid breaking the NGinx Ingress
+  - port: 1883
+    secure: False
+    websocket: False
+  - port: 8883
+    secure: True
+    websocket: False
+    cert_name: server
+
+# password generated with mosquitto_passwd
+mosquitto_credientials:
+  credentials:
+#      user / Passw0rd
+    - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==

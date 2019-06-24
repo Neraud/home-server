@@ -1,0 +1,9 @@
+---
+
+# It's required to refefine this variable even if it's the same value as the default one to have it available for openssl-pki
+docker_registry_servername: docker-registry.default
+
+docker_registry_ui_event_api_token: "abcdefghijklmnopqrstuvwxyz123456"
+
+docker_registry_ui_admin_users:
+  - user

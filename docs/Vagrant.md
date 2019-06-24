@@ -160,7 +160,7 @@ LemonLDAP is used as a SSO for all applications.
 User, credentials and groups are stored in OpenLDAP, while access rules are configured in LemonLDAP.
 
 User `user` has access to everything.
-You can add a TOTP device for `user` and force its use by setting the `requiredAuthnLevel` property under each domain in `lemonldap_location_rules` in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps`
+You can add a TOTP device for `user` and force its use by setting the `requiredAuthnLevel` property under each domain in `lemonldap_location_rules` in `ansible/inventories/vagrant/group_vars/all/apps/auth-lemonldap`
 
 ### phpLDAPadmin
 
@@ -421,7 +421,7 @@ To get your Plex Token :
 * Reload the page
 * You should see around 50 requests captured in your browser, scroll up the list, look for a request that starts *user*, and click on it
 * On the right panel, select the response tab and on the 2nd line look for the authToken property
-* In ansible\inventories\vagrant\group_vars\all\kubernetes-apps, set this token in the variable `plex_plex_token`
+* In `ansible/inventories/vagrant/group_vars/all/apps/stream-plex`, set this token in the variable `plex_plex_token`
 
 ### Airsonic
 
