@@ -1,0 +1,19 @@
+---
+
+sabnzbd_context_root: /
+sabnzbd_user: sabnzbd
+sabnzbd_password: clear_password
+sabnzbd_api_key: "abcdefghijklmnopqrstuvwxyz123456"
+sabnzbd_smtp_host: "{{ zonemta_smtp_servername }}"
+sabnzbd_smtp_port: 587
+sabnzbd_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+sabnzbd_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+
+sabnzbd_nzbToMedia_config_sickbeard:
+  tv:
+    enabled: 0
+    host: sickchill.default
+    port: 80
+    api_key: "{{ sickchill_api_key }}"
+    web_root: "{{ sickchill_context_root }}"
+    ssl: 0

@@ -1,0 +1,8 @@
+---
+
+nodered_context_root: /
+nodered_ldap_servername: "{{ openldap_ldap_servername }}"
+nodered_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+nodered_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+nodered_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
+nodered_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']

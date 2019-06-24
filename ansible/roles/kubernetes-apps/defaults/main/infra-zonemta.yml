@@ -1,0 +1,22 @@
+---
+
+zonemta_smtp_servername: zonemta.default
+zonemta_feeder_authentication_enabled: true
+zonemta_feeder_authentication_username: smtp
+zonemta_feeder_authentication_password: clear_password
+zonemta_mongo_root_user: root
+zonemta_mongo_root_password: clear_password
+zonemta_mongo_user: zonemta
+zonemta_mongo_database: zonemta
+zonemta_mongo_password: clear_password
+zonemta_redis_password: clear_password
+# Forward to Mailhog by default
+zonemta_forward_mta_host: mailhog.default.svc.cluster.local
+zonemta_forward_mta_port: 1025
+zonemta_forward_mta_auth_enabled: false
+#zonemta_forward_mta_user: user
+#zonemta_forward_mta_password: password
+zonemta_exposed_namespaces:
+  - default
+  - monitoring
+  - logging

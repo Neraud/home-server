@@ -1,0 +1,11 @@
+---
+
+mailhog_exposed_smtp: mailhog.default.svc.cluster.local:1025
+mailhog_forward_smtp_enabled: false
+#mailhog_forward_smtp_name: "TODO"
+#mailhog_forward_smtp_host: "..."
+#mailhog_forward_smtp_port: "587"
+#mailhog_forward_smtp_email: "..."
+#mailhog_forward_smtp_username: "..."
+#mailhog_forward_smtp_password: "..."
+#mailhog_forward_smtp_mechanism: "PLAIN"
