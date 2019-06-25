@@ -9,10 +9,21 @@ storage:
     rootdirectory: /var/lib/registry
   delete:
     enabled: true
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
 http:
   addr: :5000
   headers:
     X-Content-Type-Options: [nosniff]
+  
+  debug:
+    addr: :5001
+    prometheus:
+      enabled: true
+      path: /metrics
 health:
   storagedriver:
     enabled: true
