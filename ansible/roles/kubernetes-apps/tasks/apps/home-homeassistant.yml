@@ -2,7 +2,7 @@
 
 - name: Build and push Home Assistant image
   docker_image:
-    name: "{{ kubernetes_registry_url }}/homeassistant"
+    name: "{{ docker_registry_url }}/homeassistant"
     source: build
     build:
       path: "{{ kubernetes_app_root_path }}/home/homeassistant/build"

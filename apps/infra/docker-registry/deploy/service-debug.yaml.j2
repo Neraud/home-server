@@ -1,0 +1,17 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-registry-debug
+  namespace: default
+  labels:
+    app: docker-registry
+    app-component: registry
+    prometheus-target: docker-registry
+spec:
+  ports:
+    - port: 5001
+      name: debug
+      targetPort: 5001
+  selector:
+    app: docker-registry
+    app-component: registry

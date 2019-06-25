@@ -19,10 +19,14 @@ spec:
     targetPort: 3478
     protocol: UDP
   # Port used for device and controller communication.
-  - name: controller
+  - name: http-controller
     port: 8080
     targetPort: 8080
     protocol: TCP
+  # Port used for controller GUI/API as seen in a web browser
+  - name: https-controller
+    port: 8443
+    targetPort: 8443
   # Port used for HTTP portal redirection.
   - name: http-portal
     port: 8880

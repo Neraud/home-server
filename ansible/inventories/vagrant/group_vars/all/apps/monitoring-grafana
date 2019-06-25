@@ -1,0 +1,4 @@
+---
+
+grafana_admin_password: Passw0rd
+grafana_ldap_group: "cn=grafana,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"

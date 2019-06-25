@@ -1,0 +1,48 @@
+---
+
+lemonldap_ldap_group_base: "{{ openldap_ldap_structure_groups_ou_dns['sso_groups'] }}"
+
+lemonldap_location_rules:
+  - domain: "infra.{{ web_base_domain }}"
+    # To require TOTP, set the level to >= 4
+    #requiredAuthnLevel: 4
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
+    rules:
+      # Disable Auth for ElasticSearch
+      - name: 00-ElasticSearch
+        uri: ^/elasticsearch/
+        rule: skip
+    exportedHeaders:
+      Auth-User: "$uid"
+  - domain: "unifi.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'unifi')
+    # To require TOTP, set the level to >= 4
+    #requiredAuthnLevel: 4
+  - domain: "web.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'web')
+  - domain: "heimdall.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'web')
+  - domain: "home.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'home')
+    rules:
+      # Disable Auth for HomeAssistant API
+      - name: 00-HomeAssistant_API
+        uri: ^/api/
+        rule: skip
+      # Disable Auth for HomeAssistant OAuth
+      - name: 00-HomeAssistant_OAuth
+        uri: ^/auth/token
+        rule: skip
+  - domain: "stream.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'stream')
+  - domain: "plex.{{ web_base_domain }}"
+    default_rule: skip
+  - domain: "dev.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'dev')
+    rules:
+      # Skip gitlab to enable https clone
+      - name: 00-Gitlab
+        uri: ^/gitlab
+        rule: skip
+  - domain: "dl.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'dl')

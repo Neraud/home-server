@@ -1,0 +1,108 @@
+---
+
+openldap_ldap_servername: openldap.default
+openldap_ldap_organisation: "{{ domain_name }}"
+openldap_ldap_domain: "{{ web_base_domain }}"
+openldap_ldap_basedn: "dc=k8stest,dc=com"
+openldap_ldap_admin_password: Passw0rd
+openldap_ldap_config_password: Passw0rd
+openldap_ldap_readonly_user_password: Passw0rd
+
+openldap_ldap_structure_groups_ou_dns:
+  sso_groups: "ou=sso_groups,{{ openldap_ldap_basedn }}"
+  app_groups: "ou=app_groups,{{ openldap_ldap_basedn }}"
+  elasticsearch_roles: "ou=elasticsearch_roles,{{ openldap_ldap_basedn }}"
+
+openldap_ldap_users:
+  - id: user
+    sn: User
+    password: Passw0rd
+    email: user@mail.net
+    displayName: User
+
+openldap_ldap_groups:
+  # SSO Groups, used to filter access via LemonLDAP
+  - id: infra
+    description: Infra
+    ou: sso_groups
+    members:
+      - user
+  - id: unifi
+    description: Unifi
+    ou: sso_groups
+    members:
+      - user
+  - id: web
+    description: Web
+    ou: sso_groups
+    members:
+      - user
+  - id: home
+    description: Home
+    ou: sso_groups
+    members:
+      - user
+  - id: stream
+    description: Stream
+    ou: sso_groups
+    members:
+      - user
+  - id: dev
+    description: Dev
+    ou: sso_groups
+    members:
+      - user
+  - id: dl
+    description: Download
+    ou: sso_groups
+    members:
+      - user
+
+  # App Groups, used to filter access on each app
+  - id: gitlab
+    description: Gitlab
+    ou: app_groups
+    members:
+      - user
+  - id: homeassistant
+    description: HomeAssistant
+    ou: app_groups
+    members:
+      - user
+  - id: nodered
+    description: Node-RED
+    ou: app_groups
+    members:
+      - user
+  - id: grafana
+    description: Grafana
+    ou: app_groups
+    members:
+      - user
+  - id: airsonic
+    description: Airsonic
+    ou: app_groups
+    members:
+      - user
+  - id: ttrss
+    description: TT-RSS
+    ou: app_groups
+    members:
+      - user
+  - id: elasticsearch
+    description: ElasticSearch
+    ou: app_groups
+    members:
+      - user
+
+
+  - id: admin
+    description: All access
+    ou: elasticsearch_roles
+    members:
+      - user
+  - id: kibanauser
+    description: Kibana user
+    ou: elasticsearch_roles
+    members:
+      - user

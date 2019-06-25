@@ -8,7 +8,7 @@
 
 - name: Build and push release-watcher image
   docker_image:
-    name: "{{ kubernetes_registry_url }}/release-watcher"
+    name: "{{ docker_registry_url }}/release-watcher"
     source: build
     build:
       path: "{{ release_watcher_path }}"

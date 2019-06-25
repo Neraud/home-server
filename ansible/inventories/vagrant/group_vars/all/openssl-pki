@@ -87,8 +87,8 @@ openssl_custom_pki:
   - pki_name: cluster
     ca_common_name: "cluster.local"
     certs:
-      - name: "registry"
-        common_name: "{{ registry_servername }}"
+      - name: "docker-registry"
+        common_name: "{{ docker_registry_servername }}"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris

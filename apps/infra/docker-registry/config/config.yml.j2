@@ -1,7 +1,7 @@
 version: 0.1
 log:
   fields:
-    service: registry
+    service: docker-registry
 storage:
   cache:
     blobdescriptor: inmemory
@@ -9,19 +9,30 @@ storage:
     rootdirectory: /var/lib/registry
   delete:
     enabled: true
-http:
-  addr: :5000
-  headers:
-    X-Content-Type-Options: [nosniff]
 health:
   storagedriver:
     enabled: true
     interval: 10s
     threshold: 3
-{% if registry_notification_endpoints | default([]) %}
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+  
+  debug:
+    addr: :5001
+    prometheus:
+      enabled: true
+      path: /metrics
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
+{% if docker_registry_notification_endpoints | default([]) %}
 notifications:
   endpoints:
-{% for registry_notification_endpoint in registry_notification_endpoints %}
+{% for registry_notification_endpoint in docker_registry_notification_endpoints %}
     - name: {{ registry_notification_endpoint.name }}
       url:  {{ registry_notification_endpoint.url }}
 {% if registry_notification_endpoint.headers | default([]) %}

@@ -1,0 +1,7 @@
+---
+
+ttrss_context_root: /tt-rss
+ttrss_pqsql_user: ttrss
+ttrss_pqsql_database: ttrss
+ttrss_pqsql_password: Passw0rd
+ttrss_ldap_group: "cn=ttrss,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"

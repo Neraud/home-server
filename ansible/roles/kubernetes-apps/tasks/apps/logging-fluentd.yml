@@ -2,7 +2,7 @@
 
 - name: Build and push Fluentd image
   docker_image:
-    name: "{{ kubernetes_registry_url }}/fluentd"
+    name: "{{ docker_registry_url }}/fluentd"
     source: build
     build:
       path: "{{ kubernetes_app_root_path }}/logging/fluentd/build"

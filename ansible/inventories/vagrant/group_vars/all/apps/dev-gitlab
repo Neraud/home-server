@@ -1,0 +1,6 @@
+---
+
+gitlab_context_path: /gitlab
+gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}"
+
+gitlab_ldap_group: "cn=gitlab,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"

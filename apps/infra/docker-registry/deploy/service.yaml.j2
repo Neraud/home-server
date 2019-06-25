@@ -1,17 +1,17 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: registry
+  name: docker-registry
   namespace: default
   labels:
-    app: registry
+    app: docker-registry
     app-component: registry
 spec:
   type: NodePort
   ports:
     - port: 443
       targetPort: 443
-      nodePort: {{ kubernetes_registry_port }}
+      nodePort: {{ docker_registry_port }}
   selector:
-    app: registry
+    app: docker-registry
     app-component: registry

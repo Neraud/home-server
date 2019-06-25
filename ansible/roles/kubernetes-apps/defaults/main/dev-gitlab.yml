@@ -1,0 +1,29 @@
+---
+
+gitlab_enabled: true
+
+gitlab_context_path: /gitlab
+gitlab_external_url: "https://gitlab.domain{{ gitlab_context_path }}"
+gitlab_time_zone: "{{ time_zone }}"
+gitlab_backup_keep_time: "604800"
+
+# Email configuration.
+gitlab_email_enabled: "true"
+gitlab_email_from: "gitlab@{{ web_base_domain }}"
+gitlab_email_display_name: "Gitlab"
+gitlab_email_reply_to: "gitlab{{ web_base_domain }}"
+gitlab_email_subject_suffix: "[Gitlab] "
+gitlab_smtp_enable: "true"
+gitlab_smtp_address: "{{ zonemta_smtp_servername }}"
+gitlab_smtp_port: 587
+gitlab_smtp_authentication: "login"
+gitlab_smtp_user_name: "{{ zonemta_feeder_authentication_username }}"
+gitlab_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+#gitlab_smtp_domain: "example.com"
+gitlab_smtp_enable_starttls_auto: "true"
+gitlab_smtp_tls: "false"
+#gitlab_smtp_openssl_verify_mode: 'peer'
+gitlab_ldap_servername: "{{ openldap_ldap_servername }}"
+gitlab_ldap_user_base: "{{ openldap_ldap_structure_users_ou_dn }}"
+gitlab_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+gitlab_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"

@@ -1,7 +1,7 @@
 ---
 
 glusterfs_volumes:
-  registry-data:
+  docker-registry-data:
     replicas: 2
     capacity: 10G
     arbiterCapacity: 256M
@@ -9,7 +9,7 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: registry
+      app: docker-registry
       app-component: registry
   zonemta-mongo-data:
     replicas: 2

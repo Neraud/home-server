@@ -34,7 +34,7 @@ This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Cor
 
 | Part     | Model                                                                                                                              | Price    |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-Nuc-Kit-Nuc8I3Beh-Cartes/dp/B07JB2M5JS)                                              | 373,01 € |
+| Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-NUC-Kit-NUC8i5BEH-Generation/dp/B07JCF1LCL)                                          | 373,01 € |
 | RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 168,25 € |
 | Storage  | [WD Blue SN500](https://www.amazon.fr/gp/product/B07P7TFKRH)                                                                       | 65,45 €  |
 

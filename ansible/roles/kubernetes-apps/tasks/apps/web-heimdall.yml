@@ -2,7 +2,7 @@
 
 - name: Build and push Heimdall image
   docker_image:
-    name: "{{ kubernetes_registry_url }}/heimdall"
+    name: "{{ docker_registry_url }}/heimdall"
     source: build
     build:
       path: "{{ kubernetes_app_root_path }}/web/heimdall/build"

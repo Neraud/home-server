@@ -3,7 +3,7 @@
 ## User and password
 
 Users and their passwords are stored in OpenLDAP.
-They are created via the ansible playbook and can be configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
+They are created via the ansible playbook and can be configured in `ansible/inventories/vagrant/group_vars/all/apps/auth-openldap` :
 
 ```yaml
 openldap_ldap_users:
@@ -23,7 +23,7 @@ You can use [phpLDAPAdmin](https://infra.k8stest.com/phpldapadmin/) to manually 
 * SSO groups, used by the Web SSO
 * Application groups, used by compatible applications
 
-These groups and their members are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
+These groups and their members are configured in `ansible/inventories/vagrant/group_vars/all/apps/auth-openldap` :
 
 ```yaml
 openldap_ldap_groups:
@@ -70,7 +70,7 @@ nginx_sites:
 
 LemonLDAP exposes its handler port to receive the NGinx `auth_request`.
 
-The security rules are configured in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps` :
+The security rules are configured in `ansible/inventories/vagrant/group_vars/all/apps/auth-lemonldap` :
 
 ```yaml
 lemonldap_location_rules:
@@ -163,7 +163,7 @@ The internal authentication system (with the default `admin` / `password` accoun
 
 Using the security plugin of the OpenDistro package of Elasticsearch and Kibana enables to use LDAP authentication and authorization.
 
-Technical accounts are stored in the internal database (see `logging_elasticsearch_internal_users` in `ansible/inventories/vagrant/group_vars/all/kubernetes-apps`)
+Technical accounts are stored in the internal database (see `logging_elasticsearch_internal_users` in `ansible/inventories/vagrant/group_vars/all/apps/logging-elasticsearch`)
 
 User accounts are stored in LDAP, using the `app_groups` `elasticsearch`.
 Roles are using dedicated LDAP groups, under a dedicated `elasticsearch_roles` ou, and are mapped to elasticsearch roles.

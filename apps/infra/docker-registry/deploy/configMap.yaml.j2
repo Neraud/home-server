@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: docker-registry-config
+  namespace: default
+  labels:
+    app: docker-registry
+    app-component: registry
+data:
+  config.yml: |
+    {{ lookup('template', kubernetes_app_root_path + '/infra/docker-registry/config/config.yml.j2')  | replace('\n', '\n    ') }}

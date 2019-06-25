@@ -1,0 +1,4 @@
+---
+
+nodered_context_root: /node-red
+nodered_ldap_group: "cn=homeassistant,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
