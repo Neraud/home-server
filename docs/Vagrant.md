@@ -206,6 +206,16 @@ Gotify can be used to send notifications.
 * `admin` / `Passw0rd`
 * `user` / `Passw0rd`
 
+`user` also has a `sample` application, and you can send a test message via the command line :
+
+```shell
+[root@master-1$] apt-get -q -y install jq
+
+[user@master$] token=$(curl -s -k -H "Host: infra.k8stest.com" -u user:Passw0rd https://127.0.0.1:30443/gotify/application | jq -r '.[] | select(.name=="sample") | .token')
+
+[user@master$] curl -X POST -s -k -H "Host: infra.k8stest.com" -H "X-Gotify-Key: $token" https://127.0.0.1:30443/gotify/message -F "title=Sample title" -F "message=Sample message"
+```
+
 ### Prometheus & AlertManager
 
 Prometheus & AlertManager are deployed, and configured to gather metrics from the usual exporters :

@@ -6,3 +6,6 @@ gotify_users:
   - name: user
     password: Passw0rd
     admin: False
+    applications:
+      - name: sample
+        desc: Sample application
