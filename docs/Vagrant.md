@@ -197,6 +197,12 @@ You can easily test MailHog by sending a email via the command line :
 [user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
 ```
 
+### Gotify
+
+Gotify can be used to send notifications.
+
+A default `admin`/`Passw0rd` user is created.
+
 ### Prometheus & AlertManager
 
 Prometheus & AlertManager are deployed, and configured to gather metrics from the usual exporters :
