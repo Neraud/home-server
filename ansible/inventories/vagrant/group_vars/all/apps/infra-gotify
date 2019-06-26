@@ -1,3 +1,8 @@
 ---
 
 gotify_default_admin_password: Passw0rd
+
+gotify_users:
+  - name: user
+    password: Passw0rd
+    admin: False

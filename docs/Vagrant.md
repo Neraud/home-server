@@ -201,7 +201,10 @@ You can easily test MailHog by sending a email via the command line :
 
 Gotify can be used to send notifications.
 
-A default `admin`/`Passw0rd` user is created.
+2 users are created : 
+
+* `admin` / `Passw0rd`
+* `user` / `Passw0rd`
 
 ### Prometheus & AlertManager
 

@@ -8,3 +8,49 @@
     - "{{ kubernetes_app_root_path }}/infra/gotify/deploy/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
+
+- name: Wait for Gotify to be available
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/version"
+    method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    return_content: no
+    validate_certs: no
+  register: gotify_available
+  until:
+  - gotify_available.status == 200
+  retries: 18
+  delay: 10
+
+- name: List existing users
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/user"
+    method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ gotify_default_admin_user }}"
+    password: "{{ gotify_default_admin_password }}"
+  register: gotify_existing_users
+
+- name: Create missing users
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/user"
+    method: POST
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    body:
+      name: "{{ item.name }}"
+      pass: "{{ item.password }}"
+      admin: "{{ item.admin }}"
+    body_format: json
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ gotify_default_admin_user }}"
+    password: "{{ gotify_default_admin_password }}"
+  with_items: "{{ gotify_users }}"
+  when: item.name not in (gotify_existing_users.json | map(attribute='name'))
