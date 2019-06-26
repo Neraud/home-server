@@ -46,6 +46,12 @@ heimdall_applications:
     url: 'https://infra.{{ web_base_domain }}/docker-regitry-ui'
     pinned: true
     tags: ['All', 'Infra']
+  - title: 'Gotify'
+    colour: '#161b1f'
+    url: 'https://infra.{{ web_base_domain }}/gotify'
+    pinned: true
+    tags: ['All', 'Infra']
+    class: '\App\SupportedApps\Gotify\Gotify'
   - title: 'LemonLDAP'
     icon: 'icons/lemonldapng.png'
     colour: '#161b1f'
