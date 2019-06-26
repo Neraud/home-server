@@ -24,4 +24,4 @@
     port: "{{ docker_registry_port }}"
     state: started
     sleep: 2
-    timeout: 30
+    timeout: 60
