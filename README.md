@@ -52,6 +52,7 @@ The folowing services are deployed :
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | Web-based LDAP browser                                 |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | Modern outbound SMTP relay                             |
 | [MailHog](https://github.com/mailhog/MailHog)                    | MailHog is an email testing tool for developers        |
+| [Gotify](https://github.com/gotify/server)                       | Server for sending and receiving messages              |
 | [Prometheus](https://prometheus.io/)                             | Monitoring solution                                    |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | Alert manager for Prometheus                           |
 | [Grafana](https://grafana.com/)                                  | Platform for beautiful analytics and monitoring        |

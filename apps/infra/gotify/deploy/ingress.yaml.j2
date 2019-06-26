@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gotify
+  namespace: default
+  labels:
+    app: gotify
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/gotify)$ $1/ permanent;
+spec:
+  tls:
+    - hosts:
+      - infra.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+        - path: /gotify/?(.*)
+          backend:
+            serviceName: gotify
+            servicePort: 80

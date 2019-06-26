@@ -12,6 +12,10 @@ lemonldap_location_rules:
       - name: 00-ElasticSearch
         uri: ^/elasticsearch/
         rule: skip
+      # Disable Auth for Gotify
+      - name: 00-Gotify
+        uri: ^/gotify/
+        rule: skip
     exportedHeaders:
       Auth-User: "$uid"
   - domain: "unifi.{{ web_base_domain }}"

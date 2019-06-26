@@ -24,6 +24,10 @@
   tags: kubernetes-app-infra-docker-registry-ui
   when: docker_registry_ui_enabled | bool
 
+- import_tasks: apps/infra-gotify.yml
+  tags: kubernetes-app-infra-gotify
+  when: gotify_enabled | bool
+
 - import_tasks: apps/auth-openldap.yml
   tags: kubernetes-app-auth-openldap
   when: openldap_enabled | bool

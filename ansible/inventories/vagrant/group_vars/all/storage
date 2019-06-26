@@ -11,6 +11,16 @@ glusterfs_volumes:
     labels:
       app: docker-registry
       app-component: registry
+  gotify-data:
+    replicas: 2
+    capacity: 256M
+    arbiterCapacity: 4M
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
+    reclaim_policy: Retain
+    labels:
+      app: gotify
+      app-component: gotify
   zonemta-mongo-data:
     replicas: 2
     capacity: 512M
