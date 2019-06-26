@@ -9,6 +9,29 @@
     path: "{{ homeassistant_mount_path }}/configuration.yaml"
   register: homeassistant_configuration_file
 
+- name: Fetch Gotify token
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/application"
+    method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ gotify_homeassistant_username }}"
+    password: "{{ gotify_homeassistant_password }}"
+  register: homeassistant_gotify_applications
+  when: 
+    - gotify_homeassistant_enabled | bool
+    - not homeassistant_configuration_file.stat.exists
+
+- name: Extract Gotify application token
+  set_fact:
+    homeassistant_gotify_application_token: "{{ homeassistant_gotify_applications.json | selectattr('name', 'match', gotify_homeassistant_application_name) | map(attribute='token') | first  }}"
+  when: 
+    - gotify_homeassistant_enabled | bool
+    - not homeassistant_configuration_file.stat.exists
+
 - name: Configure HomeAssistant for the fist run
   template:
     src: "{{ kubernetes_app_root_path }}/home/homeassistant/prepare/{{ item }}.j2"

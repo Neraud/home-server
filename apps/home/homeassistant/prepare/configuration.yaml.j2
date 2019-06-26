@@ -67,6 +67,21 @@ notify:
     password: !secret smtp_password
     recipient:
       - !secret smtp_recipient_user
+{% if gotify_homeassistant_enabled %}
+  - name: gotify
+    platform: rest
+    resource: http://gotify/message
+    method: POST_JSON
+    headers: 
+      X-Gotify-Key: !secret gotify_application_token
+    message_param_name: message
+    title_param_name: title
+    data:
+      extras:
+        client::display:
+          contentType: "text/markdown"
+{% endif %}
+
 
 # Track the sun
 sun:

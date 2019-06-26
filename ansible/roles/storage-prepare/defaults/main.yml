@@ -4,6 +4,12 @@
 zonemta_smtp_servername: zonemta.default
 zonemta_feeder_authentication_username: smtp
 
+
+gotify_homeassistant_enabled: False
+#gotify_homeassistant_username: user
+#gotify_homeassistant_password: clear_password
+#gotify_homeassistant_application_name: HomeAssistant
+
 homeassistant_smtp_host: "{{ zonemta_smtp_servername }}"
 homeassistant_smtp_port: 587
 homeassistant_smtp_user: "{{ zonemta_feeder_authentication_username }}"

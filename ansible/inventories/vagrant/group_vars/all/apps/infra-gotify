@@ -2,10 +2,17 @@
 
 gotify_default_admin_password: Passw0rd
 
+gotify_homeassistant_enabled: True
+gotify_homeassistant_username: user
+gotify_homeassistant_password: Passw0rd
+gotify_homeassistant_application_name: HomeAssistant
+
 gotify_users:
-  - name: user
-    password: Passw0rd
+  - name: "{{ gotify_homeassistant_username }}"
+    password: "{{ gotify_homeassistant_password }}"
     admin: False
     applications:
       - name: sample
         desc: Sample application
+      - name: "{{ gotify_homeassistant_application_name }}"
+        desc: Home Assistant
