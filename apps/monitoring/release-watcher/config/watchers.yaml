@@ -81,7 +81,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: homeassistant/home-assistant
-    tag: 0.94.4
+    tag: 0.95.0
     excludes:
       - 0\.[0-8].*
       - .*b[0-9]
