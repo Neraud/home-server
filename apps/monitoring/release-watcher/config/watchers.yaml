@@ -60,7 +60,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/sabnzbd
-    tag: amd64-2.3.9-0ubuntu1jcfp118.04-u-ls20
+    tag: amd64-2.3.9-0ubuntu1jcfp118.04-u-ls21
     includes:
       - amd64.*
     excludes:
