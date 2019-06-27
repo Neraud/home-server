@@ -100,7 +100,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: nodered/node-red-docker
-    tag: 0.20.5-slim-v10
+    tag: 0.20.6-slim-v10
     includes:
       - .*-slim-v10
   - type: docker_registry
