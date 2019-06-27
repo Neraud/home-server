@@ -34,15 +34,14 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: gitlab/gitlab-ce
-    tag: 11.11.3-ce.0
+    tag: 12.0.2-ce.0
     excludes:
       - nightly
       - latest
       - rc
       - .*-rc[0-9]+.*
       - ^[1-9]\.
-      - ^10\.
-      - ^11\.([0-9]|10)\.
+      - ^1[01]\.
   # Download
   - type: docker_registry
     repo: registry-1.docker.io
