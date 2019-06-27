@@ -168,7 +168,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: stakater/reloader
-    tag: v0.0.30
+    tag: v0.0.31
     excludes:
       - .*SNAPSHOT.*
       - ^PR-.*
