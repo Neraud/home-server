@@ -1,11 +1,11 @@
-FROM linuxserver/heimdall:amd64-2.2.1-ls47
+FROM linuxserver/heimdall:amd64-2.2.2-ls47
 
 # Execute the install step that's currently inside /etc/cont-init.d/50-config
 RUN echo "Installing Heimdall" && \
     mkdir -p /var/www/localhost/heimdall && \
     tar xf \
-        /heimdall/heimdall.tar.gz -C \
-        /var/www/localhost/heimdall --strip-components=1 && \
+    /heimdall/heimdall.tar.gz -C \
+    /var/www/localhost/heimdall --strip-components=1 && \
     echo -e '\n# Heimdall user authorization\nfastcgi_param  PHP_AUTH_USER $remote_user;\nfastcgi_param  PHP_AUTH_PW $http_authorization;' >> \
     /etc/nginx/fastcgi_params && \
     rm /heimdall/heimdall.tar.gz

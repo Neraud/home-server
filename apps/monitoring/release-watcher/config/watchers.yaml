@@ -263,7 +263,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/heimdall
-    tag: amd64-2.2.1-ls47
+    tag: amd64-2.2.2-ls47
     includes:
       - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
