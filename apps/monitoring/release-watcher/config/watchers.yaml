@@ -2,7 +2,7 @@ watchers:
   - type: github_commit
     repo: spotify/docker-gc
     branch: master
-    commit: 1543fc22e448536ea300517619dd60aff2d70b2a
+    commit: 77c5f3c4bc3c64a2c4bed1ba20e79836a0c6a983
   - type: github_commit
     repo: gluster/gluster-prometheus
     branch: master
@@ -34,15 +34,14 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: gitlab/gitlab-ce
-    tag: 11.11.3-ce.0
+    tag: 12.0.2-ce.0
     excludes:
       - nightly
       - latest
       - rc
       - .*-rc[0-9]+.*
       - ^[1-9]\.
-      - ^10\.
-      - ^11\.([0-9]|10)\.
+      - ^1[01]\.
   # Download
   - type: docker_registry
     repo: registry-1.docker.io
@@ -61,7 +60,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/sabnzbd
-    tag: amd64-2.3.9-0ubuntu1jcfp118.04-u-ls20
+    tag: amd64-2.3.9-0ubuntu1jcfp118.04-u-ls21
     includes:
       - amd64.*
     excludes:
@@ -82,7 +81,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: homeassistant/home-assistant
-    tag: 0.94.4
+    tag: 0.95.0
     excludes:
       - 0\.[0-8].*
       - .*b[0-9]
@@ -101,7 +100,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: nodered/node-red-docker
-    tag: 0.20.5-slim-v10
+    tag: 0.20.6-slim-v10
     includes:
       - .*-slim-v10
   - type: docker_registry
@@ -169,7 +168,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: stakater/reloader
-    tag: v0.0.30
+    tag: v0.0.31
     excludes:
       - .*SNAPSHOT.*
       - ^PR-.*
@@ -264,7 +263,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: linuxserver/heimdall
-    tag: amd64-2.2.1-ls47
+    tag: amd64-2.2.2-ls47
     includes:
       - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
