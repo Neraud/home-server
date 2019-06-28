@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-watcher-config
+  namespace: monitoring
+  labels:
+    app: release-watcher
+    app-component: release-watcher
+data:
+  config.yaml:  |
+    {{ lookup('template', role_path + '/app/config/config.yaml.j2')  | replace('\n', '\n    ') }}
+  watchers.yaml:  |
+    {{ lookup('file', role_path + '/app/config/watchers.yaml')  | replace('\n', '\n    ') }}

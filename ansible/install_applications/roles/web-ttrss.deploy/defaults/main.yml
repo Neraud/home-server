@@ -1,0 +1,33 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+docker_registry_port: 30500
+docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
+
+ttrss_enabled: true
+
+ttrss_context_root: /
+ttrss_pqsql_user: ttrss
+ttrss_pqsql_database: ttrss
+ttrss_pqsql_password: clear_password
+# Keep the schema URL in sync with the image version
+ttrss_schema_url: https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql
+
+ttrss_ldap_servername: "{{ openldap_ldap_servername }}"
+ttrss_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+ttrss_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+ttrss_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
+
+ttrss_smtp_host: "{{ zonemta_smtp_servername }}"
+ttrss_smtp_port: 587
+ttrss_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+ttrss_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+#  ssl, tls or empty
+ttrss_smtp_secure: tls
+ttrss_smtp_from: "noreply@{{ web_base_domain }}"
+ttrss_smtp_displayName: "Tiny Tiny RSS"

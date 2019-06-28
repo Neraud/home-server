@@ -1,5 +1,11 @@
 ---
 
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
 # TODO : these zomemta vars are defined in kubernetes-apps/default/main.yml and are not visible here.
 zonemta_smtp_servername: zonemta.default
 zonemta_feeder_authentication_username: smtp

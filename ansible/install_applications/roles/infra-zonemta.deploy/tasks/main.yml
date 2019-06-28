@@ -1,0 +1,34 @@
+---
+
+- name: Read generated files
+  slurp:
+    src: "{{ item }}"
+  register: zonemta_generated_certificate_files
+  with_items:
+    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/smtp/server.crt"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/smtp/server.key"
+
+- name: List config files
+  set_fact:
+    zonemta_config_files: "{{ zonemta_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/zone-mta/*.toml*"
+
+- name: Build and push ZoneMTA image
+  docker_image:
+    name: "{{ docker_registry_url }}/zone-mta"
+    source: build
+    build:
+      path: "{{ role_path }}/app/build"
+      pull: yes
+    push: yes
+
+- name: Deploy ZoneMTA
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

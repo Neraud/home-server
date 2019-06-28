@@ -8,4 +8,140 @@
 - name: Provision Kubernetes applications
   hosts: controller
   roles:
-    - { role: kubernetes-apps, tags: kubernetes-apps }
+ 
+  - role: infra-dashboard.deploy
+    tags: kubernetes-app-infra-dashboard
+    when: kubernetes_dashboard_enabled | bool
+  
+  - role: infra-reloader.deploy
+    tags: kubernetes-app-infra-reloader
+    when: reloader_enabled | bool
+  
+  - role: infra-docker-registry.deploy
+    tags: kubernetes-app-infra-docker-registry
+    when: docker_registry_enabled | bool
+  
+  - role: infra-zonemta.deploy
+    tags: kubernetes-app-infra-zonemta
+    when: zonemta_enabled | bool
+  
+  - role: infra-mailhog.deploy
+    tags: kubernetes-app-infra-mailhog
+    when: mailhog_enabled | bool
+  
+  - role: infra-docker-registry-ui.deploy
+    tags: kubernetes-app-infra-docker-registry-ui
+    when: docker_registry_ui_enabled | bool
+  
+  - role: infra-gotify.deploy
+    tags: kubernetes-app-infra-gotify
+    when: gotify_enabled | bool
+  
+  - role: auth-openldap.deploy
+    tags: kubernetes-app-auth-openldap
+    when: openldap_enabled | bool
+  
+  - role: auth-phpldapadmin.deploy
+    tags: kubernetes-app-auth-phpldapadmin
+    when: phpldapadmin_enabled | bool
+  
+  - role: auth-lemonldap.deploy
+    tags: kubernetes-app-auth-lemonldap
+    when: lemonldap_enabled | bool
+  
+  - role: logging-elasticsearch.deploy
+    tags: kubernetes-app-logging-elasticsearch
+    when: elasticsearch_enabled | bool
+  
+  - role: logging-fluentd.deploy
+    tags: kubernetes-app-logging-fluentd
+    when: fluentd_enabled | bool
+  
+  - role: logging-fluentbit.deploy
+    tags: kubernetes-app-logging-fluentbit
+    when: fluentbit_enabled | bool
+  
+  - role: logging-kibana.deploy
+    tags: kubernetes-app-logging-kibana
+    when: kibana_enabled | bool
+  
+  - role: monitoring-kubernetes.deploy
+    tags: kubernetes-app-monitoring-kubernetes
+    when: kubernetes_monitoring_enabled | bool
+  
+  - role: monitoring-exporters.deploy
+    tags: kubernetes-app-monitoring-exporters
+    when: kubernetes_exporters_enabled | bool
+  
+  - role: monitoring-gluster-exporter.deploy
+    tags: kubernetes-app-monitoring-gluster-exporter
+    when: gluster_exporter_enabled | bool
+  
+  - role: monitoring-release-watcher.deploy
+    tags: kubernetes-app-monitoring-release-watcher
+    when: release_watcher_enabled | bool
+  
+  - role: monitoring-prometheus-operator.deploy
+    tags: kubernetes-app-monitoring-prometheus-operator
+    when: prometheus_operator_enabled | bool
+  
+  - role: monitoring-grafana.deploy
+    tags: kubernetes-app-monitoring-grafana
+    when: grafana_enabled | bool
+  
+  - role: web-ttrss.deploy
+    tags: kubernetes-app-web-ttrss
+    when: ttrss_enabled | bool
+  
+  - role: web-heimdall.deploy
+    tags: kubernetes-app-web-heimdall
+    when: heimdall_enabled | bool
+  
+  - role: infra-unifi.deploy
+    tags: kubernetes-app-infra-unifi
+    when: unifi_enabled | bool
+  
+  - role: home-homeassistant.deploy
+    tags: kubernetes-app-home-homeassistant
+    when: homeassistant_enabled | bool
+  
+  - role: home-nodered.deploy
+    tags: kubernetes-app-home-nodered
+    when: nodered_enabled | bool
+  
+  - role: home-mosquitto.deploy
+    tags: kubernetes-app-home-mosquitto
+    when: mosquitto_enabled | bool
+  
+  - role: home-roomassistant.deploy
+    tags: kubernetes-app-home-roomassistant
+    when: roomassistant_enabled | bool
+  
+  - role: stream-airsonic.deploy
+    tags: kubernetes-app-stream-airsonic
+    when: airsonic_enabled | bool
+  
+  - role: stream-plex.deploy
+    tags: kubernetes-app-stream-plex
+    when: plex_enabled | bool
+  
+  - role: dev-gitlab.deploy
+    tags: kubernetes-app-dev-gitlab
+    when: gitlab_enabled | bool
+  
+  - role: download-sickchill.deploy
+    tags: kubernetes-app-download-sickchill
+    when: sickchill_enabled | bool
+  
+  - role: download-deluge.deploy
+    tags: kubernetes-app-download-deluge
+    when: deluge_enabled | bool
+  
+  - role: download-pyload.deploy
+    tags: kubernetes-app-download-pyload
+    when: pyload_enabled | bool
+  
+  - role: download-sabnzbd.deploy
+    tags: kubernetes-app-download-sabnzbd
+    when: sabnzbd_enabled | bool
+  

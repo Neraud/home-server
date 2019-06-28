@@ -1,0 +1,25 @@
+---
+
+- name: Build and push Fluentd image
+  docker_image:
+    name: "{{ docker_registry_url }}/fluentd"
+    source: build
+    build:
+      path: "{{ role_path }}/app/build"
+      pull: yes
+    push: yes
+
+- name: List included config files
+  set_fact:
+    fluentd_included_config_files: "{{ fluentd_included_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/includes/*.conf"
+
+- name: Deploy Fluentd
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

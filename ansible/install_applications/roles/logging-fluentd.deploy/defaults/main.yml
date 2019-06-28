@@ -1,0 +1,12 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+docker_registry_port: 30500
+docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
+
+fluentd_enabled: true

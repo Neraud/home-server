@@ -1,0 +1,33 @@
+---
+
+- name: Build and push TT-RSS image
+  docker_image:
+    name: "{{ docker_registry_url }}/ttrss"
+    source: build
+    build:
+      path: "{{ role_path }}/app/build"
+      pull: yes
+    push: yes
+
+# We can't just use a lookup('url', ttrss_schema_url) to inject the schema file directly.
+# This gets blocked by a 403, probably due to a user-agent filter on TT-RSS Gogs.
+- name: Download the TT-RSS schema
+  get_url:
+    dest: "{{ ttrss_temp_schema_path }}"
+    url: "{{ ttrss_schema_url }}"
+  changed_when: False
+
+- name: Deploy TT-RSS
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
+- name: Remove the TT-RSS schema
+  file:
+    path: "{{ ttrss_temp_schema_path }}"
+    state: absent
+  changed_when: False

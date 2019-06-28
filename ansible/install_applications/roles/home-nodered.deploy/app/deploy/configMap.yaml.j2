@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nodered
+  namespace: default
+  labels:
+    app: nodered
+    app-component: nodered
+data:
+  settings.js: |-
+    {{ lookup('template', role_path + '/app/config/settings.js.j2') | replace('\n', '\n    ') }}

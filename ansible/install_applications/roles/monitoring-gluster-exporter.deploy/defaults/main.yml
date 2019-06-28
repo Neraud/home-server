@@ -1,0 +1,11 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+gluster_exporter_enabled: true
+
+gluster_exporter_port: 8090

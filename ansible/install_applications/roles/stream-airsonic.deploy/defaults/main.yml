@@ -1,0 +1,27 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+airsonic_enabled: true
+
+airsonic_context_path: /airsonic
+airsonic_extra_java_opts:
+  # https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-tomcat-behind-a-proxy-server
+  - -Dserver.use-forward-headers=true
+  - -Dairsonic.defaultMusicFolder=/mnt/multimetia/Music
+  - -Dairsonic.defaultPodcastFolder=/mnt/multimetia/Podcasts
+airsonic_ldap_servername: "{{ openldap_ldap_servername }}"
+airsonic_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+airsonic_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
+airsonic_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
+airsonic_smtp_host: "{{ zonemta_smtp_servername }}"
+airsonic_smtp_port: 587
+# STARTTLS, SSL/TLS, or anything else
+airsonic_smtp_encryption: STARTTLS
+airsonic_smtp_user: "{{ zonemta_feeder_authentication_username }}"
+airsonic_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+airsonic_smtp_from: "noreply@{{ web_base_domain }}"

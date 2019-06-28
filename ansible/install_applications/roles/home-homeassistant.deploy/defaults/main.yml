@@ -1,0 +1,31 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+docker_registry_port: 30500
+docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
+
+homeassistant_enabled: true
+
+homeassistant_mysql_user: homeassistant
+homeassistant_mysql_database: homeassistant
+homeassistant_mysql_password: clear_password
+homeassistant_mysql_root_password: clear_password
+homeassistant_mqtt_user: homeassistant
+homeassistant_mqtt_password: clear_password
+homeassistant_ldap_servername: "{{ openldap_ldap_servername }}"
+homeassistant_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+
+#homeassistant_serial_remote_devices:
+#  test_tty1:
+#    device: /dev/test_tty1
+#    state: raw
+#    user: 0
+#    group: 0
+#    mode: 777
+#    host: 192.168.100.11
+#    port: 3333

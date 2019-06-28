@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: deluge-config
+  namespace: default
+  labels:
+    app: deluge
+    app-component: deluge
+data:
+  core_delta.conf: |
+    {{ lookup('template', role_path + '/app/config/core_delta.conf.j2') | replace('\n', '\n    ') }}
+  web_delta.conf: |
+    {{ lookup('template', role_path + '/app/config/web_delta.conf.j2') | replace('\n', '\n    ') }}
+  mergeConf.py: |
+    {{ lookup('file', role_path + '/app/config/mergeConf.py') | replace('\n', '\n    ') }}

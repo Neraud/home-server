@@ -1,0 +1,13 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+phpldapadmin_enabled: true
+
+phpldapadmin_ldap_servername: "{{ openldap_ldap_servername }}"
+phpldapadmin_bind_id: "{{ openldap_ldap_readonly_user_dn }}"
+phpldapadmin_bind_password: "{{ openldap_ldap_readonly_user_password }}"

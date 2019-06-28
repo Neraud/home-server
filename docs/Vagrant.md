@@ -249,13 +249,13 @@ You can use the exporter's user to test : `exporter` / `password`
 
 The [OpenDistro](https://opendistro.github.io/for-elasticsearch/) variant of Kibana is deployed and configured to read data from ElasticSearch.
 
-Saved Objects (sources, visualizations, dashboards) are loaded from the `apps/logging/kibana/config` folder.
+Saved Objects (sources, visualizations, dashboards) are loaded from the `ansible/install_applications/roles/logging-kibana.deploy/app/config/saved_objects` folder.
 
 To add new objects, you can :
 
 * configure them via the Kibana web application
 * export them using the `kibana_sav_objects.py` script
-* save the json files under the `apps/logging/kibana/config` folder
+* save the json files under the `ansible/install_applications/roles/logging-kibana.deploy/app/config/saved_objects` folder
 
 ### Unifi Controller
 

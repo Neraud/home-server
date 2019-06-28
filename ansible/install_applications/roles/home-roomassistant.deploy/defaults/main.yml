@@ -1,0 +1,34 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+roomassistant_enabled: true
+
+# See https://github.com/mKeRix/room-assistant/wiki/Configuration
+roomassistant_environment_variables:
+  SERVICES: mqtt,shell
+  ROOM: example-room
+  AUTO_DISCOVERY: true
+  MQTT_URL: mqtt://mosquitto
+  MQTT_USERNAME: user
+  MQTT_PASSWORD: Passw0rd
+  MQTT_REJECT_UNAUTHORIZED: true
+  SHELL_COMMANDS: >
+    [
+      {
+        \"channel\": \"example-script\",
+        \"command\": \"echo $(($RANDOM%100))\",
+        \"cron\": \"*/30 * * * * *\",
+        \"number\": true,
+        \"discoveryType\": \"sensor\",
+        \"discoveryConfig\": {
+          \"name\": \"Test RoomAssistant\",
+          \"unit_of_measurement\": \"%\",
+          \"value_template\": \"{{ '{{' }} value_json.value {{ '}}' }}\"
+        }
+      }
+    ]

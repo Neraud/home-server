@@ -1,0 +1,29 @@
+---
+
+web_base_domain: domain.tld
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+docker_registry_port: 30500
+docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
+
+heimdall_enabled: true
+
+heimdall_applications: []
+#- username: admin
+#  tags:
+#    title: 'Tag1'
+#    colour: '#161b1f'
+#    icon: ''
+#    pinned: true
+#  apps:
+#  - title: 'App1'
+#    colour: '#161b1f'
+#    icon: 'icons/grafana.png'
+#    url: 'http://app1'
+#    description: ''
+#    pinned: true
+#    tags: ['Tag1', 'Tag2']
+#    class: '\App\SupportedApps\Grafana\Grafa'

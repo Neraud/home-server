@@ -1,7 +1,7 @@
 ---
 
 # FIXME : using a longer name (like elasticsearch.logging) breaks the workaround in place to update security
-# The server cert is improperly used in ansible/roles/kubernetes-apps/handlers/apps/logging-elasticsearch.yml
+# The server cert is improperly used in ansible/install_applications/roles/logging-elasticsearch.deploy/handlers/main.yml
 logging_elasticsearch_servername: elasticsearch
 logging_elasticsearch_replicas: 1
 logging_elasticsearch_internal_users:
