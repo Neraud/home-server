@@ -54,7 +54,7 @@
 
 - name: Deploy TLS secret
   k8s:
-    definition: "{{ lookup('template', kubernetes_app_root_path + '/infra/ingress-nginx/deploy/tls/tls-secret.yaml.j2') }}"
+    definition: "{{ lookup('template', 'kubernetes/tls-secret.yaml.j2') }}"
     state: present
   with_items: "{{ kubernetes_ingress_tls_secret_namespaces }}"
   become: yes
@@ -65,6 +65,6 @@
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
   with_fileglob:
-    - "{{ kubernetes_app_root_path }}/infra/ingress-nginx/deploy/*.yaml*"
+    - "{{ role_path }}/app/ingress-nginx/deploy/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
