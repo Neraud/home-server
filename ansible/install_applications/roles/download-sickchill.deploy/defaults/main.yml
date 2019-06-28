@@ -6,6 +6,9 @@ kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
 
+zonemta_feeder_authentication_username: smtp
+zonemta_feeder_authentication_password: clear_password
+
 sickchill_enabled: true
 
 sickchill_context_root: /

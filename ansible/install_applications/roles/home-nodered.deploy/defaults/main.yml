@@ -8,6 +8,9 @@ kubernetes_user:
 
 docker_registry_port: 30500
 docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
+openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
+openldap_ldap_readonly_user_username: readonly
+openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
 
 nodered_enabled: true
 

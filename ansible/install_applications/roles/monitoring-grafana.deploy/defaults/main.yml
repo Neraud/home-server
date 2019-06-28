@@ -6,6 +6,9 @@ kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
 
+openldap_ldap_readonly_user_username: readonly
+openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
+
 grafana_enabled: true
 
 grafana_admin_user: admin

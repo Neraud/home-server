@@ -6,6 +6,9 @@ kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
 
+zonemta_feeder_authentication_username: smtp
+zonemta_feeder_authentication_password: clear_password
+
 prometheus_operator_enabled: true
 
 prometheus_retention: 7d

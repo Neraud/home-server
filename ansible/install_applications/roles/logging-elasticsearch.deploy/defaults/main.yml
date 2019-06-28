@@ -6,6 +6,11 @@ kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
 
+openldap_ldap_basedn: "dc=example,dc=org"
+openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
+openldap_ldap_readonly_user_username: readonly
+openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
+
 elasticsearch_enabled: true
 
 # TODO : these user / passwords can't easily be changed without wiping the ES cluster.

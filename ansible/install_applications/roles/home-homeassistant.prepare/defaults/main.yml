@@ -1,6 +1,10 @@
 ---
 
 web_base_domain: domain.tld
+zonemta_feeder_authentication_username: smtp
+zonemta_feeder_authentication_password: clear_password
+
+homeassistant_enabled: true
 
 gotify_homeassistant_enabled: False
 #gotify_homeassistant_username: user
