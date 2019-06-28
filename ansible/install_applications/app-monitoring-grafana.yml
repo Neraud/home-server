@@ -1,0 +1,11 @@
+---
+
+- name: Prepare monitoring-grafana
+  hosts: kubernetes_nodes
+  roles:
+  - role: monitoring-grafana.prepare
+
+- name: Provision monitoring-grafana
+  hosts: controller
+  roles:
+  - role: monitoring-grafana.deploy

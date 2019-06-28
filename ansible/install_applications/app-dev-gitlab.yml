@@ -1,0 +1,6 @@
+---
+
+- name: Provision dev-gitlab
+  hosts: controller
+  roles:
+  - role: dev-gitlab.deploy

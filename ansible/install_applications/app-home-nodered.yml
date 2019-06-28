@@ -1,0 +1,11 @@
+---
+
+- name: Prepare home-nodered
+  hosts: kubernetes_nodes
+  roles:
+  - role: home-nodered.prepare
+
+- name: Provision home-nodered
+  hosts: controller
+  roles:
+  - role: home-nodered.deploy
