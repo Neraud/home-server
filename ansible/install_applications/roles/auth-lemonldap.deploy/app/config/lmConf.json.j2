@@ -116,11 +116,11 @@
        "cn": "cn"
    },
 {# generalParameters > authParams > ldapParams > ldapConnection #}
-   "ldapServer": "ldap+tls://{{ lemonldap_ldap_servername }}/cafile=/var/lib/lemonldap-ng/server-certs/ca.crt",
+   "ldapServer": "ldap+tls://{{ lemonldap.ldap.servername }}/cafile=/var/lib/lemonldap-ng/server-certs/ca.crt",
    "ldapPort": 389,
-   "ldapBase": "{{ lemonldap_ldap_base }}",
-   "managerDn": "{{ lemonldap_ldap_manager_dn }}",
-   "managerPassword": "{{ lemonldap_ldap_manager_password }}",
+   "ldapBase": "{{ lemonldap.ldap.base }}",
+   "managerDn": "{{ lemonldap.ldap.manager_dn }}",
+   "managerPassword": "{{ lemonldap.ldap.manager_password }}",
    "ldapTimeout": 30,
    "ldapVersion": 3,
    "ldapRaw": "", {# Binary attributes #}
@@ -130,7 +130,7 @@
    "mailLDAPFilter": "(&(mail=$mail)(objectClass=inetOrgPerson))",
    "ldapSearchDeref": "find",
 {# generalParameters > authParams > ldapParams > ldapGroups #}
-   "ldapGroupBase": "{{ lemonldap_ldap_group_base }}",
+   "ldapGroupBase": "{{ lemonldap.ldap.group_base }}",
    "ldapGroupObjectClass": "groupOfUniqueNames",
    "ldapGroupAttributeName": "uniqueMember",
    "ldapGroupAttributeNameUser": "dn",
@@ -167,9 +167,9 @@
 {# generalParameters > sessionParams > sessionStorage #}
    "globalStorage" : "Apache::Session::File",
    "globalStorageOptions": {
-       "Directory": "{{ lemonldap_persistent_volume_path }}/sessions",
+       "Directory": "{{ lemonldap.persistent_volume_path }}/sessions",
        "generateModule": "Lemonldap::NG::Common::Apache::Session::Generate::SHA256",
-       "LockDirectory": "{{ lemonldap_persistent_volume_path }}/sessions/lock"
+       "LockDirectory": "{{ lemonldap.persistent_volume_path }}/sessions/lock"
    },
    "localSessionStorage": "Cache::FileCache",
    "localSessionStorageOptions" : {
@@ -189,8 +189,8 @@
 {# generalParameters > sessionParams > persistentSessions #}
    "persistentStorage" : "Apache::Session::File",
    "persistentStorageOptions" : {
-      "Directory" : "{{ lemonldap_persistent_volume_path }}/psessions",
-      "LockDirectory" : "{{ lemonldap_persistent_volume_path }}/psessions/lock"
+      "Directory" : "{{ lemonldap.persistent_volume_path }}/psessions",
+      "LockDirectory" : "{{ lemonldap.persistent_volume_path }}/psessions/lock"
    },
 {# generalParameters > reloadParams #}
    "reloadUrls" : {
@@ -220,7 +220,7 @@
    "oldNotifFormat": 0,
    "notificationStorage": "File",
    "notificationStorageOptions": {
-       "dirName": "{{ lemonldap_persistent_volume_path }}/notifications"
+       "dirName": "{{ lemonldap.persistent_volume_path }}/notifications"
    },
    "notificationWildcard": "allusers",
    "notificationXSLTfile": "",
@@ -311,17 +311,17 @@
    "logoutServices": {},
 {# generalParameters > advancedParams > SMTP #}
    "mailSessionKey": "mail",
-   "SMTPServer": "{{ lemonldap_smtp_host }}",
-   "SMTPPort": {{ lemonldap_smtp_port }},
-   "SMTPAuthUser": "{{ lemonldap_smtp_user }}",
-   "SMTPAuthPass": "{{ lemonldap_smtp_password }}",
-   "SMTPTLS": "{{ lemonldap_smtp_tls }}",
+   "SMTPServer": "{{ lemonldap.smtp.host }}",
+   "SMTPPort": {{ lemonldap.smtp.port }},
+   "SMTPAuthUser": "{{ lemonldap.smtp.user }}",
+   "SMTPAuthPass": "{{ lemonldap.smtp.password }}",
+   "SMTPTLS": "{{ lemonldap.smtp.tls }}",
    "SMTPTLSOpts": {
       "SSL_ca_file": "/var/lib/lemonldap-ng/server-certs/ca.crt"
    },
 {# generalParameters > advancedParams > SMTP > mailHeaders #}
-   "mailFrom": "{{ lemonldap_smtp_from }}",
-   "mailReplyTo": "{{ lemonldap_smtp_replyTo }}",
+   "mailFrom": "{{ lemonldap.smtp.from }}",
+   "mailReplyTo": "{{ lemonldap.smtp.replyTo }}",
    "mailCharset": "utf-8",
 {# generalParameters > advancedParams > security #}
    "userControl": "^[\\w\\.\\-@]+$",
@@ -373,7 +373,7 @@
    "groups": {},
 {# virtualHosts #}
    "locationRules" : {
-{% for locationRule in lemonldap_location_rules | default([]) %}
+{% for locationRule in lemonldap.location_rules | default([]) %}
    {% set locationLoop = loop %}
       "{{ locationRule.domain }}" : {
          "default": "{{ locationRule.default_rule }}"{% if locationRule.rules | default([]) | length > 0 %},{% endif %}
@@ -384,7 +384,7 @@
 {% endfor %}
    },
    "exportedHeaders" : {
-{% for locationRule in lemonldap_location_rules | default([]) %}
+{% for locationRule in lemonldap.location_rules | default([]) %}
    {% set locationLoop = loop %}
       "{{ locationRule.domain }}": {
    {% for exportedHeader in locationRule.exportedHeaders | default({}) | dict2items %}
@@ -394,7 +394,7 @@
 {% endfor %}
    },
    "vhostOptions": {
-{% for locationRule in lemonldap_location_rules | default([]) %}
+{% for locationRule in lemonldap.location_rules | default([]) %}
    {% set locationLoop = loop %}
       "{{ locationRule.domain }}" : {
          "vhostType": "Main",

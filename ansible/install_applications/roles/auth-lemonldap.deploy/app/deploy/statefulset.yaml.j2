@@ -29,26 +29,26 @@ spec:
           - "sh"
           - "-c"
           - |
-            mkdir -p {{ lemonldap_persistent_volume_path }}/sessions/lock
-            mkdir -p {{ lemonldap_persistent_volume_path }}/psessions/lock
-            mkdir -p {{ lemonldap_persistent_volume_path }}/notifications
-            chown -R www-data:www-data {{ lemonldap_persistent_volume_path }}
+            mkdir -p {{ lemonldap.persistent_volume_path }}/sessions/lock
+            mkdir -p {{ lemonldap.persistent_volume_path }}/psessions/lock
+            mkdir -p {{ lemonldap.persistent_volume_path }}/notifications
+            chown -R www-data:www-data {{ lemonldap.persistent_volume_path }}
         volumeMounts:
         - name: lemonldap-data-pv-claim
-          mountPath: {{ lemonldap_persistent_volume_path }}
+          mountPath: {{ lemonldap.persistent_volume_path }}
       containers:
       - name: lemonldap
         image: {{ docker_registry_url }}/lemonldap
         ports:
           - containerPort: 80
             name: http
-          - containerPort: {{ lemonldap_fastcgi_port }}
+          - containerPort: {{ lemonldap.fastcgi_port }}
             name: fastcgi
         env:
           - name: SSODOMAIN
             value: "{{ web_base_domain }}"
           - name: FASTCGI_LISTEN_PORT
-            value: "{{ lemonldap_fastcgi_port }}"
+            value: "{{ lemonldap.fastcgi_port }}"
           - name: MANAGER_HOSTNAME
             value: "infra.{{ web_base_domain }}"
         resources:
@@ -62,7 +62,7 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
         - name: lemonldap-data-pv-claim
-          mountPath: {{ lemonldap_persistent_volume_path }}
+          mountPath: {{ lemonldap.persistent_volume_path }}
         - name: lmconf-volume
           mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
           subPath: lmConf.json

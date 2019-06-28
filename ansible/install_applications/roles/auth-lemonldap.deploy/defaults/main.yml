@@ -9,33 +9,4 @@ zonemta_feeder_authentication_password: clear_password
 openldap_ldap_readonly_user_username: readonly
 openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
 
-lemonldap_enabled: true
-
-lemonldap_fastcgi_port: 9000
-lemonldap_persistent_volume_path: /var/lib/lemonldap-ng-pv
-lemonldap_ldap_servername: "{{ openldap_ldap_servername }}"
-lemonldap_ldap_base: "{{ openldap_ldap_basedn }}"
-lemonldap_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
-lemonldap_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
-lemonldap_ldap_group_base: openldap_ldap_structure_groups_ou_dns['groups']
-
-lemonldap_smtp_host: "{{ zonemta_smtp_servername }}"
-lemonldap_smtp_port: 587
-lemonldap_smtp_user: "{{ zonemta_feeder_authentication_username }}"
-lemonldap_smtp_password: "{{ zonemta_feeder_authentication_password }}"
-lemonldap_smtp_tls: starttls
-lemonldap_smtp_from: "noreply@{{ web_base_domain }}"
-lemonldap_smtp_replyTo: "noreply@{{ web_base_domain }}"
-
-lemonldap_location_rules:
-  - domain: "infra.{{ web_base_domain }}"
-    default_rule: accept
-#    requiredAuthnLevel: 1
-#    rules:
-#      - name: New Rule
-#        uri: ^new
-#        rule: accept
-    exportedHeaders:
-      name: value
-  - domain: "web.{{ web_base_domain }}"
-    default_rule: accept
+lemonldap_enabled: True

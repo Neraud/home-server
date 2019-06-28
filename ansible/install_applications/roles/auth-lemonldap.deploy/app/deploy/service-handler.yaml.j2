@@ -8,8 +8,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: {{ lemonldap_fastcgi_port }}
-      targetPort: {{ lemonldap_fastcgi_port }}
+    - port: {{ lemonldap.fastcgi_port }}
+      targetPort: {{ lemonldap.fastcgi_port }}
       name: fastcgi
       nodePort: {{ kubernetes_ingress_lemonLdap_handler_port }}
   selector:
