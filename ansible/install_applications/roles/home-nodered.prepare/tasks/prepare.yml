@@ -17,7 +17,7 @@
 
 - name: Configure Node-RED for the fist run
   template:
-    src: "{{ kubernetes_app_root_path }}/home/nodered/prepare/{{ item }}.j2"
+    src: "{{ role_path }}/app/prepare/{{ item }}.j2"
     dest: "{{ nodered_mount_path }}/data/{{ item }}"
     backup: true
     mode: 0777

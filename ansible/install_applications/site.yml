@@ -3,7 +3,21 @@
 - name: Prepare storage
   hosts: kubernetes_nodes
   roles:
-    - { role: storage-prepare, tags: kubernetes-storage }
+  - role: monitoring-prometheus-operator.prepare
+    tags: kubernetes-app-monitoring-prometheus-operator
+    when: prometheus_operator_enabled | bool
+  - role: monitoring-grafana.prepare
+    tags: kubernetes-app-monitoring-grafana
+    when: grafana_enabled | bool
+  - role: home-homeassistant.prepare
+    tags: kubernetes-app-home-homeassistant
+    when: homeassistant_enabled | bool
+  - role: home-nodered.prepare
+    tags: kubernetes-app-home-nodered
+    when: nodered_enabled | bool
+  - role: home-mosquitto.prepare
+    tags: kubernetes-app-home-mosquitto
+    when: mosquitto_enabled | bool
 
 - name: Provision Kubernetes applications
   hosts: controller

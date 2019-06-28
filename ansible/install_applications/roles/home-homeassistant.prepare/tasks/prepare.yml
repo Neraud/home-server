@@ -34,7 +34,7 @@
 
 - name: Configure HomeAssistant for the fist run
   template:
-    src: "{{ kubernetes_app_root_path }}/home/homeassistant/prepare/{{ item }}.j2"
+    src: "{{ role_path }}/app/prepare/{{ item }}.j2"
     dest: "{{ homeassistant_mount_path }}/{{ item }}"
     backup: true
   loop:
