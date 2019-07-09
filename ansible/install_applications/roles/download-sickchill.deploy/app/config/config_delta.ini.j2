@@ -4,11 +4,11 @@
 [General]
 web_host = 0.0.0.0
 web_port = 8081
-web_root = {{ sickchill_context_root }}
+web_root = {{ sickchill.context_root }}
 web_password = ""
 web_username = ""
 
-api_key = "{{ sickchill_api_key }}"
+api_key = "{{ sickchill.api_key }}"
 
 enable_https = 0
 https_cert = server.crt
@@ -46,11 +46,11 @@ sab_password = {{ sabnzbd.password }}
 #email_notify_onsnatch = 0
 #email_notify_ondownload = 0
 #email_notify_onsubtitledownload = 0
-email_tls = {{ sickchill_smtp_tls | ternary(1, 0) }}
-email_host = "{{ sickchill_smtp_host }}"
-email_port = {{ sickchill_smtp_port }}
-email_user = "{{ sickchill_smtp_user }}"
-email_password = "{{ sickchill_smtp_password }}"
-email_from = "{{ sickchill_smtp_from }}"
+email_tls = {{ sickchill.smtp.tls | ternary(1, 0) }}
+email_host = "{{ sickchill.smtp.host }}"
+email_port = {{ sickchill.smtp.port }}
+email_user = "{{ sickchill.smtp.user }}"
+email_password = "{{ sickchill.smtp.password }}"
+email_from = "{{ sickchill.smtp.from }}"
 #email_list = ""
 #email_subject = ""

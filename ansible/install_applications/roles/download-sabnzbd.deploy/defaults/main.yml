@@ -13,6 +13,6 @@ sabnzbd_nzbToMedia_config_sickbeard:
     enabled: 0
     host: sickchill.default
     port: 80
-    api_key: "{{ sickchill_api_key }}"
-    web_root: "{{ sickchill_context_root }}"
+    api_key: "{{ sickchill.api_key }}"
+    web_root: "{{ sickchill.context_root }}"
     ssl: 0

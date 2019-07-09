@@ -12,7 +12,7 @@ spec:
   - host: dl.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ sickchill_context_root }}
+        - path: {{ sickchill.context_root }}
           backend:
             serviceName: sickchill
             servicePort: 80
