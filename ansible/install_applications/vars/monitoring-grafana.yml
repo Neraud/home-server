@@ -1,0 +1,15 @@
+---
+
+grafana:
+  enabled: "{{ grafana_enabled | default(True) }}"
+
+  admin:
+    user: "{{ grafana_admin_user | default('admin') }}"
+    password: "{{ grafana_admin_password | default('clear_password') }}"
+  
+  ldap:
+    servername: "{{ grafana_ldap_servername | default(openldap.ldap.servername) }}"
+    base: "{{ grafana_ldap_base | default(openldap.ldap.basedn) }}"
+    manager_dn: "{{ grafana_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ grafana_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group: "{{ grafana_ldap_group }}"

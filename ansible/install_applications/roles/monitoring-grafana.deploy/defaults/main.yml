@@ -4,7 +4,3 @@ grafana_enabled: true
 
 grafana_admin_user: admin
 grafana_admin_password: clear_password
-grafana_ldap_servername: "{{ openldap.ldap.servername }}"
-grafana_ldap_base: "{{ openldap.ldap.basedn }}"
-grafana_ldap_manager_dn: "{{ openldap.ldap.readonly_user_dn }}"
-grafana_ldap_manager_password: "{{ openldap.ldap.readonly_user_password }}"
