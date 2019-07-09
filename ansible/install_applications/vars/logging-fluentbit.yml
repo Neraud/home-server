@@ -1,0 +1,4 @@
+---
+
+fluentbit:
+  enabled: "{{ fluentbit_enabled | default(True) }}"
