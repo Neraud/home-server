@@ -57,17 +57,17 @@ mqtt:
 notify:
   - name: email_user
     platform: smtp
-    server: {{ homeassistant_smtp_host }}
-    port: {{ homeassistant_smtp_port }}
+    server: {{ homeassistant.smtp.host }}
+    port: {{ homeassistant.smtp.port }}
     timeout: 15
-    sender: {{ homeassistant_smtp_from }}
-    sender_name: {{ homeassistant_smtp_displayFrom }}
-    encryption: {{ homeassistant_smtp_encryption }}
+    sender: {{ homeassistant.smtp.from }}
+    sender_name: {{ homeassistant.smtp.displayFrom }}
+    encryption: {{ homeassistant.smtp.encryption }}
     username: !secret smtp_username
     password: !secret smtp_password
     recipient:
       - !secret smtp_recipient_user
-{% if gotify_homeassistant_enabled %}
+{% if homeassistant.gotify.enabled %}
   - name: gotify
     platform: rest
     resource: http://gotify/message

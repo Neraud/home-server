@@ -24,9 +24,9 @@ spec:
         name: mysql
         env:
         - name: MYSQL_DATABASE
-          value: {{ homeassistant_mysql_database }}
+          value: {{ homeassistant.mysql.database }}
         - name: MYSQL_USER
-          value: {{ homeassistant_mysql_user }}
+          value: {{ homeassistant.mysql.user }}
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:

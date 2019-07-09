@@ -1,20 +1,7 @@
 ---
 
-web_base_domain: domain.tld
+zonemta_smtp_servername: zonemta.default
 zonemta_feeder_authentication_username: smtp
 zonemta_feeder_authentication_password: clear_password
 
 homeassistant_enabled: true
-
-gotify_homeassistant_enabled: False
-#gotify_homeassistant_username: user
-#gotify_homeassistant_password: clear_password
-#gotify_homeassistant_application_name: HomeAssistant
-
-homeassistant_smtp_host: "{{ zonemta_smtp_servername }}"
-homeassistant_smtp_port: 587
-homeassistant_smtp_user: "{{ zonemta_feeder_authentication_username }}"
-homeassistant_smtp_password: "{{ zonemta_feeder_authentication_password }}"
-homeassistant_smtp_encryption: starttls
-homeassistant_smtp_from: "noreply@{{ web_base_domain }}"
-homeassistant_smtp_displayFrom: "HomeAssistant"

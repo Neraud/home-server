@@ -21,13 +21,13 @@
 CLIENT="curl"
 
 # Add SERVER, USERDN etc. here...
-SERVER="ldaps://{{ homeassistant_ldap_servername }}"
+SERVER="ldaps://{{ homeassistant.ldap.servername }}"
 export SSL_CERT_FILE=/etc/ssl/cluster/ca.cert
 
-USERDN="cn=$(ldap_dn_escape "$username"),{{ homeassistant_ldap_users_dn }}"
+USERDN="cn=$(ldap_dn_escape "$username"),{{ homeassistant.ldap.users_dn }}"
 BASEDN="$USERDN"
 SCOPE="base"
-FILTER="(&(objectClass=inetOrgPerson)(memberOf={{ homeassistant_ldap_group }}))"
+FILTER="(&(objectClass=inetOrgPerson)(memberOf={{ homeassistant.ldap.group }}))"
 
 # Uncomment to have the value of cn be set as user's friendly name in
 # Home Assistant. This only works if you also enable searching (BASEDN,

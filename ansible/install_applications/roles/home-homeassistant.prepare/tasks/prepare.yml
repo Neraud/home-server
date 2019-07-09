@@ -18,18 +18,18 @@
     return_content: yes
     validate_certs: no
     force_basic_auth: yes
-    user: "{{ gotify_homeassistant_username }}"
-    password: "{{ gotify_homeassistant_password }}"
+    user: "{{ homeassistant.gotify.username }}"
+    password: "{{ homeassistant.gotify.password }}"
   register: homeassistant_gotify_applications
   when: 
-    - gotify_homeassistant_enabled | bool
+    - homeassistant.gotify.enabled | bool
     - not homeassistant_configuration_file.stat.exists
 
 - name: Extract Gotify application token
   set_fact:
-    homeassistant_gotify_application_token: "{{ homeassistant_gotify_applications.json | selectattr('name', 'match', gotify_homeassistant_application_name) | map(attribute='token') | first  }}"
+    homeassistant_gotify_application_token: "{{ homeassistant_gotify_applications.json | selectattr('name', 'match', homeassistant.gotify.application_name) | map(attribute='token') | first  }}"
   when: 
-    - gotify_homeassistant_enabled | bool
+    - homeassistant.gotify.enabled | bool
     - not homeassistant_configuration_file.stat.exists
 
 - name: Configure HomeAssistant for the fist run

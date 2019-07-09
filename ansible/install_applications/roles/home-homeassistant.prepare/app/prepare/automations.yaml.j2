@@ -43,7 +43,7 @@
         It you simply dismiss the email, it will be sent again next time HomeAssistant is restarted.
         Please edit `automations.yaml` to permanently remove it.
 
-{% if gotify_homeassistant_enabled %}
+{% if homeassistant.gotify.enabled %}
 - alias: welcome_email_gotify
   trigger:
     platform: homeassistant
