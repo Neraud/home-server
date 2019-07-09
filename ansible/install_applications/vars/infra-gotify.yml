@@ -1,0 +1,14 @@
+---
+
+gotify:
+  enabled: "{{ gotify_enabled | default(True) }}"
+
+  default_admin_user: "{{ gotify_default_admin_user | default('admin') }}"
+  default_admin_password: "{{ gotify_default_admin_password | default('clear_password') }}"
+  users: "{{ gotify_users | default([]) }}"
+
+  homeassistant:
+    enabled: "{{ gotify_homeassistant_enabled | default(True) }}"
+    username: "{{ gotify_homeassistant_username | default('user') }}"
+    password: "{{ gotify_homeassistant_password | default('Passw0rd') }}"
+    application_name: "{{ gotify_homeassistant_application_name | default('HomeAssistant') }}"

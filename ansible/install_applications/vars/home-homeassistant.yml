@@ -28,9 +28,9 @@ homeassistant:
     displayFrom: "{{ homeassistant_smtp_displayFrom | default('HomeAssistant') }}"
 
   gotify:
-    enabled: "{{ gotify_homeassistant_enabled | default(False) }}"
-    username: "{{ gotify_homeassistant_username | default('user') }}"
-    password: "{{ gotify_homeassistant_password | default('clear_password') }}"
-    application_name: "{{ gotify_homeassistant_application_name | default('HomeAssistant') }}"
+    enabled: "{{ gotify.homeassistant.enabled | default(False) }}"
+    username: "{{ gotify.homeassistant.username | default('user') }}"
+    password: "{{ gotify.homeassistant.password | default('clear_password') }}"
+    application_name: "{{ gotify.homeassistant.application_name | default('HomeAssistant') }}"
 
   serial_remote_devices: "{{ homeassistant_serial_remote_devices | default({}) }}"
