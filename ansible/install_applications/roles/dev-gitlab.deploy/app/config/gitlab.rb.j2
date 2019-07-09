@@ -12,7 +12,7 @@
 ##! URL on which GitLab will be reachable.
 ##! For more details on configuring external_url see:
 ##! https://docs.gitlab.com/omnibus/settings/configuration.html#configuring-the-external-url-for-gitlab
-external_url '{{ gitlab_external_url }}'
+external_url '{{ gitlab.external_url }}'
 
 ## Roles for multi-instance GitLab
 ##! The default is to have no roles enabled, which results in GitLab running as an all-in-one instance.
@@ -48,15 +48,15 @@ external_url '{{ gitlab_external_url }}'
 ##! Docs: https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/doc/settings/gitlab.yml.md
 ################################################################################
 # gitlab_rails['gitlab_ssh_host'] = 'ssh.host_example.com'
-gitlab_rails['time_zone'] = '{{ gitlab_time_zone }}'
+gitlab_rails['time_zone'] = '{{ gitlab.time_zone }}'
 
 ### Email Settings
-gitlab_rails['gitlab_email_enabled'] = {{ gitlab_email_enabled }}
-{% if gitlab_email_enabled == "true" %}
-gitlab_rails['gitlab_email_from'] = '{{ gitlab_email_from }}'
-gitlab_rails['gitlab_email_display_name'] = '{{ gitlab_email_display_name }}'
-gitlab_rails['gitlab_email_reply_to'] = '{{ gitlab_email_reply_to }}'
-gitlab_rails['gitlab_email_subject_suffix'] = '{{ gitlab_email_subject_suffix }}'
+gitlab_rails['gitlab_email_enabled'] = {{ gitlab.email.enabled }}
+{% if gitlab.email.enabled == "true" %}
+gitlab_rails['gitlab_email_from'] = '{{ gitlab.email.from }}'
+gitlab_rails['gitlab_email_display_name'] = '{{ gitlab.email.display_name }}'
+gitlab_rails['gitlab_email_reply_to'] = '{{ gitlab.email.reply_to }}'
+gitlab_rails['gitlab_email_subject_suffix'] = '{{ gitlab.email.subject_suffix }}'
 {% endif %}
 
 ### GitLab user privileges
@@ -239,11 +239,11 @@ gitlab_rails['ldap_enabled'] = true
 gitlab_rails['ldap_servers'] = YAML.load <<-'EOS'
   main: # 'main' is the GitLab 'provider ID' of this LDAP server
     label: 'OpenLDAP'
-    host: '{{ gitlab_ldap_servername }}'
+    host: '{{ gitlab.ldap.servername }}'
     port: 389
     uid: 'uid'
-    bind_dn: '{{ gitlab_ldap_manager_dn }}'
-    password: '{{ gitlab_ldap_manager_password }}'
+    bind_dn: '{{ gitlab.ldap.manager_dn }}'
+    password: '{{ gitlab.ldap.manager_password }}'
     encryption: 'start_tls' # "start_tls" or "simple_tls" or "plain"
     verify_certificates: false
     tls_options:
@@ -253,8 +253,8 @@ gitlab_rails['ldap_servers'] = YAML.load <<-'EOS'
     allow_username_or_email_login: false
     lowercase_usernames: false
     block_auto_created_users: false
-    base: '{{ gitlab_ldap_user_base }}'
-    user_filter: '(&(objectClass=inetOrgPerson)(memberOf={{ gitlab_ldap_group }}))'
+    base: '{{ gitlab.ldap.user_base }}'
+    user_filter: '(&(objectClass=inetOrgPerson)(memberOf={{ gitlab.ldap.group }}))'
     ## EE only
     #group_base: ''
     #admin_group: ''
@@ -465,37 +465,37 @@ EOS
 ###! Docs: https://docs.gitlab.com/omnibus/settings/smtp.html
 ###! **Use smtp instead of sendmail/postfix.**
 
-{% if gitlab_smtp_enable == "true" %}
+{% if gitlab.smtp.enable == "true" %}
 # SMTP
-gitlab_rails['smtp_enable'] = {{ gitlab_smtp_enable }}
-{% if gitlab_smtp_address is defined %}
-gitlab_rails['smtp_address'] = "{{ gitlab_smtp_address }}"
+gitlab_rails['smtp_enable'] = {{ gitlab.smtp.enable }}
+{% if gitlab.smtp.address is defined %}
+gitlab_rails['smtp_address'] = "{{ gitlab.smtp.address }}"
 {% endif %}
-{% if gitlab_smtp_port is defined %}
-gitlab_rails['smtp_port'] = {{ gitlab_smtp_port }}
+{% if gitlab.smtp.port is defined %}
+gitlab_rails['smtp_port'] = {{ gitlab.smtp.port }}
 {% endif %}
-{% if gitlab_smtp_authentication is defined %}
-gitlab_rails['smtp_authentication'] = "{{ gitlab_smtp_authentication }}"
+{% if gitlab.smtp.authentication is defined %}
+gitlab_rails['smtp_authentication'] = "{{ gitlab.smtp.authentication }}"
 {% endif %}
-{% if gitlab_smtp_user_name is defined %}
-gitlab_rails['smtp_user_name'] = "{{ gitlab_smtp_user_name }}"
+{% if gitlab.smtp.user_name is defined %}
+gitlab_rails['smtp_user_name'] = "{{ gitlab.smtp.user_name }}"
 {% endif %}
-{% if gitlab_smtp_password is defined %}
-gitlab_rails['smtp_password'] = "{{ gitlab_smtp_password }}"
+{% if gitlab.smtp.password is defined %}
+gitlab_rails['smtp_password'] = "{{ gitlab.smtp.password }}"
 {% endif %}
-{% if gitlab_smtp_domain is defined %}
-gitlab_rails['smtp_domain'] = "{{ gitlab_smtp_domain }}"
+{% if gitlab.smtp.domain is defined %}
+gitlab_rails['smtp_domain'] = "{{ gitlab.smtp.domain }}"
 {% endif %}
-{% if gitlab_smtp_enable_starttls_auto is defined %}
-gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab_smtp_enable_starttls_auto }}
+{% if gitlab.smtp.enable_starttls_auto is defined %}
+gitlab_rails['smtp_enable_starttls_auto'] = {{ gitlab.smtp.enable_starttls_auto }}
 {% endif %}
-{% if gitlab_smtp_tls is defined %}
-gitlab_rails['smtp_tls'] = {{ gitlab_smtp_tls }}
+{% if gitlab.smtp.tls is defined %}
+gitlab_rails['smtp_tls'] = {{ gitlab.smtp.tls }}
 {% endif %}
-{% if gitlab_smtp_openssl_verify_mode is defined %}
+{% if gitlab.smtp.openssl_verify_mode is defined %}
 ###! **Can be: 'none', 'peer', 'client_once', 'fail_if_no_peer_cert'**
 ###! Docs: http://api.rubyonrails.org/classes/ActionMailer/Base.html
-gitlab_rails['smtp_openssl_verify_mode'] = "{{ gitlab_smtp_openssl_verify_mode }}"
+gitlab_rails['smtp_openssl_verify_mode'] = "{{ gitlab.smtp.openssl_verify_mode }}"
 {% endif %}
 
 # gitlab_rails['smtp_ca_path'] = "/etc/ssl/certs"

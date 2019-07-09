@@ -14,7 +14,7 @@ spec:
   - host: dev.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ gitlab_context_path }}
+        - path: {{ gitlab.context_path }}
           backend:
             serviceName: gitlab
             servicePort: 80

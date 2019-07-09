@@ -1,0 +1,39 @@
+---
+
+# To avoid loops inside gitlab
+_gitlab_var_loader:
+  context_path: "{{ gitlab_context_path | default('/gitlab') }}"
+
+gitlab:
+  enabled: "{{ openldap_enabled | default(True) }}"
+
+  context_path: "{{ _gitlab_var_loader.context_path }}"
+  external_url: "{{ gitlab_external_url | default('https://gitlab.domain' + _gitlab_var_loader.context_path) }}"
+  time_zone: "{{ gitlab_time_zone | default(time_zone) }}"
+  backup_keep_time: "{{ gitlab_backup_keep_time | default('604800') }}"
+
+  email:
+    enabled: "{{ gitlab_email_enabled | default('true') }}"
+    from: "{{ gitlab_email_from | default('gitlab@' + web_base_domain) }}"
+    display_name: "{{ gitlab_email_display_name | default('Gitlab') }}"
+    reply_to: "{{ gitlab_email_reply_to | default('gitlab@'+ web_base_domain) }}"
+    subject_suffix: "{{ gitlab_email_subject_suffix | default('[Gitlab] ') }}"
+
+  smtp:
+    enable: "{{ gitlab_smtp_enable | default('true') }}"
+    address: "{{ gitlab_smtp_address | default(zonemta_smtp_servername) }}"
+    port: "{{ gitlab_smtp_port | default(587) }}"
+    authentication: "{{ gitlab_smtp_authentication | default('login') }}"
+    user_name: "{{ gitlab_smtp_user_name | default(zonemta_feeder_authentication_username) }}"
+    password: "{{ gitlab_smtp_password | default(zonemta_feeder_authentication_password) }}"
+    #domain: "{{ gitlab_smtp_domain | default('example.com') }}"
+    enable_starttls_auto: "{{ gitlab_smtp_enable_starttls_auto | default('true') }}"
+    tls: "{{ gitlab_smtp_tls | default('false') }}"
+    #openssl_verify_mode: "{{ gitlab_smtp_openssl_verify_mode | default('peer') }}"
+
+  ldap:
+    servername: "{{ gitlab_ldap_servername | default(openldap.ldap.servername) }}"
+    user_base: "{{ gitlab_ldap_user_base | default(openldap.ldap.structure_users_ou_dn) }}"
+    manager_dn: "{{ gitlab_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ gitlab_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group: "{{ gitlab_ldap_group }}"
