@@ -14,10 +14,10 @@ lemonldap:
     group_base: "{{ lemonldap_ldap_group_base | default(openldap.ldap.structure_groups_ou_dns['groups']) }}"
 
   smtp:
-    host: "{{ lemonldap_smtp_host | default(zonemta_smtp_servername) }}"
+    host: "{{ lemonldap_smtp_host | default(zonemta.smtp_servername) }}"
     port: "{{ lemonldap_smtp_port | default(587) }}"
-    user: "{{ lemonldap_smtp_user | default(zonemta_feeder_authentication_username) }}"
-    password: "{{ lemonldap_smtp_password | default(zonemta_feeder_authentication_password) }}"
+    user: "{{ lemonldap_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ lemonldap_smtp_password | default(zonemta.feeder.authentication_password) }}"
     tls: "{{ lemonldap_smtp_tls | default('starttls') }}"
     from: "{{ lemonldap_smtp_from | default('noreply@' + web_base_domain) }}"
     replyTo: "{{ lemonldap_smtp_replyTo | default('noreply@' + web_base_domain) }}"

@@ -1,0 +1,31 @@
+---
+
+zonemta:
+  enabled: "{{ zonemta_enabled | default(True) }}"
+
+  smtp_servername: "{{ zonemta_smtp_servername | default('zonemta.default') }}"
+  
+  feeder:
+    authentication_enabled: "{{ zonemta_feeder_authentication_enabled | default(true) }}"
+    authentication_username: "{{ zonemta_feeder_authentication_username | default('smtp') }}"
+    authentication_password: "{{ zonemta_feeder_authentication_password | default('clear_password') }}"
+  
+  mongo:
+    root_user: "{{ zonemta_mongo_root_user | default('root') }}"
+    root_password: "{{ zonemta_mongo_root_password | default('clear_password') }}"
+    user: "{{ zonemta_mongo_user | default('zonemta') }}"
+    database: "{{ zonemta_mongo_database | default('zonemta') }}"
+    password: "{{ zonemta_mongo_password | default('clear_password') }}"
+
+  redis:
+    password: "{{ zonemta_redis_password | default('clear_password') }}"
+  
+  forward:
+    # Forward to Mailhog by default
+    mta_host: "{{ zonemta_forward_mta_host | default('mailhog.default.svc.cluster.local') }}"
+    mta_port: "{{ zonemta_forward_mta_port | default(1025) }}"
+    mta_auth_enabled: "{{ zonemta_forward_mta_auth_enabled | default(false) }}"
+    mta_user: "{{ zonemta_forward_mta_user | default('') }}"
+    mta_password: "{{ zonemta_forward_mta_password | default('') }}"
+  
+  exposed_namespaces: "{{ zonemta_exposed_namespaces | default(['default']) }}"

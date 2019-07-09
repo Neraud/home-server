@@ -21,11 +21,11 @@ gitlab:
 
   smtp:
     enable: "{{ gitlab_smtp_enable | default('true') }}"
-    address: "{{ gitlab_smtp_address | default(zonemta_smtp_servername) }}"
+    address: "{{ gitlab_smtp_address | default(zonemta.smtp_servername) }}"
     port: "{{ gitlab_smtp_port | default(587) }}"
     authentication: "{{ gitlab_smtp_authentication | default('login') }}"
-    user_name: "{{ gitlab_smtp_user_name | default(zonemta_feeder_authentication_username) }}"
-    password: "{{ gitlab_smtp_password | default(zonemta_feeder_authentication_password) }}"
+    user_name: "{{ gitlab_smtp_user_name | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ gitlab_smtp_password | default(zonemta.feeder.authentication_password) }}"
     #domain: "{{ gitlab_smtp_domain | default('example.com') }}"
     enable_starttls_auto: "{{ gitlab_smtp_enable_starttls_auto | default('true') }}"
     tls: "{{ gitlab_smtp_tls | default('false') }}"

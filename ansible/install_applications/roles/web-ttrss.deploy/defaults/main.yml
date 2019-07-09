@@ -1,8 +1,5 @@
 ---
 
-zonemta_feeder_authentication_username: smtp
-zonemta_feeder_authentication_password: clear_password
-
 ttrss_enabled: true
 
 ttrss_context_root: /
@@ -17,10 +14,10 @@ ttrss_ldap_users_dn: "{{ openldap.ldap.structure_users_ou_dn }}"
 ttrss_ldap_manager_dn: "{{ openldap.ldap.readonly_user_dn }}"
 ttrss_ldap_manager_password: "{{ openldap.ldap.readonly_user_password }}"
 
-ttrss_smtp_host: "{{ zonemta_smtp_servername }}"
+ttrss_smtp_host: "{{ zonemta.smtp_servername }}"
 ttrss_smtp_port: 587
-ttrss_smtp_user: "{{ zonemta_feeder_authentication_username }}"
-ttrss_smtp_password: "{{ zonemta_feeder_authentication_password }}"
+ttrss_smtp_user: "{{ zonemta.feeder.authentication_username }}"
+ttrss_smtp_password: "{{ zonemta.feeder.authentication_password }}"
 #  ssl, tls or empty
 ttrss_smtp_secure: tls
 ttrss_smtp_from: "noreply@{{ web_base_domain }}"

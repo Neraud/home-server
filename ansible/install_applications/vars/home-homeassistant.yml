@@ -19,10 +19,10 @@ homeassistant:
     group: "{{ homeassistant_ldap_group }}"
 
   smtp:
-    host: "{{ homeassistant_smtp_host | default(zonemta_smtp_servername) }}"
+    host: "{{ homeassistant_smtp_host | default(zonemta.smtp_servername) }}"
     port: "{{ homeassistant_smtp_port | default(587) }}"
-    user: "{{ homeassistant_smtp_user | default(zonemta_feeder_authentication_username) }}"
-    password: "{{ homeassistant_smtp_password | default(zonemta_feeder_authentication_password) }}"
+    user: "{{ homeassistant_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ homeassistant_smtp_password | default(zonemta.feeder.authentication_password) }}"
     encryption: "{{ homeassistant_smtp_encryption | default('starttls') }}"
     from: "{{ homeassistant_smtp_from | default('noreply@' + web_base_domain) }}"
     displayFrom: "{{ homeassistant_smtp_displayFrom | default('HomeAssistant') }}"
