@@ -29,11 +29,11 @@ spec:
           name: webui
         env:
           - name: PYLOAD_DEFAULT_USER
-            value: "{{ pyload_default_user }}"
+            value: "{{ pyload.default_user }}"
           - name: PYLOAD_DEFAULT_PASSWORD
-            value: "{{ pyload_default_password }}"
+            value: "{{ pyload.default_password }}"
           - name: PYLOAD_WEB_PATH
-            value: "{{ pyload_context_root }}"
+            value: "{{ pyload.context_root }}"
         resources:
           requests:
             cpu: "{{ pyload_requests_cpu | default("100m") }}"

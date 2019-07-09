@@ -12,7 +12,7 @@ spec:
   - host: dl.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ pyload_context_root }}
+        - path: {{ pyload.context_root }}
           backend:
             serviceName: pyload
             servicePort: 80

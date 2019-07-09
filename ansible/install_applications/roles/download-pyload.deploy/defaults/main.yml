@@ -4,7 +4,3 @@ docker_registry_port: 30500
 docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
 
 pyload_enabled: true
-
-pyload_context_root: /
-pyload_default_user: pyload
-pyload_default_password: clear_password

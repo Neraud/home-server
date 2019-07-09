@@ -1,0 +1,8 @@
+---
+
+pyload:
+  enabled: "{{ pyload_enabled | default(True) }}"
+
+  context_root: "{{ pyload_context_root | default('/') }}"
+  default_user: "{{ pyload_default_user | default('pyload') }}"
+  default_password: "{{ pyload_default_password | default('clear_password') }}"
