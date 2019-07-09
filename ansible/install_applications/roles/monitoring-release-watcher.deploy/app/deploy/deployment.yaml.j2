@@ -22,7 +22,7 @@ spec:
         app-component: release-watcher
     spec:
       containers:
-      - image: {{ docker_registry_url }}/release-watcher
+      - image: {{ docker_registry.url }}/release-watcher
         name: release-watcher
         ports:
         - containerPort: 8080

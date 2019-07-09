@@ -3,9 +3,6 @@
 zonemta_feeder_authentication_username: smtp
 zonemta_feeder_authentication_password: clear_password
 
-docker_registry_port: 30500
-docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
-
 sabnzbd_enabled: true
 
 sabnzbd_nzbToMedia_config_sickbeard:

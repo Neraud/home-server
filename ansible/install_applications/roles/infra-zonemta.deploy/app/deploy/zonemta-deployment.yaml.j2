@@ -22,7 +22,7 @@ spec:
         app-component: zonemta
     spec:
       containers:
-      - image: {{ docker_registry_url }}/zone-mta
+      - image: {{ docker_registry.url }}/zone-mta
         name: zonemta
         env:
         - name: NODE_OPTIONS

@@ -2,7 +2,7 @@
 
 - name: Build and push Node-RED image
   docker_image:
-    name: "{{ docker_registry_url }}/nodered"
+    name: "{{ docker_registry.url }}/nodered"
     source: build
     build:
       path: "{{ role_path }}/app/build"

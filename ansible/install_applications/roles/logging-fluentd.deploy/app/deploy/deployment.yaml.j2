@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: fluentd
-        image: {{ docker_registry_url }}/fluentd
+        image: {{ docker_registry.url }}/fluentd
         ports:
         - containerPort: 24224
           name: fluentd

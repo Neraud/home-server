@@ -22,7 +22,7 @@ spec:
         app-component: heimdall
     spec:
       containers:
-      - image: {{ docker_registry_url }}/heimdall
+      - image: {{ docker_registry.url }}/heimdall
         name: heimdall
         ports:
         - containerPort: 80

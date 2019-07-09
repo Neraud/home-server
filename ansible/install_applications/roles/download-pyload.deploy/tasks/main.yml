@@ -2,7 +2,7 @@
 
 - name: Build and push pyLoad image
   docker_image:
-    name: "{{ docker_registry_url }}/pyload"
+    name: "{{ docker_registry.url }}/pyload"
     source: build
     build:
       path: "{{ role_path }}/app/build"

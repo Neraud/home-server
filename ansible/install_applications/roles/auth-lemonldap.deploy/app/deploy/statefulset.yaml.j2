@@ -38,7 +38,7 @@ spec:
           mountPath: {{ lemonldap.persistent_volume_path }}
       containers:
       - name: lemonldap
-        image: {{ docker_registry_url }}/lemonldap
+        image: {{ docker_registry.url }}/lemonldap
         ports:
           - containerPort: 80
             name: http

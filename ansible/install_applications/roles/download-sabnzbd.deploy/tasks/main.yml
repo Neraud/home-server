@@ -2,7 +2,7 @@
 
 - name: Build and push sabnzbd image
   docker_image:
-    name: "{{ docker_registry_url }}/sabnzbd"
+    name: "{{ docker_registry.url }}/sabnzbd"
     source: build
     build:
       path: "{{ role_path }}/app/build"

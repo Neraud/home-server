@@ -1,8 +1,5 @@
 ---
 
-docker_registry_port: 30500
-docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
-
 release_watcher_enabled: true
 
 release_watcher_path: /opt/release-watcher

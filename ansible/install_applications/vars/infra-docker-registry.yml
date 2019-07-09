@@ -1,0 +1,13 @@
+---
+
+# To avoid loops inside docker_registry
+_docker_registry_var_loader:
+  port: "{{ docker_registry_port | default(30500) }}"
+
+docker_registry:
+  enabled: "{{ docker_registry_enabled | default(True) }}"
+
+  servername: "{{ docker_registry_servername | default('registry.default') }}"
+  port: "{{ _docker_registry_var_loader.port }}"
+  url: "{{ docker_registry_url | default('127.0.0.1:' + _docker_registry_var_loader.port) }}"
+  notification_endpoints: "{{ docker_registry_notification_endpoints | default([]) }}"

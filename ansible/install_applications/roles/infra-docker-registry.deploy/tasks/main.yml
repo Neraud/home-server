@@ -21,7 +21,7 @@
 - name: Wait for Docker registry to be available
   wait_for:
     host: 127.0.0.1
-    port: "{{ docker_registry_port }}"
+    port: "{{ docker_registry.port }}"
     state: started
     sleep: 2
     timeout: 60

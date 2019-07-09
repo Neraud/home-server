@@ -22,7 +22,7 @@ spec:
         app-component: pyload
     spec:
       containers:
-      - image: {{ docker_registry_url }}/pyload
+      - image: {{ docker_registry.url }}/pyload
         name: pyload
         ports:
         - containerPort: 8000

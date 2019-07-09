@@ -29,10 +29,10 @@ health:
     enabled: true
     interval: 10s
     threshold: 3
-{% if docker_registry_notification_endpoints | default([]) %}
+{% if docker_registry.notification_endpoints | default([]) %}
 notifications:
   endpoints:
-{% for registry_notification_endpoint in docker_registry_notification_endpoints %}
+{% for registry_notification_endpoint in docker_registry.notification_endpoints %}
     - name: {{ registry_notification_endpoint.name }}
       url:  {{ registry_notification_endpoint.url }}
 {% if registry_notification_endpoint.headers | default([]) %}

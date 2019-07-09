@@ -2,7 +2,7 @@
 
 - name: Build and push TT-RSS image
   docker_image:
-    name: "{{ docker_registry_url }}/ttrss"
+    name: "{{ docker_registry.url }}/ttrss"
     source: build
     build:
       path: "{{ role_path }}/app/build"

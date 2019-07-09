@@ -11,7 +11,7 @@ spec:
   ports:
     - port: 443
       targetPort: 443
-      nodePort: {{ docker_registry_port }}
+      nodePort: {{ docker_registry.port }}
   selector:
     app: docker-registry
     app-component: registry

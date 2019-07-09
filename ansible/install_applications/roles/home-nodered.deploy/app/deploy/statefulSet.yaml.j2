@@ -22,7 +22,7 @@ spec:
         app-component: nodered
     spec:
       containers:
-      - image: {{ docker_registry_url }}/nodered
+      - image: {{ docker_registry.url }}/nodered
         name: nodered
         ports:
         - containerPort: 1880

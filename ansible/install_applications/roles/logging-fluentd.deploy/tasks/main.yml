@@ -2,7 +2,7 @@
 
 - name: Build and push Fluentd image
   docker_image:
-    name: "{{ docker_registry_url }}/fluentd"
+    name: "{{ docker_registry.url }}/fluentd"
     source: build
     build:
       path: "{{ role_path }}/app/build"

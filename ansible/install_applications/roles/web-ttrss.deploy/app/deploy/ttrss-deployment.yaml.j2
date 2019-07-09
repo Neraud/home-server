@@ -22,7 +22,7 @@ spec:
         app-component: ttrss
     spec:
       containers:
-      - image: {{ docker_registry_url }}/ttrss
+      - image: {{ docker_registry.url }}/ttrss
         name: ttrss
         ports:
         - containerPort: 80
