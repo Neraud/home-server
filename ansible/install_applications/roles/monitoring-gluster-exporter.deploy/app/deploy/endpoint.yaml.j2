@@ -10,5 +10,5 @@ subsets:
   - ip: {{ glusterfs_node }}
   ports:
   - name: metrics
-    port: {{ gluster_exporter_port }}
+    port: {{ gluster_exporter.port }}
 {% endfor %}
