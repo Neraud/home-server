@@ -1,0 +1,8 @@
+---
+
+phpldapadmin:
+  enabled: "{{ openldap_enabled | default(True) }}"
+  
+  ldap_servername: "{{ phpldapadmin_ldap_servername | default(openldap.ldap.servername) }}"
+  bind_id: "{{ phpldapadmin_bind_id | default(openldap.ldap.readonly_user_dn) }}"
+  bind_password: "{{ phpldapadmin_bind_password | default(openldap.ldap.readonly_user_password) }}"

@@ -2,17 +2,17 @@ PHPLDAPADMIN_LDAP_HOSTS:
   - openldap:
     - server:
       # http://phpldapadmin.sourceforge.net/wiki/index.php/Server:server:host
-      - host: ldap://{{ phpldapadmin_ldap_servername }}
+      - host: ldap://{{ phpldapadmin.ldap_servername }}
       - tls: true
       - port: 389
     - login:
-      - bind_id: {{ phpldapadmin_bind_id }}
-      - bind_pass: {{ phpldapadmin_bind_password }}
+      - bind_id: {{ phpldapadmin.bind_id }}
+      - bind_pass: {{ phpldapadmin.bind_password }}
 
 PHPLDAPADMIN_LDAP_HOSTS_FRIENDLY:
   - OpenLDAP Auth:
     - server:
-      - host: {{ phpldapadmin_ldap_servername }}"
+      - host: {{ phpldapadmin.ldap_servername }}"
 
 # LDAP client tls config
 PHPLDAPADMIN_LDAP_CLIENT_TLS: true
