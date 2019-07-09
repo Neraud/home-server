@@ -2,18 +2,10 @@
 
 elasticsearch_enabled: true
 
-# TODO : these user / passwords can't easily be changed without wiping the ES cluster.
-# We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
-logging_elasticsearch_internal_users: []
+#elasticsearch_internal_users:
 #  - name: userName
 #    password: clear_password
 #    readonly: True
 #    roles:
 #      - role1
 #      - role2
-logging_elasticsearch_ldap_servername: "{{ openldap.ldap.servername }}"
-logging_elasticsearch_ldap_manager_dn: "{{ openldap.ldap.readonly_user_dn }}"
-logging_elasticsearch_ldap_manager_password: "{{ openldap.ldap.readonly_user_password }}"
-logging_elasticsearch_ldap_users_dn: "{{ openldap.ldap.structure_users_ou_dn }}"
-elasticsearch_exposed_namespaces:
-  - logging

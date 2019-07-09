@@ -1,0 +1,29 @@
+---
+
+elasticsearch:
+  enabled: "{{ elasticsearch_enabled | default(True) }}"
+  
+  # FIXME : using a longer name (like elasticsearch.logging) breaks the workaround in place to update security
+  # The server cert is improperly used in ansible/install_applications/roles/logging-elasticsearch.deploy/handlers/main.yml
+  servername: "{{ elasticsearch_servername | default('elasticsearch') }}"
+
+  context_path: "{{ elasticsearch_context_path | default('/') }}"
+  replicas: "{{ elasticsearch_replicas | default(1) }}"
+
+  # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
+  # We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
+  internal_users: "{{ elasticsearch_internal_users | default([]) }}"
+  
+  ldap:
+    servername: "{{ elasticsearch_ldap_servername | default(openldap.ldap.servername) }}"
+    manager_dn: "{{ elasticsearch_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ elasticsearch_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    users_dn: "{{ elasticsearch_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    group: "{{ elasticsearch_ldap_group }}"
+    roles_dn: "{{ elasticsearch_ldap_roles_dn }}"
+
+  exporter:
+    user: "{{ elasticsearch_exporter_user | default('exporter') }}"
+    password: "{{ elasticsearch_exporter_password | default('password') }}"
+
+  exposed_namespaces: "{{ elasticsearch_exposed_namespaces | default(['logging']) }}"

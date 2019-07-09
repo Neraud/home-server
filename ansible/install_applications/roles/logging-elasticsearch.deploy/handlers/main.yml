@@ -11,8 +11,8 @@
     status_code:
       - 200
       - 503
-    user: "{{ logging_elasticsearch_exporter_user }}"
-    password: "{{ logging_elasticsearch_exporter_password }}"
+    user: "{{ elasticsearch.exporter.user }}"
+    password: "{{ elasticsearch.exporter.password }}"
   register: elasticsearch_available
   until:
   - (elasticsearch_available.status == 200) or (elasticsearch_available.status == 503 and "Open Distro Security not initialized (SG11)" in elasticsearch_available.content)

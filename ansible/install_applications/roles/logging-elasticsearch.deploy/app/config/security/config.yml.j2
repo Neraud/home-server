@@ -101,16 +101,16 @@ opendistro_security:
           type: ldap
           config:
             hosts:
-              - {{ logging_elasticsearch_ldap_servername }}:636
+              - {{ elasticsearch.ldap.servername }}:636
             enable_ssl: true
             enable_start_tls: false
             enable_ssl_client_auth: false
             verify_hostnames: true
             pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
-            bind_dn: {{ logging_elasticsearch_ldap_manager_dn }}
-            password: {{ logging_elasticsearch_ldap_manager_password }}
-            userbase: '{{ logging_elasticsearch_ldap_users_dn }}'
-            usersearch: '(&(objectClass=inetOrgPerson)(cn={0})(memberOf={{ logging_elasticsearch_group }}))'
+            bind_dn: {{ elasticsearch.ldap.manager_dn }}
+            password: {{ elasticsearch.ldap.manager_password }}
+            userbase: '{{ elasticsearch.ldap.users_dn }}'
+            usersearch: '(&(objectClass=inetOrgPerson)(cn={0})(memberOf={{ elasticsearch.ldap.group }}))'
             username_attribute: cn
 
     authz:
@@ -120,24 +120,24 @@ opendistro_security:
           type: ldap
           config:
             hosts:
-              - {{ logging_elasticsearch_ldap_servername }}:636
+              - {{ elasticsearch.ldap.servername }}:636
             enable_ssl: true
             enable_start_tls: false
             enable_ssl_client_auth: false
             verify_hostnames: true
             pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
-            bind_dn: {{ logging_elasticsearch_ldap_manager_dn }}
-            password: {{ logging_elasticsearch_ldap_manager_password }}
+            bind_dn: {{ elasticsearch.ldap.manager_dn }}
+            password: {{ elasticsearch.ldap.manager_password }}
             userroleattribute: null
             userrolename: none
             rolesearch_enabled: true
-            rolebase: '{{ logging_elasticsearch_roles_dn }}'
+            rolebase: '{{ elasticsearch.ldap.roles_dn }}'
             rolesearch: '(uniqueMember={0})'
             rolename: cn
             resolve_nested_roles: false
-{% if logging_elasticsearch_internal_users | default([]) | length > 0 %}
+{% if elasticsearch.internal_users | default([]) | length > 0 %}
             skip_users:
-{% for user in logging_elasticsearch_internal_users | default([]) %}
+{% for user in elasticsearch.internal_users | default([]) %}
               - {{ user.name }}
 {% endfor %}
 {% endif %}

@@ -10,7 +10,7 @@ metadata:
     reloader.stakater.com/auto: "true"
 spec:
   serviceName: elasticsearch
-  replicas: {{ logging_elasticsearch_replicas }}
+  replicas: {{ elasticsearch.replicas }}
   selector:
     matchLabels:
       app: elasticsearch
@@ -64,9 +64,9 @@ spec:
               fieldRef:
                 fieldPath: metadata.name
           - name: discovery.zen.ping.unicast.hosts
-            value: "{% for i in range(0, logging_elasticsearch_replicas) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}.elasticsearch{% endfor %}"
+            value: "{% for i in range(0, elasticsearch.replicas|int) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}.elasticsearch{% endfor %}"
           - name: discovery.zen.minimum_master_nodes
-            value: "{{ (logging_elasticsearch_replicas / 2 + 1) | int }}"
+            value: "{{ (elasticsearch.replicas|int / 2 + 1) | int }}"
           - name: ES_JAVA_OPTS
             value: "-Xms512m -Xmx512m"
       initContainers:

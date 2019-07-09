@@ -118,7 +118,7 @@ openssl_custom_pki:
         organization_name: Test
         email_address: user@mail.net
       - name: "elasticsearch"
-        common_name: "{{ logging_elasticsearch_servername }}"
+        common_name: "{{ elasticsearch_servername }}"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris

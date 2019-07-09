@@ -17,7 +17,7 @@ spec:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ logging_elasticsearch_context_path | default('/elasticsearch') }}/?(.*)
+        - path: {{ elasticsearch.context_path }}/?(.*)
           backend:
             serviceName: elasticsearch
             servicePort: 9200

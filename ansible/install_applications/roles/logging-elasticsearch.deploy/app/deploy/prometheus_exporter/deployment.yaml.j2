@@ -28,7 +28,7 @@ spec:
         image: justwatch/elasticsearch_exporter:1.1.0rc1
         env:
         - name: "ES_URI"
-          value: "https://{{ logging_elasticsearch_exporter_user }}:{{ logging_elasticsearch_exporter_password }}@elasticsearch:9200"
+          value: "https://{{ elasticsearch.exporter.user }}:{{ elasticsearch.exporter.password }}@elasticsearch:9200"
         - name: "ES_ALL"
           value: "true"
         - name: "ES_SSL_SKIP_VERIFY"
