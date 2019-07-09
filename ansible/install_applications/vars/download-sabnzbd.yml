@@ -1,0 +1,17 @@
+---
+
+sabnzbd:
+  enabled: "{{ sabnzbd_enabled | default(True) }}"
+
+  context_root: "{{ sabnzbd_context_root | default('/') }}"
+  user: "{{ sabnzbd_user | default('sabnzbd') }}"
+  password: "{{ sabnzbd_password | default('clear_password') }}"
+  api_key: "{{ sabnzbd_api_key | default('abcdefghijklmnopqrstuvwxyz123456') }}"
+
+  smtp:
+    host: "{{ sabnzbd_smtp_host | default(zonemta_smtp_servername) }}"
+    port: "{{ sabnzbd_smtp_port | default(587) }}"
+    user: "{{ sabnzbd_smtp_user | default(zonemta_feeder_authentication_username) }}"
+    password: "{{ sabnzbd_smtp_password | default(zonemta_feeder_authentication_password) }}"
+
+  nzbToMedia_config_sickbeard: "{{ sabnzbd_nzbToMedia_config_sickbeard | default({}) }}"

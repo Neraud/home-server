@@ -12,7 +12,7 @@ spec:
   - host: dl.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ sabnzbd_context_root }}
+      - path: {{ sabnzbd.context_root }}
         backend:
           serviceName: sabnzbd
           servicePort: 80

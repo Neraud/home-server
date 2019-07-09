@@ -8,15 +8,6 @@ docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
 
 sabnzbd_enabled: true
 
-sabnzbd_context_root: /
-sabnzbd_user: sabnzbd
-sabnzbd_password: clear_password
-sabnzbd_api_key: "abcdefghijklmnopqrstuvwxyz123456"
-sabnzbd_smtp_host: "{{ zonemta_smtp_servername }}"
-sabnzbd_smtp_port: 587
-sabnzbd_smtp_user: "{{ zonemta_feeder_authentication_username }}"
-sabnzbd_smtp_password: "{{ zonemta_feeder_authentication_password }}"
-
 sabnzbd_nzbToMedia_config_sickbeard:
   tv:
     enabled: 0
