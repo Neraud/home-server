@@ -1,0 +1,4 @@
+---
+
+kubernetes_exporters:
+  enabled: "{{ kubernetes_exporters_enabled | default(True) }}"
