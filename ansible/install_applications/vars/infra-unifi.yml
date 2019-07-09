@@ -1,0 +1,6 @@
+---
+
+unifi:
+  enabled: "{{ unifi_enabled | default(True) }}"
+
+  private_ip: "{{ unifi_private_ip | default('') }}"

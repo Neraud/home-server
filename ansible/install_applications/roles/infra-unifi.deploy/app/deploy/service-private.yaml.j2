@@ -8,9 +8,9 @@ metadata:
     app: unifi
     app-component: unifi
 spec:
-{% if unifi_private_ip is defined %}
+{% if unifi.private_ip is defined %}
   externalIPs:
-  - {{ unifi_private_ip }}
+  - {{ unifi.private_ip }}
 {% endif %}
   ports:
   # Port used for STUN.
