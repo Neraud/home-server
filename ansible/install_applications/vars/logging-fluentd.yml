@@ -1,0 +1,4 @@
+---
+
+fluentd:
+  enabled: "{{ fluentd_enabled | default(True) }}"

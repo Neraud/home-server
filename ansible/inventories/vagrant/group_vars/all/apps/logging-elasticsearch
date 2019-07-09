@@ -10,8 +10,8 @@ elasticsearch_internal_users:
     readonly: True
     roles:
       - readall
-  - name: "{{ logging_fluentd_elasticsearch_user }}"
-    password: "{{ logging_fluentd_elasticsearch_password }}"
+  - name: "{{ fluentd_elasticsearch_user }}"
+    password: "{{ fluentd_elasticsearch_password }}"
     readonly: True
     roles:
       - logstash

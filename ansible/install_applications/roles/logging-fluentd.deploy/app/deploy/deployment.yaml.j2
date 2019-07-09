@@ -34,9 +34,9 @@ spec:
           - name: FLUENT_ELASTICSEARCH_SCHEME
             value: "https"
           - name: FLUENT_ELASTICSEARCH_USER
-            value: "{{ logging_fluentd_elasticsearch_user }}"
+            value: "{{ fluentd_elasticsearch_user }}"
           - name: FLUENT_ELASTICSEARCH_PASSWORD
-            value: "{{ logging_fluentd_elasticsearch_password }}"
+            value: "{{ fluentd_elasticsearch_password }}"
           - name: SSL_CERT_FILE
             value: "/etc/ssl/cluster/ca.crt"
         resources:
