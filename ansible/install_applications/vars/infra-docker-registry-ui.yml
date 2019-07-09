@@ -1,0 +1,6 @@
+---
+
+docker_registry_ui:
+  enabled: "{{ docker_registry_ui_enabled | default(True) }}"
+  admin_users: "{{ docker_registry_ui_admin_users | default([]) }}"
+  event_api_token: "{{ docker_registry_ui_event_api_token | default('token') }}"

@@ -11,7 +11,7 @@ docker_registry_notification_endpoints:
   - name: docker-registry-ui
     url: http://docker-registry-ui.default:8000/docker-regitry-ui/api/events
     headers:
-      Authorization: Bearer {{ docker_registry_ui_event_api_token }}
+      Authorization: Bearer {{ docker_registry_ui.event_api_token }}
     timeout: 1s
     threshold: 5
     backoff: 10s

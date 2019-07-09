@@ -20,7 +20,7 @@ verify_tls: true
 
 # Event listener token.
 # The same one should be configured on Docker registry as Authorization Bearer token.
-event_listener_token: {{ docker_registry_ui_event_api_token }}
+event_listener_token: {{ docker_registry_ui.event_api_token }}
 # Retention of records to keep.
 event_retention_days: 7
 
@@ -38,7 +38,7 @@ cache_refresh_interval: 10
 anyone_can_delete: false
 # Users allowed to delete tags.
 # This should be sent via X-WEBAUTH-USER header from your proxy.
-admins: [ {{ docker_registry_ui_admin_users  | map("regex_replace", "(.+)", "\"\\1\"") | join(',') }} ]
+admins: [ {{ docker_registry_ui.admin_users  | map("regex_replace", "(.+)", "\"\\1\"") | join(',') }} ]
 
 # Debug mode. Affects only templates.
 debug: false
