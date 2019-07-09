@@ -1,0 +1,16 @@
+---
+
+mailhog:
+  enabled: "{{ mailhog_enabled | default(True) }}"
+
+  exposed_smtp: "{{ mailhog_exposed_smtp | default('mailhog.default.svc.cluster.local:1025') }}"
+  
+  forward_smtp:
+    enabled: "{{ mailhog_forward_smtp_enabled | default('false') }}"
+    name: "{{ mailhog_forward_smtp_name | default('') }}"
+    host: "{{ mailhog_forward_smtp_host | default('') }}"
+    port: "{{ mailhog_forward_smtp_port | default('') }}"
+    email: "{{ mailhog_forward_smtp_email | default('') }}"
+    username: "{{ mailhog_forward_smtp_username | default('') }}"
+    password: "{{ mailhog_forward_smtp_password | default('') }}"
+    mechanism: "{{ mailhog_forward_smtp_mechanism | default('PLAIN') }}"

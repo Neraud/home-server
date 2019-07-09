@@ -33,7 +33,7 @@ spec:
         env:
           - name: MH_UI_WEB_PATH
             value: mailhog
-{% if mailhog_forward_smtp_enabled | bool %}
+{% if mailhog.forward_smtp.enabled | bool %}
           - name: MH_OUTGOING_SMTP
             value: /etc/mailhog/smtp.json
 {% endif %}
