@@ -11,3 +11,5 @@ galaxy_info:
     - stretch
     - buster
 
+dependencies:
+  - { role: _base.deploy }
