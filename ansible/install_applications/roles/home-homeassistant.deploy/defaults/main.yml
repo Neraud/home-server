@@ -2,7 +2,6 @@
 
 docker_registry_port: 30500
 docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
-openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 
 homeassistant_enabled: true
 
@@ -12,8 +11,8 @@ homeassistant_mysql_password: clear_password
 homeassistant_mysql_root_password: clear_password
 homeassistant_mqtt_user: homeassistant
 homeassistant_mqtt_password: clear_password
-homeassistant_ldap_servername: "{{ openldap_ldap_servername }}"
-homeassistant_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+homeassistant_ldap_servername: "{{ openldap.ldap.servername }}"
+homeassistant_ldap_users_dn: "{{ openldap.ldap.structure_users_ou_dn }}"
 
 #homeassistant_serial_remote_devices:
 #  test_tty1:

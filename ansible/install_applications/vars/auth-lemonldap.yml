@@ -7,11 +7,11 @@ lemonldap:
   persistent_volume_path: "{{ lemonldap_persistent_volume_path | default('/var/lib/lemonldap-ng-pv') }}"
 
   ldap: 
-    servername: "{{ lemonldap_ldap_servername | default(openldap_ldap_servername) }}"
-    base: "{{ lemonldap_ldap_base | default(openldap_ldap_basedn) }}"
-    manager_dn: "{{ lemonldap_ldap_manager_dn | default(openldap_ldap_readonly_user_dn) }}"
-    manager_password: "{{ lemonldap_ldap_manager_password | default(openldap_ldap_readonly_user_password) }}"
-    group_base: "{{ lemonldap_ldap_group_base | default(openldap_ldap_structure_groups_ou_dns['groups']) }}"
+    servername: "{{ lemonldap_ldap_servername | default(openldap.ldap.servername) }}"
+    base: "{{ lemonldap_ldap_base | default(openldap.ldap.basedn) }}"
+    manager_dn: "{{ lemonldap_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ lemonldap_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group_base: "{{ lemonldap_ldap_group_base | default(openldap.ldap.structure_groups_ou_dns['groups']) }}"
 
   smtp:
     host: "{{ lemonldap_smtp_host | default(zonemta_smtp_servername) }}"

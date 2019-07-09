@@ -1,6 +1,6 @@
 ---
 
-lemonldap_ldap_group_base: "{{ openldap_ldap_structure_groups_ou_dns['sso_groups'] }}"
+lemonldap_ldap_group_base: "{{ openldap.ldap.structure_groups_ou_dns['sso_groups'] }}"
 
 lemonldap_location_rules:
   - domain: "infra.{{ web_base_domain }}"

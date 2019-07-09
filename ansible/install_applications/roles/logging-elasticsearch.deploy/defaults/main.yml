@@ -1,10 +1,5 @@
 ---
 
-openldap_ldap_basedn: "dc=example,dc=org"
-openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
-openldap_ldap_readonly_user_username: readonly
-openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
-
 elasticsearch_enabled: true
 
 # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
@@ -16,9 +11,9 @@ logging_elasticsearch_internal_users: []
 #    roles:
 #      - role1
 #      - role2
-logging_elasticsearch_ldap_servername: "{{ openldap_ldap_servername }}"
-logging_elasticsearch_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
-logging_elasticsearch_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
-logging_elasticsearch_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
+logging_elasticsearch_ldap_servername: "{{ openldap.ldap.servername }}"
+logging_elasticsearch_ldap_manager_dn: "{{ openldap.ldap.readonly_user_dn }}"
+logging_elasticsearch_ldap_manager_password: "{{ openldap.ldap.readonly_user_password }}"
+logging_elasticsearch_ldap_users_dn: "{{ openldap.ldap.structure_users_ou_dn }}"
 elasticsearch_exposed_namespaces:
   - logging

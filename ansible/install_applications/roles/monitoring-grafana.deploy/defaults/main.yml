@@ -1,13 +1,10 @@
 ---
 
-openldap_ldap_readonly_user_username: readonly
-openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
-
 grafana_enabled: true
 
 grafana_admin_user: admin
 grafana_admin_password: clear_password
-grafana_ldap_servername: "{{ openldap_ldap_servername }}"
-grafana_ldap_base: "{{ openldap_ldap_basedn }}"
-grafana_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
-grafana_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
+grafana_ldap_servername: "{{ openldap.ldap.servername }}"
+grafana_ldap_base: "{{ openldap.ldap.basedn }}"
+grafana_ldap_manager_dn: "{{ openldap.ldap.readonly_user_dn }}"
+grafana_ldap_manager_password: "{{ openldap.ldap.readonly_user_password }}"

@@ -6,7 +6,5 @@ docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
 zonemta_smtp_servername: zonemta.default
 zonemta_feeder_authentication_username: smtp
 zonemta_feeder_authentication_password: clear_password
-openldap_ldap_readonly_user_username: readonly
-openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
 
 lemonldap_enabled: True

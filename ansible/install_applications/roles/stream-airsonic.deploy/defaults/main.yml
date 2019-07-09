@@ -1,8 +1,5 @@
 ---
 
-openldap_ldap_readonly_user_username: readonly
-openldap_ldap_readonly_user_dn: "cn={{ openldap_ldap_readonly_user_username }},{{ openldap_ldap_basedn }}"
-openldap_ldap_structure_users_ou_dn: "ou=users,{{ openldap_ldap_basedn }}"
 zonemta_feeder_authentication_username: smtp
 zonemta_feeder_authentication_password: clear_password
 
@@ -14,10 +11,10 @@ airsonic_extra_java_opts:
   - -Dserver.use-forward-headers=true
   - -Dairsonic.defaultMusicFolder=/mnt/multimetia/Music
   - -Dairsonic.defaultPodcastFolder=/mnt/multimetia/Podcasts
-airsonic_ldap_servername: "{{ openldap_ldap_servername }}"
-airsonic_ldap_users_dn: "{{ openldap_ldap_structure_users_ou_dn }}"
-airsonic_ldap_manager_dn: "{{ openldap_ldap_readonly_user_dn }}"
-airsonic_ldap_manager_password: "{{ openldap_ldap_readonly_user_password }}"
+airsonic_ldap_servername: "{{ openldap.ldap.servername }}"
+airsonic_ldap_users_dn: "{{ openldap.ldap.structure_users_ou_dn }}"
+airsonic_ldap_manager_dn: "{{ openldap.ldap.readonly_user_dn }}"
+airsonic_ldap_manager_password: "{{ openldap.ldap.readonly_user_password }}"
 airsonic_smtp_host: "{{ zonemta_smtp_servername }}"
 airsonic_smtp_port: 587
 # STARTTLS, SSL/TLS, or anything else

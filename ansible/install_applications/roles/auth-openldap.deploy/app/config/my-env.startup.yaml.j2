@@ -7,17 +7,17 @@
 # more information : https://github.com/osixia/docker-light-baseimage
 
 # Required and used for new ldap server only
-LDAP_ORGANISATION: {{ openldap_ldap_organisation }}
-LDAP_DOMAIN: {{ openldap_ldap_domain }}
+LDAP_ORGANISATION: {{ openldap.ldap.organisation }}
+LDAP_DOMAIN: {{ openldap.ldap.domain }}
 #if empty automatically set from LDAP_DOMAIN
-LDAP_BASE_DN: {{ openldap_ldap_basedn }}
+LDAP_BASE_DN: {{ openldap.ldap.basedn }}
 
-LDAP_ADMIN_PASSWORD: {{ openldap_ldap_admin_password }}
-LDAP_CONFIG_PASSWORD: {{ openldap_ldap_config_password }}
+LDAP_ADMIN_PASSWORD: {{ openldap.ldap.admin_password }}
+LDAP_CONFIG_PASSWORD: {{ openldap.ldap.config_password }}
 
-LDAP_READONLY_USER: {{ openldap_ldap_readonly_user_enabled | ternary('true', 'false') }}
-LDAP_READONLY_USER_USERNAME: {{ openldap_ldap_readonly_user_username }}
-LDAP_READONLY_USER_PASSWORD: {{ openldap_ldap_readonly_user_password }}
+LDAP_READONLY_USER: {{ openldap.ldap.readonly_user_enabled | ternary('true', 'false') }}
+LDAP_READONLY_USER_USERNAME: {{ openldap.ldap.readonly_user_username }}
+LDAP_READONLY_USER_PASSWORD: {{ openldap.ldap.readonly_user_password }}
 
 LDAP_RFC2307BIS_SCHEMA: false
 
