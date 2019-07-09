@@ -1,0 +1,13 @@
+---
+
+kibana:
+  enabled: "{{ kibana_enabled | default(True) }}"
+  context_path: "{{ kibana_context_path | default('/kibana') }}"
+  
+  elasticsearch:
+    user: "{{ kibana_elasticsearch_user | default('kibana') }}"
+    password: "{{ kibana_elasticsearch_password | default('password') }}"
+
+  export_saved:
+    script_path: "{{ kibana_export_saved_script_path | default(standard_user.home + '/tools/kibana_save_objects.py') }}"
+    output_dir: "{{ kibana_export_saved_output_dir | default(standard_user.home + '/kibana_saved_objects') }}"

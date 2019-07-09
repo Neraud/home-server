@@ -15,8 +15,8 @@ elasticsearch_internal_users:
     readonly: True
     roles:
       - logstash
-  - name: "{{ logging_kibana_elasticsearch_user }}"
-    password: "{{ logging_kibana_elasticsearch_password }}"
+  - name: "{{ kibana_elasticsearch_user }}"
+    password: "{{ kibana_elasticsearch_password }}"
     readonly: True
     roles:
       - kibana_server

@@ -11,7 +11,7 @@
 
 - name: Create Kibana saved objects exporter dir
   file:
-    path: "{{ logging_kibana_export_saved_script_path | dirname }}"
+    path: "{{ kibana.export_saved.script_path | dirname }}"
     state: directory
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
@@ -19,7 +19,7 @@
 - name: Generate Kibana saved objects exporter
   template:
     src: "{{ role_path }}/app/kibana_save_objects.py.j2"
-    dest: "{{ logging_kibana_export_saved_script_path }}"
+    dest: "{{ kibana.export_saved.script_path }}"
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
     mode: 0755
@@ -32,8 +32,8 @@
       Host: "infra.{{ web_base_domain }}"
     return_content: no
     validate_certs: no
-    user: "{{ logging_kibana_elasticsearch_user }}"
-    password: "{{ logging_kibana_elasticsearch_password }}"
+    user: "{{ kibana.elasticsearch.user }}"
+    password: "{{ kibana.elasticsearch.password }}"
   register: kibana_available
   until:
   - kibana_available.status == 200
@@ -63,8 +63,8 @@
       - 404
     validate_certs: no
     force_basic_auth: yes
-    user: "{{ logging_kibana_elasticsearch_user }}"
-    password: "{{ logging_kibana_elasticsearch_password }}"
+    user: "{{ kibana.elasticsearch.user }}"
+    password: "{{ kibana.elasticsearch.password }}"
   register: existing_kibana_saved_objects
   with_together:
     - "{{ kibana_config_saved_objects_files }}"
@@ -84,8 +84,8 @@
     body_format: json
     validate_certs: no
     force_basic_auth: yes
-    user: "{{ logging_kibana_elasticsearch_user }}"
-    password: "{{ logging_kibana_elasticsearch_password }}"
+    user: "{{ kibana.elasticsearch.user }}"
+    password: "{{ kibana.elasticsearch.password }}"
   with_together:
     - "{{ kibana_config_saved_objects_files }}"
     - "{{ kibana_config_contents }}"
@@ -107,8 +107,8 @@
     body_format: json
     validate_certs: no
     force_basic_auth: yes
-    user: "{{ logging_kibana_elasticsearch_user }}"
-    password: "{{ logging_kibana_elasticsearch_password }}"
+    user: "{{ kibana.elasticsearch.user }}"
+    password: "{{ kibana.elasticsearch.password }}"
   with_together:
     - "{{ kibana_config_saved_objects_files }}"
     - "{{ kibana_config_contents }}"

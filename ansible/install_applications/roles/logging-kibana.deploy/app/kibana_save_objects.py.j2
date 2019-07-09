@@ -7,11 +7,11 @@ import shutil
 from base64 import b64encode
 
 kibana_root_url = "http://127.0.0.1:{{ kubernetes_ingress_http_port }}/kibana"
-output_dir = "{{ logging_kibana_export_saved_output_dir }}"
+output_dir = "{{ kibana.export_saved.output_dir }}"
 
 headers = {
     "Host": "infra.{{ web_base_domain }}",
-    "Authorization": "Basic %s" % b64encode(b"{{ logging_kibana_elasticsearch_user }}:{{ logging_kibana_elasticsearch_password }}").decode("ascii")
+    "Authorization": "Basic %s" % b64encode(b"{{ kibana.elasticsearch.user }}:{{ kibana.elasticsearch.password }}").decode("ascii")
 }
 
 types = ["visualization", "dashboard", "search", "index-pattern", "timelion-sheet"]

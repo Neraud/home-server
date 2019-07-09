@@ -4,8 +4,8 @@ server.host: "0"
 elasticsearch.url: https://elasticsearch:9200
 elasticsearch.ssl.verificationMode: full
 elasticsearch.ssl.certificateAuthorities: /etc/ssl/cluster/ca.crt
-elasticsearch.username: {{ logging_kibana_elasticsearch_user }}
-elasticsearch.password: {{ logging_kibana_elasticsearch_password }}
+elasticsearch.username: {{ kibana.elasticsearch.user }}
+elasticsearch.password: {{ kibana.elasticsearch.password }}
 elasticsearch.requestHeadersWhitelist: ["securitytenant","Authorization"]
 
 #opendistro_security.multitenancy.enabled: true
