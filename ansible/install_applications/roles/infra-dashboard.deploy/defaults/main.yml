@@ -1,9 +1,3 @@
 ---
 
-web_base_domain: domain.tld
-
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 kubernetes_dashboard_enabled: true

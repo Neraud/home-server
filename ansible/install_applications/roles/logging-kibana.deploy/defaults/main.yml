@@ -1,11 +1,5 @@
 ---
 
-web_base_domain: domain.tld
-
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 kibana_enabled: true
 
 logging_kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"

@@ -1,11 +1,5 @@
 ---
 
-web_base_domain: domain.tld
-
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 mosquitto_enabled: true
 
 # First listener is used as default

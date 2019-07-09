@@ -1,11 +1,5 @@
 ---
 
-web_base_domain: domain.tld
-
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 docker_registry_ui_enabled: true
 
 docker_registry_ui_admin_users: []

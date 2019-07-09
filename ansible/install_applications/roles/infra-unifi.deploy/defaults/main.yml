@@ -1,11 +1,5 @@
 ---
 
-web_base_domain: domain.tld
-
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 unifi_enabled: true
 
 # Expose Unifi private services on the Node IP or a virtual IP

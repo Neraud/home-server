@@ -1,11 +1,5 @@
 ---
 
-web_base_domain: domain.tld
-
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 roomassistant_enabled: true
 
 # See https://github.com/mKeRix/room-assistant/wiki/Configuration

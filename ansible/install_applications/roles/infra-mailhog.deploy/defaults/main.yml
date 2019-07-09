@@ -1,11 +1,5 @@
 ---
 
-web_base_domain: domain.tld
-
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 mailhog_enabled: true
 
 mailhog_exposed_smtp: mailhog.default.svc.cluster.local:1025

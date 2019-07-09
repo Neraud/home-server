@@ -1,11 +1,5 @@
 ---
 
-web_base_domain: domain.tld
-
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 openldap_enabled: true
 
 # OpenLDAP sererver name. We use the Kubernetes [service].[namespace] format
