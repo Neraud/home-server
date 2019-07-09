@@ -23,9 +23,9 @@ spec:
       containers:
       - image: mkerix/room-assistant:1.1.1
         name: roomassistant
-{% if roomassistant_environment_variables | default({}) | length > 0 %}
+{% if roomassistant.environment_variables | default({}) | length > 0 %}
         env:
-{% for env_var in roomassistant_environment_variables | dict2items %}
+{% for env_var in roomassistant.environment_variables | dict2items %}
         - name: "{{ env_var.key }}"
           value: "{{ env_var.value }}"
 {% endfor %}

@@ -1,0 +1,6 @@
+---
+
+roomassistant:
+  enabled: "{{ roomassistant_enabled | default(True) }}"
+
+  environment_variables: "{{ roomassistant_environment_variables | default({}) }}"
