@@ -1,0 +1,13 @@
+---
+
+nodered:
+  enabled: "{{ nodered_enabled | default(True) }}"
+  context_root: "{{ nodered_context_root | default('/') }}"
+
+  ldap:
+    servername: "{{ nodered_ldap_servername | default(openldap.ldap.servername) }}"
+    users_dn: "{{ nodered_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    manager_dn: "{{ nodered_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ nodered_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group_base: "{{ nodered_ldap_group_base }}"
+    group: "{{ nodered_ldap_group }}"

@@ -14,7 +14,7 @@ spec:
   - host: home.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ nodered_context_root }}
+        - path: {{ nodered.context_root }}
           backend:
             serviceName: nodered
             servicePort: 80

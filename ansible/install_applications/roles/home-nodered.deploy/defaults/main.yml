@@ -4,10 +4,3 @@ docker_registry_port: 30500
 docker_registry_url: 127.0.0.1:{{ docker_registry_port }}
 
 nodered_enabled: true
-
-nodered_context_root: /
-nodered_ldap_servername: "{{ openldap.ldap.servername }}"
-nodered_ldap_users_dn: "{{ openldap.ldap.structure_users_ou_dn }}"
-nodered_ldap_manager_dn: "{{ openldap.ldap.readonly_user_dn }}"
-nodered_ldap_manager_password: "{{ openldap.ldap.readonly_user_password }}"
-nodered_ldap_group_base: openldap.ldap.structure_groups_ou_dns['groups']
