@@ -17,10 +17,6 @@ mosquitto_listeners:
 #    websocket: True
 
 # password generated with mosquitto_passwd
-#mosquitto_credientials:
-#  credentials:
-#      user / Passw0rd
-#    - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==
-
-mosquitto_exposed_namespaces:
-  - default
+#mosquitto_credentials:
+#  user / Passw0rd
+#  - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==

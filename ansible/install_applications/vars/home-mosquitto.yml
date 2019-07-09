@@ -1,0 +1,8 @@
+---
+
+mosquitto:
+  enabled: "{{ mosquitto_enabled | default(True) }}"
+
+  listeners: "{{ mosquitto_listeners | default([]) }}"
+  credentials: "{{ mosquitto_credentials | default([]) }}"
+  exposed_namespaces: "{{ mosquitto_exposed_namespaces | default(['default']) }}"

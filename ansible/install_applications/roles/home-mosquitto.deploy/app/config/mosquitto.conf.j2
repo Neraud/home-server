@@ -4,7 +4,7 @@
 #
 # See mosquitto.conf(5) for more information.
 
-{% for listener in mosquitto_listeners %}
+{% for listener in mosquitto.listeners %}
 {% if loop.first %}
 # =================================================================
 # Default listener
@@ -35,7 +35,7 @@ persistence true
 persistence_location /mosquitto/data/
 
 
-{% if mosquitto_credientials | default([]) | length > 0 %}
+{% if mosquitto.credentials | default([]) | length > 0 %}
 # =================================================================
 # Security
 # =================================================================
