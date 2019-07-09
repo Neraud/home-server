@@ -1,0 +1,6 @@
+---
+
+deluge:
+  enabled: "{{ deluge_enabled | default(True) }}"
+
+  context_root: "{{ deluge_context_root | default('/') }}"

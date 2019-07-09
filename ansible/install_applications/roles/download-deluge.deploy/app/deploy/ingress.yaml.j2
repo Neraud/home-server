@@ -6,7 +6,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-Deluge-Base "{{ deluge_context_root }}";
+      proxy_set_header X-Deluge-Base "{{ deluge.context_root }}";
 spec:
   tls:
     - hosts:
@@ -16,7 +16,7 @@ spec:
   - host: dl.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ deluge_context_root }}/?(.*)
+      - path: {{ deluge.context_root }}/?(.*)
         backend:
           serviceName: deluge
           servicePort: 80
