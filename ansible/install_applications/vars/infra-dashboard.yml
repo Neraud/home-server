@@ -1,0 +1,4 @@
+---
+  
+kubernetes_dashboard:
+  enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
