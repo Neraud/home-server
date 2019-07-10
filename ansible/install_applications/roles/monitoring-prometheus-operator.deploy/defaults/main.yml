@@ -2,22 +2,8 @@
 
 prometheus_operator_enabled: true
 
-prometheus_retention: 7d
-prometheus_allowed_namespaces:
-  - default
-  - kube-system
-  - ingress-nginx
-  - monitoring
-  - logging
-
-alertmanager_alerts_smtp_enabled: True
-alertmanager_alerts_smtp_smarthost: "{{ zonemta.smtp_servername }}:587"
-alertmanager_alerts_smtp_require_tls: true
-alertmanager_alerts_smtp_from: "alertmanager@{{ web_base_domain }}"
-alertmanager_alerts_smtp_auth_username: "{{ zonemta.feeder.authentication_username }}"
-alertmanager_alerts_smtp_auth_password: "{{ zonemta.feeder.authentication_password }}"
-#alertmanager_alerts_default_receiver: default
-#alertmanager_alerts_receivers:
-# - name: "{{ alertmanager_alerts_default_receiver }}"
+#alertmanager_default_receiver: default
+#alertmanager_receivers:
+# - name: "{{ alertmanager_default_receiver }}"
 #   emails_to:
 #     - whatever@gmail.com

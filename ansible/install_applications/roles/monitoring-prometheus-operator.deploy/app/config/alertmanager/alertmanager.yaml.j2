@@ -1,13 +1,13 @@
 global:
   resolve_timeout: 5m
 
-{% if alertmanager_alerts_smtp_enabled %}
+{% if alertmanager.smtp.enabled %}
   # The smarthost and SMTP sender used for mail notifications.
-  smtp_smarthost: '{{ alertmanager_alerts_smtp_smarthost }}'
-  smtp_require_tls: {{ alertmanager_alerts_smtp_require_tls }}
-  smtp_from: '{{ alertmanager_alerts_smtp_from }}'
-  smtp_auth_username: '{{ alertmanager_alerts_smtp_auth_username }}'
-  smtp_auth_password: '{{ alertmanager_alerts_smtp_auth_password }}'
+  smtp_smarthost: '{{ alertmanager.smtp.smarthost }}'
+  smtp_require_tls: {{ alertmanager.smtp.require_tls }}
+  smtp_from: '{{ alertmanager.smtp.from }}'
+  smtp_auth_username: '{{ alertmanager.smtp.auth_username }}'
+  smtp_auth_password: '{{ alertmanager.smtp.auth_password }}'
 {% endif %}
 
 templates:
@@ -18,7 +18,7 @@ route:
   - job
   group_interval: 5m
   group_wait: 30s
-  receiver: "{{ alertmanager_alerts_default_receiver | default("null") }}"
+  receiver: "{{ alertmanager.default_receiver | default("null") }}"
   repeat_interval: 12h
   routes:
   - match:
@@ -27,7 +27,7 @@ route:
 
 receivers:
 - name: "null"
-{% for receiver in alertmanager_alerts_receivers | default([]) %}
+{% for receiver in alertmanager.receivers | default([]) %}
 - name: '{{ receiver.name }}'
   email_configs:
 {% for email_to in receiver.emails_to %}

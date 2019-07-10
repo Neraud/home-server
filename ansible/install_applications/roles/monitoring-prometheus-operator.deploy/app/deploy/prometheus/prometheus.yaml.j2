@@ -38,7 +38,7 @@ spec:
   serviceAccountName: prometheus-k8s
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
-  retention: {{ prometheus_retention | default('7d') }}
+  retention: {{ prometheus.retention }}
   storage:
     volumeClaimTemplate:
       metadata:

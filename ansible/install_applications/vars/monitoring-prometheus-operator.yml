@@ -1,0 +1,27 @@
+---
+
+prometheus_operator:
+  enabled: "{{ prometheus_operator_enabled | default(True) }}"
+
+prometheus:
+  retention: "{{ prometheus_retention | default('7d') }}"
+  allowed_namespaces: "{{ prometheus_allowed_namespaces | default(prometheus_allowed_namespaces_default) }}"
+
+prometheus_allowed_namespaces_default:
+  - default
+  - kube-system
+  - ingress-nginx
+  - monitoring
+  - logging
+
+alertmanager:
+  smtp:
+    enabled: "{{ alertmanager_smtp_enabled | default(True) }}"
+    smarthost: "{{ alertmanager_smtp_smarthost | default(zonemta.smtp_servername + ':587') }}"
+    require_tls: "{{ alertmanager_smtp_require_tls | default(True) }}"
+    from: "{{ alertmanager_smtp_from | default('alertmanager@' + web_base_domain) }}"
+    auth_username: "{{ alertmanager_smtp_auth_username | default(zonemta.feeder.authentication_username) }}"
+    auth_password: "{{ alertmanager_smtp_auth_password | default(zonemta.feeder.authentication_password) }}"
+  
+  default_receiver: "{{ alertmanager_default_receiver | default('default') }}"
+  receivers: "{{ alertmanager_receivers | default([]) }}"
