@@ -1,0 +1,10 @@
+---
+
+release_watcher:
+  enabled: "{{ release_watcher_enabled | default(True) }}"
+
+  repo:
+    url: "{{ release_watcher_repo_url | default('https://github.com/Neraud/release-watcher') }}"
+    version: "{{ release_watcher_repo_version | default('master') }}"
+  
+  path: "{{ release_watcher_path | default('/opt/release-watcher') }}"

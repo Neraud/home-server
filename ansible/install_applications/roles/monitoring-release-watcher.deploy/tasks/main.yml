@@ -2,16 +2,16 @@
 
 - name: Clone release-watcher repo
   git:
-    dest: "{{ release_watcher_path }}"
-    repo: https://github.com/Neraud/release-watcher
-    version: master
+    dest: "{{ release_watcher.path }}"
+    repo: "{{ release_watcher.repo.url }}"
+    version: "{{ release_watcher.repo.version }}"
 
 - name: Build and push release-watcher image
   docker_image:
     name: "{{ docker_registry.url }}/release-watcher"
     source: build
     build:
-      path: "{{ release_watcher_path }}"
+      path: "{{ release_watcher.path }}"
       pull: yes
     push: yes
 
