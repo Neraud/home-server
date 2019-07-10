@@ -1,0 +1,31 @@
+---
+
+ttrss:
+  enabled: "{{ ttrss_enabled | default(True) }}"
+
+  context_root: "{{ ttrss_context_root | default('/') }}"
+  
+  pgsql:
+    user: "{{ ttrss_pgsql_user | default('ttrss') }}"
+    database: "{{ ttrss_pgsql_database | default('ttrss') }}"
+    password: "{{ ttrss_pgsql_password | default('clear_password') }}"
+    # Keep the schema URL in sync with the image version
+    schema_url: 'https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql'
+    schema_path_temp: /tmp/tt-rss-schema.sql
+ 
+  ldap:
+    servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
+    users_dn: "{{ ttrss_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    manager_dn: "{{ ttrss_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ ttrss_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group: "{{ ttrss_ldap_group }}"
+  
+  smtp:
+    host: "{{ ttrss_smtp_host | default(zonemta.smtp_servername) }}"
+    port: "{{ ttrss_smtp_port | default(587) }}"
+    user: "{{ ttrss_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ ttrss_smtp_password | default(zonemta.feeder.authentication_password) }}"
+    #  ssl, tls or empty
+    secure: "{{ ttrss_smtp_secure | default('tls') }}"
+    from: "{{ ttrss_smtp_from | default('noreply@' + web_base_domain) }}"
+    displayName: "{{ ttrss_smtp_displayName | default('Tiny Tiny RSS') }}"

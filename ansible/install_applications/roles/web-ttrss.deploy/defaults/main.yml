@@ -1,24 +1,3 @@
 ---
 
 ttrss_enabled: true
-
-ttrss_context_root: /
-ttrss_pqsql_user: ttrss
-ttrss_pqsql_database: ttrss
-ttrss_pqsql_password: clear_password
-# Keep the schema URL in sync with the image version
-ttrss_schema_url: https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql
-
-ttrss_ldap_servername: "{{ openldap.ldap.servername }}"
-ttrss_ldap_users_dn: "{{ openldap.ldap.structure_users_ou_dn }}"
-ttrss_ldap_manager_dn: "{{ openldap.ldap.readonly_user_dn }}"
-ttrss_ldap_manager_password: "{{ openldap.ldap.readonly_user_password }}"
-
-ttrss_smtp_host: "{{ zonemta.smtp_servername }}"
-ttrss_smtp_port: 587
-ttrss_smtp_user: "{{ zonemta.feeder.authentication_username }}"
-ttrss_smtp_password: "{{ zonemta.feeder.authentication_password }}"
-#  ssl, tls or empty
-ttrss_smtp_secure: tls
-ttrss_smtp_from: "noreply@{{ web_base_domain }}"
-ttrss_smtp_displayName: "Tiny Tiny RSS"

@@ -9,12 +9,12 @@
       pull: yes
     push: yes
 
-# We can't just use a lookup('url', ttrss_schema_url) to inject the schema file directly.
+# We can't just use a lookup('url', ttrss.pgsql.schema_url) to inject the schema file directly.
 # This gets blocked by a 403, probably due to a user-agent filter on TT-RSS Gogs.
 - name: Download the TT-RSS schema
   get_url:
-    dest: "{{ ttrss_temp_schema_path }}"
-    url: "{{ ttrss_schema_url }}"
+    dest: "{{ ttrss.pgsql.schema_path_temp }}"
+    url: "{{ ttrss.pgsql.schema_url }}"
   changed_when: False
 
 - name: Deploy TT-RSS
@@ -28,6 +28,6 @@
 
 - name: Remove the TT-RSS schema
   file:
-    path: "{{ ttrss_temp_schema_path }}"
+    path: "{{ ttrss.pgsql.schema_path_temp }}"
     state: absent
   changed_when: False

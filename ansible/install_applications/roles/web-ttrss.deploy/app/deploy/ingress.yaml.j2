@@ -14,7 +14,7 @@ spec:
   - host: web.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ ttrss_context_root }}
+        - path: {{ ttrss.context_root }}
           backend:
             serviceName: ttrss
             servicePort: 80

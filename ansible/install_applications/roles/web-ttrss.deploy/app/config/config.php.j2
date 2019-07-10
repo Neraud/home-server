@@ -5,9 +5,9 @@
 
 	define('DB_TYPE', 'pgsql');
 	define('DB_HOST', 'ttrss-pgsql');
-	define('DB_USER', '{{ ttrss_pqsql_user }}');
-	define('DB_NAME', '{{ ttrss_pqsql_database }}');
-	define('DB_PASS', '{{ ttrss_pqsql_password }}');
+	define('DB_USER', '{{ ttrss.pgsql.user }}');
+	define('DB_NAME', '{{ ttrss.pgsql.database }}');
+	define('DB_PASS', '{{ ttrss.pgsql.password }}');
 	define('DB_PORT', '5432');
 
 	define('MYSQL_CHARSET', 'UTF8');
@@ -18,7 +18,7 @@
 	// *** Basic settings (important!) ***
 	// ***********************************
 
-	define('SELF_URL_PATH', 'https://web.{{ web_base_domain }}{{ ttrss_context_root }}/');
+	define('SELF_URL_PATH', 'https://web.{{ web_base_domain }}{{ ttrss.context_root }}/');
 	// Full URL of your tt-rss installation. This should be set to the
 	// location of tt-rss directory, e.g. http://example.org/tt-rss/
 	// You need to set this option correctly otherwise several features
@@ -134,21 +134,21 @@
 	// If you need SMTP support, take a look here:
 	// https://git.tt-rss.org/fox/ttrss-mailer-smtp
 
-	define('SMTP_FROM_NAME', '{{ ttrss_smtp_displayName }}');
-	define('SMTP_FROM_ADDRESS', '{{ ttrss_smtp_from }}');
+	define('SMTP_FROM_NAME', '{{ ttrss.smtp.displayName }}');
+	define('SMTP_FROM_ADDRESS', '{{ ttrss.smtp.from }}');
 	// Name, address and subject for sending outgoing mail. This applies
 	// to password reset notifications, digest emails and any other mail.
 
-	define('SMTP_SERVER', '{{ ttrss_smtp_host }}:{{ ttrss_smtp_port }}');
+	define('SMTP_SERVER', '{{ ttrss.smtp.host }}:{{ ttrss.smtp.port }}');
 	// Hostname:port combination to send outgoing mail (i.e. localhost:25).
 	// Blank - use system MTA.
 
-	define('SMTP_LOGIN', '{{ ttrss_smtp_user }}');
-	define('SMTP_PASSWORD', '{{ ttrss_smtp_password }}');
+	define('SMTP_LOGIN', '{{ ttrss.smtp.user }}');
+	define('SMTP_PASSWORD', '{{ ttrss.smtp.password }}');
 	// These two options enable SMTP authentication when sending
 	// outgoing mail. Only used with SMTP_SERVER.
 
-	define('SMTP_SECURE', '{{ ttrss_smtp_secure }}');
+	define('SMTP_SECURE', '{{ ttrss.smtp.secure }}');
 	// Used to select a secure SMTP connection. Allowed values: ssl, tls,
 	// or empty.
 
@@ -200,17 +200,17 @@
 	putenv('LDAPTLS_REQCERT=demand');
 
 	// Required parameters:
-	define('LDAP_AUTH_SERVER_URI', 'ldap://{{ ttrss_ldap_servername }}:389/');
+	define('LDAP_AUTH_SERVER_URI', 'ldap://{{ ttrss.ldap.servername }}:389/');
 	define('LDAP_AUTH_USETLS', TRUE); // Enable StartTLS Support for ldap://
 	define('LDAP_AUTH_ALLOW_UNTRUSTED_CERT', FALSE); // Allows untrusted certificate
-	define('LDAP_AUTH_BASEDN', '{{ ttrss_ldap_users_dn }}');
+	define('LDAP_AUTH_BASEDN', '{{ ttrss.ldap.users_dn }}');
 	define('LDAP_AUTH_ANONYMOUSBEFOREBIND', FALSE);
 	// ??? will be replaced with the entered username(escaped) at login
-	define('LDAP_AUTH_SEARCHFILTER', '(&(objectClass=inetOrgPerson)(cn=???)(memberOf={{ ttrss_ldap_group }}))');
+	define('LDAP_AUTH_SEARCHFILTER', '(&(objectClass=inetOrgPerson)(cn=???)(memberOf={{ ttrss.ldap.group }}))');
 
 	// Optional configuration
-	define('LDAP_AUTH_BINDDN', '{{ ttrss_ldap_manager_dn }}');
-	define('LDAP_AUTH_BINDPW', '{{ ttrss_ldap_manager_password }}');
+	define('LDAP_AUTH_BINDDN', '{{ ttrss.ldap.manager_dn }}');
+	define('LDAP_AUTH_BINDPW', '{{ ttrss.ldap.manager_password }}');
 	define('LDAP_AUTH_LOGIN_ATTRIB', 'cn');
 	define('LDAP_AUTH_LOG_ATTEMPTS', TRUE);
 

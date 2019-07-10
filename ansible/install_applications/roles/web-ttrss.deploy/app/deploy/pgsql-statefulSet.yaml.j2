@@ -24,9 +24,9 @@ spec:
         name: pgsql
         env:
         - name: POSTGRES_USER
-          value: {{ ttrss_pqsql_user }}
+          value: {{ ttrss.pgsql.user }}
         - name: POSTGRES_DB
-          value: {{ ttrss_pqsql_database }}
+          value: {{ ttrss.pgsql.database }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
