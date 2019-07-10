@@ -1,7 +1,7 @@
 <?php
 
 $dataToLoad = [
-{% for appBlock in heimdall_applications %}
+{% for appBlock in heimdall.applications %}
     {% set appBlockLoop = loop %}
     [
         'username' => '{{ appBlock.username }}',

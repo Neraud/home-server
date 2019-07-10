@@ -1,0 +1,5 @@
+---
+
+heimdall:
+  enabled: "{{ heimdall_enabled | default(True) }}"
+  applications: "{{ heimdall_applications | default([]) }}"
