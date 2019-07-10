@@ -57,10 +57,10 @@ spec:
         - name: AIRSONIC_PORT
           value: "4040"
         - name: CONTEXT_PATH
-          value: "{{ airsonic_context_path | default ('/') }}"
-{% if airsonic_extra_java_opts | default([]) | length > 0 %}
+          value: "{{ airsonic.context_path | default ('/') }}"
+{% if airsonic.extra_java_opts | default([]) | length > 0 %}
         - name: JAVA_OPTS
-          value: "{{ airsonic_extra_java_opts | join(' ') }}"
+          value: "{{ airsonic.extra_java_opts | join(' ') }}"
 {% endif %}
         resources:
           requests:

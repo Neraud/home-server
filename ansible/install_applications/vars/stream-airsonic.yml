@@ -1,0 +1,29 @@
+---
+
+airsonic:
+  enabled: "{{ airsonic_enabled | default(True) }}"
+
+  context_path: "{{ airsonic_context_path | default('/airsonic') }}"
+  extra_java_opts: "{{ airsonic_extra_java_opts | default(airsonic_extra_java_opts_default) }}"
+  
+  ldap:
+    servername: "{{ airsonic_ldap_servername | default(openldap.ldap.servername) }}"
+    users_dn: "{{ airsonic_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    manager_dn: "{{ airsonic_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ airsonic_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group: "{{ airsonic_ldap_group }}"
+  
+  smtp:
+    host: "{{ airsonic_smtp_host | default(zonemta.smtp_servername) }}"
+    port: "{{ airsonic_smtp_port | default(587) }}"
+    # STARTTLS, SSL/TLS, or anything else
+    encryption: "{{ airsonic_smtp_encryption | default('STARTTLS') }}"
+    user: "{{ airsonic_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ airsonic_smtp_password | default(zonemta.feeder.authentication_password) }}"
+    from: "{{ airsonic_smtp_from | default('noreply@' + web_base_domain) }}"
+
+airsonic_extra_java_opts_default:
+  # https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-tomcat-behind-a-proxy-server
+  - -Dserver.use-forward-headers=true
+  - -Dairsonic.defaultMusicFolder=/mnt/multimetia/Music
+  - -Dairsonic.defaultPodcastFolder=/mnt/multimetia/Podcasts
