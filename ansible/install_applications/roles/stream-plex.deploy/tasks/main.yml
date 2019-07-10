@@ -4,14 +4,14 @@
   uri:
     url: https://plex.tv/api/claim/token.json
     headers:
-      x-plex-token: "{{ plex_plex_token }}"
+      x-plex-token: "{{ plex.token }}"
   register: plex_claim_result
-  when: plex_plex_token is defined
+  when: plex.token
 
 - name: Extract Plex Claim
   set_fact:
     plex_claim: "{{ plex_claim_result.json.token }}"
-  when: plex_plex_token is defined
+  when: plex.token
 
 - name: Deploy Plex
   k8s:

@@ -1,0 +1,7 @@
+---
+
+plex:
+  enabled: "{{ plex_enabled | default(True) }}"
+
+  # Look at the README.md to find out how to get your token
+  token: "{{ plex_token | default('') }}"

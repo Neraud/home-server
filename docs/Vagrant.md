@@ -440,7 +440,7 @@ To get your Plex Token :
 * Reload the page
 * You should see around 50 requests captured in your browser, scroll up the list, look for a request that starts *user*, and click on it
 * On the right panel, select the response tab and on the 2nd line look for the authToken property
-* In `ansible/inventories/vagrant/group_vars/all/apps/stream-plex`, set this token in the variable `plex_plex_token`
+* In `ansible/inventories/vagrant/group_vars/all/apps/stream-plex`, set this token in the variable `plex_token`
 
 ### Airsonic
 
