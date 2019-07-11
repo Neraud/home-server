@@ -10,4 +10,4 @@ data:
   config.yaml:  |
     {{ lookup('template', role_path + '/app/config/config.yaml.j2')  | replace('\n', '\n    ') }}
   watchers.yaml:  |
-    {{ lookup('file', role_path + '/app/config/watchers.yaml')  | replace('\n', '\n    ') }}
+    {{ lookup('template', role_path + '/app/config/watchers.yaml.j2')  | replace('\n', '\n    ') }}

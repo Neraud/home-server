@@ -10,31 +10,31 @@ watchers:
   # Auth
   - type: docker_registry
     repo: registry-1.docker.io
-    image: coudot/lemonldap-ng
-    tag: 2.0.3
+    image: {{ lemonldap.container.from_image }}
+    tag: {{ lemonldap.container.from_tag }}
     excludes:
       - latest
       - ^1\.
   - type: docker_registry
     repo: registry-1.docker.io
-    image: osixia/openldap
-    tag: 1.2.4
+    image: {{ openldap.container.image }}
+    tag: {{ openldap.container.tag }}
     excludes:
       - latest
       - .*-dev
       - ^1\.1\.
   - type: docker_registry
     repo: registry-1.docker.io
-    image: osixia/phpldapadmin
-    tag: 0.8.0
+    image: {{ phpldapadmin.container.image }}
+    tag: {{ phpldapadmin.container.tag }}
     excludes:
       - latest
       - ^0\.[1-7]\.
   # Dev
   - type: docker_registry
     repo: registry-1.docker.io
-    image: gitlab/gitlab-ce
-    tag: 12.0.2-ce.0
+    image: {{ gitlab.container.image }}
+    tag: {{ gitlab.container.tag }}
     excludes:
       - nightly
       - latest
@@ -45,22 +45,23 @@ watchers:
   # Download
   - type: docker_registry
     repo: registry-1.docker.io
-    image: linuxserver/deluge
-    tag: amd64-2.0.3-2201906121747ubuntu18.04.1-ls27
+    image: {{ deluge.container.image }}
+    tag: {{ deluge.container.tag }}
     includes:
       - amd64-[0-9]+\.[0-9]+\.[0-9]+-
     excludes:
       - amd64-latest
       - amd64-[0-1]\.
-  #  # Used to build pyload
-  #  - type: docker_registry
-  #    repo: registry-1.docker.io
-  #    image: lsiobase/python
-  #    tag: amd64-3.9
+  # Used to build pyload
+  - name: "pyLoad base"
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ pyload.container.from_image }}
+    tag: {{ pyload.container.from_tag }}
   - type: docker_registry
     repo: registry-1.docker.io
-    image: linuxserver/sabnzbd
-    tag: amd64-2.3.9-0ubuntu1jcfp118.04-u-ls21
+    image: {{ sabnzbd.container.from_image }}
+    tag: {{ sabnzbd.container.from_tag }}
     includes:
       - amd64.*
     excludes:
@@ -71,8 +72,8 @@ watchers:
       - amd64-2\.[0-2]\..*
   - type: docker_registry
     repo: registry-1.docker.io
-    image: linuxserver/sickchill
-    tag: amd64-6bfdb223-ls14
+    image: {{ sickchill.container.image }}
+    tag: {{ sickchill.container.tag }}
     includes:
       - amd64.*
     excludes:
@@ -80,18 +81,23 @@ watchers:
   # Home
   - type: docker_registry
     repo: registry-1.docker.io
-    image: homeassistant/home-assistant
-    tag: 0.95.0
+    image: {{ homeassistant.container.from_image }}
+    tag: {{ homeassistant.container.from_tag }}
     excludes:
       - 0\.[0-8].*
       - .*b[0-9]
       - dev
       - rc
       - latest
+  - name: "HomeAssistan MySQL"
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ homeassistant_mysql.container.image }}
+    tag: {{ homeassistant_mysql.container.tag }}
   - type: docker_registry
     repo: registry-1.docker.io
-    image: eclipse-mosquitto
-    tag: 1.6.3
+    image: {{ mosquitto.container.image }}
+    tag: {{ mosquitto.container.tag }}
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
@@ -99,14 +105,14 @@ watchers:
       - ^1\.[0-5]]\.
   - type: docker_registry
     repo: registry-1.docker.io
-    image: nodered/node-red-docker
-    tag: 0.20.6-slim-v10
+    image: {{ nodered.container.from_image }}
+    tag: {{ nodered.container.from_tag }}
     includes:
       - .*-slim-v10
   - type: docker_registry
     repo: registry-1.docker.io
-    image: mkerix/room-assistant
-    tag: 1.1.1
+    image: {{ roomassistant.container.image }}
+    tag: {{ roomassistant.container.tag }}
     excludes:
       - .*arm32
       - 0\..*
@@ -124,14 +130,14 @@ watchers:
   #      - v0\.
   - type: docker_registry
     repo: registry-1.docker.io
-    image: quiq/docker-registry-ui
-    tag: 0.8.1
+    image: {{ docker_registry_ui.container.image }}
+    tag: {{ docker_registry_ui.container.tag }}
     excludes:
       - latest
   - type: docker_registry
     repo: registry-1.docker.io
-    image: gotify/server
-    tag: 2.0.5
+    image: {{ gotify.container.image }}
+    tag: {{ gotify.container.tag }}
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
@@ -151,14 +157,14 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+"
   - type: docker_registry
     repo: registry-1.docker.io
-    image: mailhog/mailhog
-    tag: v1.0.0
+    image: {{ mailhog.container.image }}
+    tag: {{ mailhog.container.tag }}
     excludes:
       - latest
   - type: docker_registry
     repo: registry-1.docker.io
-    image: registry
-    tag: 2.7.1
+    image: {{ docker_registry.container.image }}
+    tag: {{ docker_registry.container.tag }}
     excludes:
       - latest
       - .*-rc\.[0-9]+
@@ -167,8 +173,8 @@ watchers:
       - "[2-9]+\\.[0-9]+\\.[0-9]+.*"
   - type: docker_registry
     repo: registry-1.docker.io
-    image: stakater/reloader
-    tag: v0.0.31
+    image: {{ reloader.container.image }}
+    tag: {{ reloader.container.tag }}
     excludes:
       - .*SNAPSHOT.*
       - ^PR-.*
@@ -176,8 +182,8 @@ watchers:
       - 0\.0\.[0-2]?[0-9]$
   - type: docker_registry
     repo: registry-1.docker.io
-    image: linuxserver/unifi-controller
-    tag: amd64-5.10.25-ls22
+    image: {{ unifi.container.image }}
+    tag: {{ unifi.container.tag }}
     includes:
       - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
@@ -185,24 +191,27 @@ watchers:
       - latest
       - amd64-5\.[0-9]\..*
       - amd64-5\.10\.[01]?[0-9]-.*
-  - type: docker_registry
+  - name: "ZoneMTA Redis"
+    type: docker_registry
     repo: registry-1.docker.io
-    image: redis
-    tag: 5.0.5-alpine3.9
+    image: {{ zonemta_redis.container.image }}
+    tag: {{ zonemta_redis.container.tag }}
     includes:
       - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine3\\.9"
-  - type: docker_registry
+  - name: "ZoneMTA Mongo"
+    type: docker_registry
     repo: registry-1.docker.io
-    image: mongo
-    tag: 4.1.13-bionic
+    image: {{ zonemta_mongo.container.image }}
+    tag: {{ zonemta_mongo.container.tag }}
     includes:
       - 4\.[0-9]+.[0-9]+-bionic
     excludes:
       - 4\.0\..*
-  - type: docker_registry
+  - name: "ZoneMTA Node"
+    type: docker_registry
     repo: registry-1.docker.io
-    image: node
-    tag: 10.16.0-alpine
+    image: {{ zonemta.container.from_image }}
+    tag: {{ zonemta.container.from_tag }}
     includes:
       - 10\.[0-9]+\.[0-9]+-alpine
     exclude:
@@ -211,14 +220,14 @@ watchers:
   # Logging
   - type: docker_registry
     repo: registry-1.docker.io
-    image: amazon/opendistro-for-elasticsearch
-    tag: 0.9.0
+    image: {{ elasticsearch.container.image }}
+    tag: {{ elasticsearch.container.tag }}
     excludes:
       - latest
   - type: docker_registry
     repo: registry-1.docker.io
-    image: fluent/fluent-bit
-    tag: 1.1.3
+    image: {{ fluentbit.container.image }}
+    tag: {{ fluentbit.container.tag }}
     includes:
       - "[1-9]\\.[0-9]+\\.[0-9].*"
     excludes:
@@ -227,14 +236,14 @@ watchers:
       - 1\.0\..*
   - type: docker_registry
     repo: registry-1.docker.io
-    image: fluent/fluentd
-    tag: v1.5.2-debian-1.0
+    image: {{ fluentd.container.from_image }}
+    tag: {{ fluentd.container.from_tag }}
     includes:
       - v[1-9]\.[0-9]+\.[0-9]+.*debian.*
   - type: docker_registry
     repo: registry-1.docker.io
-    image: amazon/opendistro-for-elasticsearch-kibana
-    tag: 0.9.0
+    image: {{ kibana.container.image }}
+    tag: {{ kibana.container.tag }}
     excludes:
       - latest
   # Monitoring
@@ -244,16 +253,16 @@ watchers:
   # Stream
   - type: docker_registry
     repo: registry-1.docker.io
-    image: airsonic/airsonic
-    tag: 10.3.1-RELEASE
+    image: {{ airsonic.container.image }}
+    tag: {{ airsonic.container.tag }}
     includes:
       - .*-RELEASE
     excludes:
       - 10\.[0-1]\.
   - type: docker_registry
     repo: registry-1.docker.io
-    image: plexinc/pms-docker
-    tag: 1.16.0.1226-7eb2c8f6f
+    image: {{ plex.container.image }}
+    tag: {{ plex.container.tag }}
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+\\..*"
     excludes:
@@ -262,8 +271,8 @@ watchers:
   # Web
   - type: docker_registry
     repo: registry-1.docker.io
-    image: linuxserver/heimdall
-    tag: amd64-2.2.2-ls47
+    image: {{ heimdall.container.from_image }}
+    tag: {{ heimdall.container.from_tag }}
     includes:
       - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
@@ -271,8 +280,8 @@ watchers:
       - amd64-2\.[0-1]\.
   - type: docker_registry
     repo: registry-1.docker.io
-    image: linuxserver/tt-rss
-    tag: amd64-19.2-ls21
+    image: {{ ttrss.container.from_image }}
+    tag: {{ ttrss.container.from_tag }}
     includes:
       - amd64.*
     excludes:
