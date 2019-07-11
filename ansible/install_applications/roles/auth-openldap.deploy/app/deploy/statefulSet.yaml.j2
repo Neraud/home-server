@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: openldap
-        image: "{{ openldap.container.image }}"
+        image: "{{ openldap.container.image }}:{{ openldap.container.tag }}"
         args: ["--copy-service"]
         volumeMounts:
         - name: tz-config

@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: mailhog
-        image: "{{ mailhog.container.image }}"
+        image: "{{ mailhog.container.image }}:{{ mailhog.container.tag }}"
         resources:
           requests:
             cpu: "{{ mailhog.container.requests_cpu }}"

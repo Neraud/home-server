@@ -4,7 +4,8 @@ airsonic:
   enabled: "{{ airsonic_enabled | default(True) }}"
 
   container:
-    image: "airsonic/airsonic:10.3.1-RELEASE"
+    image: "airsonic/airsonic"
+    tag: "10.3.1-RELEASE"
     requests_cpu: "{{ airsonic_container_requests_cpu | default('250m') }}"
     requests_memory: "{{ airsonic_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ airsonic_container_limits_cpu | default('500m') }}"

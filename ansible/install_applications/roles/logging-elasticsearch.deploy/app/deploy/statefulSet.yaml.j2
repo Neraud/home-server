@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: "{{ elasticsearch.container.image }}"
+        image: "{{ elasticsearch.container.image }}:{{ elasticsearch.container.tag }}"
         ports:
         - containerPort: 9200
           name: rest

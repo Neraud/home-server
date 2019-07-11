@@ -20,7 +20,7 @@ spec:
         app-component: redis
     spec:
       containers:
-      - image: "{{ zonemta_redis.container.image }}"
+      - image: "{{ zonemta_redis.container.image }}:{{ zonemta_redis.container.tag }}"
         name: redis
         command:
         - redis-server

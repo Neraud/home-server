@@ -21,7 +21,7 @@ spec:
         app-component: roomassistant
     spec:
       containers:
-      - image: "{{ roomassistant.container.image }}"
+      - image: "{{ roomassistant.container.image }}:{{ roomassistant.container.tag }}"
         name: roomassistant
 {% if roomassistant.environment_variables | default({}) | length > 0 %}
         env:

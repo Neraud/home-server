@@ -23,7 +23,7 @@ spec:
         app-component: phpldapadmin
     spec:
       containers:
-      - image: "{{ phpldapadmin.container.image }}"
+      - image: "{{ phpldapadmin.container.image }}:{{ phpldapadmin.container.tag }}"
         name: phpldapadmin
         ports:
           - containerPort: 80

@@ -20,7 +20,7 @@ spec:
         app-component: unifi
     spec:
       containers:
-      - image: "{{ unifi.container.image }}"
+      - image: "{{ unifi.container.image }}:{{ unifi.container.tag }}"
         name: unifi
         ports:
         #- containerPort: 8081

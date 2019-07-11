@@ -31,7 +31,7 @@ spec:
         - name: airsonic-config
           mountPath: /config
       - name: inject-certificates
-        image: "{{ airsonic.container.image }}"
+        image: "{{ airsonic.container.image }}:{{ airsonic.container.tag }}"
         command:
           - "sh"
           - "-c"
@@ -48,7 +48,7 @@ spec:
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       containers:
-      - image: "{{ airsonic.container.image }}"
+      - image: "{{ airsonic.container.image }}:{{ airsonic.container.tag }}"
         name: airsonic
         ports:
         - containerPort: 4040

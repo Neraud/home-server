@@ -20,7 +20,7 @@ spec:
         app-component: mysql
     spec:
       containers:
-      - image: "{{ homeassistant_mysql.container.image }}"
+      - image: "{{ homeassistant_mysql.container.image }}:{{ homeassistant_mysql.container.tag }}"
         name: mysql
         env:
         - name: MYSQL_DATABASE

@@ -21,7 +21,7 @@ spec:
         app-component: grafana
     spec:
       containers:
-      - image: "{{ grafana.container.image }}"
+      - image: "{{ grafana.container.image }}:{{ grafana.container.tag }}"
         name: grafana
         env:
         - name: GF_SERVER_ROOT_URL

@@ -22,7 +22,7 @@ spec:
         app-component: heimdall
     spec:
       containers:
-      - image: "{{ heimdall.container.image }}"
+      - image: "{{ heimdall.container.image }}:{{ heimdall.container.tag }}"
         name: heimdall
         ports:
         - containerPort: 80

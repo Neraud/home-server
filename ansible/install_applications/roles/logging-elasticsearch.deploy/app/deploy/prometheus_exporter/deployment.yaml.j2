@@ -24,7 +24,7 @@ spec:
         runAsUser: 1000
       containers:
       - name: elastic-exporter
-        image: "{{ elasticsearch_exporter.container.image }}"
+        image: "{{ elasticsearch_exporter.container.image }}:{{ elasticsearch_exporter.container.tag }}"
         env:
         - name: "ES_URI"
           value: "https://{{ elasticsearch.exporter.user }}:{{ elasticsearch.exporter.password }}@elasticsearch:9200"

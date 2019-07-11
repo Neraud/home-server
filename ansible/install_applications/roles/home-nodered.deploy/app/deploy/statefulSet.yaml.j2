@@ -22,7 +22,7 @@ spec:
         app-component: nodered
     spec:
       containers:
-      - image: "{{ nodered.container.image }}"
+      - image: "{{ nodered.container.image }}:{{ nodered.container.tag }}"
         name: nodered
         ports:
         - containerPort: 1880

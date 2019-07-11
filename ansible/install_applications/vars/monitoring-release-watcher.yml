@@ -5,6 +5,7 @@ release_watcher:
 
   container:
     image: "{{ docker_registry.url }}/release-watcher"
+    tag: "latest"
     requests_cpu: "{{ release_watcher_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ release_watcher_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ release_watcher_container_limits_cpu | default('100m') }}"

@@ -5,6 +5,7 @@ homeassistant:
   
   container:
     image: "{{ docker_registry.url }}/homeassistant"
+    tag: "latest"
     from_image: "homeassistant/home-assistant:0.95.0"
     requests_cpu: "{{ homeassistant_homeassistant_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ homeassistant_homeassistant_container_requests_memory | default('512Mi') }}"
@@ -40,7 +41,8 @@ homeassistant:
 
 homeassistant_mysql:
   container:
-    image: "mysql:5.6.43"
+    image: "mysql"
+    tag: "5.6.43"
     requests_cpu: "{{ homeassistant_mysql_container_requests_cpu | default('250m') }}"
     requests_memory: "{{ homeassistant_mysql_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ homeassistant_mysql_container_limits_cpu | default('500m') }}"

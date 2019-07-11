@@ -8,7 +8,8 @@ docker_registry:
   enabled: "{{ docker_registry_enabled | default(True) }}"
 
   container:
-    image: "registry:2.7.1"
+    image: "registry"
+    tag: "2.7.1"
     requests_cpu: "{{ docker_registry_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ docker_registry_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ docker_registry_container_limits_cpu | default('100m') }}"

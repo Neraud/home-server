@@ -58,7 +58,7 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: {{ kubernetes_exporter_kube_state_metrics.container.image }}
+        image: "{{ kubernetes_exporter_kube_state_metrics.container.image }}:{{ kubernetes_exporter_kube_state_metrics.container.tag }}"
         name: kube-state-metrics
         resources:
           limits:

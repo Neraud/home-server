@@ -22,7 +22,7 @@ spec:
         app-component: registry
     spec:
       containers:
-      - image: "{{ docker_registry.container.image }}"
+      - image: "{{ docker_registry.container.image }}:{{ docker_registry.container.tag }}"
         name: docker-registry
         env:
         - name: REGISTRY_HTTP_ADDR

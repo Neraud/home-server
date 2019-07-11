@@ -4,7 +4,8 @@ gotify:
   enabled: "{{ gotify_enabled | default(True) }}"
 
   container:
-    image: "gotify/server:2.0.5"
+    image: "gotify/server"
+    tag: "2.0.5"
     requests_cpu: "{{ gotify_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ gotify_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ gotify_container_limits_cpu | default('100m') }}"

@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: kibana
-        image: "{{ kibana.container.image }}"
+        image: "{{ kibana.container.image }}:{{ kibana.container.tag }}"
         resources:
           requests:
             cpu: "{{ kibana.container.requests_cpu }}"

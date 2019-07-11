@@ -13,8 +13,8 @@ spec:
     - name: alertmanager-main
       namespace: monitoring
       port: web
-  baseImage: "{{ prometheus.container.base_image }}"
-  version: "{{ prometheus.container.image_version }}"
+  baseImage: "{{ prometheus.container.image }}"
+  version: "{{ prometheus.container.tag }}"
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'

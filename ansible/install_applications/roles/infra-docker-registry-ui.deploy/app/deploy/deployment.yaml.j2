@@ -22,7 +22,7 @@ spec:
         app-component: docker-registry-ui
     spec:
       containers:
-      - image: "{{ docker_registry_ui.container.image }}"
+      - image: "{{ docker_registry_ui.container.image }}:{{ docker_registry_ui.container.tag }}"
         name: docker-registry-ui
         ports:
         - containerPort: 8000

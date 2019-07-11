@@ -4,7 +4,8 @@ kibana:
   enabled: "{{ kibana_enabled | default(True) }}"
 
   container:
-    image: "amazon/opendistro-for-elasticsearch-kibana:0.9.0"
+    image: "amazon/opendistro-for-elasticsearch-kibana"
+    tag: "0.9.0"
     requests_cpu: "{{ kibana_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ kibana_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ kibana_container_limits_cpu | default('1000m') }}"

@@ -22,7 +22,7 @@ spec:
         app-component: mosquitto
     spec:
       containers:
-      - image: "{{ mosquitto.container.image }}"
+      - image: "{{ mosquitto.container.image }}:{{ mosquitto.container.tag }}"
         name: mosquitto
         ports:
         - containerPort: 1883

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: fluent-bit
-        image: "{{ fluentbit.container.image }}"
+        image: "{{ fluentbit.container.image }}:{{ fluentbit.container.tag }}"
         imagePullPolicy: Always
         ports:
           - containerPort: 2020

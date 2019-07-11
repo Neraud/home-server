@@ -9,7 +9,8 @@ openldap:
   enabled: "{{ openldap_enabled | default(True) }}"
 
   container:
-    image: "osixia/openldap:1.2.4"
+    image: "osixia/openldap"
+    tag: "1.2.4"
     requests_cpu: "{{ openldap_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ openldap_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ openldap_container_limits_cpu | default('200m') }}"

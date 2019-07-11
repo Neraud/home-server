@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: reloader
-        image: "{{ reloader.container.image }}"
+        image: "{{ reloader.container.image }}:{{ reloader.container.tag }}"
         imagePullPolicy: IfNotPresent
         resources:
           requests:

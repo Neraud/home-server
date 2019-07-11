@@ -5,6 +5,7 @@ zonemta:
 
   container:
     image: "{{ docker_registry.url }}/zone-mta"
+    tag: "latest"
     from_image: "node:10.16.0-alpine"
     requests_cpu: "{{ zonemta_container_requests_cpu | default('100m') }}"
     # ZoneMTA runs multiple node processes, be sure to have at least 5 times 'max-old-space-size' (set in nodejs_max_memory), and more if you use more processes
@@ -33,7 +34,8 @@ zonemta:
 
 zonemta_mongo:
   container:
-    image: "mongo:4.1.13-bionic"
+    image: "mongo"
+    tag: "4.1.13-bionic"
     requests_cpu: "{{ zonemta_mongo_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ zonemta_mongo_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ zonemta_mongo_container_limits_cpu | default('200m') }}"
@@ -48,7 +50,8 @@ zonemta_mongo:
 
 zonemta_redis:
   container:
-    image: "redis:5.0.5-alpine3.9"
+    image: "redis"
+    tag: "5.0.5-alpine3.9"
     requests_cpu: "{{ zonemta_redis_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ zonemta_redis_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ zonemta_redis_container_limits_cpu | default('50m') }}"

@@ -101,7 +101,7 @@ spec:
     spec:
       containers:
       - name: kubernetes-dashboard
-        image: "{{ kubernetes_dashboard.container.image }}"
+        image: "{{ kubernetes_dashboard.container.image }}:{{ kubernetes_dashboard.container.tag }}"
         ports:
         - containerPort: 9090
           protocol: TCP

@@ -4,7 +4,8 @@ kubernetes_dashboard:
   enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
 
   container:
-    image: "k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1"
+    image: "k8s.gcr.io/kubernetes-dashboard-amd64"
+    tag: "v1.10.1"
     requests_cpu: "{{ kubernetes_dashboard_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ kubernetes_dashboard_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ kubernetes_dashboard_container_limits_cpu | default('100m') }}"

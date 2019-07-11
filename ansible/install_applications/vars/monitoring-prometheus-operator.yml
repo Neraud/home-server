@@ -4,7 +4,8 @@ prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
 
   container:
-    image: "quay.io/coreos/prometheus-operator:v0.29.0"
+    image: "quay.io/coreos/prometheus-operator"
+    tag: "v0.29.0"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('200m') }}"
@@ -15,8 +16,8 @@ prometheus:
   allowed_namespaces: "{{ prometheus_allowed_namespaces | default(prometheus_allowed_namespaces_default) }}"
 
   container:
-    base_image: "quay.io/prometheus/prometheus"
-    image_version: "v2.7.2"
+    image: "quay.io/prometheus/prometheus"
+    tag: "v2.7.2"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ prometheus_container_requests_memory | default('768Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('500m') }}"
@@ -31,8 +32,8 @@ prometheus_allowed_namespaces_default:
 
 alertmanager:
   container:
-    base_image: "quay.io/prometheus/alertmanager"
-    image_version: "v0.16.2"
+    image: "quay.io/prometheus/alertmanager"
+    tag: "v0.16.2"
     requests_cpu: "{{ alertmanager_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ alertmanager_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ alertmanager_container_limits_cpu | default('250m') }}"

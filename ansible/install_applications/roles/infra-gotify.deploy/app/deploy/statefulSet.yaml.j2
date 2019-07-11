@@ -22,7 +22,7 @@ spec:
         app-component: gotify
     spec:
       containers:
-      - image: "{{ gotify.container.image }}"
+      - image: "{{ gotify.container.image }}:{{ gotify.container.tag }}"
         name: gotify
         ports:
         - containerPort: 80

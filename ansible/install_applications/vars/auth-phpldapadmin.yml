@@ -4,7 +4,8 @@ phpldapadmin:
   enabled: "{{ openldap_enabled | default(True) }}"
 
   container:
-    image: "osixia/phpldapadmin:0.8.0"
+    image: "osixia/phpldapadmin"
+    tag: "0.8.0"
     requests_cpu: "{{ phpldapadmin_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ phpldapadmin_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ phpldapadmin_container_limits_cpu | default('200m') }}"
