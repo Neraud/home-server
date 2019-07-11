@@ -5,18 +5,14 @@ require 'yaml'
 
 settings = YAML.load_file 'Vagrantconfig.yaml'
 
-# Requires vagrant-vbguest
-if not Vagrant.has_plugin?("vagrant-vbguest")
-	puts("Please install vagrant-vbguest")
-	puts("As root (or with sudo) : vagrant plugin install vagrant-vbguest\n")
-	exit 1
-end
-
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.box = settings['common']['box_name']
 	config.ssh.insert_key = false
+	if Vagrant.has_plugin?("vagrant-vbguest")
+    	config.vbguest.auto_update = false
+	end
 	
 	####################
 	#      Nodes       #
@@ -78,7 +74,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		controller.vm.network "private_network", ip: controller_conf['ip']
 		controller.vm.synced_folder "../", "/opt/provision", type: "virtualbox"
 		controller.vm.provision "shell", path: "init_new_node.sh", args: "ansible", keep_color: true
-		controller.vm.provision "shell", path: "ansible_provisioning.sh", keep_color: true
+		#controller.vm.provision "shell", path: "ansible_provisioning.sh", keep_color: true
 		controller.vm.provision "shell", path: "up_node.sh", run: "always", keep_color: true
 	end
 end
