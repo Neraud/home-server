@@ -1,5 +1,5 @@
 
-# Keep the image version in sync with the ttrss.pgsql.schema_url variable
+# Keep the image version in sync with the ttrss_pgsql.schema_url variable
 FROM linuxserver/tt-rss:amd64-19.2-ls21
 
 RUN \

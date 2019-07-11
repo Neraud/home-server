@@ -2,3 +2,11 @@
 
 fluentd:
   enabled: "{{ fluentd_enabled | default(True) }}"
+
+  container:
+    image: "{{ docker_registry.url }}/fluentd"
+    requests_cpu: "{{ fluentd_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ fluentd_container_requests_memory | default('200Mi') }}"
+    limits_cpu: "{{ fluentd_container_limits_cpu | default('500m') }}"
+    limits_memory: "{{ fluentd_container_limits_memory | default('200Mi') }}"
+    

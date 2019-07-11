@@ -22,18 +22,18 @@ spec:
         app-component: docker-registry-ui
     spec:
       containers:
-      - image: quiq/docker-registry-ui:0.8.1
+      - image: "{{ docker_registry_ui.container.image }}"
         name: docker-registry-ui
         ports:
         - containerPort: 8000
           name: http
         resources:
           requests:
-            cpu: "{{ docker_registry_ui_requests_cpu | default("100m") }}"
-            memory: "{{ docker_registry_ui_requests_memory | default("32Mi") }}"
+            cpu: "{{ docker_registry_ui.container.requests_cpu }}"
+            memory: "{{ docker_registry_ui.container.requests_memory }}"
           limits:
-            cpu: "{{ docker_registry_ui_limits_cpu | default("200m") }}"
-            memory: "{{ docker_registry_ui_limits_memory | default("32Mi") }}"
+            cpu: "{{ docker_registry_ui.container.limits_cpu }}"
+            memory: "{{ docker_registry_ui.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

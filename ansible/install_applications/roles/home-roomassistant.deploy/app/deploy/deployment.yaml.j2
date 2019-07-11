@@ -21,7 +21,7 @@ spec:
         app-component: roomassistant
     spec:
       containers:
-      - image: mkerix/room-assistant:1.1.1
+      - image: "{{ roomassistant.container.image }}"
         name: roomassistant
 {% if roomassistant.environment_variables | default({}) | length > 0 %}
         env:
@@ -32,11 +32,11 @@ spec:
 {% endif %}
         resources:
           requests:
-            cpu: "{{ roomassistant_requests_cpu | default("100m") }}"
-            memory: "{{ roomassistant_requests_memory | default("256Mi") }}"
+            cpu: "{{ roomassistant.container.requests_cpu }}"
+            memory: "{{ roomassistant.container.requests_memory }}"
           limits:
-            cpu: "{{ roomassistant_limits_cpu | default("250m") }}"
-            memory: "{{ roomassistant_limits_memory | default("256Mi") }}"
+            cpu: "{{ roomassistant.container.limits_cpu }}"
+            memory: "{{ roomassistant.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

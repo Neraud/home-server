@@ -13,8 +13,8 @@ spec:
     - name: alertmanager-main
       namespace: monitoring
       port: web
-  baseImage: quay.io/prometheus/prometheus
-  version: v2.7.2
+  baseImage: "{{ prometheus.container.base_image }}"
+  version: "{{ prometheus.container.image_version }}"
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'
@@ -22,11 +22,11 @@ spec:
   externalUrl: https://infra.{{ web_base_domain }}/prometheus/
   resources:
     requests:
-      cpu: "{{ prometheus_requests_cpu | default("200m") }}"
-      memory: "{{ prometheus_requests_memory | default("768Mi") }}"
+      cpu: "{{ prometheus.container.requests_cpu }}"
+      memory: "{{ prometheus.container.requests_memory }}"
     limits:
-      cpu: "{{ prometheus_limits_cpu | default("500m") }}"
-      memory: "{{ prometheus_limits_memory | default("768Mi") }}"
+      cpu: "{{ prometheus.container.limits_cpu }}"
+      memory: "{{ prometheus.container.limits_memory }}"
   ruleSelector:
     matchLabels:
       prometheus: k8s

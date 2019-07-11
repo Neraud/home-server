@@ -38,7 +38,7 @@ spec:
           mountPath: {{ lemonldap.persistent_volume_path }}
       containers:
       - name: lemonldap
-        image: {{ docker_registry.url }}/lemonldap
+        image: "{{ lemonldap.container.image }}"
         ports:
           - containerPort: 80
             name: http
@@ -53,11 +53,11 @@ spec:
             value: "infra.{{ web_base_domain }}"
         resources:
           requests:
-            cpu: "{{ lemonldap_requests_cpu | default("100m") }}"
-            memory: "{{ lemonldap_requests_memory | default("384Mi") }}"
+            cpu: "{{ lemonldap.container.requests_cpu }}"
+            memory: "{{ lemonldap.container.requests_memory }}"
           limits:
-            cpu: "{{ lemonldap_limits_cpu | default("200m") }}"
-            memory: "{{ lemonldap_limits_memory | default("384Mi") }}"
+            cpu: "{{ lemonldap.container.limits_cpu }}"
+            memory: "{{ lemonldap.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

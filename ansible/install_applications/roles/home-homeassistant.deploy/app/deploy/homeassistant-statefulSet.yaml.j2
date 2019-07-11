@@ -22,7 +22,7 @@ spec:
         app-component: homeassistant
     spec:
       containers:
-      - image: {{ docker_registry.url }}/homeassistant
+      - image: "{{ homeassistant.container.image }}"
         name: homeassistant
         ports:
         - containerPort: 8123
@@ -43,11 +43,11 @@ spec:
           subPath: ca.crt
         resources:
           requests:
-            cpu: "{{ homeassistant_homeassistant_requests_cpu | default("500m") }}"
-            memory: "{{ homeassistant_homeassistant_requests_memory | default("512Mi") }}"
+            cpu: "{{ homeassistant.container.requests_cpu }}"
+            memory: "{{ homeassistant.container.requests_memory }}"
           limits:
-            cpu: "{{ homeassistant_homeassistant_limits_cpu | default("1000m") }}"
-            memory: "{{ homeassistant_homeassistant_limits_memory | default("512Mi") }}"
+            cpu: "{{ homeassistant.container.limits_cpu }}"
+            memory: "{{ homeassistant.container.limits_memory }}"
       volumes:
       - name: tz-config
         hostPath:

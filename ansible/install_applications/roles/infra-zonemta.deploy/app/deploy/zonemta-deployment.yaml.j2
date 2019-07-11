@@ -22,11 +22,11 @@ spec:
         app-component: zonemta
     spec:
       containers:
-      - image: {{ docker_registry.url }}/zone-mta
+      - image: "{{ zonemta.container.image }}"
         name: zonemta
         env:
         - name: NODE_OPTIONS
-          value: "--max-old-space-size={{ zonemta_zonemta_nodejs_max_memory | default("32") }}"
+          value: "--max-old-space-size={{ zonemta.nodejs_max_memory }}"
         ports:
         - containerPort: 1587
           name: smtp
@@ -34,12 +34,11 @@ spec:
           name: metrics
         resources:
           requests:
-            cpu: "{{ zonemta_zonemta_requests_cpu | default("100m") }}"
-            # ZoneMTA runs multiple node processes, be sure to have at least 5 times 'max-old-space-size' (and more if you use more processes)
-            memory: "{{ zonemta_zonemta_requests_memory | default("160Mi") }}"
+            cpu: "{{ zonemta.container.requests_cpu }}"
+            memory: "{{ zonemta.container.requests_memory }}"
           limits:
-            cpu: "{{ zonemta_zonemta_limits_cpu | default("200m") }}"
-            memory: "{{ zonemta_zonemta_limits_memory | default("160Mi") }}"
+            cpu: "{{ zonemta.container.limits_cpu }}"
+            memory: "{{ zonemta.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

@@ -3,6 +3,13 @@
 grafana:
   enabled: "{{ grafana_enabled | default(True) }}"
 
+  container:
+    image: "grafana/grafana:6.0.1"
+    requests_cpu: "{{ grafana_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ grafana_container_requests_memory | default('100Mi') }}"
+    limits_cpu: "{{ grafana_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ grafana_container_limits_memory | default('200Mi') }}"
+
   admin:
     user: "{{ grafana_admin_user | default('admin') }}"
     password: "{{ grafana_admin_password | default('clear_password') }}"

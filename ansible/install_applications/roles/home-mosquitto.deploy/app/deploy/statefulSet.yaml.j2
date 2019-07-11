@@ -22,7 +22,7 @@ spec:
         app-component: mosquitto
     spec:
       containers:
-      - image: eclipse-mosquitto:1.6.3
+      - image: "{{ mosquitto.container.image }}"
         name: mosquitto
         ports:
         - containerPort: 1883
@@ -31,11 +31,11 @@ spec:
           name: mqtts
         resources:
           requests:
-            cpu: "{{ mosquitto_requests_cpu | default("100m") }}"
-            memory: "{{ mosquitto_requests_memory | default("32Mi") }}"
+            cpu: "{{ mosquitto.container.requests_cpu }}"
+            memory: "{{ mosquitto.container.requests_memory }}"
           limits:
-            cpu: "{{ mosquitto_limits_cpu | default("200m") }}"
-            memory: "{{ mosquitto_limits_memory | default("64Mi") }}"
+            cpu: "{{ mosquitto.container.limits_cpu }}"
+            memory: "{{ mosquitto.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

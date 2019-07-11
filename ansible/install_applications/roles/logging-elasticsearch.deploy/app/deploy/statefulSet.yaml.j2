@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: amazon/opendistro-for-elasticsearch:0.9.0
+        image: "{{ elasticsearch.container.image }}"
         ports:
         - containerPort: 9200
           name: rest
@@ -36,11 +36,11 @@ spec:
           protocol: TCP
         resources:
           requests:
-            cpu: "{{ elasticsearch_requests_cpu | default("100m") }}"
-            memory: "{{ elasticsearch_requests_memory | default("1024Mi") }}"
+            cpu: "{{ elasticsearch.container.requests_cpu }}"
+            memory: "{{ elasticsearch.container.requests_memory }}"
           limits:
-            cpu: "{{ elasticsearch_limits_cpu | default("1000m") }}"
-            memory: "{{ elasticsearch_limits_memory | default("1024Mi") }}"
+            cpu: "{{ elasticsearch.container.limits_cpu }}"
+            memory: "{{ elasticsearch.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

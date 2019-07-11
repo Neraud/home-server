@@ -25,15 +25,15 @@ spec:
         - --path.rootfs=/host/root
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+)($|/)
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
-        image: quay.io/prometheus/node-exporter:v0.17.0
+        image: {{ kubernetes_exporter_node_exporter.container.image }}
         name: node-exporter
         resources:
           limits:
-            cpu: 250m
-            memory: 180Mi
+            cpu: {{ kubernetes_exporter_node_exporter.container.limits_cpu }}
+            memory: {{ kubernetes_exporter_node_exporter.container.limits_memory }}
           requests:
-            cpu: 102m
-            memory: 180Mi
+            cpu: {{ kubernetes_exporter_node_exporter.container.requests_cpu }}
+            memory: {{ kubernetes_exporter_node_exporter.container.requests_memory }}
         volumeMounts:
         - mountPath: /host/proc
           name: proc

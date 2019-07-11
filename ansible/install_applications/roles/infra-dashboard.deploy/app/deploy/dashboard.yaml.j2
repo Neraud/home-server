@@ -101,7 +101,7 @@ spec:
     spec:
       containers:
       - name: kubernetes-dashboard
-        image: k8s.gcr.io/kubernetes-dashboard-amd64:v1.10.1
+        image: "{{ kubernetes_dashboard.container.image }}"
         ports:
         - containerPort: 9090
           protocol: TCP
@@ -113,11 +113,11 @@ spec:
           # - --apiserver-host=http://my-address:port
         resources:
           requests:
-            cpu: "{{ kubernetes_dashboard_requests_cpu | default("50m") }}"
-            memory: "{{ kubernetes_dashboard_requests_memory | default("128Mi") }}"
+            cpu: "{{ kubernetes_dashboard.container.requests_cpu }}"
+            memory: "{{ kubernetes_dashboard.container.requests_memory }}"
           limits:
-            cpu: "{{ kubernetes_dashboard_limits_cpu | default("100m") }}"
-            memory: "{{ kubernetes_dashboard_limits_memory | default("256Mi") }}"
+            cpu: "{{ kubernetes_dashboard.container.limits_cpu }}"
+            memory: "{{ kubernetes_dashboard.container.limits_memory }}"
         volumeMounts:
           # Create on-disk volume to store exec logs
         - mountPath: /tmp

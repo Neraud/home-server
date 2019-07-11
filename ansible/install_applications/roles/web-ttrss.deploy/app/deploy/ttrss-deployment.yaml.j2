@@ -22,18 +22,18 @@ spec:
         app-component: ttrss
     spec:
       containers:
-      - image: {{ docker_registry.url }}/ttrss
+      - image: "{{ ttrss.container.image }}"
         name: ttrss
         ports:
         - containerPort: 80
           name: ttrss
         resources:
           requests:
-            cpu: "{{ ttrss_ttrss_requests_cpu | default("100m") }}"
-            memory: "{{ ttrss_ttrss_requests_memory | default("64Mi") }}"
+            cpu: "{{ ttrss.container.requests_cpu }}"
+            memory: "{{ ttrss.container.requests_memory }}"
           limits:
-            cpu: "{{ ttrss_ttrss_limits_cpu | default("200m") }}"
-            memory: "{{ ttrss_ttrss_limits_memory | default("64Mi") }}"
+            cpu: "{{ ttrss.container.limits_cpu }}"
+            memory: "{{ ttrss.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

@@ -22,7 +22,7 @@ spec:
         app-component: pyload
     spec:
       containers:
-      - image: {{ docker_registry.url }}/pyload
+      - image: "{{ pyload.container.image }}"
         name: pyload
         ports:
         - containerPort: 8000
@@ -36,11 +36,11 @@ spec:
             value: "{{ pyload.context_root }}"
         resources:
           requests:
-            cpu: "{{ pyload_requests_cpu | default("100m") }}"
-            memory: "{{ pyload_requests_memory | default("256Mi") }}"
+            cpu: "{{ pyload.container.requests_cpu }}"
+            memory: "{{ pyload.container.requests_memory }}"
           limits:
-            cpu: "{{ pyload_limits_cpu | default("200m") }}"
-            memory: "{{ pyload_limits_memory | default("256Mi") }}"
+            cpu: "{{ pyload.container.limits_cpu }}"
+            memory: "{{ pyload.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

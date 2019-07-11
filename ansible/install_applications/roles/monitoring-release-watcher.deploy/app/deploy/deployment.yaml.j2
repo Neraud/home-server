@@ -22,18 +22,18 @@ spec:
         app-component: release-watcher
     spec:
       containers:
-      - image: {{ docker_registry.url }}/release-watcher
+      - image: "{{ release_watcher.container.image }}"
         name: release-watcher
         ports:
         - containerPort: 8080
           name: metrics
         resources:
           requests:
-            cpu: "{{ release_watcher_requests_cpu | default("25m") }}"
-            memory: "{{ release_watcher_requests_memory | default("64Mi") }}"
+            cpu: "{{ release_watcher.container.requests_cpu }}"
+            memory: "{{ release_watcher.container.requests_memory }}"
           limits:
-            cpu: "{{ release_watcher_limits_cpu | default("100m") }}"
-            memory: "{{ release_watcher_limits_memory | default("64Mi") }}"
+            cpu: "{{ release_watcher.container.limits_cpu }}"
+            memory: "{{ release_watcher.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

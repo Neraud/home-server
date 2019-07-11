@@ -2,5 +2,13 @@
 
 docker_registry_ui:
   enabled: "{{ docker_registry_ui_enabled | default(True) }}"
+
+  container:
+    image: "quiq/docker-registry-ui:0.8.1"
+    requests_cpu: "{{ docker_registry_ui_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ docker_registry_ui_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ docker_registry_ui_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ docker_registry_ui_container_limits_memory | default('32Mi') }}"
+
   admin_users: "{{ docker_registry_ui_admin_users | default([]) }}"
   event_api_token: "{{ docker_registry_ui_event_api_token | default('token') }}"

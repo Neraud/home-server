@@ -2,4 +2,12 @@
 
 heimdall:
   enabled: "{{ heimdall_enabled | default(True) }}"
+
+  container:
+    image: "{{ docker_registry.url }}/heimdall"
+    requests_cpu: "{{ heimdall_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ heimdall_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ heimdall_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ heimdall_container_limits_memory | default('128Mi') }}"
+
   applications: "{{ heimdall_applications | default([]) }}"

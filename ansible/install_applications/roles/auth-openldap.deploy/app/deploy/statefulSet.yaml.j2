@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: openldap
-        image: osixia/openldap:1.2.4
+        image: "{{ openldap.container.image }}"
         args: ["--copy-service"]
         volumeMounts:
         - name: tz-config
@@ -46,11 +46,11 @@ spec:
           name: ldaps
         resources:
           requests:
-            cpu: "{{ openldap_requests_cpu | default("100m") }}"
-            memory: "{{ openldap_requests_memory | default("128Mi") }}"
+            cpu: "{{ openldap.container.requests_cpu }}"
+            memory: "{{ openldap.container.requests_memory }}"
           limits:
-            cpu: "{{ openldap_limits_cpu | default("200m") }}"
-            memory: "{{ openldap_limits_memory | default("128Mi") }}"
+            cpu: "{{ openldap.container.limits_cpu }}"
+            memory: "{{ openldap.container.limits_memory }}"
       volumes:
       - name: tz-config
         hostPath:

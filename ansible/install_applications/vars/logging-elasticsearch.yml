@@ -2,6 +2,13 @@
 
 elasticsearch:
   enabled: "{{ elasticsearch_enabled | default(True) }}"
+
+  container:
+    image: "amazon/opendistro-for-elasticsearch:0.9.0"
+    requests_cpu: "{{ elasticsearch_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ elasticsearch_container_requests_memory | default('1024Mi') }}"
+    limits_cpu: "{{ elasticsearch_container_limits_cpu | default('1000m') }}"
+    limits_memory: "{{ elasticsearch_container_limits_memory | default('1024Mi') }}"
   
   # FIXME : using a longer name (like elasticsearch.logging) breaks the workaround in place to update security
   # The server cert is improperly used in ansible/install_applications/roles/logging-elasticsearch.deploy/handlers/main.yml
@@ -27,3 +34,16 @@ elasticsearch:
     password: "{{ elasticsearch_exporter_password | default('password') }}"
 
   exposed_namespaces: "{{ elasticsearch_exposed_namespaces | default(['logging']) }}"
+
+elasticsearch_exporter:
+  container:
+    # TODO change for a stable version when available. We need this RC to have the ssl-skip-verify flag
+    image: "justwatch/elasticsearch_exporter:1.1.0rc1"
+    requests_cpu: "{{ elasticsearch_exporter_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ elasticsearch_exporter_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ elasticsearch_exporter_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ elasticsearch_exporter_container_limits_memory | default('128Mi') }}"
+
+
+  user: "{{ elasticsearch_exporter_user | default('exporter') }}"
+  password: "{{ elasticsearch_exporter_password | default('password') }}"

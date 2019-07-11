@@ -3,6 +3,13 @@
 mosquitto:
   enabled: "{{ mosquitto_enabled | default(True) }}"
 
+  container:
+    image: "eclipse-mosquitto:1.6.3"
+    requests_cpu: "{{ mosquitto_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ mosquitto_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ mosquitto_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ mosquitto_container_limits_memory | default('64Mi') }}"
+
   listeners: "{{ mosquitto_listeners | default([]) }}"
   credentials: "{{ mosquitto_credentials | default([]) }}"
   exposed_namespaces: "{{ mosquitto_exposed_namespaces | default(['default']) }}"

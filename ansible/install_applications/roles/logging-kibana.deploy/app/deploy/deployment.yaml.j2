@@ -20,14 +20,14 @@ spec:
     spec:
       containers:
       - name: kibana
-        image: amazon/opendistro-for-elasticsearch-kibana:0.9.0
+        image: "{{ kibana.container.image }}"
         resources:
           requests:
-            cpu: "{{ kibana_requests_cpu | default("100m") }}"
-            memory: "{{ kibana_requests_memory | default("512Mi") }}"
+            cpu: "{{ kibana.container.requests_cpu }}"
+            memory: "{{ kibana.container.requests_memory }}"
           limits:
-            cpu: "{{ kibana_limits_cpu | default("1000m") }}"
-            memory: "{{ kibana_limits_memory | default("512Mi") }}"
+            cpu: "{{ kibana.container.limits_cpu }}"
+            memory: "{{ kibana.container.limits_memory }}"
         env:
           - name: SERVER_BASEPATH
             value: {{ kibana.context_path }}

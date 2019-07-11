@@ -22,7 +22,7 @@ spec:
         app-component: registry
     spec:
       containers:
-      - image: registry:2.7.1
+      - image: "{{ docker_registry.container.image }}"
         name: docker-registry
         env:
         - name: REGISTRY_HTTP_ADDR
@@ -36,11 +36,11 @@ spec:
           name: docker-registry
         resources:
           requests:
-            cpu: "{{ docker_registry_requests_cpu | default("50m") }}"
-            memory: "{{ docker_registry_requests_memory | default("64Mi") }}"
+            cpu: "{{ docker_registry.container.requests_cpu }}"
+            memory: "{{ docker_registry.container.requests_memory }}"
           limits:
-            cpu: "{{ docker_registry_limits_cpu | default("100m") }}"
-            memory: "{{ docker_registry_limits_memory | default("64Mi") }}"
+            cpu: "{{ docker_registry.container.limits_cpu }}"
+            memory: "{{ docker_registry.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

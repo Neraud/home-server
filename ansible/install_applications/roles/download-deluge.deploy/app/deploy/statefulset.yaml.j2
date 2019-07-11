@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
       - name: inject-config
-        image: linuxserver/deluge:amd64-2.0.3-2201906121747ubuntu18.04.1-ls27
+        image: "{{ deluge.container.image }}"
         command: [ "python3", "/tmp/config/mergeConf.py" ]
         volumeMounts:
         - name: deluge-config-pv-claim
@@ -31,18 +31,18 @@ spec:
         - name: deluge-config
           mountPath: /tmp/config
       containers:
-      - image: linuxserver/deluge:amd64-2.0.3-2201906121747ubuntu18.04.1-ls27
+      - image: "{{ deluge.container.image }}"
         name: deluge
         ports:
         - containerPort: 8112
           name: webui
         resources:
           requests:
-            cpu: "{{ deluge_requests_cpu | default("100m") }}"
-            memory: "{{ deluge_requests_memory | default("256Mi") }}"
+            cpu: "{{ deluge.container.requests_cpu }}"
+            memory: "{{ deluge.container.requests_memory }}"
           limits:
-            cpu: "{{ deluge_limits_cpu | default("200m") }}"
-            memory: "{{ deluge_limits_memory | default("256Mi") }}"
+            cpu: "{{ deluge.container.limits_cpu }}"
+            memory: "{{ deluge.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

@@ -21,14 +21,14 @@ spec:
     spec:
       containers:
       - name: reloader
-        image: "stakater/reloader:v0.0.31"
+        image: "{{ reloader.container.image }}"
         imagePullPolicy: IfNotPresent
         resources:
           requests:
-            cpu: "{{ reloader_requests_cpu | default("100m") }}"
-            memory: "{{ reloader_requests_memory | default("128Mi") }}"
+            cpu: "{{ reloader.container.requests_cpu }}"
+            memory: "{{ reloader.container.requests_memory }}"
           limits:
-            cpu: "{{ reloader_limits_cpu | default("250m") }}"
-            memory: "{{ reloader_limits_memory | default("128Mi") }}"
+            cpu: "{{ reloader.container.limits_cpu }}"
+            memory: "{{ reloader.container.limits_memory }}"
       serviceAccountName: reloader
 

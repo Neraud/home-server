@@ -58,15 +58,15 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: quay.io/coreos/kube-state-metrics:v1.5.0
+        image: {{ kubernetes_exporter_kube_state_metrics.container.image }}
         name: kube-state-metrics
         resources:
           limits:
-            cpu: 100m
-            memory: 150Mi
+            cpu: {{ kubernetes_exporter_kube_state_metrics.container.limits_cpu }}
+            memory: {{ kubernetes_exporter_kube_state_metrics.container.limits_memory }}
           requests:
-            cpu: 100m
-            memory: 150Mi
+            cpu: {{ kubernetes_exporter_kube_state_metrics.container.requests_cpu }}
+            memory: {{ kubernetes_exporter_kube_state_metrics.container.requests_memory }}
       - command:
         - /pod_nanny
         - --container=kube-state-metrics

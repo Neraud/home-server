@@ -20,21 +20,21 @@ spec:
         app-component: redis
     spec:
       containers:
-      - image: redis:5.0.5-alpine3.9
+      - image: "{{ zonemta_redis.container.image }}"
         name: redis
         command:
         - redis-server
-        - "--requirepass {{ zonemta.redis.password }}"
+        - "--requirepass {{ zonemta_redis.password }}"
         ports:
         - containerPort: 6379
           name: redis
         resources:
           requests:
-            cpu: "{{ zonemta_redis_requests_cpu | default("25m") }}"
-            memory: "{{ zonemta_redis_requests_memory | default("32Mi") }}"
+            cpu: "{{ zonemta_redis.container.requests_cpu }}"
+            memory: "{{ zonemta_redis.container.requests_memory }}"
           limits:
-            cpu: "{{ zonemta_redis_limits_cpu | default("50m") }}"
-            memory: "{{ zonemta_redis_limits_memory | default("32Mi") }}"
+            cpu: "{{ zonemta_redis.container.limits_cpu }}"
+            memory: "{{ zonemta_redis.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

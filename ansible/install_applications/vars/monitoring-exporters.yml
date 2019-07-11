@@ -2,3 +2,21 @@
 
 kubernetes_exporters:
   enabled: "{{ kubernetes_exporters_enabled | default(True) }}"
+
+
+kubernetes_exporter_kube_state_metrics:
+  container:
+    image: "quay.io/coreos/kube-state-metrics:v1.5.0"
+    requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ kube_state_metrics_container_requests_memory | default('150Mi') }}"
+    limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ kube_state_metrics_container_limits_memory | default('150Mi') }}"
+
+
+kubernetes_exporter_node_exporter:
+  container:
+    image: "quay.io/prometheus/node-exporter:v0.17.0"
+    requests_cpu: "{{ node_exporter_container_requests_cpu | default('102m') }}"
+    requests_memory: "{{ node_exporter_container_requests_memory | default('180Mi') }}"
+    limits_cpu: "{{ node_exporter_container_limits_cpu | default('250m') }}"
+    limits_memory: "{{ node_exporter_container_limits_memory | default('180Mi') }}"

@@ -24,8 +24,7 @@ spec:
         runAsUser: 1000
       containers:
       - name: elastic-exporter
-        # TODO change for a stable version when available. We need this RC to have the ssl-skip-verify flag
-        image: justwatch/elasticsearch_exporter:1.1.0rc1
+        image: "{{ elasticsearch_exporter.container.image }}"
         env:
         - name: "ES_URI"
           value: "https://{{ elasticsearch.exporter.user }}:{{ elasticsearch.exporter.password }}@elasticsearch:9200"
@@ -70,11 +69,11 @@ spec:
           timeoutSeconds: 10
         resources:
           requests:
-            cpu: "{{ prometheus_exporter_requests_cpu | default("25m") }}"
-            memory: "{{ prometheus_exporter_requests_memory | default("64Mi") }}"
+            cpu: "{{ elasticsearch_exporter.container.requests_cpu }}"
+            memory: "{{ elasticsearch_exporter.container.requests_memory }}"
           limits:
-            cpu: "{{ prometheus_exporter_limits_cpu | default("100m") }}"
-            memory: "{{ prometheus_exporter_limits_memory | default("128Mi") }}"
+            cpu: "{{ elasticsearch_exporter.container.limits_cpu }}"
+            memory: "{{ elasticsearch_exporter.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

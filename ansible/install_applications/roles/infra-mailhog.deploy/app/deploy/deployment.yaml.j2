@@ -22,14 +22,14 @@ spec:
     spec:
       containers:
       - name: mailhog
-        image: mailhog/mailhog:v1.0.0
+        image: "{{ mailhog.container.image }}"
         resources:
           requests:
-            cpu: "{{ mailhog_requests_cpu | default("100m") }}"
-            memory: "{{ mailhog_requests_memory | default("64Mi") }}"
+            cpu: "{{ mailhog.container.requests_cpu }}"
+            memory: "{{ mailhog.container.requests_memory }}"
           limits:
-            cpu: "{{ mailhog_limits_cpu | default("1000m") }}"
-            memory: "{{ mailhog_limits_memory | default("64Mi") }}"
+            cpu: "{{ mailhog.container.limits_cpu }}"
+            memory: "{{ mailhog.container.limits_memory }}"
         env:
           - name: MH_UI_WEB_PATH
             value: mailhog

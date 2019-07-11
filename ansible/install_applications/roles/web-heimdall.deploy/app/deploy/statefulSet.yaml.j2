@@ -22,18 +22,18 @@ spec:
         app-component: heimdall
     spec:
       containers:
-      - image: {{ docker_registry.url }}/heimdall
+      - image: "{{ heimdall.container.image }}"
         name: heimdall
         ports:
         - containerPort: 80
           name: http
         resources:
           requests:
-            cpu: "{{ heimdall_requests_cpu | default("100m") }}"
-            memory: "{{ heimdall_requests_memory | default("128Mi") }}"
+            cpu: "{{ heimdall.container.requests_cpu }}"
+            memory: "{{ heimdall.container.requests_memory }}"
           limits:
-            cpu: "{{ heimdall_limits_cpu | default("200m") }}"
-            memory: "{{ heimdall_limits_memory | default("128Mi") }}"
+            cpu: "{{ heimdall.container.limits_cpu }}"
+            memory: "{{ heimdall.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

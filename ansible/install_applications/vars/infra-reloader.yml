@@ -1,4 +1,11 @@
 ---
 
-reloaded:
+reloader:
   enabled: "{{ reloader_enabled | default(True) }}"
+
+  container:
+    image: "stakater/reloader:v0.0.31"
+    requests_cpu: "{{ reloader_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ reloader_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ reloader_container_limits_cpu | default('250m') }}"
+    limits_memory: "{{ reloader_container_limits_memory | default('128Mi') }}"

@@ -31,18 +31,18 @@ spec:
         - name: sabnzbd-config
           mountPath: /tmp/config
       containers:
-      - image: {{ docker_registry.url }}/sabnzbd
+      - image: "{{ sabnzbd.container.image }}"
         name: sabnzbd
         ports:
         - containerPort: 8080
           name: http
         resources:
           requests:
-            cpu: "{{ sabnzbd_requests_cpu | default("100m") }}"
-            memory: "{{ sabnzbd_requests_memory | default("256Mi") }}"
+            cpu: "{{ sabnzbd.container.requests_cpu }}"
+            memory: "{{ sabnzbd.container.requests_memory }}"
           limits:
-            cpu: "{{ sabnzbd_limits_cpu | default("200m") }}"
-            memory: "{{ sabnzbd_limits_memory | default("256Mi") }}"
+            cpu: "{{ sabnzbd.container.limits_cpu }}"
+            memory: "{{ sabnzbd.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

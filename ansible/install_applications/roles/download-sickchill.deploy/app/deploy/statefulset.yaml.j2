@@ -31,18 +31,18 @@ spec:
         - name: sickchill-config
           mountPath: /tmp/config
       containers:
-      - image: linuxserver/sickchill:amd64-6bfdb223-ls14
+      - image: "{{ sickchill.container.image }}"
         name: sickchill
         ports:
         - containerPort: 8081
           name: sickchill
         resources:
           requests:
-            cpu: "{{ sickchill_requests_cpu | default("100m") }}"
-            memory: "{{ sickchill_requests_memory | default("256Mi") }}"
+            cpu: "{{ sickchill.container.requests_cpu }}"
+            memory: "{{ sickchill.container.requests_memory }}"
           limits:
-            cpu: "{{ sickchill_limits_cpu | default("200m") }}"
-            memory: "{{ sickchill_limits_memory | default("256Mi") }}"
+            cpu: "{{ sickchill.container.limits_cpu }}"
+            memory: "{{ sickchill.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

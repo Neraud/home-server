@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: fluentd
-        image: {{ docker_registry.url }}/fluentd
+        image: "{{ fluentd.container.image }}"
         ports:
         - containerPort: 24224
           name: fluentd
@@ -41,11 +41,11 @@ spec:
             value: "/etc/ssl/cluster/ca.crt"
         resources:
           requests:
-            cpu: "{{ fluentd_requests_cpu | default("100m") }}"
-            memory: "{{ fluentd_requests_memory | default("200Mi") }}"
+            cpu: "{{ fluentd.container.requests_cpu }}"
+            memory: "{{ fluentd.container.requests_memory }}"
           limits:
-            cpu: "{{ fluentd_limits_cpu | default("500m") }}"
-            memory: "{{ fluentd_limits_memory | default("200Mi") }}"
+            cpu: "{{ fluentd.container.limits_cpu }}"
+            memory: "{{ fluentd.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

@@ -20,13 +20,13 @@ spec:
         app-component: pgsql
     spec:
       containers:
-      - image: postgres:11.1
+      - image: "{{ ttrss_pgsql.container.image }}"
         name: pgsql
         env:
         - name: POSTGRES_USER
-          value: {{ ttrss.pgsql.user }}
+          value: {{ ttrss_pgsql.user }}
         - name: POSTGRES_DB
-          value: {{ ttrss.pgsql.database }}
+          value: {{ ttrss_pgsql.database }}
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -39,11 +39,11 @@ spec:
           name: pgsql
         resources:
           requests:
-            cpu: "{{ ttrss_pgsql_requests_cpu | default("250m") }}"
-            memory: "{{ ttrss_pgsql_requests_memory | default("256Mi") }}"
+            cpu: "{{ ttrss_pgsql.container.requests_cpu }}"
+            memory: "{{ ttrss_pgsql.container.requests_memory }}"
           limits:
-            cpu: "{{ ttrss_pgsql_limits_cpu | default("500m") }}"
-            memory: "{{ ttrss_pgsql_limits_memory | default("256Mi") }}"
+            cpu: "{{ ttrss_pgsql.container.limits_cpu }}"
+            memory: "{{ ttrss_pgsql.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

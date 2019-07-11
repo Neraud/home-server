@@ -21,18 +21,18 @@ spec:
         - --logtostderr=true
         - --config-reloader-image=quay.io/coreos/configmap-reload:v0.0.1
         - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.29.0
-        image: quay.io/coreos/prometheus-operator:v0.29.0
+        image: {{ prometheus_operator.container.image }}
         name: prometheus-operator
         ports:
         - containerPort: 8080
           name: http
         resources:
           limits:
-            cpu: 200m
-            memory: 200Mi
+            cpu: {{ prometheus_operator.container.limits_cpu }}
+            memory: {{ prometheus_operator.container.limits_memory }}
           requests:
-            cpu: 100m
-            memory: 100Mi
+            cpu: {{ prometheus_operator.container.requests_cpu }}
+            memory: {{ prometheus_operator.container.requests_memory }}
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true

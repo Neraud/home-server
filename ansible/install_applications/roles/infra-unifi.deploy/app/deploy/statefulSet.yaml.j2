@@ -20,7 +20,7 @@ spec:
         app-component: unifi
     spec:
       containers:
-      - image: linuxserver/unifi-controller:amd64-5.10.25-ls22
+      - image: "{{ unifi.container.image }}"
         name: unifi
         ports:
         #- containerPort: 8081
@@ -47,11 +47,11 @@ spec:
         #  protocol: UDP
         resources:
           requests:
-            cpu: "{{ unifi_requests_cpu | default("500m") }}"
-            memory: "{{ unifi_requests_memory | default("1024Mi") }}"
+            cpu: "{{ unifi.container.requests_cpu }}"
+            memory: "{{ unifi.container.requests_memory }}"
           limits:
-            cpu: "{{ unifi_limits_cpu | default("1000m") }}"
-            memory: "{{ unifi_limits_memory | default("1024Mi") }}"
+            cpu: "{{ unifi.container.limits_cpu }}"
+            memory: "{{ unifi.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

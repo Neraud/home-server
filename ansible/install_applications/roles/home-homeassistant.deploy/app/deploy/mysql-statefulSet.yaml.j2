@@ -20,13 +20,13 @@ spec:
         app-component: mysql
     spec:
       containers:
-      - image: mysql:5.6.43
+      - image: "{{ homeassistant_mysql.container.image }}"
         name: mysql
         env:
         - name: MYSQL_DATABASE
-          value: {{ homeassistant.mysql.database }}
+          value: {{ homeassistant_mysql.database }}
         - name: MYSQL_USER
-          value: {{ homeassistant.mysql.user }}
+          value: {{ homeassistant_mysql.user }}
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -47,11 +47,11 @@ spec:
           mountPath: /var/lib/mysql
         resources:
           requests:
-            cpu: "{{ homeassistant_mysql_requests_cpu | default("250m") }}"
-            memory: "{{ homeassistant_mysql_requests_memory | default("512Mi") }}"
+            cpu: "{{ homeassistant_mysql.container.requests_cpu }}"
+            memory: "{{ homeassistant_mysql.container.requests_memory }}"
           limits:
-            cpu: "{{ homeassistant_mysql_limits_cpu | default("500m") }}"
-            memory: "{{ homeassistant_mysql_limits_memory | default("512Mi") }}"
+            cpu: "{{ homeassistant_mysql.container.limits_cpu }}"
+            memory: "{{ homeassistant_mysql.container.limits_memory }}"
       volumes:
       - name: tz-config
         hostPath:

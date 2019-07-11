@@ -3,16 +3,15 @@
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
 
+  container:
+    image: "{{ docker_registry.url }}/ttrss"
+    requests_cpu: "{{ ttrss_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ ttrss_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ ttrss_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ ttrss_container_limits_memory | default('64Mi') }}"
+
   context_root: "{{ ttrss_context_root | default('/') }}"
-  
-  pgsql:
-    user: "{{ ttrss_pgsql_user | default('ttrss') }}"
-    database: "{{ ttrss_pgsql_database | default('ttrss') }}"
-    password: "{{ ttrss_pgsql_password | default('clear_password') }}"
-    # Keep the schema URL in sync with the image version
-    schema_url: 'https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql'
-    schema_path_temp: /tmp/tt-rss-schema.sql
- 
+   
   ldap:
     servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
     users_dn: "{{ ttrss_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
@@ -29,3 +28,18 @@ ttrss:
     secure: "{{ ttrss_smtp_secure | default('tls') }}"
     from: "{{ ttrss_smtp_from | default('noreply@' + web_base_domain) }}"
     displayName: "{{ ttrss_smtp_displayName | default('Tiny Tiny RSS') }}"
+
+ttrss_pgsql:
+  container:
+    image: "postgres:11.1"
+    requests_cpu: "{{ ttrss_pgsql_container_requests_cpu | default('250m') }}"
+    requests_memory: "{{ ttrss_pgsql_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ ttrss_pgsql_container_limits_cpu | default('500m') }}"
+    limits_memory: "{{ ttrss_pgsql_container_limits_memory | default('256Mi') }}"
+
+  user: "{{ ttrss_pgsql_user | default('ttrss') }}"
+  database: "{{ ttrss_pgsql_database | default('ttrss') }}"
+  password: "{{ ttrss_pgsql_password | default('clear_password') }}"
+  # Keep the schema URL in sync with the image version
+  schema_url: 'https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql'
+  schema_path_temp: /tmp/tt-rss-schema.sql

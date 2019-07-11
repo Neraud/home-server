@@ -20,7 +20,7 @@ spec:
         app-component: plex
     spec:
       containers:
-      - image: plexinc/pms-docker:1.16.0.1226-7eb2c8f6f
+      - image: "{{ plex.container.image }}"
         name: plex
         ports:
         - containerPort: 32400
@@ -32,11 +32,11 @@ spec:
 {% endif %}
         resources:
           requests:
-            cpu: "{{ plex_requests_cpu | default("500m") }}"
-            memory: "{{ plex_requests_memory | default("1024Mi") }}"
+            cpu: "{{ plex.container.requests_cpu }}"
+            memory: "{{ plex.container.requests_memory }}"
           limits:
-            cpu: "{{ plex_limits_cpu | default("2000m") }}"
-            memory: "{{ plex_limits_memory | default("1024Mi") }}"
+            cpu: "{{ plex.container.limits_cpu }}"
+            memory: "{{ plex.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

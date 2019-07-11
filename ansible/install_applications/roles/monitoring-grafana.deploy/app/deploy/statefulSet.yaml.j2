@@ -21,7 +21,7 @@ spec:
         app-component: grafana
     spec:
       containers:
-      - image: grafana/grafana:6.0.1
+      - image: "{{ grafana.container.image }}"
         name: grafana
         env:
         - name: GF_SERVER_ROOT_URL
@@ -35,11 +35,11 @@ spec:
             port: http
         resources:
           requests:
-            cpu: "{{ grafana_requests_cpu | default("100m") }}"
-            memory: "{{ grafana_requests_memory | default("100Mi") }}"
+            cpu: "{{ grafana.container.requests_cpu }}"
+            memory: "{{ grafana.container.requests_memory }}"
           limits:
-            cpu: "{{ grafana_limits_cpu | default("200m") }}"
-            memory: "{{ grafana_limits_memory | default("200Mi") }}"
+            cpu: "{{ grafana.container.limits_cpu }}"
+            memory: "{{ grafana.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

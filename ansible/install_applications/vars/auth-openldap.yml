@@ -7,6 +7,13 @@ _openldap_var_loader:
 
 openldap:
   enabled: "{{ openldap_enabled | default(True) }}"
+
+  container:
+    image: "osixia/openldap:1.2.4"
+    requests_cpu: "{{ openldap_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ openldap_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ openldap_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ openldap_container_limits_memory | default('128Mi') }}"
   
   ldap:
     # OpenLDAP sererver name. We use the Kubernetes [service].[namespace] format

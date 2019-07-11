@@ -31,7 +31,7 @@ spec:
         - name: airsonic-config
           mountPath: /config
       - name: inject-certificates
-        image: airsonic/airsonic:10.2.1-RELEASE
+        image: "{{ airsonic.container.image }}"
         command:
           - "sh"
           - "-c"
@@ -48,7 +48,7 @@ spec:
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       containers:
-      - image: airsonic/airsonic:10.3.1-RELEASE
+      - image: "{{ airsonic.container.image }}"
         name: airsonic
         ports:
         - containerPort: 4040
@@ -64,11 +64,11 @@ spec:
 {% endif %}
         resources:
           requests:
-            cpu: "{{ airsonic_requests_cpu | default("250m") }}"
-            memory: "{{ airsonic_requests_memory | default("512Mi") }}"
+            cpu: "{{ airsonic.container.requests_cpu }}"
+            memory: "{{ airsonic.container.requests_memory }}"
           limits:
-            cpu: "{{ airsonic_limits_cpu | default("500m") }}"
-            memory: "{{ airsonic_limits_memory | default("512Mi") }}"
+            cpu: "{{ airsonic.container.limits_cpu }}"
+            memory: "{{ airsonic.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

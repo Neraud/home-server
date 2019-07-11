@@ -7,6 +7,13 @@ _gitlab_var_loader:
 gitlab:
   enabled: "{{ openldap_enabled | default(True) }}"
 
+  container:
+    image: "gitlab/gitlab-ce:12.0.2-ce.0"
+    requests_cpu: "{{ gitlab_container_requests_cpu | default('500m') }}"
+    requests_memory: "{{ gitlab_container_requests_memory | default('3072Mi') }}"
+    limits_cpu: "{{ gitlab_container_limits_cpu | default('2000m') }}"
+    limits_memory: "{{ gitlab_container_limits_memory | default('3072Mi') }}"
+
   context_path: "{{ _gitlab_var_loader.context_path }}"
   external_url: "{{ gitlab_external_url | default('https://gitlab.domain' + _gitlab_var_loader.context_path) }}"
   time_zone: "{{ gitlab_time_zone | default(time_zone) }}"

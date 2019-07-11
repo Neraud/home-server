@@ -23,17 +23,17 @@ spec:
         app-component: phpldapadmin
     spec:
       containers:
-      - image: osixia/phpldapadmin:0.8.0
+      - image: "{{ phpldapadmin.container.image }}"
         name: phpldapadmin
         ports:
           - containerPort: 80
         resources:
           requests:
-            cpu: "{{ phpldapadmin_requests_cpu | default("100m") }}"
-            memory: "{{ phpldapadmin_requests_memory | default("256Mi") }}"
+            cpu: "{{ phpldapadmin.container.requests_cpu }}"
+            memory: "{{ phpldapadmin.container.requests_memory }}"
           limits:
-            cpu: "{{ phpldapadmin_limits_cpu | default("200m") }}"
-            memory: "{{ phpldapadmin_limits_memory | default("256Mi") }}"
+            cpu: "{{ phpldapadmin.container.limits_cpu }}"
+            memory: "{{ phpldapadmin.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

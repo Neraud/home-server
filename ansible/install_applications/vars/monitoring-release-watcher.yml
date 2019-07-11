@@ -3,6 +3,13 @@
 release_watcher:
   enabled: "{{ release_watcher_enabled | default(True) }}"
 
+  container:
+    image: "{{ docker_registry.url }}/release-watcher"
+    requests_cpu: "{{ release_watcher_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ release_watcher_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ release_watcher_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ release_watcher_container_limits_memory | default('64Mi') }}"
+
   repo:
     url: "{{ release_watcher_repo_url | default('https://github.com/Neraud/release-watcher') }}"
     version: "{{ release_watcher_repo_version | default('master') }}"

@@ -8,8 +8,8 @@ metadata:
   name: main
   namespace: monitoring
 spec:
-  baseImage: quay.io/prometheus/alertmanager
-  version: v0.16.2
+  baseImage: "{{ alertmanager.container.base_image }}"
+  version: "{{ alertmanager.container.image_version }}"
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'

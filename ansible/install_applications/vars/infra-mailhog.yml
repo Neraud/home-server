@@ -3,6 +3,13 @@
 mailhog:
   enabled: "{{ mailhog_enabled | default(True) }}"
 
+  container:
+    image: "mailhog/mailhog:v1.0.0"
+    requests_cpu: "{{ mailhog_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ mailhog_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ mailhog_container_limits_cpu | default('1000m') }}"
+    limits_memory: "{{ mailhog_container_limits_memory | default('64Mi') }}"
+
   exposed_smtp: "{{ mailhog_exposed_smtp | default('mailhog.default.svc.cluster.local:1025') }}"
   
   forward_smtp:
