@@ -1,4 +1,5 @@
-FROM coudot/lemonldap-ng:2.0.3
+ARG from_image
+FROM $from_image
 
 # Copy plugins
 COPY LoginFailedHeaderPlugin.pm /usr/share/perl5/Lemonldap/NG/Portal/

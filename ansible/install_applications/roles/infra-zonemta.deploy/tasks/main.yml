@@ -22,6 +22,8 @@
     build:
       path: "{{ role_path }}/app/build"
       pull: yes
+      args:
+        from_image: "{{ zonemta.container.from_image }}"
     push: yes
 
 - name: Deploy ZoneMTA

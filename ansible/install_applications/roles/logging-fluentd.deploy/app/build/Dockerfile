@@ -1,4 +1,5 @@
-FROM fluent/fluentd:v1.5.2-debian-1.0
+ARG from_image
+FROM $from_image
 
 USER root
 

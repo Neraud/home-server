@@ -1,4 +1,5 @@
-FROM lsiobase/python:amd64-3.9
+ARG from_image
+FROM $from_image
 
 # 2019-05-01T20:56:27Z
 ARG PYLOAD_RELEASE=1212a684f94856181ad227ff5da140045a95ea8f

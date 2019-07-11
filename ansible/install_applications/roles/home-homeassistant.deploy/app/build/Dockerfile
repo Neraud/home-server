@@ -1,4 +1,5 @@
-FROM homeassistant/home-assistant:0.95.0
+ARG from_image
+FROM $from_image
 
 ADD entrypoint.sh /opt/entrypoint.sh
 

@@ -1,6 +1,5 @@
-
-# Keep the image version in sync with the ttrss_pgsql.schema_url variable
-FROM linuxserver/tt-rss:amd64-19.2-ls21
+ARG from_image
+FROM $from_image
 
 RUN \
     echo "**** install plugin LDAP Auth ****" && \

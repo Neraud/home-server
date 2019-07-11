@@ -5,6 +5,7 @@ homeassistant:
   
   container:
     image: "{{ docker_registry.url }}/homeassistant"
+    from_image: "homeassistant/home-assistant:0.95.0"
     requests_cpu: "{{ homeassistant_homeassistant_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ homeassistant_homeassistant_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('1000m') }}"

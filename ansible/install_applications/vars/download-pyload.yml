@@ -5,6 +5,7 @@ pyload:
 
   container:
     image: "{{ docker_registry.url }}/pyload"
+    from_image: "lsiobase/python:amd64-3.9"
     requests_cpu: "{{ pyload_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ pyload_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ pyload_container_limits_cpu | default('200m') }}"

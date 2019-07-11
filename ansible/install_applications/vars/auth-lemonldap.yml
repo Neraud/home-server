@@ -5,6 +5,7 @@ lemonldap:
 
   container:
     image: "{{ docker_registry.url }}/lemonldap"
+    from_image: "coudot/lemonldap-ng:2.0.3"
     requests_cpu: "{{ lemonldap_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ lemonldap_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ lemonldap_container_limits_cpu | default('200m') }}"

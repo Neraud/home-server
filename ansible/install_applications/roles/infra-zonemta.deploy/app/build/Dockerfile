@@ -1,4 +1,5 @@
-FROM node:10.16.0-alpine
+ARG from_image
+FROM $from_image
 
 ARG ZONE_MTA_VERSION=v1.16.0
 
