@@ -8,7 +8,7 @@
       path: "{{ role_path }}/app/build"
       pull: yes
       args:
-        from_image: "{{ sabnzbd.container.from_image }}"
+        from_image: "{{ sabnzbd.container.from_image }}:{{ sabnzbd.container.from_tag }}"
     push: yes
 
 - name: Deploy sabnzbd

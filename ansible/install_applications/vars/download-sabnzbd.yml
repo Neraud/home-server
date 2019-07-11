@@ -6,7 +6,8 @@ sabnzbd:
   container:
     image: "{{ docker_registry.url }}/sabnzbd"
     tag: "latest"
-    from_image: "linuxserver/sabnzbd:amd64-2.3.9-0ubuntu1jcfp118.04-u-ls21"
+    from_image: "linuxserver/sabnzbd"
+    from_tag: "amd64-2.3.9-0ubuntu1jcfp118.04-u-ls21"
     requests_cpu: "{{ sabnzbd_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ sabnzbd_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ sabnzbd_container_limits_cpu | default('200m') }}"

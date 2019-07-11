@@ -8,7 +8,7 @@
       path: "{{ role_path }}/app/build"
       pull: yes
       args:
-        from_image: "{{ ttrss.container.from_image }}"
+        from_image: "{{ ttrss.container.from_image }}:{{ ttrss.container.from_tag }}"
     push: yes
 
 # We can't just use a lookup('url', ttrss_pgsql.schema_url) to inject the schema file directly.
