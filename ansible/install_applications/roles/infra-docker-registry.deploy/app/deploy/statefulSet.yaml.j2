@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: docker-registry
+  namespace: default
+  labels:
+    app: docker-registry
+    app-component: registry
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: docker-registry
+      app-component: registry
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: docker-registry
+        app-component: registry
+    spec:
+      containers:
+      - image: "{{ docker_registry.container.image }}:{{ docker_registry.container.tag }}"
+        name: docker-registry
+        env:
+        - name: REGISTRY_HTTP_ADDR
+          value: 0.0.0.0:443
+        - name: REGISTRY_HTTP_TLS_CERTIFICATE
+          value: /certs/server.crt
+        - name: REGISTRY_HTTP_TLS_KEY
+          value: /certs/server.key
+        ports:
+        - containerPort: 443
+          name: docker-registry
+        resources:
+          requests:
+            cpu: "{{ docker_registry.container.requests_cpu }}"
+            memory: "{{ docker_registry.container.requests_memory }}"
+          limits:
+            cpu: "{{ docker_registry.container.limits_cpu }}"
+            memory: "{{ docker_registry.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: docker-registry-pv-claim
+          mountPath: /var/lib/registry
+        - name: docker-registry-config
+          mountPath: /etc/docker/registry/config.yml
+          subPath: config.yml
+        - name: certs-volume
+          mountPath: /certs
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: docker-registry-config
+        configMap:
+          name: docker-registry-config
+      - name: certs-volume
+        secret:
+          secretName: docker-registry-certs
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: docker-registry-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 10G
+      selector:
+        matchLabels:
+          app: docker-registry
+          app-component: registry

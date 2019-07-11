@@ -1,0 +1,61 @@
+---
+
+zonemta:
+  enabled: "{{ zonemta_enabled | default(True) }}"
+
+  container:
+    image: "{{ docker_registry.url }}/zone-mta"
+    tag: "latest"
+    from_image: "node"
+    from_tag: "10.16.0-alpine"
+    requests_cpu: "{{ zonemta_container_requests_cpu | default('100m') }}"
+    # ZoneMTA runs multiple node processes, be sure to have at least 5 times 'max-old-space-size' (set in nodejs_max_memory), and more if you use more processes
+    requests_memory: "{{ zonemta_container_requests_memory | default('160Mi') }}"
+    limits_cpu: "{{ zonemta_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ zonemta_container_limits_memory | default('160Mi') }}"
+  
+  nodejs_max_memory: "{{ zonemta_nodejs_max_memory | default('32') }}"
+  smtp_servername: "{{ zonemta_smtp_servername | default('zonemta.default') }}"
+  
+  feeder:
+    authentication_enabled: "{{ zonemta_feeder_authentication_enabled | default(true) }}"
+    authentication_username: "{{ zonemta_feeder_authentication_username | default('smtp') }}"
+    authentication_password: "{{ zonemta_feeder_authentication_password | default('clear_password') }}"
+    
+  forward:
+    # Forward to Mailhog by default
+    mta_host: "{{ zonemta_forward_mta_host | default('mailhog.default.svc.cluster.local') }}"
+    mta_port: "{{ zonemta_forward_mta_port | default(1025) }}"
+    mta_auth_enabled: "{{ zonemta_forward_mta_auth_enabled | default(false) }}"
+    mta_user: "{{ zonemta_forward_mta_user | default('') }}"
+    mta_password: "{{ zonemta_forward_mta_password | default('') }}"
+  
+  exposed_namespaces: "{{ zonemta_exposed_namespaces | default(['default']) }}"
+
+
+zonemta_mongo:
+  container:
+    image: "mongo"
+    tag: "4.1.13-bionic"
+    requests_cpu: "{{ zonemta_mongo_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ zonemta_mongo_container_requests_memory | default('384Mi') }}"
+    limits_cpu: "{{ zonemta_mongo_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ zonemta_mongo_container_limits_memory | default('384Mi') }}"
+
+  root_user: "{{ zonemta_mongo_root_user | default('root') }}"
+  root_password: "{{ zonemta_mongo_root_password | default('clear_password') }}"
+  user: "{{ zonemta_mongo_user | default('zonemta') }}"
+  database: "{{ zonemta_mongo_database | default('zonemta') }}"
+  password: "{{ zonemta_mongo_password | default('clear_password') }}"
+
+
+zonemta_redis:
+  container:
+    image: "redis"
+    tag: "5.0.5-alpine3.9"
+    requests_cpu: "{{ zonemta_redis_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ zonemta_redis_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ zonemta_redis_container_limits_cpu | default('50m') }}"
+    limits_memory: "{{ zonemta_redis_container_limits_memory | default('32Mi') }}"
+
+  password: "{{ zonemta_redis_password | default('clear_password') }}"

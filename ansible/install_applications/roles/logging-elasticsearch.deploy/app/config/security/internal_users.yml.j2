@@ -1,0 +1,16 @@
+# This is the internal user database
+# The hash value is a bcrypt hash and can be generated with plugin/tools/hash.sh
+
+{% for user in elasticsearch.internal_users | default([]) %}
+{{ user.name }}:
+  readonly: {{ user.readonly }}
+  hash: {{ user.password | password_hash('bcrypt', '%021d.' | format(999999999999999999999 | random(seed=inventory_hostname + user.name))) }}
+{% if user.roles | default([]) | length > 0 %}
+  roles:
+{% for role in user.roles | default([]) %}
+    - admin
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+

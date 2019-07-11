@@ -14,5 +14,5 @@ git pull
 docker build -t release-watcher-helper .
 
 cd ..
-cp ../../apps/monitoring/release-watcher/config/watchers.yaml ./data/
+cp ../../ansible/install_applications/roles/monitoring-release-watcher.deploy/app/config/watchers.yaml ./data/
 docker run -v $(pwd):/data release-watcher-helper

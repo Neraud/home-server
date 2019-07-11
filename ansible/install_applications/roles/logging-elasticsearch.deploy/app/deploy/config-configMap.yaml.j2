@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: elasticsearch-config
+  namespace: logging
+  labels:
+    app: elasticsearch
+    app-component: elasticsearch
+data:
+  elasticsearch.yml: |
+    {{ lookup('template', role_path + '/app/config/elasticsearch.yml.j2') | replace('\n', '\n    ') }}

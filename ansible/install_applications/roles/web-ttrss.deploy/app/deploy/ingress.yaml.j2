@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ttrss
+  namespace: default
+  labels:
+    app: ttrss
+spec:
+  tls:
+    - hosts:
+      - web.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: web.{{ web_base_domain }}
+    http:
+      paths:
+        - path: {{ ttrss.context_root }}
+          backend:
+            serviceName: ttrss
+            servicePort: 80

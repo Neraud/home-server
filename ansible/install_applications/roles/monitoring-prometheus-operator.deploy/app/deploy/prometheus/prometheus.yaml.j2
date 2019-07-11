@@ -1,0 +1,55 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    app: prometheus
+    app-component: prometheus
+    prometheus: k8s
+  name: k8s
+  namespace: monitoring
+spec:
+  alerting:
+    alertmanagers:
+    - name: alertmanager-main
+      namespace: monitoring
+      port: web
+  baseImage: "{{ prometheus.container.image }}"
+  version: "{{ prometheus.container.tag }}"
+  nodeSelector:
+    beta.kubernetes.io/os: linux
+    capability/general-purpose: 'yes'
+  replicas: 1
+  externalUrl: https://infra.{{ web_base_domain }}/prometheus/
+  resources:
+    requests:
+      cpu: "{{ prometheus.container.requests_cpu }}"
+      memory: "{{ prometheus.container.requests_memory }}"
+    limits:
+      cpu: "{{ prometheus.container.limits_cpu }}"
+      memory: "{{ prometheus.container.limits_memory }}"
+  ruleSelector:
+    matchLabels:
+      prometheus: k8s
+      role: alert-rules
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: prometheus-k8s
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector: {}
+  retention: {{ prometheus.retention }}
+  storage:
+    volumeClaimTemplate:
+      metadata:
+        name: prometheus-k8s-pv-claim
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+        resources:
+          requests:
+            storage: 4G
+        selector:
+          matchLabels:
+            app: prometheus-k8s
+            app-component: prometheus

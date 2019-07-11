@@ -1,0 +1,38 @@
+__version__ = 19
+__encoding__ = utf-8
+
+[misc]
+
+host = 0.0.0.0
+port = 8080
+url_base = {{ sabnzbd.context_root | regex_replace('/$', '') }}
+host_whitelist = sabnzbd-0,dl.{{ web_base_domain }}
+
+enable_https = 0
+https_port = ""
+https_cert = server.cert
+https_key = server.key
+https_chain = ""
+
+dirscan_dir = /mnt/download/newsgroup/nzbFiles
+download_dir = /mnt/download/newsgroup/pending
+complete_dir = /mnt/download/newsgroup/done
+script_dir = /opt/nzbToMedia
+
+username = "{{ sabnzbd.user }}"
+password = "{{ sabnzbd.password }}"
+
+#nzb_key = 12345678901234567890123456789012
+api_key = "{{ sabnzbd.api_key }}"
+
+email_server = "{{ sabnzbd.smtp.host }}:{{ sabnzbd.smtp.port }}"
+email_account = "{{ sabnzbd.smtp.user }}"
+email_pwd = "{{ sabnzbd.smtp.password }}"
+
+{% if sabnzbd.nzbToMedia_config_sickbeard | default([]) | length > 0 %}
+[categories]
+{% for category_name in sabnzbd.nzbToMedia_config_sickbeard %}
+[[{{ category_name }}]]
+script = nzbToSickBeard.py
+{% endfor %}
+{% endif %}

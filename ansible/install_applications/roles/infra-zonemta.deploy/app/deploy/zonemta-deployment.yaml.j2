@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zonemta
+  namespace: default
+  labels:
+    app: zonemta
+    app-component: zonemta
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: zonemta
+      app-component: zonemta
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: zonemta
+        app-component: zonemta
+    spec:
+      containers:
+      - image: "{{ zonemta.container.image }}:{{ zonemta.container.tag }}"
+        name: zonemta
+        env:
+        - name: NODE_OPTIONS
+          value: "--max-old-space-size={{ zonemta.nodejs_max_memory }}"
+        ports:
+        - containerPort: 1587
+          name: smtp
+        - containerPort: 12080
+          name: metrics
+        resources:
+          requests:
+            cpu: "{{ zonemta.container.requests_cpu }}"
+            memory: "{{ zonemta.container.requests_memory }}"
+          limits:
+            cpu: "{{ zonemta.container.limits_cpu }}"
+            memory: "{{ zonemta.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: zonemta-config
+          mountPath: /opt/zone-mta/config
+        - name: zonemta-certificates
+          mountPath: /opt/zone-mta/certs
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: zonemta-config
+        secret:
+          secretName: zonemta-config
+      - name: zonemta-certificates
+        secret:
+          secretName: zonemta-certificates
+      nodeSelector:
+        capability/general-purpose: 'yes'

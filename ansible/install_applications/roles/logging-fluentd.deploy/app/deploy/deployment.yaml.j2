@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fluentd
+  namespace: logging
+  labels:
+    app: fluentd
+    app-component: fluentd
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fluentd
+      app-component: fluentd
+  template:
+    metadata:
+      labels:
+        app: fluentd
+        app-component: fluentd
+    spec:
+      containers:
+      - name: fluentd
+        image: "{{ fluentd.container.image }}:{{ fluentd.container.tag }}"
+        ports:
+        - containerPort: 24224
+          name: fluentd
+        env:
+          - name:  FLUENT_ELASTICSEARCH_HOST
+            value: "elasticsearch"
+          - name:  FLUENT_ELASTICSEARCH_PORT
+            value: "9200"
+          - name: FLUENT_ELASTICSEARCH_SCHEME
+            value: "https"
+          - name: FLUENT_ELASTICSEARCH_USER
+            value: "{{ fluentd_elasticsearch_user }}"
+          - name: FLUENT_ELASTICSEARCH_PASSWORD
+            value: "{{ fluentd_elasticsearch_password }}"
+          - name: SSL_CERT_FILE
+            value: "/etc/ssl/cluster/ca.crt"
+        resources:
+          requests:
+            cpu: "{{ fluentd.container.requests_cpu }}"
+            memory: "{{ fluentd.container.requests_memory }}"
+          limits:
+            cpu: "{{ fluentd.container.limits_cpu }}"
+            memory: "{{ fluentd.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: fluentd-config
+          mountPath: /fluentd/etc/
+        - name: fluentd-includes
+          mountPath: /fluentd/etc/conf.d
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: fluentd-config
+        configMap:
+          name: fluentd-config
+      - name: fluentd-includes
+        configMap:
+          name: fluentd-includes
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      nodeSelector:
+        capability/general-purpose: 'yes'

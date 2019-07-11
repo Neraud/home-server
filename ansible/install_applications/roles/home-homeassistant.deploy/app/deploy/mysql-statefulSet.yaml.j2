@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: homeassistant-mysql
+  namespace: default
+  labels:
+    app: homeassistant
+    app-component: mysql
+spec:
+  selector:
+    matchLabels:
+      app: homeassistant
+      app-component: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: homeassistant
+        app-component: mysql
+    spec:
+      containers:
+      - image: "{{ homeassistant_mysql.container.image }}:{{ homeassistant_mysql.container.tag }}"
+        name: mysql
+        env:
+        - name: MYSQL_DATABASE
+          value: {{ homeassistant_mysql.database }}
+        - name: MYSQL_USER
+          value: {{ homeassistant_mysql.user }}
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: homeassistant-mysql-pass
+              key: password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: homeassistant-mysql-pass
+              key: root_password
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: homeassistant-mysql-pv-claim
+          mountPath: /var/lib/mysql
+        resources:
+          requests:
+            cpu: "{{ homeassistant_mysql.container.requests_cpu }}"
+            memory: "{{ homeassistant_mysql.container.requests_memory }}"
+          limits:
+            cpu: "{{ homeassistant_mysql.container.limits_cpu }}"
+            memory: "{{ homeassistant_mysql.container.limits_memory }}"
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: homeassistant-mysql-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 2G
+      selector:
+        matchLabels:
+          app: homeassistant
+          app-component: mysql

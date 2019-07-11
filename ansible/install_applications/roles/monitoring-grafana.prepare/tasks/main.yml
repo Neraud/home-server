@@ -1,0 +1,9 @@
+---
+
+- name: Read all volumes
+  set_fact:
+    all_volumes: "{{ local_lvm_storage | default({}) | combine(glusterfs_volume_mounts | default({})) }}"
+
+- include_tasks: prepare.yml
+  when: "'grafana-data' in all_volumes"
+  tags: kubernetes-app-monitoring-grafana

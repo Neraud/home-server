@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lemonldap
+  namespace: default
+  labels:
+    app: lemonldap
+    app-component: lemonldap
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lemonldap
+      app-component: lemonldap
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: lemonldap
+        app-component: lemonldap
+    spec:
+      initContainers:
+      - name: create-folders
+        image: busybox
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p {{ lemonldap.persistent_volume_path }}/sessions/lock
+            mkdir -p {{ lemonldap.persistent_volume_path }}/psessions/lock
+            mkdir -p {{ lemonldap.persistent_volume_path }}/notifications
+            chown -R www-data:www-data {{ lemonldap.persistent_volume_path }}
+        volumeMounts:
+        - name: lemonldap-data-pv-claim
+          mountPath: {{ lemonldap.persistent_volume_path }}
+      containers:
+      - name: lemonldap
+        image: "{{ lemonldap.container.image }}:{{ lemonldap.container.tag }}"
+        ports:
+          - containerPort: 80
+            name: http
+          - containerPort: {{ lemonldap.fastcgi_port }}
+            name: fastcgi
+        env:
+          - name: SSODOMAIN
+            value: "{{ web_base_domain }}"
+          - name: FASTCGI_LISTEN_PORT
+            value: "{{ lemonldap.fastcgi_port }}"
+          - name: MANAGER_HOSTNAME
+            value: "infra.{{ web_base_domain }}"
+        resources:
+          requests:
+            cpu: "{{ lemonldap.container.requests_cpu }}"
+            memory: "{{ lemonldap.container.requests_memory }}"
+          limits:
+            cpu: "{{ lemonldap.container.limits_cpu }}"
+            memory: "{{ lemonldap.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: lemonldap-data-pv-claim
+          mountPath: {{ lemonldap.persistent_volume_path }}
+        - name: lmconf-volume
+          mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
+          subPath: lmConf.json
+        - name: cluster-ca-volume
+          mountPath: /var/lib/lemonldap-ng/server-certs/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: lmconf-volume
+        configMap:
+          name: lemonldap-lmconf
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: lemonldap-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          app: lemonldap
+          app-component: lemonldap
+          storage: data
+

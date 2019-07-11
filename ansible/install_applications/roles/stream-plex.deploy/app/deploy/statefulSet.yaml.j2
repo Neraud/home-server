@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: plex
+  namespace: default
+  labels:
+    app: plex
+    app-component: plex
+spec:
+  selector:
+    matchLabels:
+      app: plex
+      app-component: plex
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: plex
+        app-component: plex
+    spec:
+      containers:
+      - image: "{{ plex.container.image }}:{{ plex.container.tag }}"
+        name: plex
+        ports:
+        - containerPort: 32400
+          name: plex
+{% if plex_claim is defined %}
+        env:
+        - name: PLEX_CLAIM
+          value: "{{ plex_claim }}"
+{% endif %}
+        resources:
+          requests:
+            cpu: "{{ plex.container.requests_cpu }}"
+            memory: "{{ plex.container.requests_memory }}"
+          limits:
+            cpu: "{{ plex.container.limits_cpu }}"
+            memory: "{{ plex.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: plex-frontend-pv-claim
+          mountPath: /config
+        - name: plex-multimedia
+          mountPath: /mnt/multimetia
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: plex-multimedia
+        persistentVolumeClaim:
+          claimName: nfs-multimetia
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: plex-frontend-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 1G
+      selector:
+        matchLabels:
+          app: plex
+          app-component: plex

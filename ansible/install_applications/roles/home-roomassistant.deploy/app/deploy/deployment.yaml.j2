@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: roomassistant
+  namespace: default
+  labels:
+    app: roomassistant
+    app-component: roomassistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: roomassistant
+      app-component: roomassistant
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: roomassistant
+        app-component: roomassistant
+    spec:
+      containers:
+      - image: "{{ roomassistant.container.image }}:{{ roomassistant.container.tag }}"
+        name: roomassistant
+{% if roomassistant.environment_variables | default({}) | length > 0 %}
+        env:
+{% for env_var in roomassistant.environment_variables | dict2items %}
+        - name: "{{ env_var.key }}"
+          value: "{{ env_var.value }}"
+{% endfor %}
+{% endif %}
+        resources:
+          requests:
+            cpu: "{{ roomassistant.container.requests_cpu }}"
+            memory: "{{ roomassistant.container.requests_memory }}"
+          limits:
+            cpu: "{{ roomassistant.container.limits_cpu }}"
+            memory: "{{ roomassistant.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/home: 'yes'

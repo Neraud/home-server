@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kibana
+  namespace: logging
+  labels:
+    app: kibana
+    app-component: kibana
+data:
+  kibana.yml: |
+    {{ lookup('template', role_path + '/app/config/kibana.yml.j2') | replace('\n', '\n    ') }}

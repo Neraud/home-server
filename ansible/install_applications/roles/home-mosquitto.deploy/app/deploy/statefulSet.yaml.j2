@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mosquitto
+  namespace: default
+  labels:
+    app: mosquitto
+    app-component: mosquitto
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: mosquitto
+      app-component: mosquitto
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+        app-component: mosquitto
+    spec:
+      containers:
+      - image: "{{ mosquitto.container.image }}:{{ mosquitto.container.tag }}"
+        name: mosquitto
+        ports:
+        - containerPort: 1883
+          name: mqtt
+        - containerPort: 8883
+          name: mqtts
+        resources:
+          requests:
+            cpu: "{{ mosquitto.container.requests_cpu }}"
+            memory: "{{ mosquitto.container.requests_memory }}"
+          limits:
+            cpu: "{{ mosquitto.container.limits_cpu }}"
+            memory: "{{ mosquitto.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: mosquitto-config
+          mountPath: /mosquitto/config
+        - name: certs-volume
+          mountPath: /etc/ssl/mqtt
+        - name: mosquitto-data-pv-claim
+          mountPath: /mosquitto/data
+          subPath: data
+      securityContext:
+        fsGroup: 1883 # mosquitto group inside the container
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: mosquitto-config
+        configMap:
+          name: mosquitto-config
+      - name: certs-volume
+        secret:
+          secretName: mosquitto-certs
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: mosquitto-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M
+      selector:
+        matchLabels:
+          app: mosquitto
+          app-component: mosquitto
+          storage: data

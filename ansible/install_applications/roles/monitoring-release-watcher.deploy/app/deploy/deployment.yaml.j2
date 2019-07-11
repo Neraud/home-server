@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-watcher
+  namespace: monitoring
+  labels:
+    app: release-watcher
+    app-component: release-watcher
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: release-watcher
+      app-component: release-watcher
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: release-watcher
+        app-component: release-watcher
+    spec:
+      containers:
+      - image: "{{ release_watcher.container.image }}:{{ release_watcher.container.tag }}"
+        name: release-watcher
+        ports:
+        - containerPort: 8080
+          name: metrics
+        resources:
+          requests:
+            cpu: "{{ release_watcher.container.requests_cpu }}"
+            memory: "{{ release_watcher.container.requests_memory }}"
+          limits:
+            cpu: "{{ release_watcher.container.limits_cpu }}"
+            memory: "{{ release_watcher.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: release-watcher-config
+          mountPath: /data/config.yaml
+          subPath: config.yaml
+        - name: release-watcher-config
+          mountPath: /data/watchers.yaml
+          subPath: watchers.yaml
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: release-watcher-config
+        configMap:
+          name: release-watcher-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

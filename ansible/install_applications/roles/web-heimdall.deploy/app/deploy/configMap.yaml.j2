@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: heimdall-config
+  namespace: default
+  labels:
+    app: heimdall
+    app-component: heimdall
+data:
+  .env: |
+    {{ lookup('template', role_path + '/app/config/env.j2')  | replace('\n', '\n    ') }}
+
+  applicationsLoader.php: |
+    {{ lookup('template', role_path + '/app/config/applicationsLoader.php.j2')  | replace('\n', '\n    ') }}

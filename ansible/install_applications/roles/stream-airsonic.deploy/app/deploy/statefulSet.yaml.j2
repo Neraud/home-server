@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: airsonic
+  namespace: default
+  labels:
+    app: airsonic
+    app-component: airsonic
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: airsonic
+      app-component: airsonic
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: airsonic
+        app-component: airsonic
+    spec:
+      initContainers:
+      - name: inject-properties
+        image: busybox
+        command: [ "sh", "/config/inject_properties.sh" ]
+        volumeMounts:
+        - name: airsonic-data-pv-claim
+          mountPath: /airsonic/data
+        - name: airsonic-config
+          mountPath: /config
+      - name: inject-certificates
+        image: "{{ airsonic.container.image }}:{{ airsonic.container.tag }}"
+        command:
+          - "sh"
+          - "-c"
+          - |
+            cp /etc/ssl/certs/java/cacerts /etc/ssl/certs/java_target/cacerts
+            /usr/bin/keytool \
+              -importcert -noprompt \
+              -keystore /etc/ssl/certs/java_target/cacerts -storepass changeit \
+              -alias cluster -file /etc/ssl/cluster/ca.crt
+        volumeMounts:
+        - name: keystore-volume
+          mountPath: /etc/ssl/certs/java_target
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      containers:
+      - image: "{{ airsonic.container.image }}:{{ airsonic.container.tag }}"
+        name: airsonic
+        ports:
+        - containerPort: 4040
+          name: airsonic
+        env:
+        - name: AIRSONIC_PORT
+          value: "4040"
+        - name: CONTEXT_PATH
+          value: "{{ airsonic.context_path | default ('/') }}"
+{% if airsonic.extra_java_opts | default([]) | length > 0 %}
+        - name: JAVA_OPTS
+          value: "{{ airsonic.extra_java_opts | join(' ') }}"
+{% endif %}
+        resources:
+          requests:
+            cpu: "{{ airsonic.container.requests_cpu }}"
+            memory: "{{ airsonic.container.requests_memory }}"
+          limits:
+            cpu: "{{ airsonic.container.limits_cpu }}"
+            memory: "{{ airsonic.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: keystore-volume
+          mountPath: /etc/ssl/certs/java
+        - name: airsonic-data-pv-claim
+          mountPath: /airsonic/data
+        - name: airsonic-playlists-pv-claim
+          mountPath: /airsonic/playlists
+        - name: airsonic-multimedia
+          mountPath: /mnt/multimetia
+        # airsonic-config is not used by the container directly
+        # But mounting it enables the use of the reloader
+        - name: airsonic-config
+          mountPath: /config
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: airsonic-config
+        configMap:
+          name: airsonic-config
+          defaultMode: 0555
+      - name: airsonic-multimedia
+        persistentVolumeClaim:
+          claimName: nfs-multimetia
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: keystore-volume
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: airsonic-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          app: airsonic
+          app-component: airsonic
+          storage: data
+  - metadata:
+      name: airsonic-playlists-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          app: airsonic
+          app-component: airsonic
+          storage: playlists

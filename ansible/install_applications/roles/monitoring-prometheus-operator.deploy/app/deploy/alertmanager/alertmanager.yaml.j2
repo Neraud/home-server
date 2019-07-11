@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  labels:
+    app: alertmanager
+    app-component: alertmanager
+    alertmanager: main
+  name: main
+  namespace: monitoring
+spec:
+  baseImage: "{{ alertmanager.container.image }}"
+  version: "{{ alertmanager.container.tag }}"
+  nodeSelector:
+    beta.kubernetes.io/os: linux
+    capability/general-purpose: 'yes'
+  replicas: 1
+  externalUrl: https://infra.{{ web_base_domain }}/alertmanager/
+  secrets:  # The Secrets are mounted into /etc/alertmanager/secrets/<secret-name>
+  - cluster-ca
+  resources:
+    requests:
+      cpu: "{{ alertmanager_requests_cpu | default("100m") }}"
+      memory: "{{ alertmanager_requests_memory | default("256Mi") }}"
+    limits:
+      cpu: "{{ alertmanager_limits_cpu | default("250m") }}"
+      memory: "{{ alertmanager_limits_memory | default("256Mi") }}"
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: alertmanager-main

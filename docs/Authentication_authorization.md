@@ -163,7 +163,7 @@ The internal authentication system (with the default `admin` / `password` accoun
 
 Using the security plugin of the OpenDistro package of Elasticsearch and Kibana enables to use LDAP authentication and authorization.
 
-Technical accounts are stored in the internal database (see `logging_elasticsearch_internal_users` in `ansible/inventories/vagrant/group_vars/all/apps/logging-elasticsearch`)
+Technical accounts are stored in the internal database (see `elasticsearch_internal_users` in `ansible/inventories/vagrant/group_vars/all/apps/logging-elasticsearch`)
 
 User accounts are stored in LDAP, using the `app_groups` `elasticsearch`.
 Roles are using dedicated LDAP groups, under a dedicated `elasticsearch_roles` ou, and are mapped to elasticsearch roles.

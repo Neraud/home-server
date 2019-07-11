@@ -1,0 +1,6 @@
+---
+
+- name: Provision infra-mailhog
+  hosts: controller
+  roles:
+  - role: infra-mailhog.deploy

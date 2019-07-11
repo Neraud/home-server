@@ -1,0 +1,18 @@
+---
+
+pyload:
+  enabled: "{{ pyload_enabled | default(True) }}"
+
+  container:
+    image: "{{ docker_registry.url }}/pyload"
+    tag: "latest"
+    from_image: "lsiobase/python"
+    from_tag: "amd64-3.9"
+    requests_cpu: "{{ pyload_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ pyload_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ pyload_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ pyload_container_limits_memory | default('256Mi') }}"
+
+  context_root: "{{ pyload_context_root | default('/') }}"
+  default_user: "{{ pyload_default_user | default('pyload') }}"
+  default_password: "{{ pyload_default_password | default('clear_password') }}"

@@ -1,0 +1,107 @@
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  labels:
+    app: grafana
+    app-component: grafana
+  name: grafana
+  namespace: monitoring
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+      app-component: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+        app-component: grafana
+    spec:
+      containers:
+      - image: "{{ grafana.container.image }}:{{ grafana.container.tag }}"
+        name: grafana
+        env:
+        - name: GF_SERVER_ROOT_URL
+          value: https://infra.{{ web_base_domain }}/grafana/
+        ports:
+        - containerPort: 3000
+          name: http
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: http
+        resources:
+          requests:
+            cpu: "{{ grafana.container.requests_cpu }}"
+            memory: "{{ grafana.container.requests_memory }}"
+          limits:
+            cpu: "{{ grafana.container.limits_cpu }}"
+            memory: "{{ grafana.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - mountPath: /var/lib/grafana
+          name: grafana-pv-claim
+          readOnly: false
+          subPath: data
+        - mountPath: /etc/grafana/grafana.ini
+          name: grafana-etc
+          subPath: grafana.ini
+        - mountPath: /etc/grafana/ldap.toml
+          name: grafana-etc
+          subPath: ldap.toml
+        - mountPath: /etc/grafana/provisioning/datasources
+          name: grafana-datasources
+          readOnly: false
+        - mountPath: /etc/grafana/provisioning/dashboards
+          name: grafana-dashboard-providers
+          readOnly: false
+        - mountPath: /grafana-dashboard-definitions/0/grafana-dashboards-config
+          name: grafana-dashboards-config
+          readOnly: false
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+        capability/general-purpose: 'yes'
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 472
+        fsGroup: 472
+      serviceAccountName: grafana
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: grafana-etc
+        configMap:
+          name: grafana-etc
+      - name: grafana-datasources
+        secret:
+          secretName: grafana-datasources
+      - name: grafana-dashboard-providers
+        configMap:
+          name: grafana-dashboard-providers
+      - name: grafana-dashboards-config
+        configMap:
+          name: grafana-dashboards-config
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+  volumeClaimTemplates:
+  - metadata:
+      name: grafana-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M
+      selector:
+        matchLabels:
+          app: grafana
+          app-component: grafana

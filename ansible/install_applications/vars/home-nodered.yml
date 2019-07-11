@@ -1,0 +1,23 @@
+---
+
+nodered:
+  enabled: "{{ nodered_enabled | default(True) }}"
+  context_root: "{{ nodered_context_root | default('/') }}"
+
+  container:
+    image: "{{ docker_registry.url }}/nodered"
+    tag: "latest"
+    from_image: "nodered/node-red-docker"
+    from_tag: "0.20.6-slim-v10"
+    requests_cpu: "{{ nodered_container_requests_cpu | default('250m') }}"
+    requests_memory: "{{ nodered_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ nodered_container_limits_cpu | default('500m') }}"
+    limits_memory: "{{ nodered_container_limits_memory | default('256Mi') }}"
+
+  ldap:
+    servername: "{{ nodered_ldap_servername | default(openldap.ldap.servername) }}"
+    users_dn: "{{ nodered_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    manager_dn: "{{ nodered_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ nodered_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group_base: "{{ nodered_ldap_group_base }}"
+    group: "{{ nodered_ldap_group }}"

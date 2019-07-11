@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nodered
+  namespace: default
+  labels:
+    app: nodered
+spec:
+  tls:
+    - hosts:
+      - home.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: home.{{ web_base_domain }}
+    http:
+      paths:
+        - path: {{ nodered.context_root }}
+          backend:
+            serviceName: nodered
+            servicePort: 80

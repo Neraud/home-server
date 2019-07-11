@@ -1,0 +1,55 @@
+---
+
+homeassistant:
+  enabled: "{{ homeassistant_enabled | default(True) }}"
+  
+  container:
+    image: "{{ docker_registry.url }}/homeassistant"
+    tag: "latest"
+    from_image: "homeassistant/home-assistant"
+    from_tag: "0.95.0"
+    requests_cpu: "{{ homeassistant_homeassistant_container_requests_cpu | default('500m') }}"
+    requests_memory: "{{ homeassistant_homeassistant_container_requests_memory | default('512Mi') }}"
+    limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('1000m') }}"
+    limits_memory: "{{ homeassistant_homeassistant_container_limits_memory | default('512Mi') }}"
+
+  mqtt:
+    user: "{{ homeassistant_mqtt_user | default('homeassistant') }}"
+    password: "{{ homeassistant_mqtt_password | default('clear_password') }}"
+
+  ldap:
+    servername: "{{ homeassistant_ldap_servername | default(openldap.ldap.servername) }}"
+    users_dn: "{{ homeassistant_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    group: "{{ homeassistant_ldap_group }}"
+
+  smtp:
+    host: "{{ homeassistant_smtp_host | default(zonemta.smtp_servername) }}"
+    port: "{{ homeassistant_smtp_port | default(587) }}"
+    user: "{{ homeassistant_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ homeassistant_smtp_password | default(zonemta.feeder.authentication_password) }}"
+    encryption: "{{ homeassistant_smtp_encryption | default('starttls') }}"
+    from: "{{ homeassistant_smtp_from | default('noreply@' + web_base_domain) }}"
+    displayFrom: "{{ homeassistant_smtp_displayFrom | default('HomeAssistant') }}"
+
+  gotify:
+    enabled: "{{ gotify.homeassistant.enabled | default(False) }}"
+    username: "{{ gotify.homeassistant.username | default('user') }}"
+    password: "{{ gotify.homeassistant.password | default('clear_password') }}"
+    application_name: "{{ gotify.homeassistant.application_name | default('HomeAssistant') }}"
+
+  serial_remote_devices: "{{ homeassistant_serial_remote_devices | default({}) }}"
+
+
+homeassistant_mysql:
+  container:
+    image: "mysql"
+    tag: "5.6.43"
+    requests_cpu: "{{ homeassistant_mysql_container_requests_cpu | default('250m') }}"
+    requests_memory: "{{ homeassistant_mysql_container_requests_memory | default('512Mi') }}"
+    limits_cpu: "{{ homeassistant_mysql_container_limits_cpu | default('500m') }}"
+    limits_memory: "{{ homeassistant_mysql_container_limits_memory | default('512Mi') }}"
+
+  user: "{{ homeassistant_mysql_user | default('homeassistant') }}"
+  database: "{{ homeassistant_mysql_database | default('homeassistant') }}"
+  password: "{{ homeassistant_mysql_password | default('clear_password') }}"
+  root_password: "{{ homeassistant_mysql_root_password | default('clear_password') }}"

@@ -1,0 +1,11 @@
+# Database configuration
+# this file is loaded when NODE_ENV=production
+
+# MongoDB connection string
+mongo="mongodb://{{ zonemta_mongo.user }}:{{ zonemta_mongo.password }}@zonemta-mongo:27017/{{ zonemta_mongo.database }}"
+
+# Redis connection string
+redis="redis://:{{ zonemta_redis.password }}@zonemta-redis:6379/0"
+
+# Database name for ZoneMTA data in MongoDB. In most cases it should be the same as in the connection string
+sender="{{ zonemta_mongo.database }}"

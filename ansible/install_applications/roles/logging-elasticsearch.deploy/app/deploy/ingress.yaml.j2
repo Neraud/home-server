@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: elasticsearch
+  namespace: logging
+  labels:
+    app: elasticsearch
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  tls:
+    - hosts:
+      - infra.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: infra.{{ web_base_domain }}
+    http:
+      paths:
+        - path: {{ elasticsearch.context_path }}/?(.*)
+          backend:
+            serviceName: elasticsearch
+            servicePort: 9200

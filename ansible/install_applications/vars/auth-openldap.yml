@@ -1,0 +1,36 @@
+---
+
+# To avoid loops inside openldap.ldap
+_openldap_var_loader:
+  basedn: "{{ openldap_ldap_basedn | default('dc=example,dc=org') }}"
+  readonly_user_username: "{{ openldap_ldap_readonly_user_username | default('readonly') }}"
+
+openldap:
+  enabled: "{{ openldap_enabled | default(True) }}"
+
+  container:
+    image: "osixia/openldap"
+    tag: "1.2.4"
+    requests_cpu: "{{ openldap_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ openldap_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ openldap_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ openldap_container_limits_memory | default('128Mi') }}"
+  
+  ldap:
+    # OpenLDAP sererver name. We use the Kubernetes [service].[namespace] format
+    servername: "{{ openldap_ldap_servername | default('openldap.default') }}"
+    organisation: "{{ openldap_ldap_organisation | default('Example Inc.') }}"
+    domain: "{{ openldap_ldap_domain | default('example.org') }}"
+    # if empty automatically set from LDAP_DOMAIN
+    basedn: "{{ _openldap_var_loader.basedn }}"
+    admin_dn: "{{ openldap_ldap_admin_dn | default('cn=admin,' + _openldap_var_loader.basedn) }}"
+    admin_password: "{{ openldap_ldap_admin_password | default('admin') }}"
+    config_password: "{{ openldap_ldap_config_password | default('config') }}"
+    readonly_user_enabled: "{{ openldap_ldap_readonly_user_enabled | default('True') }}"
+    readonly_user_username: "{{ _openldap_var_loader.readonly_user_username }}"
+    readonly_user_dn: "{{ openldap_ldap_readonly_user_dn | default('cn=' + _openldap_var_loader.readonly_user_username + ',' + _openldap_var_loader.basedn) }}"
+    readonly_user_password: "{{ openldap_ldap_readonly_user_password | default('readonly') }}"
+    structure_users_ou_dn: "{{ openldap_ldap_structure_users_ou_dn | default('ou=users,' + _openldap_var_loader.basedn) }}"
+    structure_groups_ou_dns: "{{ openldap_ldap_structure_groups_ou_dns | default({}) }}"
+    users: "{{ openldap_ldap_users | default([]) }}"
+    groups: "{{ openldap_ldap_groups | default([]) }}"

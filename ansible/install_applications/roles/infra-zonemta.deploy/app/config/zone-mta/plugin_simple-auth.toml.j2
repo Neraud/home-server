@@ -1,0 +1,8 @@
+["simple-auth"]
+{% if zonemta.feeder.authentication_enabled | bool %}
+enabled="receiver"
+interfaces=["feeder"]
+
+username="{{ zonemta.feeder.authentication_username }}"
+password="{{ zonemta.feeder.authentication_password }}"
+{% endif %}

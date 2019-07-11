@@ -1,0 +1,48 @@
+---
+
+lemonldap:
+  enabled: "{{ lemonldap_enabled | default(True) }}"
+
+  container:
+    image: "{{ docker_registry.url }}/lemonldap"
+    tag: "latest"
+    from_image: "coudot/lemonldap-ng"
+    from_tag: "2.0.3"
+    requests_cpu: "{{ lemonldap_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ lemonldap_container_requests_memory | default('384Mi') }}"
+    limits_cpu: "{{ lemonldap_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ lemonldap_container_limits_memory | default('384Mi') }}"
+
+  fastcgi_port: "{{ lemonldap_fastcgi_port | default(9000) }}"
+  persistent_volume_path: "{{ lemonldap_persistent_volume_path | default('/var/lib/lemonldap-ng-pv') }}"
+
+  ldap: 
+    servername: "{{ lemonldap_ldap_servername | default(openldap.ldap.servername) }}"
+    base: "{{ lemonldap_ldap_base | default(openldap.ldap.basedn) }}"
+    manager_dn: "{{ lemonldap_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ lemonldap_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group_base: "{{ lemonldap_ldap_group_base | default(openldap.ldap.structure_groups_ou_dns['groups']) }}"
+
+  smtp:
+    host: "{{ lemonldap_smtp_host | default(zonemta.smtp_servername) }}"
+    port: "{{ lemonldap_smtp_port | default(587) }}"
+    user: "{{ lemonldap_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ lemonldap_smtp_password | default(zonemta.feeder.authentication_password) }}"
+    tls: "{{ lemonldap_smtp_tls | default('starttls') }}"
+    from: "{{ lemonldap_smtp_from | default('noreply@' + web_base_domain) }}"
+    replyTo: "{{ lemonldap_smtp_replyTo | default('noreply@' + web_base_domain) }}"
+
+  location_rules: "{{ lemonldap_location_rules | default(lemonldap_location_rules_default) }}"
+
+lemonldap_location_rules_default:
+  - domain: "infra.{{ web_base_domain }}"
+    default_rule: accept
+#    requiredAuthnLevel: 1
+#    rules:
+#      - name: New Rule
+#        uri: ^new
+#        rule: accept
+    exportedHeaders:
+      name: value
+  - domain: "web.{{ web_base_domain }}"
+    default_rule: accept

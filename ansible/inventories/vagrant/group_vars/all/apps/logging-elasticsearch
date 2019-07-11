@@ -1,29 +1,29 @@
 ---
 
 # FIXME : using a longer name (like elasticsearch.logging) breaks the workaround in place to update security
-# The server cert is improperly used in ansible/roles/kubernetes-apps/handlers/apps/logging-elasticsearch.yml
-logging_elasticsearch_servername: elasticsearch
-logging_elasticsearch_replicas: 1
-logging_elasticsearch_internal_users:
-  - name: "{{ logging_elasticsearch_exporter_user }}"
-    password: "{{ logging_elasticsearch_exporter_password }}"
+# The server cert is improperly used in ansible/install_applications/roles/logging-elasticsearch.deploy/handlers/main.yml
+elasticsearch_servername: elasticsearch
+
+elasticsearch_internal_users:
+  - name: "{{ elasticsearch_exporter_user }}"
+    password: "{{ elasticsearch_exporter_password }}"
     readonly: True
     roles:
       - readall
-  - name: "{{ logging_fluentd_elasticsearch_user }}"
-    password: "{{ logging_fluentd_elasticsearch_password }}"
+  - name: "{{ fluentd_elasticsearch_user }}"
+    password: "{{ fluentd_elasticsearch_password }}"
     readonly: True
     roles:
       - logstash
-  - name: "{{ logging_kibana_elasticsearch_user }}"
-    password: "{{ logging_kibana_elasticsearch_password }}"
+  - name: "{{ kibana_elasticsearch_user }}"
+    password: "{{ kibana_elasticsearch_password }}"
     readonly: True
     roles:
       - kibana_server
 
-logging_elasticsearch_context_path: /elasticsearch
-logging_elasticsearch_group: "cn=elasticsearch,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
-logging_elasticsearch_roles_dn: "{{ openldap_ldap_structure_groups_ou_dns['elasticsearch_roles'] }}"
+elasticsearch_context_path: /elasticsearch
+elasticsearch_ldap_group: "cn=elasticsearch,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
+elasticsearch_ldap_roles_dn: "{{ openldap.ldap.structure_groups_ou_dns['elasticsearch_roles'] }}"
 
-logging_elasticsearch_exporter_user: exporter
-logging_elasticsearch_exporter_password: password
+elasticsearch_exporter_user: exporter
+elasticsearch_exporter_password: password

@@ -1,0 +1,15 @@
+---
+
+plex:
+  enabled: "{{ plex_enabled | default(True) }}"
+
+  container:
+    image: "plexinc/pms-docker"
+    tag: "1.16.0.1226-7eb2c8f6f"
+    requests_cpu: "{{ plex_container_requests_cpu | default('500m') }}"
+    requests_memory: "{{ plex_container_requests_memory | default('1024Mi') }}"
+    limits_cpu: "{{ plex_container_limits_cpu | default('2000m') }}"
+    limits_memory: "{{ plex_container_limits_memory | default('1024Mi') }}"
+
+  # Look at the README.md to find out how to get your token
+  token: "{{ plex_token | default('') }}"

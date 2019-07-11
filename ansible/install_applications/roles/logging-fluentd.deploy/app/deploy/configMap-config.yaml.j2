@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+  namespace: logging
+  labels:
+    app: fluentd
+    app-component: fluentd
+data:
+  fluent.conf: |
+    {{ lookup('file', role_path + '/app/config/fluent.conf')  | replace('\n', '\n    ') }}

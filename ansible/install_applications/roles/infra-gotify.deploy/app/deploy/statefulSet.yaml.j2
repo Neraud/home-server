@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gotify
+  namespace: default
+  labels:
+    app: gotify
+    app-component: gotify
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: gotify
+      app-component: gotify
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gotify
+        app-component: gotify
+    spec:
+      containers:
+      - image: "{{ gotify.container.image }}:{{ gotify.container.tag }}"
+        name: gotify
+        ports:
+        - containerPort: 80
+          name: gotify
+        resources:
+          requests:
+            cpu: "{{ gotify.container.requests_cpu }}"
+            memory: "{{ gotify.container.requests_memory }}"
+          limits:
+            cpu: "{{ gotify.container.limits_cpu }}"
+            memory: "{{ gotify.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: gotify-pv-claim
+          mountPath: /app/data
+        - name: gotify-config
+          mountPath: /etc/gotify/config.yml
+          subPath: config.yml
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: gotify-config
+        configMap:
+          name: gotify-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: gotify-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          app: gotify
+          app-component: gotify

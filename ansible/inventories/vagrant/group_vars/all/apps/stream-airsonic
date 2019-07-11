@@ -1,3 +1,3 @@
 ---
 
-airsonic_ldap_group: "cn=airsonic,{{ openldap_ldap_structure_groups_ou_dns['app_groups'] }}"
+airsonic_ldap_group: "cn=airsonic,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"

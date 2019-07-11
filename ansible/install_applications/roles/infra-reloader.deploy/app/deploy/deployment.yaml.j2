@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: reloader
+  namespace: default
+  labels:
+    app: reloader
+    app-component: reloader
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: reloader
+      app-component: reloader
+  template:
+    metadata:
+      labels:
+        app: reloader
+        app-component: reloader
+    spec:
+      containers:
+      - name: reloader
+        image: "{{ reloader.container.image }}:{{ reloader.container.tag }}"
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "{{ reloader.container.requests_cpu }}"
+            memory: "{{ reloader.container.requests_memory }}"
+          limits:
+            cpu: "{{ reloader.container.limits_cpu }}"
+            memory: "{{ reloader.container.limits_memory }}"
+      serviceAccountName: reloader
+

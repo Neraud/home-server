@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: deluge
+  namespace: default
+  labels:
+    app: deluge
+    app-component: deluge
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: deluge
+      app-component: deluge
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: deluge
+        app-component: deluge
+    spec:
+      initContainers:
+      - name: inject-config
+        image: "{{ deluge.container.image }}:{{ deluge.container.tag }}"
+        command: [ "python3", "/tmp/config/mergeConf.py" ]
+        volumeMounts:
+        - name: deluge-config-pv-claim
+          mountPath: /config
+        - name: deluge-config
+          mountPath: /tmp/config
+      containers:
+      - image: "{{ deluge.container.image }}:{{ deluge.container.tag }}"
+        name: deluge
+        ports:
+        - containerPort: 8112
+          name: webui
+        resources:
+          requests:
+            cpu: "{{ deluge.container.requests_cpu }}"
+            memory: "{{ deluge.container.requests_memory }}"
+          limits:
+            cpu: "{{ deluge.container.limits_cpu }}"
+            memory: "{{ deluge.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: deluge-config-pv-claim
+          mountPath: /config
+        - name: deluge-download
+          mountPath: /mnt/download
+        # deluge-config is not used by the container directly
+        # But mounting it enables the use of the reloader
+        - name: deluge-config
+          mountPath: /tmp/config
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: deluge-config
+        configMap:
+          name: deluge-config
+      - name: deluge-download
+        persistentVolumeClaim:
+          claimName: nfs-download
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: deluge-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          app: deluge
+          app-component: deluge

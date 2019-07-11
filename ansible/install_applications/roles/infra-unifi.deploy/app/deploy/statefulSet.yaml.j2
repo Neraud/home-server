@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: unifi
+  namespace: default
+  labels:
+    app: unifi
+    app-component: unifi
+spec:
+  selector:
+    matchLabels:
+      app: unifi
+      app-component: unifi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: unifi
+        app-component: unifi
+    spec:
+      containers:
+      - image: "{{ unifi.container.image }}:{{ unifi.container.tag }}"
+        name: unifi
+        ports:
+        #- containerPort: 8081
+
+        # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+
+        - containerPort: 3478 # Port used for STUN.
+          protocol: UDP
+        - containerPort: 8080 # Port used for device and controller communication.
+          protocol: TCP
+        - containerPort: 8443 # Port used for controller GUI/API as seen in a web browser
+          protocol: TCP
+        - containerPort: 8880 # Port used for HTTP portal redirection.
+          protocol: TCP
+        - containerPort: 8843 # Port used for HTTPS portal redirection.
+          protocol: TCP
+        - containerPort: 6789 # Port used for UniFi mobile speed test.
+          protocol: TCP
+        #- containerPort: 27117 # 	Port used for local-bound database communication.
+        #  protocol: TCP
+        - containerPort: 10001 # 	Port used for AP discovery
+          protocol: UDP
+        #- containerPort: 1900 # Port used for "Make controller discoverable on L2 network" in controller settings.
+        #  protocol: UDP
+        resources:
+          requests:
+            cpu: "{{ unifi.container.requests_cpu }}"
+            memory: "{{ unifi.container.requests_memory }}"
+          limits:
+            cpu: "{{ unifi.container.limits_cpu }}"
+            memory: "{{ unifi.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: unifi-pv-claim
+          mountPath: /config
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: unifi-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 1G
+      selector:
+        matchLabels:
+          app: unifi
+          app-component: unifi

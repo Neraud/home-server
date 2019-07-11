@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: logging
+  labels:
+    app: fluent-bit
+    app-component: fluent-bit
+data:
+  # Configuration files: server, input, filters and output
+  # ======================================================
+  fluent-bit.conf: |
+    {{ lookup('template', role_path + '/app/config/fluent-bit.conf.j2')  | replace('\n', '\n    ') }}
+
+{% for fluentbit_parser_file in fluentbit_parser_files %}
+  {{ fluentbit_parser_file | basename }}: |
+    {{ lookup('file', fluentbit_parser_file)  | replace('\n', '\n    ') }}
+{% endfor %}
+
+{% for fluentbit_included_config_file in fluentbit_included_config_files %}
+  {{ fluentbit_included_config_file | basename }}: |
+    {{ lookup('file', fluentbit_included_config_file)  | replace('\n', '\n    ') }}
+{% endfor %}
+
+{% for fluentbit_included_script_file in fluentbit_included_script_files %}
+  {{ fluentbit_included_script_file | basename }}: |
+    {{ lookup('file', fluentbit_included_script_file)  | replace('\n', '\n    ') }}
+{% endfor %}

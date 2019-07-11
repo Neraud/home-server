@@ -1,0 +1,38 @@
+global:
+  resolve_timeout: 5m
+
+{% if alertmanager.smtp.enabled %}
+  # The smarthost and SMTP sender used for mail notifications.
+  smtp_smarthost: '{{ alertmanager.smtp.smarthost }}'
+  smtp_require_tls: {{ alertmanager.smtp.require_tls }}
+  smtp_from: '{{ alertmanager.smtp.from }}'
+  smtp_auth_username: '{{ alertmanager.smtp.auth_username }}'
+  smtp_auth_password: '{{ alertmanager.smtp.auth_password }}'
+{% endif %}
+
+templates:
+- '*.tmpl'
+
+route:
+  group_by:
+  - job
+  group_interval: 5m
+  group_wait: 30s
+  receiver: "{{ alertmanager.default_receiver | default("null") }}"
+  repeat_interval: 12h
+  routes:
+  - match:
+      alertname: Watchdog
+    receiver: "null"
+
+receivers:
+- name: "null"
+{% for receiver in alertmanager.receivers | default([]) %}
+- name: '{{ receiver.name }}'
+  email_configs:
+{% for email_to in receiver.emails_to %}
+  - to: '{{ email_to }}'
+    tls_config:
+      ca_file: /etc/alertmanager/secrets/cluster-ca/ca.crt
+{% endfor %}
+{% endfor %}

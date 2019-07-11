@@ -1,0 +1,22 @@
+
+# Cf https://airsonic.github.io/docs/configure/airsonic-properties/
+
+# The airsonic.properties file contains both technical settings (LDAP, SMTP ...) and the state of the application (JWTKey, statistics ...).
+
+# To avoid breaking things, this file only handles a subset of available properties : Ldap* and Smtp*
+# These properties are injected over the ones that might exist in the airsonic.properties file that lives on the data volume.
+# Any other property set here will be ignored.
+
+LdapEnabled=true
+LdapUrl=ldaps://{{ airsonic.ldap.servername }}/{{ airsonic.ldap.users_dn }}
+LdapSearchFilter=(&(cn={0})(memberOf={{ airsonic.ldap.group }}))
+LdapManagerDn={{ airsonic.ldap.manager_dn }}
+LdapManagerPassword={{ airsonic.ldap.manager_password | hexlify }}
+LdapAutoShadowing=true
+
+SmtpServer={{ airsonic.smtp.host }}
+SmtpEncryption={{ airsonic.smtp.encryption }}
+SmtpPort={{ airsonic.smtp.port }}
+SmtpUser={{ airsonic.smtp.user }}
+SmtpFrom={{ airsonic.smtp.from }}
+SmtpPassword={{ airsonic.smtp.password | hexlify }}

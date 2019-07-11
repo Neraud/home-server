@@ -1,0 +1,11 @@
+---
+
+- name: Prepare home-homeassistant
+  hosts: kubernetes_nodes
+  roles:
+  - role: home-homeassistant.prepare
+
+- name: Provision home-homeassistant
+  hosts: controller
+  roles:
+  - role: home-homeassistant.deploy

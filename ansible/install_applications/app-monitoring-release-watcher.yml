@@ -1,0 +1,6 @@
+---
+
+- name: Provision monitoring-release-watcher
+  hosts: controller
+  roles:
+  - role: monitoring-release-watcher.deploy

@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sickchill
+  namespace: default
+  labels:
+    app: sickchill
+    app-component: sickchill
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: sickchill
+      app-component: sickchill
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sickchill
+        app-component: sickchill
+    spec:
+      initContainers:
+      - name: inject-config
+        image: python:3.6.8-alpine3.9
+        command: [ "python", "/tmp/config/mergeConf.py" ]
+        volumeMounts:
+        - name: sickchill-config-pv-claim
+          mountPath: /config
+        - name: sickchill-config
+          mountPath: /tmp/config
+      containers:
+      - image: "{{ sickchill.container.image }}:{{ sickchill.container.tag }}"
+        name: sickchill
+        ports:
+        - containerPort: 8081
+          name: sickchill
+        resources:
+          requests:
+            cpu: "{{ sickchill.container.requests_cpu }}"
+            memory: "{{ sickchill.container.requests_memory }}"
+          limits:
+            cpu: "{{ sickchill.container.limits_cpu }}"
+            memory: "{{ sickchill.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: sickchill-config-pv-claim
+          mountPath: /config
+        - name: sickchill-download
+          mountPath: /mnt/download
+        - name: sickchill-multimedia
+          mountPath: /mnt/multimedia
+        # sickchill-config is not used by the container directly
+        # But mounting it enables the use of the reloader
+        - name: sickchill-config
+          mountPath: /tmp/config
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: sickchill-config
+        configMap:
+          name: sickchill-config
+      - name: sickchill-download
+        persistentVolumeClaim:
+          claimName: nfs-download
+      - name: sickchill-multimedia
+        persistentVolumeClaim:
+          claimName: nfs-multimetia
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: sickchill-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 1G
+      selector:
+        matchLabels:
+          app: sickchill
+          app-component: sickchill

@@ -1,0 +1,6 @@
+---
+
+- name: Provision logging-fluentd
+  hosts: controller
+  roles:
+  - role: logging-fluentd.deploy

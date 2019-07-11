@@ -1,0 +1,288 @@
+watchers:
+  - type: github_commit
+    repo: spotify/docker-gc
+    branch: master
+    commit: 77c5f3c4bc3c64a2c4bed1ba20e79836a0c6a983
+  - type: github_commit
+    repo: gluster/gluster-prometheus
+    branch: master
+    commit: 567cf6d017b4c91f7faf2e68b36ed3f2616169f8
+  # Auth
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ lemonldap.container.from_image }}
+    tag: {{ lemonldap.container.from_tag }}
+    excludes:
+      - latest
+      - ^1\.
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ openldap.container.image }}
+    tag: {{ openldap.container.tag }}
+    excludes:
+      - latest
+      - .*-dev
+      - ^1\.1\.
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ phpldapadmin.container.image }}
+    tag: {{ phpldapadmin.container.tag }}
+    excludes:
+      - latest
+      - ^0\.[1-7]\.
+  # Dev
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ gitlab.container.image }}
+    tag: {{ gitlab.container.tag }}
+    excludes:
+      - nightly
+      - latest
+      - rc
+      - .*-rc[0-9]+.*
+      - ^[1-9]\.
+      - ^1[01]\.
+  # Download
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ deluge.container.image }}
+    tag: {{ deluge.container.tag }}
+    includes:
+      - amd64-[0-9]+\.[0-9]+\.[0-9]+-
+    excludes:
+      - amd64-latest
+      - amd64-[0-1]\.
+  # Used to build pyload
+  - name: "pyLoad base"
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ pyload.container.from_image }}
+    tag: {{ pyload.container.from_tag }}
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ sabnzbd.container.from_image }}
+    tag: {{ sabnzbd.container.from_tag }}
+    includes:
+      - amd64.*
+    excludes:
+      - amd64-unstable
+      - amd64-latest
+      - .*(rc[0-9]|alpha|beta).*
+      - amd64-[0-1]\..*
+      - amd64-2\.[0-2]\..*
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ sickchill.container.image }}
+    tag: {{ sickchill.container.tag }}
+    includes:
+      - amd64.*
+    excludes:
+      - amd64-latest
+  # Home
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ homeassistant.container.from_image }}
+    tag: {{ homeassistant.container.from_tag }}
+    excludes:
+      - 0\.[0-8].*
+      - .*b[0-9]
+      - dev
+      - rc
+      - latest
+  - name: "HomeAssistan MySQL"
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ homeassistant_mysql.container.image }}
+    tag: {{ homeassistant_mysql.container.tag }}
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ mosquitto.container.image }}
+    tag: {{ mosquitto.container.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
+    excludes:
+      - latest
+      - ^1\.[0-5]]\.
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ nodered.container.from_image }}
+    tag: {{ nodered.container.from_tag }}
+    includes:
+      - .*-slim-v10
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ roomassistant.container.image }}
+    tag: {{ roomassistant.container.tag }}
+    excludes:
+      - .*arm32
+      - 0\..*
+      - latest
+      - master
+  # Infra
+  # TODO KO
+  #  - type: docker_registry
+  #    repo: k8s.gcr.io
+  #    image: kubernetes-dashboard-amd64
+  #    tag: v1.10.1
+  #    excludes:
+  #      - .*-beta.*
+  #      - canary
+  #      - v0\.
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ docker_registry_ui.container.image }}
+    tag: {{ docker_registry_ui.container.tag }}
+    excludes:
+      - latest
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ gotify.container.image }}
+    tag: {{ gotify.container.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
+    excludes:
+      - 1\..*
+  - type: docker_registry
+    repo: quay.io
+    image: kubernetes-ingress-controller/nginx-ingress-controller
+    # We are using 0.24.1, but the registry API doesn't list this version for some reason.
+    # To avoid false positives, we keep 0.24.0 here
+    #tag: 0.24.1
+    tag: 0.24.0
+    excludes:
+      - .*(alpha|beta).*
+      - 0\.[0-9]\.
+      - 0\.1[0-9]\.
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+"
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ mailhog.container.image }}
+    tag: {{ mailhog.container.tag }}
+    excludes:
+      - latest
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ docker_registry.container.image }}
+    tag: {{ docker_registry.container.tag }}
+    excludes:
+      - latest
+      - .*-rc\.[0-9]+
+      - 2\.[0-6]\.
+    includes:
+      - "[2-9]+\\.[0-9]+\\.[0-9]+.*"
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ reloader.container.image }}
+    tag: {{ reloader.container.tag }}
+    excludes:
+      - .*SNAPSHOT.*
+      - ^PR-.*
+      - dev
+      - 0\.0\.[0-2]?[0-9]$
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ unifi.container.image }}
+    tag: {{ unifi.container.tag }}
+    includes:
+      - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
+    excludes:
+      - LTS
+      - latest
+      - amd64-5\.[0-9]\..*
+      - amd64-5\.10\.[01]?[0-9]-.*
+  - name: "ZoneMTA Redis"
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ zonemta_redis.container.image }}
+    tag: {{ zonemta_redis.container.tag }}
+    includes:
+      - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine3\\.9"
+  - name: "ZoneMTA Mongo"
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ zonemta_mongo.container.image }}
+    tag: {{ zonemta_mongo.container.tag }}
+    includes:
+      - 4\.[0-9]+.[0-9]+-bionic
+    excludes:
+      - 4\.0\..*
+  - name: "ZoneMTA Node"
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ zonemta.container.from_image }}
+    tag: {{ zonemta.container.from_tag }}
+    includes:
+      - 10\.[0-9]+\.[0-9]+-alpine
+    exclude:
+      - 10\.[0-9]\..*
+      - 10\.1[0-5]\..*
+  # Logging
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ elasticsearch.container.image }}
+    tag: {{ elasticsearch.container.tag }}
+    excludes:
+      - latest
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ fluentbit.container.image }}
+    tag: {{ fluentbit.container.tag }}
+    includes:
+      - "[1-9]\\.[0-9]+\\.[0-9].*"
+    excludes:
+      - .*debug.*
+      - ^0\.
+      - 1\.0\..*
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ fluentd.container.from_image }}
+    tag: {{ fluentd.container.from_tag }}
+    includes:
+      - v[1-9]\.[0-9]+\.[0-9]+.*debian.*
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ kibana.container.image }}
+    tag: {{ kibana.container.tag }}
+    excludes:
+      - latest
+  # Monitoring
+  - type: github_release
+    repo: coreos/kube-prometheus
+    release: v0.1.0
+  # Stream
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ airsonic.container.image }}
+    tag: {{ airsonic.container.tag }}
+    includes:
+      - .*-RELEASE
+    excludes:
+      - 10\.[0-1]\.
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ plex.container.image }}
+    tag: {{ plex.container.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+\\..*"
+    excludes:
+      - 1\.[0-9]\.
+      - 1\.1[0-5]\.
+  # Web
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ heimdall.container.from_image }}
+    tag: {{ heimdall.container.from_tag }}
+    includes:
+      - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
+    excludes:
+      - amd64-[0-1]\.
+      - amd64-2\.[0-1]\.
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ ttrss.container.from_image }}
+    tag: {{ ttrss.container.from_tag }}
+    includes:
+      - amd64.*
+    excludes:
+      - amd64-latest

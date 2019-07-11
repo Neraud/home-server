@@ -1,0 +1,6 @@
+---
+
+gluster_exporter:
+  enabled: "{{ gluster_exporter_enabled | default(True) }}"
+
+  port: 8090

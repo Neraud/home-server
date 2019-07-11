@@ -1,0 +1,6 @@
+---
+
+- name: Provision logging-fluentbit
+  hosts: controller
+  roles:
+  - role: logging-fluentbit.deploy

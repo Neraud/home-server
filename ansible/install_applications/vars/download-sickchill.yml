@@ -1,0 +1,23 @@
+---
+
+sickchill:
+  enabled: "{{ sickchill_enabled | default(True) }}"
+
+  container:
+    image: "linuxserver/sickchill"
+    tag: "amd64-6bfdb223-ls14"
+    requests_cpu: "{{ sickchill_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ sickchill_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ sickchill_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ sickchill_container_limits_memory | default('256Mi') }}"
+
+  context_root: "{{ sickchill_context_root | default('/') }}"
+  api_key: "{{ sickchill_api_key | default('abcdefghijklmnopqrstuvwxyz123456') }}"
+
+  smtp:
+    host: "{{ sickchill_smtp_host | default(zonemta.smtp_servername) }}"
+    port: "{{ sickchill_smtp_port | default(587) }}"
+    tls: "{{ sickchill_smtp_tls | default(True) }}"
+    user: "{{ sickchill_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ sickchill_smtp_password | default(zonemta.feeder.authentication_password) }}"
+    from: "{{ sickchill_smtp_from | default('noreply@' + web_base_domain) }}"

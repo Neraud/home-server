@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: logging
+  labels:
+    app: kibana
+    app-component: kibana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+      app-component: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+        app-component: kibana
+    spec:
+      containers:
+      - name: kibana
+        image: "{{ kibana.container.image }}:{{ kibana.container.tag }}"
+        resources:
+          requests:
+            cpu: "{{ kibana.container.requests_cpu }}"
+            memory: "{{ kibana.container.requests_memory }}"
+          limits:
+            cpu: "{{ kibana.container.limits_cpu }}"
+            memory: "{{ kibana.container.limits_memory }}"
+        env:
+          - name: SERVER_BASEPATH
+            value: {{ kibana.context_path }}
+          - name: ELASTICSEARCH_URL
+            value: https://elasticsearch:9200
+        ports:
+        - containerPort: 5601
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: kibana-config
+          mountPath: /usr/share/kibana/config/kibana.yml
+          subPath: kibana.yml
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: kibana-config
+        configMap:
+          name: kibana
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      nodeSelector:
+        capability/general-purpose: 'yes'
