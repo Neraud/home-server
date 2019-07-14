@@ -14,5 +14,11 @@ git pull
 docker build -t release-watcher-helper .
 
 cd ..
-cp ../../ansible/install_applications/roles/monitoring-release-watcher.deploy/app/config/watchers.yaml ./data/
+# The vagrant inventory is only used to avoid "AnsibleUndefinedVariable" errors.
+# It's not really used, as the only variables we need are set in ansible/install_applications/vars/*.yml
+ansible-playbook -i ../../ansible/inventories/vagrant/inventory.ini ./generate-watchers-config.yml
+
+# We could also generate the configuration from a running cluster :
+#kubectl --namespace=monitoring get ConfigMap release-watcher-config -o jsonpath='{.data.watchers\.yaml}' >./data/watchers.yaml
+
 docker run -v $(pwd):/data release-watcher-helper
