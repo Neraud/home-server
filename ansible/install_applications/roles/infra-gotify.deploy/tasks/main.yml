@@ -69,7 +69,8 @@
   with_items: "{{ gotify.users }}"
   register: gotify_existing_applications
 
-- set_fact:
+- name: Clean existing application list
+  set_fact:
     gotify_existing_applications_cleaned: "{{ gotify_existing_applications_cleaned | default({}) | combine( { item.item.name: item.json } ) }}"
   with_items: "{{ gotify_existing_applications.results }}"
 

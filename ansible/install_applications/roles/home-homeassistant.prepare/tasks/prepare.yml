@@ -21,14 +21,14 @@
     user: "{{ homeassistant.gotify.username }}"
     password: "{{ homeassistant.gotify.password }}"
   register: homeassistant_gotify_applications
-  when: 
+  when:
     - homeassistant.gotify.enabled | bool
     - not homeassistant_configuration_file.stat.exists
 
 - name: Extract Gotify application token
   set_fact:
     homeassistant_gotify_application_token: "{{ homeassistant_gotify_applications.json | selectattr('name', 'match', homeassistant.gotify.application_name) | map(attribute='token') | first  }}"
-  when: 
+  when:
     - homeassistant.gotify.enabled | bool
     - not homeassistant_configuration_file.stat.exists
 
