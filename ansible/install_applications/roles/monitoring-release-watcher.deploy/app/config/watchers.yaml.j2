@@ -85,15 +85,20 @@ watchers:
     tag: {{ homeassistant.container.from_tag }}
     excludes:
       - 0\.[0-8].*
+      - 0\.9[0-4].*
       - .*b[0-9]
       - dev
       - rc
       - latest
-  - name: "HomeAssistan MySQL"
+  - name: "HomeAssistant MySQL"
     type: docker_registry
     repo: registry-1.docker.io
     image: {{ homeassistant_mysql.container.image }}
     tag: {{ homeassistant_mysql.container.tag }}
+    includes:
+      - 5\.[0-9]+\.[0-9]+
+    excludes:
+      - 5\.5\..*
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ mosquitto.container.image }}
@@ -102,7 +107,7 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - latest
-      - ^1\.[0-5]]\.
+      - ^1\.[0-5]\.
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ nodered.container.from_image }}
@@ -113,11 +118,11 @@ watchers:
     repo: registry-1.docker.io
     image: {{ roomassistant.container.image }}
     tag: {{ roomassistant.container.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - .*arm32
       - 0\..*
-      - latest
-      - master
   # Infra
   # TODO KO
   #  - type: docker_registry
@@ -132,8 +137,10 @@ watchers:
     repo: registry-1.docker.io
     image: {{ docker_registry_ui.container.image }}
     tag: {{ docker_registry_ui.container.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
-      - latest
+      - 0\.[0-7]\.
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ gotify.container.image }}
@@ -214,7 +221,7 @@ watchers:
     tag: {{ zonemta.container.from_tag }}
     includes:
       - 10\.[0-9]+\.[0-9]+-alpine
-    exclude:
+    excludes:
       - 10\.[0-9]\..*
       - 10\.1[0-5]\..*
   # Logging
