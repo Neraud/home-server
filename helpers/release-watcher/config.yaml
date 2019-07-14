@@ -2,15 +2,20 @@ logger:
   type: stdout
   level: INFO
 
+#logger:
+#  type: file
+#  level: DEBUG
+#  path: /data/tmp/release_watcher.log
+
 core:
   threads: 5
   runMode: once
 
 sources:
   - type: file
-    path: data/watchers.yaml
+    path: tmp/watchers.yaml
 
 outputs:
   - type: yaml_file
-    path: data/out.yaml
+    path: tmp/out.yaml
     displayUpToDate: yes

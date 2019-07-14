@@ -4,10 +4,10 @@ if [ ! -d release-watcher ]; then
     git clone https://github.com/Neraud/release-watcher
 fi
 
-if [ -d data ]; then
-    rm -R data
+if [ -d tmp ]; then
+    rm -R tmp
 fi
-mkdir data
+mkdir tmp
 
 cd release-watcher
 git pull
@@ -19,6 +19,6 @@ cd ..
 ansible-playbook -i ../../ansible/inventories/vagrant/inventory.ini ./generate-watchers-config.yml
 
 # We could also generate the configuration from a running cluster :
-#kubectl --namespace=monitoring get ConfigMap release-watcher-config -o jsonpath='{.data.watchers\.yaml}' >./data/watchers.yaml
+#kubectl --namespace=monitoring get ConfigMap release-watcher-config -o jsonpath='{.data.watchers\.yaml}' >./tmp/watchers.yaml
 
 docker run -v $(pwd):/data release-watcher-helper
