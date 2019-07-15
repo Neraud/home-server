@@ -1,8 +1,8 @@
 ARG from_image
 FROM $from_image
 
-# 2019-05-01T20:56:27Z
-ARG PYLOAD_RELEASE=1212a684f94856181ad227ff5da140045a95ea8f
+ARG PYLOAD_RELEASE
+ARG PYLOAD_BRANCH=stable
 
 ENV PYLOAD_DEFAULT_USER=pyload
 ENV PYLOAD_DEFAULT_PASSWORD=pyload
@@ -24,7 +24,7 @@ RUN \
  mkdir -p \
 	/app/pyload && \
  if [ -z ${PYLOAD_RELEASE+x} ]; then \
- 	PYLOAD_RELEASE=$(curl -sX GET "https://api.github.com/repos/pyload/pyload/commits/stable" \
+ 	PYLOAD_RELEASE=$(curl -sX GET "https://api.github.com/repos/pyload/pyload/commits/${PYLOAD_BRANCH}" \
         | awk '/sha/{print $4;exit}' FS='[""]'); \
  fi && \
  curl -o \
