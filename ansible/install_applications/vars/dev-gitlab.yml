@@ -9,7 +9,7 @@ gitlab:
 
   container:
     image: "gitlab/gitlab-ce"
-    tag: "12.0.2-ce.0"
+    tag: "12.0.3-ce.0"
     requests_cpu: "{{ gitlab_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ gitlab_container_requests_memory | default('3072Mi') }}"
     limits_cpu: "{{ gitlab_container_limits_cpu | default('2000m') }}"
