@@ -24,6 +24,7 @@
       pull: yes
       args:
         from_image: "{{ zonemta.container.from_image }}:{{ zonemta.container.from_tag }}"
+    force_source: yes
     push: yes
 
 - name: Deploy ZoneMTA

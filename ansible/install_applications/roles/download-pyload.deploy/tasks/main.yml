@@ -9,6 +9,7 @@
       pull: yes
       args:
         from_image: "{{ pyload.container.from_image }}:{{ pyload.container.from_tag }}"
+    force_source: yes
     push: yes
 
 - name: Deploy pyLoad
