@@ -5,7 +5,7 @@ sickchill:
 
   container:
     image: "linuxserver/sickchill"
-    tag: "amd64-6bfdb223-ls14"
+    tag: "amd64-1ed31566-ls15"
     requests_cpu: "{{ sickchill_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ sickchill_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ sickchill_container_limits_cpu | default('200m') }}"
