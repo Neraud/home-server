@@ -52,12 +52,6 @@ watchers:
     excludes:
       - amd64-latest
       - amd64-[0-1]\.
-  # Used to build pyload
-  - name: "pyLoad base"
-    type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ pyload.container.from_image }}
-    tag: {{ pyload.container.from_tag }}
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ sabnzbd.container.from_image }}
