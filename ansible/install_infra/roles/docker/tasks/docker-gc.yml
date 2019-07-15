@@ -14,7 +14,7 @@
   git:
     dest: "{{ docker_gc_path }}/docker-gc"
     repo: https://github.com/spotify/docker-gc
-    version: 77c5f3c4bc3c64a2c4bed1ba20e79836a0c6a983
+    version: d1d11ee8afe7be2bfca9a0041d1eaa45c90ab9ae
   register: docker_gc_clone_result
 
 - name: Build docker-gc
