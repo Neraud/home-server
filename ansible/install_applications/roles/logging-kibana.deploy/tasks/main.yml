@@ -26,7 +26,7 @@
 
 - name: Wait for Kibana to be available
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/kibana/app/kibana"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/app/kibana"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -53,7 +53,7 @@
 
 - name: Check if objects already exist
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/kibana/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -74,7 +74,7 @@
 
 - name: Create missing objects
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/kibana/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: POST
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -97,7 +97,7 @@
 
 - name: Updating changed objects
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/kibana/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: PUT
     headers:
       Host: "infra.{{ web_base_domain }}"

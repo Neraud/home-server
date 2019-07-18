@@ -29,10 +29,8 @@ spec:
             cpu: "{{ kibana.container.limits_cpu }}"
             memory: "{{ kibana.container.limits_memory }}"
         env:
-          - name: SERVER_BASEPATH
-            value: {{ kibana.context_path }}
-          - name: ELASTICSEARCH_URL
-            value: https://elasticsearch:9200
+        - name: NODE_OPTIONS
+          value: "--max-old-space-size={{ kibana.nodejs_max_memory }}"
         ports:
         - containerPort: 5601
         volumeMounts:
