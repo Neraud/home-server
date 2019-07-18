@@ -2,7 +2,7 @@
 
 - name: Wait for EasticSearch to be available
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/elasticsearch/_cluster/state"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_cluster/state"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
