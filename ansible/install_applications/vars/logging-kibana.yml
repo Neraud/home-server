@@ -18,6 +18,7 @@ kibana:
   elasticsearch:
     user: "{{ kibana_elasticsearch_user | default('kibana') }}"
     password: "{{ kibana_elasticsearch_password | default('password') }}"
+    index: .kibana
 
   export_saved:
     script_path: "{{ kibana_export_saved_script_path | default(standard_user.home + '/tools/kibana_save_objects.py') }}"

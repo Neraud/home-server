@@ -68,7 +68,7 @@ config:
     kibana:
       multitenancy_enabled: false
       server_username: {{ kibana.elasticsearch.user }}
-      index: '.kibana'
+      index: '{{ kibana.elasticsearch.index }}'
     http:
       anonymous_auth_enabled: false
       xff:
