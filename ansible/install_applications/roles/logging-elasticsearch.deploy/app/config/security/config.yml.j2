@@ -66,7 +66,7 @@ config:
     #filtered_alias_mode: warn
     do_not_fail_on_forbidden: false
     kibana:
-      multitenancy_enabled: false
+      multitenancy_enabled: {{ kibana.multitenancy.enabled }}
       server_username: {{ kibana.elasticsearch.user }}
       index: '{{ kibana.elasticsearch.index }}'
     http:

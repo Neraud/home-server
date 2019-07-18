@@ -20,6 +20,9 @@ kibana:
     password: "{{ kibana_elasticsearch_password | default('password') }}"
     index: .kibana
 
+  multitenancy:
+    enabled: False
+
   export_saved:
     script_path: "{{ kibana_export_saved_script_path | default(standard_user.home + '/tools/kibana_save_objects.py') }}"
     output_dir: "{{ kibana_export_saved_output_dir | default(standard_user.home + '/kibana_saved_objects') }}"
