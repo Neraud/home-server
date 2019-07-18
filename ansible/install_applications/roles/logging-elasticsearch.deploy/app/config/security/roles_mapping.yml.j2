@@ -52,3 +52,23 @@ readall_and_monitor:
   reserved: true
   backend_roles:
   - "readall_and_monitor"
+
+## Additional roles
+
+{% for role_mapping in elasticsearch_role_mappings | default([]) %}
+{{ role_mapping.name }}:
+  description: "{{ role_mapping.description | default(role_mapping.name) }}"
+  reserved: "{{ role_mapping.reserved | default(true) }}"
+{% if role_mapping.backend_roles %}
+  backend_roles:
+{% for backend_role in role_mapping.backend_roles %}
+    - {{ backend_role }}
+{% endfor %}
+{% endif %}
+{% if role_mapping.users %}
+  users:
+{% for user in role_mapping.users %}
+    - {{ user }}
+{% endfor %}
+{% endif %}
+{% endfor %}

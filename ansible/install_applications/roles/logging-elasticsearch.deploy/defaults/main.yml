@@ -9,3 +9,12 @@ elasticsearch_enabled: true
 #    backend_roles:
 #      - role_1
 #      - role_2
+
+#elasticsearch_role_mappings:
+#  - name: all_access
+#    description: "Maps admin to all_access"
+#    reserved: true
+#    backend_roles:
+#      - backend_role_1
+#    users:
+#      - username_1
