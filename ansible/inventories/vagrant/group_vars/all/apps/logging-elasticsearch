@@ -7,18 +7,18 @@ elasticsearch_servername: elasticsearch
 elasticsearch_internal_users:
   - name: "{{ elasticsearch_exporter_user }}"
     password: "{{ elasticsearch_exporter_password }}"
-    readonly: True
-    roles:
-      - readall
+    reserved: True
+    backend_roles:
+      - readall_and_monitor
   - name: "{{ fluentd_elasticsearch_user }}"
     password: "{{ fluentd_elasticsearch_password }}"
-    readonly: True
-    roles:
+    reserved: True
+    backend_roles:
       - logstash
   - name: "{{ kibana_elasticsearch_user }}"
     password: "{{ kibana_elasticsearch_password }}"
-    readonly: True
-    roles:
+    reserved: True
+    backend_roles:
       - kibana_server
 
 elasticsearch_context_path: /elasticsearch

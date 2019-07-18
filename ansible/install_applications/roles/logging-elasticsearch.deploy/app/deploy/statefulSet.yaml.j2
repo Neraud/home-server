@@ -63,8 +63,10 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-          - name: discovery.zen.ping.unicast.hosts
-            value: "{% for i in range(0, elasticsearch.replicas|int) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}.elasticsearch{% endfor %}"
+          - name: discovery.seed_hosts
+            value: "{% for i in range(0, elasticsearch.replicas|int) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}{% endfor %}"
+          - name: cluster.initial_master_nodes
+            value: "{% for i in range(0, elasticsearch.replicas|int) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}{% endfor %}"
           - name: discovery.zen.minimum_master_nodes
             value: "{{ (elasticsearch.replicas|int / 2 + 1) | int }}"
           - name: ES_JAVA_OPTS

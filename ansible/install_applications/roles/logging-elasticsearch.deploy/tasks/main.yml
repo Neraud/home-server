@@ -34,6 +34,3 @@
     - "{{ role_path }}/app/deploy/prometheus_exporter/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
-
-- name: Flush handlers
-  meta: flush_handlers
