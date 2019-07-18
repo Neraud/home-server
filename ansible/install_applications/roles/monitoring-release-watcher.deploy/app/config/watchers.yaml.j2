@@ -231,6 +231,15 @@ watchers:
       - latest
   - type: docker_registry
     repo: registry-1.docker.io
+    image: {{ elasticsearch_exporter.container.image }}
+    tag: {{ elasticsearch_exporter.container.tag }}
+    excludes:
+      - latest
+      - ^0\..*
+      - ^1\.0\..*
+      - .*rc.*
+  - type: docker_registry
+    repo: registry-1.docker.io
     image: {{ fluentbit.container.image }}
     tag: {{ fluentbit.container.tag }}
     includes:
