@@ -5,7 +5,7 @@ unifi:
 
   container:
     image: "linuxserver/unifi-controller"
-    tag: "amd64-5.10.25-ls25"
+    tag: "amd64-5.10.25-ls26"
     requests_cpu: "{{ unifi_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ unifi_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ unifi_container_limits_cpu | default('1000m') }}"
