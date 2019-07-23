@@ -8,7 +8,7 @@ ttrss:
     tag: "latest"
     # Keep the image version in sync with the ttrss_pgsql.schema_url variable
     from_image: "linuxserver/tt-rss"
-    from_tag: "amd64-19.2-ls21"
+    from_tag: "amd64-19.2-ls23"
     requests_cpu: "{{ ttrss_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ ttrss_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ ttrss_container_limits_cpu | default('200m') }}"
