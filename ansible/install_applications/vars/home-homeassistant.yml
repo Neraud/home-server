@@ -7,7 +7,7 @@ homeassistant:
     image: "{{ docker_registry.url }}/homeassistant"
     tag: "latest"
     from_image: "homeassistant/home-assistant"
-    from_tag: "0.95.4"
+    from_tag: "0.96.3"
     requests_cpu: "{{ homeassistant_homeassistant_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ homeassistant_homeassistant_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('1000m') }}"
