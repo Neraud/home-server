@@ -5,7 +5,7 @@ deluge:
 
   container:
     image: "linuxserver/deluge"
-    tag: "amd64-2.0.3-2201906121747ubuntu18.04.1-ls30"
+    tag: "amd64-2.0.3-2201906121747ubuntu18.04.1-ls31"
     requests_cpu: "{{ deluge_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ deluge_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ deluge_container_limits_cpu | default('200m') }}"
