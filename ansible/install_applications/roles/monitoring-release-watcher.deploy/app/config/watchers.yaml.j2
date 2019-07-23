@@ -257,6 +257,8 @@ watchers:
     tag: {{ fluentd.container.from_tag }}
     includes:
       - v[1-9]\.[0-9]+\.[0-9]+.*debian.*
+    excludes:
+      - v1\.[0-4]\..*
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ kibana.container.image }}

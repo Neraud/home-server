@@ -7,7 +7,7 @@ fluentd:
     image: "{{ docker_registry.url }}/fluentd"
     tag: "latest"
     from_image: "fluent/fluentd"
-    from_tag: "v1.5.2-debian-1.0"
+    from_tag: "v1.6.2-debian-1.0"
     requests_cpu: "{{ fluentd_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ fluentd_container_requests_memory | default('200Mi') }}"
     limits_cpu: "{{ fluentd_container_limits_cpu | default('500m') }}"
