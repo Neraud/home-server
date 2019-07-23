@@ -43,7 +43,7 @@ homeassistant:
 homeassistant_mysql:
   container:
     image: "mysql"
-    tag: "5.7.26"
+    tag: "5.7.27"
     requests_cpu: "{{ homeassistant_mysql_container_requests_cpu | default('250m') }}"
     requests_memory: "{{ homeassistant_mysql_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ homeassistant_mysql_container_limits_cpu | default('500m') }}"
