@@ -183,11 +183,13 @@ watchers:
     repo: registry-1.docker.io
     image: {{ reloader.container.image }}
     tag: {{ reloader.container.tag }}
+    includes:
+      - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*SNAPSHOT.*
       - ^PR-.*
       - dev
-      - 0\.0\.[0-2]?[0-9]$
+      - v0\.0\.[0-2]?[0-9]$
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ unifi.container.image }}
@@ -232,6 +234,7 @@ watchers:
     tag: {{ elasticsearch.container.tag }}
     excludes:
       - latest
+      - ^0\..*
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ elasticsearch_exporter.container.image }}
@@ -265,6 +268,7 @@ watchers:
     tag: {{ kibana.container.tag }}
     excludes:
       - latest
+      - ^0\..*
   # Monitoring
   - type: github_release
     repo: coreos/kube-prometheus
