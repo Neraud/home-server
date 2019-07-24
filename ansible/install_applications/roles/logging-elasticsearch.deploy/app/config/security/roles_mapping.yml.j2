@@ -1,34 +1,74 @@
+---
 # In this file users, backendroles and hosts can be mapped to Open Distro Security roles.
-# Permissions for Open Distro Security roles are configured in roles.yml
+# Permissions for Opendistro roles are configured in roles.yml
+
+_meta:
+  type: "rolesmapping"
+  config_version: 2
+
+# Define your roles mapping here
+
+## Demo roles mapping
 
 all_access:
-  readonly: true
-  backendroles:
-    - admin
-
-logstash:
-  backendroles:
-    - logstash
-
-kibana_server:
-  readonly: true
-  users:
-    - kibanaserver
-
-kibana_user:
-  backendroles:
-    - kibanauser
-
-readall:
-  readonly: true
-  backendroles:
-    - readall
-
-manage_snapshots:
-  readonly: true
-  backendroles:
-    - snapshotrestore
+  reserved: true
+  backend_roles:
+  - "admin"
+  description: "Maps admin to all_access"
 
 own_index:
+  reserved: false
   users:
-    - '*'
+  - "*"
+  description: "Allow full access to an index named like the username"
+
+logstash:
+  reserved: false
+  backend_roles:
+  - "logstash"
+
+kibana_user:
+  reserved: false
+  backend_roles:
+  - "kibanauser"
+  description: "Maps kibanauser to kibana_user"
+
+readall:
+  reserved: true
+  backend_roles:
+  - "readall"
+
+manage_snapshots:
+  reserved: true
+  backend_roles:
+  - "snapshotrestore"
+
+kibana_server:
+  reserved: true
+  backend_roles:
+  - "kibana_server"
+
+readall_and_monitor:
+  reserved: true
+  backend_roles:
+  - "readall_and_monitor"
+
+## Additional roles
+
+{% for role_mapping in elasticsearch_role_mappings | default([]) %}
+{{ role_mapping.name }}:
+  description: "{{ role_mapping.description | default(role_mapping.name) }}"
+  reserved: "{{ role_mapping.reserved | default(true) }}"
+{% if role_mapping.backend_roles %}
+  backend_roles:
+{% for backend_role in role_mapping.backend_roles %}
+    - {{ backend_role }}
+{% endfor %}
+{% endif %}
+{% if role_mapping.users %}
+  users:
+{% for user in role_mapping.users %}
+    - {{ user }}
+{% endfor %}
+{% endif %}
+{% endfor %}

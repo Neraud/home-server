@@ -9,6 +9,7 @@
       pull: yes
       args:
         from_image: "{{ heimdall.container.from_image }}:{{ heimdall.container.from_tag }}"
+    force_source: yes
     push: yes
 
 - name: Deploy Heimdall

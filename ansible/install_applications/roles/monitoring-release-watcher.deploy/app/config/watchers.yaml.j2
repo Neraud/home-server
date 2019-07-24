@@ -2,11 +2,11 @@ watchers:
   - type: github_commit
     repo: spotify/docker-gc
     branch: master
-    commit: 77c5f3c4bc3c64a2c4bed1ba20e79836a0c6a983
+    commit: d1d11ee8afe7be2bfca9a0041d1eaa45c90ab9ae
   - type: github_commit
     repo: gluster/gluster-prometheus
     branch: master
-    commit: 567cf6d017b4c91f7faf2e68b36ed3f2616169f8
+    commit: 9eacc41ec6a95f5fdbdf4966103ebf3dc9440ca1
   # Auth
   - type: docker_registry
     repo: registry-1.docker.io
@@ -52,12 +52,10 @@ watchers:
     excludes:
       - amd64-latest
       - amd64-[0-1]\.
-  # Used to build pyload
-  - name: "pyLoad base"
-    type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ pyload.container.from_image }}
-    tag: {{ pyload.container.from_tag }}
+  - type: github_commit
+    repo: pyload/pyload
+    branch: {{ pyload.container.branch }}
+    commit: {{ pyload.container.commit }}
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ sabnzbd.container.from_image }}
@@ -85,15 +83,23 @@ watchers:
     tag: {{ homeassistant.container.from_tag }}
     excludes:
       - 0\.[0-8].*
+      - 0\.9[0-4].*
       - .*b[0-9]
       - dev
       - rc
       - latest
-  - name: "HomeAssistan MySQL"
+  - name: "HomeAssistant MySQL"
     type: docker_registry
     repo: registry-1.docker.io
     image: {{ homeassistant_mysql.container.image }}
     tag: {{ homeassistant_mysql.container.tag }}
+    includes:
+      - 5\.[0-9]+\.[0-9]+
+    excludes:
+      - .*rc.*
+      - 5\.[0-6]\..*
+      - 5\.7\.[0-9]$
+      - 5\.7\.1[0-9]$
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ mosquitto.container.image }}
@@ -102,7 +108,7 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - latest
-      - ^1\.[0-5]]\.
+      - ^1\.[0-5]\.
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ nodered.container.from_image }}
@@ -113,11 +119,11 @@ watchers:
     repo: registry-1.docker.io
     image: {{ roomassistant.container.image }}
     tag: {{ roomassistant.container.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - .*arm32
       - 0\..*
-      - latest
-      - master
   # Infra
   # TODO KO
   #  - type: docker_registry
@@ -132,8 +138,10 @@ watchers:
     repo: registry-1.docker.io
     image: {{ docker_registry_ui.container.image }}
     tag: {{ docker_registry_ui.container.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
-      - latest
+      - 0\.[0-7]\.
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ gotify.container.image }}
@@ -175,11 +183,13 @@ watchers:
     repo: registry-1.docker.io
     image: {{ reloader.container.image }}
     tag: {{ reloader.container.tag }}
+    includes:
+      - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*SNAPSHOT.*
       - ^PR-.*
       - dev
-      - 0\.0\.[0-2]?[0-9]$
+      - v0\.0\.[0-2]?[0-9]$
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ unifi.container.image }}
@@ -214,7 +224,7 @@ watchers:
     tag: {{ zonemta.container.from_tag }}
     includes:
       - 10\.[0-9]+\.[0-9]+-alpine
-    exclude:
+    excludes:
       - 10\.[0-9]\..*
       - 10\.1[0-5]\..*
   # Logging
@@ -224,6 +234,16 @@ watchers:
     tag: {{ elasticsearch.container.tag }}
     excludes:
       - latest
+      - ^0\..*
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ elasticsearch_exporter.container.image }}
+    tag: {{ elasticsearch_exporter.container.tag }}
+    excludes:
+      - latest
+      - ^0\..*
+      - ^1\.0\..*
+      - .*rc.*
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ fluentbit.container.image }}
@@ -240,12 +260,15 @@ watchers:
     tag: {{ fluentd.container.from_tag }}
     includes:
       - v[1-9]\.[0-9]+\.[0-9]+.*debian.*
+    excludes:
+      - v1\.[0-4]\..*
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ kibana.container.image }}
     tag: {{ kibana.container.tag }}
     excludes:
       - latest
+      - ^0\..*
   # Monitoring
   - type: github_release
     repo: coreos/kube-prometheus
@@ -258,7 +281,7 @@ watchers:
     includes:
       - .*-RELEASE
     excludes:
-      - 10\.[0-1]\.
+      - 10\.[0-3]\.
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ plex.container.image }}

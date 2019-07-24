@@ -1,3 +1,5 @@
+---
+
 # This is the main Open Distro Security configuration file where authentication
 # and authorization is defined.
 #
@@ -15,8 +17,6 @@
 # Both, authc and auth can be enabled/disabled separately for REST and TRANSPORT layer. Default is true for both.
 #        http_enabled: true
 #        transport_enabled: true
-#
-# 5.x Migration: "enabled: true/false" will also be respected currently but only to provide backward compatibility.
 #
 # For HTTP it is possible to allow anonymous authentication. If that is the case then the HTTP authenticators try to
 # find user credentials in the HTTP request. If credentials are found then the user gets regularly authenticated.
@@ -41,7 +41,7 @@
 #   clientcert (not challenging, needs https)
 #   jwt (not challenging)
 #   host (not challenging) #DEPRECATED, will be removed in a future version.
-#                           host based authentication is configurable in roles_mapping
+#                          host based authentication is configurable in roles_mapping
 
 # Authc
 #   internal
@@ -52,35 +52,37 @@
 #   ldap
 #   noop
 
-opendistro_security:
+
+
+_meta:
+  type: "config"
+  config_version: 2
+
+config:
   dynamic:
     # Set filtered_alias_mode to 'disallow' to forbid more than 2 filtered aliases per index
     # Set filtered_alias_mode to 'warn' to allow more than 2 filtered aliases per index but warns about it (default)
     # Set filtered_alias_mode to 'nowarn' to allow more than 2 filtered aliases per index silently
     #filtered_alias_mode: warn
-    #kibana:
-      # Kibana multitenancy -
-      # see <TBD>
-      # To make this work you need to install <TBD>
-      #multitenancy_enabled: true
-      #server_username: kibanaserver
-      #index: '.kibana'
-      #do_not_fail_on_forbidden: false
+    do_not_fail_on_forbidden: false
+    kibana:
+      multitenancy_enabled: {{ kibana.multitenancy.enabled }}
+      server_username: {{ kibana.elasticsearch.user }}
+      index: '{{ kibana.elasticsearch.index }}'
     http:
       anonymous_auth_enabled: false
       xff:
         enabled: false
         internalProxies: '10\.244\.0\..*' # regex pattern
         #internalProxies: '.*' # trust all internal proxies, regex pattern
-        remoteIpHeader:  'x-forwarded-for'
-        proxiesHeader:   'x-forwarded-by'
-        #trustedProxies: '.*' # trust all external proxies, regex pattern
+        #remoteIpHeader:  'x-forwarded-for'
         ###### see https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html for regex help
         ###### more information about XFF https://en.wikipedia.org/wiki/X-Forwarded-For
         ###### and here https://tools.ietf.org/html/rfc7239
         ###### and https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Remote_IP_Valve
     authc:
       basic_internal_auth_domain:
+        description: "Authenticate via HTTP Basic against internal users database"
         http_enabled: true
         transport_enabled: true
         order: 2
@@ -90,7 +92,7 @@ opendistro_security:
         authentication_backend:
           type: intern
       ldap:
-        enabled: true
+        description: "Authenticate via LDAP"
         http_enabled: true
         transport_enabled: true
         order: 4
@@ -110,12 +112,16 @@ opendistro_security:
             bind_dn: {{ elasticsearch.ldap.manager_dn }}
             password: {{ elasticsearch.ldap.manager_password }}
             userbase: '{{ elasticsearch.ldap.users_dn }}'
+            # Filter to search for users (currently in the whole subtree beneath userbase)
+            # {0} is substituted with the username
             usersearch: '(&(objectClass=inetOrgPerson)(cn={0})(memberOf={{ elasticsearch.ldap.group }}))'
             username_attribute: cn
 
     authz:
       ldap:
-        enabled: true
+        description: "Authorize via LDAP"
+        http_enabled: true
+        transport_enabled: true
         authorization_backend:
           type: ldap
           config:
@@ -128,13 +134,23 @@ opendistro_security:
             pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
             bind_dn: {{ elasticsearch.ldap.manager_dn }}
             password: {{ elasticsearch.ldap.manager_password }}
-            userroleattribute: null
-            userrolename: none
-            rolesearch_enabled: true
             rolebase: '{{ elasticsearch.ldap.roles_dn }}'
+            # Filter to search for roles (currently in the whole subtree beneath rolebase)
+            # {0} is substituted with the DN of the user
+            # {1} is substituted with the username
+            # {2} is substituted with an attribute value from user's directory entry, of the authenticated user. Use userroleattribute to specify the name of the attribute
             rolesearch: '(uniqueMember={0})'
+            # Specify the name of the attribute which value should be substituted with {2} above
+            userroleattribute: null
+            # Roles as an attribute of the user entry
+            userrolename: disabled
+            # The attribute in a role entry containing the name of that role, Default is "name".
+            # Can also be "dn" to use the full DN as rolename.
             rolename: cn
+            # Resolve nested roles transitive (roles which are members of other roles and so on ...)
             resolve_nested_roles: false
+            userbase: '{{ elasticsearch.ldap.users_dn }}'
+            usersearch: '(&(objectClass=inetOrgPerson)(cn={1})(memberOf={{ elasticsearch.ldap.group }}))'
 {% if elasticsearch.internal_users | default([]) | length > 0 %}
             skip_users:
 {% for user in elasticsearch.internal_users | default([]) %}

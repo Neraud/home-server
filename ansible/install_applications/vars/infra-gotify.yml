@@ -5,7 +5,7 @@ gotify:
 
   container:
     image: "gotify/server"
-    tag: "2.0.5"
+    tag: "2.0.6"
     requests_cpu: "{{ gotify_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ gotify_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ gotify_container_limits_cpu | default('100m') }}"

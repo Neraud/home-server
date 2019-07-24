@@ -5,7 +5,7 @@ plex:
 
   container:
     image: "plexinc/pms-docker"
-    tag: "1.16.0.1226-7eb2c8f6f"
+    tag: "1.16.2.1321-ad17d5f9e"
     requests_cpu: "{{ plex_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ plex_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ plex_container_limits_cpu | default('2000m') }}"
