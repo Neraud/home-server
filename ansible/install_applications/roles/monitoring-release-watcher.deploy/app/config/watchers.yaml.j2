@@ -1,4 +1,10 @@
 watchers:
+  - type: pypi
+    package: ansible
+    version: 2.8.2
+    excludes: 
+      - .*[ab][1-9]$
+      - .*rc[1-9]$
   - type: github_commit
     repo: Neraud/release-watcher
     branch: master
