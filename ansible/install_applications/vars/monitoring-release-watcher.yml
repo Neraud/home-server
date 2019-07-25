@@ -12,7 +12,7 @@ release_watcher:
     limits_memory: "{{ release_watcher_container_limits_memory | default('64Mi') }}"
 
   repo:
-    url: "{{ release_watcher_repo_url | default('https://github.com/Neraud/release-watcher') }}"
-    version: "{{ release_watcher_repo_version | default('master') }}"
+    url: "https://github.com/Neraud/release-watcher"
+    version: "d4fbba5280b873da3ff2d259acaa9da32b8474a9"
   
   path: "{{ release_watcher_path | default('/opt/release-watcher') }}"

@@ -1,4 +1,14 @@
 watchers:
+  - type: pypi
+    package: ansible
+    version: 2.8.2
+    excludes: 
+      - .*[ab][1-9]$
+      - .*rc[1-9]$
+  - type: github_commit
+    repo: Neraud/release-watcher
+    branch: master
+    commit: {{ release_watcher.repo.version }}
   - type: github_commit
     repo: spotify/docker-gc
     branch: master
