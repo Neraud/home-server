@@ -23,3 +23,13 @@
     name: apcupsd.service
     state: started
     enabled: yes
+
+- name: Create Kubernetes service
+  k8s:
+    definition: "{{ lookup('template', 'kubernetes/' + item) }}"
+    state: present
+  with_items:
+    - endpoint.yaml.j2
+    - service.yaml.j2
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

@@ -23,11 +23,6 @@
   roles:
     - dns-client
 
-- name: Prepare APC UPS
-  hosts: apcups
-  roles:
-    - apcups
-
 - name: Provision Reverse Proxies
   hosts: loadbalancers
   roles:
@@ -81,3 +76,8 @@
   roles:
     - kubernetes-infra
     - { role: kubernetes-storage, tags: kubernetes-storage }
+
+- name: Provision APC UPS
+  hosts: apcups
+  roles:
+    - apcups
