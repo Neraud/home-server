@@ -75,7 +75,7 @@ glusterfs_volumes:
       storage: config
   openldap-run:
     replicas: 2
-    capacity: 16M
+    capacity: 32M
     arbiterCapacity: 4M
     nodes: [master-2, master-3]
     arbiters: [master-1]
