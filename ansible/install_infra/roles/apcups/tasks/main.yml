@@ -1,0 +1,25 @@
+---
+
+- name: Configure UFW for APC Daemon
+  import_tasks: ../../firewall/tasks/add-applications.yml
+  vars:
+    ufw_applications: "{{ apcups_ufw_applications }}"
+  when: apcups.netserver.enabled
+
+- name: Install APC Daemon
+  apt:
+    pkg: apcupsd
+    state: present
+
+- name: Configure APC Daemon
+  template: 
+    src: apcupsd.conf.j2
+    dest: /etc/apcupsd/apcupsd.conf
+    backup: yes
+  notify: Restart APC Daemon
+
+- name: Auto-start APC Daemon
+  service:
+    name: apcupsd.service
+    state: started
+    enabled: yes

@@ -1,0 +1,11 @@
+---
+
+apcups_name: APC UPS
+apcups_cable: usb
+apcups_upstype: usb
+apcups_device: ""
+apcups_polltime: 60
+
+apcups_netserver_enabled: True
+apcups_netserver_listen_ip: 0.0.0.0
+apcups_netserver_listen_port: 3551

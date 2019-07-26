@@ -23,6 +23,11 @@
   roles:
     - dns-client
 
+- name: Prepare APC UPS
+  hosts: apcups
+  roles:
+    - apcups
+
 - name: Provision Reverse Proxies
   hosts: loadbalancers
   roles:

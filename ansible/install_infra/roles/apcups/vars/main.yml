@@ -1,0 +1,20 @@
+---
+
+apcups:
+  name: "{{ apcups_name }}"
+  cable: "{{ apcups_cable }}"
+  upstype: "{{ apcups_upstype }}"
+  device: "{{ apcups_device }}"
+  polltime: "{{ apcups_polltime }}"
+
+  netserver:
+    enabled: "{{ apcups_netserver_enabled }}"
+    listen_ip: "{{ apcups_netserver_listen_ip }}"
+    listen_port: "{{ apcups_netserver_listen_port }}"
+
+apcups_ufw_applications:
+  - name: apcups
+    title: apcups
+    description: "A daemon for controlling APC UPSes"
+    ports: "{{ apcups.netserver.listen_port }}"
+    rule: allow

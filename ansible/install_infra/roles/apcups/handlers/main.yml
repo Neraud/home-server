@@ -1,0 +1,6 @@
+---
+
+- name: Restart APC Daemon
+  service:
+    name: apcupsd.service
+    state: restarted
