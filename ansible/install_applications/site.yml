@@ -72,6 +72,10 @@
   tags: kubernetes-app-monitoring-release-watcher
   when: release_watcher_enabled | bool
 
+- import_playbook: app-monitoring-apcups-exporter.yml
+  tags: kubernetes-app-monitoring-apcups-exporter
+  when: apcups_exporter_enabled | bool
+
 - import_playbook: app-monitoring-prometheus-operator.yml
   tags: kubernetes-app-monitoring-prometheus-operator
   when: prometheus_operator_enabled | bool

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apcups-exporter
+  namespace: monitoring
+  labels:
+    app: apcups-exporter
+    app-component: apcups-exporter
+spec:
+  selector:
+    matchLabels:
+      app: apcups-exporter
+      app-component: apcups-exporter
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: apcups-exporter
+        app-component: apcups-exporter
+    spec:
+      containers:
+      - image: "{{ apcups_exporter.container.image }}:{{ apcups_exporter.container.tag }}"
+        name: apcups-exporter
+        env:
+        - name: APCUPS_ADDR
+          value: apcupsd.monitoring:3551
+        ports:
+        - containerPort: 9162
+          name: metrics
+        resources:
+          requests:
+            cpu: "{{ apcups_exporter.container.requests_cpu }}"
+            memory: "{{ apcups_exporter.container.requests_memory }}"
+          limits:
+            cpu: "{{ apcups_exporter.container.limits_cpu }}"
+            memory: "{{ apcups_exporter.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'

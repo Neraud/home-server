@@ -10,6 +10,10 @@ watchers:
     branch: master
     commit: {{ release_watcher.repo.version }}
   - type: github_commit
+    repo: mdlayher/apcupsd_exporter
+    branch: master
+    commit: {{ apcups_exporter.repo.version }}
+  - type: github_commit
     repo: spotify/docker-gc
     branch: master
     commit: d1d11ee8afe7be2bfca9a0041d1eaa45c90ab9ae
