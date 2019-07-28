@@ -1,0 +1,21 @@
+---
+
+apcups_exporter:
+  enabled: "{{ apcups_exporter_enabled | default(True) }}"
+
+  container:
+    image: "{{ docker_registry.url }}/apcups-exporter"
+    tag: "latest"
+    from_image_build: golang
+    from_tag_build: 1.12.7-alpine3.10
+    from_image: alpine
+    from_tag: 3.10.1
+    requests_cpu: "{{ apcups_exporter_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ apcups_exporter_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ apcups_exporter_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ apcups_exporter_container_limits_memory | default('64Mi') }}"
+
+  repo:
+    url: "https://github.com/mdlayher/apcupsd_exporter"
+    version: "cbd49beaf01f4d70f33ce64ada787e73d8e9ea06"
+    

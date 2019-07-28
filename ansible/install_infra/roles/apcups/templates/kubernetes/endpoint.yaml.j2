@@ -1,0 +1,14 @@
+
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: apcupsd
+  namespace: monitoring
+subsets:
+{% for apcups_node in groups['apcups'] | map('extract', hostvars, ['ansible_host']) %}
+- addresses:
+  - ip: {{ apcups_node }}
+  ports:
+  - name: metrics
+    port: {{ apcups.netserver.listen_port }}
+{% endfor %}

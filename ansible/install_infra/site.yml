@@ -76,3 +76,8 @@
   roles:
     - kubernetes-infra
     - { role: kubernetes-storage, tags: kubernetes-storage }
+
+- name: Provision APC UPS
+  hosts: apcups
+  roles:
+    - apcups
