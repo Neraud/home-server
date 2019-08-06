@@ -14,10 +14,7 @@ echo "=================================================="
 export DEBIAN_FRONTEND=noninteractive
 
 echo " - update"
-#apt-get -y update
-# Buster is now stable, but the base vagrant box hasn't been rebuilt. To avoid apt-get errors, we allow a releaseinfo change
-# TODO : to remove once the vagrant box is rebuilt
-apt-get -y --allow-releaseinfo-change update
+apt-get -y update
 
 echo " - upgrade"
 apt-get -q -y upgrade
