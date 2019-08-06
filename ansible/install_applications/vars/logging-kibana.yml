@@ -5,7 +5,7 @@ kibana:
 
   container:
     image: "amazon/opendistro-for-elasticsearch-kibana"
-    tag: "1.0.1"
+    tag: "1.1.0"
     requests_cpu: "{{ kibana_container_requests_cpu | default('1000m') }}"
     requests_memory: "{{ kibana_container_requests_memory | default('2048Mi') }}"
     limits_cpu: "{{ kibana_container_limits_cpu | default('1000m') }}"
