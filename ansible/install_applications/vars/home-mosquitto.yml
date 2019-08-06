@@ -5,7 +5,7 @@ mosquitto:
 
   container:
     image: "eclipse-mosquitto"
-    tag: "1.6.3"
+    tag: "1.6.4"
     requests_cpu: "{{ mosquitto_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ mosquitto_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ mosquitto_container_limits_cpu | default('200m') }}"
