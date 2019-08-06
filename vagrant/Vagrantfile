@@ -9,6 +9,10 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.box = settings['common']['box_name']
+	if settings['common']['box_version']
+		config.vm.box_version  = settings['common']['box_version']
+	end
+	
 	config.ssh.insert_key = false
 	if Vagrant.has_plugin?("vagrant-vbguest")
     	config.vbguest.auto_update = false
