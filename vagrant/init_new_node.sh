@@ -14,10 +14,7 @@ echo "=================================================="
 export DEBIAN_FRONTEND=noninteractive
 
 echo " - update"
-#apt-get -y update
-# Buster is now stable, but the base vagrant box hasn't been rebuilt. To avoid apt-get errors, we allow a releaseinfo change
-# TODO : to remove once the vagrant box is rebuilt
-apt-get -y --allow-releaseinfo-change update
+apt-get -y update
 
 echo " - upgrade"
 apt-get -q -y upgrade
@@ -33,7 +30,7 @@ mkdir -p /root/.ssh
 if [ "$mode" == "ansible" ] ; then
 	echo " - install ansible from"
 	apt-get -q -y install python-pip
-	pip install ansible==2.8.2
+	pip install ansible==2.8.3
 
 	# Workaround for https://github.com/ansible/ansible/issues/57509
 	# If the playbook itself installs passlib, bcrypt hash won't be available in the same run

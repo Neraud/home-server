@@ -5,7 +5,7 @@ docker_registry_ui:
 
   container:
     image: "quiq/docker-registry-ui"
-    tag: "0.8.1"
+    tag: "0.8.2"
     requests_cpu: "{{ docker_registry_ui_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ docker_registry_ui_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ docker_registry_ui_container_limits_cpu | default('200m') }}"

@@ -9,7 +9,7 @@ pyload:
     from_image: "lsiobase/python"
     from_tag: "amd64-3.10"
     branch: "stable"
-    commit: "4c3cd5f94f8b85f79a67135394d38f9c07ddb10c"
+    commit: "9f346c75e8a689eb4c9dae0c67209234892bf61e"
     requests_cpu: "{{ pyload_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ pyload_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ pyload_container_limits_cpu | default('200m') }}"

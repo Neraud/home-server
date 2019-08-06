@@ -14,7 +14,7 @@
   git:
     dest: "{{ docker_gc_path }}/docker-gc"
     repo: https://github.com/spotify/docker-gc
-    version: d1d11ee8afe7be2bfca9a0041d1eaa45c90ab9ae
+    version: 539c30b823f01278a968f6c360c5963e75396f25
   register: docker_gc_clone_result
 
 - name: Build docker-gc
@@ -29,7 +29,7 @@
 
 - name: Install docker-gc
   apt:
-    deb: "{{ docker_gc_path }}/docker-gc_0.1.0_all.deb"
+    deb: "{{ docker_gc_path }}/docker-gc_0.2.0_all.deb"
 
 - name: Generate docker-gc cron
   cron:
