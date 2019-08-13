@@ -18,6 +18,7 @@ spec:
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'
+  podMonitorSelector: {}
   replicas: 1
   externalUrl: https://infra.{{ web_base_domain }}/prometheus/
   resources:
