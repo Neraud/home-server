@@ -313,9 +313,10 @@ watchers:
   #####################
   # Apps : Monitoring #
   #####################
-  - type: github_release
+  - type: github_commit
     repo: coreos/kube-prometheus
-    release: v0.1.0
+    branch: master
+    commit: a536114bf3e0e4c8f19a555685e95fb5c11e4ec8
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
