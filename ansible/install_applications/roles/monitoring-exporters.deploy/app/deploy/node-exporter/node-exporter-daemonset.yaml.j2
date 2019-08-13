@@ -25,7 +25,7 @@ spec:
         - --path.rootfs=/host/root
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+)($|/)
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
-        image: "{{ kubernetes_exporter_node_exporter.container.image }}:{{ kubernetes_exporter_node_exporter.container.tag }}"
+        image: "{{ kubernetes_exporter_node_exporter.container.repo }}/{{ kubernetes_exporter_node_exporter.container.image }}:{{ kubernetes_exporter_node_exporter.container.tag }}"
         name: node-exporter
         resources:
           limits:

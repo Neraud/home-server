@@ -4,7 +4,8 @@ prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
 
   container:
-    image: "quay.io/coreos/prometheus-operator"
+    repo: quay.io
+    image: "coreos/prometheus-operator"
     tag: "v0.29.0"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('100Mi') }}"
@@ -16,7 +17,8 @@ prometheus:
   allowed_namespaces: "{{ prometheus_allowed_namespaces | default(prometheus_allowed_namespaces_default) }}"
 
   container:
-    image: "quay.io/prometheus/prometheus"
+    repo: quay.io
+    image: "prometheus/prometheus"
     tag: "v2.7.2"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ prometheus_container_requests_memory | default('768Mi') }}"
@@ -32,7 +34,8 @@ prometheus_allowed_namespaces_default:
 
 alertmanager:
   container:
-    image: "quay.io/prometheus/alertmanager"
+    repo: quay.io
+    image: "prometheus/alertmanager"
     tag: "v0.16.2"
     requests_cpu: "{{ alertmanager_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ alertmanager_container_requests_memory | default('256Mi') }}"

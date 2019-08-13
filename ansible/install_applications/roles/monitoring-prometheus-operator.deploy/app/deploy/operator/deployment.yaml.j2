@@ -21,7 +21,7 @@ spec:
         - --logtostderr=true
         - --config-reloader-image=quay.io/coreos/configmap-reload:v0.0.1
         - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.29.0
-        image: "{{ prometheus_operator.container.image }}:{{ prometheus_operator.container.tag }}"
+        image: "{{ prometheus_operator.container.repo }}/{{ prometheus_operator.container.image }}:{{ prometheus_operator.container.tag }}"
         name: prometheus-operator
         ports:
         - containerPort: 8080

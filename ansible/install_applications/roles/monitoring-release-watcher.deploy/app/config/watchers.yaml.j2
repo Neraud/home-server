@@ -316,7 +316,63 @@ watchers:
   - type: github_release
     repo: coreos/kube-prometheus
     release: v0.1.0
-    
+  
+  # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
+  #- type: docker_registry
+  #  repo: {{ kubernetes_exporter_kube_state_metrics.container.repo }}
+  #  image: {{ kubernetes_exporter_kube_state_metrics.container.image }}
+  #  tag: {{ kubernetes_exporter_kube_state_metrics.container.tag }}
+  #  excludes:
+  #    - latest
+  #    - .*(alpha|beta|rc).*
+  #- type: docker_registry
+  #  repo: {{ kubernetes_exporter_node_exporter.container.repo }}
+  #  image: {{ kubernetes_exporter_node_exporter.container.image }}
+  #  tag: {{ kubernetes_exporter_node_exporter.container.tag }}
+  #  excludes:
+  #    - .*(alpha|beta|rc).*
+  #    - (latest|master)
+  #- type: docker_registry
+  #  repo: registry-1.docker.io
+  #  image: {{ grafana.container.image }}
+  #  tag: {{ grafana.container.tag }}
+  #  excludes:
+  #    - (master|latest)
+  #    - .*(alpha|beta|rc).*
+  #    - ^[1-5].*
+  #- type: docker_registry
+  #  repo: {{ prometheus_operator.container.repo }}
+  #  image: {{ prometheus_operator.container.image }}
+  #  tag: {{ prometheus_operator.container.tag }}
+  #  excludes:
+  #    - (master|latest)
+  #    - ^v0\.[0-9]\..*
+  #    - ^v0\.1[0-9]\..*
+  #    - ^v0\.2[0-8]\..*
+  #- type: docker_registry
+  #  repo: {{ prometheus.container.repo }}
+  #  image: {{ prometheus.container.image }}
+  #  tag: {{ prometheus.container.tag }}
+  #  includes:
+  #    - ^v.*
+  #  excludes:
+  #    - (master|latest)
+  #    - .*(alpha|beta|rc).*
+  #    - ^v1\..*
+  #    - ^v2\.[0-6]\..*
+  #- type: docker_registry
+  #  repo: {{ alertmanager.container.repo }}
+  #  image: {{ alertmanager.container.image }}
+  #  tag: {{ alertmanager.container.tag }}
+  #  includes:
+  #    - ^v.*
+  #  excludes:
+  #    - (master|latest)
+  #    - .*(alpha|beta|rc).*
+  #    - ^v0\.[0-9]\..*
+  #    - ^v0\.1[0-5]\..*
+
+
   #################
   # Apps : Stream #
   #################
