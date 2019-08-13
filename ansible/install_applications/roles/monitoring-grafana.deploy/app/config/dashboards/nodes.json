@@ -666,7 +666,7 @@
                      "show": true
                   },
                   {
-                     "format": "ms",
+                     "format": "s",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -714,14 +714,14 @@
                      "expr": "node:node_filesystem_usage:{cluster=\"$cluster\", instance=\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "disk used",
+                     "legendFormat": "{{device}} disk used",
                      "refId": "A"
                   },
                   {
                      "expr": "node:node_filesystem_usage:{cluster=\"$cluster\", instance=\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "disk free",
+                     "legendFormat": "{{device}} disk free",
                      "refId": "B"
                   }
                ],

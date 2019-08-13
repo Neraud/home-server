@@ -56,16 +56,16 @@ spec:
         "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodcrashlooping"
       "expr": |
         rate(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[15m]) * 60 * 5 > 0
-      "for": "1h"
+      "for": "15m"
       "labels":
         "severity": "critical"
     - "alert": "KubePodNotReady"
       "annotations":
-        "message": "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than an hour."
+        "message": "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready state for longer than 15 minutes."
         "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubepodnotready"
       "expr": |
-        sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Pending|Unknown"}) > 0
-      "for": "1h"
+        sum by (namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Failed|Pending|Unknown"}) > 0
+      "for": "15m"
       "labels":
         "severity": "critical"
     - "alert": "KubeDeploymentGenerationMismatch"
@@ -81,13 +81,13 @@ spec:
         "severity": "critical"
     - "alert": "KubeDeploymentReplicasMismatch"
       "annotations":
-        "message": "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has not matched the expected number of replicas for longer than an hour."
+        "message": "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has not matched the expected number of replicas for longer than 15 minutes."
         "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedeploymentreplicasmismatch"
       "expr": |
         kube_deployment_spec_replicas{job="kube-state-metrics"}
           !=
         kube_deployment_status_replicas_available{job="kube-state-metrics"}
-      "for": "1h"
+      "for": "15m"
       "labels":
         "severity": "critical"
     - "alert": "KubeStatefulSetReplicasMismatch"
@@ -186,7 +186,7 @@ spec:
         "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubejobfailed"
       "expr": |
         kube_job_status_failed{job="kube-state-metrics"}  > 0
-      "for": "1h"
+      "for": "15m"
       "labels":
         "severity": "warning"
   - "name": "kubernetes-resources"
@@ -198,9 +198,9 @@ spec:
       "expr": |
         sum(namespace:kube_pod_container_resource_requests_cpu_cores:sum)
           /
-        sum(node:node_num_cpu:sum)
+        sum(kube_node_status_allocatable_cpu_cores)
           >
-        (count(node:node_num_cpu:sum)-1) / count(node:node_num_cpu:sum)
+        (count(kube_node_status_allocatable_cpu_cores)-1) / count(kube_node_status_allocatable_cpu_cores)
       "for": "5m"
       "labels":
         "severity": "warning"
@@ -211,11 +211,11 @@ spec:
       "expr": |
         sum(namespace:kube_pod_container_resource_requests_memory_bytes:sum)
           /
-        sum(node_memory_MemTotal_bytes)
+        sum(kube_node_status_allocatable_memory_bytes)
           >
-        (count(node:node_num_cpu:sum)-1)
+        (count(kube_node_status_allocatable_memory_bytes)-1)
           /
-        count(node:node_num_cpu:sum)
+        count(kube_node_status_allocatable_memory_bytes)
       "for": "5m"
       "labels":
         "severity": "warning"
@@ -226,7 +226,7 @@ spec:
       "expr": |
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="cpu"})
           /
-        sum(node:node_num_cpu:sum)
+        sum(kube_node_status_allocatable_cpu_cores)
           > 1.5
       "for": "5m"
       "labels":
@@ -238,7 +238,7 @@ spec:
       "expr": |
         sum(kube_resourcequota{job="kube-state-metrics", type="hard", resource="memory"})
           /
-        sum(node_memory_MemTotal_bytes{job="node-exporter"})
+        sum(kube_node_status_allocatable_memory_bytes{job="node-exporter"})
           > 1.5
       "for": "5m"
       "labels":
@@ -263,7 +263,7 @@ spec:
         100 * sum(increase(container_cpu_cfs_throttled_periods_total{container!="", }[5m])) by (container, pod, namespace)
           /
         sum(increase(container_cpu_cfs_periods_total{}[5m])) by (container, pod, namespace)
-          > 25
+          > 25 
       "for": "15m"
       "labels":
         "severity": "warning"
@@ -313,7 +313,7 @@ spec:
         "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodenotready"
       "expr": |
         kube_node_status_condition{job="kube-state-metrics",condition="Ready",status="true"} == 0
-      "for": "1h"
+      "for": "15m"
       "labels":
         "severity": "warning"
     - "alert": "KubeVersionMismatch"
@@ -321,8 +321,8 @@ spec:
         "message": "There are {{ $value }} different semantic versions of Kubernetes components running."
         "runbook_url": "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeversionmismatch"
       "expr": |
-        count(count by (gitVersion) (label_replace(kubernetes_build_info{job!="kube-dns"},"gitVersion","$1","gitVersion","(v[0-9]*.[0-9]*.[0-9]*).*"))) > 1
-      "for": "1h"
+        count(count by (gitVersion) (label_replace(kubernetes_build_info{job!~"kube-dns|coredns"},"gitVersion","$1","gitVersion","(v[0-9]*.[0-9]*.[0-9]*).*"))) > 1
+      "for": "15m"
       "labels":
         "severity": "warning"
     - "alert": "KubeClientErrors"
