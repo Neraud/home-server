@@ -2,17 +2,16 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: fluent-bit
-  name: fluent-bit
+    app: ingress-nginx
+  name: ingress-nginx
   namespace: monitoring
 spec:
   endpoints:
-  - interval: 30s
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
     port: metrics
-    path: /api/v1/metrics/prometheus
   namespaceSelector:
     matchNames:
-    - logging
+    - ingress-nginx
   selector:
     matchLabels:
-      prometheus-target: fluent-bit
+      prometheus-target: ingress-nginx

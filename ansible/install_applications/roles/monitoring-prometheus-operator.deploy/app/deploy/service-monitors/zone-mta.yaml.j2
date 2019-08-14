@@ -2,17 +2,16 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: kube-scheduler
-  name: kube-scheduler
+    app: zonemta
+  name: zonemta
   namespace: monitoring
 spec:
   endpoints:
-  - interval: 30s
-    port: http-metrics
-  jobLabel: k8s-app
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    port: metrics
   namespaceSelector:
     matchNames:
-    - kube-system
+    - default
   selector:
     matchLabels:
-      prometheus-target: kube-scheduler
+      prometheus-target: zonemta

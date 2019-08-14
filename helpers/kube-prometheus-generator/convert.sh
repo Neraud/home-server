@@ -75,14 +75,14 @@ cp $OUT_GENERATED_ROOT/prometheus-service.yaml $PROMETHEUS_ROOT/service.yaml
 echo "Converting ServiceMonitors"
 SERVICE_MONITOR_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/service-monitors
 mkdir -p $SERVICE_MONITOR_ROOT
-cp $OUT_GENERATED_ROOT/node-exporter-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/node-exporter.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/kube-state-metrics.yaml
-cp $OUT_GENERATED_ROOT/grafana-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/grafana.yaml
-cp $OUT_GENERATED_ROOT/alertmanager-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/alertmanager.yaml
-cp $OUT_GENERATED_ROOT/0prometheus-operator-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus-operator.yaml
-cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorApiserver.yaml $SERVICE_MONITOR_ROOT/apiserver.yaml
-cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorCoreDNS.yaml $SERVICE_MONITOR_ROOT/coreDNS.yaml
-cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubeControllerManager.yaml $SERVICE_MONITOR_ROOT/kubeControllerManager.yaml
-cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubelet.yaml $SERVICE_MONITOR_ROOT/kubelet.yaml
-cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubeScheduler.yaml $SERVICE_MONITOR_ROOT/kubeScheduler.yaml
-cp $OUT_GENERATED_ROOT/prometheus-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus.yaml
+cp $OUT_GENERATED_ROOT/node-exporter-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/node-exporter.yaml.j2
+cp $OUT_GENERATED_ROOT/kube-state-metrics-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/kube-state-metrics.yaml.j2
+cp $OUT_GENERATED_ROOT/grafana-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/grafana.yaml.j2
+cp $OUT_GENERATED_ROOT/alertmanager-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/alertmanager.yaml.j2
+cp $OUT_GENERATED_ROOT/0prometheus-operator-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus-operator.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorApiserver.yaml $SERVICE_MONITOR_ROOT/apiserver.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorCoreDNS.yaml $SERVICE_MONITOR_ROOT/coreDNS.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubeControllerManager.yaml $SERVICE_MONITOR_ROOT/kubeControllerManager.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubelet.yaml $SERVICE_MONITOR_ROOT/kubelet.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubeScheduler.yaml $SERVICE_MONITOR_ROOT/kubeScheduler.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus.yaml.j2

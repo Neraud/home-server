@@ -52,3 +52,8 @@ alertmanager:
   
   default_receiver: "{{ alertmanager_default_receiver | default('default') }}"
   receivers: "{{ alertmanager_receivers | default([]) }}"
+
+service_monitors:
+  # Multiply all scrap intervals with this factor.
+  # For example, a standard 30s interval with a factor 2 becomes 60s
+  interval_factor: "{{ service_monitors_interval_factor | default(1) }}"

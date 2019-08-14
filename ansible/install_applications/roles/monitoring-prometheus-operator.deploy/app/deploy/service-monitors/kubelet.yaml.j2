@@ -9,14 +9,14 @@ spec:
   endpoints:
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     honorLabels: true
-    interval: 30s
+    interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
     port: https-metrics
     scheme: https
     tlsConfig:
       insecureSkipVerify: true
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     honorLabels: true
-    interval: 30s
+    interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
     metricRelabelings:
     - action: drop
       regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
