@@ -7,12 +7,15 @@ import os
 import shutil
 import re
 from subprocess import Popen, PIPE, DEVNULL
+from prometheus_client import parser
+import csv
 
 urllib3.disable_warnings()
 
 outDir = 'snapshot_metrics_out'
 prometheusUrl = 'https://127.0.0.1:30443/prometheus'
 kubernetesUser = 'user'
+metricsCountFile = '%s/metrics.csv' % outDir
 
 if os.path.isdir(outDir):
     try:
@@ -69,13 +72,33 @@ def callOneTarget(job, instance, scrapeUrl):
                                 headers=headers,
                                 verify=False,
                                 timeout=30)
+        countMetrics(job, instance, targetFile, response.text)
         with open(targetFile, 'w') as outfile:
             outfile.write(response.text)
     except RequestException as e:
         print("Error: %s" % e)
 
 
+def initMetricsCount(csvfile):
+    metricsCountWriter = csv.writer(csvfile)
+    metricsCountWriter.writerow(
+        ['Job', 'Instance', 'Name', 'Samples', 'Exported file', 'Doc'])
+    return metricsCountWriter
+
+
+def countMetrics(job, instance, targetFile, content):
+    metrics = parser.text_string_to_metric_families(content)
+    for metric in metrics:
+        metricsCountWriter.writerow([
+            job, instance, metric.name,
+            len(metric.samples), targetFile, metric.documentation
+        ])
+
+
 bearerToken = fetchBearerToken()
 targetsJson = listTargets()
-for t in targetsJson['data']['activeTargets']:
-    callOneTarget(t['labels']['job'], t['labels']['instance'], t['scrapeUrl'])
+with open(metricsCountFile, 'w') as csvfile:
+    metricsCountWriter = initMetricsCount(csvfile)
+    for t in targetsJson['data']['activeTargets']:
+        callOneTarget(t['labels']['job'], t['labels']['instance'],
+                      t['scrapeUrl'])

@@ -5,6 +5,14 @@
 
 This is a simple tool to snapshot the metrics exposed by all prometheus targets.
 
+### Requirement
+
+This script requires `prometheus_client`, which can be installed with :
+```
+apt-get install python3-pip python3-setuptools python3-dev
+pip3 install prometheus_client
+```
+
 ### Usage
 
 Simply run the `snapshot_metrics.py` script.
