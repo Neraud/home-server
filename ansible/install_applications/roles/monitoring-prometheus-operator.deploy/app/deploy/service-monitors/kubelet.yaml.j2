@@ -10,6 +10,12 @@ spec:
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     honorLabels: true
     interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    metricRelabelings:
+    # Drop unused metrics
+    - action: drop
+      regex: kubelet_docker_operations_duration_.*
+      sourceLabels:
+      - __name__
     port: https-metrics
     scheme: https
     tlsConfig:
@@ -20,6 +26,11 @@ spec:
     metricRelabelings:
     - action: drop
       regex: container_(network_tcp_usage_total|network_udp_usage_total|tasks_state|cpu_load_average_10s)
+      sourceLabels:
+      - __name__
+    # Drop unused metrics
+    - action: drop
+      regex: container_fs_.*
       sourceLabels:
       - __name__
     path: /metrics/cadvisor
