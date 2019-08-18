@@ -27,7 +27,7 @@ os.mkdir(outDir)
 
 def get_valid_filename(s):
     # Initially copied from https://github.com/django/django/blob/master/django/utils/text.py
-    s = str(s).strip().replace(' ', '_').replace(':', '_')
+    s = str(s).strip().replace(' ', '_').replace(':', '_').replace('/', '_')
     return re.sub(r'(?u)[^-\w.]', '', s)
 
 
@@ -100,5 +100,5 @@ targetsJson = listTargets()
 with open(metricsCountFile, 'w') as csvfile:
     metricsCountWriter = initMetricsCount(csvfile)
     for t in targetsJson['data']['activeTargets']:
-        callOneTarget(t['labels']['job'], t['labels']['instance'],
+        callOneTarget(t['discoveredLabels']['job'], t['labels']['instance'],
                       t['scrapeUrl'])
