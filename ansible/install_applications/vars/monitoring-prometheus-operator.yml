@@ -21,9 +21,9 @@ prometheus:
     image: "prometheus/prometheus"
     tag: "v2.11.0"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('200m') }}"
-    requests_memory: "{{ prometheus_container_requests_memory | default('768Mi') }}"
+    requests_memory: "{{ prometheus_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('500m') }}"
-    limits_memory: "{{ prometheus_container_limits_memory | default('768Mi') }}"
+    limits_memory: "{{ prometheus_container_limits_memory | default('512Mi') }}"
 
 prometheus_allowed_namespaces_default:
   - default
@@ -38,9 +38,9 @@ alertmanager:
     image: "prometheus/alertmanager"
     tag: "v0.18.0"
     requests_cpu: "{{ alertmanager_container_requests_cpu | default('100m') }}"
-    requests_memory: "{{ alertmanager_container_requests_memory | default('256Mi') }}"
+    requests_memory: "{{ alertmanager_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ alertmanager_container_limits_cpu | default('250m') }}"
-    limits_memory: "{{ alertmanager_container_limits_memory | default('256Mi') }}"
+    limits_memory: "{{ alertmanager_container_limits_memory | default('128Mi') }}"
 
   smtp:
     enabled: "{{ alertmanager_smtp_enabled | default(True) }}"
