@@ -10,6 +10,12 @@ su user -c "kubectl --namespace=monitoring delete statefulsets prometheus-k8s"
 echo "Deleting AlertManager Statefulset"
 su user -c "kubectl --namespace=monitoring delete statefulsets alertmanager-main"
 
+echo "Deleting all Prometheus rules"
+su user -c "kubectl --namespace=monitoring delete prometheusrules --all"
+
+echo "Deleting all service monitors"
+su user -c "kubectl --namespace=monitoring delete servicemonitors --all"
+
 echo ""
 echo "Mount Prometheus volumes"
 mkdir -p /data/volumes/prometheus-k8s
