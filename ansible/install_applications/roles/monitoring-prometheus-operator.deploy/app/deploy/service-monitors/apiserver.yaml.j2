@@ -22,6 +22,28 @@ spec:
       regex: apiserver_admission_step_admission_latencies_seconds_.*
       sourceLabels:
       - __name__
+
+      # Drop unused metrics
+    - action: drop
+      regex: apiserver_admission_.*
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: apiserver_request_count
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: apiserver_request_latencies_.*
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: apiserver_response_sizes_.*
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: etcd_request_latencies_.*
+      sourceLabels:
+      - __name__
     port: https
     scheme: https
     tlsConfig:
