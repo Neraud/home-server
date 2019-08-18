@@ -190,10 +190,7 @@ watchers:
   - type: docker_registry
     repo: quay.io
     image: kubernetes-ingress-controller/nginx-ingress-controller
-    # We are using 0.24.1, but the registry API doesn't list this version for some reason.
-    # To avoid false positives, we keep 0.24.0 here
-    #tag: 0.24.1
-    tag: 0.24.0
+    tag: 0.24.1
     excludes:
       - .*(alpha|beta).*
       - 0\.[0-9]\.
