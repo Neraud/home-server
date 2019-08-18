@@ -1,3384 +1,3517 @@
 {
-   "annotations": {
-      "list": [
-         {
-            "builtIn": 1,
-            "datasource": "-- Grafana --",
-            "enable": true,
-            "hide": true,
-            "iconColor": "rgba(0, 211, 255, 1)",
-            "name": "Annotations & Alerts",
-            "type": "dashboard"
-         }
-      ]
-   },
-   "editable": true,
-   "gnetId": null,
-   "graphTooltip": 0,
-   "id": 8,
-   "iteration": 1566219035146,
-   "links": [],
-   "panels": [
+  "annotations": {
+    "list": [
       {
-         "collapsed": false,
-         "gridPos": {
-            "h": 1,
-            "w": 24,
-            "x": 0,
-            "y": 0
-         },
-         "id": 28,
-         "panels": [],
-         "repeat": null,
-         "title": "Volume Summary",
-         "type": "row"
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": true,
-         "colors": [
-            "#cc0000",
-            "#92d400",
-            "#FFFFFF"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "percentunit",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 0,
-            "y": 1
-         },
-         "height": "75px",
-         "id": 1,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "gluster_volume_up{volume = \"$Volume\"}",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "0.9,1.1",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Status",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "DOWN",
-               "value": "0"
-            },
-            {
-               "op": "=",
-               "text": "UP",
-               "value": "1"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "percentunit",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 6,
-            "y": 1
-         },
-         "height": "75px",
-         "id": 2,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "gluster:volume_capacity_used_bytes_total:sum{volume='$Volume'} / gluster:volume_capacity_total_bytes:sum{volume='$Volume'}",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Capacity Utilization",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "decbytes",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 12,
-            "y": 1
-         },
-         "height": "75px",
-         "id": 3,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "gluster:volume_capacity_total_bytes:sum{volume='$Volume'} - gluster:volume_capacity_used_bytes_total:sum{volume='$Volume'}",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Available Capacity",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 6,
-            "x": 18,
-            "y": 1
-         },
-         "height": "75px",
-         "id": 4,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "(sum (gluster_volume_profile_total_reads_interval{volume='$Volume'}) + sum(gluster_volume_profile_total_writes_interval{volume='$Volume'}))/max(gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "IOPS",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 10,
-         "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 0,
-            "y": 4
-         },
-         "id": 5,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 0,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": true,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "gluster:volume_capacity_used_bytes_total:sum{volume='$Volume'}",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "{{$Volume}}",
-               "legendLink": null,
-               "refId": "A",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeRegions": [],
-         "timeShift": null,
-         "title": "Capacity Utilization",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "decbytes",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ],
-         "yaxis": {
-            "align": false,
-            "alignLevel": null
-         }
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 10,
-         "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 12,
-            "y": 4
-         },
-         "id": 6,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 0,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": true,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "(sum (gluster_volume_profile_total_reads_interval{volume='$Volume'}) + sum(gluster_volume_profile_total_writes_interval{volume='$Volume'}))/max(gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "{{$Volume}}",
-               "legendLink": null,
-               "refId": "A",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeRegions": [],
-         "timeShift": null,
-         "title": "IOPS",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ],
-         "yaxis": {
-            "align": false,
-            "alignLevel": null
-         }
-      },
-      {
-         "collapsed": false,
-         "gridPos": {
-            "h": 1,
-            "w": 24,
-            "x": 0,
-            "y": 11
-         },
-         "id": 29,
-         "panels": [],
-         "repeat": null,
-         "title": "LVM Summary",
-         "type": "row"
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 0,
-            "y": 12
-         },
-         "id": 7,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": false,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "100*(gluster_thinpool_metadata_used_bytes{volume='$Volume'} / gluster_thinpool_metadata_total_bytes{volume='$Volume'})",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "{{thinpool_name}}",
-               "legendLink": null,
-               "refId": "A",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeRegions": [],
-         "timeShift": null,
-         "title": "LVM Thin Pool Metadata %",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ],
-         "yaxis": {
-            "align": false,
-            "alignLevel": null
-         }
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 12,
-            "y": 12
-         },
-         "id": 8,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": false,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "100*(gluster_thinpool_data_used_bytes{volume='$Volume'} / gluster_thinpool_data_total_bytes{volume='$Volume'})",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "{{thinpool_name}}",
-               "legendLink": null,
-               "refId": "A",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeRegions": [],
-         "timeShift": null,
-         "title": "LVM Thin Pool Data Usage  %",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ],
-         "yaxis": {
-            "align": false,
-            "alignLevel": null
-         }
-      },
-      {
-         "collapsed": false,
-         "gridPos": {
-            "h": 1,
-            "w": 24,
-            "x": 0,
-            "y": 19
-         },
-         "id": 30,
-         "panels": [],
-         "repeat": null,
-         "title": "Bricks (Volume Subcomponent) Summary",
-         "type": "row"
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 0,
-            "y": 20
-         },
-         "height": "75px",
-         "id": 9,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "gluster_volume_brick_count{volume='$Volume'}",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Bricks-Total",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": true,
-         "colors": [
-            "#FFFFFF",
-            "#FFFFFF",
-            "#92d400"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 8,
-            "y": 20
-         },
-         "height": "75px",
-         "id": 10,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "count (gluster_brick_up{volume='$Volume'} == 1)",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "0.1,0.9",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Bricks-Up",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": true,
-         "colors": [
-            "#FFFFFF",
-            "#FFFFFF",
-            "#cc0000"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 16,
-            "y": 20
-         },
-         "height": "75px",
-         "id": 11,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "count(gluster_brick_up{volume='$Volume'}) - count (gluster_brick_up{volume='$Volume'} == 1)",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "0.1,0.9",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Bricks-Down",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "percentunit",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 0,
-            "y": 23
-         },
-         "height": "75px",
-         "id": 12,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "avg (gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Capacity Utilization-Average",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "percentunit",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 8,
-            "y": 23
-         },
-         "height": "75px",
-         "id": 13,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "min (gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Capacity Utilization-Min",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "percentunit",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 16,
-            "y": 23
-         },
-         "height": "75px",
-         "id": 14,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "max (gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Capacity Utilization-Max",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 0,
-            "y": 26
-         },
-         "height": "75px",
-         "id": 15,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "count((gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'}) < 0.8)",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Brick Usage < 80%",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 8,
-            "y": 26
-         },
-         "height": "75px",
-         "id": 16,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "count((gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'}) < 0.9) - count((gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'}) < 0.8)",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Brick Usage > 80% < 90%",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 16,
-            "y": 26
-         },
-         "height": "75px",
-         "id": 17,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "count(gluster_brick_capacity_used_bytes{volume='$Volume'}) - count((gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'}) < 0.9)",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Brick Usage > 90%",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 0,
-            "y": 29
-         },
-         "height": "75px",
-         "id": 18,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "avg((gluster_volume_profile_total_reads_interval{volume='$Volume'} + gluster_volume_profile_total_writes_interval{volume='$Volume'}) /gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "IOPS - Avg",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 8,
-            "y": 29
-         },
-         "height": "75px",
-         "id": 19,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "min((gluster_volume_profile_total_reads_interval{volume='$Volume'} + gluster_volume_profile_total_writes_interval{volume='$Volume'}) /gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "IOPS - Min",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "cacheTimeout": null,
-         "colorBackground": false,
-         "colorValue": false,
-         "colors": [
-            "#299c46",
-            "rgba(237, 129, 40, 0.89)",
-            "#d44a3a"
-         ],
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-         },
-         "gridPos": {
-            "h": 3,
-            "w": 8,
-            "x": 16,
-            "y": 29
-         },
-         "height": "75px",
-         "id": 20,
-         "interval": null,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "mappingType": 1,
-         "mappingTypes": [
-            {
-               "name": "value to text",
-               "value": 1
-            },
-            {
-               "name": "range to text",
-               "value": 2
-            }
-         ],
-         "maxDataPoints": 100,
-         "nullPointMode": "null as zero",
-         "nullText": null,
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "postfix": "",
-         "postfixFontSize": "50%",
-         "prefix": "",
-         "prefixFontSize": "50%",
-         "rangeMaps": [
-            {
-               "from": "null",
-               "text": "N/A",
-               "to": "null"
-            }
-         ],
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-         },
-         "stack": false,
-         "steppedLine": false,
-         "tableColumn": "",
-         "targets": [
-            {
-               "expr": "max((gluster_volume_profile_total_reads_interval{volume='$Volume'} + gluster_volume_profile_total_writes_interval{volume='$Volume'}) /gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "IOPS - Max",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "valueFontSize": "80%",
-         "valueMaps": [
-            {
-               "op": "=",
-               "text": "N/A",
-               "value": "null"
-            }
-         ],
-         "valueName": "avg",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gridPos": {
-            "h": 3,
-            "w": 12,
-            "x": 0,
-            "y": 32
-         },
-         "height": "75px",
-         "id": 21,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": false,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "sum (gluster_volume_heal_count{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Heal Counts-Total Files",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "format": "none",
-         "gridPos": {
-            "h": 3,
-            "w": 12,
-            "x": 12,
-            "y": 32
-         },
-         "height": "75px",
-         "id": 22,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": false,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "sum (gluster_volume_split_brain_heal_count{volume='$Volume'})",
-               "format": "time_series",
-               "instant": true,
-               "intervalFactor": 2,
-               "refId": "A"
-            }
-         ],
-         "thresholds": "70,80",
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Heal Counts-Files in Split-Brain",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "singlestat",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "collapsed": false,
-         "gridPos": {
-            "h": 1,
-            "w": 24,
-            "x": 0,
-            "y": 35
-         },
-         "id": 31,
-         "panels": [],
-         "repeat": null,
-         "title": "Volume Profiling",
-         "type": "row"
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 1,
-         "gridPos": {
-            "h": 7,
-            "w": 8,
-            "x": 0,
-            "y": 36
-         },
-         "id": 23,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 1,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": false,
-         "steppedLine": false,
-         "styles": [
-            {
-               "alias": "Time",
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "pattern": "Time",
-               "type": "hidden"
-            },
-            {
-               "alias": "Avg Latency",
-               "colorMode": null,
-               "colors": [],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "link": false,
-               "linkTooltip": "Drill down",
-               "linkUrl": "",
-               "pattern": "Value",
-               "thresholds": [],
-               "type": "number",
-               "unit": "short"
-            },
-            {
-               "alias": "File Operations",
-               "colorMode": null,
-               "colors": [],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "link": false,
-               "linkTooltip": "Drill down",
-               "linkUrl": "",
-               "pattern": "fop",
-               "thresholds": [],
-               "type": "number",
-               "unit": "short"
-            },
-            {
-               "alias": "",
-               "colorMode": null,
-               "colors": [],
-               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-               "decimals": 2,
-               "pattern": "/.*/",
-               "thresholds": [],
-               "type": "string",
-               "unit": "short"
-            }
-         ],
-         "targets": [
-            {
-               "expr": "sort(sum(gluster_volume_profile_fop_avg_latency{volume='$Volume', fop!=''})by (fop))",
-               "format": "table",
-               "instant": true,
-               "intervalFactor": 2,
-               "legendFormat": "",
-               "refId": "A",
-               "step": 10
-            },
-            {
-               "expr": "",
-               "format": "table",
-               "instant": true,
-               "intervalFactor": 2,
-               "legendFormat": "",
-               "refId": "B",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "Top file operation",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "transform": "table",
-         "type": "table",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 10,
-         "gridPos": {
-            "h": 7,
-            "w": 8,
-            "x": 8,
-            "y": 36
-         },
-         "id": 24,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 0,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": true,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "sum(gluster_volume_profile_fop_total_hits_on_aggregated_fops{volume='$Volume',fop='LOCK_OPS'}) by (volume)",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "",
-               "legendLink": null,
-               "refId": "A",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "File Operations For Locks Trends",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 10,
-         "gridPos": {
-            "h": 7,
-            "w": 8,
-            "x": 16,
-            "y": 36
-         },
-         "id": 25,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 0,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": true,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "sum(gluster_volume_profile_fop_total_hits_on_aggregated_fops{volume='$Volume',fop='READ_WRITE_OPS'}) by (volume)",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "",
-               "legendLink": null,
-               "refId": "A",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "File Operations for Read/Write",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 10,
-         "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 0,
-            "y": 43
-         },
-         "id": 26,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 0,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": true,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "sum(gluster_volume_profile_fop_total_hits_on_aggregated_fops{volume='$Volume',fop='INODE_OPS'}) by (volume)",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "",
-               "legendLink": null,
-               "refId": "A",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "File Operations for Inode Operations",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
-      },
-      {
-         "aliasColors": {},
-         "bars": false,
-         "dashLength": 10,
-         "dashes": false,
-         "datasource": "$datasource",
-         "fill": 10,
-         "gridPos": {
-            "h": 7,
-            "w": 12,
-            "x": 12,
-            "y": 43
-         },
-         "id": 27,
-         "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-         },
-         "lines": true,
-         "linewidth": 0,
-         "links": [],
-         "nullPointMode": "null as zero",
-         "options": {},
-         "percentage": false,
-         "pointradius": 5,
-         "points": false,
-         "renderer": "flot",
-         "seriesOverrides": [],
-         "spaceLength": 10,
-         "stack": true,
-         "steppedLine": false,
-         "targets": [
-            {
-               "expr": "sum(gluster_volume_profile_fop_total_hits_on_aggregated_fops{volume='$Volume',fop='ENTRY_OPS'}) by (volume)",
-               "format": "time_series",
-               "intervalFactor": 2,
-               "legendFormat": "",
-               "legendLink": null,
-               "refId": "A",
-               "step": 10
-            }
-         ],
-         "thresholds": [],
-         "timeFrom": null,
-         "timeShift": null,
-         "title": "File Operations for Entry Operations",
-         "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-         },
-         "type": "graph",
-         "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-         },
-         "yaxes": [
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": 0,
-               "show": true
-            },
-            {
-               "format": "short",
-               "label": null,
-               "logBase": 1,
-               "max": null,
-               "min": null,
-               "show": false
-            }
-         ]
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
-   ],
-   "refresh": "10s",
-   "schemaVersion": 18,
-   "style": "dark",
-   "tags": [
-      "infra",
-      "gluster"
-   ],
-   "templating": {
-      "list": [
-         {
-            "current": {
-               "text": "prometheus",
-               "value": "prometheus"
-            },
-            "hide": 0,
-            "includeAll": false,
-            "label": null,
-            "multi": false,
-            "name": "datasource",
-            "options": [],
-            "query": "prometheus",
-            "refresh": 1,
-            "regex": "",
-            "skipUrlSync": false,
-            "type": "datasource"
-         },
-         {
-            "allValue": null,
-            "current": {
-               "text": "zonemta-redis-data",
-               "value": "zonemta-redis-data"
-            },
-            "datasource": "$datasource",
-            "definition": "",
-            "hide": 0,
-            "includeAll": false,
-            "label": "Volume",
-            "multi": false,
-            "name": "Volume",
-            "options": [],
-            "query": "label_values(gluster_volume_up, volume)",
-            "refresh": 1,
-            "regex": "",
-            "skipUrlSync": false,
-            "sort": 2,
-            "tagValuesQuery": "",
-            "tags": [],
-            "tagsQuery": "",
-            "type": "query",
-            "useTags": false
-         }
-      ]
-   },
-   "time": {
-      "from": "now-1h",
-      "to": "now"
-   },
-   "timepicker": {
-      "refresh_intervals": [
-         "5s",
-         "10s",
-         "30s",
-         "1m",
-         "5m",
-         "15m",
-         "30m",
-         "1h",
-         "2h",
-         "1d"
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 8,
+  "iteration": 1566217397657,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 28,
+      "panels": [],
+      "repeat": null,
+      "title": "Volume Summary",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#cc0000",
+        "#92d400",
+        "#FFFFFF"
       ],
-      "time_options": [
-         "5m",
-         "15m",
-         "1h",
-         "6h",
-         "12h",
-         "24h",
-         "2d",
-         "7d",
-         "30d"
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "percentunit",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "height": "75px",
+      "id": 1,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "gluster_volume_up{volume = \"$Volume\"}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "0.9,1.1",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Status",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "DOWN",
+          "value": "0"
+        },
+        {
+          "op": "=",
+          "text": "UP",
+          "value": "1"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
       ]
-   },
-   "timezone": "",
-   "title": "GlusterFS Volumes",
-   "uid": "47086bc22842dfaacc6eeec2d230e4ab",
-   "version": 0
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "percentunit",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "height": "75px",
+      "id": 2,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "gluster:volume_capacity_used_bytes_total:sum{volume='$Volume'} / gluster:volume_capacity_total_bytes:sum{volume='$Volume'}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Capacity Utilization",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "decbytes",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "height": "75px",
+      "id": 3,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "gluster:volume_capacity_total_bytes:sum{volume='$Volume'} - gluster:volume_capacity_used_bytes_total:sum{volume='$Volume'}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Available Capacity",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "short",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "height": "75px",
+      "id": 4,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "(sum (gluster_volume_profile_total_reads_interval{volume='$Volume'}) + sum(gluster_volume_profile_total_writes_interval{volume='$Volume'}))/max(gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "IOPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 10,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 4
+      },
+      "id": 5,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "gluster:volume_capacity_used_bytes_total:sum{volume='$Volume'}",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "{{$Volume}}",
+          "legendLink": null,
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Capacity Utilization",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 10,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 4
+      },
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "(sum (gluster_volume_profile_total_reads_interval{volume='$Volume'}) + sum(gluster_volume_profile_total_writes_interval{volume='$Volume'}))/max(gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "{{$Volume}}",
+          "legendLink": null,
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "IOPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 29,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 12
+          },
+          "id": 7,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "options": {},
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "100*(gluster_thinpool_metadata_used_bytes{volume='$Volume'} / gluster_thinpool_metadata_total_bytes{volume='$Volume'})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{thinpool_name}}",
+              "legendLink": null,
+              "refId": "A",
+              "step": 10
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "LVM Thin Pool Metadata %",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
+          "fill": 1,
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 12
+          },
+          "id": 8,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "options": {},
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "100*(gluster_thinpool_data_used_bytes{volume='$Volume'} / gluster_thinpool_data_total_bytes{volume='$Volume'})",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{thinpool_name}}",
+              "legendLink": null,
+              "refId": "A",
+              "step": 10
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "LVM Thin Pool Data Usage  %",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "repeat": null,
+      "title": "LVM Summary",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 30,
+      "panels": [],
+      "repeat": null,
+      "title": "Bricks (Volume Subcomponent) Summary",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 0,
+        "y": 13
+      },
+      "height": "75px",
+      "id": 9,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "gluster_volume_brick_count{volume='$Volume'}",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bricks-Total",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#FFFFFF",
+        "#FFFFFF",
+        "#92d400"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 8,
+        "y": 13
+      },
+      "height": "75px",
+      "id": 10,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "count (gluster_brick_up{volume='$Volume'} == 1)",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "0.1,0.9",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bricks-Up",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#FFFFFF",
+        "#FFFFFF",
+        "#cc0000"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 13
+      },
+      "height": "75px",
+      "id": 11,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "count(gluster_brick_up{volume='$Volume'}) - count (gluster_brick_up{volume='$Volume'} == 1)",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "0.1,0.9",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bricks-Down",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "percentunit",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 0,
+        "y": 16
+      },
+      "height": "75px",
+      "id": 12,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "avg (gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Capacity Utilization-Average",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "percentunit",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 8,
+        "y": 16
+      },
+      "height": "75px",
+      "id": 13,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "min (gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Capacity Utilization-Min",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "percentunit",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 16
+      },
+      "height": "75px",
+      "id": 14,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "max (gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Capacity Utilization-Max",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 0,
+        "y": 19
+      },
+      "height": "75px",
+      "id": 15,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "count((gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'}) < 0.8)",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Brick Usage < 80%",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 8,
+        "y": 19
+      },
+      "height": "75px",
+      "id": 16,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "count((gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'}) < 0.9) - count((gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'}) < 0.8)",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Brick Usage > 80% < 90%",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 19
+      },
+      "height": "75px",
+      "id": 17,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "count(gluster_brick_capacity_used_bytes{volume='$Volume'}) - count((gluster_brick_capacity_used_bytes{volume='$Volume'} / gluster_brick_capacity_bytes_total{volume='$Volume'}) < 0.9)",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Brick Usage > 90%",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "locale",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 0,
+        "y": 22
+      },
+      "height": "75px",
+      "id": 18,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "avg((gluster_volume_profile_total_reads_interval{volume='$Volume'} + gluster_volume_profile_total_writes_interval{volume='$Volume'}) /gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "IOPS - Avg",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "locale",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 8,
+        "y": 22
+      },
+      "height": "75px",
+      "id": 19,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "min((gluster_volume_profile_total_reads_interval{volume='$Volume'} + gluster_volume_profile_total_writes_interval{volume='$Volume'}) /gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "IOPS - Min",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "locale",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 8,
+        "x": 16,
+        "y": 22
+      },
+      "height": "75px",
+      "id": 20,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "max((gluster_volume_profile_total_reads_interval{volume='$Volume'} + gluster_volume_profile_total_writes_interval{volume='$Volume'}) /gluster_volume_profile_duration_secs_interval{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "IOPS - Max",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 25
+      },
+      "height": "75px",
+      "id": 21,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum (gluster_volume_heal_count{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Heal Counts-Total Files",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 25
+      },
+      "height": "75px",
+      "id": 22,
+      "interval": null,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "null as zero",
+      "nullText": null,
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "stack": false,
+      "steppedLine": false,
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum (gluster_volume_split_brain_heal_count{volume='$Volume'})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 2,
+          "refId": "A"
+        }
+      ],
+      "thresholds": "70,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Heal Counts-Files in Split-Brain",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 31,
+      "panels": [],
+      "repeat": null,
+      "title": "Volume Profiling",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "columns": [],
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 29
+      },
+      "id": 23,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "options": {},
+      "pageSize": null,
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "scroll": true,
+      "seriesOverrides": [],
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "hidden"
+        },
+        {
+          "alias": "Avg Latency",
+          "colorMode": null,
+          "colors": [],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": false,
+          "linkTooltip": "Drill down",
+          "linkUrl": "",
+          "pattern": "Value",
+          "thresholds": [],
+          "type": "number",
+          "unit": "µs"
+        },
+        {
+          "alias": "File Operations",
+          "colorMode": null,
+          "colors": [],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": false,
+          "linkTooltip": "Drill down",
+          "linkUrl": "",
+          "pattern": "fop",
+          "thresholds": [],
+          "type": "string",
+          "unit": "none"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "expr": "sort(sum(gluster_volume_profile_fop_avg_latency{volume='$Volume', fop!=''})by (fop))",
+          "format": "table",
+          "instant": true,
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Top file operation",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transform": "table",
+      "type": "table",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 10,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 29
+      },
+      "id": 24,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(gluster_volume_profile_fop_total_hits_on_aggregated_fops{volume='$Volume',fop='LOCK_OPS'}) by (volume)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "legendLink": null,
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "File Operations For Locks Trends",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "µs",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 10,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 29
+      },
+      "id": 25,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(gluster_volume_profile_fop_total_hits_on_aggregated_fops{volume='$Volume',fop='READ_WRITE_OPS'}) by (volume)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "legendLink": null,
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "File Operations for Read/Write",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "µs",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 10,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(gluster_volume_profile_fop_total_hits_on_aggregated_fops{volume='$Volume',fop='INODE_OPS'}) by (volume)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "legendLink": null,
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "File Operations for Inode Operations",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "µs",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 10,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "id": 27,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "options": {},
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(gluster_volume_profile_fop_total_hits_on_aggregated_fops{volume='$Volume',fop='ENTRY_OPS'}) by (volume)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "",
+          "legendLink": null,
+          "refId": "A",
+          "step": 10
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "File Operations for Entry Operations",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "µs",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [
+    "infra",
+    "gluster"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "prometheus",
+          "value": "prometheus"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "prometheus-k8s",
+          "value": "prometheus-k8s"
+        },
+        "datasource": "$datasource",
+        "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Volume",
+        "multi": false,
+        "name": "Volume",
+        "options": [],
+        "query": "label_values(gluster_volume_up, volume)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 2,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "GlusterFS Volumes",
+  "uid": "47086bc22842dfaacc6eeec2d230e4ab",
+  "version": 1
 }
