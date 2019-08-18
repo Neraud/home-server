@@ -44,6 +44,14 @@ spec:
       regex: etcd_request_latencies_.*
       sourceLabels:
       - __name__
+
+    # The next metric is used, but it's a HUGE one
+    # On a vagrant test cluster, it generates ~20k metrics !
+    # TODO : see if we can still keep it
+    - action: drop
+      regex: apiserver_request_duration_seconds.*
+      sourceLabels:
+      - __name__
     port: https
     scheme: https
     tlsConfig:
