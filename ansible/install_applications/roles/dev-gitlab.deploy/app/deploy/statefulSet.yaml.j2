@@ -27,16 +27,26 @@ spec:
         ports:
         - containerPort: 80
           name: gitlab
-        - containerPort: 9168
-          name: gitlab-metrics
-        - containerPort: 9236
-          name: gitaly-metrics
-        - containerPort: 9100
-          name: nodeexp-metrics
+        - containerPort: 8060
+          name: nginx-metrics
         - containerPort: 9121
           name: redis-metrics
         - containerPort: 9187
-          name: postgre-metrics
+          name: pg-metrics
+        - containerPort: 9229
+          name: wh-metrics
+        - containerPort: 8080
+          name: rails
+        - containerPort: 8082
+          name: sidekiq
+        - containerPort: 9168
+          name: gitlab-monitor
+        - containerPort: 9168
+          name: gitlab-monitor
+        - containerPort: 9168
+          name: gitlab-monitor
+        - containerPort: 9236
+          name: gitaly-metrics
         resources:
           requests:
             cpu: "{{ gitlab.container.requests_cpu }}"

@@ -8,15 +8,101 @@ metadata:
 spec:
   endpoints:
   - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
-    port: gitlab-metrics
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-nginx'
+      sourceLabels: [__address__]
+    port: nginx-metrics
+    path: /metrics
   - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
-    port: gitaly-metrics
-  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
-    port: nodeexp-metrics
-  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-redis'
+      sourceLabels: [__address__]
     port: redis-metrics
+    path: /metrics
   - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
-    port: postgre-metrics
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-postgres'
+      sourceLabels: [__address__]
+    port: pg-metrics
+    path: /metrics
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-workhorse'
+      sourceLabels: [__address__]
+    port: wh-metrics
+    path: /metrics
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-rails'
+      sourceLabels: [__address__]
+    port: gitlab
+    path: {{ gitlab.context_path }}/-/metrics
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-sidekiq'
+      sourceLabels: [__address__]
+    port: sidekiq
+    path: /metrics
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-monitor'
+      sourceLabels: [__address__]
+    port: gitlab-monitor
+    path: /database
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-monitor'
+      sourceLabels: [__address__]
+    port: gitlab-monitor
+    path: /sidekiq
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitlab-monitor'
+      sourceLabels: [__address__]
+    port: gitlab-monitor
+    path: /process
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    relabelings:
+    - action: replace
+      regex: '.*'
+      targetLabel: job
+      replacement: 'gitaly'
+      sourceLabels: [__address__]
+    metricRelabelings:
+    # Drop unused metrics
+    - action: drop
+      regex: grpc_server_handled_total
+      sourceLabels:
+      - __name__
+    port: gitaly-metrics
+    path: /metrics
   namespaceSelector:
     matchNames:
     - default
