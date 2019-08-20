@@ -4,8 +4,9 @@ prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
 
   container:
-    image: "quay.io/coreos/prometheus-operator"
-    tag: "v0.29.0"
+    repo: quay.io
+    image: "coreos/prometheus-operator"
+    tag: "v0.31.1"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('200m') }}"
@@ -16,12 +17,13 @@ prometheus:
   allowed_namespaces: "{{ prometheus_allowed_namespaces | default(prometheus_allowed_namespaces_default) }}"
 
   container:
-    image: "quay.io/prometheus/prometheus"
-    tag: "v2.7.2"
+    repo: quay.io
+    image: "prometheus/prometheus"
+    tag: "v2.11.0"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('200m') }}"
-    requests_memory: "{{ prometheus_container_requests_memory | default('768Mi') }}"
+    requests_memory: "{{ prometheus_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('500m') }}"
-    limits_memory: "{{ prometheus_container_limits_memory | default('768Mi') }}"
+    limits_memory: "{{ prometheus_container_limits_memory | default('512Mi') }}"
 
 prometheus_allowed_namespaces_default:
   - default
@@ -32,12 +34,13 @@ prometheus_allowed_namespaces_default:
 
 alertmanager:
   container:
-    image: "quay.io/prometheus/alertmanager"
-    tag: "v0.16.2"
+    repo: quay.io
+    image: "prometheus/alertmanager"
+    tag: "v0.18.0"
     requests_cpu: "{{ alertmanager_container_requests_cpu | default('100m') }}"
-    requests_memory: "{{ alertmanager_container_requests_memory | default('256Mi') }}"
+    requests_memory: "{{ alertmanager_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ alertmanager_container_limits_cpu | default('250m') }}"
-    limits_memory: "{{ alertmanager_container_limits_memory | default('256Mi') }}"
+    limits_memory: "{{ alertmanager_container_limits_memory | default('128Mi') }}"
 
   smtp:
     enabled: "{{ alertmanager_smtp_enabled | default(True) }}"
@@ -49,3 +52,8 @@ alertmanager:
   
   default_receiver: "{{ alertmanager_default_receiver | default('default') }}"
   receivers: "{{ alertmanager_receivers | default([]) }}"
+
+service_monitors:
+  # Multiply all scrap intervals with this factor.
+  # For example, a standard 30s interval with a factor 2 becomes 60s
+  interval_factor: "{{ service_monitors_interval_factor | default(1) }}"

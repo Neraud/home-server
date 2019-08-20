@@ -13,6 +13,6 @@ release_watcher:
 
   repo:
     url: "https://github.com/Neraud/release-watcher"
-    version: "d4fbba5280b873da3ff2d259acaa9da32b8474a9"
+    version: "d11e7282006a5dfb916548631584ecfeb837d06f"
   
   path: "{{ release_watcher_path | default('/opt/release-watcher') }}"

@@ -1,10 +1,18 @@
 watchers:
+
+  ###################
+  # Native on hosts #
+  ###################
   - type: pypi
     package: ansible
     version: 2.8.3
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
+  
+  #################################
+  # Installed by ansible on hosts #
+  #################################
   - type: github_commit
     repo: Neraud/release-watcher
     branch: master
@@ -21,7 +29,10 @@ watchers:
     repo: gluster/gluster-prometheus
     branch: master
     commit: 04465afa2405d1b5248beb50dc5fdceb84d2c8ed
-  # Auth
+  
+  ###############
+  # Apps : Auth #
+  ###############
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ lemonldap.container.from_image }}
@@ -44,7 +55,10 @@ watchers:
     excludes:
       - latest
       - ^0\.[1-7]\.
-  # Dev
+  
+  ##############
+  # Apps : Dev #
+  ##############
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ gitlab.container.image }}
@@ -56,7 +70,10 @@ watchers:
       - .*-rc[0-9]+.*
       - ^[1-9]\.
       - ^1[01]\.
-  # Download
+  
+  ###################
+  # Apps : Download #
+  ###################
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ deluge.container.image }}
@@ -90,7 +107,10 @@ watchers:
       - amd64.*
     excludes:
       - amd64-latest
-  # Home
+  
+  ###############
+  # Apps : Home #
+  ###############
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ homeassistant.container.from_image }}
@@ -138,7 +158,10 @@ watchers:
     excludes:
       - .*arm32
       - 0\..*
-  # Infra
+
+  ################
+  # Apps : Infra #
+  ################
   # TODO KO
   #  - type: docker_registry
   #    repo: k8s.gcr.io
@@ -167,10 +190,7 @@ watchers:
   - type: docker_registry
     repo: quay.io
     image: kubernetes-ingress-controller/nginx-ingress-controller
-    # We are using 0.24.1, but the registry API doesn't list this version for some reason.
-    # To avoid false positives, we keep 0.24.0 here
-    #tag: 0.24.1
-    tag: 0.24.0
+    tag: 0.24.1
     excludes:
       - .*(alpha|beta).*
       - 0\.[0-9]\.
@@ -241,7 +261,10 @@ watchers:
     excludes:
       - 10\.[0-9]\..*
       - 10\.1[0-5]\..*
-  # Logging
+  
+  ##################
+  # Apps : Logging #
+  ##################
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ elasticsearch.container.image }}
@@ -283,11 +306,82 @@ watchers:
     excludes:
       - latest
       - ^0\..*
-  # Monitoring
-  - type: github_release
+  
+  #####################
+  # Apps : Monitoring #
+  #####################
+  - type: github_commit
     repo: coreos/kube-prometheus
-    release: v0.1.0
-  # Stream
+    branch: master
+    commit: 636f2b6e81537262a0c2e8279e68c132b2d3bd07
+  - type: github_commit
+    repo: kubernetes-monitoring/kubernetes-mixin
+    branch: master
+    commit: 3a6af8f5e9b16441308bcd57ad3f5bcaa03d1d68
+  - type: github_commit
+    repo: gluster/gluster-mixins
+    branch: master
+    commit: a6a02d24ffe92ee38fcfb80f38fc75c4f952e626
+  
+  # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
+  #- type: docker_registry
+  #  repo: {{ kubernetes_exporter_kube_state_metrics.container.repo }}
+  #  image: {{ kubernetes_exporter_kube_state_metrics.container.image }}
+  #  tag: {{ kubernetes_exporter_kube_state_metrics.container.tag }}
+  #  excludes:
+  #    - latest
+  #    - .*(alpha|beta|rc).*
+  #- type: docker_registry
+  #  repo: {{ kubernetes_exporter_node_exporter.container.repo }}
+  #  image: {{ kubernetes_exporter_node_exporter.container.image }}
+  #  tag: {{ kubernetes_exporter_node_exporter.container.tag }}
+  #  excludes:
+  #    - .*(alpha|beta|rc).*
+  #    - (latest|master)
+  #- type: docker_registry
+  #  repo: registry-1.docker.io
+  #  image: {{ grafana.container.image }}
+  #  tag: {{ grafana.container.tag }}
+  #  excludes:
+  #    - (master|latest)
+  #    - .*(alpha|beta|rc).*
+  #    - ^[1-5].*
+  #- type: docker_registry
+  #  repo: {{ prometheus_operator.container.repo }}
+  #  image: {{ prometheus_operator.container.image }}
+  #  tag: {{ prometheus_operator.container.tag }}
+  #  excludes:
+  #    - (master|latest)
+  #    - ^v0\.[0-9]\..*
+  #    - ^v0\.1[0-9]\..*
+  #    - ^v0\.2[0-8]\..*
+  #- type: docker_registry
+  #  repo: {{ prometheus.container.repo }}
+  #  image: {{ prometheus.container.image }}
+  #  tag: {{ prometheus.container.tag }}
+  #  includes:
+  #    - ^v.*
+  #  excludes:
+  #    - (master|latest)
+  #    - .*(alpha|beta|rc).*
+  #    - ^v1\..*
+  #    - ^v2\.[0-6]\..*
+  #- type: docker_registry
+  #  repo: {{ alertmanager.container.repo }}
+  #  image: {{ alertmanager.container.image }}
+  #  tag: {{ alertmanager.container.tag }}
+  #  includes:
+  #    - ^v.*
+  #  excludes:
+  #    - (master|latest)
+  #    - .*(alpha|beta|rc).*
+  #    - ^v0\.[0-9]\..*
+  #    - ^v0\.1[0-5]\..*
+
+
+  #################
+  # Apps : Stream #
+  #################
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ airsonic.container.image }}
@@ -305,7 +399,10 @@ watchers:
     excludes:
       - 1\.[0-9]\.
       - 1\.1[0-5]\.
-  # Web
+  
+  ##############
+  # Apps : Web #
+  ##############
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ heimdall.container.from_image }}

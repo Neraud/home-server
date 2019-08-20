@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -58,7 +58,7 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: "{{ kubernetes_exporter_kube_state_metrics.container.image }}:{{ kubernetes_exporter_kube_state_metrics.container.tag }}"
+        image: "{{ kubernetes_exporter_kube_state_metrics.container.repo }}/{{ kubernetes_exporter_kube_state_metrics.container.image }}:{{ kubernetes_exporter_kube_state_metrics.container.tag }}"
         name: kube-state-metrics
         resources:
           limits:

@@ -117,7 +117,7 @@ gitlab_rails['gitlab_email_subject_suffix'] = '{{ gitlab.email.subject_suffix }}
 
 ### Monitoring settings
 ###! IP whitelist controlling access to monitoring endpoints
-# gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8', '::1/128']
+gitlab_rails['monitoring_whitelist'] = ['1.1.1.1/0']
 ###! Time between sampling of unicorn socket metrics, in seconds
 # gitlab_rails['monitoring_unicorn_sampler_interval'] = 10
 
@@ -589,7 +589,7 @@ gitlab_rails['smtp_ca_file'] = "/etc/ssl/cluster/ca.crt"
 ##! put an empty string on the command line
 # gitlab_workhorse['pprof_listen_addr'] = "''"
 
-# gitlab_workhorse['prometheus_listen_addr'] = "localhost:9229"
+gitlab_workhorse['prometheus_listen_addr'] = "0.0.0.0:9229"
 
 # gitlab_workhorse['dir'] = "/var/opt/gitlab/gitlab-workhorse"
 # gitlab_workhorse['log_directory'] = "/var/log/gitlab/gitlab-workhorse"
@@ -705,7 +705,7 @@ gitlab_rails['smtp_ca_file'] = "/etc/ssl/cluster/ca.crt"
 # sidekiq['shutdown_timeout'] = 4
 # sidekiq['concurrency'] = 25
 # sidekiq['metrics_enabled'] = true
-# sidekiq['listen_address'] = "localhost"
+sidekiq['listen_address'] = '0.0.0.0'
 # sidekiq['listen_port'] = 8082
 
 ################################################################################
@@ -1062,6 +1062,12 @@ nginx['listen_https'] = false
 #  }
 # }
 
+nginx['status']['options'] = {
+    "server_tokens" => "off",
+    "access_log" => "off",
+    "allow" => "all",
+}
+
 ################################################################################
 ## GitLab Logging
 ##! Docs: https://docs.gitlab.com/omnibus/settings/logs.html
@@ -1411,7 +1417,7 @@ prometheus['enable'] = false
 # }
 
 ##! Advanced settings. Should be changed only if absolutely needed.
-node_exporter['listen_address'] = '0.0.0.0:9100'
+# node_exporter['listen_address'] = 'localhost:9100'
 
 ################################################################################
 ## Prometheus Redis exporter
@@ -1471,7 +1477,7 @@ postgres_exporter['listen_address'] = '0.0.0.0:9187'
 
 ##! Advanced settings. Should be changed only if absolutely needed.
 gitlab_monitor['listen_address'] = '0.0.0.0'
-# gitlab_monitor['listen_port'] = '9168'
+gitlab_monitor['listen_port'] = '9168'
 
 ##! Manage gitlab-monitor sidekiq probes. false by default when Sentinels are
 ##! found.

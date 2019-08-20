@@ -13,11 +13,12 @@ spec:
     - name: alertmanager-main
       namespace: monitoring
       port: web
-  baseImage: "{{ prometheus.container.image }}"
+  baseImage: "{{ prometheus.container.repo }}/{{ prometheus.container.image }}"
   version: "{{ prometheus.container.tag }}"
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'
+  podMonitorSelector: {}
   replicas: 1
   externalUrl: https://infra.{{ web_base_domain }}/prometheus/
   resources:

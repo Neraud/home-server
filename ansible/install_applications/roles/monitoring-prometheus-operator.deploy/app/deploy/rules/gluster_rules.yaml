@@ -9,12 +9,12 @@ metadata:
     prometheus: k8s
     role: alert-rules
 spec:
-  groups:
-  - name: "gluster-volume.rules"
-    rules:
-    - expr: |
+  "groups":
+  - "name": "gluster-volume.rules"
+    "rules":
+    - "expr": |
         sum(max(gluster_subvol_capacity_used_bytes{job="gluster-exporter"}) BY (volume, subvolume)) BY (volume)
-      record: "gluster:volume_capacity_used_bytes_total:sum"
-    - expr: |
+      "record": "gluster:volume_capacity_used_bytes_total:sum"
+    - "expr": |
         sum(max(gluster_subvol_capacity_total_bytes{job="gluster-exporter"}) BY (volume, subvolume)) BY (volume)
-      record: "gluster:volume_capacity_total_bytes:sum"
+      "record": "gluster:volume_capacity_total_bytes:sum"

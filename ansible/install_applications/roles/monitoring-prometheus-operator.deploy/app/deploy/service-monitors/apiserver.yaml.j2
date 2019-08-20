@@ -1,0 +1,67 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: apiserver
+  name: kube-apiserver
+  namespace: monitoring
+spec:
+  endpoints:
+  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    metricRelabelings:
+    - action: drop
+      regex: etcd_(debugging|disk|request|server).*
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: apiserver_admission_controller_admission_latencies_seconds_.*
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: apiserver_admission_step_admission_latencies_seconds_.*
+      sourceLabels:
+      - __name__
+
+      # Drop unused metrics
+    - action: drop
+      regex: apiserver_admission_.*
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: apiserver_request_count
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: apiserver_request_latencies_.*
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: apiserver_response_sizes_.*
+      sourceLabels:
+      - __name__
+    - action: drop
+      regex: etcd_request_latencies_.*
+      sourceLabels:
+      - __name__
+
+    # The next metric is used, but it's a HUGE one
+    # On a vagrant test cluster, it generates ~20k metrics !
+    # TODO : see if we can still keep it
+    - action: drop
+      regex: apiserver_request_duration_seconds.*
+      sourceLabels:
+      - __name__
+    port: https
+    scheme: https
+    tlsConfig:
+      caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+      serverName: kubernetes
+  jobLabel: component
+  namespaceSelector:
+    matchNames:
+    - default
+  selector:
+    matchLabels:
+      component: apiserver
+      provider: kubernetes

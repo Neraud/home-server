@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
@@ -23,9 +23,10 @@ spec:
         - --path.procfs=/host/proc
         - --path.sysfs=/host/sys
         - --path.rootfs=/host/root
+        - --collector.systemd
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+)($|/)
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
-        image: "{{ kubernetes_exporter_node_exporter.container.image }}:{{ kubernetes_exporter_node_exporter.container.tag }}"
+        image: "{{ kubernetes_exporter_node_exporter.container.repo }}/{{ kubernetes_exporter_node_exporter.container.image }}:{{ kubernetes_exporter_node_exporter.container.tag }}"
         name: node-exporter
         resources:
           limits:
@@ -64,23 +65,20 @@ spec:
         resources:
           limits:
             cpu: 20m
-            memory: 40Mi
+            memory: 60Mi
           requests:
             cpu: 10m
             memory: 20Mi
       hostNetwork: true
       hostPID: true
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
       serviceAccountName: node-exporter
       tolerations:
-      - effect: NoExecute
-        operator: Exists
-      - effect: NoSchedule
-        operator: Exists
+      - operator: Exists
       volumes:
       - hostPath:
           path: /proc
