@@ -118,7 +118,7 @@ glusterfs_volumes:
   ttrss-pgsql:
     replicas: 2
     capacity: 1G
-    arbiterCapacity: 16M
+    arbiterCapacity: 32M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
@@ -201,7 +201,7 @@ glusterfs_volumes:
   plex-data:
     replicas: 2
     capacity: 1G
-    arbiterCapacity: 16M
+    arbiterCapacity: 64M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
@@ -222,7 +222,7 @@ glusterfs_volumes:
   gitlab-data:
     replicas: 2
     capacity: 1G
-    arbiterCapacity: 16M
+    arbiterCapacity: 64M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
@@ -233,7 +233,7 @@ glusterfs_volumes:
   elasticsearch-data:
     replicas: 2
     capacity: 4G
-    arbiterCapacity: 64M
+    arbiterCapacity: 128M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
@@ -273,7 +273,7 @@ glusterfs_volumes:
   sickchill-config:
     replicas: 2
     capacity: 1G
-    arbiterCapacity: 16M
+    arbiterCapacity: 32M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
