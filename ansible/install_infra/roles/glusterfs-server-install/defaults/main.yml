@@ -3,7 +3,11 @@
 glusterfs_storage_vg: data_vg
 glusterfs_lv_prefix: gluster_
 glusterfs_brick_root: /data/glusterfs
-glusterfs_brick_filesystem: ext4
+
+# See https://access.redhat.com/documentation/en-us/red_hat_gluster_storage/3/html/administration_guide/formatting_and_mounting_bricks
+glusterfs_brick_filesystem: xfs
+glusterfs_brick_filesystem_node_options: "-i size=512 -n size=8192"
+glusterfs_brick_filesystem_arbiter_options: "-i size=512 -n size=8192 -i maxpct=0"
 
 #glusterfs_volumes:
 #  test-app:
