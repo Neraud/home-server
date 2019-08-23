@@ -60,9 +60,13 @@
   tags: kubernetes-app-monitoring-kubernetes
   when: kubernetes_monitoring_enabled | bool
 
-- import_playbook: app-monitoring-exporters.yml
-  tags: kubernetes-app-monitoring-exporters
-  when: kubernetes_exporters_enabled | bool
+- import_playbook: app-monitoring-kube-state-metrics.yml
+  tags: kubernetes-app-monitoring-kube-state-metrics
+  when: kube_state_metrics_enabled | bool
+
+- import_playbook: app-monitoring-node-exporter.yml
+  tags: kubernetes-app-monitoring-node-exporter
+  when: node_exporter_enabled | bool
 
 - import_playbook: app-monitoring-gluster-exporter.yml
   tags: kubernetes-app-monitoring-gluster-exporter

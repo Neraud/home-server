@@ -58,15 +58,15 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: "{{ kubernetes_exporter_kube_state_metrics.container.repo }}/{{ kubernetes_exporter_kube_state_metrics.container.image }}:{{ kubernetes_exporter_kube_state_metrics.container.tag }}"
+        image: "{{ kube_state_metrics.container.repo }}/{{ kube_state_metrics.container.image }}:{{ kube_state_metrics.container.tag }}"
         name: kube-state-metrics
         resources:
           limits:
-            cpu: {{ kubernetes_exporter_kube_state_metrics.container.limits_cpu }}
-            memory: {{ kubernetes_exporter_kube_state_metrics.container.limits_memory }}
+            cpu: {{ kube_state_metrics.container.limits_cpu }}
+            memory: {{ kube_state_metrics.container.limits_memory }}
           requests:
-            cpu: {{ kubernetes_exporter_kube_state_metrics.container.requests_cpu }}
-            memory: {{ kubernetes_exporter_kube_state_metrics.container.requests_memory }}
+            cpu: {{ kube_state_metrics.container.requests_cpu }}
+            memory: {{ kube_state_metrics.container.requests_memory }}
       - command:
         - /pod_nanny
         - --container=kube-state-metrics

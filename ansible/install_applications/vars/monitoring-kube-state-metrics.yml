@@ -1,0 +1,13 @@
+---
+
+kube_state_metrics:
+  enabled: "{{ kube_state_metrics_enabled | default(True) }}"
+
+  container:
+    repo: quay.io
+    image: "coreos/kube-state-metrics"
+    tag: "v1.7.2"
+    requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ kube_state_metrics_container_requests_memory | default('150Mi') }}"
+    limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ kube_state_metrics_container_limits_memory | default('150Mi') }}"

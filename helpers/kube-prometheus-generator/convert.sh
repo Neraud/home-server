@@ -40,24 +40,24 @@ cp $OUT_GENERATED_ROOT/grafana-serviceAccount.yaml $GRAFANA_ROOT/serviceAccount.
 cp $OUT_GENERATED_ROOT/grafana-service.yaml $GRAFANA_ROOT/service.yaml
 
 echo "Converting Kube state metrics"
-KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/monitoring-exporters.deploy/app/deploy/kube-state-metrics
+KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/monitoring-kube-state-metrics.deploy/app/deploy
 mkdir -p $KUBE_STATE_METRICS_ROOT
-cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/kube-state-metrics-clusterRoleBinding.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/kube-state-metrics-clusterRole.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-deployment.yaml $KUBE_STATE_METRICS_ROOT/kube-state-metrics-deployment.yaml.j2
-cp $OUT_GENERATED_ROOT/kube-state-metrics-roleBinding.yaml $KUBE_STATE_METRICS_ROOT/kube-state-metrics-roleBinding.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-role.yaml $KUBE_STATE_METRICS_ROOT/kube-state-metrics-role.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/kube-state-metrics-serviceAccount.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/kube-state-metrics-service.yaml
+cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml
+cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml
+cp $OUT_GENERATED_ROOT/kube-state-metrics-deployment.yaml $KUBE_STATE_METRICS_ROOT/deployment.yaml.j2
+cp $OUT_GENERATED_ROOT/kube-state-metrics-roleBinding.yaml $KUBE_STATE_METRICS_ROOT/roleBinding.yaml
+cp $OUT_GENERATED_ROOT/kube-state-metrics-role.yaml $KUBE_STATE_METRICS_ROOT/role.yaml
+cp $OUT_GENERATED_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/serviceAccount.yaml
+cp $OUT_GENERATED_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/service.yaml
 
 echo "Converting NodeExporter"
-NODE_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring-exporters.deploy/app/deploy/node-exporter
+NODE_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring-node-exporter.deploy/app/deploy
 mkdir -p $NODE_EXPORTER_ROOT
-cp $OUT_GENERATED_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/node-exporter-clusterRoleBinding.yaml
-cp $OUT_GENERATED_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/node-exporter-clusterRole.yaml
-cp $OUT_GENERATED_ROOT/node-exporter-daemonset.yaml $NODE_EXPORTER_ROOT/node-exporter-daemonset.yaml.j2
-cp $OUT_GENERATED_ROOT/node-exporter-serviceAccount.yaml $NODE_EXPORTER_ROOT/node-exporter-serviceAccount.yaml
-cp $OUT_GENERATED_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/node-exporter-service.yaml
+cp $OUT_GENERATED_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/clusterRoleBinding.yaml
+cp $OUT_GENERATED_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/clusterRole.yaml
+cp $OUT_GENERATED_ROOT/node-exporter-daemonset.yaml $NODE_EXPORTER_ROOT/daemonSet.yaml.j2
+cp $OUT_GENERATED_ROOT/node-exporter-serviceAccount.yaml $NODE_EXPORTER_ROOT/serviceAccount.yaml
+cp $OUT_GENERATED_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/service.yaml
 
 echo "Converting Prometheus"
 PROMETHEUS_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/prometheus

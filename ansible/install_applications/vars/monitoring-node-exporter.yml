@@ -1,0 +1,13 @@
+---
+
+node_exporter:
+  enabled: "{{ node_exporter_enabled | default(True) }}"
+
+  container:
+    repo: quay.io
+    image: "prometheus/node-exporter"
+    tag: "v0.18.1"
+    requests_cpu: "{{ node_exporter_container_requests_cpu | default('102m') }}"
+    requests_memory: "{{ node_exporter_container_requests_memory | default('180Mi') }}"
+    limits_cpu: "{{ node_exporter_container_limits_cpu | default('102m') }}"
+    limits_memory: "{{ node_exporter_container_limits_memory | default('180Mi') }}"

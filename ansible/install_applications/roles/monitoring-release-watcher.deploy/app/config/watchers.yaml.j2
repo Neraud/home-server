@@ -325,16 +325,16 @@ watchers:
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
-  #  repo: {{ kubernetes_exporter_kube_state_metrics.container.repo }}
-  #  image: {{ kubernetes_exporter_kube_state_metrics.container.image }}
-  #  tag: {{ kubernetes_exporter_kube_state_metrics.container.tag }}
+  #  repo: {{ kube_state_metrics.container.repo }}
+  #  image: {{ kube_state_metrics.container.image }}
+  #  tag: {{ kube_state_metrics.container.tag }}
   #  excludes:
   #    - latest
   #    - .*(alpha|beta|rc).*
   #- type: docker_registry
-  #  repo: {{ kubernetes_exporter_node_exporter.container.repo }}
-  #  image: {{ kubernetes_exporter_node_exporter.container.image }}
-  #  tag: {{ kubernetes_exporter_node_exporter.container.tag }}
+  #  repo: {{ node_exporter.container.repo }}
+  #  image: {{ node_exporter.container.image }}
+  #  tag: {{ node_exporter.container.tag }}
   #  excludes:
   #    - .*(alpha|beta|rc).*
   #    - (latest|master)
