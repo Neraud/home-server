@@ -60,20 +60,18 @@ spec:
         - --telemetry-port=8082
         image: "{{ kube_state_metrics.container.repo }}/{{ kube_state_metrics.container.image }}:{{ kube_state_metrics.container.tag }}"
         name: kube-state-metrics
-        resources:
-          limits:
-            cpu: {{ kube_state_metrics.container.limits_cpu }}
-            memory: {{ kube_state_metrics.container.limits_memory }}
-          requests:
-            cpu: {{ kube_state_metrics.container.requests_cpu }}
-            memory: {{ kube_state_metrics.container.requests_memory }}
+        # Kube-state-metrics uses an auto-scaler, so it doesn't have the usual requests and limits.
+        # Look at the pod_nanny command below to see those values
+        #resources:
+        #  limits:
+        #  requests:
       - command:
         - /pod_nanny
         - --container=kube-state-metrics
-        - --cpu=100m
-        - --extra-cpu=2m
-        - --memory=150Mi
-        - --extra-memory=30Mi
+        - --cpu={{ kube_state_metrics.container.base_cpu }}
+        - --extra-cpu={{ kube_state_metrics.container.extra_cpu }}
+        - --memory={{ kube_state_metrics.container.base_memory }}
+        - --extra-memory={{ kube_state_metrics.container.extra_memory }}
         - --threshold=5
         - --deployment=kube-state-metrics
         env:
