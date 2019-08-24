@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-exporter-prometheus
+  namespace: monitoring
+  labels:
+    app: nginx-exporter
+    app-component: nginx-exporter
+    prometheus-target: nginx-exporter
+spec:
+  ports:
+    - port: 9113
+      name: metrics
+      targetPort: metrics
+  selector:
+    app: nginx-exporter
+    app-component: nginx-exporter

@@ -1,0 +1,12 @@
+---
+
+nginx_exporter:
+  enabled: "{{ nginx_exporter_enabled | default(True) }}"
+
+  container:
+    image: "nginx/nginx-prometheus-exporter"
+    tag: "0.4.2"
+    requests_cpu: "{{ nginx_exporter_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ nginx_exporter_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ nginx_exporter_container_limits_cpu | default('25m') }}"
+    limits_memory: "{{ nginx_exporter_container_limits_memory | default('64Mi') }}"

@@ -322,6 +322,12 @@ watchers:
     repo: gluster/gluster-mixins
     branch: master
     commit: a6a02d24ffe92ee38fcfb80f38fc75c4f952e626
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ nginx_exporter.container.image }}
+    tag: {{ nginx_exporter.container.tag }}
+    excludes:
+      - ^0\.[0-3]\..*
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
