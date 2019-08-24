@@ -10,16 +10,6 @@ I tried to keep track of the prices of these parts at the time I bought them.
 
 ### Kubernetes Master-1
 
-| Part     | Model                  |
-| -------- | ---------------------- |
-| Barebone | Intel NUC BOXDC3217IYE |
-| RAM      | 2*4 GB DDR3 (G.Skill)  |
-| Storage  | Crucial M4 64 GB       |
-
-This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
-
-### Kubernetes Master-2
-
 | Part     | Model                                                                                      | Price    |
 | -------- | ------------------------------------------------------------------------------------------ | -------- |
 | Barebone | [Intel NUC 6i5SYH](https://www.amazon.fr/gp/product/B018Q0GN60)                            | 437,29 € |
@@ -30,7 +20,7 @@ This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Cor
 
 This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-) CPU.
 
-### Kubernetes Master-3
+### Kubernetes Master-2
 
 | Part     | Model                                                                                                                              | Price    |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
@@ -42,11 +32,25 @@ This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Cor
 
 This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
 
+### Kubernetes Master-3
+
+| Part     | Model                                                                                                                              | Price    |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-NUC-Kit-NUC8i5BEH-Generation/dp/B07JCF1LCL)                                          | 381,07 € |
+| RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 140,06 € |
+| Storage  | [WD Blue SN500](https://www.amazon.fr/gp/product/B07P7TFKRH)                                                                       | 63,43 €  |
+
+(ordered 2019-08)
+
+This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
+
 ### Kubernetes Node Home
 
-| Part | Model                                                              | Price |
-| ---- | ------------------------------------------------------------------ | ----- |
-| Box  | [BoLv Z83II Mini PC](https://www.amazon.fr/gp/product/B01DFJH78U ) | 99 €  |
+| Part | Model                                                             | Price |
+| ---- | ----------------------------------------------------------------- | ----- |
+| Box  | [BoLv Z83II Mini PC](https://www.amazon.fr/gp/product/B01DFJH78U) | 99 €  |
+
+(ordered 2017-08)
 
 This box runs an [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-) CPU, with 2 GB of DDR3 RAM and 32GB of onboard flash storage.
 
@@ -63,3 +67,18 @@ With 4 WD Red 6To (WD60EFRX) in SHR mode.
 | Switch            | [UniFi Switch 8 POE-60W](https://www.amazon.fr/gp/product/B004BQCKXO)    | 110,72€ |
 | Switches          | a few Netgear G108/[GS108](https://www.amazon.fr/gp/product/B000092RRM)  | 30-40€  |
 | Wifi Access Point | [UniFi AP-AC-LR](https://www.amazon.fr/gp/product/B016K5A06C)            | 96,42€  |
+
+## Graveyard
+
+### Old Kubernetes Master-1
+
+| Part     | Model                  | Price    |
+| -------- | ---------------------- | -------- |
+| Barebone | Intel NUC BOXDC3217IYE | 434,94 € |
+| RAM      | 2*4 GB DDR3 (G.Skill)  | (incl.)  |
+| Storage  | Crucial M4 64 GB       | (incl.)  |
+
+(ordered 2013-07)
+(dead 2019-08, won't boot after chaning the dead fan)
+
+This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
