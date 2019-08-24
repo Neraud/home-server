@@ -1325,15 +1325,13 @@
     "list": [
       {
         "current": {
-            "text": "Prometheus",
-            "value": "Prometheus"
+          "text": "Prometheus",
+          "value": "Prometheus"
         },
         "hide": 0,
         "label": "Datasource",
         "name": "DS_PROMETHEUS",
-        "options": [
-
-        ],
+        "options": [],
         "query": "prometheus",
         "refresh": 1,
         "regex": "",
