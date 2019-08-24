@@ -32,6 +32,10 @@ spec:
       replacement: 'nginxlog_${2}_${3}'
       targetLabel: '__name__'
 
+    # Drop unused metrics
+    - action: drop
+      sourceLabels: [__name__]
+      regex: 'nginxlog_http_upstream_.*'
   selector:
     matchLabels:
       prometheus-target: nginx-log-exporter
