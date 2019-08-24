@@ -1,0 +1,14 @@
+---
+
+nginx_log_exporter_sites:
+  - name: auth
+  - name: dev
+  - name: download
+  - name: heimdall
+  - name: home
+  - name: infra
+  - name: infra-unifi
+  - name: status
+  - name: stream
+  - name: streams-plex
+  - name: web

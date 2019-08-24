@@ -328,6 +328,12 @@ watchers:
     tag: {{ nginx_exporter.container.tag }}
     excludes:
       - ^0\.[0-3]\..*
+  - type: docker_registry
+    repo: {{ nginx_log_exporter.container.repo }}
+    image: {{ nginx_log_exporter.container.image }}
+    tag: {{ nginx_log_exporter.container.tag }}
+    excludes:
+      - latest
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry

@@ -72,6 +72,10 @@
   tags: kubernetes-app-monitoring-nginx-exporter
   when: nginx_exporter_enabled | bool
 
+- import_playbook: app-monitoring-nginx-log-exporter.yml
+  tags: kubernetes-app-monitoring-nginx-log-exporter
+  when: nginx_log_exporter_enabled | bool
+
 - import_playbook: app-monitoring-gluster-exporter.yml
   tags: kubernetes-app-monitoring-gluster-exporter
   when: gluster_exporter_enabled | bool
