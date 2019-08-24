@@ -43,6 +43,19 @@ nginx_sites:
     root: /var/www/html
     disable_robots: True
 
+  - name: status
+    enabled_name: 001-status
+    server_name: "{{ web_base_domain }}"
+    default: False
+    status:
+      enabled: True
+      path: /status
+      allow: 
+        - all
+    listen_ip: "*"
+    http_port: 81
+    disable_robots: True
+
   - name: auth
     enabled_name: 010-auth
     server_name: "auth.{{ web_base_domain }}"
@@ -274,6 +287,11 @@ nginx_ufw_applications:
     title: Nginx Web Server
     description: Small, but very powerful and efficient web server
     ports: 80,443/tcp
+    rule: allow
+  - name: custom_nginx_status
+    title: Nginx Web Server Status
+    description: Small, but very powerful and efficient web server
+    ports: 81/tcp
     rule: allow
   - name: mosquitto
     title: Mosquitto
