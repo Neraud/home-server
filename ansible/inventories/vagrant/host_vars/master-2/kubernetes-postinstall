@@ -7,6 +7,8 @@ kubernetes_node_labels:
     value: 'yes'
   - name: capability/home
     value: 'no'
+  - name: capability/loadbalancer
+    value: 'yes'
 
 kubernetes_node_taints:
   - key: node-role.kubernetes.io/master

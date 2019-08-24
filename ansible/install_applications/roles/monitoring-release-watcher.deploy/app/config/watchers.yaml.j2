@@ -322,19 +322,31 @@ watchers:
     repo: gluster/gluster-mixins
     branch: master
     commit: a6a02d24ffe92ee38fcfb80f38fc75c4f952e626
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: {{ nginx_exporter.container.image }}
+    tag: {{ nginx_exporter.container.tag }}
+    excludes:
+      - ^0\.[0-3]\..*
+  - type: docker_registry
+    repo: {{ nginx_log_exporter.container.repo }}
+    image: {{ nginx_log_exporter.container.image }}
+    tag: {{ nginx_log_exporter.container.tag }}
+    excludes:
+      - latest
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
-  #  repo: {{ kubernetes_exporter_kube_state_metrics.container.repo }}
-  #  image: {{ kubernetes_exporter_kube_state_metrics.container.image }}
-  #  tag: {{ kubernetes_exporter_kube_state_metrics.container.tag }}
+  #  repo: {{ kube_state_metrics.container.repo }}
+  #  image: {{ kube_state_metrics.container.image }}
+  #  tag: {{ kube_state_metrics.container.tag }}
   #  excludes:
   #    - latest
   #    - .*(alpha|beta|rc).*
   #- type: docker_registry
-  #  repo: {{ kubernetes_exporter_node_exporter.container.repo }}
-  #  image: {{ kubernetes_exporter_node_exporter.container.image }}
-  #  tag: {{ kubernetes_exporter_node_exporter.container.tag }}
+  #  repo: {{ node_exporter.container.repo }}
+  #  image: {{ node_exporter.container.image }}
+  #  tag: {{ node_exporter.container.tag }}
   #  excludes:
   #    - .*(alpha|beta|rc).*
   #    - (latest|master)

@@ -21,6 +21,14 @@
   delay: 10
   listen: "Reconfigure Elasticsearch security"
 
+# When the container starts, ElasticSearch seems to be available, but is still initializing.
+# TODO : find a better way to detect that ElasticSearch is available
+- name: Wait for ElasticSearch to be really available
+  wait_for:
+    timeout: 10
+  when: elasticsearch_available.attempts > 0
+  listen: "Reconfigure Elasticsearch security"
+
 # Security configuration changes are only taken into account the first time ES is deployed, or after running securityadmin.sh
 # The following tasks ensures that each time something changes in ES deployment, security configurations are properly updated.
 - name: Reconfigure security

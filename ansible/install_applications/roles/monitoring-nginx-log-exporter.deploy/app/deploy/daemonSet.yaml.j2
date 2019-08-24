@@ -1,0 +1,57 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: nginx-log-exporter
+  namespace: monitoring
+  labels:
+    app: nginx-log-exporter
+    app-component: nginx-log-exporter
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  template:
+    metadata:
+      labels:
+        app: nginx-log-exporter
+        app-component: nginx-log-exporter
+    spec:
+      containers:
+      - name: nginx-log-exporter
+        image: "{{ nginx_log_exporter.container.repo }}/{{ nginx_log_exporter.container.image }}:{{ nginx_log_exporter.container.tag }}"
+        args:
+        - -config-file
+        - /etc/prometheus-nginxlog-exporter.yaml
+        ports:
+        - containerPort: 4040
+          name: metrics
+        resources:
+          requests:
+            cpu: "{{ nginx_log_exporter.container.requests_cpu }}"
+            memory: "{{ nginx_log_exporter.container.requests_memory }}"
+          limits:
+            cpu: "{{ nginx_log_exporter.container.limits_cpu }}"
+            memory: "{{ nginx_log_exporter.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: host-nginx-logs
+          mountPath: {{ nginx_log_exporter.container.logs_mount_point }}
+        - mountPath: /etc/prometheus-nginxlog-exporter.yaml
+          name: nginx-log-exporter-config
+          subPath: prometheus-nginxlog-exporter.yaml
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: host-nginx-logs
+        hostPath:
+          path: /var/log/nginx
+      - name: nginx-log-exporter-config
+        configMap:
+          name: nginx-log-exporter-config
+      nodeSelector:
+        capability/loadbalancer: 'yes'
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule

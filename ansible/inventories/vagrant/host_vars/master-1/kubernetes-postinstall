@@ -3,4 +3,6 @@
 kubernetes_node_labels:
   - name: capability/glusterfs-server
     value: 'yes'
+  - name: capability/loadbalancer
+    value: 'yes'
 

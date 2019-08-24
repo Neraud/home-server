@@ -57,7 +57,7 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 0,
   "iteration": 1534359654832,
@@ -485,7 +485,7 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
-      "editable": true,
+      "editable": false,
       "error": false,
       "fill": 1,
       "grid": {},
@@ -696,7 +696,7 @@
       "dashes": false,
       "datasource": "${DS_PROMETHEUS}",
       "decimals": 2,
-      "editable": true,
+      "editable": false,
       "error": false,
       "fill": 1,
       "grid": {},
@@ -1325,15 +1325,13 @@
     "list": [
       {
         "current": {
-            "text": "Prometheus",
-            "value": "Prometheus"
+          "text": "Prometheus",
+          "value": "Prometheus"
         },
         "hide": 0,
         "label": "Datasource",
         "name": "DS_PROMETHEUS",
-        "options": [
-
-        ],
+        "options": [],
         "query": "prometheus",
         "refresh": 1,
         "regex": "",

@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: nginx-exporter
+  namespace: monitoring
+  labels:
+    app: nginx-exporter
+    app-component: nginx-exporter
+spec:
+  template:
+    metadata:
+      labels:
+        app: nginx-exporter
+        app-component: nginx-exporter
+    spec:
+      containers:
+      - name: nginx-exporter
+        image: "{{ nginx_exporter.container.image }}:{{ nginx_exporter.container.tag }}"
+        args:
+        - -nginx.scrape-uri
+        - http://$(NODE_IP):81/status
+        ports:
+        - containerPort: 9113
+          name: metrics
+        env:
+        - name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        resources:
+          requests:
+            cpu: "{{ nginx_exporter.container.requests_cpu }}"
+            memory: "{{ nginx_exporter.container.requests_memory }}"
+          limits:
+            cpu: "{{ nginx_exporter.container.limits_cpu }}"
+            memory: "{{ nginx_exporter.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/loadbalancer: 'yes'
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule

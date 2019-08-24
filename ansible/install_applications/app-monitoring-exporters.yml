@@ -1,6 +1,0 @@
----
-
-- name: Provision monitoring-exporters
-  hosts: controller
-  roles:
-  - role: monitoring-exporters.deploy

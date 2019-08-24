@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: nginx-exporter
+  name: nginx-exporter
+  namespace: monitoring
+spec:
+  endpoints:
+  - interval: {{ (15 * service_monitors.interval_factor | float) | int }}s
+    port: metrics
+    relabelings:
+    # The `instance` label is populated with the exporter endpoint, but it doesn't make sense in our case.
+    # We monitor the NGinx instance on the host that runs the exporter container, so we inject the `node_name` in the instance label
+    - action: replace
+      regex: (.*)
+      replacment: $1
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: instance
+  selector:
+    matchLabels:
+      prometheus-target: nginx-exporter

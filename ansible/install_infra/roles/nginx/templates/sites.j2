@@ -3,23 +3,13 @@
 
 {% if item.http_port | default(False) %}
 server {
-	listen {{ nginx_listen_ip }}:{{ item.http_port }}{% if item.default | default(False) %} default_server{% endif %};
+	listen {{ item.listen_ip | default(nginx_listen_ip) }}:{{ item.http_port }}{% if item.default | default(False) %} default_server{% endif %};
 	listen [::]:{{ item.http_port }}{% if item.default | default(False) %} default_server{% endif %};
 	server_name {% if item.default | default(False) %}_ {% endif %}{{ item.server_name | default("_") }};
 	root /var/www/html;
 	
 	access_log /var/log/nginx/{{ item.name }}_access.log main;
 	error_log /var/log/nginx/{{ item.name }}_error.log;	
-	
-	{% if item.default | default(False) %}
-	location /nginx_status {
-		stub_status on;
-		access_log off;
-		allow 127.0.0.1;
-		allow ::1;
-		deny all;
-	}
-	{% endif %}
 		
 	{% if item.https_cert is defined and item.https_cert.mode == "letsencrypt" %}
 	location /.well-known {
@@ -32,6 +22,17 @@ server {
 	{% else %}
 	index index.html index.htm index.nginx-debian.html;
 		
+		{% if item.status is defined and item.status.enabled | default(False) %}
+	location {{ item.status.path | default('/status') }} {
+		stub_status on;
+		access_log off;
+		{% for allow in item.status.allow %}
+		allow {{ allow }};
+		{% endfor %}
+		deny all;
+	}
+		{% endif %}
+
 		{% if item.disable_robots %}
 	location /robots.txt { alias {{ nginx_default_disabled_robots_path }}; }
 		{% endif %}
@@ -113,7 +114,7 @@ server {
 
 {% if item.https_port | default(False) %}
 server {
-	listen {{ nginx_listen_ip }}:{{ item.https_port }} ssl{% if item.default | default(False) %} default_server{% endif %};
+	listen {{ item.listen_ip | default(nginx_listen_ip) }}:{{ item.https_port }} ssl{% if item.default | default(False) %} default_server{% endif %};
 	listen [::]:{{ item.https_port }} ssl{% if item.default | default(False) %} default_server{% endif %};
 	server_name {% if item.default | default(False) %}_ {% endif %}{{ item.server_name | default("_") }};
 	root /var/www/html;
@@ -143,17 +144,18 @@ server {
     ssl_ciphers 'ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES256-SHA:ECDHE-ECDSA-DES-CBC3-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:DES-CBC3-SHA:!DSS';
     ssl_prefer_server_ciphers on;
 	
-	{% if item.default | default(False) %}
-	location /nginx_status {
+	index index.html index.htm index.nginx-debian.html;
+
+	{% if item.status is defined and item.status.enabled | default(False) %}
+	location {{ item.status.path | default('/status') }} {
 		stub_status on;
 		access_log off;
-		allow 127.0.0.1;
-		allow ::1;
+		{% for allow in item.status.allow %}
+		allow {{ allow }};
+		{% endfor %}
 		deny all;
 	}
 	{% endif %}
-
-	index index.html index.htm index.nginx-debian.html;
 		
 	{% if item.disable_robots %}
 	location /robots.txt { alias {{ nginx_default_disabled_robots_path }}; }

@@ -1,0 +1,6 @@
+---
+
+- name: Provision monitoring-kube-state-metrics
+  hosts: controller
+  roles:
+  - role: monitoring-kube-state-metrics.deploy

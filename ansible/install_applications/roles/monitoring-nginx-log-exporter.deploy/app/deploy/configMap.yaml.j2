@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-log-exporter-config
+  namespace: monitoring
+  labels:
+    app: nginx-log-exporter
+    app-component: nginx-log-exporter
+data:
+  prometheus-nginxlog-exporter.yaml: |
+    {{ lookup('template', role_path + '/app/config/prometheus-nginxlog-exporter.yaml.j2') | replace('\n', '\n    ') }}

@@ -1,12 +1,12 @@
 {
    "annotations": {
-      "list": [ ]
+      "list": []
    },
-   "editable": true,
+   "editable": false,
    "gnetId": null,
    "graphTooltip": 0,
    "hideControls": false,
-   "links": [ ],
+   "links": [],
    "refresh": "10s",
    "rows": [
       {
@@ -14,7 +14,7 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -32,13 +32,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -53,7 +53,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "CPU Utilisation",
@@ -68,7 +68,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -90,7 +90,7 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -108,13 +108,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -129,7 +129,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "CPU Saturation (Load1)",
@@ -144,7 +144,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -178,7 +178,7 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -196,13 +196,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -217,7 +217,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Memory Utilisation",
@@ -232,7 +232,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -254,7 +254,7 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -272,13 +272,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -293,7 +293,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Memory Saturation (Swap I/O)",
@@ -308,7 +308,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -342,7 +342,7 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -360,13 +360,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -381,7 +381,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Disk IO Utilisation",
@@ -396,7 +396,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -418,7 +418,7 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -436,13 +436,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -457,7 +457,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Disk IO Saturation",
@@ -472,7 +472,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -506,7 +506,7 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -524,13 +524,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -545,7 +545,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Net Utilisation (Transmitted)",
@@ -560,7 +560,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -582,7 +582,7 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -600,13 +600,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -621,7 +621,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Net Saturation (Dropped)",
@@ -636,7 +636,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -670,7 +670,7 @@
          "height": "250px",
          "panels": [
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
@@ -688,13 +688,13 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null as zero",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 12,
                "stack": false,
@@ -709,7 +709,7 @@
                      "step": 10
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Disk Utilisation",
@@ -724,7 +724,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -770,7 +770,7 @@
             "hide": 0,
             "label": null,
             "name": "datasource",
-            "options": [ ],
+            "options": [],
             "query": "prometheus",
             "refresh": 1,
             "regex": "",
@@ -788,13 +788,13 @@
             "label": "cluster",
             "multi": false,
             "name": "cluster",
-            "options": [ ],
+            "options": [],
             "query": "label_values(kube_node_info, cluster)",
             "refresh": 1,
             "regex": "",
             "sort": 2,
             "tagValuesQuery": "",
-            "tags": [ ],
+            "tags": [],
             "tagsQuery": "",
             "type": "query",
             "useTags": false
@@ -811,13 +811,13 @@
             "label": "node",
             "multi": false,
             "name": "node",
-            "options": [ ],
+            "options": [],
             "query": "label_values(kube_node_info{cluster=\"$cluster\"}, node)",
             "refresh": 1,
             "regex": "",
             "sort": 2,
             "tagValuesQuery": "",
-            "tags": [ ],
+            "tags": [],
             "tagsQuery": "",
             "type": "query",
             "useTags": false
