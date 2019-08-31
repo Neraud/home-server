@@ -12,7 +12,7 @@
     state: present
 
 - name: Configure APC Daemon
-  template: 
+  template:
     src: apcupsd.conf.j2
     dest: /etc/apcupsd/apcupsd.conf
     backup: yes

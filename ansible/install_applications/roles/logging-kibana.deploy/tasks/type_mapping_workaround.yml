@@ -31,7 +31,7 @@
       Host: "infra.{{ web_base_domain }}"
     body:
       properties:
-        type: 
+        type:
           type: text
           fielddata: true
     body_format: json
@@ -42,6 +42,6 @@
     user: "{{ kibana.elasticsearch.user }}"
     password: "{{ kibana.elasticsearch.password }}"
   changed_when: True
-  when: 
+  when:
     - kibana_mapping_result.json[kibana_index_real_name].mappings.properties.type.type == "text"
     - not (kibana_mapping_result.json[kibana_index_real_name].mappings.properties.type.fielddata | default(False))
