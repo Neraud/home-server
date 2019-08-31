@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
 echo ""
-echo "Deleting Prometheus Operator deployment"
-su user -c "kubectl --namespace=monitoring delete deployments prometheus-operator"
+echo "Deleting Prometheus"
+su user -c "kubectl --namespace=monitoring delete prometheuses --all"
 
-echo "Deleting Prometheus Statefulset"
-su user -c "kubectl --namespace=monitoring delete statefulsets prometheus-k8s"
-
-echo "Deleting AlertManager Statefulset"
-su user -c "kubectl --namespace=monitoring delete statefulsets alertmanager-main"
+echo "Deleting AlertManager"
+su user -c "kubectl --namespace=monitoring delete alertmanagers --all"
 
 echo "Deleting all Prometheus rules"
 su user -c "kubectl --namespace=monitoring delete prometheusrules --all"
