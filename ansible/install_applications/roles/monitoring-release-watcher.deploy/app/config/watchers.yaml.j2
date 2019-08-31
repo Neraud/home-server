@@ -5,10 +5,11 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 2.8.3
+    version: 2.8.4
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
+      - .*2\.[0-7]\..*$
   
   #################################
   # Installed by ansible on hosts #

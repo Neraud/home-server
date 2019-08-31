@@ -30,7 +30,7 @@ mkdir -p /root/.ssh
 if [ "$mode" == "ansible" ] ; then
 	echo " - install ansible from"
 	apt-get -q -y install python-pip
-	pip install ansible==2.8.3
+	pip install ansible==2.8.4
 
 	# Workaround for https://github.com/ansible/ansible/issues/57509
 	# If the playbook itself installs passlib, bcrypt hash won't be available in the same run
