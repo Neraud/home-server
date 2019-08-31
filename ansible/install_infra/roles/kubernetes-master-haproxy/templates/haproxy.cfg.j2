@@ -28,8 +28,9 @@ defaults
 	option	httplog
 	option	dontlognull
         timeout connect 5000
-        timeout client  50000
-        timeout server  50000
+		# Long timeouts to avoid "error: unexpected EOF" when running long `kubectl logs -f`
+        timeout client  600000
+        timeout server  600000
 
 frontend kubernetes
     bind {{ haproxy_apiserver_bind_ip }}:{{ haproxy_apiserver_port }}
