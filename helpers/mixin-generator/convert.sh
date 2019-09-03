@@ -14,7 +14,7 @@ cat <<EOF >$KUBERNETES_RULES
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: prometheus-k8s-rules
+  name: kubernetes-rules
   namespace: monitoring
   labels:
     app: prometheus
@@ -32,7 +32,7 @@ cat <<EOF >$KUBERNETES_ALERTS
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: prometheus-k8s-alerts
+  name: kubernetes-alerts
   namespace: monitoring
   labels:
     app: prometheus
@@ -43,7 +43,7 @@ spec:
 EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/kubernetes-mixin/prometheus_alerts.yml >>$KUBERNETES_ALERTS
 
-echo "Conert Kubernetes Grafana dashboards"
+echo "Converting Kubernetes Grafana dashboards"
 GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
 mkdir -p $GRAFANA_DASHBOARD_ROOT
 cp $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
