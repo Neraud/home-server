@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homeassistant-socat-config
+  namespace: default
+  labels:
+    app: homeassistant
+    app-component: homeassistant
+data:
+  {% for name in homeassistant.serial_remote_devices | default({}) %}
+  {% set remote_device = homeassistant.serial_remote_devices[name] %}
+  socat-{{ name }}.conf: |-
+    [program:socat-{{ name }}]
+    command=socat pty,link={{ remote_device.device }},{{ remote_device.state }},user={{ remote_device.user }},group={{ remote_device.group }},mode={{ remote_device.mode }} tcp:{{ remote_device.host }}:{{ remote_device.port }}
+  {% endfor %}
+
+  test.conf: |-
+    [program:test]
+    command=/opt/test.sh
+  

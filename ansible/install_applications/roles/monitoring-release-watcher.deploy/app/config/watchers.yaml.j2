@@ -116,13 +116,14 @@ watchers:
     repo: registry-1.docker.io
     image: {{ homeassistant.container.from_image }}
     tag: {{ homeassistant.container.from_tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
       - 0\.[0-8].*
-      - 0\.9[0-4].*
+      - 0\.9[0-7].*
+      - .*dev
       - .*b[0-9]
-      - dev
-      - rc
-      - latest
+      - (latest|stable|beta|dev|rc)
   - type: github_commit
     repo: efficiosoft/ldap-auth-sh
     branch: master
@@ -443,3 +444,4 @@ watchers:
       - amd64-[0-9]+\.[0-9]+.*
     excludes:
       - amd64-latest
+

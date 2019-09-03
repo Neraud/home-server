@@ -9,5 +9,3 @@ metadata:
 data:
   ldap-auth-config.cfg: |-
     {{ lookup('template', role_path + '/app/config/ldap-auth-config.cfg.j2') | replace('\n', '\n    ') }}
-  socat.cfg: |-
-    {{ lookup('template', role_path + '/app/config/socat.cfg.j2') | replace('\n', '\n    ') }}

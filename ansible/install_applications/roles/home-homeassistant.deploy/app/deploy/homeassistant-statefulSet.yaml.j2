@@ -32,9 +32,8 @@ spec:
           mountPath: /etc/localtime
         - name: homeassistant-pv-claim
           mountPath: /config
-        - name: homeassistant-config
-          mountPath: /config/socat.cfg
-          subPath: socat.cfg
+        - name: homeassistant-socat-config
+          mountPath: /etc/supervisor/conf.d/
         - name: homeassistant-config
           mountPath: /opt/ldap-auth/config.cfg
           subPath: ldap-auth-config.cfg
@@ -55,6 +54,9 @@ spec:
       - name: homeassistant-config
         configMap:
           name: homeassistant-config
+      - name: homeassistant-socat-config
+        configMap:
+          name: homeassistant-socat-config
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
