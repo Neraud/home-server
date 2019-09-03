@@ -9,7 +9,7 @@ spec:
   endpoints:
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
-    port: http-metrics
+    port: metrics
   jobLabel: prometheus-target
   namespaceSelector:
     matchNames:
