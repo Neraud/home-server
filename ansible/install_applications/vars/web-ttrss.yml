@@ -8,7 +8,7 @@ ttrss:
     tag: "latest"
     # Keep the image version in sync with the ttrss_pgsql.schema_url variable
     from_image: "linuxserver/tt-rss"
-    from_tag: "amd64-19.2-ls23"
+    from_tag: "amd64-19.8-ls28"
     requests_cpu: "{{ ttrss_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ ttrss_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ ttrss_container_limits_cpu | default('200m') }}"
@@ -46,5 +46,5 @@ ttrss_pgsql:
   database: "{{ ttrss_pgsql_database | default('ttrss') }}"
   password: "{{ ttrss_pgsql_password | default('clear_password') }}"
   # Keep the schema URL in sync with the image version in ttrss.container.from_image
-  schema_url: 'https://git.tt-rss.org/fox/tt-rss/raw/19.2/schema/ttrss_schema_pgsql.sql'
+  schema_url: 'https://git.tt-rss.org/fox/tt-rss/raw/19.8/schema/ttrss_schema_pgsql.sql'
   schema_path_temp: /tmp/tt-rss-schema.sql

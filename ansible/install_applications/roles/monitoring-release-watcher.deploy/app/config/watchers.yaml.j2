@@ -430,6 +430,6 @@ watchers:
     image: {{ ttrss.container.from_image }}
     tag: {{ ttrss.container.from_tag }}
     includes:
-      - amd64.*
+      - amd64-[0-9]+\.[0-9]+.*
     excludes:
       - amd64-latest
