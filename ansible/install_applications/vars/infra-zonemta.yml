@@ -7,7 +7,7 @@ zonemta:
     image: "{{ docker_registry.url }}/zone-mta"
     tag: "latest"
     from_image: "node"
-    from_tag: "10.16.1-alpine"
+    from_tag: "10.16.3-alpine"
     requests_cpu: "{{ zonemta_container_requests_cpu | default('100m') }}"
     # ZoneMTA runs multiple node processes, be sure to have at least 5 times 'max-old-space-size' (set in nodejs_max_memory), and more if you use more processes
     requests_memory: "{{ zonemta_container_requests_memory | default('160Mi') }}"
