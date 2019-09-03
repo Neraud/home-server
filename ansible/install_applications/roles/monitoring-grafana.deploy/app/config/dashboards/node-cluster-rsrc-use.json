@@ -45,11 +45,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node:cluster_cpu_utilisation:ratio{cluster=\"$cluster\"}",
+                     "expr": "(\n  instance:node_cpu_utilisation:rate1m{job=\"node\"}\n*\n  instance:node_num_cpu:sum{job=\"node\"}\n/ ignoring (instance) group_left\n  sum without (instance) (instance:node_num_cpu:sum{job=\"node\"})\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}}",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
@@ -58,7 +58,7 @@
                "timeShift": null,
                "title": "CPU Utilisation",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -121,20 +121,20 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node:node_cpu_saturation_load1:{cluster=\"$cluster\"} / scalar(sum(min(kube_pod_info{cluster=\"$cluster\"}) by (node)))",
+                     "expr": "(\n  instance:node_load1_per_cpu:ratio{job=\"node\"}\n/ ignoring (instance) group_left\n  count without (instance) (instance:node_load1_per_cpu:ratio{job=\"node\"})\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}}",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
                "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
-               "title": "CPU Saturation (Load1)",
+               "title": "CPU Saturation (load1 per CPU)",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -209,11 +209,11 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node:cluster_memory_utilisation:ratio{cluster=\"$cluster\"}",
+                     "expr": "(\n  instance:node_memory_utilisation:ratio{job=\"node\"}\n/ ignoring (instance) group_left\n  count without (instance) (instance:node_memory_utilisation:ratio{job=\"node\"})\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}}",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
@@ -222,7 +222,7 @@
                "timeShift": null,
                "title": "Memory Utilisation",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -285,20 +285,20 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node:node_memory_swap_io_bytes:sum_rate{cluster=\"$cluster\"}",
+                     "expr": "instance:node_memory_swap_io_pages:rate1m{job=\"node\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}}",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
                "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Memory Saturation (Swap I/O)",
+               "title": "Memory Saturation (Swapped Pages)",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -312,7 +312,7 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "rps",
                      "label": null,
                      "logBase": 1,
                      "max": null,
@@ -366,27 +366,45 @@
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [],
+               "seriesOverrides": [
+                  {
+                     "alias": "/ Receive/",
+                     "stack": "A"
+                  },
+                  {
+                     "alias": "/ Transmit/",
+                     "stack": "B",
+                     "transform": "negative-Y"
+                  }
+               ],
                "spaceLength": 10,
                "span": 6,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node:node_disk_utilisation:avg_irate{cluster=\"$cluster\"} / scalar(:kube_pod_info_node_count:{cluster=\"$cluster\"})",
+                     "expr": "instance:node_network_receive_bytes_excluding_lo:rate1m{job=\"node\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}} Receive",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
+                     "step": 10
+                  },
+                  {
+                     "expr": "instance:node_network_transmit_bytes_excluding_lo:rate1m{job=\"node\"}",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{instance}} Transmit",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
                "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Disk IO Utilisation",
+               "title": "Net Utilisation (Bytes Receive/Transmit)",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -400,11 +418,11 @@
                },
                "yaxes": [
                   {
-                     "format": "percentunit",
+                     "format": "Bps",
                      "label": null,
                      "logBase": 1,
-                     "max": 1,
-                     "min": 0,
+                     "max": null,
+                     "min": null,
                      "show": true
                   },
                   {
@@ -442,27 +460,45 @@
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
-               "seriesOverrides": [],
+               "seriesOverrides": [
+                  {
+                     "alias": "/ Receive/",
+                     "stack": "A"
+                  },
+                  {
+                     "alias": "/ Transmit/",
+                     "stack": "B",
+                     "transform": "negative-Y"
+                  }
+               ],
                "spaceLength": 10,
                "span": 6,
                "stack": true,
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node:node_disk_saturation:avg_irate{cluster=\"$cluster\"} / scalar(:kube_pod_info_node_count:{cluster=\"$cluster\"})",
+                     "expr": "instance:node_network_receive_drop_excluding_lo:rate1m{job=\"node\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}} Receive",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
+                     "step": 10
+                  },
+                  {
+                     "expr": "instance:node_network_transmit_drop_excluding_lo:rate1m{job=\"node\"}",
+                     "format": "time_series",
+                     "intervalFactor": 2,
+                     "legendFormat": "{{instance}} Transmit",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
                "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Disk IO Saturation",
+               "title": "Net Saturation (Drops Receive/Transmit)",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -476,11 +512,11 @@
                },
                "yaxes": [
                   {
-                     "format": "percentunit",
+                     "format": "rps",
                      "label": null,
                      "logBase": 1,
-                     "max": 1,
-                     "min": 0,
+                     "max": null,
+                     "min": null,
                      "show": true
                   },
                   {
@@ -498,7 +534,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Disk",
+         "title": "Network",
          "titleSize": "h6"
       },
       {
@@ -537,20 +573,20 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node:node_net_utilisation:sum_irate{cluster=\"$cluster\"}",
+                     "expr": "(\n  instance_device:node_disk_io_time_seconds:rate1m{job=\"node\"}\n/ ignoring (instance, device) group_left\n  count without (instance, device) (instance_device:node_disk_io_time_seconds:rate1m{job=\"node\"})\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}} {{device}}",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
                "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Net Utilisation (Transmitted)",
+               "title": "Disk IO Utilisation",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -564,10 +600,10 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "percentunit",
                      "label": null,
                      "logBase": 1,
-                     "max": null,
+                     "max": 1,
                      "min": 0,
                      "show": true
                   },
@@ -613,20 +649,20 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node:node_net_saturation:sum_irate{cluster=\"$cluster\"}",
+                     "expr": "(\n  instance_device:node_disk_io_time_weighted_seconds:rate1m{job=\"node\"}\n/ ignoring (instance, device) group_left\n  count without (instance, device) (instance_device:node_disk_io_time_weighted_seconds:rate1m{job=\"node\"})\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}} {{device}}",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
                "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Net Saturation (Dropped)",
+               "title": "Disk IO Saturation",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -640,10 +676,10 @@
                },
                "yaxes": [
                   {
-                     "format": "Bps",
+                     "format": "percentunit",
                      "label": null,
                      "logBase": 1,
-                     "max": null,
+                     "max": 1,
                      "min": 0,
                      "show": true
                   },
@@ -662,7 +698,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Network",
+         "title": "Disk IO",
          "titleSize": "h6"
       },
       {
@@ -701,20 +737,20 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(max(node_filesystem_size_bytes{fstype=~\"ext[234]|btrfs|xfs|zfs\", cluster=\"$cluster\"} - node_filesystem_avail_bytes{fstype=~\"ext[234]|btrfs|xfs|zfs\", cluster=\"$cluster\"}) by (device,pod,namespace)) by (pod,namespace)\n/ scalar(sum(max(node_filesystem_size_bytes{fstype=~\"ext[234]|btrfs|xfs|zfs\", cluster=\"$cluster\"}) by (device,pod,namespace)))\n* on (namespace, pod) group_left (node) node_namespace_pod:kube_pod_info:{cluster=\"$cluster\"}\n",
+                     "expr": "(\n  sum without (device) (\n    max without (fstype, mountpoint) (\n      node_filesystem_size_bytes{job=\"node\", } - node_filesystem_avail_bytes{job=\"node\", }\n    )\n  ) \n/ ignoring (instance) group_left\n  sum without (instance, device) (\n    max without (fstype, mountpoint) (\n      node_filesystem_size_bytes{job=\"node\", }\n    )\n  )\n)  \n",
                      "format": "time_series",
                      "intervalFactor": 2,
-                     "legendFormat": "{{node}}",
-                     "legendLink": "/grafana/d/4ac4f123aae0ff6dbaf4f4f66120033b/k8s-node-rsrc-use",
+                     "legendFormat": "{{instance}}",
+                     "legendLink": "/dashboard/file/node-rsrc-use.json",
                      "step": 10
                   }
                ],
                "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
-               "title": "Disk Capacity",
+               "title": "Disk Space Utilisation",
                "tooltip": {
-                  "shared": false,
+                  "shared": true,
                   "sort": 0,
                   "value_type": "individual"
                },
@@ -750,7 +786,7 @@
          "repeatIteration": null,
          "repeatRowId": null,
          "showTitle": true,
-         "title": "Storage",
+         "title": "Disk Space",
          "titleSize": "h6"
       }
    ],
@@ -758,7 +794,7 @@
    "style": "dark",
    "tags": [
       "infra",
-      "kubernetes"
+      "nodes"
    ],
    "templating": {
       "list": [
@@ -775,29 +811,6 @@
             "refresh": 1,
             "regex": "",
             "type": "datasource"
-         },
-         {
-            "allValue": null,
-            "current": {
-               "text": "prod",
-               "value": "prod"
-            },
-            "datasource": "$datasource",
-            "hide": 2,
-            "includeAll": false,
-            "label": "cluster",
-            "multi": false,
-            "name": "cluster",
-            "options": [],
-            "query": "label_values(kube_node_info, cluster)",
-            "refresh": 1,
-            "regex": "",
-            "sort": 2,
-            "tagValuesQuery": "",
-            "tags": [],
-            "tagsQuery": "",
-            "type": "query",
-            "useTags": false
          }
       ]
    },
@@ -831,7 +844,7 @@
       ]
    },
    "timezone": "",
-   "title": "Kubernetes / USE Method / Cluster",
+   "title": "USE Method / Cluster",
    "uid": "a6e7d1362e1ddbb79db21d5bb40d7137",
    "version": 0
 }

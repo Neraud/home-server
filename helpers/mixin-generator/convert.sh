@@ -4,7 +4,7 @@ OUT_GENERATED_ROOT=$(pwd)/out
 OUT_CONVERTED_ROOT=$(pwd)/out/converted
 
 if [ -d $OUT_CONVERTED_ROOT ]; then
-    rm -R $OUT_CONVERTED_ROOT
+  rm -R $OUT_CONVERTED_ROOT
 fi
 
 echo "Converting Kubernetes Prometheus rules"
@@ -48,6 +48,47 @@ GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/
 mkdir -p $GRAFANA_DASHBOARD_ROOT
 cp $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
 
+echo "Converting NodeExporter Prometheus rules"
+NODE_EXPORTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_rules.yaml
+mkdir -p $(dirname $NODE_EXPORTER_RULES)
+cat <<EOF >$NODE_EXPORTER_RULES
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-rules
+  namespace: monitoring
+  labels:
+    app: prometheus
+    app-component: prometheus
+    prometheus: k8s
+    role: alert-rules
+spec:
+EOF
+sed 's/^/  /' $OUT_GENERATED_ROOT/node-mixin/prometheus_rules.yml >>$NODE_EXPORTER_RULES
+
+echo "Converting NodeExporter Prometheus alerts"
+NODE_EXPORTER_ALERTS=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_alerts.yaml
+mkdir -p $(dirname $NODE_EXPORTER_ALERTS)
+cat <<EOF >$NODE_EXPORTER_ALERTS
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-alerts
+  namespace: monitoring
+  labels:
+    app: prometheus
+    app-component: prometheus
+    prometheus: k8s
+    role: alert-rules
+spec:
+EOF
+sed 's/^/  /' $OUT_GENERATED_ROOT/node-mixin/prometheus_alerts.yml >>$NODE_EXPORTER_ALERTS
+
+echo "Converting NodeExporter Grafana dashboards"
+GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
+mkdir -p $GRAFANA_DASHBOARD_ROOT
+cp $OUT_GENERATED_ROOT/node-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
+
 echo "Converting Gluster Prometheus rules"
 GLUSTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/gluster_rules.yaml
 mkdir -p $(dirname $GLUSTER_RULES)
@@ -88,6 +129,6 @@ echo "Conert Gluster Grafana dashboard"
 GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
 mkdir -p $GRAFANA_DASHBOARD_ROOT
 sed -e 's/^   "title": ".*",/   "title": "GlusterFS Volumes",/' \
-    -e 's/^   "tags": \[ ],/   "tags": [\n     "infra",\n     "gluster"\n   ],/' \
-    $OUT_GENERATED_ROOT/gluster-mixin/dashboards/k8s-storage-resources-glusterfs-pv.json \
-    >$GRAFANA_DASHBOARD_ROOT/glusterfs-volumes.json
+  -e 's/^   "tags": \[ ],/   "tags": [\n     "infra",\n     "gluster"\n   ],/' \
+  $OUT_GENERATED_ROOT/gluster-mixin/dashboards/k8s-storage-resources-glusterfs-pv.json \
+  >$GRAFANA_DASHBOARD_ROOT/glusterfs-volumes.json
