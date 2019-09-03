@@ -36,7 +36,7 @@ zonemta:
 zonemta_mongo:
   container:
     image: "mongo"
-    tag: "4.1.13-bionic"
+    tag: "4.2.0-bionic"
     requests_cpu: "{{ zonemta_mongo_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ zonemta_mongo_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ zonemta_mongo_container_limits_cpu | default('200m') }}"
