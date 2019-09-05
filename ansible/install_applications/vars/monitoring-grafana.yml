@@ -21,3 +21,4 @@ grafana:
     manager_dn: "{{ grafana_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
     manager_password: "{{ grafana_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
     group: "{{ grafana_ldap_group }}"
+    group_mapping: "{{ grafana_ldap_group_mapping }}"

@@ -45,20 +45,15 @@ username = "cn"
 member_of = "memberOf"
 email =  "mail"
 
+{% if grafana.ldap.group_mapping | default([]) | length > 0 %}
 # Map ldap groups to grafana org roles
+{% for mapping in grafana.ldap.group_mapping %}
 [[servers.group_mappings]]
-group_dn = "{{ grafana.ldap.group }}"
-org_role = "Admin"
-# To make user an instance admin  (Grafana Admin) uncomment line below
+group_dn = "{{ mapping.group_dn }}"
+org_role = "{{ mapping.org_role }}"
+{% if mapping.grafana_admin | default(False) | bool %}
 grafana_admin = true
-# The Grafana organization database id, optional, if left out the default org (id 1) will be used
-# org_id = 1
-
-#[[servers.group_mappings]]
-#group_dn = "cn=users,dc=grafana,dc=org"
-#org_role = "Editor"
-
-[[servers.group_mappings]]
-# If you want to match all (or no ldap groups) then you can use wildcard
-group_dn = "*"
-org_role = "Viewer"
+{% endif %}
+org_id = {{ mapping.org_id | default(1) }}
+{% endfor %}
+{% endif %}
