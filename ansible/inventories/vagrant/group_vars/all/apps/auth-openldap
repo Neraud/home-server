@@ -12,6 +12,7 @@ openldap_ldap_structure_groups_ou_dns:
   sso_groups: "ou=sso_groups,{{ openldap_ldap_basedn }}"
   app_groups: "ou=app_groups,{{ openldap_ldap_basedn }}"
   elasticsearch_roles: "ou=elasticsearch_roles,{{ openldap_ldap_basedn }}"
+  grafana_roles: "ou=grafana_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
   - id: user
@@ -95,7 +96,18 @@ openldap_ldap_groups:
     members:
       - user
 
+  # Roles for Grafana
+  - id: admin
+    description: Grafana admin
+    ou: grafana_roles
+    members:
+      - user
+  - id: editor
+    description: Grafana editor
+    ou: grafana_roles
+    members: []
 
+  # Roles for ElasticSearch
   - id: admin
     description: All access
     ou: elasticsearch_roles

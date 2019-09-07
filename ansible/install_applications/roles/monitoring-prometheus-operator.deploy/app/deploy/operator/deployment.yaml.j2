@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: prometheus-operator
-    app.kubernetes.io/version: v0.31.1
+    app.kubernetes.io/version: {{ prometheus_operator.container.tag }}
   name: prometheus-operator
   namespace: monitoring
 spec:
@@ -18,14 +18,14 @@ spec:
       labels:
         app.kubernetes.io/component: controller
         app.kubernetes.io/name: prometheus-operator
-        app.kubernetes.io/version: v0.31.1
+        app.kubernetes.io/version: {{ prometheus_operator.container.tag }}
     spec:
       containers:
       - args:
         - --kubelet-service=kube-system/kubelet
         - --logtostderr=true
         - --config-reloader-image=quay.io/coreos/configmap-reload:v0.0.1
-        - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:v0.31.1
+        - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:{{ prometheus_operator.container.tag }}
         image: "{{ prometheus_operator.container.repo }}/{{ prometheus_operator.container.image }}:{{ prometheus_operator.container.tag }}"
         name: prometheus-operator
         ports:

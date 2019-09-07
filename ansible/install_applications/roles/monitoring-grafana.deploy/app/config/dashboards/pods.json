@@ -88,7 +88,7 @@
                      "refId": "C"
                   },
                   {
-                     "expr": "sum by(container) (container_memory_cache{job=\"cadvisor\", namespace=\"$namespace\", pod=~\"$pod\", container=~\"$container\", container!=\"POD\"})",
+                     "expr": "sum by(container) (container_memory_cache{job=\"cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$pod\", container=~\"$container\", container!=\"POD\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Cache: {{ container }}",

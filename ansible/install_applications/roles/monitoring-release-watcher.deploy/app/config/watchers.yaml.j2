@@ -5,10 +5,11 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 2.8.3
+    version: 2.8.4
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
+      - .*2\.[0-7]\..*$
   
   #################################
   # Installed by ansible on hosts #
@@ -28,7 +29,7 @@ watchers:
   - type: github_commit
     repo: gluster/gluster-prometheus
     branch: master
-    commit: 04465afa2405d1b5248beb50dc5fdceb84d2c8ed
+    commit: 0d3c2f14b1fc239863c73e733be3c97712abebf1
   
   ###############
   # Apps : Auth #
@@ -115,13 +116,18 @@ watchers:
     repo: registry-1.docker.io
     image: {{ homeassistant.container.from_image }}
     tag: {{ homeassistant.container.from_tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
       - 0\.[0-8].*
-      - 0\.9[0-4].*
+      - 0\.9[0-7].*
+      - .*dev
       - .*b[0-9]
-      - dev
-      - rc
-      - latest
+      - (latest|stable|beta|dev|rc)
+  - type: github_commit
+    repo: efficiosoft/ldap-auth-sh
+    branch: master
+    commit: 819f9233116e68b5af5a5f45167bcbb4ed412ed4
   - name: "HomeAssistant MySQL"
     type: docker_registry
     repo: registry-1.docker.io
@@ -190,7 +196,7 @@ watchers:
   - type: docker_registry
     repo: quay.io
     image: kubernetes-ingress-controller/nginx-ingress-controller
-    tag: 0.24.1
+    tag: 0.25.1
     excludes:
       - .*(alpha|beta).*
       - 0\.[0-9]\.
@@ -313,11 +319,17 @@ watchers:
   - type: github_commit
     repo: coreos/kube-prometheus
     branch: master
-    commit: 636f2b6e81537262a0c2e8279e68c132b2d3bd07
+    commit: 6710ef8739710b70595a0a294c7cf1f0b27df7e2
   - type: github_commit
     repo: kubernetes-monitoring/kubernetes-mixin
     branch: master
-    commit: 3a6af8f5e9b16441308bcd57ad3f5bcaa03d1d68
+    commit: c5411dde8ff084e343e06f4075a632811aeca46a
+  # node_exporter isn't installed using this repo
+  # We only use the mixin at https://github.com/prometheus/node_exporter/tree/master/docs/node-mixin
+  - type: github_commit
+    repo: prometheus/node_exporter
+    branch: master
+    commit: d3478a207ebc665d4bd06c3dff5e9fb0a5e44eff
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
@@ -429,6 +441,7 @@ watchers:
     image: {{ ttrss.container.from_image }}
     tag: {{ ttrss.container.from_tag }}
     includes:
-      - amd64.*
+      - amd64-[0-9]+\.[0-9]+.*
     excludes:
       - amd64-latest
+

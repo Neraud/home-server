@@ -6,7 +6,7 @@ mkdir -p /opt/kubernetes-mixin
 cd /opt/kubernetes-mixin
 
 echo " - create custom configuration"
-cat <<EOF > mixin.libsonnet
+cat <<EOF >mixin.libsonnet
 local kubernetes = import "kubernetes-mixin/mixin.libsonnet";
 
 kubernetes {
@@ -30,14 +30,39 @@ jb install github.com/kubernetes-monitoring/kubernetes-mixin
 
 mkdir -p /out/kubernetes-mixin/dashboards
 echo " - generating prometheus_alerts ..."
-jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' > /out/kubernetes-mixin/prometheus_alerts.yml
+jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' >/out/kubernetes-mixin/prometheus_alerts.yml
 echo " - generating prometheus_rules ..."
-jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' > /out/kubernetes-mixin/prometheus_rules.yml
+jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' >/out/kubernetes-mixin/prometheus_rules.yml
 echo " - generating dashboards_out ..."
 jsonnet -J vendor -m /out/kubernetes-mixin/dashboards -e '(import "mixin.libsonnet").grafanaDashboards'
 
 echo "===================================================================================================="
 
+echo "===================================================================================================="
+echo "Node mixin"
+mkdir -p /opt/node-mixin
+cd /opt/node-mixin
+
+echo " - create custom configuration"
+cat <<EOF >mixin.libsonnet
+local node = import "node-mixin/mixin.libsonnet";
+node {
+  _config+:: {
+  }
+}
+EOF
+
+echo " - installing requirements ..."
+jb init
+jb install github.com/prometheus/node_exporter/docs/node-mixin
+
+mkdir -p /out/node-mixin/dashboards
+echo " - generating prometheus_alerts ..."
+jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' >/out/node-mixin/prometheus_alerts.yml
+echo " - generating prometheus_rules ..."
+jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' >/out/node-mixin/prometheus_rules.yml
+echo " - generating dashboards_out ..."
+jsonnet -J vendor -m /out/node-mixin/dashboards -e '(import "mixin.libsonnet").grafanaDashboards'
 
 echo "===================================================================================================="
 echo "Gluster mixin"
@@ -46,7 +71,7 @@ mkdir -p /opt/gluster-mixins
 cd /opt/gluster-mixins
 
 echo " - create custom configuration"
-cat <<EOF > mixin.libsonnet
+cat <<EOF >mixin.libsonnet
 local gluster = import "gluster-mixins/mixin.libsonnet";
 
 gluster {
@@ -67,9 +92,9 @@ jb install github.com/gluster/gluster-mixins
 
 mkdir -p /out/gluster-mixin/dashboards
 echo " - generating prometheus_alerts ..."
-jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' > /out/gluster-mixin/prometheus_alerts.yml
+jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' >/out/gluster-mixin/prometheus_alerts.yml
 echo " - generating prometheus_rules ..."
-jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' > /out/gluster-mixin/prometheus_rules.yml
+jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' >/out/gluster-mixin/prometheus_rules.yml
 echo " - generating dashboards_out ..."
 jsonnet -J vendor -m /out/gluster-mixin/dashboards -e '(import "mixin.libsonnet").grafanaDashboards'
 

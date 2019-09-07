@@ -39,8 +39,7 @@ elasticsearch:
 elasticsearch_exporter:
   container:
     image: "justwatch/elasticsearch_exporter"
-    # TODO change for a stable version when available. We need this RC to have the ssl-skip-verify flag
-    tag: "1.1.0rc1"
+    tag: "1.1.0"
     requests_cpu: "{{ elasticsearch_exporter_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ elasticsearch_exporter_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ elasticsearch_exporter_container_limits_cpu | default('100m') }}"

@@ -1,12 +1,11 @@
 ---
-
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
 
   container:
     repo: quay.io
     image: "coreos/prometheus-operator"
-    tag: "v0.31.1"
+    tag: "v0.32.0"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('200m') }}"
@@ -49,7 +48,7 @@ alertmanager:
     from: "{{ alertmanager_smtp_from | default('alertmanager@' + web_base_domain) }}"
     auth_username: "{{ alertmanager_smtp_auth_username | default(zonemta.feeder.authentication_username) }}"
     auth_password: "{{ alertmanager_smtp_auth_password | default(zonemta.feeder.authentication_password) }}"
-  
+
   default_receiver: "{{ alertmanager_default_receiver | default('default') }}"
   receivers: "{{ alertmanager_receivers | default([]) }}"
 
