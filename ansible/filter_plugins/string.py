@@ -1,6 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 
 import binascii
+
 
 class FilterModule(object):
     def filters(self):
@@ -11,7 +12,7 @@ class FilterModule(object):
     def hexlify(self, str):
         """
         hexlify a string
-        See : https://docs.python.org/2/library/binascii.html#binascii.hexlify
+        See : https://docs.python.org/3/library/binascii.html#binascii.hexlify
 
         For example :
         * 'test' -> '74657374'
@@ -20,4 +21,4 @@ class FilterModule(object):
         :param str: the input string
         :returns: the hexlified string
         """
-        return binascii.hexlify(str)
+        return binascii.hexlify(str.encode()).decode()
