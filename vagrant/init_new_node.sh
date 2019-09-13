@@ -22,19 +22,22 @@ apt-get -q -y upgrade
 #echo " - dist-upgrade"
 #apt-get -q -y dist-upgrade
 
-echo " - install python"
-apt-get -q -y install python
+echo " - install python3"
+apt-get -q -y install python3
+update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+# Purging python2 won't work : apt-get -q -y purge python2 python2.7 python2-minimal libpython2.7
+# Some packages (like nfs-common) will install it back as a dependency.
 
 mkdir -p /root/.ssh
 
 if [ "$mode" == "ansible" ] ; then
 	echo " - install ansible from"
-	apt-get -q -y install python-pip
-	pip install ansible==2.8.4
+	apt-get -q -y install python3-pip
+	pip3 install ansible==2.8.4
 
 	# Workaround for https://github.com/ansible/ansible/issues/57509
 	# If the playbook itself installs passlib, bcrypt hash won't be available in the same run
-	apt-get -q -y install python-passlib
+	apt-get -q -y install python3-passlib
 
 	echo " - install ansible ssh keys"
 	cp -R /vagrant/ssh/* /root/.ssh/

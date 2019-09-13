@@ -3,7 +3,7 @@
 - name: Install python dependencies
   apt:
     pkg:
-    - python-openssl
+    - python3-openssl
     state: present
 
 - name: Ensure directory exists for custom PKIs

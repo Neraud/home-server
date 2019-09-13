@@ -3,7 +3,7 @@
 - name: Install python dependencies
   apt:
     pkg:
-    - python-ldap
+    - python3-ldap
     state: present
 
 - name: Read certificate files
