@@ -3,7 +3,7 @@
 - name: Install python dependencies
   apt:
     pkg:
-    - python-ldap
+    - python3-ldap
     state: present
 
 - name: Read certificate files
@@ -166,7 +166,7 @@
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap.ldap.structure_groups_ou_dns[item.ou] }}"
     name: "uniqueMember"
-    values: "{{ item.members | map('regex_replace', '(.*)', 'cn=\\1,' + openldap.ldap.structure_users_ou_dn) | list }}"
+    values: "{{ item.members | map('regex_replace', '^(.*)$', 'cn=\\1,' + openldap.ldap.structure_users_ou_dn) | list }}"
     state: exact
   with_items: "{{ openldap.ldap.groups | default([]) }}"
   when: item.members | default([]) | length > 0

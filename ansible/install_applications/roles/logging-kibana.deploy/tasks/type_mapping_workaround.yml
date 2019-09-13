@@ -21,7 +21,7 @@
 
 - name: Extract Kibana index real name
   set_fact:
-    kibana_index_real_name: "{{ kibana_mapping_result.json.keys()[0] }}"
+    kibana_index_real_name: "{{ kibana_mapping_result.json.keys() | first }}"
 
 - name: Workaround the Kibana mapping issue
   uri:
