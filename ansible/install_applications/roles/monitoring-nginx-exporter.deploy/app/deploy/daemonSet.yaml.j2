@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nginx-exporter
@@ -7,6 +7,10 @@ metadata:
     app: nginx-exporter
     app-component: nginx-exporter
 spec:
+  selector:
+    matchLabels:
+      app: nginx-exporter
+      app-component: nginx-exporter
   template:
     metadata:
       labels:

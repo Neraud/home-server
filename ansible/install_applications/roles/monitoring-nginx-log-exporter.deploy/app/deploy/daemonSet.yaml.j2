@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nginx-log-exporter
@@ -9,6 +9,10 @@ metadata:
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
+  selector:
+    matchLabels:
+      app: nginx-log-exporter
+      app-component: nginx-log-exporter
   template:
     metadata:
       labels:
