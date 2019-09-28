@@ -55,7 +55,7 @@
 
 - name: Generate master join command
   set_fact:
-    join_command: "{{ join_command_result.stdout_lines[0] }} --experimental-control-plane --apiserver-advertise-address {{ kubernetes_apiserver_ip }}"
+    join_command: "{{ join_command_result.stdout_lines[0] }} --control-plane --apiserver-advertise-address {{ kubernetes_apiserver_ip }}"
   when:
     - not has_already_joined_kubernetes_cluster
     - "'kubernetes_masters' in group_names"
