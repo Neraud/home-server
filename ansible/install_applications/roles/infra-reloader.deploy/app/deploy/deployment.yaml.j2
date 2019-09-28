@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reloader
@@ -31,4 +31,3 @@ spec:
             cpu: "{{ reloader.container.limits_cpu }}"
             memory: "{{ reloader.container.limits_memory }}"
       serviceAccountName: reloader
-
