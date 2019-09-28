@@ -106,6 +106,8 @@ data:
   cni-conf.json: |
     {
       "name": "cbr0",
+{# See https://github.com/coreos/flannel/pull/1181/files#diff-7891b552b026259e99d479b5e30d31ca #}
+      "cniVersion": "0.2.0",
       "plugins": [
         {
           "type": "flannel",
