@@ -1,12 +1,19 @@
 ---
 
+# To avoid loops inside node_exporter
+_node_exporter_var_loader:
+  base_image:
+    repo: quay.io
+    name: "prometheus/node-exporter"
+    tag: "v0.18.1"
+
 node_exporter:
   enabled: "{{ node_exporter_enabled | default(True) }}"
 
+  base_image: "{{ _node_exporter_var_loader.base_image }}"
+
   container:
-    repo: quay.io
-    image: "prometheus/node-exporter"
-    tag: "v0.18.1"
+    image: "{{ docker_registry.url }}/{{ _node_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _node_exporter_var_loader.base_image.tag }}"
     requests_cpu: "{{ node_exporter_container_requests_cpu | default('102m') }}"
     requests_memory: "{{ node_exporter_container_requests_memory | default('180Mi') }}"
     limits_cpu: "{{ node_exporter_container_limits_cpu | default('102m') }}"

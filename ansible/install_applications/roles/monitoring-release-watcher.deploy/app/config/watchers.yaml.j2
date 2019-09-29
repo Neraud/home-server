@@ -371,9 +371,9 @@ watchers:
   #    - latest
   #    - .*(alpha|beta|rc).*
   #- type: docker_registry
-  #  repo: {{ node_exporter.container.repo }}
-  #  image: {{ node_exporter.container.image }}
-  #  tag: {{ node_exporter.container.tag }}
+  #  repo: {{ node_exporter.base_image.repo | default('registry-1.docker.io') }}
+  #  image: {{ node_exporter.base_image.name }}
+  #  tag: {{ node_exporter.base_image.tag }}
   #  excludes:
   #    - .*(alpha|beta|rc).*
   #    - (latest|master)

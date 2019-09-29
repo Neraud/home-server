@@ -26,7 +26,7 @@ spec:
         - --collector.systemd
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+)($|/)
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
-        image: "{{ node_exporter.container.repo }}/{{ node_exporter.container.image }}:{{ node_exporter.container.tag }}"
+        image: "{{ node_exporter.container.image }}"
         name: node-exporter
         resources:
           limits:
