@@ -1,11 +1,18 @@
 ---
 
+# To avoid loops inside gotify
+_gotify_var_loader:
+  base_image:
+    name: "gotify/server"
+    tag: "2.0.6"
+
 gotify:
   enabled: "{{ gotify_enabled | default(True) }}"
 
+  base_image: "{{ _gotify_var_loader.base_image }}"
+
   container:
-    image: "gotify/server"
-    tag: "2.0.6"
+    image: "{{ docker_registry.url }}/gotify-server:{{ _gotify_var_loader.base_image.tag }}"
     requests_cpu: "{{ gotify_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ gotify_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ gotify_container_limits_cpu | default('100m') }}"
