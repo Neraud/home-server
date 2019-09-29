@@ -150,9 +150,9 @@ watchers:
       - 5\.7\.[0-9]$
       - 5\.7\.1[0-9]$
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ mosquitto.container.image }}
-    tag: {{ mosquitto.container.tag }}
+    repo: {{ mosquitto.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ mosquitto.base_image.name }}
+    tag: {{ mosquitto.base_image.tag }}
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
