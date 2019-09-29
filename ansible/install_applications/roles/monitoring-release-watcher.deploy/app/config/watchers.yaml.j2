@@ -219,9 +219,9 @@ watchers:
     excludes:
       - latest
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ docker_registry.container.image }}
-    tag: {{ docker_registry.container.tag }}
+    repo: {{ docker_registry.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ docker_registry.base_image.name }}
+    tag: {{ docker_registry.base_image.tag }}
     excludes:
       - latest
       - .*-rc\.[0-9]+
