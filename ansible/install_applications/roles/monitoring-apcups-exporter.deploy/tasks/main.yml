@@ -1,20 +1,16 @@
 ---
 
-- name: Build and push apcups image
-  docker_image:
-    name: "{{ docker_registry.url }}/apcups-exporter"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image_build: "{{ apcups_exporter.container.from_image_build }}:{{ apcups_exporter.container.from_tag_build }}"
-        from_image: "{{ apcups_exporter.container.from_image }}:{{ apcups_exporter.container.from_tag }}"
-        archive_url: "{{ apcups_exporter.repo.url }}/archive/{{ apcups_exporter.repo.version }}.tar.gz"
-    force_source: yes
-    push: yes
+- name: Ensure apcups-exporter image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ apcups_exporter.base_image }}"
+    private_image: "{{ apcups_exporter.container.image }}"
+    build: yes
+    build_args:
+      from_image_build: "{% if apcups_exporter.base_image_build.repo is defined %}{{ apcups_exporter.base_image_build.repo }}/{% endif %}{{ apcups_exporter.base_image_build.name }}:{{ apcups_exporter.base_image_build.tag }}"
+      archive_url: "{{ apcups_exporter.repo.url }}/archive/{{ apcups_exporter.repo.version }}.tar.gz"
 
-- name: Deploy release-watcher
+- name: Deploy apcups-exporter
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
