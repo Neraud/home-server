@@ -356,9 +356,9 @@ watchers:
     excludes:
       - ^0\.[0-3]\..*
   - type: docker_registry
-    repo: {{ nginx_log_exporter.container.repo }}
-    image: {{ nginx_log_exporter.container.image }}
-    tag: {{ nginx_log_exporter.container.tag }}
+    repo: {{ nginx_log_exporter.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ nginx_log_exporter.base_image.name }}
+    tag: {{ nginx_log_exporter.base_image.tag }}
     excludes:
       - latest
   
