@@ -1,16 +1,11 @@
 ---
 
-- name: Build and push Node-RED image
-  docker_image:
-    name: "{{ docker_registry.url }}/nodered"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ nodered.container.from_image }}:{{ nodered.container.from_tag }}"
-    force_source: yes
-    push: yes
+- name: Ensure Node-RED image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ nodered.base_image }}"
+    private_image: "{{ nodered.container.image }}"
+    build: yes
 
 - name: Deploy Node-RED
   k8s:

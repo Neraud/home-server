@@ -22,7 +22,7 @@ spec:
         app-component: zonemta
     spec:
       containers:
-      - image: "{{ zonemta.container.image }}:{{ zonemta.container.tag }}"
+      - image: "{{ zonemta.container.image }}"
         name: zonemta
         env:
         - name: NODE_OPTIONS

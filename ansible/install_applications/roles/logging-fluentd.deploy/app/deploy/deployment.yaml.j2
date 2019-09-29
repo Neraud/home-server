@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: fluentd
-        image: "{{ fluentd.container.image }}:{{ fluentd.container.tag }}"
+        image: "{{ fluentd.container.image }}"
         ports:
         - containerPort: 24224
           name: fluentd

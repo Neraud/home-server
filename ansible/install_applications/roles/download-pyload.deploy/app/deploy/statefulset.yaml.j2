@@ -22,7 +22,7 @@ spec:
         app-component: pyload
     spec:
       containers:
-      - image: "{{ pyload.container.image }}:{{ pyload.container.tag }}"
+      - image: "{{ pyload.container.image }}"
         name: pyload
         ports:
         - containerPort: 8000

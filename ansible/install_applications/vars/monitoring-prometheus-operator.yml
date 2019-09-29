@@ -1,24 +1,41 @@
 ---
+
+# To avoid loops inside prometheus_operator
+_prometheus_operator_var_loader:
+  base_image:
+    repo: quay.io
+    name: "coreos/prometheus-operator"
+    tag: "v0.32.0"
+
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
 
+  base_image: "{{ _prometheus_operator_var_loader.base_image }}"
+
   container:
-    repo: quay.io
-    image: "coreos/prometheus-operator"
-    tag: "v0.32.0"
+    image: "{{ docker_registry.url }}/{{ _prometheus_operator_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ prometheus_operator_container_limits_memory | default('200Mi') }}"
 
+
+
+# To avoid loops inside prometheus
+_prometheus_var_loader:
+  base_image:
+    repo: quay.io
+    name: "prometheus/prometheus"
+    tag: "v2.11.0"
+
 prometheus:
   retention: "{{ prometheus_retention | default('7d') }}"
   allowed_namespaces: "{{ prometheus_allowed_namespaces | default(prometheus_allowed_namespaces_default) }}"
 
+  base_image: "{{ _prometheus_var_loader.base_image }}"
+
   container:
-    repo: quay.io
-    image: "prometheus/prometheus"
-    tag: "v2.11.0"
+    image: "{{ docker_registry.url }}/{{ _prometheus_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ prometheus_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('500m') }}"
@@ -31,11 +48,19 @@ prometheus_allowed_namespaces_default:
   - monitoring
   - logging
 
-alertmanager:
-  container:
+
+# To avoid loops inside alertmanager
+_alertmanager_var_loader:
+  base_image:
     repo: quay.io
-    image: "prometheus/alertmanager"
+    name: "prometheus/alertmanager"
     tag: "v0.18.0"
+
+alertmanager:
+  base_image: "{{ _alertmanager_var_loader.base_image }}"
+
+  container:
+    image: "{{ docker_registry.url }}/{{ _alertmanager_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _alertmanager_var_loader.base_image.tag }}"
     requests_cpu: "{{ alertmanager_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ alertmanager_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ alertmanager_container_limits_cpu | default('250m') }}"

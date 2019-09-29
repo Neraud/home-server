@@ -1,11 +1,18 @@
 ---
 
+# To avoid loops inside elasticsearch
+_elasticsearch_var_loader:
+  base_image:
+    name: "amazon/opendistro-for-elasticsearch"
+    tag: "1.1.0"
+
 elasticsearch:
   enabled: "{{ elasticsearch_enabled | default(True) }}"
 
+  base_image: "{{ _elasticsearch_var_loader.base_image }}"
+  
   container:
-    image: "amazon/opendistro-for-elasticsearch"
-    tag: "1.1.0"
+    image: "{{ docker_registry.url }}/{{ _elasticsearch_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _elasticsearch_var_loader.base_image.tag }}"
     requests_cpu: "{{ elasticsearch_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ elasticsearch_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ elasticsearch_container_limits_cpu | default('1000m') }}"
@@ -36,10 +43,17 @@ elasticsearch:
 
   exposed_namespaces: "{{ elasticsearch_exposed_namespaces | default(['logging']) }}"
 
-elasticsearch_exporter:
-  container:
-    image: "justwatch/elasticsearch_exporter"
+
+# To avoid loops inside elasticsearch_exporter
+_elasticsearch_exporter_var_loader:
+  base_image:
+    name: "justwatch/elasticsearch_exporter"
     tag: "1.1.0"
+
+elasticsearch_exporter:
+  base_image: "{{ _elasticsearch_exporter_var_loader.base_image }}"
+  container:
+    image: "{{ docker_registry.url }}/{{ _elasticsearch_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _elasticsearch_exporter_var_loader.base_image.tag }}"
     requests_cpu: "{{ elasticsearch_exporter_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ elasticsearch_exporter_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ elasticsearch_exporter_container_limits_cpu | default('100m') }}"

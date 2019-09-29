@@ -22,7 +22,7 @@ spec:
         app-component: ttrss
     spec:
       containers:
-      - image: "{{ ttrss.container.image }}:{{ ttrss.container.tag }}"
+      - image: "{{ ttrss.container.image }}"
         name: ttrss
         ports:
         - containerPort: 80

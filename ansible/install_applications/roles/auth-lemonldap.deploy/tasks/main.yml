@@ -1,16 +1,11 @@
 ---
 
-- name: Build and push LemonLDAP image
-  docker_image:
-    name: "{{ docker_registry.url }}/lemonldap"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ lemonldap.container.from_image }}:{{ lemonldap.container.from_tag }}"
-    force_source: yes
-    push: yes
+- name: Ensure LemonLDAP image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ lemonldap.base_image }}"
+    private_image: "{{ lemonldap.container.image }}"
+    build: yes
 
 - name: Deploy LemonLDAP
   k8s:

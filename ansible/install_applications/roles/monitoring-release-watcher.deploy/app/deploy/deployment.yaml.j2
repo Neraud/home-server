@@ -22,7 +22,7 @@ spec:
         app-component: release-watcher
     spec:
       containers:
-      - image: "{{ release_watcher.container.image }}:{{ release_watcher.container.tag }}"
+      - image: "{{ release_watcher.container.image }}"
         name: release-watcher
         ports:
         - containerPort: 8080

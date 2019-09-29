@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Docker registry UI image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ docker_registry_ui.base_image }}"
+    private_image: "{{ docker_registry_ui.container.image }}"
+
 - name: Deploy Docker registry UI
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

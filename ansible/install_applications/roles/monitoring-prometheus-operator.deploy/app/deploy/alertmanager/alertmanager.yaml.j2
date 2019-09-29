@@ -8,8 +8,8 @@ metadata:
   name: main
   namespace: monitoring
 spec:
-  baseImage: "{{ alertmanager.container.repo }}/{{ alertmanager.container.image }}"
-  version: "{{ alertmanager.container.tag }}"
+  baseImage: "{{ alertmanager.base_image.repo }}/{{ alertmanager.base_image.name }}"
+  version: "{{ alertmanager.base_image.tag }}"
   nodeSelector:
     beta.kubernetes.io/os: linux
     capability/general-purpose: 'yes'

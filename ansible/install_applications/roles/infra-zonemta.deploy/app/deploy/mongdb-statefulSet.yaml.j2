@@ -22,7 +22,7 @@ spec:
         app-component: mongo
     spec:
       containers:
-      - image: "{{ zonemta_mongo.container.image }}:{{ zonemta_mongo.container.tag }}"
+      - image: "{{ zonemta_mongo.container.image }}"
         name: mongo
         env:
         - name: MONGO_INITDB_ROOT_USERNAME

@@ -3,13 +3,17 @@
 # To avoid loops inside docker_registry
 _docker_registry_var_loader:
   port: "{{ docker_registry_port | default(30500) }}"
+  base_image:
+    name: "registry"
+    tag: "2.7.1"
 
 docker_registry:
   enabled: "{{ docker_registry_enabled | default(True) }}"
 
+  base_image: "{{ _docker_registry_var_loader.base_image }}"
+
   container:
-    image: "registry"
-    tag: "2.7.1"
+    image: "{% if _docker_registry_var_loader.base_image.repo is defined %}{{ _docker_registry_var_loader.base_image.repo }}/{% endif %}{{ _docker_registry_var_loader.base_image.name }}:{{ _docker_registry_var_loader.base_image.tag }}"
     requests_cpu: "{{ docker_registry_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ docker_registry_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ docker_registry_container_limits_cpu | default('100m') }}"

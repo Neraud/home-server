@@ -1,14 +1,19 @@
 ---
 
+# To avoid loops inside nodered
+_nodered_var_loader:
+  base_image:
+    name: "nodered/node-red-docker"
+    tag: "0.20.7-slim-v10"
+
 nodered:
   enabled: "{{ nodered_enabled | default(True) }}"
   context_root: "{{ nodered_context_root | default('/') }}"
 
+  base_image: "{{ _nodered_var_loader.base_image }}"
+
   container:
-    image: "{{ docker_registry.url }}/nodered"
-    tag: "latest"
-    from_image: "nodered/node-red-docker"
-    from_tag: "0.20.7-slim-v10"
+    image: "{{ docker_registry.url }}/{{ _nodered_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nodered_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ nodered_container_requests_cpu | default('250m') }}"
     requests_memory: "{{ nodered_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ nodered_container_limits_cpu | default('500m') }}"

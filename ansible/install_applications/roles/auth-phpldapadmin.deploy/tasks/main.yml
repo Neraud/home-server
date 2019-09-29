@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure phpLDAPadmin image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ phpldapadmin.base_image }}"
+    private_image: "{{ phpldapadmin.container.image }}"
+
 - name: List config files
   set_fact:
     phpldapadmin_config_files: "{{ phpldapadmin_config_files | default([]) + [ item ] }}"

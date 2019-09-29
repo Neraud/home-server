@@ -22,7 +22,7 @@ spec:
         app-component: gitlab
     spec:
       containers:
-      - image: "{{ gitlab.container.image }}:{{ gitlab.container.tag }}"
+      - image: "{{ gitlab.container.image }}"
         name: gitlab
         ports:
         - containerPort: 80

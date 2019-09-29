@@ -1,11 +1,18 @@
 ---
 
+# To avoid loops inside kibana
+_kibana_var_loader:
+  base_image:
+    name: "amazon/opendistro-for-elasticsearch-kibana"
+    tag: "1.1.0"
+
 kibana:
   enabled: "{{ kibana_enabled | default(True) }}"
 
+  base_image: "{{ _kibana_var_loader.base_image }}"
+
   container:
-    image: "amazon/opendistro-for-elasticsearch-kibana"
-    tag: "1.1.0"
+    image: "{{ docker_registry.url }}/{{ _kibana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kibana_var_loader.base_image.tag }}"
     requests_cpu: "{{ kibana_container_requests_cpu | default('1000m') }}"
     requests_memory: "{{ kibana_container_requests_memory | default('2048Mi') }}"
     limits_cpu: "{{ kibana_container_limits_cpu | default('1000m') }}"

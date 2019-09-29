@@ -1,13 +1,18 @@
 ---
 
+# To avoid loops inside heimdall
+_heimdall_var_loader:
+  base_image:
+    name: "linuxserver/heimdall"
+    tag: "amd64-2.2.2-ls55"
+
 heimdall:
   enabled: "{{ heimdall_enabled | default(True) }}"
 
+  base_image: "{{ _heimdall_var_loader.base_image }}"
+
   container:
-    image: "{{ docker_registry.url }}/heimdall"
-    tag: "latest"
-    from_image: "linuxserver/heimdall"
-    from_tag: "amd64-2.2.2-ls55"
+    image: "{{ docker_registry.url }}/{{ _heimdall_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _heimdall_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ heimdall_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ heimdall_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ heimdall_container_limits_cpu | default('200m') }}"

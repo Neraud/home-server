@@ -1,11 +1,18 @@
 ---
 
+# To avoid loops inside grafana
+_grafana_var_loader:
+  base_image:
+    name: "grafana/grafana"
+    tag: "6.2.2"
+
 grafana:
   enabled: "{{ grafana_enabled | default(True) }}"
 
+  base_image: "{{ _grafana_var_loader.base_image }}"
+
   container:
-    image: "grafana/grafana"
-    tag: "6.2.2"
+    image: "{{ docker_registry.url }}/{{ _grafana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _grafana_var_loader.base_image.tag }}"
     requests_cpu: "{{ grafana_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ grafana_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ grafana_container_limits_cpu | default('200m') }}"

@@ -1,10 +1,18 @@
 ---
+
+# To avoid loops inside sickchill
+_sickchill_var_loader:
+  base_image:
+    name: "linuxserver/sickchill"
+    tag: "amd64-e0947596-ls19"
+
 sickchill:
   enabled: "{{ sickchill_enabled | default(True) }}"
 
+  base_image: "{{ _sickchill_var_loader.base_image }}"
+
   container:
-    image: "linuxserver/sickchill"
-    tag: "amd64-e0947596-ls19"
+    image: "{{ docker_registry.url }}/{{ _sickchill_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _sickchill_var_loader.base_image.tag }}"
     requests_cpu: "{{ sickchill_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ sickchill_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ sickchill_container_limits_cpu | default('200m') }}"

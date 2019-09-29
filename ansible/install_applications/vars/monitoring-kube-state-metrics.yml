@@ -1,12 +1,19 @@
 ---
 
+# To avoid loops inside kube_state_metrics
+_kube_state_metrics_var_loader:
+  base_image:
+    repo: quay.io
+    name: "coreos/kube-state-metrics"
+    tag: "v1.7.2"
+
 kube_state_metrics:
   enabled: "{{ kube_state_metrics_enabled | default(True) }}"
 
+  base_image: "{{ _kube_state_metrics_var_loader.base_image }}"
+
   container:
-    repo: quay.io
-    image: "coreos/kube-state-metrics"
-    tag: "v1.7.2"
+    image: "{{ docker_registry.url }}/{{ _kube_state_metrics_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kube_state_metrics_var_loader.base_image.tag }}"
     # Kube-state-metrics uses an auto-scaler, so it doesn't have the usual requests and limits.
     # It has a base value, and an extra value.
     # The used resource is : base + extra * number_of_pods

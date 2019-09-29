@@ -20,7 +20,7 @@ spec:
         app-component: apcups-exporter
     spec:
       containers:
-      - image: "{{ apcups_exporter.container.image }}:{{ apcups_exporter.container.tag }}"
+      - image: "{{ apcups_exporter.container.image }}"
         name: apcups-exporter
         env:
         - name: APCUPS_ADDR

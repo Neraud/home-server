@@ -31,7 +31,7 @@ spec:
         - name: sabnzbd-config
           mountPath: /tmp/config
       containers:
-      - image: "{{ sabnzbd.container.image }}:{{ sabnzbd.container.tag }}"
+      - image: "{{ sabnzbd.container.image }}"
         name: sabnzbd
         ports:
         - containerPort: 8080

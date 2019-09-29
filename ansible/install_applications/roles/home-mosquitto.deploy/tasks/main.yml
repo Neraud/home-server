@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Mosquitto image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ mosquitto.base_image }}"
+    private_image: "{{ mosquitto.container.image }}"
+
 - name: Read generated files
   slurp:
     src: "{{ item }}"
