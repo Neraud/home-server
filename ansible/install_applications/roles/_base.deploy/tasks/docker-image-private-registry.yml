@@ -46,10 +46,8 @@
 
 - name: Complet build args
   set_fact:
-    build_args: "{{ build_args | default({}) | combine ({'from_image':  public_image }) }}"
-  when: 
-    - build | default('no') | bool
-    - public_image is defined
+    build_args_completed: "{{ build_args | default({}) | combine ({'from_image':  public_image }) }}"
+  when: build | default('no') | bool
 
 - name: Build and push docker image
   docker_image:
@@ -59,6 +57,10 @@
     build:
       path: "{{ build_path | default(role_path + '/app/build') }}"
       pull: yes
-      args: "{{ build_args | default({}) }}"
+      args: "{{ build_args_completed | default({}) }}"
     push: yes
   when: build | default('no') | bool
+
+- name: Reset build args
+  set_fact:
+    build_args_completed: {}
