@@ -1,18 +1,21 @@
 ---
 
+# To avoid loops inside release_watcher
+_release_watcher_var_loader:
+  repo:
+    url: "https://github.com/Neraud/release-watcher"
+    version: "d11e7282006a5dfb916548631584ecfeb837d06f"
+
 release_watcher:
   enabled: "{{ release_watcher_enabled | default(True) }}"
 
   container:
-    image: "{{ docker_registry.url }}/release-watcher"
-    tag: "latest"
+    image: "{{ docker_registry.url }}/release-watcher:{{ _release_watcher_var_loader.repo.version }}-custom"
     requests_cpu: "{{ release_watcher_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ release_watcher_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ release_watcher_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ release_watcher_container_limits_memory | default('64Mi') }}"
 
-  repo:
-    url: "https://github.com/Neraud/release-watcher"
-    version: "d11e7282006a5dfb916548631584ecfeb837d06f"
+  repo: "{{ _release_watcher_var_loader.repo }}"
   
   path: "{{ release_watcher_path | default('/opt/release-watcher') }}"

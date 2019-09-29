@@ -22,6 +22,7 @@
 - name: Generate public_image full name
   set_fact:
     public_image: "{% if base_image.repo is defined %}{{ base_image.repo }}/{% endif %}{{ base_image.name }}:{{ base_image.tag }}"
+  when: base_image is defined
 
 # On the ansible controller host, docker-gc is scheduled, so our previously built/pulled images might have been deleted.
 # To avoid unnecessary builds/pulls from the internet, it first tries to pull the image from the private repo.
@@ -39,12 +40,16 @@
     repository: "{{ private_image }}"
     source: pull
     push: yes
-  when: not build | default('no') | bool
+  when:
+    - not build | default('no') | bool
+    - public_image is defined
 
 - name: Complet build args
   set_fact:
     build_args: "{{ build_args | default({}) | combine ({'from_image':  public_image }) }}"
-  when: build | default('no') | bool
+  when: 
+    - build | default('no') | bool
+    - public_image is defined
 
 - name: Build and push docker image
   docker_image:
@@ -54,6 +59,6 @@
     build:
       path: "{{ build_path | default(role_path + '/app/build') }}"
       pull: yes
-      args: "{{ build_args }}"
+      args: "{{ build_args | default({}) }}"
     push: yes
   when: build | default('no') | bool
