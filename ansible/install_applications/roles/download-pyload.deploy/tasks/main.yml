@@ -1,18 +1,14 @@
 ---
 
-- name: Build and push pyLoad image
-  docker_image:
-    name: "{{ docker_registry.url }}/pyload"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ pyload.container.from_image }}:{{ pyload.container.from_tag }}"
-        PYLOAD_BRANCH: "{{ pyload.container.branch }}"
-        PYLOAD_RELEASE: "{{ pyload.container.commit }}"
-    force_source: yes
-    push: yes
+- name: Ensure pyLoad image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ pyload.base_image }}"
+    private_image: "{{ pyload.container.image }}"
+    build: yes
+    build_args:
+      PYLOAD_BRANCH: "{{ pyload.container.branch }}"
+      PYLOAD_RELEASE: "{{ pyload.container.commit }}"
 
 - name: Deploy pyLoad
   k8s:

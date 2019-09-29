@@ -94,9 +94,9 @@ watchers:
       - amd64-latest
       - amd64-[0-1]\.
   - type: github_commit
-    repo: pyload/pyload
-    branch: {{ pyload.container.branch }}
-    commit: {{ pyload.container.commit }}
+    repo: {{ pyload.repo.name }}
+    branch: {{ pyload.repo.branch }}
+    commit: {{ pyload.repo.commit }}
   - type: docker_registry
     repo: registry-1.docker.io
     image: {{ sabnzbd.container.from_image }}
