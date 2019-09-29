@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: prometheus-operator
-    app.kubernetes.io/version: {{ prometheus_operator.container.tag }}
+    app.kubernetes.io/version: {{ prometheus_operator.base_image.tag }}
     app: prometheus-operator
   name: prometheus-operator
   namespace: monitoring
@@ -17,5 +17,5 @@ spec:
     matchLabels:
       app.kubernetes.io/component: controller
       app.kubernetes.io/name: prometheus-operator
-      app.kubernetes.io/version: {{ prometheus_operator.container.tag }}
+      app.kubernetes.io/version: {{ prometheus_operator.base_image.tag }}
       prometheus-target: prometheus-operator

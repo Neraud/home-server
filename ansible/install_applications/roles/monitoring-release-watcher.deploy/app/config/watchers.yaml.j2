@@ -386,18 +386,18 @@ watchers:
   #    - .*(alpha|beta|rc).*
   #    - ^[1-5].*
   #- type: docker_registry
-  #  repo: {{ prometheus_operator.container.repo }}
-  #  image: {{ prometheus_operator.container.image }}
-  #  tag: {{ prometheus_operator.container.tag }}
+  #  repo: {{ prometheus_operator.base_image.repo | default('registry-1.docker.io') }}
+  #  image: {{ prometheus_operator.base_image.name }}
+  #  tag: {{ prometheus_operator.base_image.tag }}
   #  excludes:
   #    - (master|latest)
   #    - ^v0\.[0-9]\..*
   #    - ^v0\.1[0-9]\..*
   #    - ^v0\.2[0-8]\..*
   #- type: docker_registry
-  #  repo: {{ prometheus.container.repo }}
-  #  image: {{ prometheus.container.image }}
-  #  tag: {{ prometheus.container.tag }}
+  #  repo: {{ prometheus.base_image.repo | default('registry-1.docker.io') }}
+  #  image: {{ prometheus.base_image.name }}
+  #  tag: {{ prometheus.base_image.tag }}
   #  includes:
   #    - ^v.*
   #  excludes:
@@ -406,9 +406,9 @@ watchers:
   #    - ^v1\..*
   #    - ^v2\.[0-6]\..*
   #- type: docker_registry
-  #  repo: {{ alertmanager.container.repo }}
-  #  image: {{ alertmanager.container.image }}
-  #  tag: {{ alertmanager.container.tag }}
+  #  repo: {{ alertmanager.base_image.repo | default('registry-1.docker.io') }}
+  #  image: {{ alertmanager.base_image.name }}
+  #  tag: {{ alertmanager.base_image.tag }}
   #  includes:
   #    - ^v.*
   #  excludes:

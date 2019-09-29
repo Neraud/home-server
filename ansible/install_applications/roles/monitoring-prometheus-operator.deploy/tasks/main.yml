@@ -1,5 +1,23 @@
 ---
 
+- name: Ensure Prometheus Operator image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ prometheus_operator.base_image }}"
+    private_image: "{{ prometheus_operator.container.image }}"
+
+- name: Ensure Prometheus image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ prometheus.base_image }}"
+    private_image: "{{ prometheus.container.image }}"
+
+- name: Ensure AlertManager image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ alertmanager.base_image }}"
+    private_image: "{{ alertmanager.container.image }}"
+
 - name: Deploy Prometheus Operator
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
