@@ -321,9 +321,9 @@ watchers:
     excludes:
       - v1\.[0-4]\..*
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ kibana.container.image }}
-    tag: {{ kibana.container.tag }}
+    repo: {{ kibana.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ kibana.base_image.name }}
+    tag: {{ kibana.base_image.tag }}
     excludes:
       - latest
       - ^0\..*
