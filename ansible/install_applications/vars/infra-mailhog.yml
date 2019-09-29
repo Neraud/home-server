@@ -1,11 +1,18 @@
 ---
 
+# To avoid loops inside mailhog
+_mailhog_var_loader:
+  base_image:
+    name: "mailhog/mailhog"
+    tag: "v1.0.0"
+
 mailhog:
   enabled: "{{ mailhog_enabled | default(True) }}"
 
+  base_image: "{{ _mailhog_var_loader.base_image }}"
+
   container:
-    image: "mailhog/mailhog"
-    tag: "v1.0.0"
+    image: "{{ docker_registry.url }}/{{ _mailhog_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _mailhog_var_loader.base_image.tag }}"
     requests_cpu: "{{ mailhog_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ mailhog_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ mailhog_container_limits_cpu | default('1000m') }}"
