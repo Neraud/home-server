@@ -1,11 +1,19 @@
 ---
+
+# To avoid loops inside kubernetes_dashboard
+_kubernetes_dashboard_var_loader:
+  base_image:
+    repo: "k8s.gcr.io"
+    name: "kubernetes-dashboard-amd64"
+    tag: "v1.10.1"
   
 kubernetes_dashboard:
   enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
 
+  base_image: "{{ _kubernetes_dashboard_var_loader.base_image }}"
+
   container:
-    image: "k8s.gcr.io/kubernetes-dashboard-amd64"
-    tag: "v1.10.1"
+    image: "{{ docker_registry.url }}/{{ _kubernetes_dashboard_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_var_loader.base_image.tag }}"
     requests_cpu: "{{ kubernetes_dashboard_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ kubernetes_dashboard_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ kubernetes_dashboard_container_limits_cpu | default('100m') }}"

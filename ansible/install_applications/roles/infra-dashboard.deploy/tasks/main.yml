@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Kubernetes dashboard image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ kubernetes_dashboard.base_image }}"
+    private_image: "{{ kubernetes_dashboard.container.image }}"
+
 - name: Deploy Kubernetes dashboard
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
