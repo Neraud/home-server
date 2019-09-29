@@ -20,7 +20,7 @@ spec:
         app-component: pgsql
     spec:
       containers:
-      - image: "{{ ttrss_pgsql.container.image }}:{{ ttrss_pgsql.container.tag }}"
+      - image: "{{ ttrss_pgsql.container.image }}"
         name: pgsql
         env:
         - name: POSTGRES_USER

@@ -1,16 +1,17 @@
 ---
 
-- name: Build and push TT-RSS image
-  docker_image:
-    name: "{{ docker_registry.url }}/ttrss"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ ttrss.container.from_image }}:{{ ttrss.container.from_tag }}"
-    force_source: yes
-    push: yes
+- name: Ensure TT-RSS image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ ttrss.base_image }}"
+    private_image: "{{ ttrss.container.image }}"
+    build: yes
+
+- name: Ensure TT-RSS PGSQL image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ ttrss_pgsql.base_image }}"
+    private_image: "{{ ttrss_pgsql.container.image }}"
 
 # We can't just use a lookup('url', ttrss_pgsql.schema_url) to inject the schema file directly.
 # This gets blocked by a 403, probably due to a user-agent filter on TT-RSS Gogs.
