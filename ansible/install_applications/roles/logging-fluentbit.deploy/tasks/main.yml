@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Fluent Bit image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ fluentbit.base_image }}"
+    private_image: "{{ fluentbit.container.image }}"
+
 - name: List parser files
   set_fact:
     fluentbit_parser_files: "{{ fluentbit_parser_files | default([]) + [ item ] }}"
