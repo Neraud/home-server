@@ -38,7 +38,7 @@ spec:
           mountPath: {{ lemonldap.persistent_volume_path }}
       containers:
       - name: lemonldap
-        image: "{{ lemonldap.container.image }}:{{ lemonldap.container.tag }}"
+        image: "{{ lemonldap.container.image }}"
         ports:
           - containerPort: 80
             name: http
@@ -95,4 +95,3 @@ spec:
           app: lemonldap
           app-component: lemonldap
           storage: data
-

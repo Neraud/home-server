@@ -44,9 +44,9 @@ watchers:
   # Apps : Auth #
   ###############
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ lemonldap.container.from_image }}
-    tag: {{ lemonldap.container.from_tag }}
+    repo: {{ lemonldap.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ lemonldap.base_image.name }}
+    tag: {{ lemonldap.base_image.tag }}
     excludes:
       - latest
       - ^1\.

@@ -1,13 +1,18 @@
 ---
 
+# To avoid loops inside lemonldap
+_lemonldap_var_loader:
+  base_image:
+    name: "coudot/lemonldap-ng"
+    tag: "2.0.5"
+
 lemonldap:
   enabled: "{{ lemonldap_enabled | default(True) }}"
 
+  base_image: "{{ _lemonldap_var_loader.base_image }}"
+
   container:
-    image: "{{ docker_registry.url }}/lemonldap"
-    tag: "latest"
-    from_image: "coudot/lemonldap-ng"
-    from_tag: "2.0.5"
+    image: "{{ docker_registry.url }}/{{ _lemonldap_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _lemonldap_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ lemonldap_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ lemonldap_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ lemonldap_container_limits_cpu | default('200m') }}"
