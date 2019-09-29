@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: nginx-exporter
-        image: "{{ nginx_exporter.container.image }}:{{ nginx_exporter.container.tag }}"
+        image: "{{ nginx_exporter.container.image }}"
         args:
         - -nginx.scrape-uri
         - http://$(NODE_IP):81/status

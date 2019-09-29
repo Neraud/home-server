@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure nginx exporter image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ nginx_exporter.base_image }}"
+    private_image: "{{ nginx_exporter.container.image }}"
+
 - name: Deploy nginx exporter
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

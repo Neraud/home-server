@@ -350,9 +350,9 @@ watchers:
     branch: master
     commit: a6a02d24ffe92ee38fcfb80f38fc75c4f952e626
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ nginx_exporter.container.image }}
-    tag: {{ nginx_exporter.container.tag }}
+    repo: {{ nginx_exporter.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ nginx_exporter.base_image.name }}
+    tag: {{ nginx_exporter.base_image.tag }}
     excludes:
       - ^0\.[0-3]\..*
   - type: docker_registry
