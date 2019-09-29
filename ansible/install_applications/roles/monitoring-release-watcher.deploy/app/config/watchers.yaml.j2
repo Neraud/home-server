@@ -287,16 +287,16 @@ watchers:
   # Apps : Logging #
   ##################
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ elasticsearch.container.image }}
-    tag: {{ elasticsearch.container.tag }}
+    repo: {{ elasticsearch.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ elasticsearch.base_image.name }}
+    tag: {{ elasticsearch.base_image.tag }}
     excludes:
       - latest
       - ^0\..*
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ elasticsearch_exporter.container.image }}
-    tag: {{ elasticsearch_exporter.container.tag }}
+    repo: {{ elasticsearch_exporter.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ elasticsearch_exporter.base_image.name }}
+    tag: {{ elasticsearch_exporter.base_image.tag }}
     excludes:
       - latest
       - ^0\..*

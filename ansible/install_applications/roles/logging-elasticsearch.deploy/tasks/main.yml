@@ -1,5 +1,17 @@
 ---
 
+- name: Ensure ElasticSearch image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ elasticsearch.base_image }}"
+    private_image: "{{ elasticsearch.container.image }}"
+
+- name: Ensure ElasticSearch Exporter image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ elasticsearch_exporter.base_image }}"
+    private_image: "{{ elasticsearch_exporter.container.image }}"
+
 - name: Read generated files
   slurp:
     src: "{{ item }}"
