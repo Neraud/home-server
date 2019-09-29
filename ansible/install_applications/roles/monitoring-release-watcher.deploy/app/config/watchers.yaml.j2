@@ -110,9 +110,9 @@ watchers:
       - amd64-[0-1]\..*
       - amd64-2\.[0-2]\..*
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ sickchill.container.image }}
-    tag: {{ sickchill.container.tag }}
+    repo: {{ sickchill.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ sickchill.base_image.name }}
+    tag: {{ sickchill.base_image.tag }}
     includes:
       - amd64.*
     excludes:

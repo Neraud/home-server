@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Sickchill image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ sickchill.base_image }}"
+    private_image: "{{ sickchill.container.image }}"
+
 - name: Deploy Sickchill
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
