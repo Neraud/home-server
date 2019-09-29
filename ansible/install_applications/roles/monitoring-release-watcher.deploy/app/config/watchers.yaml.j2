@@ -159,9 +159,9 @@ watchers:
       - latest
       - ^1\.[0-5]\.
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ nodered.container.from_image }}
-    tag: {{ nodered.container.from_tag }}
+    repo: {{ nodered.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ nodered.base_image.name }}
+    tag: {{ nodered.base_image.tag }}
     includes:
       - .*-slim-v10
   - type: docker_registry
