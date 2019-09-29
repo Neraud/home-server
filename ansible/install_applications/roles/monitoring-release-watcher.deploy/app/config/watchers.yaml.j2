@@ -422,9 +422,9 @@ watchers:
   # Apps : Stream #
   #################
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ airsonic.container.image }}
-    tag: {{ airsonic.container.tag }}
+    repo: {{ airsonic.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ airsonic.base_image.name }}
+    tag: {{ airsonic.base_image.tag }}
     includes:
       - .*-RELEASE
     excludes:
