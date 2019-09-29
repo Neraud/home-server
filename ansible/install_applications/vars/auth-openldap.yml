@@ -1,16 +1,21 @@
 ---
 
-# To avoid loops inside openldap.ldap
+# To avoid loops inside openldap
 _openldap_var_loader:
+  base_image:
+    name: "osixia/openldap"
+    tag: "1.2.5"
+  
   basedn: "{{ openldap_ldap_basedn | default('dc=example,dc=org') }}"
   readonly_user_username: "{{ openldap_ldap_readonly_user_username | default('readonly') }}"
 
 openldap:
   enabled: "{{ openldap_enabled | default(True) }}"
 
+  base_image: "{{ _openldap_var_loader.base_image }}"
+
   container:
-    image: "osixia/openldap"
-    tag: "1.2.5"
+    image: "{{ docker_registry.url }}/{{ _openldap_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _openldap_var_loader.base_image.tag }}"
     requests_cpu: "{{ openldap_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ openldap_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ openldap_container_limits_cpu | default('200m') }}"

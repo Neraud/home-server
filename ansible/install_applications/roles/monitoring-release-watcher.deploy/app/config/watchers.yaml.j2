@@ -51,9 +51,9 @@ watchers:
       - latest
       - ^1\.
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ openldap.container.image }}
-    tag: {{ openldap.container.tag }}
+    repo: {{ openldap.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ openldap.base_image.name }}
+    tag: {{ openldap.base_image.tag }}
     excludes:
       - latest
       - .*-dev
