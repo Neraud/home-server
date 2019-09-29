@@ -4,12 +4,17 @@
 _gitlab_var_loader:
   context_path: "{{ gitlab_context_path | default('/gitlab') }}"
 
+  base_image:
+    name: "gitlab/gitlab-ce"
+    tag: "12.2.4-ce.0"
+
 gitlab:
   enabled: "{{ openldap_enabled | default(True) }}"
 
+  base_image: "{{ _gitlab_var_loader.base_image }}"
+
   container:
-    image: "gitlab/gitlab-ce"
-    tag: "12.2.4-ce.0"
+    image: "{{ docker_registry.url }}/{{ _gitlab_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _gitlab_var_loader.base_image.tag }}"
     requests_cpu: "{{ gitlab_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ gitlab_container_requests_memory | default('3072Mi') }}"
     limits_cpu: "{{ gitlab_container_limits_cpu | default('2000m') }}"

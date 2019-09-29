@@ -70,9 +70,9 @@ watchers:
   # Apps : Dev #
   ##############
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ gitlab.container.image }}
-    tag: {{ gitlab.container.tag }}
+    repo: {{ gitlab.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ gitlab.base_image.name }}
+    tag: {{ gitlab.base_image.tag }}
     excludes:
       - nightly
       - latest
