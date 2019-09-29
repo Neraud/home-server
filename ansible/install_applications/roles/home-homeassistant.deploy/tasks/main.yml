@@ -1,16 +1,17 @@
 ---
 
-- name: Build and push Home Assistant image
-  docker_image:
-    name: "{{ docker_registry.url }}/homeassistant"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ homeassistant.container.from_image }}:{{ homeassistant.container.from_tag }}"
-    force_source: yes
-    push: yes
+- name: Ensure Home Assistant image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ homeassistant.base_image }}"
+    private_image: "{{ homeassistant.container.image }}"
+    build: yes
+
+- name: Ensure Home Assistant MySQL image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ homeassistant_mysql.base_image }}"
+    private_image: "{{ homeassistant_mysql.container.image }}"
 
 - name: Deploy Home Assistant
   k8s:

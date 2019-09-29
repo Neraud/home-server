@@ -122,9 +122,9 @@ watchers:
   # Apps : Home #
   ###############
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ homeassistant.container.from_image }}
-    tag: {{ homeassistant.container.from_tag }}
+    repo: {{ homeassistant.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ homeassistant.base_image.name }}
+    tag: {{ homeassistant.base_image.tag }}
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
@@ -139,9 +139,9 @@ watchers:
     commit: 819f9233116e68b5af5a5f45167bcbb4ed412ed4
   - name: "HomeAssistant MySQL"
     type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ homeassistant_mysql.container.image }}
-    tag: {{ homeassistant_mysql.container.tag }}
+    repo: {{ homeassistant_mysql.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ homeassistant_mysql.base_image.name }}
+    tag: {{ homeassistant_mysql.base_image.tag }}
     includes:
       - 5\.[0-9]+\.[0-9]+
     excludes:

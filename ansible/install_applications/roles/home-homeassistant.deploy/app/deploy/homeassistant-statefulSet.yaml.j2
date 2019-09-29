@@ -22,7 +22,7 @@ spec:
         app-component: homeassistant
     spec:
       containers:
-      - image: "{{ homeassistant.container.image }}:{{ homeassistant.container.tag }}"
+      - image: "{{ homeassistant.container.image }}"
         name: homeassistant
         ports:
         - containerPort: 8123
