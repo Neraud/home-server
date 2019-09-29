@@ -1,16 +1,11 @@
 ---
 
-- name: Build and push Fluentd image
-  docker_image:
-    name: "{{ docker_registry.url }}/fluentd"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ fluentd.container.from_image }}:{{ fluentd.container.from_tag }}"
-    force_source: yes
-    push: yes
+- name: Ensure Fluentd image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ fluentd.base_image }}"
+    private_image: "{{ fluentd.container.image }}"
+    build: yes
 
 - name: List included config files
   set_fact:
