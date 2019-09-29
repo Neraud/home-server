@@ -1,16 +1,11 @@
 ---
 
-- name: Build and push Heimdall image
-  docker_image:
-    name: "{{ docker_registry.url }}/heimdall"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ heimdall.container.from_image }}:{{ heimdall.container.from_tag }}"
-    force_source: yes
-    push: yes
+- name: Ensure Heimdall image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ heimdall.base_image }}"
+    private_image: "{{ heimdall.container.image }}"
+    build: yes
 
 - name: Deploy Heimdall
   k8s:
