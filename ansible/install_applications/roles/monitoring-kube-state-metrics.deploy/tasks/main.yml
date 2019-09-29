@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Kube State metrics image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ kube_state_metrics.base_image }}"
+    private_image: "{{ kube_state_metrics.container.image }}"
+
 - name: Deploy Kube State metrics
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

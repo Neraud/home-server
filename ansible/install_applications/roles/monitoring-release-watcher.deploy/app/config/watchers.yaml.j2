@@ -364,9 +364,9 @@ watchers:
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
-  #  repo: {{ kube_state_metrics.container.repo }}
-  #  image: {{ kube_state_metrics.container.image }}
-  #  tag: {{ kube_state_metrics.container.tag }}
+  #  repo: {{ kube_state_metrics.base_image.repo | default('registry-1.docker.io') }}
+  #  image: {{ kube_state_metrics.base_image.name }}
+  #  tag: {{ kube_state_metrics.base_image.tag }}
   #  excludes:
   #    - latest
   #    - .*(alpha|beta|rc).*

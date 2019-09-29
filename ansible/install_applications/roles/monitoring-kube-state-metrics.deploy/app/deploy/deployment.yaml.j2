@@ -58,7 +58,7 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: "{{ kube_state_metrics.container.repo }}/{{ kube_state_metrics.container.image }}:{{ kube_state_metrics.container.tag }}"
+        image: "{{ kube_state_metrics.container.image }}"
         name: kube-state-metrics
         # Kube-state-metrics uses an auto-scaler, so it doesn't have the usual requests and limits.
         # Look at the pod_nanny command below to see those values
