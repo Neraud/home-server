@@ -1,15 +1,25 @@
 ---
 
+# To avoid loops inside docker_registry_ui & docker_registry
+_docker_registry_ui_var_loader:
+  base_image:
+    repo: quiq
+    name: docker-registry-ui
+    tag: "0.8.2"
+  
+  event_api_token: "{{ docker_registry_ui_event_api_token | default('token') }}"
+
 docker_registry_ui:
   enabled: "{{ docker_registry_ui_enabled | default(True) }}"
 
+  base_image: "{{ _docker_registry_ui_var_loader.base_image }}"
+
   container:
-    image: "quiq/docker-registry-ui"
-    tag: "0.8.2"
+    image: "{{ docker_registry.url }}/{{ _docker_registry_ui_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _docker_registry_ui_var_loader.base_image.tag }}"
     requests_cpu: "{{ docker_registry_ui_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ docker_registry_ui_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ docker_registry_ui_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ docker_registry_ui_container_limits_memory | default('32Mi') }}"
 
   admin_users: "{{ docker_registry_ui_admin_users | default([]) }}"
-  event_api_token: "{{ docker_registry_ui_event_api_token | default('token') }}"
+  event_api_token: "{{ _docker_registry_ui_var_loader.event_api_token }}"

@@ -187,9 +187,9 @@ watchers:
   #      - canary
   #      - v0\.
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ docker_registry_ui.container.image }}
-    tag: {{ docker_registry_ui.container.tag }}
+    repo: {{ docker_registry_ui.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ docker_registry_ui.base_image.name }}
+    tag: {{ docker_registry_ui.base_image.tag }}
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
