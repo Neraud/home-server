@@ -229,9 +229,9 @@ watchers:
     includes:
       - "[2-9]+\\.[0-9]+\\.[0-9]+.*"
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ reloader.container.image }}
-    tag: {{ reloader.container.tag }}
+    repo: {{ reloader.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ reloader.base_image.name }}
+    tag: {{ reloader.base_image.tag }}
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
