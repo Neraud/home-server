@@ -1,11 +1,18 @@
 ---
 
+# To avoid loops inside unifi
+_unifi_var_loader:
+   base_image:
+    name: "linuxserver/unifi-controller"
+    tag: "amd64-5.10.26-ls32"
+
 unifi:
   enabled: "{{ unifi_enabled | default(True) }}"
 
+  base_image: "{{ _unifi_var_loader.base_image }}"
+
   container:
-    image: "linuxserver/unifi-controller"
-    tag: "amd64-5.10.26-ls32"
+    image: "{{ docker_registry.url }}/{{ _unifi_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _unifi_var_loader.base_image.tag }}"
     requests_cpu: "{{ unifi_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ unifi_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ unifi_container_limits_cpu | default('1000m') }}"

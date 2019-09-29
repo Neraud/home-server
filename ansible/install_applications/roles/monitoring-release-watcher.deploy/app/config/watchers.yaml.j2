@@ -240,9 +240,9 @@ watchers:
       - dev
       - v0\.0\.[0-2]?[0-9]$
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ unifi.container.image }}
-    tag: {{ unifi.container.tag }}
+    repo: {{ unifi.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ unifi.base_image.name }}
+    tag: {{ unifi.base_image.tag }}
     includes:
       - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
