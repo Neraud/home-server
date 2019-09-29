@@ -250,6 +250,12 @@ watchers:
       - latest
       - amd64-5\.[0-9]\..*
       - amd64-5\.10\.[01]?[0-9]-.*
+  - name: ZoneMTA
+    type: github_tag
+    repo: {{ zonemta.repo.name }}
+    tag : {{ zonemta.repo.release }}
+    excludes:
+      - ^v1\.1[0-5]\.
   - name: "ZoneMTA Redis"
     type: docker_registry
     repo: {{ zonemta_redis.base_image.repo | default('registry-1.docker.io') }}

@@ -6,6 +6,8 @@
     base_image: "{{ zonemta.base_image }}"
     private_image: "{{ zonemta.container.image }}"
     build: yes
+    build_args:
+      ZONE_MTA_VERSION: "{{ zonemta.version }}"
 
 - name: Ensure ZoneMTA Mongo image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml

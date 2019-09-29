@@ -5,11 +5,16 @@ _zonemta_var_loader:
   base_image:
     name: "node"
     tag: "10.16.3-alpine"
+  version: 1.16.0
 
 zonemta:
   enabled: "{{ zonemta_enabled | default(True) }}"
 
   base_image: "{{ _zonemta_var_loader.base_image }}"
+  version: "{{ _zonemta_var_loader.version }}"
+  repo:
+    name: "zone-eu/zone-mta"
+    release: "v{{ _zonemta_var_loader.version }}"
 
   container:
     image: "{{ docker_registry.url }}/zonemta:{{ _zonemta_var_loader.version }}-custom"
