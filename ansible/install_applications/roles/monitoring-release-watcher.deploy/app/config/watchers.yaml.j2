@@ -378,9 +378,9 @@ watchers:
   #    - .*(alpha|beta|rc).*
   #    - (latest|master)
   #- type: docker_registry
-  #  repo: registry-1.docker.io
-  #  image: {{ grafana.container.image }}
-  #  tag: {{ grafana.container.tag }}
+  #  repo: {{ grafana.base_image.repo | default('registry-1.docker.io') }}
+  #  image: {{ grafana.base_image.name }}
+  #  tag: {{ grafana.base_image.tag }}
   #  excludes:
   #    - (master|latest)
   #    - .*(alpha|beta|rc).*

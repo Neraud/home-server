@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Grafana image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ grafana.base_image }}"
+    private_image: "{{ grafana.container.image }}"
+
 - name: List dashboards
   set_fact:
     grafana_dashboard_files: "{{ grafana_dashboard_files | default([]) + [ item ] }}"
