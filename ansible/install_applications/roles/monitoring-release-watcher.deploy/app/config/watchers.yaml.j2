@@ -85,9 +85,9 @@ watchers:
   # Apps : Download #
   ###################
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ deluge.container.image }}
-    tag: {{ deluge.container.tag }}
+    repo: {{ deluge.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ deluge.base_image.name }}
+    tag: {{ deluge.base_image.tag }}
     includes:
       - amd64-[0-9]+\.[0-9]+\.[0-9]+-
     excludes:

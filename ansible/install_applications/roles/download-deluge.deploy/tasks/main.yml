@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Deluge image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ deluge.base_image }}"
+    private_image: "{{ deluge.container.image }}"
+
 - name: Deploy Deluge
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
