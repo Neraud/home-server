@@ -1,16 +1,11 @@
 ---
 
-- name: Build and push sabnzbd image
-  docker_image:
-    name: "{{ docker_registry.url }}/sabnzbd"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ sabnzbd.container.from_image }}:{{ sabnzbd.container.from_tag }}"
-    force_source: yes
-    push: yes
+- name: Ensure sabnzbd image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ sabnzbd.base_image }}"
+    private_image: "{{ sabnzbd.container.image }}"
+    build: yes
 
 - name: Deploy sabnzbd
   k8s:

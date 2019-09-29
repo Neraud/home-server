@@ -98,9 +98,9 @@ watchers:
     branch: {{ pyload.repo.branch }}
     commit: {{ pyload.repo.commit }}
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ sabnzbd.container.from_image }}
-    tag: {{ sabnzbd.container.from_tag }}
+    repo: {{ sabnzbd.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ sabnzbd.base_image.name }}
+    tag: {{ sabnzbd.base_image.tag }}
     includes:
       - amd64.*
     excludes:
