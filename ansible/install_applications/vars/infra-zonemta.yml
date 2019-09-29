@@ -1,13 +1,18 @@
 ---
 
+# To avoid loops inside zonemta
+_zonemta_var_loader:
+  base_image:
+    name: "node"
+    tag: "10.16.3-alpine"
+
 zonemta:
   enabled: "{{ zonemta_enabled | default(True) }}"
 
+  base_image: "{{ _zonemta_var_loader.base_image }}"
+
   container:
-    image: "{{ docker_registry.url }}/zone-mta"
-    tag: "latest"
-    from_image: "node"
-    from_tag: "10.16.3-alpine"
+    image: "{{ docker_registry.url }}/zonemta:{{ _zonemta_var_loader.version }}-custom"
     requests_cpu: "{{ zonemta_container_requests_cpu | default('100m') }}"
     # ZoneMTA runs multiple node processes, be sure to have at least 5 times 'max-old-space-size' (set in nodejs_max_memory), and more if you use more processes
     requests_memory: "{{ zonemta_container_requests_memory | default('160Mi') }}"
@@ -33,10 +38,17 @@ zonemta:
   exposed_namespaces: "{{ zonemta_exposed_namespaces | default(['default']) }}"
 
 
-zonemta_mongo:
-  container:
-    image: "mongo"
+# To avoid loops inside zonemta_mongo
+_zonemta_mongo_var_loader:
+  base_image:
+    name: "mongo"
     tag: "4.2.0-bionic"
+
+zonemta_mongo:
+  base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
+
+  container:
+    image: "{{ docker_registry.url }}/zonemta-{{ _zonemta_mongo_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _zonemta_mongo_var_loader.base_image.tag }}"
     requests_cpu: "{{ zonemta_mongo_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ zonemta_mongo_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ zonemta_mongo_container_limits_cpu | default('200m') }}"
@@ -49,10 +61,17 @@ zonemta_mongo:
   password: "{{ zonemta_mongo_password | default('clear_password') }}"
 
 
-zonemta_redis:
-  container:
-    image: "redis"
+# To avoid loops inside zonemta_redis
+_zonemta_redis_var_loader:
+  base_image:
+    name: "redis"
     tag: "5.0.5-alpine3.9"
+
+zonemta_redis:
+  base_image: "{{ _zonemta_redis_var_loader.base_image }}"
+
+  container:
+    image: "{{ docker_registry.url }}/zonemta-{{ _zonemta_redis_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _zonemta_redis_var_loader.base_image.tag }}"
     requests_cpu: "{{ zonemta_redis_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ zonemta_redis_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ zonemta_redis_container_limits_cpu | default('50m') }}"

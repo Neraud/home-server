@@ -1,5 +1,24 @@
 ---
 
+- name: Ensure ZoneMTA image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ zonemta.base_image }}"
+    private_image: "{{ zonemta.container.image }}"
+    build: yes
+
+- name: Ensure ZoneMTA Mongo image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ zonemta_mongo.base_image }}"
+    private_image: "{{ zonemta_mongo.container.image }}"
+
+- name: Ensure ZoneMTA Redis image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ zonemta_redis.base_image }}"
+    private_image: "{{ zonemta_redis.container.image }}"
+
 - name: Read generated files
   slurp:
     src: "{{ item }}"
@@ -14,18 +33,6 @@
     zonemta_config_files: "{{ zonemta_config_files | default([]) + [ item ] }}"
   with_fileglob:
     - "{{ role_path }}/app/config/zone-mta/*.toml*"
-
-- name: Build and push ZoneMTA image
-  docker_image:
-    name: "{{ docker_registry.url }}/zone-mta"
-    source: build
-    build:
-      path: "{{ role_path }}/app/build"
-      pull: yes
-      args:
-        from_image: "{{ zonemta.container.from_image }}:{{ zonemta.container.from_tag }}"
-    force_source: yes
-    push: yes
 
 - name: Deploy ZoneMTA
   k8s:
