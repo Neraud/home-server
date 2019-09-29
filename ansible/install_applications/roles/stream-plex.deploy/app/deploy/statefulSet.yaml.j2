@@ -20,7 +20,7 @@ spec:
         app-component: plex
     spec:
       containers:
-      - image: "{{ plex.container.image }}:{{ plex.container.tag }}"
+      - image: "{{ plex.container.image }}"
         name: plex
         ports:
         - containerPort: 32400

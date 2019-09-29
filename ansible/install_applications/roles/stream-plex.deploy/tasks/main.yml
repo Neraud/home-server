@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure Plex image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ plex.base_image }}"
+    private_image: "{{ plex.container.image }}"
+
 - name: Get Plex Claim
   uri:
     url: https://plex.tv/api/claim/token.json

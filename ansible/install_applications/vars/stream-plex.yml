@@ -1,11 +1,18 @@
 ---
 
+# To avoid loops inside plex
+_plex_var_loader:
+  base_image:
+    name: "plexinc/pms-docker"
+    tag: "1.16.5.1554-1e5ff713d"
+
 plex:
   enabled: "{{ plex_enabled | default(True) }}"
 
+  base_image: "{{ _plex_var_loader.base_image }}"
+
   container:
-    image: "plexinc/pms-docker"
-    tag: "1.16.5.1554-1e5ff713d"
+    image: "{{ docker_registry.url }}/{{ _plex_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _plex_var_loader.base_image.tag }}"
     requests_cpu: "{{ plex_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ plex_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ plex_container_limits_cpu | default('2000m') }}"
