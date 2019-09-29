@@ -59,9 +59,9 @@ watchers:
       - .*-dev
       - ^1\.1\.
   - type: docker_registry
-    repo: registry-1.docker.io
-    image: {{ phpldapadmin.container.image }}
-    tag: {{ phpldapadmin.container.tag }}
+    repo: {{ phpldapadmin.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ phpldapadmin.base_image.name }}
+    tag: {{ phpldapadmin.base_image.tag }}
     excludes:
       - latest
       - ^0\.[1-7]\.
