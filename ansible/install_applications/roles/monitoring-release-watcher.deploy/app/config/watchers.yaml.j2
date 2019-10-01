@@ -177,15 +177,11 @@ watchers:
   ################
   # Apps : Infra #
   ################
-  # TODO KO
-  #  - type: docker_registry
-  #    repo: {{ kubernetes_dashboard.base_image.repo | default('registry-1.docker.io') }}
-  #    image: {{ kubernetes_dashboard.base_image.name }}
-  #    tag: {{ kubernetes_dashboard.base_image.tag }}
-  #    excludes:
-  #      - .*-beta.*
-  #      - canary
-  #      - v0\.
+  - type: github_release
+    repo: kubernetes/dashboard
+    release: {{ kubernetes_dashboard.base_image.tag }}
+    excludes:
+      - .*beta.*
   - type: docker_registry
     repo: {{ docker_registry_ui.base_image.repo | default('registry-1.docker.io') }}
     image: {{ docker_registry_ui.base_image.name }}
