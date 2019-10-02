@@ -6,8 +6,6 @@
     - python3-pip
     - python3-setuptools
     - python3-docker
-    - python3-passlib
-    - python3-bcrypt
     state: present
 
 - name: Install pip dependencies

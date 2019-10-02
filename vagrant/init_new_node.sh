@@ -31,13 +31,15 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 2
 mkdir -p /root/.ssh
 
 if [ "$mode" == "ansible" ] ; then
-	echo " - install ansible from"
-	apt-get -q -y install python3-pip
-	pip3 install ansible==2.8.4
+	echo " - install pip3 and virtualenv"
+	apt-get -q -y install python3-pip python3-venv
 
-	# Workaround for https://github.com/ansible/ansible/issues/57509
-	# If the playbook itself installs passlib, bcrypt hash won't be available in the same run
-	apt-get -q -y install python3-passlib
+	echo "Create and activate ansible virtual env"
+	python3 -m venv /root/ansible_venv
+	source /root/ansible_venv/bin/activate
+
+	echo "Install python ansible requirements"
+	pip3 install -r /opt/provision/requirements.txt
 
 	echo " - install ansible ssh keys"
 	cp -R /vagrant/ssh/* /root/.ssh/
@@ -51,7 +53,7 @@ print(config['controller']['ip'])
 for node_conf in config['nodes']:
   print(node_conf['ip'])
 __EOF__
-)
+	)
 	for host_ip in $host_ips; do
 		echo "    * "$host_ip
 		knownKey=$(ssh-keygen -F $host_ip)
@@ -75,7 +77,7 @@ import yaml
 config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"))
 print(config['common']['network_cidr'])
 __EOF__
-)
+	)
 	echo "    * Allowing "$network_cidr
 
 	cat << EOF > /etc/exports
