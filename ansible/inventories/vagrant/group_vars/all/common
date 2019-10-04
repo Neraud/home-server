@@ -1,5 +1,7 @@
 ---
 
+ansible_python_interpreter: /usr/bin/python
+
 # For role 'common'
 domain_name: k8stest
 time_zone: Europe/Paris

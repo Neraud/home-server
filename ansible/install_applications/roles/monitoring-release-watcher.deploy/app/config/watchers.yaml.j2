@@ -177,15 +177,11 @@ watchers:
   ################
   # Apps : Infra #
   ################
-  # TODO KO
-  #  - type: docker_registry
-  #    repo: {{ kubernetes_dashboard.base_image.repo | default('registry-1.docker.io') }}
-  #    image: {{ kubernetes_dashboard.base_image.name }}
-  #    tag: {{ kubernetes_dashboard.base_image.tag }}
-  #    excludes:
-  #      - .*-beta.*
-  #      - canary
-  #      - v0\.
+  - type: github_release
+    repo: kubernetes/dashboard
+    release: {{ kubernetes_dashboard.base_image.tag }}
+    excludes:
+      - .*beta.*
   - type: docker_registry
     repo: {{ docker_registry_ui.base_image.repo | default('registry-1.docker.io') }}
     image: {{ docker_registry_ui.base_image.name }}
@@ -202,16 +198,20 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - 1\..*
-  - type: docker_registry
-    repo: quay.io
-    image: kubernetes-ingress-controller/nginx-ingress-controller
-    tag: 0.25.1
-    excludes:
-      - .*(alpha|beta).*
-      - 0\.[0-9]\.
-      - 0\.1[0-9]\.
-    includes:
-      - "[0-9]+\\.[0-9]+\\.[0-9]+"
+  - type: github_release
+    repo: kubernetes/ingress-nginx
+    release: nginx-0.25.1
+  # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
+  #- type: docker_registry
+  #  repo: quay.io
+  #  image: kubernetes-ingress-controller/nginx-ingress-controller
+  #  tag: 0.25.1
+  #  excludes:
+  #    - .*(alpha|beta).*
+  #    - 0\.[0-9]\.
+  #    - 0\.1[0-9]\.
+  #  includes:
+  #    - "[0-9]+\\.[0-9]+\\.[0-9]+"
   - type: docker_registry
     repo: {{ mailhog.base_image.repo | default('registry-1.docker.io') }}
     image: {{ mailhog.base_image.name }}
