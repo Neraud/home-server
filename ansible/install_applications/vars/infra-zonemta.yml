@@ -5,7 +5,7 @@ _zonemta_var_loader:
   base_image:
     name: "node"
     tag: "10.16.3-alpine"
-  version: 1.16.0
+  version: 1.16.5
 
 zonemta:
   enabled: "{{ zonemta_enabled | default(True) }}"
