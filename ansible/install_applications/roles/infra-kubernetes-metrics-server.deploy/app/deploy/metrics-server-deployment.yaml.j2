@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: metrics-server
+  namespace: kube-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metrics-server
+  namespace: kube-system
+  labels:
+    k8s-app: metrics-server
+spec:
+  selector:
+    matchLabels:
+      k8s-app: metrics-server
+  template:
+    metadata:
+      name: metrics-server
+      labels:
+        k8s-app: metrics-server
+    spec:
+      serviceAccountName: metrics-server
+      volumes:
+      # mount in tmp so we can safely use from-scratch images and/or read-only containers
+      - name: tmp-dir
+        emptyDir: {}
+      containers:
+      - name: metrics-server
+        image: "{{ kubernetes_metrics_server.container.image }}"
+        imagePullPolicy: Always
+        args:
+        - --kubelet-insecure-tls=true
+        resources:
+          requests:
+            cpu: "{{ kubernetes_metrics_server.container.requests_cpu }}"
+            memory: "{{ kubernetes_metrics_server.container.requests_memory }}"
+          limits:
+            cpu: "{{ kubernetes_metrics_server.container.limits_cpu }}"
+            memory: "{{ kubernetes_metrics_server.container.limits_memory }}"
+        volumeMounts:
+        - name: tmp-dir
+          mountPath: /tmp
+
