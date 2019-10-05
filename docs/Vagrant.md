@@ -103,7 +103,7 @@ You can do so using a terminal (assuming you start at the project root) :
 [your_account@your_computer$] cd vagrant
 [your_account@your_computer$] vagrant ssh master
 [vagrant@master$] sudo su - user
-[user@master$] kubectl --namespace=kube-system describe secrets $(kubectl --namespace=kube-system get secrets | awk '/admin-user-token/ { print $1 }')
+[user@master$] kubectl --namespace=kubernetes-dashboard describe secrets $(kubectl --namespace=kubernetes-dashboard get secrets | awk '/dashboard-admin-user-token/ { print $1 }')
 ```
 
 ### Docker Registry UI

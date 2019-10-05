@@ -3,9 +3,8 @@
 # To avoid loops inside kubernetes_dashboard
 _kubernetes_dashboard_var_loader:
   base_image:
-    repo: "k8s.gcr.io"
-    name: "kubernetes-dashboard-amd64"
-    tag: "v1.10.1"
+    name: "kubernetesui/dashboard"
+    tag: "v2.0.0-beta4"
   
 kubernetes_dashboard:
   enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
@@ -18,3 +17,20 @@ kubernetes_dashboard:
     requests_memory: "{{ kubernetes_dashboard_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ kubernetes_dashboard_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ kubernetes_dashboard_container_limits_memory | default('256Mi') }}"
+
+
+# To avoid loops inside kubernetes_dashboard_metrics_scraper
+_kubernetes_dashboard_metrics_scraper_var_loader:
+  base_image:
+    name: "kubernetesui/metrics-scraper"
+    tag: "v1.0.1"
+  
+kubernetes_dashboard_metrics_scraper:
+  base_image: "{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image }}"
+
+  container:
+    image: "{{ docker_registry.url }}/{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.tag }}"
+    requests_cpu: "{{ kubernetes_dashboard_metrics_scraper_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ kubernetes_dashboard_metrics_scraper_container_requests_memory | default('16Mi') }}"
+    limits_cpu: "{{ kubernetes_dashboard_metrics_scraper_container_limits_cpu | default('50m') }}"
+    limits_memory: "{{ kubernetes_dashboard_metrics_scraper_container_limits_memory | default('32Mi') }}"
