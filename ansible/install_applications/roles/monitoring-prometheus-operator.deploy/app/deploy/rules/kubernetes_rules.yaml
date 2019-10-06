@@ -13,15 +13,15 @@ spec:
   - "name": "k8s.rules"
     "rules":
     - "expr": |
-        sum(rate(container_cpu_usage_seconds_total{job="cadvisor", image!="", container!="POD"}[5m])) by (namespace)
+        sum(rate(container_cpu_usage_seconds_total{job="kubelet", image!="", container!="POD"}[5m])) by (namespace)
       "record": "namespace:container_cpu_usage_seconds_total:sum_rate"
     - "expr": |
         sum by (namespace, pod, container) (
-          rate(container_cpu_usage_seconds_total{job="cadvisor", image!="", container!="POD"}[5m])
+          rate(container_cpu_usage_seconds_total{job="kubelet", image!="", container!="POD"}[5m])
         )
       "record": "namespace_pod_container:container_cpu_usage_seconds_total:sum_rate"
     - "expr": |
-        sum(container_memory_usage_bytes{job="cadvisor", image!="", container!="POD"}) by (namespace)
+        sum(container_memory_usage_bytes{job="kubelet", image!="", container!="POD"}) by (namespace)
       "record": "namespace:container_memory_usage_bytes:sum"
     - "expr": |
         sum by (namespace, label_name) (

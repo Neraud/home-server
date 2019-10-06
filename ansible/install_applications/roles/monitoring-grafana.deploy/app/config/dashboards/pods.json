@@ -67,7 +67,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by(container) (container_memory_usage_bytes{job=\"cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container=~\"$container\", container!=\"POD\"})",
+                     "expr": "sum by(container) (container_memory_usage_bytes{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container=~\"$container\", container!=\"POD\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Current: {{ container }}",
@@ -88,7 +88,7 @@
                      "refId": "C"
                   },
                   {
-                     "expr": "sum by(container) (container_memory_cache{job=\"cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$pod\", container=~\"$container\", container!=\"POD\"})",
+                     "expr": "sum by(container) (container_memory_cache{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$pod\", container=~\"$container\", container!=\"POD\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Cache: {{ container }}",
@@ -180,7 +180,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by (container) (irate(container_cpu_usage_seconds_total{job=\"cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\", image!=\"\", pod=\"$pod\", container=~\"$container\", container!=\"POD\"}[4m]))",
+                     "expr": "sum by (container) (irate(container_cpu_usage_seconds_total{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", image!=\"\", pod=\"$pod\", container=~\"$container\", container!=\"POD\"}[4m]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Current: {{ container }}",
@@ -286,14 +286,14 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sort_desc(sum by (pod) (irate(container_network_receive_bytes_total{job=\"cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[4m])))",
+                     "expr": "sort_desc(sum by (pod) (irate(container_network_receive_bytes_total{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[4m])))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "RX: {{ pod }}",
                      "refId": "A"
                   },
                   {
-                     "expr": "sort_desc(sum by (pod) (irate(container_network_transmit_bytes_total{job=\"cadvisor\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[4m])))",
+                     "expr": "sort_desc(sum by (pod) (irate(container_network_transmit_bytes_total{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[4m])))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "TX: {{ pod }}",
