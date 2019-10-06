@@ -4,7 +4,7 @@
 _unifi_var_loader:
    base_image:
     name: "linuxserver/unifi-controller"
-    tag: "amd64-5.10.26-ls32"
+    tag: "amd64-5.11.46-ls36"
 
 unifi:
   enabled: "{{ unifi_enabled | default(True) }}"
