@@ -21,6 +21,8 @@ kubernetes {
       // servers under some non-root path.
       linkPrefix: '/grafana',
     },
+
+    clusterLabel: 'fakeCluster',
   },
 }
 EOF

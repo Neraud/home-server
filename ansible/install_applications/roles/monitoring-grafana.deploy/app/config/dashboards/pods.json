@@ -7,7 +7,7 @@
             "builtIn": 1,
             "datasource": "$datasource",
             "enable": true,
-            "expr": "time() == BOOL timestamp(rate(kube_pod_container_status_restarts_total{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[2m]) > 0)",
+            "expr": "time() == BOOL timestamp(rate(kube_pod_container_status_restarts_total{job=\"kube-state-metrics\", namespace=\"$namespace\", pod=\"$pod\"}[2m]) > 0)",
             "hide": false,
             "iconColor": "rgba(215, 44, 44, 1)",
             "name": "Restarts",
@@ -67,28 +67,28 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by(container) (container_memory_usage_bytes{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container=~\"$container\", container!=\"POD\"})",
+                     "expr": "sum by(container) (container_memory_usage_bytes{job=\"kubelet\", namespace=\"$namespace\", pod=\"$pod\", container=~\"$container\", container!=\"POD\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Current: {{ container }}",
                      "refId": "A"
                   },
                   {
-                     "expr": "sum by(container) (kube_pod_container_resource_requests{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "sum by(container) (kube_pod_container_resource_requests{job=\"kube-state-metrics\", namespace=\"$namespace\", resource=\"memory\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Requested: {{ container }}",
                      "refId": "B"
                   },
                   {
-                     "expr": "sum by(container) (kube_pod_container_resource_limits{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "sum by(container) (kube_pod_container_resource_limits{job=\"kube-state-metrics\", namespace=\"$namespace\", resource=\"memory\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Limit: {{ container }}",
                      "refId": "C"
                   },
                   {
-                     "expr": "sum by(container) (container_memory_cache{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=~\"$pod\", container=~\"$container\", container!=\"POD\"})",
+                     "expr": "sum by(container) (container_memory_cache{job=\"kubelet\", namespace=\"$namespace\", pod=~\"$pod\", container=~\"$container\", container!=\"POD\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Cache: {{ container }}",
@@ -180,21 +180,21 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum by (container) (irate(container_cpu_usage_seconds_total{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", image!=\"\", pod=\"$pod\", container=~\"$container\", container!=\"POD\"}[4m]))",
+                     "expr": "sum by (container) (irate(container_cpu_usage_seconds_total{job=\"kubelet\", namespace=\"$namespace\", image!=\"\", pod=\"$pod\", container=~\"$container\", container!=\"POD\"}[4m]))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Current: {{ container }}",
                      "refId": "A"
                   },
                   {
-                     "expr": "sum by(container) (kube_pod_container_resource_requests{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "sum by(container) (kube_pod_container_resource_requests{job=\"kube-state-metrics\", namespace=\"$namespace\", resource=\"cpu\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Requested: {{ container }}",
                      "refId": "B"
                   },
                   {
-                     "expr": "sum by(container) (kube_pod_container_resource_limits{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "sum by(container) (kube_pod_container_resource_limits{job=\"kube-state-metrics\", namespace=\"$namespace\", resource=\"cpu\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Limit: {{ container }}",
@@ -286,14 +286,14 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sort_desc(sum by (pod) (irate(container_network_receive_bytes_total{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[4m])))",
+                     "expr": "sort_desc(sum by (pod) (irate(container_network_receive_bytes_total{job=\"kubelet\", namespace=\"$namespace\", pod=\"$pod\"}[4m])))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "RX: {{ pod }}",
                      "refId": "A"
                   },
                   {
-                     "expr": "sort_desc(sum by (pod) (irate(container_network_transmit_bytes_total{job=\"kubelet\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}[4m])))",
+                     "expr": "sort_desc(sum by (pod) (irate(container_network_transmit_bytes_total{job=\"kubelet\", namespace=\"$namespace\", pod=\"$pod\"}[4m])))",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "TX: {{ pod }}",
@@ -385,7 +385,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "max by (container) (kube_pod_container_status_restarts_total{job=\"kube-state-metrics\", cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\", container=~\"$container\"})",
+                     "expr": "max by (container) (kube_pod_container_status_restarts_total{job=\"kube-state-metrics\", namespace=\"$namespace\", pod=\"$pod\", container=~\"$container\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "Restarts: {{ container }}",
@@ -464,33 +464,13 @@
             "allValue": null,
             "current": {},
             "datasource": "$datasource",
-            "hide": 2,
-            "includeAll": false,
-            "label": "cluster",
-            "multi": false,
-            "name": "cluster",
-            "options": [],
-            "query": "label_values(kube_pod_info, cluster)",
-            "refresh": 2,
-            "regex": "",
-            "sort": 0,
-            "tagValuesQuery": "",
-            "tags": [],
-            "tagsQuery": "",
-            "type": "query",
-            "useTags": false
-         },
-         {
-            "allValue": null,
-            "current": {},
-            "datasource": "$datasource",
             "hide": 0,
             "includeAll": false,
             "label": "Namespace",
             "multi": false,
             "name": "namespace",
             "options": [],
-            "query": "label_values(kube_pod_info{cluster=\"$cluster\"}, namespace)",
+            "query": "label_values(kube_pod_info, namespace)",
             "refresh": 2,
             "regex": "",
             "sort": 0,
@@ -510,7 +490,7 @@
             "multi": false,
             "name": "pod",
             "options": [],
-            "query": "label_values(kube_pod_info{cluster=\"$cluster\", namespace=~\"$namespace\"}, pod)",
+            "query": "label_values(kube_pod_info{namespace=~\"$namespace\"}, pod)",
             "refresh": 2,
             "regex": "",
             "sort": 0,
@@ -530,7 +510,7 @@
             "multi": false,
             "name": "container",
             "options": [],
-            "query": "label_values(kube_pod_container_info{cluster=\"$cluster\", namespace=\"$namespace\", pod=\"$pod\"}, container)",
+            "query": "label_values(kube_pod_container_info{namespace=\"$namespace\", pod=\"$pod\"}, container)",
             "refresh": 2,
             "regex": "",
             "sort": 0,

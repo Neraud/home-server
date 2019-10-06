@@ -46,7 +46,10 @@ sed 's/^/  /' $OUT_GENERATED_ROOT/kubernetes-mixin/prometheus_alerts.yml >>$KUBE
 echo "Converting Kubernetes Grafana dashboards"
 GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
 mkdir -p $GRAFANA_DASHBOARD_ROOT
-cp $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
+for file in $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/*.json; do
+  echo "Processing $file file.."
+  cat $file | sed -e 's/fakeCluster=\\"\$cluster\\", *//g' -e 's/, *fakeCluster=\\"\$cluster\\"}/}/g' -e 's/{fakeCluster=\\"\$cluster\\"}//g' >$GRAFANA_DASHBOARD_ROOT/$(basename $file)
+done
 
 echo "Converting NodeExporter Prometheus rules"
 NODE_EXPORTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_rules.yaml
