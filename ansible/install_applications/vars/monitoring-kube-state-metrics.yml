@@ -14,10 +14,7 @@ kube_state_metrics:
 
   container:
     image: "{{ docker_registry.url }}/{{ _kube_state_metrics_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kube_state_metrics_var_loader.base_image.tag }}"
-    # Kube-state-metrics uses an auto-scaler, so it doesn't have the usual requests and limits.
-    # It has a base value, and an extra value.
-    # The used resource is : base + extra * number_of_pods
-    base_cpu: "{{ kube_state_metrics_container_base_cpu | default('100m') }}"
-    base_memory: "{{ kube_state_metrics_container_base_memory | default('150Mi') }}"
-    extra_cpu: "{{ kube_state_metrics_container_extra_cpu | default('2m') }}"
-    extra_memory: "{{ kube_state_metrics_container_extra_memory | default('30Mi') }}"
+    requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ kube_state_metrics_container_requests_memory | default('150Mi') }}"
+    limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ kube_state_metrics_container_limits_memory | default('150Mi') }}"

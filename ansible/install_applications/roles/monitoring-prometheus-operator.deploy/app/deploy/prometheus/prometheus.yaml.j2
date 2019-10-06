@@ -16,7 +16,7 @@ spec:
   baseImage: "{{ prometheus.base_image.repo }}/{{ prometheus.base_image.name }}"
   version: "{{ prometheus.base_image.tag }}"
   nodeSelector:
-    beta.kubernetes.io/os: linux
+    kubernetes.io/os: linux
     capability/general-purpose: 'yes'
   podMonitorSelector: {}
   replicas: 1
