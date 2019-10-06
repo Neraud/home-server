@@ -444,7 +444,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(node_disk_read_bytes_total{job=\"node\", instance=\"$instance\", }[$__interval])",
+                     "expr": "rate(node_disk_read_bytes_total{job=\"node\", instance=\"$instance\", device!=\"\"}[$__interval])",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -452,7 +452,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "rate(node_disk_written_bytes_total{job=\"node\", instance=\"$instance\", }[$__interval])",
+                     "expr": "rate(node_disk_written_bytes_total{job=\"node\", instance=\"$instance\", device!=\"\"}[$__interval])",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -460,7 +460,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "rate(node_disk_io_time_seconds_total{job=\"node\", instance=\"$instance\", }[$__interval])",
+                     "expr": "rate(node_disk_io_time_seconds_total{job=\"node\", instance=\"$instance\", device!=\"\"}[$__interval])",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -549,14 +549,14 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  max by (device) (\n    node_filesystem_size_bytes{job=\"node\", instance=\"$instance\", }\n  -\n    node_filesystem_avail_bytes{job=\"node\", instance=\"$instance\", }\n  )\n)\n",
+                     "expr": "sum(\n  max by (device) (\n    node_filesystem_size_bytes{job=\"node\", instance=\"$instance\", fstype!=\"\"}\n  -\n    node_filesystem_avail_bytes{job=\"node\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "used",
                      "refId": "A"
                   },
                   {
-                     "expr": "sum(\n  max by (device) (\n    node_filesystem_avail_bytes{job=\"node\", instance=\"$instance\", }\n  )\n)\n",
+                     "expr": "sum(\n  max by (device) (\n    node_filesystem_avail_bytes{job=\"node\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "available",

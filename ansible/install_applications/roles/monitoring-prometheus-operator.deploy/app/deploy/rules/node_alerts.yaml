@@ -18,11 +18,11 @@ spec:
         "summary": "Filesystem is predicted to run out of space within the next 24 hours."
       "expr": |
         (
-          node_filesystem_avail_bytes{job="node",} / node_filesystem_size_bytes{job="node",} < 0.4
+          node_filesystem_avail_bytes{job="node",fstype!=""} / node_filesystem_size_bytes{job="node",fstype!=""} * 100 < 40
         and
-          predict_linear(node_filesystem_avail_bytes{job="node",}[6h], 24*60*60) < 0
+          predict_linear(node_filesystem_avail_bytes{job="node",fstype!=""}[6h], 24*60*60) < 0
         and
-          node_filesystem_readonly{job="node",} == 0
+          node_filesystem_readonly{job="node",fstype!=""} == 0
         )
       "for": "1h"
       "labels":
@@ -33,11 +33,11 @@ spec:
         "summary": "Filesystem is predicted to run out of space within the next 4 hours."
       "expr": |
         (
-          node_filesystem_avail_bytes{job="node",} / node_filesystem_size_bytes{job="node",} < 0.2
+          node_filesystem_avail_bytes{job="node",fstype!=""} / node_filesystem_size_bytes{job="node",fstype!=""} * 100 < 20
         and
-          predict_linear(node_filesystem_avail_bytes{job="node",}[6h], 4*60*60) < 0
+          predict_linear(node_filesystem_avail_bytes{job="node",fstype!=""}[6h], 4*60*60) < 0
         and
-          node_filesystem_readonly{job="node",} == 0
+          node_filesystem_readonly{job="node",fstype!=""} == 0
         )
       "for": "1h"
       "labels":
@@ -48,9 +48,9 @@ spec:
         "summary": "Filesystem has less than 5% space left."
       "expr": |
         (
-          node_filesystem_avail_bytes{job="node",} / node_filesystem_size_bytes{job="node",} * 100 < 5
+          node_filesystem_avail_bytes{job="node",fstype!=""} / node_filesystem_size_bytes{job="node",fstype!=""} * 100 < 5
         and
-          node_filesystem_readonly{job="node",} == 0
+          node_filesystem_readonly{job="node",fstype!=""} == 0
         )
       "for": "1h"
       "labels":
@@ -61,9 +61,9 @@ spec:
         "summary": "Filesystem has less than 3% space left."
       "expr": |
         (
-          node_filesystem_avail_bytes{job="node",} / node_filesystem_size_bytes{job="node",} * 100 < 3
+          node_filesystem_avail_bytes{job="node",fstype!=""} / node_filesystem_size_bytes{job="node",fstype!=""} * 100 < 3
         and
-          node_filesystem_readonly{job="node",} == 0
+          node_filesystem_readonly{job="node",fstype!=""} == 0
         )
       "for": "1h"
       "labels":
@@ -74,11 +74,11 @@ spec:
         "summary": "Filesystem is predicted to run out of inodes within the next 24 hours."
       "expr": |
         (
-          node_filesystem_files_free{job="node",} / node_filesystem_files{job="node",} < 0.4
+          node_filesystem_files_free{job="node",fstype!=""} / node_filesystem_files{job="node",fstype!=""} * 100 < 40
         and
-          predict_linear(node_filesystem_files_free{job="node",}[6h], 24*60*60) < 0
+          predict_linear(node_filesystem_files_free{job="node",fstype!=""}[6h], 24*60*60) < 0
         and
-          node_filesystem_readonly{job="node",} == 0
+          node_filesystem_readonly{job="node",fstype!=""} == 0
         )
       "for": "1h"
       "labels":
@@ -89,11 +89,11 @@ spec:
         "summary": "Filesystem is predicted to run out of inodes within the next 4 hours."
       "expr": |
         (
-          node_filesystem_files_free{job="node",} / node_filesystem_files{job="node",} < 0.2
+          node_filesystem_files_free{job="node",fstype!=""} / node_filesystem_files{job="node",fstype!=""} * 100 < 20
         and
-          predict_linear(node_filesystem_files_free{job="node",}[6h], 4*60*60) < 0
+          predict_linear(node_filesystem_files_free{job="node",fstype!=""}[6h], 4*60*60) < 0
         and
-          node_filesystem_readonly{job="node",} == 0
+          node_filesystem_readonly{job="node",fstype!=""} == 0
         )
       "for": "1h"
       "labels":
@@ -104,9 +104,9 @@ spec:
         "summary": "Filesystem has less than 5% inodes left."
       "expr": |
         (
-          node_filesystem_files_free{job="node",} / node_filesystem_files{job="node",} * 100 < 5
+          node_filesystem_files_free{job="node",fstype!=""} / node_filesystem_files{job="node",fstype!=""} * 100 < 5
         and
-          node_filesystem_readonly{job="node",} == 0
+          node_filesystem_readonly{job="node",fstype!=""} == 0
         )
       "for": "1h"
       "labels":
@@ -117,9 +117,9 @@ spec:
         "summary": "Filesystem has less than 3% inodes left."
       "expr": |
         (
-          node_filesystem_files_free{job="node",} / node_filesystem_files{job="node",} * 100 < 3
+          node_filesystem_files_free{job="node",fstype!=""} / node_filesystem_files{job="node",fstype!=""} * 100 < 3
         and
-          node_filesystem_readonly{job="node",} == 0
+          node_filesystem_readonly{job="node",fstype!=""} == 0
         )
       "for": "1h"
       "labels":

@@ -737,7 +737,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  sum without (device) (\n    max without (fstype, mountpoint) (\n      node_filesystem_size_bytes{job=\"node\", } - node_filesystem_avail_bytes{job=\"node\", }\n    )\n  ) \n/ ignoring (instance) group_left\n  sum without (instance, device) (\n    max without (fstype, mountpoint) (\n      node_filesystem_size_bytes{job=\"node\", }\n    )\n  )\n)  \n",
+                     "expr": "(\n  sum without (device) (\n    max without (fstype, mountpoint) (\n      node_filesystem_size_bytes{job=\"node\", fstype!=\"\"} - node_filesystem_avail_bytes{job=\"node\", fstype!=\"\"}\n    )\n  ) \n/ ignoring (instance) group_left\n  sum without (instance, device) (\n    max without (fstype, mountpoint) (\n      node_filesystem_size_bytes{job=\"node\", fstype!=\"\"}\n    )\n  )\n)  \n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "{{instance}}",
