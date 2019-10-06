@@ -4,7 +4,7 @@
 _elasticsearch_var_loader:
   base_image:
     name: "amazon/opendistro-for-elasticsearch"
-    tag: "1.1.0"
+    tag: "1.2.0"
 
 elasticsearch:
   enabled: "{{ elasticsearch_enabled | default(True) }}"
