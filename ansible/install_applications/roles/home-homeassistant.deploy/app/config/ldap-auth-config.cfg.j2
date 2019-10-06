@@ -17,8 +17,9 @@
 # Just copy them over and adapt to your needs.
 #
 
-# curl is available in the official home-assistant docker image
-CLIENT="curl"
+# curl isn't available in the official home-assistant docker image anymore
+# We have to manually install ldapsearch and use it
+CLIENT="ldapsearch"
 
 # Add SERVER, USERDN etc. here...
 SERVER="ldaps://{{ homeassistant.ldap.servername }}"

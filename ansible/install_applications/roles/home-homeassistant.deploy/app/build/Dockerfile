@@ -3,6 +3,9 @@ FROM $from_image
 
 ADD entrypoint.sh /opt/entrypoint.sh
 
+RUN echo "Installing ldap requirements" && \
+        apk add --no-cache openldap-clients
+
 ADD ldap-auth /opt/ldap-auth
 RUN chmod +x /opt/ldap-auth/ldap-auth.sh
 
