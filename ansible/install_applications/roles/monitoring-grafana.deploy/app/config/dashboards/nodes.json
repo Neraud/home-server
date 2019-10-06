@@ -52,7 +52,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  (1 - rate(node_cpu_seconds_total{job=\"node\", mode=\"idle\", instance=\"$instance\"}[$__interval]))\n/ ignoring(cpu) group_left\n  count without (cpu)( node_cpu_seconds_total{job=\"node\", mode=\"idle\", instance=\"$instance\"})\n)\n",
+                     "expr": "(\n  (1 - rate(node_cpu_seconds_total{job=\"node-exporter\", mode=\"idle\", instance=\"$instance\"}[$__interval]))\n/ ignoring(cpu) group_left\n  count without (cpu)( node_cpu_seconds_total{job=\"node-exporter\", mode=\"idle\", instance=\"$instance\"})\n)\n",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 5,
@@ -132,28 +132,28 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "node_load1{job=\"node\", instance=\"$instance\"}",
+                     "expr": "node_load1{job=\"node-exporter\", instance=\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "1m load average",
                      "refId": "A"
                   },
                   {
-                     "expr": "node_load5{job=\"node\", instance=\"$instance\"}",
+                     "expr": "node_load5{job=\"node-exporter\", instance=\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "5m load average",
                      "refId": "B"
                   },
                   {
-                     "expr": "node_load15{job=\"node\", instance=\"$instance\"}",
+                     "expr": "node_load15{job=\"node-exporter\", instance=\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "15m load average",
                      "refId": "C"
                   },
                   {
-                     "expr": "count(node_cpu_seconds_total{job=\"node\", instance=\"$instance\", mode=\"idle\"})",
+                     "expr": "count(node_cpu_seconds_total{job=\"node-exporter\", instance=\"$instance\", mode=\"idle\"})",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "logical cores",
@@ -245,28 +245,28 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "(\n  node_memory_MemTotal_bytes{job=\"node\", instance=\"$instance\"}\n-\n  node_memory_MemFree_bytes{job=\"node\", instance=\"$instance\"}\n-\n  node_memory_Buffers_bytes{job=\"node\", instance=\"$instance\"}\n-\n  node_memory_Cached_bytes{job=\"node\", instance=\"$instance\"}\n)\n",
+                     "expr": "(\n  node_memory_MemTotal_bytes{job=\"node-exporter\", instance=\"$instance\"}\n-\n  node_memory_MemFree_bytes{job=\"node-exporter\", instance=\"$instance\"}\n-\n  node_memory_Buffers_bytes{job=\"node-exporter\", instance=\"$instance\"}\n-\n  node_memory_Cached_bytes{job=\"node-exporter\", instance=\"$instance\"}\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "memory used",
                      "refId": "A"
                   },
                   {
-                     "expr": "node_memory_Buffers_bytes{job=\"node\", instance=\"$instance\"}",
+                     "expr": "node_memory_Buffers_bytes{job=\"node-exporter\", instance=\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "memory buffers",
                      "refId": "B"
                   },
                   {
-                     "expr": "node_memory_Cached_bytes{job=\"node\", instance=\"$instance\"}",
+                     "expr": "node_memory_Cached_bytes{job=\"node-exporter\", instance=\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "memory cached",
                      "refId": "C"
                   },
                   {
-                     "expr": "node_memory_MemFree_bytes{job=\"node\", instance=\"$instance\"}",
+                     "expr": "node_memory_MemFree_bytes{job=\"node-exporter\", instance=\"$instance\"}",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "memory free",
@@ -366,7 +366,7 @@
                "tableColumn": "",
                "targets": [
                   {
-                     "expr": "100 -\n(\n  node_memory_MemAvailable_bytes{job=\"node\", instance=\"$instance\"}\n/\n  node_memory_MemTotal_bytes{job=\"node\", instance=\"$instance\"}\n* 100\n)\n",
+                     "expr": "100 -\n(\n  node_memory_MemAvailable_bytes{job=\"node-exporter\", instance=\"$instance\"}\n/\n  node_memory_MemTotal_bytes{job=\"node-exporter\", instance=\"$instance\"}\n* 100\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "",
@@ -444,7 +444,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(node_disk_read_bytes_total{job=\"node\", instance=\"$instance\", device!=\"\"}[$__interval])",
+                     "expr": "rate(node_disk_read_bytes_total{job=\"node-exporter\", instance=\"$instance\", device!=\"\"}[$__interval])",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -452,7 +452,7 @@
                      "refId": "A"
                   },
                   {
-                     "expr": "rate(node_disk_written_bytes_total{job=\"node\", instance=\"$instance\", device!=\"\"}[$__interval])",
+                     "expr": "rate(node_disk_written_bytes_total{job=\"node-exporter\", instance=\"$instance\", device!=\"\"}[$__interval])",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -460,7 +460,7 @@
                      "refId": "B"
                   },
                   {
-                     "expr": "rate(node_disk_io_time_seconds_total{job=\"node\", instance=\"$instance\", device!=\"\"}[$__interval])",
+                     "expr": "rate(node_disk_io_time_seconds_total{job=\"node-exporter\", instance=\"$instance\", device!=\"\"}[$__interval])",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -549,14 +549,14 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "sum(\n  max by (device) (\n    node_filesystem_size_bytes{job=\"node\", instance=\"$instance\", fstype!=\"\"}\n  -\n    node_filesystem_avail_bytes{job=\"node\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
+                     "expr": "sum(\n  max by (device) (\n    node_filesystem_size_bytes{job=\"node-exporter\", instance=\"$instance\", fstype!=\"\"}\n  -\n    node_filesystem_avail_bytes{job=\"node-exporter\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "used",
                      "refId": "A"
                   },
                   {
-                     "expr": "sum(\n  max by (device) (\n    node_filesystem_avail_bytes{job=\"node\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
+                     "expr": "sum(\n  max by (device) (\n    node_filesystem_avail_bytes{job=\"node-exporter\", instance=\"$instance\", fstype!=\"\"}\n  )\n)\n",
                      "format": "time_series",
                      "intervalFactor": 2,
                      "legendFormat": "available",
@@ -648,7 +648,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(node_network_receive_bytes_total{job=\"node\", instance=\"$instance\", device!=\"lo\"}[$__interval])",
+                     "expr": "rate(node_network_receive_bytes_total{job=\"node-exporter\", instance=\"$instance\", device!=\"lo\"}[$__interval])",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -728,7 +728,7 @@
                "steppedLine": false,
                "targets": [
                   {
-                     "expr": "rate(node_network_transmit_bytes_total{job=\"node\", instance=\"$instance\", device!=\"lo\"}[$__interval])",
+                     "expr": "rate(node_network_transmit_bytes_total{job=\"node-exporter\", instance=\"$instance\", device!=\"lo\"}[$__interval])",
                      "format": "time_series",
                      "interval": "1m",
                      "intervalFactor": 2,
@@ -814,7 +814,7 @@
             "multi": false,
             "name": "instance",
             "options": [],
-            "query": "label_values(node_exporter_build_info{job=\"node\"}, instance)",
+            "query": "label_values(node_exporter_build_info{job=\"node-exporter\"}, instance)",
             "refresh": 2,
             "regex": "",
             "sort": 0,
