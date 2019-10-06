@@ -4,7 +4,7 @@
 _plex_var_loader:
   base_image:
     name: "plexinc/pms-docker"
-    tag: "1.16.5.1554-1e5ff713d"
+    tag: "1.17.0.1841-d42cfa161"
 
 plex:
   enabled: "{{ plex_enabled | default(True) }}"
