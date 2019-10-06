@@ -187,8 +187,8 @@ watchers:
   - type: github_release
     repo: kubernetes/dashboard
     release: {{ kubernetes_dashboard.base_image.tag }}
-    excludes:
-      - .*beta.*
+#    excludes:
+#      - .*beta.*
   - type: docker_registry
     repo: {{ docker_registry_ui.base_image.repo | default('registry-1.docker.io') }}
     image: {{ docker_registry_ui.base_image.name }}
