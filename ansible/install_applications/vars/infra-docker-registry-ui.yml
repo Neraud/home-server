@@ -3,8 +3,7 @@
 # To avoid loops inside docker_registry_ui & docker_registry
 _docker_registry_ui_var_loader:
   base_image:
-    repo: quiq
-    name: docker-registry-ui
+    name: quiq/docker-registry-ui
     tag: "0.8.2"
   
   event_api_token: "{{ docker_registry_ui_event_api_token | default('token') }}"

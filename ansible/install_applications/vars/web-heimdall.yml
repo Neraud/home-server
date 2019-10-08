@@ -4,7 +4,7 @@
 _heimdall_var_loader:
   base_image:
     name: "linuxserver/heimdall"
-    tag: "amd64-2.2.2-ls55"
+    tag: "amd64-2.2.2-ls60"
 
 heimdall:
   enabled: "{{ heimdall_enabled | default(True) }}"

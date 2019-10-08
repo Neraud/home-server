@@ -5,7 +5,7 @@ _ttrss_var_loader:
   base_image:
     name: "linuxserver/tt-rss"
     # Keep the image version in sync with the ttrss_pgsql.schema_url variable
-    tag: "amd64-19.8-ls28"
+    tag: "amd64-19.8-ls31"
 
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -44,7 +44,7 @@ ttrss:
 _ttrss_pgsql_var_loader:
   base_image:
     name: "postgres"
-    tag: "11.1-alpine"
+    tag: "11.5-alpine"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"

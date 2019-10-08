@@ -12,6 +12,7 @@ local kubernetes = import "kubernetes-mixin/mixin.libsonnet";
 kubernetes {
   _config+:: {
     kubeApiserverSelector: 'job="apiserver"',
+    cadvisorSelector: 'job="kubelet"',
 
     grafanaK8s+:: {
       dashboardTags: ['infra', 'kubernetes'],
@@ -20,6 +21,8 @@ kubernetes {
       // servers under some non-root path.
       linkPrefix: '/grafana',
     },
+
+    clusterLabel: 'fakeCluster',
   },
 }
 EOF
@@ -48,6 +51,7 @@ cat <<EOF >mixin.libsonnet
 local node = import "node-mixin/mixin.libsonnet";
 node {
   _config+:: {
+    nodeExporterSelector: 'job="node-exporter"',
   }
 }
 EOF

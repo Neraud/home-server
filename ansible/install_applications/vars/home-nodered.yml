@@ -4,7 +4,7 @@
 _nodered_var_loader:
   base_image:
     name: "nodered/node-red-docker"
-    tag: "0.20.7-slim-v10"
+    tag: "0.20.8-slim-v10"
 
 nodered:
   enabled: "{{ nodered_enabled | default(True) }}"

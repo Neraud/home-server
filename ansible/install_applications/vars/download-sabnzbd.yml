@@ -4,7 +4,7 @@
 _sabnzbd_var_loader:
   base_image:
     name: "linuxserver/sabnzbd"
-    tag: "amd64-2.3.9-0ubuntu1jcfp118.04-u-ls29"
+    tag: "amd64-2.3.9-0ubuntu1jcfp118.04-u-ls33"
 
 sabnzbd:
   enabled: "{{ sabnzbd_enabled | default(True) }}"

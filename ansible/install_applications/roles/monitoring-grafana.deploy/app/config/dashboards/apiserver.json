@@ -1,15 +1,15 @@
 {
-   "__inputs": [ ],
-   "__requires": [ ],
+   "__inputs": [],
+   "__requires": [],
    "annotations": {
-      "list": [ ]
+      "list": []
    },
    "editable": false,
    "gnetId": null,
    "graphTooltip": 0,
    "hideControls": false,
    "id": null,
-   "links": [ ],
+   "links": [],
    "refresh": "",
    "rows": [
       {
@@ -34,10 +34,10 @@
                   "thresholdLabels": false,
                   "thresholdMarkers": true
                },
-               "gridPos": { },
+               "gridPos": {},
                "id": 2,
                "interval": null,
-               "links": [ ],
+               "links": [],
                "mappingType": 1,
                "mappingTypes": [
                   {
@@ -97,13 +97,13 @@
                "valueName": "min"
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 3,
                "legend": {
                   "alignAsTable": false,
@@ -118,14 +118,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 5,
                "stack": false,
@@ -160,7 +160,7 @@
                      "refId": "D"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "RPC Rate",
@@ -175,7 +175,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -197,13 +197,13 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 4,
                "legend": {
                   "alignAsTable": "true",
@@ -218,14 +218,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 5,
                "stack": false,
@@ -239,7 +239,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Request duration 99th quantile",
@@ -254,7 +254,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -289,13 +289,13 @@
          "collapsed": false,
          "panels": [
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 5,
                "legend": {
                   "alignAsTable": false,
@@ -310,14 +310,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -331,7 +331,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Work Queue Add Rate",
@@ -346,7 +346,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -368,13 +368,13 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 6,
                "legend": {
                   "alignAsTable": false,
@@ -389,14 +389,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 6,
                "stack": false,
@@ -410,7 +410,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Work Queue Depth",
@@ -425,7 +425,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -447,13 +447,13 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 7,
                "legend": {
                   "alignAsTable": "true",
@@ -468,14 +468,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 12,
                "stack": false,
@@ -489,7 +489,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Work Queue Latency",
@@ -504,7 +504,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -539,13 +539,13 @@
          "collapsed": false,
          "panels": [
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 8,
                "legend": {
                   "alignAsTable": false,
@@ -560,14 +560,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 4,
                "stack": false,
@@ -581,7 +581,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "ETCD Cache Entry Total",
@@ -596,7 +596,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -618,13 +618,13 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 9,
                "legend": {
                   "alignAsTable": false,
@@ -639,14 +639,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 4,
                "stack": false,
@@ -667,7 +667,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "ETCD Cache Hit/Miss Rate",
@@ -682,7 +682,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -704,13 +704,13 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 10,
                "legend": {
                   "alignAsTable": false,
@@ -725,14 +725,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 4,
                "stack": false,
@@ -753,7 +753,7 @@
                      "refId": "B"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "ETCD Cache Duration 99th Quantile",
@@ -768,7 +768,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -803,13 +803,13 @@
          "collapsed": false,
          "panels": [
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 11,
                "legend": {
                   "alignAsTable": false,
@@ -824,14 +824,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 4,
                "stack": false,
@@ -845,7 +845,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Memory",
@@ -860,7 +860,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -882,13 +882,13 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 12,
                "legend": {
                   "alignAsTable": false,
@@ -903,14 +903,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 4,
                "stack": false,
@@ -924,7 +924,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "CPU usage",
@@ -939,7 +939,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -961,13 +961,13 @@
                ]
             },
             {
-               "aliasColors": { },
+               "aliasColors": {},
                "bars": false,
                "dashLength": 10,
                "dashes": false,
                "datasource": "$datasource",
                "fill": 1,
-               "gridPos": { },
+               "gridPos": {},
                "id": 13,
                "legend": {
                   "alignAsTable": false,
@@ -982,14 +982,14 @@
                },
                "lines": true,
                "linewidth": 1,
-               "links": [ ],
+               "links": [],
                "nullPointMode": "null",
                "percentage": false,
                "pointradius": 5,
                "points": false,
                "renderer": "flot",
                "repeat": null,
-               "seriesOverrides": [ ],
+               "seriesOverrides": [],
                "spaceLength": 10,
                "span": 4,
                "stack": false,
@@ -1003,7 +1003,7 @@
                      "refId": "A"
                   }
                ],
-               "thresholds": [ ],
+               "thresholds": [],
                "timeFrom": null,
                "timeShift": null,
                "title": "Goroutines",
@@ -1018,7 +1018,7 @@
                   "mode": "time",
                   "name": null,
                   "show": true,
-                  "values": [ ]
+                  "values": []
                },
                "yaxes": [
                   {
@@ -1065,7 +1065,7 @@
             "hide": 0,
             "label": null,
             "name": "datasource",
-            "options": [ ],
+            "options": [],
             "query": "prometheus",
             "refresh": 1,
             "regex": "",
@@ -1073,20 +1073,20 @@
          },
          {
             "allValue": null,
-            "current": { },
+            "current": {},
             "datasource": "$datasource",
             "hide": 0,
             "includeAll": true,
             "label": null,
             "multi": false,
             "name": "instance",
-            "options": [ ],
+            "options": [],
             "query": "label_values(apiserver_request_total{job=\"apiserver\"}, instance)",
             "refresh": 2,
             "regex": "",
             "sort": 0,
             "tagValuesQuery": "",
-            "tags": [ ],
+            "tags": [],
             "tagsQuery": "",
             "type": "query",
             "useTags": false

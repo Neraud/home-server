@@ -4,7 +4,7 @@
 _mosquitto_var_loader:
   base_image:
     name: "eclipse-mosquitto"
-    tag: "1.6.4"
+    tag: "1.6.7"
 
 mosquitto:
   enabled: "{{ mosquitto_enabled | default(True) }}"

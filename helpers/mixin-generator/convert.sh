@@ -6,6 +6,8 @@ OUT_CONVERTED_ROOT=$(pwd)/out/converted
 if [ -d $OUT_CONVERTED_ROOT ]; then
   rm -R $OUT_CONVERTED_ROOT
 fi
+echo "Install jq"
+apt-get install jq
 
 echo "Converting Kubernetes Prometheus rules"
 KUBERNETES_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/kubernetes_rules.yaml
@@ -46,7 +48,10 @@ sed 's/^/  /' $OUT_GENERATED_ROOT/kubernetes-mixin/prometheus_alerts.yml >>$KUBE
 echo "Converting Kubernetes Grafana dashboards"
 GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
 mkdir -p $GRAFANA_DASHBOARD_ROOT
-cp $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
+for file in $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/*.json; do
+  echo "Processing $file file.."
+  cat $file | sed -e 's/fakeCluster=\\"\$cluster\\", *//g' -e 's/, *fakeCluster=\\"\$cluster\\"}/}/g' -e 's/{fakeCluster=\\"\$cluster\\"}//g' >$GRAFANA_DASHBOARD_ROOT/$(basename $file)
+done
 
 echo "Converting NodeExporter Prometheus rules"
 NODE_EXPORTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_rules.yaml
@@ -125,10 +130,16 @@ spec:
 EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/gluster-mixin/prometheus_alerts.yml >>$GLUSTER_ALERTS
 
-echo "Conert Gluster Grafana dashboard"
+echo "Convert Gluster Grafana dashboard"
 GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
 mkdir -p $GRAFANA_DASHBOARD_ROOT
 sed -e 's/^   "title": ".*",/   "title": "GlusterFS Volumes",/' \
   -e 's/^   "tags": \[ ],/   "tags": [\n     "infra",\n     "gluster"\n   ],/' \
   $OUT_GENERATED_ROOT/gluster-mixin/dashboards/k8s-storage-resources-glusterfs-pv.json \
   >$GRAFANA_DASHBOARD_ROOT/glusterfs-volumes.json
+
+echo "Format all generated dashboard JSON files"
+GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
+for file in $GRAFANA_DASHBOARD_ROOT/*.json; do
+  jq --indent 3 . $file | sponge $file
+done

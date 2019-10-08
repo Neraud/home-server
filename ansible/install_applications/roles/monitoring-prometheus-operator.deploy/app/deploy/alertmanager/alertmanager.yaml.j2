@@ -11,7 +11,7 @@ spec:
   baseImage: "{{ alertmanager.base_image.repo }}/{{ alertmanager.base_image.name }}"
   version: "{{ alertmanager.base_image.tag }}"
   nodeSelector:
-    beta.kubernetes.io/os: linux
+    kubernetes.io/os: linux
     capability/general-purpose: 'yes'
   replicas: 1
   externalUrl: https://infra.{{ web_base_domain }}/alertmanager/

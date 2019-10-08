@@ -4,7 +4,7 @@
 _homeassistant_var_loader:
   base_image:
     name: homeassistant/home-assistant
-    tag: "0.98.2"
+    tag: "0.99.3"
 
 homeassistant:
   enabled: "{{ homeassistant_enabled | default(True) }}"

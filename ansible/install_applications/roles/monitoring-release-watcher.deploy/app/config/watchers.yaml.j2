@@ -5,7 +5,7 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 2.8.4
+    version: 2.8.5
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
@@ -37,7 +37,7 @@ watchers:
   - type: github_commit
     repo: coreos/flannel
     branch: master
-    commit: b30e6895ef6429d47eaee1a72047ca349b3b5de3
+    commit: 862c448ef28fd890e2ac4e5fddc49e7fe9693b31
 
 
   ###############
@@ -54,16 +54,17 @@ watchers:
     repo: {{ openldap.base_image.repo | default('registry-1.docker.io') }}
     image: {{ openldap.base_image.name }}
     tag: {{ openldap.base_image.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+-amd64"
     excludes:
-      - latest
-      - .*-dev
       - ^1\.1\.
   - type: docker_registry
     repo: {{ phpldapadmin.base_image.repo | default('registry-1.docker.io') }}
     image: {{ phpldapadmin.base_image.name }}
     tag: {{ phpldapadmin.base_image.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+-amd64"
     excludes:
-      - latest
       - ^0\.[1-7]\.
   
   ##############
@@ -177,11 +178,17 @@ watchers:
   ################
   # Apps : Infra #
   ################
+
+  - type: github_release
+    repo: kubernetes-incubator/metrics-server
+    release: {{ kubernetes_metrics_server.base_image.tag }}
+    excludes:
+      - .*beta.*
   - type: github_release
     repo: kubernetes/dashboard
     release: {{ kubernetes_dashboard.base_image.tag }}
-    excludes:
-      - .*beta.*
+#    excludes:
+#      - .*beta.*
   - type: docker_registry
     repo: {{ docker_registry_ui.base_image.repo | default('registry-1.docker.io') }}
     image: {{ docker_registry_ui.base_image.name }}
@@ -200,12 +207,12 @@ watchers:
       - 1\..*
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: nginx-0.25.1
+    release: nginx-0.26.1
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
   #- type: docker_registry
   #  repo: quay.io
   #  image: kubernetes-ingress-controller/nginx-ingress-controller
-  #  tag: 0.25.1
+  #  tag: 0.26.1
   #  excludes:
   #    - .*(alpha|beta).*
   #    - 0\.[0-9]\.
@@ -334,17 +341,17 @@ watchers:
   - type: github_commit
     repo: coreos/kube-prometheus
     branch: master
-    commit: 6710ef8739710b70595a0a294c7cf1f0b27df7e2
+    commit: 21ace9b55e26a257963e67b0dce7e02e6d7d9d7a
   - type: github_commit
     repo: kubernetes-monitoring/kubernetes-mixin
     branch: master
-    commit: c5411dde8ff084e343e06f4075a632811aeca46a
+    commit: acac6762be477a7ec16a96ae5222dd365568d87d
   # node_exporter isn't installed using this repo
   # We only use the mixin at https://github.com/prometheus/node_exporter/tree/master/docs/node-mixin
   - type: github_commit
     repo: prometheus/node_exporter
     branch: master
-    commit: d3478a207ebc665d4bd06c3dff5e9fb0a5e44eff
+    commit: eeeae46a87ed08cbcb6f5b161d36491e4c741e67
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master

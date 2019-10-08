@@ -4,7 +4,7 @@
 _phpldapadmin_var_loader:
   base_image:
     name: "osixia/phpldapadmin"
-    tag: "0.8.0"
+    tag: "0.9.0-amd64"
 
 phpldapadmin:
   enabled: "{{ openldap_enabled | default(True) }}"

@@ -4,7 +4,7 @@
 _openldap_var_loader:
   base_image:
     name: "osixia/openldap"
-    tag: "1.2.5"
+    tag: "1.3.0-amd64"
   
   basedn: "{{ openldap_ldap_basedn | default('dc=example,dc=org') }}"
   readonly_user_username: "{{ openldap_ldap_readonly_user_username | default('readonly') }}"
