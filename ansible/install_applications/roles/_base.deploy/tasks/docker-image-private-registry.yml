@@ -47,7 +47,9 @@
 - name: Complet build args
   set_fact:
     build_args_completed: "{{ build_args | default({}) | combine ({'from_image':  public_image }) }}"
-  when: build | default('no') | bool
+  when:
+    - build | default('no') | bool
+    - public_image is defined
 
 - name: Build and push docker image
   docker_image:
