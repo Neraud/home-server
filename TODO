@@ -1,5 +1,11 @@
 
-* Promely handle Kubelet TLS and remove `--kubelet-insecure-tls=true` in metrics-server
+* Properly handle Kubelet TLS and remove `--kubelet-insecure-tls=true` in metrics-server
+
+* Use dedicated kubernetes namespaces
+    * 1 per app or 1 per feature group ?
+
+* Configure kubernetes Liveness, Readiness and Startup Probes
+    * See https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 
 * Home
     * Shinobi / ZoneMinder / MotionEye ?
@@ -11,6 +17,5 @@
 
 * RoomAssistant :
     * BLE
-
 
 * Default 404 page on each domain
