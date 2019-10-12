@@ -1,6 +1,4 @@
 
-* Properly handle Kubelet TLS and remove `--kubelet-insecure-tls=true` in metrics-server
-
 * Use dedicated kubernetes namespaces
     * 1 per app or 1 per feature group ?
 

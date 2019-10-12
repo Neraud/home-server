@@ -31,6 +31,8 @@ spec:
       - name: metrics-server
         image: "{{ kubernetes_metrics_server.container.image }}"
         imagePullPolicy: Always
+        # TODO : Fix kubelet serving certificate and remove this insecure flag
+        # See https://github.com/kubernetes/kubeadm/issues/1223
         args:
         - --kubelet-insecure-tls=true
         resources:
