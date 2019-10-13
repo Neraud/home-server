@@ -9,6 +9,7 @@ _kubernetes_dashboard_var_loader:
 kubernetes_dashboard:
   enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
 
+  namespace: "infra-kubernetes-dashboard"
   base_image: "{{ _kubernetes_dashboard_var_loader.base_image }}"
 
   container:
