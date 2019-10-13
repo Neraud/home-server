@@ -6,10 +6,12 @@ _docker_registry_var_loader:
   base_image:
     name: "registry"
     tag: "2.7.1"
+  namespace: "infra-docker-registry"
 
 docker_registry:
   enabled: "{{ docker_registry_enabled | default(True) }}"
 
+  namespace: "{{ _docker_registry_var_loader.namespace }}"
   base_image: "{{ _docker_registry_var_loader.base_image }}"
 
   container:
@@ -19,7 +21,7 @@ docker_registry:
     limits_cpu: "{{ docker_registry_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ docker_registry_container_limits_memory | default('64Mi') }}"
 
-  servername: "{{ docker_registry_servername | default('registry.default') }}"
+  servername: "{{ docker_registry_servername | default('registry.' + _docker_registry_var_loader.namespace + '.svc.cluster.local') }}"
   port: "{{ _docker_registry_var_loader.port }}"
   url: "{{ docker_registry_url | default('127.0.0.1:' + _docker_registry_var_loader.port) }}"
   notification_endpoints: "{{ docker_registry_notification_endpoints | default([]) }}"

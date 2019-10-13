@@ -1,5 +1,10 @@
 ---
 
+- name: Ensure Docker registry namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ docker_registry.namespace }}"
+
 - name: Read certificate files
   slurp:
     src: "{{ item }}"

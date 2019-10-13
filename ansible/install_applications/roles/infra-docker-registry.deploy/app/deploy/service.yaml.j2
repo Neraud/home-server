@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: docker-registry
-  namespace: default
+  namespace: {{ docker_registry.namespace }}
   labels:
     app: docker-registry
     app-component: registry
