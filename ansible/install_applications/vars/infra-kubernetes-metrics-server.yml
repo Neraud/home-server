@@ -10,6 +10,7 @@ _kubernetes_metrics_server_var_loader:
 kubernetes_metrics_server:
   enabled: "{{ kubernetes_metrics_server_enabled | default(True) }}"
 
+  namespace: "infra-kubernetes-metrics-server"
   base_image: "{{ _kubernetes_metrics_server_var_loader.base_image }}"
 
   container:
