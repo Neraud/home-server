@@ -10,17 +10,6 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
-- name: Create GlusterFS endpoint and service
-  k8s:
-    definition: "{{ lookup('template', item.0) }}"
-    state: present
-  with_nested:
-    - - glusterfs-endpoint.yaml.j2
-      - glusterfs-service.yaml.j2
-    - "{{ kubernetes_glusterfs_available_namespaces }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-
 - name: Create GlusterFS persistant volumes
   k8s:
     definition: "{{ lookup('template', 'glusterfs-persistant-volume.yaml.j2') }}"

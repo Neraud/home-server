@@ -17,19 +17,3 @@ kubernetes_nas_nfs_storage_class_name: nas-nfs
 #    reclaim_policy: Retain
 #    labels:
 #      detail: whatever
-
-kubernetes_extra_namespaces:
-  - ingress-nginx
-  - monitoring
-  - logging
-
-kubernetes_cluster_ca_namespaces:
-  - default
-  - ingress-nginx
-  - monitoring
-  - logging
-
-kubernetes_ingress_tls_secret_namespaces:
-  - default
-  - monitoring
-  - logging

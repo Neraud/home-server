@@ -3,7 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: {{ kubernetes_glusterfs_endpoint }}
-  namespace: {{ item.1 }}
+  namespace: {{ application_namespace }}
 spec:
   ports:
   - port: 1
