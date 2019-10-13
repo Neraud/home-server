@@ -1,0 +1,6 @@
+---
+
+- name: Configure UFW for Kubernetes CNI
+  import_tasks: ../../firewall/tasks/add-applications.yml
+  vars:
+    ufw_applications: "{{ kubernetes_cni_calico_ufw_applications }}"

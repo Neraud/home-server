@@ -38,16 +38,3 @@
     remote_src: yes
     owner: "{{ kubernetes_user.name }}"
     backup: yes
-
-- name: Pass bridged IPv4 traffic to iptables’ chains
-  sysctl:
-    name: net.bridge.bridge-nf-call-iptables
-    value: "1"
-    state: present
-
-- name: Install flannel pod network add-on
-  k8s:
-    definition: "{{ lookup('template', 'kube-flannel.yaml.j2') }}"
-    state: present
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
