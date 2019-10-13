@@ -37,6 +37,7 @@
     - kubernetes-ansible
     - docker
     - kubernetes-preinstall
+    - kubernetes-master-cni-flannel-prepare
     - { role: local-lvm, tags: kubernetes-storage }
 
 - name: Prepare GlusterFS hosts
@@ -64,6 +65,7 @@
   hosts: kubernetes_master_bootstrap
   roles:
     - kubernetes-master-bootstrap
+    - kubernetes-master-cni-flannel-deploy
 
 - name: Provision Kubernetes nodes
   hosts: kubernetes_nodes

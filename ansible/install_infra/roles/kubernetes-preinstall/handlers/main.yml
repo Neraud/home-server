@@ -4,6 +4,3 @@
   service:
     name: kubelet
     state: restarted
-
-- name: Reload ufw
-  command: ufw reload

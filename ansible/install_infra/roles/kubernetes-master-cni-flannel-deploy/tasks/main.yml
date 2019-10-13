@@ -1,0 +1,8 @@
+---
+
+- name: Install flannel pod network add-on
+  k8s:
+    definition: "{{ lookup('template', 'kube-flannel.yaml.j2') }}"
+    state: present
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

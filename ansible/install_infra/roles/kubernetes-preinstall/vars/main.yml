@@ -13,16 +13,6 @@ kubernetes_ufw_applications:
     ports: "{{ kubernetes_ingress_http_port }},{{ kubernetes_ingress_https_port }}/tcp"
     rule: allow
 #    src: 192.168.100.11
-  - name: kubernetes_flannel_vxlan
-    title: Kubernetes Flannel vxlan
-    description: Kubernetes Flannel vxlan
-    ports: 8472/udp
-    rule: allow
-#  - name: kubernetes_flannel_udp
-#    title: Kubernetes Flannel udp
-#    description: Kubernetes Flannel udp
-#    ports: 8285/udp
-#    rule: allow
   - name: prometheus_node_exporter
     title: Prometheus Node Exporter
     description: Prometheus Node Exporter

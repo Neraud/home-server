@@ -43,16 +43,4 @@
     dest: /etc/default/kubelet
     src: kubelet.j2
     backup: yes
-  notify: Restart Kubelet
-
-- name: Allow forwarded/routed traffic for the CNI
-  blockinfile:
-    path: /etc/ufw/before.rules
-    insertbefore: "# don't delete the 'COMMIT' line or these rules won't be processed"
-    backup: yes
-    marker: "# {mark} ANSIBLE MANAGED BLOCK Kubernetes rule to allow forward to CNI"
-    state: present
-    block: |
-      -A ufw-before-forward -i cni0 -j ACCEPT
-      -A ufw-before-forward -i flannel.1 -j ACCEPT
-  notify: Reload ufw
+  notify: Restart kubelet
