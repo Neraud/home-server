@@ -1,6 +1,6 @@
 ---
 
-- name: Restart Kubelet
+- name: Restart kubelet
   service:
     name: kubelet
     state: restarted
