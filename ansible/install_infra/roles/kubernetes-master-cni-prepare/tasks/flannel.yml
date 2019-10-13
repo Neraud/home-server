@@ -1,0 +1,27 @@
+---
+
+- debug: 
+    msg: "Mock prepare"
+
+#- name: Pass bridged IPv4 traffic to iptables’ chains
+#  sysctl:
+#    name: net.bridge.bridge-nf-call-iptables
+#    value: "1"
+#    state: present
+#
+#- name: Allow forwarded/routed traffic for the CNI
+#  blockinfile:
+#    path: /etc/ufw/before.rules
+#    insertbefore: "# don't delete the 'COMMIT' line or these rules won't be processed"
+#    backup: yes
+#    marker: "# {mark} ANSIBLE MANAGED BLOCK Kubernetes rule to allow forward to CNI"
+#    state: present
+#    block: |
+#      -A ufw-before-forward -i cni0 -j ACCEPT
+#      -A ufw-before-forward -i flannel.1 -j ACCEPT
+#  notify: Reload ufw
+#
+#- name: Configure UFW for Kubernetes CNI
+#  import_tasks: ../../firewall/tasks/add-applications.yml
+#  vars:
+#    ufw_applications: "{{ kubernetes_cni_flannel_ufw_applications }}"
