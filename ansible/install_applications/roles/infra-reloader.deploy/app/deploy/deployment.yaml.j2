@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reloader
-  namespace: default
+  namespace: {{ reloader.namespace }}
   labels:
     app: reloader
     app-component: reloader
