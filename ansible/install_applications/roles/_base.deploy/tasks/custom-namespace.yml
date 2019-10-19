@@ -28,6 +28,8 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+# TODO : Try to find a way to avoid injecting the ingress cert and private key in all namespaces
+# See : https://github.com/kubernetes/ingress-nginx/issues/2170 and https://github.com/kubernetes/ingress-nginx/issues/2371 
 - name: Read the ingress TLS cert
   slurp:
     src: "{{ custom_ssl_pki_root_dir }}/cluster/ingress/server.crt"
