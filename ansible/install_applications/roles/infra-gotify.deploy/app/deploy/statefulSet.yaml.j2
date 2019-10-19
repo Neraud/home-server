@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: gotify
-  namespace: default
+  namespace: {{ gotify.namespace }}
   labels:
     app: gotify
     app-component: gotify

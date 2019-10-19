@@ -9,6 +9,7 @@ _gotify_var_loader:
 gotify:
   enabled: "{{ gotify_enabled | default(True) }}"
 
+  namespace: "infra-gotify"
   base_image: "{{ _gotify_var_loader.base_image }}"
 
   container:

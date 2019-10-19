@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: gotify
-  namespace: default
+  namespace: {{ gotify.namespace }}
   labels:
     app: gotify
   annotations:
