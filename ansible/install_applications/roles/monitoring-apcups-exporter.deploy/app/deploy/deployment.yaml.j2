@@ -24,7 +24,7 @@ spec:
         name: apcups-exporter
         env:
         - name: APCUPS_ADDR
-          value: apcupsd.monitoring:3551
+          value: apcupsd.monitoring-apcups-exporter:3551
         ports:
         - containerPort: 9162
           name: metrics

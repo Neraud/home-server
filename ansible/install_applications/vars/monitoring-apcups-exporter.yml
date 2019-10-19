@@ -15,6 +15,7 @@ _apcups_exporter_var_loader:
 apcups_exporter:
   enabled: "{{ apcups_exporter_enabled | default(True) }}"
 
+  namespace: "monitoring-apcups-exporter"
   base_image: "{{ _apcups_exporter_var_loader.base_image }}"
   base_image_build: "{{ _apcups_exporter_var_loader.base_image_build }}"
 
