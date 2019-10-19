@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: kibana
-  namespace: logging
+  namespace: {{ kibana.namespace }}
   labels:
     app: kibana
 spec:

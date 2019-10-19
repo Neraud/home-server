@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kibana
-  namespace: logging
+  namespace: {{ kibana.namespace }}
   labels:
     app: kibana
     app-component: kibana

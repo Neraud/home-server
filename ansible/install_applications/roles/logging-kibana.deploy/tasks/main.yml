@@ -1,5 +1,10 @@
 ---
 
+- name: Ensure Kibana namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ kibana.namespace }}"
+
 - name: Ensure Kibana image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:

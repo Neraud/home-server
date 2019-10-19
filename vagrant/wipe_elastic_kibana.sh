@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 
 echo ""
-echo "Deleting ElasticSearch namespace"
+echo "Deleting ElasticSearch & Kibana namespaces"
 su user -c "kubectl delete namespace logging-elasticsearch"
+su user -c "kubectl delete namespace logging-kibana"
 
 echo ""
 echo "Release the PVs"
 su user -c "kubectl patch pv elasticsearch-data -p '{\"spec\":{\"claimRef\": null}}'"
-
-echo ""
-echo "Deleting Kibana Deployment"
-su user -c "kubectl --namespace=logging delete deployments kibana"
 
 echo ""
 echo "Mount Elasticsearch volume"

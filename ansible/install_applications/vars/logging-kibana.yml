@@ -9,6 +9,7 @@ _kibana_var_loader:
 kibana:
   enabled: "{{ kibana_enabled | default(True) }}"
 
+  namespace: "logging-kibana"
   base_image: "{{ _kibana_var_loader.base_image }}"
 
   container:
