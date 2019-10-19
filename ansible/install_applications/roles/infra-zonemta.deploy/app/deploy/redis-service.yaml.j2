@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: zonemta-redis
-  namespace: default
+  namespace: "{{ zonemta.namespace }}"
   labels:
     app: zonemta
 spec:

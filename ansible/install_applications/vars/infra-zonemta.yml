@@ -6,10 +6,12 @@ _zonemta_var_loader:
     name: "node"
     tag: "10.16.3-alpine"
   version: 1.16.5
+  namespace: "infra-zonemta"
 
 zonemta:
   enabled: "{{ zonemta_enabled | default(True) }}"
 
+  namespace: "{{ _zonemta_var_loader.namespace }}"
   base_image: "{{ _zonemta_var_loader.base_image }}"
   version: "{{ _zonemta_var_loader.version }}"
   repo:
@@ -25,7 +27,7 @@ zonemta:
     limits_memory: "{{ zonemta_container_limits_memory | default('160Mi') }}"
   
   nodejs_max_memory: "{{ zonemta_nodejs_max_memory | default('32') }}"
-  smtp_servername: "{{ zonemta_smtp_servername | default('zonemta.default') }}"
+  smtp_servername: "{{ zonemta_smtp_servername | default('zonemta.' + _zonemta_var_loader.namespace + '.svc.cluster.local') }}"
   
   feeder:
     authentication_enabled: "{{ zonemta_feeder_authentication_enabled | default(true) }}"
@@ -39,8 +41,6 @@ zonemta:
     mta_auth_enabled: "{{ zonemta_forward_mta_auth_enabled | default(false) }}"
     mta_user: "{{ zonemta_forward_mta_user | default('') }}"
     mta_password: "{{ zonemta_forward_mta_password | default('') }}"
-  
-  exposed_namespaces: "{{ zonemta_exposed_namespaces | default(['default']) }}"
 
 
 # To avoid loops inside zonemta_mongo

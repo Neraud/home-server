@@ -176,11 +176,11 @@ You can easily test ZoneMTA by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks libnet-ssleay-perl libnet-dns-perl
 
-[user@master$] echo "This is the message body" | swaks \
+[user@master$] echo "This is the message body sent to ZoneMTA" | swaks \
     --to "someone@example.com" --from "you@example.com" \
     --auth --auth-user=smtp --auth-password=Passw0rd \
     -tls \
-    --server $(kubectl get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
+    --server $(kubectl --namespace=infra-zonemta get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
 ```
 
 ### MailHog
