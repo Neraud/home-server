@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: lemonldap-manager
-  namespace: default
+  namespace: {{ lemonldap.namespace }}
   labels:
     app: lemonldap
   annotations:

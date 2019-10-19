@@ -9,6 +9,7 @@ _lemonldap_var_loader:
 lemonldap:
   enabled: "{{ lemonldap_enabled | default(True) }}"
 
+  namespace: "auth-lemonldap"
   base_image: "{{ _lemonldap_var_loader.base_image }}"
 
   container:

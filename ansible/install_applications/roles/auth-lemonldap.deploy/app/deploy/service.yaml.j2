@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: lemonldap
-  namespace: default
+  namespace: {{ lemonldap.namespace }}
   labels:
     app: lemonldap
 spec:
