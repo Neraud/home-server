@@ -3,7 +3,7 @@ kind: Endpoints
 apiVersion: v1
 metadata:
   name: gluster-exporter
-  namespace: monitoring
+  namespace: {{ gluster_exporter.namespace }}
 subsets:
 {% for glusterfs_node in groups['glusterfs_servers'] | map('extract', hostvars, ['ansible_host']) %}
 - addresses:
