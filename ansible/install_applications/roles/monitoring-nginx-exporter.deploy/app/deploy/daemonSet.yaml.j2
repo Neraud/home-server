@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nginx-exporter
-  namespace: monitoring
+  namespace: {{ nginx_exporter.namespace }}
   labels:
     app: nginx-exporter
     app-component: nginx-exporter

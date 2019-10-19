@@ -18,6 +18,9 @@ spec:
       sourceLabels:
       - __meta_kubernetes_pod_node_name
       targetLabel: instance
+  namespaceSelector:
+    matchNames:
+    - {{ nginx_exporter.namespace }}
   selector:
     matchLabels:
       prometheus-target: nginx-exporter
