@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fluentd
-  namespace: logging
+  namespace: {{ fluentd.namespace }}
   labels:
     app: fluentd
     app-component: fluentd

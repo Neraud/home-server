@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluentd-includes
-  namespace: logging
+  namespace: {{ fluentd.namespace }}
   labels:
     app: fluentd
     app-component: fluentd

@@ -5,11 +5,14 @@ _fluentd_var_loader:
   base_image:
     name: "fluent/fluentd"
     tag: "v1.7.3-debian-1.0"
+  namespace: "logging-fluentd"
 
 fluentd:
   enabled: "{{ fluentd_enabled | default(True) }}"
 
+  namespace: "{{ _fluentd_var_loader.namespace }}"
   base_image: "{{ _fluentd_var_loader.base_image }}"
+  servername: "fluentd.{{ _fluentd_var_loader.namespace }}.svc.cluster.local"
 
   container:
     image: "{{ docker_registry.url }}/{{ _fluentd_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _fluentd_var_loader.base_image.tag }}-custom"
