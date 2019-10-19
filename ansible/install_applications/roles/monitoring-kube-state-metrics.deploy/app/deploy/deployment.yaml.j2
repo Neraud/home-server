@@ -5,7 +5,7 @@ metadata:
     app: kube-state-metrics
     app-component: kube-state-metrics
   name: kube-state-metrics
-  namespace: monitoring
+  namespace: {{ kube_state_metrics.namespace }}
 spec:
   replicas: 1
   selector:

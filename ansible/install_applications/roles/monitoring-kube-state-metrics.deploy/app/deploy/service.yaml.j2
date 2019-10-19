@@ -5,7 +5,7 @@ metadata:
     app: kube-state-metrics
     prometheus-target: kube-state-metrics
   name: kube-state-metrics
-  namespace: monitoring
+  namespace: {{ kube_state_metrics.namespace }}
 spec:
   clusterIP: None
   ports:

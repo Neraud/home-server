@@ -31,6 +31,9 @@ spec:
     tlsConfig:
       insecureSkipVerify: true
   jobLabel: k8s-app
+  namespaceSelector:
+    matchNames:
+    - {{ kube_state_metrics.namespace }}
   selector:
     matchLabels:
       prometheus-target: kube-state-metrics

@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: kube-state-metrics
-  namespace: monitoring
+  namespace: {{ kube_state_metrics.namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
