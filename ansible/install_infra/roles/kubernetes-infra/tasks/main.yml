@@ -21,6 +21,15 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+- name: Deploy Nginx Ingress namespace
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: ingress-nginx
+    state: present
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+
 - name: Deploy Nginx Ingress
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
