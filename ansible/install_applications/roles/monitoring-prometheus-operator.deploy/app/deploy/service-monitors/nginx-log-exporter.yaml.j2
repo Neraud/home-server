@@ -36,6 +36,9 @@ spec:
     - action: drop
       sourceLabels: [__name__]
       regex: 'nginxlog_http_upstream_.*'
+  namespaceSelector:
+    matchNames:
+    - {{ nginx_log_exporter.namespace }}
   selector:
     matchLabels:
       prometheus-target: nginx-log-exporter

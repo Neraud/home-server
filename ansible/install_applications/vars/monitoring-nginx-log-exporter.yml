@@ -10,6 +10,7 @@ _nginx_log_exporter_var_loader:
 nginx_log_exporter:
   enabled: "{{ nginx_log_exporter_enabled | default(True) }}"
 
+  namespace: "monitoring-nginx-log-exporter"
   base_image: "{{ _nginx_log_exporter_var_loader.base_image }}"
 
   container:
