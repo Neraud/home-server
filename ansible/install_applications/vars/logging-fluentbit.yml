@@ -9,6 +9,7 @@ _fluentbit_var_loader:
 fluentbit:
   enabled: "{{ fluentbit_enabled | default(True) }}"
 
+  namespace: "logging-fluentbit"
   base_image: "{{ _fluentbit_var_loader.base_image }}"
 
   container:

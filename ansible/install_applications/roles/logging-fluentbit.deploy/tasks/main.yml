@@ -1,5 +1,10 @@
 ---
 
+- name: Ensure Fluent Bit namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ fluentbit.namespace }}"
+
 - name: Ensure Fluent Bit image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:

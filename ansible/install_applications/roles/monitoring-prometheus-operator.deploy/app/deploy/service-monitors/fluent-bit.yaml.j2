@@ -12,7 +12,7 @@ spec:
     path: /api/v1/metrics/prometheus
   namespaceSelector:
     matchNames:
-    - logging
+    - {{ fluentbit.namespace }}
   selector:
     matchLabels:
       prometheus-target: fluent-bit
