@@ -18,7 +18,7 @@ spec:
     path: /metrics
   namespaceSelector:
     matchNames:
-    - default
+    - {{ docker_registry.namespace }}
   selector:
     matchLabels:
       prometheus-target: docker-registry
