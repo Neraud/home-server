@@ -11,6 +11,7 @@ _docker_registry_ui_var_loader:
 docker_registry_ui:
   enabled: "{{ docker_registry_ui_enabled | default(True) }}"
 
+  namespace: "infra-docker-registry-ui"
   base_image: "{{ _docker_registry_ui_var_loader.base_image }}"
 
   container:

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: docker-registry-ui-config
-  namespace: default
+  namespace: {{ docker_registry_ui.namespace }}
   labels:
     app: docker-registry-ui
     app-component: docker-registry-ui

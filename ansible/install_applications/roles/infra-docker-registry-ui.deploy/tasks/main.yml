@@ -1,5 +1,10 @@
 ---
 
+- name: Ensure Docker registry UI namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ docker_registry_ui.namespace }}"
+
 - name: Ensure Docker registry UI image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
