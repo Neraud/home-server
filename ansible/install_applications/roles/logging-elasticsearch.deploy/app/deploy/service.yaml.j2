@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: elasticsearch
-  namespace: logging
+  namespace: {{ elasticsearch.namespace }}
   labels:
     app: elasticsearch
     app-component: elasticsearch

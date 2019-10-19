@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: elasticsearch
-  namespace: logging
+  namespace: {{ elasticsearch.namespace }}
   labels:
     app: elasticsearch
     app-component: elasticsearch

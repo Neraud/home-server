@@ -5,10 +5,12 @@ _elasticsearch_var_loader:
   base_image:
     name: "amazon/opendistro-for-elasticsearch"
     tag: "1.2.0"
+  namespace: "logging-elasticsearch"
 
 elasticsearch:
   enabled: "{{ elasticsearch_enabled | default(True) }}"
 
+  namespace: "{{ _elasticsearch_var_loader.namespace }}"
   base_image: "{{ _elasticsearch_var_loader.base_image }}"
   
   container:
@@ -18,9 +20,7 @@ elasticsearch:
     limits_cpu: "{{ elasticsearch_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ elasticsearch_container_limits_memory | default('1024Mi') }}"
   
-  # FIXME : using a longer name (like elasticsearch.logging) breaks the workaround in place to update security
-  # The server cert is improperly used in ansible/install_applications/roles/logging-elasticsearch.deploy/handlers/main.yml
-  servername: "{{ elasticsearch_servername | default('elasticsearch') }}"
+  servername: "{{ elasticsearch_servername | default('elasticsearch.' + _elasticsearch_var_loader.namespace + '.svc.cluster.local') }}"
 
   context_path: "{{ elasticsearch_context_path | default('/') }}"
   replicas: "{{ elasticsearch_replicas | default(1) }}"
@@ -40,8 +40,6 @@ elasticsearch:
   exporter:
     user: "{{ elasticsearch_exporter_user | default('exporter') }}"
     password: "{{ elasticsearch_exporter_password | default('password') }}"
-
-  exposed_namespaces: "{{ elasticsearch_exposed_namespaces | default(['logging']) }}"
 
 
 # To avoid loops inside elasticsearch_exporter

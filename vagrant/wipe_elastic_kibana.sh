@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
 echo ""
-echo "Deleting ElasticSearch StatefulSet"
-su user -c "kubectl --namespace=logging delete statefulsets elasticsearch"
+echo "Deleting ElasticSearch namespace"
+su user -c "kubectl delete namespace logging-elasticsearch"
+
+echo ""
+echo "Release the PVs"
+su user -c "kubectl patch pv elasticsearch-data -p '{\"spec\":{\"claimRef\": null}}'"
 
 echo ""
 echo "Deleting Kibana Deployment"
@@ -16,6 +20,9 @@ mount -t glusterfs master-1:/elasticsearch-data /data/volumes/elasticsearch-data
 echo ""
 echo "Wait to be sure Elasticsearch is stopped"
 sleep 5
+
+echo ""
+echo "Wipe Elasticsearch volumes"
 rm -Rf /data/volumes/elasticsearch-data/*
 
 echo ""

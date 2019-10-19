@@ -33,7 +33,7 @@
 # The following tasks ensures that each time something changes in ES deployment, security configurations are properly updated.
 - name: Reconfigure security
   command:
-    kubectl --namespace=logging exec -it elasticsearch-0 -- \
+    kubectl --namespace={{ elasticsearch.namespace }} exec -it elasticsearch-0 -- \
       bash /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh \
       -icl -nhnv \
       -cd /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/ \

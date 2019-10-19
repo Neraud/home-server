@@ -19,7 +19,7 @@ opendistro_security.allow_unsafe_democertificates: false
 opendistro_security.allow_default_init_securityindex: true
 opendistro_security.authcz.admin_dn:
   # Use the node certificate as an admin user
-  - CN=elasticsearch
+  - CN={{ elasticsearch.servername }}
 
 opendistro_security.audit.type: internal_elasticsearch
 opendistro_security.enable_snapshot_restore_privilege: true

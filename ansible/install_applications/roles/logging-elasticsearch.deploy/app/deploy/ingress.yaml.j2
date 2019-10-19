@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: elasticsearch
-  namespace: logging
+  namespace: {{ elasticsearch.namespace }}
   labels:
     app: elasticsearch
   annotations:
