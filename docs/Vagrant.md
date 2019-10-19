@@ -123,7 +123,7 @@ This `ca.crt` is available in the Kubernetes secret `cluster-ca`
 To test the LDAP connection, you can use :
 
 ```shell
-[user@master$] kubectl run test-ldap -it --rm --image=particlekit/ldap-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=auth-openldap run test-ldap -it --rm --image=particlekit/ldap-client --restart=Never --overrides='
 {
     "spec": {
       "containers": [
@@ -131,7 +131,7 @@ To test the LDAP connection, you can use :
           "name": "test-ldap",
           "image": "particlekit/ldap-client",
           "args": [
-            "ldapsearch", "-x", "-H", "ldaps://openldap.default", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
+            "ldapsearch", "-x", "-H", "ldaps://openldap.auth-openldap.svc.cluster.local", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
           ],
           "stdin": true,
           "stdinOnce": true,

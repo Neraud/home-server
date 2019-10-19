@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
 echo ""
-echo "Deleting OpenLDAP StatefulSet"
-su user -c "kubectl delete statefulsets openldap"
+echo "Deleting OpenLDAP namespace"
+su user -c "kubectl delete namespace auth-openldap"
+
+echo ""
+echo "Release the PVs"
+su user -c "kubectl patch pv openldap-config -p '{\"spec\":{\"claimRef\": null}}'"
+su user -c "kubectl patch pv openldap-data -p '{\"spec\":{\"claimRef\": null}}'"
+su user -c "kubectl patch pv openldap-run -p '{\"spec\":{\"claimRef\": null}}'"
 
 echo ""
 echo "Mount OpenLDAP volumes"
@@ -18,7 +24,7 @@ echo "Wait to be sure OpenLDAP is stopped"
 sleep 5
 
 echo ""
-echo "Mount OpenLDAP volumes"
+echo "Wipe OpenLDAP volumes"
 rm -Rf /data/volumes/openldap-config/*
 rm -Rf /data/volumes/openldap-data/*
 rm -Rf /data/volumes/openldap-run/*
