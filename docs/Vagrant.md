@@ -194,7 +194,9 @@ You can easily test MailHog by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks
 
-[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
+[user@master$] echo "This is the message body sent to MailHog" | swaks \
+    --to "someone@example.com" --from "you@example.com" \
+    --server $(kubectl --namespace=infra-mailhog get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
 ```
 
 ### Gotify

@@ -5,10 +5,12 @@ _mailhog_var_loader:
   base_image:
     name: "mailhog/mailhog"
     tag: "v1.0.0"
+  namespace: "infra-mailhog"
 
 mailhog:
   enabled: "{{ mailhog_enabled | default(True) }}"
 
+  namespace: "{{ _mailhog_var_loader.namespace }}"
   base_image: "{{ _mailhog_var_loader.base_image }}"
 
   container:
@@ -18,7 +20,7 @@ mailhog:
     limits_cpu: "{{ mailhog_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ mailhog_container_limits_memory | default('64Mi') }}"
 
-  exposed_smtp: "{{ mailhog_exposed_smtp | default('mailhog.default.svc.cluster.local:1025') }}"
+  servername: "{{ mailhog_exposed_smtp | default('mailhog.' + _mailhog_var_loader.namespace + '.svc.cluster.local') }}"
   
   forward_smtp:
     enabled: "{{ mailhog_forward_smtp_enabled | default('false') }}"
