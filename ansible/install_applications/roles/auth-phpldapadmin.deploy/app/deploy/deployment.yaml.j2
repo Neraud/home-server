@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: phpldapadmin
-  namespace: default
+  namespace: {{ phpldapadmin.namespace }}
   labels:
     app: phpldapadmin
     app-component: phpldapadmin
