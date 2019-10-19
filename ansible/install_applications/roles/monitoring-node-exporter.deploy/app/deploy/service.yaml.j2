@@ -5,7 +5,7 @@ metadata:
     k8s-app: node-exporter
     prometheus-target: node-exporter
   name: node-exporter
-  namespace: monitoring
+  namespace: {{ node_exporter.namespace }}
 spec:
   clusterIP: None
   ports:

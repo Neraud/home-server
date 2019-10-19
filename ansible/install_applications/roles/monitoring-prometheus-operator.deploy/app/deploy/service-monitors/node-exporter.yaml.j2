@@ -21,6 +21,9 @@ spec:
     tlsConfig:
       insecureSkipVerify: true
   jobLabel: k8s-app
+  namespaceSelector:
+    matchNames:
+    - {{ node_exporter.namespace }}
   selector:
     matchLabels:
       prometheus-target: node-exporter
