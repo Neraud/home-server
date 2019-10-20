@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: homeassistant-mysql
-  namespace: default
+  namespace: {{ homeassistant.namespace }}
   labels:
     app: homeassistant
     app-component: mysql

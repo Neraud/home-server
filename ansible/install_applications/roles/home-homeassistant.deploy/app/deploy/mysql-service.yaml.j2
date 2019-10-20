@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: homeassistant-mysql
-  namespace: default
+  namespace: {{ homeassistant.namespace }}
   labels:
     app: homeassistant
     app-component: mysql
