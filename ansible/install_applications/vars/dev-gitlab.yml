@@ -11,6 +11,7 @@ _gitlab_var_loader:
 gitlab:
   enabled: "{{ openldap_enabled | default(True) }}"
 
+  namespace: "dev-gitlab"
   base_image: "{{ _gitlab_var_loader.base_image }}"
 
   container:

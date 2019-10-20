@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: gitlab-prometheus
-  namespace: default
+  namespace: {{ gitlab.namespace }}
   labels:
     app: gitlab
     app-component: gitlab

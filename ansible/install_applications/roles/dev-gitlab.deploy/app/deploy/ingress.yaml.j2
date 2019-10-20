@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: gitlab
-  namespace: default
+  namespace: {{ gitlab.namespace }}
   labels:
     app: gitlab
 spec:
