@@ -15,62 +15,60 @@ cp $OUT_GENERATED_ROOT/0prometheus-operator-0podmonitorCustomResourceDefinition.
 cp $OUT_GENERATED_ROOT/0prometheus-operator-0prometheusCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusCustomResourceDefinition.yaml
 cp $OUT_GENERATED_ROOT/0prometheus-operator-0prometheusruleCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusruleCustomResourceDefinition.yaml
 cp $OUT_GENERATED_ROOT/0prometheus-operator-0servicemonitorCustomResourceDefinition.yaml $OPERATOR_ROOT/servicemonitorCustomResourceDefinition.yaml
-cp $OUT_GENERATED_ROOT/0prometheus-operator-clusterRoleBinding.yaml $OPERATOR_ROOT/clusterRoleBinding.yaml
+cp $OUT_GENERATED_ROOT/0prometheus-operator-clusterRoleBinding.yaml $OPERATOR_ROOT/clusterRoleBinding.yaml.j2
 cp $OUT_GENERATED_ROOT/0prometheus-operator-clusterRole.yaml $OPERATOR_ROOT/clusterRole.yaml
 cp $OUT_GENERATED_ROOT/0prometheus-operator-deployment.yaml $OPERATOR_ROOT/deployment.yaml.j2
-cp $OUT_GENERATED_ROOT/0prometheus-operator-serviceAccount.yaml $OPERATOR_ROOT/serviceAccount.yaml
-cp $OUT_GENERATED_ROOT/0prometheus-operator-service.yaml $OPERATOR_ROOT/service.yaml
+cp $OUT_GENERATED_ROOT/0prometheus-operator-serviceAccount.yaml $OPERATOR_ROOT/serviceAccount.yaml.j2
+cp $OUT_GENERATED_ROOT/0prometheus-operator-service.yaml $OPERATOR_ROOT/service.yaml.j2
 
 echo "Converting AlertManager"
 ALERTMANAGER_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/alertmanager
 mkdir -p $ALERTMANAGER_ROOT
 cp $OUT_GENERATED_ROOT/alertmanager-alertmanager.yaml $ALERTMANAGER_ROOT/alertmanager.yaml.j2
 cp $OUT_GENERATED_ROOT/alertmanager-secret.yaml $ALERTMANAGER_ROOT/secret.yaml.j2
-cp $OUT_GENERATED_ROOT/alertmanager-serviceAccount.yaml $ALERTMANAGER_ROOT/serviceAccount.yaml
-cp $OUT_GENERATED_ROOT/alertmanager-service.yaml $ALERTMANAGER_ROOT/service.yaml
+cp $OUT_GENERATED_ROOT/alertmanager-serviceAccount.yaml $ALERTMANAGER_ROOT/serviceAccount.yaml.j2
+cp $OUT_GENERATED_ROOT/alertmanager-service.yaml $ALERTMANAGER_ROOT/service.yaml.j2
 
 echo "Converting Grafana"
 GRAFANA_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/deploy
 mkdir -p $GRAFANA_ROOT
 cp $OUT_GENERATED_ROOT/grafana-dashboardDatasources.yaml $GRAFANA_ROOT/datasources-secret.yaml.j2
-cp $OUT_GENERATED_ROOT/grafana-dashboardDefinitions.yaml $GRAFANA_ROOT/dashboardProviders-configMap.yaml
+cp $OUT_GENERATED_ROOT/grafana-dashboardDefinitions.yaml $GRAFANA_ROOT/dashboardProviders-configMap.yaml.j2
 cp $OUT_GENERATED_ROOT/grafana-dashboardSources.yaml $GRAFANA_ROOT/dashboards-configMap.yaml.j2
 cp $OUT_GENERATED_ROOT/grafana-deployment.yaml $GRAFANA_ROOT/statefulSet.yaml.j2
-cp $OUT_GENERATED_ROOT/grafana-serviceAccount.yaml $GRAFANA_ROOT/serviceAccount.yaml
-cp $OUT_GENERATED_ROOT/grafana-service.yaml $GRAFANA_ROOT/service.yaml
+cp $OUT_GENERATED_ROOT/grafana-serviceAccount.yaml $GRAFANA_ROOT/serviceAccount.yaml.j2
+cp $OUT_GENERATED_ROOT/grafana-service.yaml $GRAFANA_ROOT/service.yaml.j2
 
 echo "Converting Kube state metrics"
 KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/monitoring-kube-state-metrics.deploy/app/deploy
 mkdir -p $KUBE_STATE_METRICS_ROOT
-cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml
+cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml.j2
 cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml
 cp $OUT_GENERATED_ROOT/kube-state-metrics-deployment.yaml $KUBE_STATE_METRICS_ROOT/deployment.yaml.j2
-cp $OUT_GENERATED_ROOT/kube-state-metrics-roleBinding.yaml $KUBE_STATE_METRICS_ROOT/roleBinding.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-role.yaml $KUBE_STATE_METRICS_ROOT/role.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/serviceAccount.yaml
-cp $OUT_GENERATED_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/service.yaml
+cp $OUT_GENERATED_ROOT/kube-state-metrics-roleBinding.yaml $KUBE_STATE_METRICS_ROOT/roleBinding.yaml.j2
+cp $OUT_GENERATED_ROOT/kube-state-metrics-role.yaml $KUBE_STATE_METRICS_ROOT/role.yaml.j2
+cp $OUT_GENERATED_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/serviceAccount.yaml.j2
+cp $OUT_GENERATED_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/service.yaml.j2
 
 echo "Converting NodeExporter"
 NODE_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring-node-exporter.deploy/app/deploy
 mkdir -p $NODE_EXPORTER_ROOT
-cp $OUT_GENERATED_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/clusterRoleBinding.yaml
+cp $OUT_GENERATED_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
 cp $OUT_GENERATED_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/clusterRole.yaml
 cp $OUT_GENERATED_ROOT/node-exporter-daemonset.yaml $NODE_EXPORTER_ROOT/daemonSet.yaml.j2
-cp $OUT_GENERATED_ROOT/node-exporter-serviceAccount.yaml $NODE_EXPORTER_ROOT/serviceAccount.yaml
-cp $OUT_GENERATED_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/service.yaml
+cp $OUT_GENERATED_ROOT/node-exporter-serviceAccount.yaml $NODE_EXPORTER_ROOT/serviceAccount.yaml.j2
+cp $OUT_GENERATED_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/service.yaml.j2
 
 echo "Converting Prometheus"
 PROMETHEUS_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/prometheus
 mkdir -p $PROMETHEUS_ROOT
-cp $OUT_GENERATED_ROOT/prometheus-clusterRoleBinding.yaml $PROMETHEUS_ROOT/clusterRoleBinding.yaml
+cp $OUT_GENERATED_ROOT/prometheus-clusterRoleBinding.yaml $PROMETHEUS_ROOT/clusterRoleBinding.yaml.j2
 cp $OUT_GENERATED_ROOT/prometheus-clusterRole.yaml $PROMETHEUS_ROOT/clusterRole.yaml
 cp $OUT_GENERATED_ROOT/prometheus-prometheus.yaml $PROMETHEUS_ROOT/prometheus.yaml.j2
-cp $OUT_GENERATED_ROOT/prometheus-roleBindingConfig.yaml $PROMETHEUS_ROOT/roleBindingConfig.yaml
-cp $OUT_GENERATED_ROOT/prometheus-roleBindingSpecificNamespaces.yaml $PROMETHEUS_ROOT/roleBindingSpecificNamespaces.yaml.j2
-cp $OUT_GENERATED_ROOT/prometheus-roleConfig.yaml $PROMETHEUS_ROOT/roleConfig.yaml
-cp $OUT_GENERATED_ROOT/prometheus-roleSpecificNamespaces.yaml $PROMETHEUS_ROOT/roleSpecificNamespaces.yaml.j2
-cp $OUT_GENERATED_ROOT/prometheus-serviceAccount.yaml $PROMETHEUS_ROOT/serviceAccount.yaml
-cp $OUT_GENERATED_ROOT/prometheus-service.yaml $PROMETHEUS_ROOT/service.yaml
+cp $OUT_GENERATED_ROOT/prometheus-roleBindingConfig.yaml $PROMETHEUS_ROOT/roleBindingConfig.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-roleConfig.yaml $PROMETHEUS_ROOT/roleConfig.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-serviceAccount.yaml $PROMETHEUS_ROOT/serviceAccount.yaml.j2
+cp $OUT_GENERATED_ROOT/prometheus-service.yaml $PROMETHEUS_ROOT/service.yaml.j2
 
 echo "Converting ServiceMonitors"
 SERVICE_MONITOR_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/service-monitors

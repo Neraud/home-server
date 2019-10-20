@@ -17,7 +17,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: kubernetes-rules
-  namespace: monitoring
   labels:
     app: prometheus
     app-component: prometheus
@@ -35,7 +34,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: kubernetes-alerts
-  namespace: monitoring
   labels:
     app: prometheus
     app-component: prometheus
@@ -61,7 +59,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: node-rules
-  namespace: monitoring
   labels:
     app: prometheus
     app-component: prometheus
@@ -79,7 +76,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: node-alerts
-  namespace: monitoring
   labels:
     app: prometheus
     app-component: prometheus
@@ -102,7 +98,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: gluster-rules
-  namespace: monitoring
   labels:
     app: gluster
     app-component: gluster
@@ -120,7 +115,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: gluster-alerts
-  namespace: monitoring
   labels:
     app: gluster
     app-component: gluster
