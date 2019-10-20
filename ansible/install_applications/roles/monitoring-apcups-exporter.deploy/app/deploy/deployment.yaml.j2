@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: apcups-exporter
-  namespace: monitoring
+  namespace: {{ apcups_exporter.namespace }}
   labels:
     app: apcups-exporter
     app-component: apcups-exporter

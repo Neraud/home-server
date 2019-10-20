@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: apcups-exporter-prometheus
-  namespace: monitoring
+  namespace: {{ apcups_exporter.namespace }}
   labels:
     app: apcups-exporter
     app-component: apcups-exporter

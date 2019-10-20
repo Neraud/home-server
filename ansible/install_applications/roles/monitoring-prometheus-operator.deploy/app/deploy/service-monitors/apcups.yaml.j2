@@ -11,7 +11,7 @@ spec:
     port: metrics
   namespaceSelector:
     matchNames:
-    - monitoring-apcups-exporter
+    - {{ apcups_exporter.namespace }}
   selector:
     matchLabels:
       prometheus-target: apcups-exporter
