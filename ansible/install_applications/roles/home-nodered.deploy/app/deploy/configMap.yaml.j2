@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nodered
-  namespace: default
+  namespace: {{ nodered.namespace }}
   labels:
     app: nodered
     app-component: nodered

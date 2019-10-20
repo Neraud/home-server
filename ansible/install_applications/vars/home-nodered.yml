@@ -10,6 +10,7 @@ nodered:
   enabled: "{{ nodered_enabled | default(True) }}"
   context_root: "{{ nodered_context_root | default('/') }}"
 
+  namespace: "home-nodered"
   base_image: "{{ _nodered_var_loader.base_image }}"
 
   container:
