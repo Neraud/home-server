@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: unifi
-  namespace: default
+  namespace: {{ unifi.namespace }}
   labels:
     app: unifi
   annotations:

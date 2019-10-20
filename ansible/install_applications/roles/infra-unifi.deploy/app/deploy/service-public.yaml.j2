@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: unifi-frontend
-  namespace: default
+  namespace: {{ unifi.namespace }}
   labels:
     app: unifi
     app-component: unifi

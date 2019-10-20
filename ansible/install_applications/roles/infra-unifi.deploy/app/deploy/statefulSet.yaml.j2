@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: unifi
-  namespace: default
+  namespace: {{ unifi.namespace }}
   labels:
     app: unifi
     app-component: unifi
