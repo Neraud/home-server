@@ -70,7 +70,7 @@ notify:
 {% if homeassistant.gotify.enabled %}
   - name: gotify
     platform: rest
-    resource: http://gotify/message
+    resource: http://{{ homeassistant.gotify.servername }}/message
     method: POST_JSON
     headers: 
       X-Gotify-Key: !secret gotify_application_token

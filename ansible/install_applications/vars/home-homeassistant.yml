@@ -42,6 +42,7 @@ homeassistant:
   gotify:
     enabled: "{{ gotify.homeassistant.enabled | default(False) }}"
     username: "{{ gotify.homeassistant.username | default('user') }}"
+    servername: "{{ gotify.servername }}"
     password: "{{ gotify.homeassistant.password | default('clear_password') }}"
     application_name: "{{ gotify.homeassistant.application_name | default('HomeAssistant') }}"
 
