@@ -7,7 +7,7 @@ roomassistant_environment_variables:
   SERVICES: mqtt,shell
   ROOM: example-room
   AUTO_DISCOVERY: true
-  MQTT_URL: mqtt://mosquitto
+  MQTT_URL: "mqtt://{{ mosquitto.servername }}"
   MQTT_USERNAME: user
   MQTT_PASSWORD: Passw0rd
   MQTT_REJECT_UNAUTHORIZED: true

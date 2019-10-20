@@ -22,6 +22,8 @@ homeassistant:
     limits_memory: "{{ homeassistant_homeassistant_container_limits_memory | default('512Mi') }}"
 
   mqtt:
+    servername: "{{ mosquitto.servername }}"
+    port: 8883
     user: "{{ homeassistant_mqtt_user | default('homeassistant') }}"
     password: "{{ homeassistant_mqtt_password | default('clear_password') }}"
 

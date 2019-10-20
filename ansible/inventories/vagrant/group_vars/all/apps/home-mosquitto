@@ -1,6 +1,6 @@
 ---
 
-mosquitto_default_listener_servername: mosquitto.default
+mosquitto_default_listener_servername: mosquitto.home-mosquitto.svc.cluster.local
 mosquitto_listeners:
   # Keep the "non tls" listener to avoid breaking the NGinx Ingress
   - port: 1883

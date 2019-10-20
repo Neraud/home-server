@@ -288,15 +288,15 @@ A Fake sensor is created in HomeAssistant, based on the topic `test/test_sensor`
 To push values on this sensor :
 
 ```shell
-[user@master$] kubectl run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=home-mosquitto run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
 {
     "spec": {
       "containers": [
         {
-          "name": "test-ldap",
+          "name": "test-mqtt-pub",
           "image": "aksakalli/mqtt-client",
           "args": [
-            "pub", "-h", "mosquitto.default", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "test/test_sensor", "-m", "Mock Value"
+            "pub", "-h", "mosquitto.home-mosquitto.svc.cluster.local", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "test/test_sensor", "-m", "Mock Value"
           ],
           "stdin": true,
           "stdinOnce": true,
@@ -318,15 +318,15 @@ To push values on this sensor :
 To debug all messages sent via Mosquitto :
 
 ```shell
-[user@master$] kubectl run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=home-mosquitto run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
 {
     "spec": {
       "containers": [
         {
-          "name": "test-ldap",
+          "name": "test-mqtt-sub",
           "image": "aksakalli/mqtt-client",
           "args": [
-            "sub", "-h", "mosquitto.default", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "#"
+            "sub", "-h", "mosquitto.home-mosquitto.svc.cluster.local", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "#"
           ],
           "stdin": true,
           "stdinOnce": true,

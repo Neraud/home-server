@@ -47,8 +47,8 @@ recorder:
 # https://home-assistant.io/components/mqtt/
 mqtt:
   # https://home-assistant.io/docs/mqtt/broker/#run-your-own
-  broker: mosquitto.default
-  port: 8883
+  broker: {{ homeassistant.mqtt.servername }}
+  port: {{ homeassistant.mqtt.port }}
   username: !secret mqtt_username
   password: !secret mqtt_password
   certificate: /etc/ssl/cluster/ca.cert
