@@ -9,6 +9,9 @@ spec:
   endpoints:
   - interval: {{ (15 * service_monitors.interval_factor | float) | int }}s
     port: http
+  namespaceSelector:
+    matchNames:
+    - {{ grafana.namespace }}
   selector:
     matchLabels:
       prometheus-target: grafana

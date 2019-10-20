@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-dashboard-providers
-  namespace: monitoring
+  namespace: {{ grafana.namespace }}
   labels:
     app: grafana
     app-component: grafana

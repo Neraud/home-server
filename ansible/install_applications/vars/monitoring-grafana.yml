@@ -9,6 +9,7 @@ _grafana_var_loader:
 grafana:
   enabled: "{{ grafana_enabled | default(True) }}"
 
+  namespace: "monitoring-grafana"
   base_image: "{{ _grafana_var_loader.base_image }}"
 
   container:
