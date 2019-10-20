@@ -6,7 +6,7 @@ metadata:
     alertmanager: main
     prometheus-target: alertmanager-main
   name: alertmanager-main
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   ports:
   - name: web

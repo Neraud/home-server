@@ -6,12 +6,12 @@ metadata:
     app-component: prometheus
     prometheus: k8s
   name: k8s
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   alerting:
     alertmanagers:
     - name: alertmanager-main
-      namespace: monitoring
+      namespace: {{ prometheus.namespace }}
       port: web
   baseImage: "{{ prometheus.base_image.repo }}/{{ prometheus.base_image.name }}"
   version: "{{ prometheus.base_image.tag }}"

@@ -4,7 +4,7 @@ metadata:
   labels:
     app: docker-registry
   name: docker-registry
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
   - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s

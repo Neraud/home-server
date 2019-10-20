@@ -4,7 +4,7 @@ metadata:
   labels:
     app: nginx-log-exporter
   name: nginx-log-exporter
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
   - interval: {{ (15 * service_monitors.interval_factor | float) | int }}s

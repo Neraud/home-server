@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
 
 echo ""
-echo "Deleting Prometheus"
-su user -c "kubectl --namespace=monitoring delete prometheuses --all"
+echo "Deleting Prometheus namespace"
+su user -c "kubectl delete namespace monitoring-prometheus"
 
-echo "Deleting AlertManager"
-su user -c "kubectl --namespace=monitoring delete alertmanagers --all"
-
-echo "Deleting all Prometheus rules"
-su user -c "kubectl --namespace=monitoring delete prometheusrules --all"
-
-echo "Deleting all service monitors"
-su user -c "kubectl --namespace=monitoring delete servicemonitors --all"
+echo ""
+echo "Release the PVs"
+su user -c "kubectl patch pv prometheus-k8s -p '{\"spec\":{\"claimRef\": null}}'"
 
 echo ""
 echo "Mount Prometheus volumes"

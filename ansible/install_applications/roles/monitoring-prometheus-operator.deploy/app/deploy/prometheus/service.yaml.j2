@@ -6,7 +6,7 @@ metadata:
     prometheus: k8s
     prometheus-target: prometheus-k8s
   name: prometheus-k8s
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   ports:
   - name: web

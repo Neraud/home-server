@@ -4,7 +4,7 @@ metadata:
   labels:
     app: ingress-nginx
   name: ingress-nginx
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
   - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
