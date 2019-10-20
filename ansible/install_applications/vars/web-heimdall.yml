@@ -9,6 +9,7 @@ _heimdall_var_loader:
 heimdall:
   enabled: "{{ heimdall_enabled | default(True) }}"
 
+  namespace: "web-heimdall"
   base_image: "{{ _heimdall_var_loader.base_image }}"
 
   container:

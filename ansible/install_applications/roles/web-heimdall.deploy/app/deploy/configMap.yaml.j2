@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: heimdall-config
-  namespace: default
+  namespace: {{ heimdall.namespace }}
   labels:
     app: heimdall
     app-component: heimdall
