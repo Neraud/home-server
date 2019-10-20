@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ttrss
-  namespace: default
+  namespace: {{ ttrss.namespace }}
   labels:
     app: ttrss
     app-component: ttrss
