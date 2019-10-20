@@ -11,7 +11,7 @@ spec:
       port: metrics
   namespaceSelector:
     matchNames:
-      - monitoring
+      - {{ release_watcher.namespace }}
   selector:
     matchLabels:
       prometheus-target: release-watcher

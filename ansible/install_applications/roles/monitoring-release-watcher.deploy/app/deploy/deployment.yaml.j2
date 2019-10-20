@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: release-watcher
-  namespace: monitoring
+  namespace: {{ release_watcher.namespace }}
   labels:
     app: release-watcher
     app-component: release-watcher

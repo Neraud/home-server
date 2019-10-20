@@ -9,6 +9,8 @@ _release_watcher_var_loader:
 release_watcher:
   enabled: "{{ release_watcher_enabled | default(True) }}"
 
+  namespace: "monitoring-release-watcher"
+
   container:
     image: "{{ docker_registry.url }}/release-watcher:{{ _release_watcher_var_loader.repo.version }}-custom"
     requests_cpu: "{{ release_watcher_container_requests_cpu | default('25m') }}"
