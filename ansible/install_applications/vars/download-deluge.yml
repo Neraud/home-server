@@ -9,6 +9,7 @@ _deluge_var_loader:
 deluge:
   enabled: "{{ deluge_enabled | default(True) }}"
 
+  namespace: "download-deluge"
   base_image: "{{ _deluge_var_loader.base_image }}"
 
   container:
