@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ item.key }}
+  name: {{ application_namespace }}.{{ item.key }}
 {% if item.value.labels | default([]) | length > 0%}
   labels:
+    app_namespace: {{ application_namespace }}
 {% for label_name, label_value in item.value.labels.items() %}
     {{ label_name }}: {{ label_value }}
 {% endfor %}
@@ -24,7 +25,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ item.key }}
-  namespace: default
+  namespace: {{ application_namespace }}
 spec:
   accessModes: [ "ReadWriteMany" ]
   storageClassName: {{ kubernetes_nas_nfs_storage_class_name }}
@@ -33,6 +34,7 @@ spec:
       storage: 1M
   selector:
     matchLabels:
+      app_namespace: {{ application_namespace }}
 {% for label_name, label_value in item.value.labels.items() %}
       {{ label_name }}: {{ label_value }}
 {% endfor %}

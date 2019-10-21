@@ -11,16 +11,6 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
-- name: Create NFS persistant volumes & claims
-  k8s:
-    definition: "{{ lookup('template', 'kubernetes/storage/nas-nfs-persistant-volume.yaml.j2') }}"
-    state: present
-  loop: "{{ kubernetes_nfs_storage | dict2items | default([]) }}"
-  loop_control:
-    label: "{{ item.key }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-
 - name: Deploy Nginx Ingress namespace
   k8s:
     api_version: v1

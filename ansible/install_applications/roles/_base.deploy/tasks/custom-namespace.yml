@@ -8,6 +8,7 @@
 #  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
 #  vars:
 #    application_namespace: namespace_name
+#    create_nfs_pvc: yes|no
 
 - name: Create application namespace {{ application_namespace }}
   k8s:
@@ -56,3 +57,20 @@
     - glusterfs-service.yaml.j2
   become: yes
   become_user: "{{ kubernetes_user.name }}"
+
+# PVCs are namespaced, and need to be created in each namespace
+# PVs are not namespaced, but can't be used by multiple PVCs
+# So for each namespace that requires it, we create :
+#  - "[namespace].nfs-[volume_name]" PVs
+#  - "nfs-[volume_name]" PVCs in the namespace
+
+- name: Create NFS persistant volumes & claims
+  k8s:
+    definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/nas-nfs-persistant-volume.yaml.j2') }}"
+    state: present
+  loop: "{{ kubernetes_nfs_storage | dict2items | default([]) }}"
+  loop_control:
+    label: "{{ item.key }}"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  when: create_nfs_pvc | default('no') | bool
