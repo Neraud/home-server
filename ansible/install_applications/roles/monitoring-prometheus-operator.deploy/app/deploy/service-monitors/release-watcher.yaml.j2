@@ -4,14 +4,14 @@ metadata:
   labels:
     app: release-watcher
   name: release-watcher
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
     - interval: {{ (120 * service_monitors.interval_factor | float) | int }}s
       port: metrics
   namespaceSelector:
     matchNames:
-      - monitoring
+      - {{ release_watcher.namespace }}
   selector:
     matchLabels:
       prometheus-target: release-watcher

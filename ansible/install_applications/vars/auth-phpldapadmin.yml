@@ -9,6 +9,7 @@ _phpldapadmin_var_loader:
 phpldapadmin:
   enabled: "{{ openldap_enabled | default(True) }}"
 
+  namespace: "auth-phpldapadmin"
   base_image: "{{ _phpldapadmin_var_loader.base_image }}"
 
   container:

@@ -1,5 +1,10 @@
 ---
 
+- name: Ensure Heimdall namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ heimdall.namespace }}"
+
 - name: Ensure Heimdall image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
@@ -31,7 +36,7 @@
   delay: 10
 
 - name: Inject applications in Heimdall
-  command: kubectl exec -it heimdall-0 -- php /config/applicationsLoader.php
+  command: kubectl --namespace={{ heimdall.namespace }} exec -it heimdall-0 -- php /config/applicationsLoader.php
   register: heimdall_applications_loader
   changed_when: "'[changed]' in heimdall_applications_loader.stdout"
   become: yes

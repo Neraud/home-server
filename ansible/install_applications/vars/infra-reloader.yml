@@ -9,6 +9,7 @@ _reloader_var_loader:
 reloader:
   enabled: "{{ reloader_enabled | default(True) }}"
 
+  namespace: "infra-reloader"
   base_image: "{{ _reloader_var_loader.base_image }}"
 
   container:

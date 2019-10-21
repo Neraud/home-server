@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mailhog
-  namespace: default
+  namespace: {{ mailhog.namespace }}
   labels:
     app: mailhog
     app-component: mailhog

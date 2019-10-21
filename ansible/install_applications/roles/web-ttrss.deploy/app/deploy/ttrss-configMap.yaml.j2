@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ttrss-config
-  namespace: default
+  namespace: {{ ttrss.namespace }}
   labels:
     app: ttrss
     app-component: ttrss

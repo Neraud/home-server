@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab-prometheus
+  namespace: {{ gitlab.namespace }}
+  labels:
+    app: gitlab
+    app-component: gitlab
+    prometheus-target: gitlab
+spec:
+  ports:
+  - port: 8060
+    name: nginx-metrics
+    targetPort: nginx-metrics
+  - port: 9121
+    name: redis-metrics
+    targetPort: redis-metrics
+  - port: 9187
+    name: pg-metrics
+    targetPort: pg-metrics
+  - port: 9229
+    name: wh-metrics
+    targetPort: wh-metrics
+  - port: 80
+    name: gitlab
+    targetPort: gitlab
+  - port: 8082
+    name: sidekiq
+    targetPort: sidekiq
+  - port: 9168
+    name: gitlab-monitor
+    targetPort: gitlab-monitor
+  - port: 9236
+    name: gitaly-metrics
+    targetPort: gitaly-metrics
+  selector:
+    app: gitlab
+    app-component: gitlab

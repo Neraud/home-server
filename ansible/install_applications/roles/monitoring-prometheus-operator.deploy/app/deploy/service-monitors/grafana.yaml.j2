@@ -4,11 +4,14 @@ metadata:
   labels:
     app: grafana
   name: grafana
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
   - interval: {{ (15 * service_monitors.interval_factor | float) | int }}s
     port: http
+  namespaceSelector:
+    matchNames:
+    - {{ grafana.namespace }}
   selector:
     matchLabels:
       prometheus-target: grafana

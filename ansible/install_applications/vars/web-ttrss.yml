@@ -10,6 +10,7 @@ _ttrss_var_loader:
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
 
+  namespace: "web-ttrss"
   base_image: "{{ _ttrss_var_loader.base_image }}"
 
   container:

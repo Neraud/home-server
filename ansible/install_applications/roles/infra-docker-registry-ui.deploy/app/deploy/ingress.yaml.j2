@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: docker-registry-ui
-  namespace: default
+  namespace: {{ docker_registry_ui.namespace }}
   labels:
     app: docker-registry-ui
 spec:

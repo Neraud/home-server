@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: lemonldap
-  namespace: default
+  namespace: {{ lemonldap.namespace }}
   labels:
     app: lemonldap
     app-component: lemonldap

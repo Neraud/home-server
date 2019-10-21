@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: airsonic
+  namespace: {{ airsonic.namespace }}
+  labels:
+    app: airsonic
+    app-component: airsonic
+spec:
+  ports:
+  - port: 80
+    targetPort: 4040
+  selector:
+    app: airsonic
+    app-component: airsonic

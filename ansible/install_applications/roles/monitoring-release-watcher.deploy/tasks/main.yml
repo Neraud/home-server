@@ -1,5 +1,10 @@
 ---
 
+- name: Ensure release-watcher namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ release_watcher.namespace }}"
+
 - name: Clone release-watcher repo
   git:
     dest: "{{ release_watcher.path }}"

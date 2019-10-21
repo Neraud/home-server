@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: lemonldap-lmconf
-  namespace: default
+  namespace: {{ lemonldap.namespace }}
   labels:
     app: lemonldap
     app-component: lemonldap

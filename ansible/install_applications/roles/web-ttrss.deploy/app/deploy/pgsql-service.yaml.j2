@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ttrss-pgsql
+  namespace: {{ ttrss.namespace }}
+  labels:
+    app: ttrss
+    app-component: pgsql
+spec:
+  clusterIP: None
+  ports:
+  - port: 5432
+  selector:
+    app: ttrss
+    app-component: pgsql

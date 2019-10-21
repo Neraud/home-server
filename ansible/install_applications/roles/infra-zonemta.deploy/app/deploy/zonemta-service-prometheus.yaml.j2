@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zonemta-prometheus
+  namespace: "{{ zonemta.namespace }}"
+  labels:
+    app: zonemta
+    app-component: zonemta
+    prometheus-target: zonemta
+spec:
+  ports:
+  - port: 12080
+    name: metrics
+    targetPort: metrics
+  selector:
+    app: zonemta
+    app-component: zonemta

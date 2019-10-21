@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: mailhog
-  namespace: default
+  namespace: {{ mailhog.namespace }}
   labels:
     app: mailhog
 spec:

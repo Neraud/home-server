@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kibana
-  namespace: logging
+  namespace: {{ kibana.namespace }}
   labels:
     app: kibana
     app-component: kibana

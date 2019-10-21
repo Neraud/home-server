@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fluentd
-  namespace: logging
+  namespace: {{ fluentd.namespace }}
   labels:
     app: fluentd
     app-component: fluentd
@@ -28,7 +28,7 @@ spec:
           name: fluentd
         env:
           - name:  FLUENT_ELASTICSEARCH_HOST
-            value: "elasticsearch"
+            value: "{{ elasticsearch.servername }}"
           - name:  FLUENT_ELASTICSEARCH_PORT
             value: "9200"
           - name: FLUENT_ELASTICSEARCH_SCHEME

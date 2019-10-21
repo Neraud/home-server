@@ -9,6 +9,7 @@ _unifi_var_loader:
 unifi:
   enabled: "{{ unifi_enabled | default(True) }}"
 
+  namespace: "infra-unifi"
   base_image: "{{ _unifi_var_loader.base_image }}"
 
   container:

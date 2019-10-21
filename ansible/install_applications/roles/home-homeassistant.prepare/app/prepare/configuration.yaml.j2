@@ -47,8 +47,8 @@ recorder:
 # https://home-assistant.io/components/mqtt/
 mqtt:
   # https://home-assistant.io/docs/mqtt/broker/#run-your-own
-  broker: mosquitto.default
-  port: 8883
+  broker: {{ homeassistant.mqtt.servername }}
+  port: {{ homeassistant.mqtt.port }}
   username: !secret mqtt_username
   password: !secret mqtt_password
   certificate: /etc/ssl/cluster/ca.cert
@@ -70,7 +70,7 @@ notify:
 {% if homeassistant.gotify.enabled %}
   - name: gotify
     platform: rest
-    resource: http://gotify/message
+    resource: http://{{ homeassistant.gotify.servername }}/message
     method: POST_JSON
     headers: 
       X-Gotify-Key: !secret gotify_application_token

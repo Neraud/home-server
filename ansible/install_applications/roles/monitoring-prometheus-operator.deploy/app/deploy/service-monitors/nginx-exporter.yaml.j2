@@ -4,7 +4,7 @@ metadata:
   labels:
     app: nginx-exporter
   name: nginx-exporter
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
   - interval: {{ (15 * service_monitors.interval_factor | float) | int }}s
@@ -18,6 +18,9 @@ spec:
       sourceLabels:
       - __meta_kubernetes_pod_node_name
       targetLabel: instance
+  namespaceSelector:
+    matchNames:
+    - {{ nginx_exporter.namespace }}
   selector:
     matchLabels:
       prometheus-target: nginx-exporter

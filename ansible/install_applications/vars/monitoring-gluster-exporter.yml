@@ -2,5 +2,6 @@
 
 gluster_exporter:
   enabled: "{{ gluster_exporter_enabled | default(True) }}"
-
+  
+  namespace: "monitoring-gluster-exporter"
   port: 8090

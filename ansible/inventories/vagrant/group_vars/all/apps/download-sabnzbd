@@ -4,19 +4,3 @@ sabnzbd_context_root: /sabnzbd
 sabnzbd_user: sabnzbd
 sabnzbd_password: Passw0rd
 sabnzbd_api_key: "abcdefghijklmnopqrstuvwxyz123456"
-
-sabnzbd_nzbToMedia_config_sickbeard:
-  tv:
-    enabled: 1
-    host: sickchill.default
-    port: 80
-    api_key: "{{ sickchill_api_key }}"
-    web_root: "{{ sickchill_context_root }}"
-    ssl: 0
-  anime:
-    enabled: 1
-    host: sickchill.default
-    port: 80
-    api_key: "{{ sickchill_api_key }}"
-    web_root: "{{ sickchill_context_root }}"
-    ssl: 0

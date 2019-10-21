@@ -4,7 +4,7 @@ metadata:
   labels:
     app: kube-state-metrics
   name: kube-state-metrics
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -31,6 +31,9 @@ spec:
     tlsConfig:
       insecureSkipVerify: true
   jobLabel: k8s-app
+  namespaceSelector:
+    matchNames:
+    - {{ kube_state_metrics.namespace }}
   selector:
     matchLabels:
       prometheus-target: kube-state-metrics

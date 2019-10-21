@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mosquitto-config
-  namespace: default
+  namespace: {{ mosquitto.namespace }}
   labels:
     app: mosquitto
     app-component: mosquitto

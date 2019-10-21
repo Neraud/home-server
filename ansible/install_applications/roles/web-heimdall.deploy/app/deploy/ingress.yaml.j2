@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: heimdall
-  namespace: default
+  namespace: {{ heimdall.namespace }}
   labels:
     app: heimdall
 spec:

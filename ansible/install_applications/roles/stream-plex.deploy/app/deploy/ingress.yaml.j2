@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: plex
-  namespace: default
+  namespace: {{ plex.namespace }}
   labels:
     app: plex
 spec:

@@ -4,11 +4,14 @@ metadata:
   labels:
     app: apcups-exporter
   name: apcups-exporter
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
   - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
     port: metrics
+  namespaceSelector:
+    matchNames:
+    - {{ apcups_exporter.namespace }}
   selector:
     matchLabels:
       prometheus-target: apcups-exporter

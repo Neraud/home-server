@@ -10,6 +10,7 @@ _node_exporter_var_loader:
 node_exporter:
   enabled: "{{ node_exporter_enabled | default(True) }}"
 
+  namespace: "monitoring-node-exporter"
   base_image: "{{ _node_exporter_var_loader.base_image }}"
 
   container:

@@ -1,0 +1,17 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-frontend
+  namespace: {{ unifi.namespace }}
+  labels:
+    app: unifi
+    app-component: unifi
+spec:
+  ports:
+  # Port used for controller GUI/API as seen in a web browser
+  - port: 443
+    targetPort: 8443
+  selector:
+    app: unifi
+    app-component: unifi

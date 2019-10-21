@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: zonemta-redis
-  namespace: default
+  namespace: "{{ zonemta.namespace }}"
   labels:
     app: zonemta
     app-component: redis

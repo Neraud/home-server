@@ -10,6 +10,7 @@ _kube_state_metrics_var_loader:
 kube_state_metrics:
   enabled: "{{ kube_state_metrics_enabled | default(True) }}"
 
+  namespace: "monitoring-kube-state-metrics"
   base_image: "{{ _kube_state_metrics_var_loader.base_image }}"
 
   container:

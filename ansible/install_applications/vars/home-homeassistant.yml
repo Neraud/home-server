@@ -5,11 +5,14 @@ _homeassistant_var_loader:
   base_image:
     name: homeassistant/home-assistant
     tag: "0.99.3"
+  namespace: "home-homeassistant"
 
 homeassistant:
   enabled: "{{ homeassistant_enabled | default(True) }}"
   
+  namespace: "{{ _homeassistant_var_loader.namespace }}"
   base_image: "{{ _homeassistant_var_loader.base_image }}"
+  servername: "homeassistant.{{ _homeassistant_var_loader.namespace }}.svc.cluster.local"
 
   container:
     image: "{{ docker_registry.url }}/{{ _homeassistant_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homeassistant_var_loader.base_image.tag }}-custom"
@@ -19,6 +22,8 @@ homeassistant:
     limits_memory: "{{ homeassistant_homeassistant_container_limits_memory | default('512Mi') }}"
 
   mqtt:
+    servername: "{{ mosquitto.servername }}"
+    port: 8883
     user: "{{ homeassistant_mqtt_user | default('homeassistant') }}"
     password: "{{ homeassistant_mqtt_password | default('clear_password') }}"
 
@@ -39,6 +44,7 @@ homeassistant:
   gotify:
     enabled: "{{ gotify.homeassistant.enabled | default(False) }}"
     username: "{{ gotify.homeassistant.username | default('user') }}"
+    servername: "{{ gotify.servername }}"
     password: "{{ gotify.homeassistant.password | default('clear_password') }}"
     application_name: "{{ gotify.homeassistant.application_name | default('HomeAssistant') }}"
 

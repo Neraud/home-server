@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: elasticsearch-exporter
-  namespace: logging
+  namespace: {{ elasticsearch.namespace }}
   labels:
     app: elasticsearch
     app-component: elastic-exporter

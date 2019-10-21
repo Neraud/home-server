@@ -6,7 +6,7 @@ metadata:
     app-component: alertmanager
     alertmanager: main
   name: main
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   baseImage: "{{ alertmanager.base_image.repo }}/{{ alertmanager.base_image.name }}"
   version: "{{ alertmanager.base_image.tag }}"

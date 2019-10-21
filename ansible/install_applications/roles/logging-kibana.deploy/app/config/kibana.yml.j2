@@ -31,7 +31,7 @@ server.rewriteBasePath: true
 server.name: kibana
 
 # The URLs of the Elasticsearch instances to use for all your queries.
-elasticsearch.hosts: [ "https://elasticsearch:9200" ]
+elasticsearch.hosts: [ "https://{{ elasticsearch.servername }}:9200" ]
 
 # When this setting's value is true Kibana uses the hostname specified in the server.host
 # setting. When the value of this setting is false, Kibana uses the hostname of the host

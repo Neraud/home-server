@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: deluge
-  namespace: default
+  namespace: {{ deluge.namespace }}
   labels:
     app: deluge
     app-component: deluge

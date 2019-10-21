@@ -3,7 +3,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: gluster-exporter
-  namespace: monitoring
+  namespace: {{ gluster_exporter.namespace }}
   labels:
     app: gluster-exporter
     prometheus-target: gluster-exporter

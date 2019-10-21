@@ -1,0 +1,13 @@
+
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: {{ kubernetes_glusterfs_endpoint }}
+  namespace: {{ application_namespace }}
+subsets:
+{% for glusterfs_node in groups['glusterfs_servers'] | map('extract', hostvars, ['ansible_host']) %}
+- addresses:
+  - ip: {{ glusterfs_node }}
+  ports:
+  - port: 1
+{% endfor %}

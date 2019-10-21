@@ -5,7 +5,7 @@ metadata:
     app: node-exporter
     app-component: node-exporter
   name: node-exporter
-  namespace: monitoring
+  namespace: {{ node_exporter.namespace }}
 spec:
   selector:
     matchLabels:

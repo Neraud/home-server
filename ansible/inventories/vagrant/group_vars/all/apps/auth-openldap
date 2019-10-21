@@ -1,6 +1,6 @@
 ---
 
-openldap_ldap_servername: openldap.default
+openldap_ldap_servername: openldap.auth-openldap.svc.cluster.local
 openldap_ldap_organisation: "{{ domain_name }}"
 openldap_ldap_domain: "{{ web_base_domain }}"
 openldap_ldap_basedn: "dc=k8stest,dc=com"

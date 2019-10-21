@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: plex
-  namespace: default
+  namespace: {{ plex.namespace }}
   labels:
     app: plex
     app-component: plex

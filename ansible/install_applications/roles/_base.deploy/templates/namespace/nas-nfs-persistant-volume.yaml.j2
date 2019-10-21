@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ application_namespace }}.{{ item.key }}
+{% if item.value.labels | default([]) | length > 0%}
+  labels:
+    app_namespace: {{ application_namespace }}
+{% for label_name, label_value in item.value.labels.items() %}
+    {{ label_name }}: {{ label_value }}
+{% endfor %}
+{% endif %}
+spec:
+  capacity:
+    storage: 1M
+  accessModes: [ "ReadWriteMany" ]
+  persistentVolumeReclaimPolicy: {{ item.value.reclaim_policy }}
+  storageClassName: {{ kubernetes_nas_nfs_storage_class_name }}
+  nfs:
+    server: {{ item.value.nfs_server }}
+    path: {{ item.value.nfs_path }}
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ item.key }}
+  namespace: {{ application_namespace }}
+spec:
+  accessModes: [ "ReadWriteMany" ]
+  storageClassName: {{ kubernetes_nas_nfs_storage_class_name }}
+  resources:
+    requests:
+      storage: 1M
+  selector:
+    matchLabels:
+      app_namespace: {{ application_namespace }}
+{% for label_name, label_value in item.value.labels.items() %}
+      {{ label_name }}: {{ label_value }}
+{% endfor %}

@@ -3,7 +3,7 @@ kind: Endpoints
 apiVersion: v1
 metadata:
   name: apcupsd
-  namespace: monitoring
+  namespace: monitoring-apcups-exporter
 subsets:
 {% for apcups_node in groups['apcups'] | map('extract', hostvars, ['ansible_host']) %}
 - addresses:

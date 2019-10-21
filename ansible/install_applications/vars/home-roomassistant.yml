@@ -9,6 +9,7 @@ _roomassistant_var_loader:
 roomassistant:
   enabled: "{{ roomassistant_enabled | default(True) }}"
 
+  namespace: "home-roomassistant"
   base_image: "{{ _roomassistant_var_loader.base_image }}"
 
   container:

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: fluent-bit
-  namespace: logging
+  namespace: {{ fluentbit.namespace }}
   labels:
     app: fluent-bit
     app-component: fluent-bit
@@ -37,7 +37,7 @@ spec:
             name: metrics
         env:
         - name: FLUENT_FLUENTD_HOST
-          value: "fluentd"
+          value: "{{ fluentd.servername }}"
         - name: FLUENT_FLUENTD_PORT
           value: "24224"
         volumeMounts:

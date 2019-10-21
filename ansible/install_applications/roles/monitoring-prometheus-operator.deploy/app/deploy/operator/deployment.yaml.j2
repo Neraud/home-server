@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: prometheus-operator
     app.kubernetes.io/version: {{ prometheus_operator.base_image.tag }}
   name: prometheus-operator
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
 spec:
   replicas: 1
   selector:

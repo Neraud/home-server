@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: airsonic
-  namespace: default
+  namespace: {{ airsonic.namespace }}
   labels:
     app: airsonic
 spec:

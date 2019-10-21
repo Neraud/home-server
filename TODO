@@ -1,8 +1,5 @@
 
-* Use dedicated kubernetes namespaces
-    * 1 per app or 1 per feature group ?
-
-* Switch CNI and implement NetworkPolicies
+* Implement NetworkPolicies
 
 * Configure kubernetes Liveness, Readiness and Startup Probes
     * See https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/

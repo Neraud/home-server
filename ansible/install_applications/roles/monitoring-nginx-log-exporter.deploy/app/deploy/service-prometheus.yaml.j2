@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-log-exporter-prometheus
+  namespace: {{ nginx_log_exporter.namespace }}
+  labels:
+    app: nginx-log-exporter
+    app-component: nginx-log-exporter
+    prometheus-target: nginx-log-exporter
+spec:
+  ports:
+    - port: 4040
+      name: metrics
+      targetPort: metrics
+  selector:
+    app: nginx-log-exporter
+    app-component: nginx-log-exporter

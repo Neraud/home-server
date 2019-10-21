@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: gitlab
-  namespace: default
+  namespace: {{ gitlab.namespace }}
   labels:
     app: gitlab
     app-component: gitlab

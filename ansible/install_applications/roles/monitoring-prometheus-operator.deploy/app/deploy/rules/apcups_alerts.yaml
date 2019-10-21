@@ -2,7 +2,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: apcups-alerts
-  namespace: monitoring
   labels:
     app: prometheus
     app-component: prometheus

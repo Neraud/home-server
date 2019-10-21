@@ -1,0 +1,9 @@
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ kubernetes_glusterfs_endpoint }}
+  namespace: {{ application_namespace }}
+spec:
+  ports:
+  - port: 1

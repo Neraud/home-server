@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mosquitto
-  namespace: default
+  namespace: {{ mosquitto.namespace }}
   labels:
     app: mosquitto
     app-component: mosquitto

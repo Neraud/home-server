@@ -1,5 +1,10 @@
 ---
 
+- name: Ensure OpenLDAP namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ openldap.namespace }}"
+
 - name: Ensure OpenLDAP image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
@@ -42,7 +47,7 @@
     api_version: v1
     kind: Service
     name: openldap
-    namespace: default
+    namespace: "{{ openldap.namespace }}"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   register: openldap_service

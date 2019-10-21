@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: docker-registry-ui
-  namespace: default
+  namespace: {{ docker_registry_ui.namespace }}
   labels:
     app: docker-registry-ui
     app-component: docker-registry-ui

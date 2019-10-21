@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: deluge-config
-  namespace: default
+  namespace: {{ deluge.namespace }}
   labels:
     app: deluge
     app-component: deluge

@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ttrss
-  namespace: default
+  namespace: {{ ttrss.namespace }}
   labels:
     app: ttrss
 spec:

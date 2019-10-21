@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: prometheus
-  namespace: monitoring
+  namespace: {{ prometheus.namespace }}
   labels:
     app: prometheus
   annotations:

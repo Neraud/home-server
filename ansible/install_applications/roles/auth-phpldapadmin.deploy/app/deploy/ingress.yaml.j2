@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: phpldapadmin
-  namespace: default
+  namespace: {{ phpldapadmin.namespace }}
   labels:
     app: phpldapadmin
 spec:

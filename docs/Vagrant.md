@@ -103,7 +103,7 @@ You can do so using a terminal (assuming you start at the project root) :
 [your_account@your_computer$] cd vagrant
 [your_account@your_computer$] vagrant ssh master
 [vagrant@master$] sudo su - user
-[user@master$] kubectl --namespace=kubernetes-dashboard describe secrets $(kubectl --namespace=kubernetes-dashboard get secrets | awk '/dashboard-admin-user-token/ { print $1 }')
+[user@master$] kubectl --namespace=infra-kubernetes-dashboard describe secrets $(kubectl --namespace=infra-kubernetes-dashboard get secrets | awk '/dashboard-admin-user-token/ { print $1 }')
 ```
 
 ### Docker Registry UI
@@ -123,7 +123,7 @@ This `ca.crt` is available in the Kubernetes secret `cluster-ca`
 To test the LDAP connection, you can use :
 
 ```shell
-[user@master$] kubectl run test-ldap -it --rm --image=particlekit/ldap-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=auth-openldap run test-ldap -it --rm --image=particlekit/ldap-client --restart=Never --overrides='
 {
     "spec": {
       "containers": [
@@ -131,7 +131,7 @@ To test the LDAP connection, you can use :
           "name": "test-ldap",
           "image": "particlekit/ldap-client",
           "args": [
-            "ldapsearch", "-x", "-H", "ldaps://openldap.default", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
+            "ldapsearch", "-x", "-H", "ldaps://openldap.auth-openldap.svc.cluster.local", "-b", "dc=k8stest,dc=com", "-D", "cn=admin,dc=k8stest,dc=com", "-w", "Passw0rd"
           ],
           "stdin": true,
           "stdinOnce": true,
@@ -176,11 +176,11 @@ You can easily test ZoneMTA by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks libnet-ssleay-perl libnet-dns-perl
 
-[user@master$] echo "This is the message body" | swaks \
+[user@master$] echo "This is the message body sent to ZoneMTA" | swaks \
     --to "someone@example.com" --from "you@example.com" \
     --auth --auth-user=smtp --auth-password=Passw0rd \
     -tls \
-    --server $(kubectl get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
+    --server $(kubectl --namespace=infra-zonemta get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
 ```
 
 ### MailHog
@@ -194,7 +194,9 @@ You can easily test MailHog by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks
 
-[user@master$] echo "This is the message body" | swaks --to "someone@example.com" --from "you@example.com" --server $(kubectl get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
+[user@master$] echo "This is the message body sent to MailHog" | swaks \
+    --to "someone@example.com" --from "you@example.com" \
+    --server $(kubectl --namespace=infra-mailhog get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
 ```
 
 ### Gotify
@@ -286,15 +288,15 @@ A Fake sensor is created in HomeAssistant, based on the topic `test/test_sensor`
 To push values on this sensor :
 
 ```shell
-[user@master$] kubectl run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=home-mosquitto run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
 {
     "spec": {
       "containers": [
         {
-          "name": "test-ldap",
+          "name": "test-mqtt-pub",
           "image": "aksakalli/mqtt-client",
           "args": [
-            "pub", "-h", "mosquitto.default", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "test/test_sensor", "-m", "Mock Value"
+            "pub", "-h", "mosquitto.home-mosquitto.svc.cluster.local", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "test/test_sensor", "-m", "Mock Value"
           ],
           "stdin": true,
           "stdinOnce": true,
@@ -316,15 +318,15 @@ To push values on this sensor :
 To debug all messages sent via Mosquitto :
 
 ```shell
-[user@master$] kubectl run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=home-mosquitto run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
 {
     "spec": {
       "containers": [
         {
-          "name": "test-ldap",
+          "name": "test-mqtt-sub",
           "image": "aksakalli/mqtt-client",
           "args": [
-            "sub", "-h", "mosquitto.default", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "#"
+            "sub", "-h", "mosquitto.home-mosquitto.svc.cluster.local", "-p", "8883", "--cafile", "/certs/ca.crt", "-u", "user", "-P", "Passw0rd", "-t", "#"
           ],
           "stdin": true,
           "stdinOnce": true,
@@ -405,7 +407,7 @@ Rule added (v6)
 
 root@master:~# su - user
 
-user@master:~$ kubectl port-forward plex-0 32400:32400 --address 0.0.0.0
+user@master:~$ kubectl --namespace=stream-plex port-forward plex-0 32400:32400 --address 0.0.0.0
 Forwarding from 0.0.0.0:32400 -> 32400
 ```
 
