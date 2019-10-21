@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: sickchill
-  namespace: default
+  namespace: {{ sickchill.namespace }}
 spec:
   tls:
     - hosts:

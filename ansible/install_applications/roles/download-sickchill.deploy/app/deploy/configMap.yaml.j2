@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sickchill-config
-  namespace: default
+  namespace: {{ sickchill.namespace }}
   labels:
     app: sickchill
     app-component: sickchill
