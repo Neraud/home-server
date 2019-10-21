@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: sabnzbd
-  namespace: default
+  namespace: {{ sabnzbd.namespace }}
 spec:
   tls:
     - hosts:

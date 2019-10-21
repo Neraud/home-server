@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: sabnzbd
-  namespace: default
+  namespace: {{ sabnzbd.namespace }}
   labels:
     app: sabnzbd
     app-component: sabnzbd

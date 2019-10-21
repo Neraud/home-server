@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sabnzbd-config
-  namespace: default
+  namespace: {{ sabnzbd.namespace }}
   labels:
     app: sabnzbd
     app-component: sabnzbd
