@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: airsonic-config
-  namespace: default
+  namespace: {{ airsonic.namespace }}
   labels:
     app: airsonic
     app-component: airsonic

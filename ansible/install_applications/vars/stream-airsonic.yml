@@ -9,6 +9,7 @@ _airsonic_var_loader:
 airsonic:
   enabled: "{{ airsonic_enabled | default(True) }}"
 
+  namespace: "stream-airsonic"
   base_image: "{{ _airsonic_var_loader.base_image }}"
 
   container:

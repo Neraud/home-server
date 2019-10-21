@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: airsonic
-  namespace: default
+  namespace: {{ airsonic.namespace }}
   labels:
     app: airsonic
     app-component: airsonic
