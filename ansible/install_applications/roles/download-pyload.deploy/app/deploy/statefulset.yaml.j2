@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: pyload
-  namespace: default
+  namespace: {{ pyload.namespace }}
   labels:
     app: pyload
     app-component: pyload
