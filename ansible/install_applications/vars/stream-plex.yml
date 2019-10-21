@@ -9,6 +9,7 @@ _plex_var_loader:
 plex:
   enabled: "{{ plex_enabled | default(True) }}"
 
+  namespace: "stream-plex"
   base_image: "{{ _plex_var_loader.base_image }}"
 
   container:

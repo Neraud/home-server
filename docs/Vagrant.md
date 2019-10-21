@@ -407,7 +407,7 @@ Rule added (v6)
 
 root@master:~# su - user
 
-user@master:~$ kubectl port-forward plex-0 32400:32400 --address 0.0.0.0
+user@master:~$ kubectl --namespace=stream-plex port-forward plex-0 32400:32400 --address 0.0.0.0
 Forwarding from 0.0.0.0:32400 -> 32400
 ```
 
