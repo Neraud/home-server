@@ -74,3 +74,10 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   when: create_nfs_pvc | default('no') | bool
+
+- name: Create default deny-all-ingress NetworkPolicy
+  k8s:
+    definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/deny-all-ingress-networkPolicy.yaml.j2') }}"
+    state: present
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
