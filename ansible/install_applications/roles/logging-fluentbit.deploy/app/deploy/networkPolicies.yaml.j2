@@ -1,0 +1,27 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-fluentbit
+  namespace: {{ fluentbit.namespace }}
+  labels:
+    app: fluent-bit
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: fluent-bit
+      app-component: fluent-bit
+
+  ingress:
+    # Allow from prometheus
+    - ports:
+        - port: metrics
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s
