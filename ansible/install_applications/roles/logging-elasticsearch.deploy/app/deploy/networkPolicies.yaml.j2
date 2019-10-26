@@ -1,0 +1,89 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-elasticsearch
+  namespace: {{ elasticsearch.namespace }}
+  labels:
+    app: elasticsearch
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: elasticsearch
+      app-component: elasticsearch
+
+  ingress:
+    - ports:
+        - port: rest
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+        # Allow from the prometheus_exporter
+        - podSelector:
+            matchLabels:
+              app: elasticsearch
+              app-component: elastic-exporter
+
+        # Allow from kibana
+        - namespaceSelector:
+            matchLabels:
+              name: {{ kibana.namespace }}
+          podSelector:
+            matchLabels:
+              app: kibana
+              app-component: kibana
+
+        # Allow from fluentd
+        - namespaceSelector:
+            matchLabels:
+              name: {{ fluentd.namespace }}
+          podSelector:
+            matchLabels:
+              app: fluentd
+              app-component: fluentd
+
+    # Allow from elasticsearch nodes
+    - ports:
+        - port: inter-node
+      from:
+        - podSelector:
+            matchLabels:
+              app: elasticsearch
+              app-component: elasticsearch
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-elasticsearch-exporter
+  namespace: {{ elasticsearch.namespace }}
+  labels:
+    app: elasticsearch
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: elasticsearch
+      app-component: elastic-exporter
+
+  ingress:
+    # Allow metrics from Prometheus
+    - ports:
+        - port: metrics
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s
