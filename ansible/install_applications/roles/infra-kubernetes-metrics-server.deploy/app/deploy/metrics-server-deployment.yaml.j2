@@ -29,6 +29,9 @@ spec:
         # See https://github.com/kubernetes/kubeadm/issues/1223
         args:
         - --kubelet-insecure-tls=true
+        ports:
+        - containerPort: 443
+          name: metrics
         resources:
           requests:
             cpu: "{{ kubernetes_metrics_server.container.requests_cpu }}"
