@@ -29,3 +29,15 @@ spec:
 #        matchLabels:
 #          app: docker-registry-ui
 #          app-component: docker-registry-ui
+
+    # Allow debug from prometheus
+    - ports:
+        - port: debug
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s
