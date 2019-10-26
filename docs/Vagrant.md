@@ -176,11 +176,12 @@ You can easily test ZoneMTA by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks libnet-ssleay-perl libnet-dns-perl
 
-[user@master$] echo "This is the message body sent to ZoneMTA" | swaks \
+[user@master$] swaks \
     --to "someone@example.com" --from "you@example.com" \
     --auth --auth-user=smtp --auth-password=Passw0rd \
     -tls \
-    --server $(kubectl --namespace=infra-zonemta get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
+    --server $(kubectl --namespace=infra-zonemta get service zonemta -o=jsonpath='{.spec.clusterIP}'):587 \
+    --body "This is the message body sent to ZoneMTA" 
 ```
 
 ### MailHog
@@ -213,9 +214,10 @@ spec:
       from: []
 EOF
 
-[user@master$] echo "This is the message body sent to MailHog" | swaks \
+[user@master$] swaks \
     --to "someone@example.com" --from "you@example.com" \
-    --server $(kubectl --namespace=infra-mailhog get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
+    --server $(kubectl --namespace=infra-mailhog get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025 \
+    --body "This is the message body sent to MailHog"
 
 [user@master$] kubectl --namespace=infra-mailhog delete networkpolicies allow-to-test-mailhog
 ```
