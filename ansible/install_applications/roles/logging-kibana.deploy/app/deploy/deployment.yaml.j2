@@ -32,7 +32,8 @@ spec:
         - name: NODE_OPTIONS
           value: "--max-old-space-size={{ kibana.nodejs_max_memory }}"
         ports:
-        - containerPort: 5601
+        - name: http
+          containerPort: 5601
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

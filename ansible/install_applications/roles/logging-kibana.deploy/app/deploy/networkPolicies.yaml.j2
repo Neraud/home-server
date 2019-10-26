@@ -1,0 +1,26 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-kibana
+  namespace: {{ kibana.namespace }}
+  labels:
+    app: kibana
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: kibana
+      app-component: kibana
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
