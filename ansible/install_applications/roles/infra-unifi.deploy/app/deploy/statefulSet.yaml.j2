@@ -23,25 +23,29 @@ spec:
       - image: "{{ unifi.container.image }}"
         name: unifi
         ports:
-        #- containerPort: 8081
-
         # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
-
-        - containerPort: 3478 # Port used for STUN.
+        - name: stun
+          containerPort: 3478 # Port used for STUN.
           protocol: UDP
-        - containerPort: 8080 # Port used for device and controller communication.
+        - name: http-crtl
+          containerPort: 8080 # Port used for device and controller communication.
           protocol: TCP
-        - containerPort: 8443 # Port used for controller GUI/API as seen in a web browser
+        - name: https-crtl
+          containerPort: 8443 # Port used for controller GUI/API as seen in a web browser
           protocol: TCP
-        - containerPort: 8880 # Port used for HTTP portal redirection.
+        - name: http-portal
+          containerPort: 8880 # Port used for HTTP portal redirection.
           protocol: TCP
-        - containerPort: 8843 # Port used for HTTPS portal redirection.
+        - name: https-portal
+          containerPort: 8843 # Port used for HTTPS portal redirection.
           protocol: TCP
-        - containerPort: 6789 # Port used for UniFi mobile speed test.
+        - name: speed-test
+          containerPort: 6789 # Port used for UniFi mobile speed test.
           protocol: TCP
         #- containerPort: 27117 # 	Port used for local-bound database communication.
         #  protocol: TCP
-        - containerPort: 10001 # 	Port used for AP discovery
+        - name: ap-discovery
+          containerPort: 10001 # 	Port used for AP discovery
           protocol: UDP
         #- containerPort: 1900 # Port used for "Make controller discoverable on L2 network" in controller settings.
         #  protocol: UDP
