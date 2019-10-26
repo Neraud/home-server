@@ -1,0 +1,86 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-mongodb
+  namespace: {{ zonemta.namespace }}
+  labels:
+    app: zonemta
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: zonemta
+      app-component: mongo
+
+  ingress:
+    # Allow from zonemta
+    - ports:
+        - port: mongo
+      from:
+        - podSelector:
+            matchLabels:
+              app: zonemta
+              app-component: zonemta
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-redis
+  namespace: {{ zonemta.namespace }}
+  labels:
+    app: zonemta
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: zonemta
+      app-component: redis
+
+  ingress:
+    # Allow from zonemta
+    - ports:
+        - port: redis
+      from:
+        - podSelector:
+            matchLabels:
+              app: zonemta
+              app-component: zonemta
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-zonemta
+  namespace: {{ zonemta.namespace }}
+  labels:
+    app: zonemta
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: zonemta
+      app-component: zonemta
+
+  ingress:
+    # Allow smtp from all
+    - ports:
+        - port: smtp
+      from: []
+    
+    # Allow metrics from Prometheus
+    - ports:
+        - port: metrics
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s
