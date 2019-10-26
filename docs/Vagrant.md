@@ -194,9 +194,30 @@ You can easily test MailHog by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks
 
+# Allow all smtp ingress tp mailhog
+[user@master$] cat <<EOF | kubectl apply -f -
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-test-mailhog
+  namespace: infra-mailhog
+spec:
+  podSelector:
+    matchLabels:
+      app: mailhog
+      app-component: mailhog
+  ingress:
+    # Allow smtp from everywhere
+    - ports:
+        - port: smtp
+      from: []
+EOF
+
 [user@master$] echo "This is the message body sent to MailHog" | swaks \
     --to "someone@example.com" --from "you@example.com" \
     --server $(kubectl --namespace=infra-mailhog get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
+
+[user@master$] kubectl --namespace=infra-mailhog delete networkpolicies allow-to-test-mailhog
 ```
 
 ### Gotify
