@@ -1,0 +1,51 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-ttrss-pgsql
+  namespace: {{ ttrss.namespace }}
+  labels:
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: ttrss
+      app-component: pgsql
+
+  ingress:
+    # Allow from ttrss
+    - ports:
+        - port: pgsql
+      from:
+        - podSelector:
+            matchLabels:
+              app: ttrss
+              app-component: ttrss
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-ttrss-ttrss
+  namespace: {{ ttrss.namespace }}
+  labels:
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: ttrss
+      app-component: ttrss
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: ttrss
+      from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
