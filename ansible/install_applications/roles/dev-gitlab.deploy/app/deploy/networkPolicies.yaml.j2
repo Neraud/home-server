@@ -1,0 +1,46 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-gitlab
+  namespace: {{ gitlab.namespace }}
+  labels:
+    app: gitlab
+    app-component: gitlab
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: gitlab
+      app-component: gitlab
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: gitlab
+      from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow from prometheus
+    - ports:
+      - port: nginx-metrics
+      - port: redis-metrics
+      - port: pg-metrics
+      - port: wh-metrics
+      - port: gitlab
+      - port: sidekiq
+      - port: gitlab-monitor
+      - port: gitaly-metrics
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s
