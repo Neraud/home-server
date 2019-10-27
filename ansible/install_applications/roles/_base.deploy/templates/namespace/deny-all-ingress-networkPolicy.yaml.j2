@@ -1,0 +1,13 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: deny-all-ingress
+  namespace: {{ application_namespace }}
+spec:
+  types: [Ingress]
+
+  # Match all pods in the namespace
+  podSelector: {}
+
+  # Deny all ingress
+  ingress: []

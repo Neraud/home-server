@@ -34,6 +34,8 @@ spec:
         ports:
         - containerPort: 443
           name: docker-registry
+        - containerPort: 5001
+          name: debug
         resources:
           requests:
             cpu: "{{ docker_registry.container.requests_cpu }}"

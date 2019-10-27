@@ -1,0 +1,28 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-kube-state-metrics
+  namespace: {{ kube_state_metrics.namespace }}
+  labels:
+      app: kube-state-metrics
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: kube-state-metrics
+      app-component: kube-state-metrics
+
+  ingress:
+    # Allow from prometheus
+    - ports:
+        - port: https-main
+        - port: https-self
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s

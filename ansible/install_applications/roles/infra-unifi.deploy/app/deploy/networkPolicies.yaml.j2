@@ -1,0 +1,37 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-unifi
+  namespace: {{ unifi.namespace }}
+  labels:
+    app: unifi
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: unifi
+      app-component: unifi
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: https
+      from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow private ports from everywhere
+    - ports:
+        - port: stun
+        - port: http-crtl
+        - port: https-crtl
+        - port: http-portal
+        - port: https-portal
+        - port: speed-test
+        - port: ap-discovery
+      from: []

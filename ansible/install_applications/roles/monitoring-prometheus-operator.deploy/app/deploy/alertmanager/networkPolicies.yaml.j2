@@ -1,0 +1,36 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-alertmanager-main
+  namespace: {{ prometheus.namespace }}
+  labels:
+    app: alertmanager
+    alertmanager: main
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: alertmanager
+      alertmanager: main
+
+  ingress:
+    - ports:
+        - port: web
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+        # Allow from prometheus
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s

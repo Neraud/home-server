@@ -1,0 +1,43 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-docker-registry
+  namespace: {{ docker_registry.namespace }}
+  labels:
+    app: docker-registry
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: docker-registry
+      app-component: registry
+
+  ingress:
+    # Allow from everywhere
+    - ports:
+        - port: docker-registry
+      from: []
+
+# We need to docker pull/push from the kubernetes nodes, so we can't limit the access from docker registry
+# TODO find a way to identify Nodes ?
+#    from:
+#    - namespaceSelector:
+#        matchLabels:
+#          name: {{ docker_registry_ui.namespace }}
+#      podSelector:
+#        matchLabels:
+#          app: docker-registry-ui
+#          app-component: docker-registry-ui
+
+    # Allow debug from prometheus
+    - ports:
+        - port: debug
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s

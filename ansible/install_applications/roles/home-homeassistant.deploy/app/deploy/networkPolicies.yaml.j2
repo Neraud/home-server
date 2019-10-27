@@ -1,0 +1,64 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-homeassistant
+  namespace: {{ homeassistant.namespace }}
+  labels:
+    app: homeassistant
+    app-component: homeassistant
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: homeassistant
+      app-component: homeassistant
+
+  ingress:
+    - ports:
+        - port: homeassistant
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+        # Allow from nodered
+        - namespaceSelector:
+            matchLabels:
+              name: {{ nodered.namespace }}
+          podSelector:
+            matchLabels:
+              app: nodered
+              app-component: nodered
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-mysql
+  namespace: {{ homeassistant.namespace }}
+  labels:
+    app: homeassistant
+    app-component: mysql
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: homeassistant
+    app-component: mysql
+
+  ingress:
+    # Allow from homeassistant
+    - ports:
+        - port: mysql
+      from:
+        - podSelector:
+            matchLabels:
+              app: homeassistant
+              app-component: homeassistant

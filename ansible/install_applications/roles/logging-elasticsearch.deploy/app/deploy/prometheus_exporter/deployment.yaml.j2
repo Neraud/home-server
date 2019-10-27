@@ -31,7 +31,7 @@ spec:
         image: "{{ elasticsearch_exporter.container.image }}"
         env:
         - name: "ES_URI"
-          value: "https://{{ elasticsearch.exporter.user }}:{{ elasticsearch.exporter.password }}@elasticsearch:9200"
+          value: "https://{{ elasticsearch.exporter.user }}:{{ elasticsearch.exporter.password }}@{{ elasticsearch.servername }}:9200"
         - name: "ES_ALL"
           value: "true"
         - name: "ES_SSL_SKIP_VERIFY"

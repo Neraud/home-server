@@ -26,7 +26,8 @@ spec:
       - image: "{{ phpldapadmin.container.image }}"
         name: phpldapadmin
         ports:
-          - containerPort: 80
+          - name: http
+            containerPort: 80
         resources:
           requests:
             cpu: "{{ phpldapadmin.container.requests_cpu }}"

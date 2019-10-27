@@ -1,0 +1,26 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-heimdall
+  namespace: {{ heimdall.namespace }}
+  labels:
+    app: heimdall
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: heimdall
+      app-component: heimdall
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx

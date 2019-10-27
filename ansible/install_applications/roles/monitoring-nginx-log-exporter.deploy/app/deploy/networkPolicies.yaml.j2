@@ -1,0 +1,27 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-nginx-log-exporter
+  namespace: {{ nginx_log_exporter.namespace }}
+  labels:
+    app: nginx-log-exporter
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: nginx-log-exporter
+      app-component: nginx-log-exporter
+
+  ingress:
+    # Allow from prometheus
+    - ports:
+        - port: metrics
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s

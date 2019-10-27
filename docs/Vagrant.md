@@ -176,11 +176,12 @@ You can easily test ZoneMTA by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks libnet-ssleay-perl libnet-dns-perl
 
-[user@master$] echo "This is the message body sent to ZoneMTA" | swaks \
+[user@master$] swaks \
     --to "someone@example.com" --from "you@example.com" \
     --auth --auth-user=smtp --auth-password=Passw0rd \
     -tls \
-    --server $(kubectl --namespace=infra-zonemta get service zonemta -o=jsonpath='{.spec.clusterIP}'):587
+    --server $(kubectl --namespace=infra-zonemta get service zonemta -o=jsonpath='{.spec.clusterIP}'):587 \
+    --body "This is the message body sent to ZoneMTA" 
 ```
 
 ### MailHog
@@ -194,9 +195,31 @@ You can easily test MailHog by sending a email via the command line :
 ```shell
 [root@master$] apt-get -q -y install swaks
 
-[user@master$] echo "This is the message body sent to MailHog" | swaks \
+# Allow all smtp ingress tp mailhog
+[user@master$] cat <<EOF | kubectl apply -f -
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-test-mailhog
+  namespace: infra-mailhog
+spec:
+  podSelector:
+    matchLabels:
+      app: mailhog
+      app-component: mailhog
+  ingress:
+    # Allow smtp from everywhere
+    - ports:
+        - port: smtp
+      from: []
+EOF
+
+[user@master$] swaks \
     --to "someone@example.com" --from "you@example.com" \
-    --server $(kubectl --namespace=infra-mailhog get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025
+    --server $(kubectl --namespace=infra-mailhog get service mailhog -o=jsonpath='{.spec.clusterIP}'):1025 \
+    --body "This is the message body sent to MailHog"
+
+[user@master$] kubectl --namespace=infra-mailhog delete networkpolicies allow-to-test-mailhog
 ```
 
 ### Gotify
@@ -288,7 +311,10 @@ A Fake sensor is created in HomeAssistant, based on the topic `test/test_sensor`
 To push values on this sensor :
 
 ```shell
-[user@master$] kubectl --namespace=home-mosquitto run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=home-mosquitto \
+  run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never \
+  --labels="app=mosquitto,app-component=test" \
+  --overrides='
 {
     "spec": {
       "containers": [
@@ -318,7 +344,10 @@ To push values on this sensor :
 To debug all messages sent via Mosquitto :
 
 ```shell
-[user@master$] kubectl --namespace=home-mosquitto run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=home-mosquitto \
+  run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never \
+  --labels="app=mosquitto,app-component=test" \
+  --overrides='
 {
     "spec": {
       "containers": [

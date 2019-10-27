@@ -10,7 +10,8 @@ metadata:
 spec:
   ports:
   # Port used for controller GUI/API as seen in a web browser
-  - port: 443
+  - name: https-crtl
+    port: 443
     targetPort: 8443
   selector:
     app: unifi

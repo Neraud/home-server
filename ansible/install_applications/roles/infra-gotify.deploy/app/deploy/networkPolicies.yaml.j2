@@ -1,0 +1,35 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-gotify
+  namespace: {{ gotify.namespace }}
+  labels:
+    app: gotify
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: gotify
+      app-component: gotify
+
+  ingress:
+    - ports:
+        - port: gotify
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+    
+        # Allow from homeassistant
+        - namespaceSelector:
+            matchLabels:
+              name: {{ homeassistant.namespace }}
+          podSelector:
+            matchLabels:
+              app: homeassistant
+              app-component: homeassistant

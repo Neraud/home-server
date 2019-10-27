@@ -1,0 +1,28 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-node-exporter
+  namespace: {{ node_exporter.namespace }}
+  labels:
+    app: node-exporter
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: node-exporter
+      app-component: node-exporter
+
+#  # node-exporter runs with `hostNetwork: true`, so NetworkPolicies don't apply
+#  ingress:
+#    # Allow from prometheus
+#    - ports:
+#        - port: https
+#      from:
+#        - namespaceSelector:
+#            matchLabels:
+#              name: {{ prometheus.namespace }}
+#          podSelector:
+#            matchLabels:
+#              app: prometheus
+#              prometheus: k8s
