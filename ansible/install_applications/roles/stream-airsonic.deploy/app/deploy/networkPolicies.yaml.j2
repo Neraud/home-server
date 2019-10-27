@@ -1,0 +1,27 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-airsonic
+  namespace: {{ airsonic.namespace }}
+  labels:
+    app: airsonic
+    app-component: airsonic
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: airsonic
+      app-component: airsonic
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: airsonic
+      from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
