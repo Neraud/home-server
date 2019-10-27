@@ -17,6 +17,7 @@ spec:
     # Allow from prometheus
     - ports:
         - port: https-main
+        - port: https-self
       from:
         - namespaceSelector:
             matchLabels:
