@@ -1,0 +1,52 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-mosquitto
+  namespace: {{ mosquitto.namespace }}
+  labels:
+    app: mosquitto
+    app-component: mosquitto
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app: mosquitto
+      app-component: mosquitto
+
+  ingress:
+    - ports:
+        - port: mqtt
+        - port: mqtts
+      from:
+        # Allow from test pods
+        - podSelector:
+            matchLabels:
+              app: mosquitto
+              app-component: test
+
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+        
+        # Allow from homeassistant
+        - namespaceSelector:
+            matchLabels:
+              name: {{ homeassistant.namespace }}
+          podSelector:
+            matchLabels:
+              app: homeassistant
+              app-component: homeassistant
+
+        # Allow from roomassistant
+        - namespaceSelector:
+            matchLabels:
+              name: {{ roomassistant.namespace }}
+          podSelector:
+            matchLabels:
+              app: roomassistant
+              app-component: roomassistant

@@ -311,7 +311,10 @@ A Fake sensor is created in HomeAssistant, based on the topic `test/test_sensor`
 To push values on this sensor :
 
 ```shell
-[user@master$] kubectl --namespace=home-mosquitto run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=home-mosquitto \
+  run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never \
+  --labels="app=mosquitto,app-component=test" \
+  --overrides='
 {
     "spec": {
       "containers": [
@@ -341,7 +344,10 @@ To push values on this sensor :
 To debug all messages sent via Mosquitto :
 
 ```shell
-[user@master$] kubectl --namespace=home-mosquitto run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never --overrides='
+[user@master$] kubectl --namespace=home-mosquitto \
+  run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never \
+  --labels="app=mosquitto,app-component=test" \
+  --overrides='
 {
     "spec": {
       "containers": [
