@@ -1,0 +1,28 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-prometheus-operator
+  namespace: {{ prometheus.namespace }}
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: prometheus-operator
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: controller
+      app.kubernetes.io/name: prometheus-operator
+
+  ingress:
+    # Allow from prometheus
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s
