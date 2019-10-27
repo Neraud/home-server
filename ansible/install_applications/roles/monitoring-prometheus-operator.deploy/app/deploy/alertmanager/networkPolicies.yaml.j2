@@ -15,13 +15,22 @@ spec:
       alertmanager: main
 
   ingress:
-    # Allow from the ingress controller
     - ports:
         - port: web
       from:
+        # Allow from the ingress controller
         - namespaceSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
           podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
+
+        # Allow from prometheus
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s
