@@ -13,6 +13,13 @@ kubernetes_metrics_server:
   namespace: "infra-kubernetes-metrics-server"
   base_image: "{{ _kubernetes_metrics_server_var_loader.base_image }}"
 
+  labels_def:
+    app.kubernetes.io/name: metrics-server
+    app.kubernetes.io/component: metrics-server
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _kubernetes_metrics_server_var_loader.base_image.tag }}"
+
   container:
     image: "{{ docker_registry.url }}/{{ _kubernetes_metrics_server_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_metrics_server_var_loader.base_image.tag }}"
     requests_cpu: "{{ kubernetes_metrics_server_container_requests_cpu | default('50m') }}"
