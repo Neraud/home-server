@@ -4,11 +4,10 @@ metadata:
   name: docker-registry-ui
   namespace: {{ docker_registry_ui.namespace }}
   labels:
-    app.kubernetes.io/name: docker-registry-ui
-    app.kubernetes.io/component: docker-registry-ui
+    {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(4) }}
+    {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
     - port: 8000
   selector:
-    app.kubernetes.io/name: docker-registry-ui
-    app.kubernetes.io/component: docker-registry-ui
+    {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(4) }}

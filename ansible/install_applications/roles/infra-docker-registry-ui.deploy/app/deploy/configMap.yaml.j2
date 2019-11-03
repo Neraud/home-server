@@ -4,8 +4,8 @@ metadata:
   name: docker-registry-ui-config
   namespace: {{ docker_registry_ui.namespace }}
   labels:
-    app.kubernetes.io/name: docker-registry-ui
-    app.kubernetes.io/component: docker-registry-ui
+    {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(4) }}
+    {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   config.yml: |
     {{ lookup('template', role_path + '/app/config/config.yml.j2')  | replace('\n', '\n    ') }}

@@ -27,8 +27,7 @@ spec:
 #          name: {{ docker_registry_ui.namespace }}
 #      podSelector:
 #        matchLabels:
-#          app.kubernetes.io/name: docker-registry-ui
-#          app.kubernetes.io/component: docker-registry-ui
+#          {# docker_registry_ui.labels_def | to_nice_yaml() | indent(10) #}
 
     # Allow debug from prometheus
     - ports:
