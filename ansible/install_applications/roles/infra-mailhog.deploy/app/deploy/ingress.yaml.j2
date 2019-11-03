@@ -4,7 +4,8 @@ metadata:
   name: mailhog
   namespace: {{ mailhog.namespace }}
   labels:
-    app.kubernetes.io/name: mailhog
+    {{ mailhog.labels_def | to_nice_yaml() | indent(4) }}
+    {{ mailhog.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:

@@ -4,7 +4,8 @@ metadata:
   name: mailhog
   namespace: {{ mailhog.namespace }}
   labels:
-    app.kubernetes.io/name: mailhog
+    {{ mailhog.labels_def | to_nice_yaml() | indent(4) }}
+    {{ mailhog.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
     - port: 1025
@@ -12,5 +13,4 @@ spec:
     - port: 8025
       name: http
   selector:
-    app.kubernetes.io/name: mailhog
-    app.kubernetes.io/component: mailhog
+    {{ mailhog.labels_def | to_nice_yaml() | indent(4) }}
