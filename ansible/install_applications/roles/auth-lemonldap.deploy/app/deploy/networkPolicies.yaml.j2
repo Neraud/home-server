@@ -14,10 +14,9 @@ spec:
       app-component: lemonldap
 
   ingress:
-    # Allow from the ingress controller
+    # Allow http from the ingress controller
     - ports:
         - port: http
-        - port: fastcgi
       from:
         - namespaceSelector:
             matchLabels:
@@ -25,3 +24,8 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
+
+    # Allow fastcgi from all
+    - ports:
+        - port: fastcgi
+      from: []
