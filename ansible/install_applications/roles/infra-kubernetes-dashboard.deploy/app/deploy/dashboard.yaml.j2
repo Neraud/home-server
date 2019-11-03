@@ -23,7 +23,8 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 
@@ -33,7 +34,8 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 spec:
@@ -41,7 +43,7 @@ spec:
     - port: 443
       targetPort: 8443
   selector:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
 
 ---
 
@@ -49,7 +51,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard-certs
   namespace: {{ kubernetes_dashboard.namespace }}
 type: Opaque
@@ -60,7 +63,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard-csrf
   namespace: {{ kubernetes_dashboard.namespace }}
 type: Opaque
@@ -73,7 +77,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard-key-holder
   namespace: {{ kubernetes_dashboard.namespace }}
 type: Opaque
@@ -84,7 +89,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard-settings
   namespace: {{ kubernetes_dashboard.namespace }}
 
@@ -94,7 +100,8 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 rules:
@@ -124,7 +131,8 @@ kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
 rules:
   # Allow Metrics Scraper to get metrics from the Metrics server
@@ -138,7 +146,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 roleRef:
@@ -172,7 +181,8 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   labels:
-    app.kubernetes.io/name: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 spec:
@@ -180,11 +190,12 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app.kubernetes.io/name: kubernetes-dashboard
+      {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: kubernetes-dashboard
+        {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(8) }}
+        {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
         - name: kubernetes-dashboard
@@ -238,7 +249,8 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    app.kubernetes.io/name: dashboard-metrics-scraper
+    {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard_metrics_scraper.labels_desc | to_nice_yaml() | indent(4) }}
   name: dashboard-metrics-scraper
   namespace: {{ kubernetes_dashboard.namespace }}
 spec:
@@ -246,7 +258,7 @@ spec:
     - port: 8000
       targetPort: 8000
   selector:
-    app.kubernetes.io/name: dashboard-metrics-scraper
+    {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(4) }}
 
 ---
 
@@ -254,7 +266,8 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   labels:
-    app.kubernetes.io/name: dashboard-metrics-scraper
+    {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard_metrics_scraper.labels_desc | to_nice_yaml() | indent(4) }}
   name: dashboard-metrics-scraper
   namespace: {{ kubernetes_dashboard.namespace }}
 spec:
@@ -262,11 +275,12 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app.kubernetes.io/name: dashboard-metrics-scraper
+      {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: dashboard-metrics-scraper
+        {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(8) }}
+        {{ kubernetes_dashboard_metrics_scraper.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
         - name: dashboard-metrics-scraper
