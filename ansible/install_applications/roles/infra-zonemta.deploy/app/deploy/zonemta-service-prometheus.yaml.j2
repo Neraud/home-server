@@ -4,8 +4,8 @@ metadata:
   name: zonemta-prometheus
   namespace: "{{ zonemta.namespace }}"
   labels:
-    app.kubernetes.io/name: zonemta
-    app.kubernetes.io/component: zonemta
+    {{ zonemta.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zonemta.labels_desc | to_nice_yaml() | indent(4) }}
     prometheus-target: zonemta
 spec:
   ports:
@@ -13,5 +13,4 @@ spec:
     name: metrics
     targetPort: metrics
   selector:
-    app.kubernetes.io/name: zonemta
-    app.kubernetes.io/component: zonemta
+    {{ zonemta.labels_def | to_nice_yaml() | indent(4) }}

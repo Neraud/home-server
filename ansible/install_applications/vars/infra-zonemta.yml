@@ -17,6 +17,14 @@ zonemta:
   repo:
     name: "zone-eu/zone-mta"
     release: "v{{ _zonemta_var_loader.version }}"
+  
+  labels_def:
+    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/component: server
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _zonemta_var_loader.version }}-custom"
+    app.kubernetes.io/part-of: zonemta
 
   container:
     image: "{{ docker_registry.url }}/zonemta:{{ _zonemta_var_loader.version }}-custom"
@@ -51,6 +59,14 @@ _zonemta_mongo_var_loader:
 
 zonemta_mongo:
   base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/component: mongo
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _zonemta_mongo_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: zonemta
 
   container:
     image: "{{ docker_registry.url }}/zonemta-{{ _zonemta_mongo_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _zonemta_mongo_var_loader.base_image.tag }}"
@@ -74,6 +90,14 @@ _zonemta_redis_var_loader:
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/component: redis
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _zonemta_redis_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: zonemta
 
   container:
     image: "{{ docker_registry.url }}/zonemta-{{ _zonemta_redis_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _zonemta_redis_var_loader.base_image.tag }}"

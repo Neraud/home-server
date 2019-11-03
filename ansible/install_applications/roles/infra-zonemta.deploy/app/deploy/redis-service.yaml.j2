@@ -4,11 +4,11 @@ metadata:
   name: zonemta-redis
   namespace: "{{ zonemta.namespace }}"
   labels:
-    app.kubernetes.io/name: zonemta
+    {{ zonemta_redis.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zonemta_redis.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 6379
     name: redis
   selector:
-    app.kubernetes.io/name: zonemta
-    app.kubernetes.io/component: redis
+    {{ zonemta_redis.labels_def | to_nice_yaml() | indent(4) }}
