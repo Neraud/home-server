@@ -4,12 +4,12 @@ metadata:
   name: plex
   namespace: {{ plex.namespace }}
   labels:
-    app: plex
-    app-component: plex
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/component: plex
 spec:
   ports:
   - port: 80
     targetPort: 32400
   selector:
-    app: plex
-    app-component: plex
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/component: plex

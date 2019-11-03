@@ -4,22 +4,22 @@ metadata:
   name: release-watcher
   namespace: {{ release_watcher.namespace }}
   labels:
-    app: release-watcher
-    app-component: release-watcher
+    app.kubernetes.io/name: release-watcher
+    app.kubernetes.io/component: release-watcher
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: release-watcher
-      app-component: release-watcher
+      app.kubernetes.io/name: release-watcher
+      app.kubernetes.io/component: release-watcher
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: release-watcher
-        app-component: release-watcher
+        app.kubernetes.io/name: release-watcher
+        app.kubernetes.io/component: release-watcher
     spec:
       containers:
       - image: "{{ release_watcher.container.image }}"

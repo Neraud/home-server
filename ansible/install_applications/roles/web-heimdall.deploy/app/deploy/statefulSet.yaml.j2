@@ -4,22 +4,22 @@ metadata:
   name: heimdall
   namespace: {{ heimdall.namespace }}
   labels:
-    app: heimdall
-    app-component: heimdall
+    app.kubernetes.io/name: heimdall
+    app.kubernetes.io/component: heimdall
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: heimdall
-      app-component: heimdall
+      app.kubernetes.io/name: heimdall
+      app.kubernetes.io/component: heimdall
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: heimdall
-        app-component: heimdall
+        app.kubernetes.io/name: heimdall
+        app.kubernetes.io/component: heimdall
     spec:
       containers:
       - image: "{{ heimdall.container.image }}"
@@ -65,5 +65,5 @@ spec:
           storage: 128M
       selector:
         matchLabels:
-          app: heimdall
-          app-component: heimdall
+          app.kubernetes.io/name: heimdall
+          app.kubernetes.io/component: heimdall

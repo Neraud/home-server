@@ -4,20 +4,20 @@ metadata:
   name: nginx-log-exporter
   namespace: {{ nginx_log_exporter.namespace }}
   labels:
-    app: nginx-log-exporter
-    app-component: nginx-log-exporter
+    app.kubernetes.io/name: nginx-log-exporter
+    app.kubernetes.io/component: nginx-log-exporter
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: nginx-log-exporter
-      app-component: nginx-log-exporter
+      app.kubernetes.io/name: nginx-log-exporter
+      app.kubernetes.io/component: nginx-log-exporter
   template:
     metadata:
       labels:
-        app: nginx-log-exporter
-        app-component: nginx-log-exporter
+        app.kubernetes.io/name: nginx-log-exporter
+        app.kubernetes.io/component: nginx-log-exporter
     spec:
       containers:
       - name: nginx-log-exporter

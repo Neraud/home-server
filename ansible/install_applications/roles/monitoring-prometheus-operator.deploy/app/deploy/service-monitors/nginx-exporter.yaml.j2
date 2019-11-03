@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: nginx-exporter
+    app.kubernetes.io/name: nginx-exporter
   name: nginx-exporter
   namespace: {{ prometheus.namespace }}
 spec:

@@ -4,7 +4,7 @@ metadata:
   name: openldap
   namespace: {{ openldap.namespace }}
   labels:
-    app: openldap
+    app.kubernetes.io/name: openldap
 spec:
   ports:
   - port: 389
@@ -12,5 +12,5 @@ spec:
   - port: 636
     name: ldaps
   selector:
-    app: openldap
-    app-component: openldap
+    app.kubernetes.io/name: openldap
+    app.kubernetes.io/component: openldap

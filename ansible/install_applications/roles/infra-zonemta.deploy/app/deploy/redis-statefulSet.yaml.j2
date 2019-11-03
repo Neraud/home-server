@@ -4,20 +4,20 @@ metadata:
   name: zonemta-redis
   namespace: "{{ zonemta.namespace }}"
   labels:
-    app: zonemta
-    app-component: redis
+    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/component: redis
 spec:
   selector:
     matchLabels:
-      app: zonemta
-      app-component: redis
+      app.kubernetes.io/name: zonemta
+      app.kubernetes.io/component: redis
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: zonemta
-        app-component: redis
+        app.kubernetes.io/name: zonemta
+        app.kubernetes.io/component: redis
     spec:
       containers:
       - image: "{{ zonemta_redis.container.image }}"
@@ -57,5 +57,5 @@ spec:
           storage: 32M
       selector:
         matchLabels:
-          app: zonemta
-          app-component: redis
+          app.kubernetes.io/name: zonemta
+          app.kubernetes.io/component: redis

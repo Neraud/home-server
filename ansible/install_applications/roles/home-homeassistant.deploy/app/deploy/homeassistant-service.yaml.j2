@@ -4,11 +4,11 @@ metadata:
   name: homeassistant
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
+    app.kubernetes.io/name: homeassistant
 spec:
   ports:
   - port: 80
     targetPort: 8123
   selector:
-    app: homeassistant
-    app-component: homeassistant
+    app.kubernetes.io/name: homeassistant
+    app.kubernetes.io/component: homeassistant

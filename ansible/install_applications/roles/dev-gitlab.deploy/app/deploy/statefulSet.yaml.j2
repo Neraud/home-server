@@ -4,22 +4,22 @@ metadata:
   name: gitlab
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
-    app-component: gitlab
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/component: gitlab
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: gitlab
-      app-component: gitlab
+      app.kubernetes.io/name: gitlab
+      app.kubernetes.io/component: gitlab
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: gitlab
-        app-component: gitlab
+        app.kubernetes.io/name: gitlab
+        app.kubernetes.io/component: gitlab
     spec:
       containers:
       - image: "{{ gitlab.container.image }}"
@@ -86,8 +86,8 @@ spec:
           storage: 8M
       selector:
         matchLabels:
-          app: gitlab
-          app-component: gitlab
+          app.kubernetes.io/name: gitlab
+          app.kubernetes.io/component: gitlab
           storage: config
   - metadata:
       name: gitlab-data-pv-claim
@@ -99,6 +99,6 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app: gitlab
-          app-component: gitlab
+          app.kubernetes.io/name: gitlab
+          app.kubernetes.io/component: gitlab
           storage: data

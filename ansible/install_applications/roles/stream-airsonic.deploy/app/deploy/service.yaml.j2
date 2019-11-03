@@ -4,12 +4,12 @@ metadata:
   name: airsonic
   namespace: {{ airsonic.namespace }}
   labels:
-    app: airsonic
-    app-component: airsonic
+    app.kubernetes.io/name: airsonic
+    app.kubernetes.io/component: airsonic
 spec:
   ports:
   - port: 80
     targetPort: 4040
   selector:
-    app: airsonic
-    app-component: airsonic
+    app.kubernetes.io/name: airsonic
+    app.kubernetes.io/component: airsonic

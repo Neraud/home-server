@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: docker-registry
+    app.kubernetes.io/name: docker-registry
   name: docker-registry
   namespace: {{ prometheus.namespace }}
 spec:

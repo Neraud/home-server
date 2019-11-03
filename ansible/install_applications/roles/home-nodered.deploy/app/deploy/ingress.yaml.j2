@@ -4,7 +4,7 @@ metadata:
   name: nodered
   namespace: {{ nodered.namespace }}
   labels:
-    app: nodered
+    app.kubernetes.io/name: nodered
 spec:
   tls:
     - hosts:

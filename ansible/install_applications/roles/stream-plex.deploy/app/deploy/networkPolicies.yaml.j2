@@ -4,15 +4,15 @@ metadata:
   name: allow-to-plex
   namespace: {{ plex.namespace }}
   labels:
-    app: plex
-    app-component: plex
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/component: plex
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: plex
-      app-component: plex
+      app.kubernetes.io/name: plex
+      app.kubernetes.io/component: plex
 
   ingress:
     # Allow from the ingress controller

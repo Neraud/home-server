@@ -4,15 +4,15 @@ metadata:
   name: allow-to-deluge
   namespace: {{ deluge.namespace }}
   labels:
-    app: deluge
-    app-component: deluge
+    app.kubernetes.io/name: deluge
+    app.kubernetes.io/component: deluge
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: deluge
-      app-component: deluge
+      app.kubernetes.io/name: deluge
+      app.kubernetes.io/component: deluge
 
   ingress:
     # Allow from the ingress controller

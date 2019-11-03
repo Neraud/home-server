@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: prometheus
+    app.kubernetes.io/name: prometheus
   name: prometheus
   namespace: {{ prometheus.namespace }}
 spec:

@@ -4,14 +4,14 @@ metadata:
   name: allow-to-nginx-exporter
   namespace: {{ nginx_exporter.namespace }}
   labels:
-    app: nginx-exporter
+    app.kubernetes.io/name: nginx-exporter
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: nginx-exporter
-      app-component: nginx-exporter
+      app.kubernetes.io/name: nginx-exporter
+      app.kubernetes.io/component: nginx-exporter
 
   ingress:
     # Allow from prometheus
@@ -23,5 +23,5 @@ spec:
               name: {{ prometheus.namespace }}
           podSelector:
             matchLabels:
-              app: prometheus
+              app.kubernetes.io/name: prometheus
               prometheus: k8s

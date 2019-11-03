@@ -18,8 +18,8 @@ kind: PrometheusRule
 metadata:
   name: kubernetes-rules
   labels:
-    app: prometheus
-    app-component: prometheus
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/component: prometheus
     prometheus: k8s
     role: alert-rules
 spec:
@@ -35,8 +35,8 @@ kind: PrometheusRule
 metadata:
   name: kubernetes-alerts
   labels:
-    app: prometheus
-    app-component: prometheus
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/component: prometheus
     prometheus: k8s
     role: alert-rules
 spec:
@@ -60,8 +60,8 @@ kind: PrometheusRule
 metadata:
   name: node-rules
   labels:
-    app: prometheus
-    app-component: prometheus
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/component: prometheus
     prometheus: k8s
     role: alert-rules
 spec:
@@ -77,8 +77,8 @@ kind: PrometheusRule
 metadata:
   name: node-alerts
   labels:
-    app: prometheus
-    app-component: prometheus
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/component: prometheus
     prometheus: k8s
     role: alert-rules
 spec:
@@ -99,8 +99,8 @@ kind: PrometheusRule
 metadata:
   name: gluster-rules
   labels:
-    app: gluster
-    app-component: gluster
+    app.kubernetes.io/name: gluster
+    app.kubernetes.io/component: gluster
     prometheus: k8s
     role: alert-rules
 spec:
@@ -116,8 +116,8 @@ kind: PrometheusRule
 metadata:
   name: gluster-alerts
   labels:
-    app: gluster
-    app-component: gluster
+    app.kubernetes.io/name: gluster
+    app.kubernetes.io/component: gluster
     prometheus: k8s
     role: alert-rules
 spec:

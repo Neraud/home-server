@@ -4,22 +4,22 @@ metadata:
   name: docker-registry
   namespace: {{ docker_registry.namespace }}
   labels:
-    app: docker-registry
-    app-component: registry
+    app.kubernetes.io/name: docker-registry
+    app.kubernetes.io/component: registry
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: docker-registry
-      app-component: registry
+      app.kubernetes.io/name: docker-registry
+      app.kubernetes.io/component: registry
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: docker-registry
-        app-component: registry
+        app.kubernetes.io/name: docker-registry
+        app.kubernetes.io/component: registry
     spec:
       containers:
       - image: "{{ docker_registry.container.image }}"
@@ -76,5 +76,5 @@ spec:
           storage: 10G
       selector:
         matchLabels:
-          app: docker-registry
-          app-component: registry
+          app.kubernetes.io/name: docker-registry
+          app.kubernetes.io/component: registry

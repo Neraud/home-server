@@ -4,8 +4,8 @@ metadata:
   name: gitlab-prometheus
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
-    app-component: gitlab
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/component: gitlab
     prometheus-target: gitlab
 spec:
   ports:
@@ -34,5 +34,5 @@ spec:
     name: gitaly-metrics
     targetPort: gitaly-metrics
   selector:
-    app: gitlab
-    app-component: gitlab
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/component: gitlab

@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: grafana
+    app.kubernetes.io/name: grafana
   name: grafana
   namespace: {{ prometheus.namespace }}
 spec:

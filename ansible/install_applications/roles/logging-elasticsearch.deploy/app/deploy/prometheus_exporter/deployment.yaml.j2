@@ -4,8 +4,8 @@ metadata:
   name: elasticsearch-exporter
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app: elasticsearch
-    app-component: elastic-exporter
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/component: elastic-exporter
 spec:
   replicas: 1
   strategy:
@@ -15,13 +15,13 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: elasticsearch
-      app-component: elastic-exporter
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: elastic-exporter
   template:
     metadata:
       labels:
-        app: elasticsearch
-        app-component: elastic-exporter
+        app.kubernetes.io/name: elasticsearch
+        app.kubernetes.io/component: elastic-exporter
     spec:
       securityContext:
         runAsNonRoot: true

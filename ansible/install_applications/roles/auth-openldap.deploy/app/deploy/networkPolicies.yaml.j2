@@ -4,13 +4,13 @@ metadata:
   name: allow-to-openldap
   namespace: {{ openldap.namespace }}
   labels:
-    app: openldap
+    app.kubernetes.io/name: openldap
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: openldap
+      app.kubernetes.io/name: openldap
 
   ingress:
     # Allow ldap(s) from all

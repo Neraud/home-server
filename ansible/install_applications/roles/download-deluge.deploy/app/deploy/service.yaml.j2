@@ -4,12 +4,12 @@ metadata:
   name: deluge
   namespace: {{ deluge.namespace }}
   labels:
-    app: deluge
+    app.kubernetes.io/name: deluge
 spec:
   ports:
   - port: 80
     targetPort: 8112
     name: webui
   selector:
-    app: deluge
-    app-component: deluge
+    app.kubernetes.io/name: deluge
+    app.kubernetes.io/component: deluge

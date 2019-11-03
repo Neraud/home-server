@@ -4,8 +4,8 @@ metadata:
   name: airsonic-config
   namespace: {{ airsonic.namespace }}
   labels:
-    app: airsonic
-    app-component: airsonic
+    app.kubernetes.io/name: airsonic
+    app.kubernetes.io/component: airsonic
 data:
 {% for airsonic_config_file in airsonic_config_files %}
   {{ airsonic_config_file | basename | replace(".j2", "") }}: |

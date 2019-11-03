@@ -4,20 +4,20 @@ metadata:
   name: plex
   namespace: {{ plex.namespace }}
   labels:
-    app: plex
-    app-component: plex
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/component: plex
 spec:
   selector:
     matchLabels:
-      app: plex
-      app-component: plex
+      app.kubernetes.io/name: plex
+      app.kubernetes.io/component: plex
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: plex
-        app-component: plex
+        app.kubernetes.io/name: plex
+        app.kubernetes.io/component: plex
     spec:
       containers:
       - image: "{{ plex.container.image }}"
@@ -64,5 +64,5 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app: plex
-          app-component: plex
+          app.kubernetes.io/name: plex
+          app.kubernetes.io/component: plex

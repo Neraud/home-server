@@ -4,23 +4,23 @@ metadata:
   name: openldap
   namespace: {{ openldap.namespace }}
   labels:
-    app: openldap
-    app-component: openldap
+    app.kubernetes.io/name: openldap
+    app.kubernetes.io/component: openldap
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: openldap
-      app-component: openldap
+      app.kubernetes.io/name: openldap
+      app.kubernetes.io/component: openldap
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: openldap
-        app-component: openldap
+        app.kubernetes.io/name: openldap
+        app.kubernetes.io/component: openldap
     spec:
       containers:
       - name: openldap
@@ -74,8 +74,8 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app: openldap
-          app-component: openldap
+          app.kubernetes.io/name: openldap
+          app.kubernetes.io/component: openldap
           storage: data
   - metadata:
       name: openldap-config-pv-claim
@@ -87,8 +87,8 @@ spec:
           storage: 16M
       selector:
         matchLabels:
-          app: openldap
-          app-component: openldap
+          app.kubernetes.io/name: openldap
+          app.kubernetes.io/component: openldap
           storage: config
   - metadata:
       name: openldap-run-pv-claim
@@ -100,6 +100,6 @@ spec:
           storage: 16M
       selector:
         matchLabels:
-          app: openldap
-          app-component: openldap
+          app.kubernetes.io/name: openldap
+          app.kubernetes.io/component: openldap
           storage: run

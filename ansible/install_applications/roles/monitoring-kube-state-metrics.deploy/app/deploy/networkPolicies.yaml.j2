@@ -4,14 +4,14 @@ metadata:
   name: allow-to-kube-state-metrics
   namespace: {{ kube_state_metrics.namespace }}
   labels:
-      app: kube-state-metrics
+      app.kubernetes.io/name: kube-state-metrics
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: kube-state-metrics
-      app-component: kube-state-metrics
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/component: kube-state-metrics
 
   ingress:
     # Allow from prometheus
@@ -24,5 +24,5 @@ spec:
               name: {{ prometheus.namespace }}
           podSelector:
             matchLabels:
-              app: prometheus
+              app.kubernetes.io/name: prometheus
               prometheus: k8s

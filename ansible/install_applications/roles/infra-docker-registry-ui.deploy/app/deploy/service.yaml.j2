@@ -4,11 +4,11 @@ metadata:
   name: docker-registry-ui
   namespace: {{ docker_registry_ui.namespace }}
   labels:
-    app: docker-registry-ui
-    app-component: docker-registry-ui
+    app.kubernetes.io/name: docker-registry-ui
+    app.kubernetes.io/component: docker-registry-ui
 spec:
   ports:
     - port: 8000
   selector:
-    app: docker-registry-ui
-    app-component: docker-registry-ui
+    app.kubernetes.io/name: docker-registry-ui
+    app.kubernetes.io/component: docker-registry-ui

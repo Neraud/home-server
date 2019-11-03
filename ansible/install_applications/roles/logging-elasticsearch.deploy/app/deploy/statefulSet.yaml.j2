@@ -4,8 +4,8 @@ metadata:
   name: elasticsearch
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app: elasticsearch
-    app-component: elasticsearch
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/component: elasticsearch
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
@@ -13,13 +13,13 @@ spec:
   replicas: {{ elasticsearch.replicas }}
   selector:
     matchLabels:
-      app: elasticsearch
-      app-component: elasticsearch
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: elasticsearch
   template:
     metadata:
       labels:
-        app: elasticsearch
-        app-component: elasticsearch
+        app.kubernetes.io/name: elasticsearch
+        app.kubernetes.io/component: elasticsearch
     spec:
       containers:
       - name: elasticsearch
@@ -119,5 +119,5 @@ spec:
           storage: 4G
       selector:
         matchLabels:
-          app: elasticsearch
-          app-component: elasticsearch
+          app.kubernetes.io/name: elasticsearch
+          app.kubernetes.io/component: elasticsearch

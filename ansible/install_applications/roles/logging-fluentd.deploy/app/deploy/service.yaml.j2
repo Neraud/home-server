@@ -5,7 +5,7 @@ metadata:
   name: fluentd
   namespace: {{ fluentd.namespace }}
   labels:
-    app: fluentd
+    app.kubernetes.io/name: fluentd
 spec:
   clusterIP: None
   ports:
@@ -13,5 +13,5 @@ spec:
       port: 24224
       targetPort: 24224
   selector:
-    app: fluentd
-    app-component: fluentd
+    app.kubernetes.io/name: fluentd
+    app.kubernetes.io/component: fluentd

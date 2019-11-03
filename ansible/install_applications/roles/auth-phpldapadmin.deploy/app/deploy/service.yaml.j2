@@ -4,11 +4,11 @@ metadata:
   name: phpldapadmin
   namespace: {{ phpldapadmin.namespace }}
   labels:
-    app: phpldapadmin
+    app.kubernetes.io/name: phpldapadmin
 spec:
   ports:
   - port: 80
     name: http
   selector:
-    app: phpldapadmin
-    app-component: phpldapadmin
+    app.kubernetes.io/name: phpldapadmin
+    app.kubernetes.io/component: phpldapadmin

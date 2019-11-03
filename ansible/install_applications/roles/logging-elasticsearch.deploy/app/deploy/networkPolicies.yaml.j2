@@ -4,14 +4,14 @@ metadata:
   name: allow-to-elasticsearch
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app: elasticsearch
+    app.kubernetes.io/name: elasticsearch
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: elasticsearch
-      app-component: elasticsearch
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: elasticsearch
 
   ingress:
     - ports:
@@ -28,8 +28,8 @@ spec:
         # Allow from the prometheus_exporter
         - podSelector:
             matchLabels:
-              app: elasticsearch
-              app-component: elastic-exporter
+              app.kubernetes.io/name: elasticsearch
+              app.kubernetes.io/component: elastic-exporter
 
         # Allow from kibana
         - namespaceSelector:
@@ -37,8 +37,8 @@ spec:
               name: {{ kibana.namespace }}
           podSelector:
             matchLabels:
-              app: kibana
-              app-component: kibana
+              app.kubernetes.io/name: kibana
+              app.kubernetes.io/component: kibana
 
         # Allow from fluentd
         - namespaceSelector:
@@ -46,8 +46,8 @@ spec:
               name: {{ fluentd.namespace }}
           podSelector:
             matchLabels:
-              app: fluentd
-              app-component: fluentd
+              app.kubernetes.io/name: fluentd
+              app.kubernetes.io/component: fluentd
 
     # Allow from elasticsearch nodes
     - ports:
@@ -55,8 +55,8 @@ spec:
       from:
         - podSelector:
             matchLabels:
-              app: elasticsearch
-              app-component: elasticsearch
+              app.kubernetes.io/name: elasticsearch
+              app.kubernetes.io/component: elasticsearch
 
 ---
 
@@ -66,14 +66,14 @@ metadata:
   name: allow-to-elasticsearch-exporter
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app: elasticsearch
+    app.kubernetes.io/name: elasticsearch
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: elasticsearch
-      app-component: elastic-exporter
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: elastic-exporter
 
   ingress:
     # Allow metrics from Prometheus
@@ -85,5 +85,5 @@ spec:
               name: {{ prometheus.namespace }}
           podSelector:
             matchLabels:
-              app: prometheus
+              app.kubernetes.io/name: prometheus
               prometheus: k8s

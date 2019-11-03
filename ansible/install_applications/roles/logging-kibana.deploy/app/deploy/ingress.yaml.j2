@@ -4,7 +4,7 @@ metadata:
   name: kibana
   namespace: {{ kibana.namespace }}
   labels:
-    app: kibana
+    app.kubernetes.io/name: kibana
 spec:
   tls:
     - hosts:

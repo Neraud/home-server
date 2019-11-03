@@ -4,22 +4,22 @@ metadata:
   name: nodered
   namespace: {{ nodered.namespace }}
   labels:
-    app: nodered
-    app-component: nodered
+    app.kubernetes.io/name: nodered
+    app.kubernetes.io/component: nodered
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: nodered
-      app-component: nodered
+      app.kubernetes.io/name: nodered
+      app.kubernetes.io/component: nodered
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: nodered
-        app-component: nodered
+        app.kubernetes.io/name: nodered
+        app.kubernetes.io/component: nodered
     spec:
       containers:
       - image: "{{ nodered.container.image }}"
@@ -71,5 +71,5 @@ spec:
           storage: 128M
       selector:
         matchLabels:
-          app: nodered
-          app-component: nodered
+          app.kubernetes.io/name: nodered
+          app.kubernetes.io/component: nodered

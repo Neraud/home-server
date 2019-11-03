@@ -4,13 +4,13 @@ metadata:
   name: allow-to-dashboard-metrics-scraper
   namespace: {{ kubernetes_dashboard.namespace }}
   labels:
-    k8s-app: kubernetes-dashboard
+    app.kubernetes.io/name: kubernetes-dashboard
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      k8s-app: dashboard-metrics-scraper
+      app.kubernetes.io/name: dashboard-metrics-scraper
 
   ingress:
     # Allow from kubernetes-dashboard
@@ -19,7 +19,7 @@ spec:
       from:
         - podSelector:
             matchLabels:
-              k8s-app: kubernetes-dashboard
+              app.kubernetes.io/name: kubernetes-dashboard
 
 ---
 
@@ -29,13 +29,13 @@ metadata:
   name: allow-to-kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
   labels:
-    k8s-app: kubernetes-dashboard
+    app.kubernetes.io/name: kubernetes-dashboard
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      k8s-app: kubernetes-dashboard
+      app.kubernetes.io/name: kubernetes-dashboard
 
   ingress:
     # Allow from the ingress controller

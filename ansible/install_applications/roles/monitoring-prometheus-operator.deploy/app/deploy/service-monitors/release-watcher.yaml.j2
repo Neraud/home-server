@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: release-watcher
+    app.kubernetes.io/name: release-watcher
   name: release-watcher
   namespace: {{ prometheus.namespace }}
 spec:

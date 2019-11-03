@@ -4,22 +4,22 @@ metadata:
   name: homeassistant
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
-    app-component: homeassistant
+    app.kubernetes.io/name: homeassistant
+    app.kubernetes.io/component: homeassistant
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: homeassistant
-      app-component: homeassistant
+      app.kubernetes.io/name: homeassistant
+      app.kubernetes.io/component: homeassistant
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: homeassistant
-        app-component: homeassistant
+        app.kubernetes.io/name: homeassistant
+        app.kubernetes.io/component: homeassistant
     spec:
       containers:
       - image: "{{ homeassistant.container.image }}"
@@ -73,5 +73,5 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app: homeassistant
-          app-component: homeassistant
+          app.kubernetes.io/name: homeassistant
+          app.kubernetes.io/component: homeassistant

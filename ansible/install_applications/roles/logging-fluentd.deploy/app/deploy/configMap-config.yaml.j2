@@ -4,8 +4,8 @@ metadata:
   name: fluentd-config
   namespace: {{ fluentd.namespace }}
   labels:
-    app: fluentd
-    app-component: fluentd
+    app.kubernetes.io/name: fluentd
+    app.kubernetes.io/component: fluentd
 data:
   fluent.conf: |
     {{ lookup('file', role_path + '/app/config/fluent.conf')  | replace('\n', '\n    ') }}

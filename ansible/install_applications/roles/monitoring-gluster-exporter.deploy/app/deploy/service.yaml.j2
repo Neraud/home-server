@@ -5,7 +5,7 @@ metadata:
   name: gluster-exporter
   namespace: {{ gluster_exporter.namespace }}
   labels:
-    app: gluster-exporter
+    app.kubernetes.io/name: gluster-exporter
     prometheus-target: gluster-exporter
 spec:
   ports:

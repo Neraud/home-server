@@ -9,8 +9,8 @@ spec:
 
   podSelector:
     matchLabels:
-      app: ttrss
-      app-component: pgsql
+      app.kubernetes.io/name: ttrss
+      app.kubernetes.io/component: pgsql
 
   ingress:
     # Allow from ttrss
@@ -19,8 +19,8 @@ spec:
       from:
         - podSelector:
             matchLabels:
-              app: ttrss
-              app-component: ttrss
+              app.kubernetes.io/name: ttrss
+              app.kubernetes.io/component: ttrss
 
 ---
 
@@ -35,8 +35,8 @@ spec:
 
   podSelector:
     matchLabels:
-      app: ttrss
-      app-component: ttrss
+      app.kubernetes.io/name: ttrss
+      app.kubernetes.io/component: ttrss
 
   ingress:
     # Allow from the ingress controller

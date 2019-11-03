@@ -4,22 +4,22 @@ metadata:
   name: airsonic
   namespace: {{ airsonic.namespace }}
   labels:
-    app: airsonic
-    app-component: airsonic
+    app.kubernetes.io/name: airsonic
+    app.kubernetes.io/component: airsonic
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: airsonic
-      app-component: airsonic
+      app.kubernetes.io/name: airsonic
+      app.kubernetes.io/component: airsonic
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: airsonic
-        app-component: airsonic
+        app.kubernetes.io/name: airsonic
+        app.kubernetes.io/component: airsonic
     spec:
       initContainers:
       - name: inject-properties
@@ -113,8 +113,8 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app: airsonic
-          app-component: airsonic
+          app.kubernetes.io/name: airsonic
+          app.kubernetes.io/component: airsonic
           storage: data
   - metadata:
       name: airsonic-playlists-pv-claim
@@ -126,6 +126,6 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app: airsonic
-          app-component: airsonic
+          app.kubernetes.io/name: airsonic
+          app.kubernetes.io/component: airsonic
           storage: playlists

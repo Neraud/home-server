@@ -4,8 +4,8 @@ metadata:
   name: ttrss-config
   namespace: {{ ttrss.namespace }}
   labels:
-    app: ttrss
-    app-component: ttrss
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: ttrss
 data:
   nginx_site.conf:  |
     {{ lookup('template', role_path + '/app/config/nginx_site.conf.j2')  | replace('\n', '\n    ') }}

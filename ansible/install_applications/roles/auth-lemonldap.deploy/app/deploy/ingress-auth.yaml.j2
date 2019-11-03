@@ -4,7 +4,7 @@ metadata:
   name: lemonldap-auth
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
+    app.kubernetes.io/name: lemonldap
 spec:
   tls:
     - hosts:

@@ -4,14 +4,14 @@ metadata:
   name: allow-to-alertmanager-main
   namespace: {{ prometheus.namespace }}
   labels:
-    app: alertmanager
+    app.kubernetes.io/name: alertmanager
     alertmanager: main
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: alertmanager
+      app.kubernetes.io/name: alertmanager
       alertmanager: main
 
   ingress:
@@ -32,5 +32,5 @@ spec:
               name: {{ prometheus.namespace }}
           podSelector:
             matchLabels:
-              app: prometheus
+              app.kubernetes.io/name: prometheus
               prometheus: k8s

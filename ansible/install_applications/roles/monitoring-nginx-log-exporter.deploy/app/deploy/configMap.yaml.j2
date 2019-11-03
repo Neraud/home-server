@@ -4,8 +4,8 @@ metadata:
   name: nginx-log-exporter-config
   namespace: {{ nginx_log_exporter.namespace }}
   labels:
-    app: nginx-log-exporter
-    app-component: nginx-log-exporter
+    app.kubernetes.io/name: nginx-log-exporter
+    app.kubernetes.io/component: nginx-log-exporter
 data:
   prometheus-nginxlog-exporter.yaml: |
     {{ lookup('template', role_path + '/app/config/prometheus-nginxlog-exporter.yaml.j2') | replace('\n', '\n    ') }}

@@ -4,14 +4,14 @@ metadata:
   name: allow-to-phpldapadmin
   namespace: {{ phpldapadmin.namespace }}
   labels:
-    app: phpldapadmin
+    app.kubernetes.io/name: phpldapadmin
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: phpldapadmin
-      app-component: phpldapadmin
+      app.kubernetes.io/name: phpldapadmin
+      app.kubernetes.io/component: phpldapadmin
 
   ingress:
     # Allow from the ingress controller

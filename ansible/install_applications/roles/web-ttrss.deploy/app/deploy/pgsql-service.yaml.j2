@@ -4,12 +4,12 @@ metadata:
   name: ttrss-pgsql
   namespace: {{ ttrss.namespace }}
   labels:
-    app: ttrss
-    app-component: pgsql
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: pgsql
 spec:
   clusterIP: None
   ports:
   - port: 5432
   selector:
-    app: ttrss
-    app-component: pgsql
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: pgsql

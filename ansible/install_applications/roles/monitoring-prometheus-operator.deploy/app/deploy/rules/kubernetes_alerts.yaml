@@ -3,8 +3,8 @@ kind: PrometheusRule
 metadata:
   name: kubernetes-alerts
   labels:
-    app: prometheus
-    app-component: prometheus
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/component: prometheus
     prometheus: k8s
     role: alert-rules
 spec:

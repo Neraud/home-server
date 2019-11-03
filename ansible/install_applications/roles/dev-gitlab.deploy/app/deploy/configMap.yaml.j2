@@ -4,8 +4,8 @@ metadata:
   name: gitlab
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
-    app-component: gitlab
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/component: gitlab
 data:
   gitlab.rb: |
     {{ lookup('template', role_path + '/app/config/gitlab.rb.j2') | replace('\n', '\n    ') }}

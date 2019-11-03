@@ -4,7 +4,7 @@ metadata:
   name: gitlab
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
+    app.kubernetes.io/name: gitlab
 spec:
   tls:
     - hosts:

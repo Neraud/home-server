@@ -101,7 +101,7 @@ metadata:
   namespace: kube-system
   labels:
     tier: node
-    app: flannel
+    app.kubernetes.io/name: flannel
 data:
   cni-conf.json: |
     {
@@ -138,16 +138,16 @@ metadata:
   namespace: kube-system
   labels:
     tier: node
-    app: flannel
+    app.kubernetes.io/name: flannel
 spec:
   selector:
     matchLabels:
-      app: flannel
+      app.kubernetes.io/name: flannel
   template:
     metadata:
       labels:
         tier: node
-        app: flannel
+        app.kubernetes.io/name: flannel
     spec:
       affinity:
         nodeAffinity:
@@ -234,16 +234,16 @@ metadata:
   namespace: kube-system
   labels:
     tier: node
-    app: flannel
+    app.kubernetes.io/name: flannel
 spec:
   selector:
     matchLabels:
-      app: flannel
+      app.kubernetes.io/name: flannel
   template:
     metadata:
       labels:
         tier: node
-        app: flannel
+        app.kubernetes.io/name: flannel
     spec:
       affinity:
         nodeAffinity:
@@ -330,16 +330,16 @@ metadata:
   namespace: kube-system
   labels:
     tier: node
-    app: flannel
+    app.kubernetes.io/name: flannel
 spec:
   selector:
     matchLabels:
-      app: flannel
+      app.kubernetes.io/name: flannel
   template:
     metadata:
       labels:
         tier: node
-        app: flannel
+        app.kubernetes.io/name: flannel
     spec:
       affinity:
         nodeAffinity:
@@ -426,16 +426,16 @@ metadata:
   namespace: kube-system
   labels:
     tier: node
-    app: flannel
+    app.kubernetes.io/name: flannel
 spec:
   selector:
     matchLabels:
-      app: flannel
+      app.kubernetes.io/name: flannel
   template:
     metadata:
       labels:
         tier: node
-        app: flannel
+        app.kubernetes.io/name: flannel
     spec:
       affinity:
         nodeAffinity:
@@ -522,16 +522,16 @@ metadata:
   namespace: kube-system
   labels:
     tier: node
-    app: flannel
+    app.kubernetes.io/name: flannel
 spec:
   selector:
     matchLabels:
-      app: flannel
+      app.kubernetes.io/name: flannel
   template:
     metadata:
       labels:
         tier: node
-        app: flannel
+        app.kubernetes.io/name: flannel
     spec:
       affinity:
         nodeAffinity:

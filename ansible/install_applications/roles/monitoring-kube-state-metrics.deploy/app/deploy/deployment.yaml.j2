@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: kube-state-metrics
-    app-component: kube-state-metrics
+    app.kubernetes.io/name: kube-state-metrics
+    app.kubernetes.io/component: kube-state-metrics
   name: kube-state-metrics
   namespace: {{ kube_state_metrics.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kube-state-metrics
-      app-component: kube-state-metrics
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/component: kube-state-metrics
   template:
     metadata:
       labels:
-        app: kube-state-metrics
-        app-component: kube-state-metrics
+        app.kubernetes.io/name: kube-state-metrics
+        app.kubernetes.io/component: kube-state-metrics
     spec:
       containers:
       - args:

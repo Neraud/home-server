@@ -4,8 +4,8 @@ metadata:
   name: docker-registry
   namespace: {{ docker_registry.namespace }}
   labels:
-    app: docker-registry
-    app-component: registry
+    app.kubernetes.io/name: docker-registry
+    app.kubernetes.io/component: registry
 spec:
   type: NodePort
   ports:
@@ -13,5 +13,5 @@ spec:
       targetPort: 443
       nodePort: {{ docker_registry.port }}
   selector:
-    app: docker-registry
-    app-component: registry
+    app.kubernetes.io/name: docker-registry
+    app.kubernetes.io/component: registry

@@ -4,7 +4,7 @@ metadata:
   name: lemonldap-manager
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
+    app.kubernetes.io/name: lemonldap
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     #nginx.ingress.kubernetes.io/upstream-vhost: manager.{{ web_base_domain }}

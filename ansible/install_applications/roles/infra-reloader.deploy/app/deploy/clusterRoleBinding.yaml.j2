@@ -3,7 +3,7 @@ kind: ClusterRoleBinding
 metadata:
   name: reloader-role-binding
   labels:
-    app: reloader
+    app.kubernetes.io/name: reloader
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

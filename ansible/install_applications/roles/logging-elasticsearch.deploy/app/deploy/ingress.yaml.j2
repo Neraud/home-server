@@ -4,7 +4,7 @@ metadata:
   name: elasticsearch
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app: elasticsearch
+    app.kubernetes.io/name: elasticsearch
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"

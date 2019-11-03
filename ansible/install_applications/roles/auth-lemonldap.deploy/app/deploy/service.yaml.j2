@@ -4,11 +4,11 @@ metadata:
   name: lemonldap
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
+    app.kubernetes.io/name: lemonldap
 spec:
   ports:
   - port: 80
     name: http
   selector:
-    app: lemonldap
-    app-component: lemonldap
+    app.kubernetes.io/name: lemonldap
+    app.kubernetes.io/component: lemonldap

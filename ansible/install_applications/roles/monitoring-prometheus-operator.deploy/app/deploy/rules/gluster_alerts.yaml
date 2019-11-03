@@ -3,8 +3,8 @@ kind: PrometheusRule
 metadata:
   name: gluster-alerts
   labels:
-    app: gluster
-    app-component: gluster
+    app.kubernetes.io/name: gluster
+    app.kubernetes.io/component: gluster
     prometheus: k8s
     role: alert-rules
 spec:

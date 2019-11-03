@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: gluster-exporter
+    app.kubernetes.io/name: gluster-exporter
   name: gluster-exporter
   namespace: {{ prometheus.namespace }}
 spec:

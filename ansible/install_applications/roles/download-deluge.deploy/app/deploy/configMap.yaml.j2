@@ -4,8 +4,8 @@ metadata:
   name: deluge-config
   namespace: {{ deluge.namespace }}
   labels:
-    app: deluge
-    app-component: deluge
+    app.kubernetes.io/name: deluge
+    app.kubernetes.io/component: deluge
 data:
   core_delta.conf: |
     {{ lookup('template', role_path + '/app/config/core_delta.conf.j2') | replace('\n', '\n    ') }}

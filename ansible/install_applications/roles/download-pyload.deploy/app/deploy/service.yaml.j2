@@ -4,12 +4,12 @@ metadata:
   name: pyload
   namespace: {{ pyload.namespace }}
   labels:
-    app: pyload
+    app.kubernetes.io/name: pyload
 spec:
   ports:
   - port: 80
     targetPort: 8000
     name: webui
   selector:
-    app: pyload
-    app-component: pyload
+    app.kubernetes.io/name: pyload
+    app.kubernetes.io/component: pyload

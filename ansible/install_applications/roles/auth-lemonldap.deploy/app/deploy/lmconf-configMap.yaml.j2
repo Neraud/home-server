@@ -4,8 +4,8 @@ metadata:
   name: lemonldap-lmconf
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
-    app-component: lemonldap
+    app.kubernetes.io/name: lemonldap
+    app.kubernetes.io/component: lemonldap
 data:
   lmConf.json: |
     {{ lookup('template', role_path + '/app/config/lmConf.json.j2', convert_data=False) | replace('\n', '\n    ') }}

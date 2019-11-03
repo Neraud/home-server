@@ -4,22 +4,22 @@ metadata:
   name: sickchill
   namespace: {{ sickchill.namespace }}
   labels:
-    app: sickchill
-    app-component: sickchill
+    app.kubernetes.io/name: sickchill
+    app.kubernetes.io/component: sickchill
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: sickchill
-      app-component: sickchill
+      app.kubernetes.io/name: sickchill
+      app.kubernetes.io/component: sickchill
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: sickchill
-        app-component: sickchill
+        app.kubernetes.io/name: sickchill
+        app.kubernetes.io/component: sickchill
     spec:
       initContainers:
       - name: inject-config
@@ -82,5 +82,5 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app: sickchill
-          app-component: sickchill
+          app.kubernetes.io/name: sickchill
+          app.kubernetes.io/component: sickchill

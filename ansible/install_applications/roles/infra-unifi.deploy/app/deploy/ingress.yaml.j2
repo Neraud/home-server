@@ -4,7 +4,7 @@ metadata:
   name: unifi
   namespace: {{ unifi.namespace }}
   labels:
-    app: unifi
+    app.kubernetes.io/name: unifi
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:

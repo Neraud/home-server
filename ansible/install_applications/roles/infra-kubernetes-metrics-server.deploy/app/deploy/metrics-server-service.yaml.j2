@@ -9,7 +9,7 @@ metadata:
     kubernetes.io/cluster-service: "true"
 spec:
   selector:
-    k8s-app: metrics-server
+    app.kubernetes.io/name: metrics-server
   ports:
   - port: 443
     protocol: TCP

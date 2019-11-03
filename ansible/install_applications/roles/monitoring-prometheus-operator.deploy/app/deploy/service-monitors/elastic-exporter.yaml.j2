@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: elastic-exporter
+    app.kubernetes.io/name: elastic-exporter
   name: elastic-exporter
   namespace: {{ prometheus.namespace }}
 spec:

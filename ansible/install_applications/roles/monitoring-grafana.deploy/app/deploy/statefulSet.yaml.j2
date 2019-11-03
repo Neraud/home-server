@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app: grafana
-    app-component: grafana
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/component: grafana
   name: grafana
   namespace: {{ grafana.namespace }}
   annotations:
@@ -12,13 +12,13 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: grafana
-      app-component: grafana
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/component: grafana
   template:
     metadata:
       labels:
-        app: grafana
-        app-component: grafana
+        app.kubernetes.io/name: grafana
+        app.kubernetes.io/component: grafana
     spec:
       containers:
       - image: "{{ grafana.container.image }}"
@@ -103,5 +103,5 @@ spec:
           storage: 128M
       selector:
         matchLabels:
-          app: grafana
-          app-component: grafana
+          app.kubernetes.io/name: grafana
+          app.kubernetes.io/component: grafana

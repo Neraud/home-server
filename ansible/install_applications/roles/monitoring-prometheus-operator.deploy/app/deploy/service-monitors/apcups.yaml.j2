@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: apcups-exporter
+    app.kubernetes.io/name: apcups-exporter
   name: apcups-exporter
   namespace: {{ prometheus.namespace }}
 spec:

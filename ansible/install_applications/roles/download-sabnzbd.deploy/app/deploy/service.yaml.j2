@@ -4,12 +4,12 @@ metadata:
   name: sabnzbd
   namespace: {{ sabnzbd.namespace }}
   labels:
-    app: sabnzbd
+    app.kubernetes.io/name: sabnzbd
 spec:
   ports:
   - port: 80
     targetPort: 8080
     name: http
   selector:
-    app: sabnzbd
-    app-component: sabnzbd
+    app.kubernetes.io/name: sabnzbd
+    app.kubernetes.io/component: sabnzbd

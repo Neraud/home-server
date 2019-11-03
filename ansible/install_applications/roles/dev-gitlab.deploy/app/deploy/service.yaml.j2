@@ -4,12 +4,12 @@ metadata:
   name: gitlab
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
-    app-component: gitlab
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/component: gitlab
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: gitlab
-    app-component: gitlab
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/component: gitlab

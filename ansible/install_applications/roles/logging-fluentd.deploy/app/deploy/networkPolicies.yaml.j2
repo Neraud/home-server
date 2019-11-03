@@ -4,14 +4,14 @@ metadata:
   name: allow-to-fluentd
   namespace: {{ fluentd.namespace }}
   labels:
-    app: fluentd
+    app.kubernetes.io/name: fluentd
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: fluentd
-      app-component: fluentd
+      app.kubernetes.io/name: fluentd
+      app.kubernetes.io/component: fluentd
 
   ingress:
     # Allow from fluent-bit
@@ -23,5 +23,5 @@ spec:
               name: {{ fluentbit.namespace }}
           podSelector:
             matchLabels:
-              app: fluent-bit
-              app-component: fluent-bit
+              app.kubernetes.io/name: fluent-bit
+              app.kubernetes.io/component: fluent-bit

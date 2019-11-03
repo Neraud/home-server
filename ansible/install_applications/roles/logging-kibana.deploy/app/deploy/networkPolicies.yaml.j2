@@ -4,14 +4,14 @@ metadata:
   name: allow-to-kibana
   namespace: {{ kibana.namespace }}
   labels:
-    app: kibana
+    app.kubernetes.io/name: kibana
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: kibana
-      app-component: kibana
+      app.kubernetes.io/name: kibana
+      app.kubernetes.io/component: kibana
 
   ingress:
     # Allow from the ingress controller

@@ -4,8 +4,8 @@ metadata:
   name: sabnzbd-config
   namespace: {{ sabnzbd.namespace }}
   labels:
-    app: sabnzbd
-    app-component: sabnzbd
+    app.kubernetes.io/name: sabnzbd
+    app.kubernetes.io/component: sabnzbd
 data:
   sabnzbd_delta.ini: |
     {{ lookup('template', role_path + '/app/config/sabnzbd_delta.ini.j2') | replace('\n', '\n    ') }}

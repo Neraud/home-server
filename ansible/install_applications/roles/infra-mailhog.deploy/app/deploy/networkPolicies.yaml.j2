@@ -4,14 +4,14 @@ metadata:
   name: allow-to-mailhog
   namespace: {{ mailhog.namespace }}
   labels:
-    app: mailhog
+    app.kubernetes.io/name: mailhog
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: mailhog
-      app-component: mailhog
+      app.kubernetes.io/name: mailhog
+      app.kubernetes.io/component: mailhog
 
   ingress:
     # Allow http from the ingress controller
@@ -34,5 +34,5 @@ spec:
               name: {{ zonemta.namespace }}
           podSelector:
             matchLabels:
-              app: zonemta
-              app-component: zonemta
+              app.kubernetes.io/name: zonemta
+              app.kubernetes.io/component: zonemta

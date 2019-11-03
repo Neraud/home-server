@@ -4,8 +4,8 @@ metadata:
   name: homeassistant-config
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
-    app-component: homeassistant
+    app.kubernetes.io/name: homeassistant
+    app.kubernetes.io/component: homeassistant
 data:
   ldap-auth-config.cfg: |-
     {{ lookup('template', role_path + '/app/config/ldap-auth-config.cfg.j2') | replace('\n', '\n    ') }}

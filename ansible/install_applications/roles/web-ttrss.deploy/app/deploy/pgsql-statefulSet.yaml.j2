@@ -4,20 +4,20 @@ metadata:
   name: ttrss-pgsql
   namespace: {{ ttrss.namespace }}
   labels:
-    app: ttrss
-    app-component: pgsql
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: pgsql
 spec:
   selector:
     matchLabels:
-      app: ttrss
-      app-component: pgsql
+      app.kubernetes.io/name: ttrss
+      app.kubernetes.io/component: pgsql
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: ttrss
-        app-component: pgsql
+        app.kubernetes.io/name: ttrss
+        app.kubernetes.io/component: pgsql
     spec:
       containers:
       - image: "{{ ttrss_pgsql.container.image }}"
@@ -71,5 +71,5 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app: ttrss
-          app-component: pgsql
+          app.kubernetes.io/name: ttrss
+          app.kubernetes.io/component: pgsql

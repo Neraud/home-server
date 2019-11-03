@@ -4,14 +4,14 @@ metadata:
   name: allow-to-prometheus-k8s
   namespace: {{ prometheus.namespace }}
   labels:
-    app: prometheus
+    app.kubernetes.io/name: prometheus
     prometheus: k8s
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: prometheus
+      app.kubernetes.io/name: prometheus
       prometheus: k8s
 
 
@@ -33,7 +33,7 @@ spec:
       from:
         - podSelector:
             matchLabels:
-              app: alertmanager
+              app.kubernetes.io/name: alertmanager
               alertmanager: main
 
     # Allow from grafana
@@ -45,5 +45,5 @@ spec:
               name: {{ grafana.namespace }}
           podSelector:
             matchLabels:
-              app: grafana
-              app-component: grafana
+              app.kubernetes.io/name: grafana
+              app.kubernetes.io/component: grafana

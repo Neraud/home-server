@@ -4,20 +4,20 @@ metadata:
   name: unifi
   namespace: {{ unifi.namespace }}
   labels:
-    app: unifi
-    app-component: unifi
+    app.kubernetes.io/name: unifi
+    app.kubernetes.io/component: unifi
 spec:
   selector:
     matchLabels:
-      app: unifi
-      app-component: unifi
+      app.kubernetes.io/name: unifi
+      app.kubernetes.io/component: unifi
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: unifi
-        app-component: unifi
+        app.kubernetes.io/name: unifi
+        app.kubernetes.io/component: unifi
     spec:
       containers:
       - image: "{{ unifi.container.image }}"
@@ -78,5 +78,5 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app: unifi
-          app-component: unifi
+          app.kubernetes.io/name: unifi
+          app.kubernetes.io/component: unifi

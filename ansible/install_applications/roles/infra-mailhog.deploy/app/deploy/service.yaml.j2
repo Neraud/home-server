@@ -4,7 +4,7 @@ metadata:
   name: mailhog
   namespace: {{ mailhog.namespace }}
   labels:
-    app: mailhog
+    app.kubernetes.io/name: mailhog
 spec:
   ports:
     - port: 1025
@@ -12,5 +12,5 @@ spec:
     - port: 8025
       name: http
   selector:
-    app: mailhog
-    app-component: mailhog
+    app.kubernetes.io/name: mailhog
+    app.kubernetes.io/component: mailhog

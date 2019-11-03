@@ -4,14 +4,14 @@ metadata:
   name: allow-to-lemonldap
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
+    app.kubernetes.io/name: lemonldap
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: lemonldap
-      app-component: lemonldap
+      app.kubernetes.io/name: lemonldap
+      app.kubernetes.io/component: lemonldap
 
   ingress:
     # Allow http from the ingress controller

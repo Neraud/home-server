@@ -205,8 +205,8 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: mailhog
-      app-component: mailhog
+      app.kubernetes.io/name: mailhog
+      app.kubernetes.io/component: mailhog
   ingress:
     # Allow smtp from everywhere
     - ports:
@@ -313,7 +313,7 @@ To push values on this sensor :
 ```shell
 [user@master$] kubectl --namespace=home-mosquitto \
   run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never \
-  --labels="app=mosquitto,app-component=test" \
+  --labels="app.kubernetes.io/name=mosquitto,app.kubernetes.io/component=test" \
   --overrides='
 {
     "spec": {
@@ -346,7 +346,7 @@ To debug all messages sent via Mosquitto :
 ```shell
 [user@master$] kubectl --namespace=home-mosquitto \
   run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never \
-  --labels="app=mosquitto,app-component=test" \
+  --labels="app.kubernetes.io/name=mosquitto,app.kubernetes.io/component=test" \
   --overrides='
 {
     "spec": {

@@ -4,13 +4,13 @@ metadata:
   name: allow-to-metrics-server
   namespace: {{ kubernetes_metrics_server.namespace }}
   labels:
-    k8s-app: metrics-server
+    app.kubernetes.io/name: metrics-server
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      k8s-app: metrics-server
+      app.kubernetes.io/name: metrics-server
 
   ingress:
     # Allow from everywhere

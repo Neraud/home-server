@@ -4,11 +4,11 @@ metadata:
   name: ttrss
   namespace: {{ ttrss.namespace }}
   labels:
-    app: ttrss
-    app-component: ttrss
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: ttrss
 spec:
   ports:
   - port: 80
   selector:
-    app: ttrss
-    app-component: ttrss
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: ttrss

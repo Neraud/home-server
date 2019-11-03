@@ -4,8 +4,8 @@ metadata:
   name: kube-scheduler
   namespace: kube-system
   labels:
-    app: kube-scheduler
-    app-component: kube-scheduler
+    app.kubernetes.io/name: kube-scheduler
+    app.kubernetes.io/component: kube-scheduler
     prometheus-target: kube-scheduler
 spec:
   selector:

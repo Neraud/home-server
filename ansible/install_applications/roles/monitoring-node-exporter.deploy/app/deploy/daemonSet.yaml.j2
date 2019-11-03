@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
-    app: node-exporter
-    app-component: node-exporter
+    app.kubernetes.io/name: node-exporter
+    app.kubernetes.io/component: node-exporter
   name: node-exporter
   namespace: {{ node_exporter.namespace }}
 spec:
   selector:
     matchLabels:
-      app: node-exporter
-      app-component: node-exporter
+      app.kubernetes.io/name: node-exporter
+      app.kubernetes.io/component: node-exporter
   template:
     metadata:
       labels:
-        app: node-exporter
-        app-component: node-exporter
+        app.kubernetes.io/name: node-exporter
+        app.kubernetes.io/component: node-exporter
     spec:
       containers:
       - args:

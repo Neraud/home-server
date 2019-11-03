@@ -4,15 +4,15 @@ metadata:
   name: allow-to-homeassistant
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
-    app-component: homeassistant
+    app.kubernetes.io/name: homeassistant
+    app.kubernetes.io/component: homeassistant
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: homeassistant
-      app-component: homeassistant
+      app.kubernetes.io/name: homeassistant
+      app.kubernetes.io/component: homeassistant
 
   ingress:
     - ports:
@@ -32,8 +32,8 @@ spec:
               name: {{ nodered.namespace }}
           podSelector:
             matchLabels:
-              app: nodered
-              app-component: nodered
+              app.kubernetes.io/name: nodered
+              app.kubernetes.io/component: nodered
 
 ---
 
@@ -43,15 +43,15 @@ metadata:
   name: allow-to-mysql
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
-    app-component: mysql
+    app.kubernetes.io/name: homeassistant
+    app.kubernetes.io/component: mysql
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: homeassistant
-    app-component: mysql
+      app.kubernetes.io/name: homeassistant
+    app.kubernetes.io/component: mysql
 
   ingress:
     # Allow from homeassistant
@@ -60,5 +60,5 @@ spec:
       from:
         - podSelector:
             matchLabels:
-              app: homeassistant
-              app-component: homeassistant
+              app.kubernetes.io/name: homeassistant
+              app.kubernetes.io/component: homeassistant

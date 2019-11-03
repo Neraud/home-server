@@ -4,21 +4,21 @@ metadata:
   name: fluentd
   namespace: {{ fluentd.namespace }}
   labels:
-    app: fluentd
-    app-component: fluentd
+    app.kubernetes.io/name: fluentd
+    app.kubernetes.io/component: fluentd
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fluentd
-      app-component: fluentd
+      app.kubernetes.io/name: fluentd
+      app.kubernetes.io/component: fluentd
   template:
     metadata:
       labels:
-        app: fluentd
-        app-component: fluentd
+        app.kubernetes.io/name: fluentd
+        app.kubernetes.io/component: fluentd
     spec:
       containers:
       - name: fluentd

@@ -4,18 +4,18 @@ metadata:
   name: nginx-exporter
   namespace: {{ nginx_exporter.namespace }}
   labels:
-    app: nginx-exporter
-    app-component: nginx-exporter
+    app.kubernetes.io/name: nginx-exporter
+    app.kubernetes.io/component: nginx-exporter
 spec:
   selector:
     matchLabels:
-      app: nginx-exporter
-      app-component: nginx-exporter
+      app.kubernetes.io/name: nginx-exporter
+      app.kubernetes.io/component: nginx-exporter
   template:
     metadata:
       labels:
-        app: nginx-exporter
-        app-component: nginx-exporter
+        app.kubernetes.io/name: nginx-exporter
+        app.kubernetes.io/component: nginx-exporter
     spec:
       containers:
       - name: nginx-exporter

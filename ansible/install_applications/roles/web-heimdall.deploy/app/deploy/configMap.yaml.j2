@@ -4,8 +4,8 @@ metadata:
   name: heimdall-config
   namespace: {{ heimdall.namespace }}
   labels:
-    app: heimdall
-    app-component: heimdall
+    app.kubernetes.io/name: heimdall
+    app.kubernetes.io/component: heimdall
 data:
   .env: |
     {{ lookup('template', role_path + '/app/config/env.j2')  | replace('\n', '\n    ') }}

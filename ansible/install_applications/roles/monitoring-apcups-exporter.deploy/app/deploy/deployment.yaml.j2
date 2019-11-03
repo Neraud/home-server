@@ -4,20 +4,20 @@ metadata:
   name: apcups-exporter
   namespace: {{ apcups_exporter.namespace }}
   labels:
-    app: apcups-exporter
-    app-component: apcups-exporter
+    app.kubernetes.io/name: apcups-exporter
+    app.kubernetes.io/component: apcups-exporter
 spec:
   selector:
     matchLabels:
-      app: apcups-exporter
-      app-component: apcups-exporter
+      app.kubernetes.io/name: apcups-exporter
+      app.kubernetes.io/component: apcups-exporter
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: apcups-exporter
-        app-component: apcups-exporter
+        app.kubernetes.io/name: apcups-exporter
+        app.kubernetes.io/component: apcups-exporter
     spec:
       containers:
       - image: "{{ apcups_exporter.container.image }}"

@@ -4,24 +4,24 @@ metadata:
   name: fluent-bit
   namespace: {{ fluentbit.namespace }}
   labels:
-    app: fluent-bit
-    app-component: fluent-bit
+    app.kubernetes.io/name: fluent-bit
+    app.kubernetes.io/component: fluent-bit
     kubernetes.io/cluster-service: "true"
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: fluent-bit
-      app-component: fluent-bit
+      app.kubernetes.io/name: fluent-bit
+      app.kubernetes.io/component: fluent-bit
       kubernetes.io/cluster-service: "true"
   updateStrategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: fluent-bit
-        app-component: fluent-bit
+        app.kubernetes.io/name: fluent-bit
+        app.kubernetes.io/component: fluent-bit
         kubernetes.io/cluster-service: "true"
       annotations:
         prometheus.io/scrape: "true"

@@ -4,21 +4,21 @@ metadata:
   name: roomassistant
   namespace: {{ roomassistant.namespace }}
   labels:
-    app: roomassistant
-    app-component: roomassistant
+    app.kubernetes.io/name: roomassistant
+    app.kubernetes.io/component: roomassistant
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: roomassistant
-      app-component: roomassistant
+      app.kubernetes.io/name: roomassistant
+      app.kubernetes.io/component: roomassistant
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: roomassistant
-        app-component: roomassistant
+        app.kubernetes.io/name: roomassistant
+        app.kubernetes.io/component: roomassistant
     spec:
       containers:
       - image: "{{ roomassistant.container.image }}"

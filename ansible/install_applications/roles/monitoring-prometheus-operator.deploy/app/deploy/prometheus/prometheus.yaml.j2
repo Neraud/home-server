@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   labels:
-    app: prometheus
-    app-component: prometheus
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/component: prometheus
     prometheus: k8s
   name: k8s
   namespace: {{ prometheus.namespace }}
@@ -52,5 +52,5 @@ spec:
             storage: 4G
         selector:
           matchLabels:
-            app: prometheus-k8s
-            app-component: prometheus
+            app.kubernetes.io/name: prometheus-k8s
+            app.kubernetes.io/component: prometheus

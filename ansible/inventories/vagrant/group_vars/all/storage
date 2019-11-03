@@ -9,8 +9,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: docker-registry
-      app-component: registry
+      app.kubernetes.io/name: docker-registry
+      app.kubernetes.io/component: registry
   gotify-data:
     replicas: 2
     capacity: 256M
@@ -19,8 +19,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: gotify
-      app-component: gotify
+      app.kubernetes.io/name: gotify
+      app.kubernetes.io/component: gotify
   zonemta-mongo-data:
     replicas: 2
     capacity: 512M
@@ -29,8 +29,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: zonemta
-      app-component: mongo
+      app.kubernetes.io/name: zonemta
+      app.kubernetes.io/component: mongo
   zonemta-redis-data:
     replicas: 2
     capacity: 32M
@@ -39,8 +39,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: zonemta
-      app-component: redis
+      app.kubernetes.io/name: zonemta
+      app.kubernetes.io/component: redis
   unifi-config:
     replicas: 2
     capacity: 1G
@@ -49,8 +49,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: unifi
-      app-component: unifi
+      app.kubernetes.io/name: unifi
+      app.kubernetes.io/component: unifi
   openldap-data:
     replicas: 2
     capacity: 256M
@@ -59,8 +59,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: openldap
-      app-component: openldap
+      app.kubernetes.io/name: openldap
+      app.kubernetes.io/component: openldap
       storage: data
   openldap-config:
     replicas: 2
@@ -70,8 +70,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: openldap
-      app-component: openldap
+      app.kubernetes.io/name: openldap
+      app.kubernetes.io/component: openldap
       storage: config
   openldap-run:
     replicas: 2
@@ -81,8 +81,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: openldap
-      app-component: openldap
+      app.kubernetes.io/name: openldap
+      app.kubernetes.io/component: openldap
       storage: run
   lemonldap-data:
     replicas: 2
@@ -92,8 +92,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: lemonldap
-      app-component: lemonldap
+      app.kubernetes.io/name: lemonldap
+      app.kubernetes.io/component: lemonldap
       storage: data
   prometheus-k8s:
     replicas: 2
@@ -103,8 +103,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: prometheus-k8s
-      app-component: prometheus
+      app.kubernetes.io/name: prometheus-k8s
+      app.kubernetes.io/component: prometheus
   grafana-data:
     replicas: 2
     capacity: 128M
@@ -113,8 +113,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: grafana
-      app-component: grafana
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/component: grafana
   ttrss-pgsql:
     replicas: 2
     capacity: 1G
@@ -123,8 +123,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: ttrss
-      app-component: pgsql
+      app.kubernetes.io/name: ttrss
+      app.kubernetes.io/component: pgsql
   heimdall-data:
     replicas: 2
     capacity: 128M
@@ -133,8 +133,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: heimdall
-      app-component: heimdall
+      app.kubernetes.io/name: heimdall
+      app.kubernetes.io/component: heimdall
   homeassistant-config:
     replicas: 2
     capacity: 256M
@@ -143,8 +143,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: homeassistant
-      app-component: homeassistant
+      app.kubernetes.io/name: homeassistant
+      app.kubernetes.io/component: homeassistant
   homeassistant-mysql:
     replicas: 2
     capacity: 2G
@@ -153,8 +153,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: homeassistant
-      app-component: mysql
+      app.kubernetes.io/name: homeassistant
+      app.kubernetes.io/component: mysql
   nodered-data:
     replicas: 2
     capacity: 128M
@@ -163,8 +163,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: nodered
-      app-component: nodered
+      app.kubernetes.io/name: nodered
+      app.kubernetes.io/component: nodered
   mosquitto-data:
     replicas: 2
     capacity: 128M
@@ -173,8 +173,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: mosquitto
-      app-component: mosquitto
+      app.kubernetes.io/name: mosquitto
+      app.kubernetes.io/component: mosquitto
       storage: data
   airsonic-data:
     replicas: 2
@@ -184,8 +184,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: airsonic
-      app-component: airsonic
+      app.kubernetes.io/name: airsonic
+      app.kubernetes.io/component: airsonic
       storage: data
   airsonic-playlists:
     replicas: 2
@@ -195,8 +195,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: airsonic
-      app-component: airsonic
+      app.kubernetes.io/name: airsonic
+      app.kubernetes.io/component: airsonic
       storage: playlists
   plex-data:
     replicas: 2
@@ -206,8 +206,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: plex
-      app-component: plex
+      app.kubernetes.io/name: plex
+      app.kubernetes.io/component: plex
   gitlab-config:
     replicas: 2
     capacity: 16M
@@ -216,8 +216,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: gitlab
-      app-component: gitlab
+      app.kubernetes.io/name: gitlab
+      app.kubernetes.io/component: gitlab
       storage: config
   gitlab-data:
     replicas: 2
@@ -227,8 +227,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: gitlab
-      app-component: gitlab
+      app.kubernetes.io/name: gitlab
+      app.kubernetes.io/component: gitlab
       storage: data
   elasticsearch-data:
     replicas: 2
@@ -238,8 +238,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: elasticsearch
-      app-component: elasticsearch
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: elasticsearch
   deluge-config:
     replicas: 2
     capacity: 256M
@@ -248,8 +248,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: deluge
-      app-component: deluge
+      app.kubernetes.io/name: deluge
+      app.kubernetes.io/component: deluge
   pyload-config:
     replicas: 2
     capacity: 32M
@@ -258,8 +258,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: pyload
-      app-component: pyload
+      app.kubernetes.io/name: pyload
+      app.kubernetes.io/component: pyload
   sabnzbd-config:
     replicas: 2
     capacity: 32M
@@ -268,8 +268,8 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: sabnzbd
-      app-component: sabnzbd
+      app.kubernetes.io/name: sabnzbd
+      app.kubernetes.io/component: sabnzbd
   sickchill-config:
     replicas: 2
     capacity: 1G
@@ -278,5 +278,5 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app: sickchill
-      app-component: sickchill
+      app.kubernetes.io/name: sickchill
+      app.kubernetes.io/component: sickchill

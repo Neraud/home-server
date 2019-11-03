@@ -4,7 +4,7 @@ metadata:
   name: homeassistant
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
+    app.kubernetes.io/name: homeassistant
 spec:
   tls:
     - hosts:

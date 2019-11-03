@@ -4,8 +4,8 @@ metadata:
   name: apcups-exporter-prometheus
   namespace: {{ apcups_exporter.namespace }}
   labels:
-    app: apcups-exporter
-    app-component: apcups-exporter
+    app.kubernetes.io/name: apcups-exporter
+    app.kubernetes.io/component: apcups-exporter
     prometheus-target: apcups-exporter
 spec:
   ports:
@@ -13,5 +13,5 @@ spec:
       name: metrics
       targetPort: metrics
   selector:
-    app: apcups-exporter
-    app-component: apcups-exporter
+    app.kubernetes.io/name: apcups-exporter
+    app.kubernetes.io/component: apcups-exporter

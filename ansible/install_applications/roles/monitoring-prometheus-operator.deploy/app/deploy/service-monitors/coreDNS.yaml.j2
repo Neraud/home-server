@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: coredns
+    app.kubernetes.io/name: coredns
   name: coredns
   namespace: {{ prometheus.namespace }}
 spec:

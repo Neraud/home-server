@@ -4,14 +4,14 @@ metadata:
   name: allow-to-docker-registry-ui
   namespace: {{ docker_registry_ui.namespace }}
   labels:
-    app: docker-registry-ui
+    app.kubernetes.io/name: docker-registry-ui
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: docker-registry-ui
-      app-component: docker-registry-ui
+      app.kubernetes.io/name: docker-registry-ui
+      app.kubernetes.io/component: docker-registry-ui
 
   ingress:
     - ports:

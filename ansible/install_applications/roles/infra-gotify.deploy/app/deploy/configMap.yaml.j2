@@ -4,8 +4,8 @@ metadata:
   name: gotify-config
   namespace: {{ gotify.namespace }}
   labels:
-    app: gotify
-    app-component: gotify
+    app.kubernetes.io/name: gotify
+    app.kubernetes.io/component: gotify
 data:
   config.yml: |
     {{ lookup('template', role_path + '/app/config/config.yml.j2')  | replace('\n', '\n    ') }}

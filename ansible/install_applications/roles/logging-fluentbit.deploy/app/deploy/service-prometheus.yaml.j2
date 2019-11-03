@@ -4,8 +4,8 @@ metadata:
   name: fluent-bit-prometheus
   namespace: {{ fluentbit.namespace }}
   labels:
-    app: fluent-bit
-    app-component: fluent-bit
+    app.kubernetes.io/name: fluent-bit
+    app.kubernetes.io/component: fluent-bit
     prometheus-target: fluent-bit
 spec:
   ports:
@@ -13,5 +13,5 @@ spec:
     name: metrics
     targetPort: metrics
   selector:
-    app: fluent-bit
-    app-component: fluent-bit
+    app.kubernetes.io/name: fluent-bit
+    app.kubernetes.io/component: fluent-bit

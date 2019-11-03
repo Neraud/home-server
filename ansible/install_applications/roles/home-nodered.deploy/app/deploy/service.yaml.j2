@@ -4,11 +4,11 @@ metadata:
   name: nodered
   namespace: {{ nodered.namespace }}
   labels:
-    app: nodered
+    app.kubernetes.io/name: nodered
 spec:
   ports:
   - port: 80
     targetPort: 1880
   selector:
-    app: nodered
-    app-component: nodered
+    app.kubernetes.io/name: nodered
+    app.kubernetes.io/component: nodered

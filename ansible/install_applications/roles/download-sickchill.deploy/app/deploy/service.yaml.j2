@@ -4,12 +4,12 @@ metadata:
   name: sickchill
   namespace: {{ sickchill.namespace }}
   labels:
-    app: sickchill
+    app.kubernetes.io/name: sickchill
 spec:
   ports:
   - port: 80
     targetPort: 8081
     name: web
   selector:
-    app: sickchill
-    app-component: sickchill
+    app.kubernetes.io/name: sickchill
+    app.kubernetes.io/component: sickchill

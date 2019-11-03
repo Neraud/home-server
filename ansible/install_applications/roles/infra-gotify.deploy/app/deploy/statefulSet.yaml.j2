@@ -4,22 +4,22 @@ metadata:
   name: gotify
   namespace: {{ gotify.namespace }}
   labels:
-    app: gotify
-    app-component: gotify
+    app.kubernetes.io/name: gotify
+    app.kubernetes.io/component: gotify
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: gotify
-      app-component: gotify
+      app.kubernetes.io/name: gotify
+      app.kubernetes.io/component: gotify
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: gotify
-        app-component: gotify
+        app.kubernetes.io/name: gotify
+        app.kubernetes.io/component: gotify
     spec:
       containers:
       - image: "{{ gotify.container.image }}"
@@ -62,5 +62,5 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app: gotify
-          app-component: gotify
+          app.kubernetes.io/name: gotify
+          app.kubernetes.io/component: gotify

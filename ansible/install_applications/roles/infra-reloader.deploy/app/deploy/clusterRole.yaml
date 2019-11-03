@@ -3,7 +3,7 @@ kind: ClusterRole
 metadata:
   name: reloader-role
   labels:
-    app: reloader
+    app.kubernetes.io/name: reloader
 rules:
   - apiGroups:
       - ""

@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: kube-controller-manager
+    app.kubernetes.io/name: kube-controller-manager
   name: kube-controller-manager
   namespace: {{ prometheus.namespace }}
 spec:
@@ -23,7 +23,7 @@ spec:
       sourceLabels:
       - __name__
     port: http-metrics
-  jobLabel: k8s-app
+  jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
     - kube-system

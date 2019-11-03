@@ -4,7 +4,7 @@ metadata:
   name: lemonldap-handler
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
+    app.kubernetes.io/name: lemonldap
 spec:
   type: NodePort
   ports:
@@ -13,5 +13,5 @@ spec:
       name: fastcgi
       nodePort: {{ kubernetes_ingress_lemonLdap_handler_port }}
   selector:
-    app: lemonldap
-    app-component: lemonldap
+    app.kubernetes.io/name: lemonldap
+    app.kubernetes.io/component: lemonldap

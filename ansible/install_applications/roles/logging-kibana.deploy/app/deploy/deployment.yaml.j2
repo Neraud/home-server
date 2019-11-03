@@ -4,19 +4,19 @@ metadata:
   name: kibana
   namespace: {{ kibana.namespace }}
   labels:
-    app: kibana
-    app-component: kibana
+    app.kubernetes.io/name: kibana
+    app.kubernetes.io/component: kibana
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kibana
-      app-component: kibana
+      app.kubernetes.io/name: kibana
+      app.kubernetes.io/component: kibana
   template:
     metadata:
       labels:
-        app: kibana
-        app-component: kibana
+        app.kubernetes.io/name: kibana
+        app.kubernetes.io/component: kibana
     spec:
       containers:
       - name: kibana

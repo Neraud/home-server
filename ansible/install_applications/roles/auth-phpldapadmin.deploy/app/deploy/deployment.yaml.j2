@@ -4,23 +4,23 @@ metadata:
   name: phpldapadmin
   namespace: {{ phpldapadmin.namespace }}
   labels:
-    app: phpldapadmin
-    app-component: phpldapadmin
+    app.kubernetes.io/name: phpldapadmin
+    app.kubernetes.io/component: phpldapadmin
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: phpldapadmin
-      app-component: phpldapadmin
+      app.kubernetes.io/name: phpldapadmin
+      app.kubernetes.io/component: phpldapadmin
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: phpldapadmin
-        app-component: phpldapadmin
+        app.kubernetes.io/name: phpldapadmin
+        app.kubernetes.io/component: phpldapadmin
     spec:
       containers:
       - image: "{{ phpldapadmin.container.image }}"

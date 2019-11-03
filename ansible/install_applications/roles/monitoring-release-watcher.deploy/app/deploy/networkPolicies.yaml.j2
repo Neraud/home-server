@@ -4,14 +4,14 @@ metadata:
   name: allow-to-release-watcher
   namespace: {{ release_watcher.namespace }}
   labels:
-    app: release-watcher
+    app.kubernetes.io/name: release-watcher
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: release-watcher
-      app-component: release-watcher
+      app.kubernetes.io/name: release-watcher
+      app.kubernetes.io/component: release-watcher
 
   ingress:
     # Allow from prometheus
@@ -23,5 +23,5 @@ spec:
               name: {{ prometheus.namespace }}
           podSelector:
             matchLabels:
-              app: prometheus
+              app.kubernetes.io/name: prometheus
               prometheus: k8s

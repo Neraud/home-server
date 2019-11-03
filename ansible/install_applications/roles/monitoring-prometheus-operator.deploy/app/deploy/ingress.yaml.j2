@@ -4,7 +4,7 @@ metadata:
   name: prometheus
   namespace: {{ prometheus.namespace }}
   labels:
-    app: prometheus
+    app.kubernetes.io/name: prometheus
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:

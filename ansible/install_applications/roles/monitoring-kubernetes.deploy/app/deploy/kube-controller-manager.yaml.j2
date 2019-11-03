@@ -4,8 +4,8 @@ metadata:
   name: kube-controller-manager
   namespace: kube-system
   labels:
-    app: kube-controller-manager
-    app-component: kube-controller-manager
+    app.kubernetes.io/name: kube-controller-manager
+    app.kubernetes.io/component: kube-controller-manager
     prometheus-target: kube-controller-manager
 spec:
   selector:
