@@ -11,6 +11,13 @@ grafana:
 
   namespace: "monitoring-grafana"
   base_image: "{{ _grafana_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/component: grafana
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _grafana_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _grafana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _grafana_var_loader.base_image.tag }}"

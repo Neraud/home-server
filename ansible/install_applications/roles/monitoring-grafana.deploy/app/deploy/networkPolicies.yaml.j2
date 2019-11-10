@@ -4,14 +4,14 @@ metadata:
   name: allow-to-grafana
   namespace: {{ grafana.namespace }}
   labels:
-    app.kubernetes.io/name: grafana
+    {{ grafana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ grafana.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: grafana
-      app.kubernetes.io/component: grafana
+      {{ grafana.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     - ports:

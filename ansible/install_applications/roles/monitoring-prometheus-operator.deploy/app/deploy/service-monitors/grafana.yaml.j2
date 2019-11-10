@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app.kubernetes.io/name: grafana
+    {{ grafana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ grafana.labels_desc | to_nice_yaml() | indent(4) }}
   name: grafana
   namespace: {{ prometheus.namespace }}
 spec:

@@ -4,8 +4,8 @@ metadata:
   name: grafana-dashboards-config
   namespace: {{ grafana.namespace }}
   labels:
-    app.kubernetes.io/name: grafana
-    app.kubernetes.io/component: grafana
+    {{ grafana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ grafana.labels_desc | to_nice_yaml() | indent(4) }}
 data:
 {% for grafana_dashboard_file in grafana_dashboard_files %}
   {{ grafana_dashboard_file | basename }}: |-

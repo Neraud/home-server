@@ -43,5 +43,4 @@ spec:
               name: {{ grafana.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: grafana
-              app.kubernetes.io/component: grafana
+              {{ grafana.labels_def | to_nice_yaml() | indent(14) }}
