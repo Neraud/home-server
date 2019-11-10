@@ -3,11 +3,11 @@ kind: PrometheusRule
 metadata:
   name: elasticsearch-alerts
   labels:
-    app.kubernetes.io/name: prometheus
-    app.kubernetes.io/component: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
   groups:
     - name: elasticsearch
       rules:
@@ -83,3 +83,4 @@ spec:
           annotations:
             summary: "Elastic no new documents (instance {{ $labels.instance }})"
             description: "No new documents for 10 min!\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+{% endraw %}

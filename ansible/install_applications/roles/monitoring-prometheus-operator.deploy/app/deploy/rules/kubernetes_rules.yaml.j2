@@ -3,11 +3,11 @@ kind: PrometheusRule
 metadata:
   name: kubernetes-rules
   labels:
-    app.kubernetes.io/name: prometheus
-    app.kubernetes.io/component: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
   "groups":
     - "name": "k8s.rules"
       "rules":
@@ -150,3 +150,4 @@ spec:
         - "expr": |
             sum(node_memory_MemFree_bytes{job="node-exporter"} + node_memory_Cached_bytes{job="node-exporter"} + node_memory_Buffers_bytes{job="node-exporter"})
           "record": ":node_memory_MemFreeCachedBuffers_bytes:sum"
+{% endraw %}

@@ -103,8 +103,9 @@ glusterfs_volumes:
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app.kubernetes.io/name: prometheus-k8s
+      app.kubernetes.io/name: prometheus
       app.kubernetes.io/component: prometheus
+      app.kubernetes.io/instance: k8s
   grafana-data:
     replicas: 2
     capacity: 128M

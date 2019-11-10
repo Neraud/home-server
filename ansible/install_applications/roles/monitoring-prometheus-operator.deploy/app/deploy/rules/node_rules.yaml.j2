@@ -3,11 +3,11 @@ kind: PrometheusRule
 metadata:
   name: node-rules
   labels:
-    app.kubernetes.io/name: prometheus
-    app.kubernetes.io/component: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
   "groups":
     - "name": "node-exporter.rules"
       "rules":
@@ -70,3 +70,4 @@ spec:
               rate(node_network_transmit_drop_total{job="node-exporter", device!="lo"}[1m])
             )
           "record": "instance:node_network_transmit_drop_excluding_lo:rate1m"
+{% endraw %}

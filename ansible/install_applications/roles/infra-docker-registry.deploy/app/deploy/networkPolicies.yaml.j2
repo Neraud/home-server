@@ -38,5 +38,4 @@ spec:
               name: {{ prometheus.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: prometheus
-              prometheus: k8s
+              {{ prometheus.labels_def | to_nice_yaml() | indent(14) }}

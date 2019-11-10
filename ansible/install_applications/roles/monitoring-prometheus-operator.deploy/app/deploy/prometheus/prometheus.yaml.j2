@@ -1,20 +1,23 @@
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
-  labels:
-    app.kubernetes.io/name: prometheus
-    app.kubernetes.io/component: prometheus
-    prometheus: k8s
   name: k8s
   namespace: {{ prometheus.namespace }}
+  labels:
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   alerting:
     alertmanagers:
-    - name: alertmanager-main
+    - name: alertmanager-k8s
       namespace: {{ prometheus.namespace }}
       port: web
   baseImage: "{{ prometheus.base_image.repo }}/{{ prometheus.base_image.name }}"
   version: "{{ prometheus.base_image.tag }}"
+  podMetadata:
+    labels:
+      {{ prometheus.labels_def | to_nice_yaml() | indent(6) }}
+      {{ prometheus.labels_desc | to_nice_yaml() | indent(6) }}
   nodeSelector:
     kubernetes.io/os: linux
     capability/general-purpose: 'yes'
@@ -30,7 +33,7 @@ spec:
       memory: "{{ prometheus.container.limits_memory }}"
   ruleSelector:
     matchLabels:
-      prometheus: k8s
+      {{ prometheus.labels_def | to_nice_yaml() | indent(6) }}
       role: alert-rules
   securityContext:
     fsGroup: 2000
@@ -52,5 +55,4 @@ spec:
             storage: 4G
         selector:
           matchLabels:
-            app.kubernetes.io/name: prometheus-k8s
-            app.kubernetes.io/component: prometheus
+            {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
