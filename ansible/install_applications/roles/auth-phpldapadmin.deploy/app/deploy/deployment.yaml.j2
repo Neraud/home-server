@@ -4,23 +4,22 @@ metadata:
   name: phpldapadmin
   namespace: {{ phpldapadmin.namespace }}
   labels:
-    app.kubernetes.io/name: phpldapadmin
-    app.kubernetes.io/component: phpldapadmin
+    {{ phpldapadmin.labels_def | to_nice_yaml() | indent(4) }}
+    {{ phpldapadmin.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: phpldapadmin
-      app.kubernetes.io/component: phpldapadmin
+      {{ phpldapadmin.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: phpldapadmin
-        app.kubernetes.io/component: phpldapadmin
+        {{ phpldapadmin.labels_def | to_nice_yaml() | indent(8) }}
+        {{ phpldapadmin.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - image: "{{ phpldapadmin.container.image }}"

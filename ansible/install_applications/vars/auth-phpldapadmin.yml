@@ -11,6 +11,13 @@ phpldapadmin:
 
   namespace: "auth-phpldapadmin"
   base_image: "{{ _phpldapadmin_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: phpldapadmin
+    app.kubernetes.io/component: phpldapadmin
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _phpldapadmin_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _phpldapadmin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _phpldapadmin_var_loader.base_image.tag }}"

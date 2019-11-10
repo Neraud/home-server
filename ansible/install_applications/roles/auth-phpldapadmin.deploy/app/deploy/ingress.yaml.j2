@@ -4,7 +4,8 @@ metadata:
   name: phpldapadmin
   namespace: {{ phpldapadmin.namespace }}
   labels:
-    app.kubernetes.io/name: phpldapadmin
+    {{ phpldapadmin.labels_def | to_nice_yaml() | indent(4) }}
+    {{ phpldapadmin.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:
