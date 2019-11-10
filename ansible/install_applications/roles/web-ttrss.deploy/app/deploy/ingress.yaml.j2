@@ -4,7 +4,8 @@ metadata:
   name: ttrss
   namespace: {{ ttrss.namespace }}
   labels:
-    app.kubernetes.io/name: ttrss
+    {{ ttrss.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ttrss.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:

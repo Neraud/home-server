@@ -12,6 +12,14 @@ ttrss:
 
   namespace: "web-ttrss"
   base_image: "{{ _ttrss_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: server
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _ttrss_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: ttrss
 
   container:
     image: "{{ docker_registry.url }}/{{ _ttrss_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _ttrss_var_loader.base_image.tag }}-custom"
@@ -49,6 +57,14 @@ _ttrss_pgsql_var_loader:
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: pgsql
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _ttrss_pgsql_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: ttrss
 
   container:
     image: "{{ docker_registry.url }}/tt-rss-{{ _ttrss_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _ttrss_pgsql_var_loader.base_image.tag }}"

@@ -4,8 +4,8 @@ metadata:
   name: ttrss-pgsql-init
   namespace: {{ ttrss.namespace }}
   labels:
-    app.kubernetes.io/name: ttrss
-    app.kubernetes.io/component: pgsql
+    {{ ttrss_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ttrss_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   init-ttrss-schema.sql:  |
     {{ lookup('file', ttrss_pgsql.schema_path_temp)  | replace('\n', '\n    ') }}

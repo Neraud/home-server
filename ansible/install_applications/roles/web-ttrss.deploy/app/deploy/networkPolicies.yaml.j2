@@ -4,13 +4,14 @@ metadata:
   name: allow-to-ttrss-pgsql
   namespace: {{ ttrss.namespace }}
   labels:
+    {{ ttrss_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ttrss_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: ttrss
-      app.kubernetes.io/component: pgsql
+      {{ ttrss_pgsql.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     # Allow from ttrss
@@ -19,24 +20,24 @@ spec:
       from:
         - podSelector:
             matchLabels:
-              app.kubernetes.io/name: ttrss
-              app.kubernetes.io/component: ttrss
+              {{ ttrss.labels_def | to_nice_yaml() | indent(14) }}
 
 ---
 
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-to-ttrss-ttrss
+  name: allow-to-ttrss-server
   namespace: {{ ttrss.namespace }}
   labels:
+    {{ ttrss.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ttrss.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: ttrss
-      app.kubernetes.io/component: ttrss
+      {{ ttrss.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     # Allow from the ingress controller
