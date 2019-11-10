@@ -4,14 +4,14 @@ metadata:
   name: allow-to-kibana
   namespace: {{ kibana.namespace }}
   labels:
-    app.kubernetes.io/name: kibana
+    {{ kibana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kibana.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: kibana
-      app.kubernetes.io/component: kibana
+      {{ kibana.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     # Allow from the ingress controller

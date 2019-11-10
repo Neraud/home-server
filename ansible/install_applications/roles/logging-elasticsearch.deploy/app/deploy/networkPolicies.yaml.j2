@@ -36,8 +36,7 @@ spec:
               name: {{ kibana.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: kibana
-              app.kubernetes.io/component: kibana
+              {{ kibana.labels_def | to_nice_yaml() | indent(14) }}
 
         # Allow from fluentd
         - namespaceSelector:
