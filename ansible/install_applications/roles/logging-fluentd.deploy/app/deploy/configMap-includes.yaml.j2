@@ -4,8 +4,8 @@ metadata:
   name: fluentd-includes
   namespace: {{ fluentd.namespace }}
   labels:
-    app.kubernetes.io/name: fluentd
-    app.kubernetes.io/component: fluentd
+    {{ fluentd.labels_def | to_nice_yaml() | indent(4) }}
+    {{ fluentd.labels_desc | to_nice_yaml() | indent(4) }}
 data:
 {% for fluentd_included_config_file in fluentd_included_config_files %}
   {{ fluentd_included_config_file | basename }}: |

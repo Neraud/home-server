@@ -13,6 +13,13 @@ fluentd:
   namespace: "{{ _fluentd_var_loader.namespace }}"
   base_image: "{{ _fluentd_var_loader.base_image }}"
   servername: "fluentd.{{ _fluentd_var_loader.namespace }}.svc.cluster.local"
+  
+  labels_def:
+    app.kubernetes.io/name: fluent
+    app.kubernetes.io/component: fluent
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _fluentd_var_loader.base_image.tag }}-custom"
 
   container:
     image: "{{ docker_registry.url }}/{{ _fluentd_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _fluentd_var_loader.base_image.tag }}-custom"
