@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app.kubernetes.io/name: gluster-exporter
+    {{ gluster_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gluster_exporter.labels_desc | to_nice_yaml() | indent(4) }}
   name: gluster-exporter
   namespace: {{ prometheus.namespace }}
 spec:
