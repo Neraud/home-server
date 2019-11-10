@@ -4,8 +4,8 @@ metadata:
   name: gotify-config
   namespace: {{ gotify.namespace }}
   labels:
-    app.kubernetes.io/name: gotify
-    app.kubernetes.io/component: gotify
+    {{ gotify.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gotify.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   config.yml: |
     {{ lookup('template', role_path + '/app/config/config.yml.j2')  | replace('\n', '\n    ') }}
