@@ -6,12 +6,22 @@ _elasticsearch_var_loader:
     name: "amazon/opendistro-for-elasticsearch"
     tag: "1.2.0"
   namespace: "logging-elasticsearch"
+  cluster_name: k8s-logs
 
 elasticsearch:
   enabled: "{{ elasticsearch_enabled | default(True) }}"
 
   namespace: "{{ _elasticsearch_var_loader.namespace }}"
   base_image: "{{ _elasticsearch_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/component: elasticsearch
+    app.kubernetes.io/instance: "{{ _elasticsearch_var_loader.cluster_name }}"
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _elasticsearch_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: elasticsearch
   
   container:
     image: "{{ docker_registry.url }}/{{ _elasticsearch_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _elasticsearch_var_loader.base_image.tag }}"
@@ -24,6 +34,7 @@ elasticsearch:
 
   context_path: "{{ elasticsearch_context_path | default('/') }}"
   replicas: "{{ elasticsearch_replicas | default(1) }}"
+  cluster_name: "{{ _elasticsearch_var_loader.cluster_name }}"
 
   # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
   # We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
@@ -50,6 +61,15 @@ _elasticsearch_exporter_var_loader:
 
 elasticsearch_exporter:
   base_image: "{{ _elasticsearch_exporter_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/component: exporter
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _elasticsearch_exporter_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: elasticsearch
+  
   container:
     image: "{{ docker_registry.url }}/{{ _elasticsearch_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _elasticsearch_exporter_var_loader.base_image.tag }}"
     requests_cpu: "{{ elasticsearch_exporter_container_requests_cpu | default('25m') }}"

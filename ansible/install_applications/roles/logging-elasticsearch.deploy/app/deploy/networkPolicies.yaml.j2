@@ -4,14 +4,14 @@ metadata:
   name: allow-to-elasticsearch
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app.kubernetes.io/name: elasticsearch
+    {{ elasticsearch.labels_def | to_nice_yaml() | indent(4) }}
+    {{ elasticsearch.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: elasticsearch
-      app.kubernetes.io/component: elasticsearch
+      {{ elasticsearch.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     - ports:
@@ -28,8 +28,7 @@ spec:
         # Allow from the prometheus_exporter
         - podSelector:
             matchLabels:
-              app.kubernetes.io/name: elasticsearch
-              app.kubernetes.io/component: elastic-exporter
+              {{ elasticsearch_exporter.labels_def | to_nice_yaml() | indent(14) }}
 
         # Allow from kibana
         - namespaceSelector:
@@ -55,8 +54,7 @@ spec:
       from:
         - podSelector:
             matchLabels:
-              app.kubernetes.io/name: elasticsearch
-              app.kubernetes.io/component: elasticsearch
+              {{ elasticsearch.labels_def | to_nice_yaml() | indent(14) }}
 
 ---
 
@@ -66,14 +64,14 @@ metadata:
   name: allow-to-elasticsearch-exporter
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app.kubernetes.io/name: elasticsearch
+    {{ elasticsearch_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ elasticsearch_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: elasticsearch
-      app.kubernetes.io/component: elastic-exporter
+      {{ elasticsearch_exporter.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     # Allow metrics from Prometheus

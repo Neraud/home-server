@@ -4,8 +4,8 @@ metadata:
   name: elasticsearch-security
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app.kubernetes.io/name: elasticsearch
-    app.kubernetes.io/component: elasticsearch
+    {{ elasticsearch.labels_def | to_nice_yaml() | indent(4) }}
+    {{ elasticsearch.labels_desc | to_nice_yaml() | indent(4) }}
 data:
 {% for elasticsearch_security_config_file in elasticsearch_security_config_files %}
   {{ elasticsearch_security_config_file | basename | replace(".j2", "") }}: |-

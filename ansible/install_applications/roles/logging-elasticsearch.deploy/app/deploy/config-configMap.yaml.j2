@@ -4,8 +4,8 @@ metadata:
   name: elasticsearch-config
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app.kubernetes.io/name: elasticsearch
-    app.kubernetes.io/component: elasticsearch
+    {{ elasticsearch.labels_def | to_nice_yaml() | indent(4) }}
+    {{ elasticsearch.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   elasticsearch.yml: |
     {{ lookup('template', role_path + '/app/config/elasticsearch.yml.j2') | replace('\n', '\n    ') }}

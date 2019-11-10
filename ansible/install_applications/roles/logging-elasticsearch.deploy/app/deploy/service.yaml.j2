@@ -4,8 +4,8 @@ metadata:
   name: elasticsearch
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app.kubernetes.io/name: elasticsearch
-    app.kubernetes.io/component: elasticsearch
+    {{ elasticsearch.labels_def | to_nice_yaml() | indent(4) }}
+    {{ elasticsearch.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   clusterIP: None
   ports:
@@ -14,5 +14,4 @@ spec:
     - port: 9300
       name: inter-node
   selector:
-    app.kubernetes.io/name: elasticsearch
-    app.kubernetes.io/component: elasticsearch
+    {{ elasticsearch.labels_def | to_nice_yaml() | indent(4) }}
