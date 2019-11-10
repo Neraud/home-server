@@ -4,7 +4,8 @@ metadata:
   name: openldap
   namespace: {{ openldap.namespace }}
   labels:
-    app.kubernetes.io/name: openldap
+    {{ openldap.labels_def | to_nice_yaml() | indent(4) }}
+    {{ openldap.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 389
@@ -12,5 +13,4 @@ spec:
   - port: 636
     name: ldaps
   selector:
-    app.kubernetes.io/name: openldap
-    app.kubernetes.io/component: openldap
+    {{ openldap.labels_def | to_nice_yaml() | indent(4) }}

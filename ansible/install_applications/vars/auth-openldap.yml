@@ -15,6 +15,13 @@ openldap:
 
   namespace: "{{ _openldap_var_loader.namespace }}"
   base_image: "{{ _openldap_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: openldap
+    app.kubernetes.io/component: openldap
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _openldap_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _openldap_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _openldap_var_loader.base_image.tag }}"
