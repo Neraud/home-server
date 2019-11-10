@@ -10,6 +10,13 @@ release_watcher:
   enabled: "{{ release_watcher_enabled | default(True) }}"
 
   namespace: "monitoring-release-watcher"
+  
+  labels_def:
+    app.kubernetes.io/name: release-watcher
+    app.kubernetes.io/component: release-watcher
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _release_watcher_var_loader.repo.version }}-custom"
 
   container:
     image: "{{ docker_registry.url }}/release-watcher:{{ _release_watcher_var_loader.repo.version }}-custom"
