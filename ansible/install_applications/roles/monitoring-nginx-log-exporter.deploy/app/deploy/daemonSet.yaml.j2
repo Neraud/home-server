@@ -4,20 +4,19 @@ metadata:
   name: nginx-log-exporter
   namespace: {{ nginx_log_exporter.namespace }}
   labels:
-    app.kubernetes.io/name: nginx-log-exporter
-    app.kubernetes.io/component: nginx-log-exporter
+    {{ nginx_log_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nginx_log_exporter.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: nginx-log-exporter
-      app.kubernetes.io/component: nginx-log-exporter
+      {{ nginx_log_exporter.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: nginx-log-exporter
-        app.kubernetes.io/component: nginx-log-exporter
+        {{ nginx_log_exporter.labels_def | to_nice_yaml() | indent(8) }}
+        {{ nginx_log_exporter.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - name: nginx-log-exporter
