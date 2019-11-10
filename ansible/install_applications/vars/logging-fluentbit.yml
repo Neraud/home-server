@@ -11,6 +11,13 @@ fluentbit:
 
   namespace: "logging-fluentbit"
   base_image: "{{ _fluentbit_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: fluent-bit
+    app.kubernetes.io/component: fluent-bit
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _fluentbit_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _fluentbit_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _fluentbit_var_loader.base_image.tag }}"

@@ -4,8 +4,8 @@ metadata:
   name: fluent-bit-config
   namespace: {{ fluentbit.namespace }}
   labels:
-    app.kubernetes.io/name: fluent-bit
-    app.kubernetes.io/component: fluent-bit
+    {{ fluentbit.labels_def | to_nice_yaml() | indent(4) }}
+    {{ fluentbit.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   # Configuration files: server, input, filters and output
   # ======================================================

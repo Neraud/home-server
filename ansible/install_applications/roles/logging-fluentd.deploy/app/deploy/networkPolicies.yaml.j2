@@ -23,5 +23,4 @@ spec:
               name: {{ fluentbit.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: fluent-bit
-              app.kubernetes.io/component: fluent-bit
+              {{ fluentbit.labels_def | to_nice_yaml() | indent(14) }}
