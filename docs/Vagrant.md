@@ -69,6 +69,7 @@ The folowing services are deployed :
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://infra.k8stest.com/phpldapadmin/>          | Web-based LDAP browser                                 |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                  | Modern outbound SMTP relay                             |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://infra.k8stest.com/mailhog/>               | MailHog is an email testing tool for developers        |
+| [Gotify](https://gotify.net/)                                    | <https://infra.k8stest.com/gotify/>                | A simple server for sending and receiving messages     |
 | [Prometheus](https://prometheus.io/)                             | <https://infra.k8stest.com/prometheus/>            | Monitoring solution                                    |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | <https://infra.k8stest.com/alertmanager/>          | Alert manager for Prometheus                           |
 | [Grafana](https://grafana.com/)                                  | <https://infra.k8stest.com/grafana/>               | Platform for beautiful analytics and monitoring        |
