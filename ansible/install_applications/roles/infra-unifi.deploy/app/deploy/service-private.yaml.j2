@@ -5,8 +5,8 @@ metadata:
   name: unifi-private
   namespace: {{ unifi.namespace }}
   labels:
-    app.kubernetes.io/name: unifi
-    app.kubernetes.io/component: unifi
+    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
 {% if unifi.private_ip is defined %}
   externalIPs:
@@ -48,5 +48,4 @@ spec:
     targetPort: 10001
     protocol: UDP
   selector:
-    app.kubernetes.io/name: unifi
-    app.kubernetes.io/component: unifi
+    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}

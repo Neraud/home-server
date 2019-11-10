@@ -4,20 +4,19 @@ metadata:
   name: unifi
   namespace: {{ unifi.namespace }}
   labels:
-    app.kubernetes.io/name: unifi
-    app.kubernetes.io/component: unifi
+    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: unifi
-      app.kubernetes.io/component: unifi
+      {{ unifi.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: unifi
-        app.kubernetes.io/component: unifi
+        {{ unifi.labels_def | to_nice_yaml() | indent(8) }}
+        {{ unifi.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - image: "{{ unifi.container.image }}"
@@ -78,5 +77,4 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app.kubernetes.io/name: unifi
-          app.kubernetes.io/component: unifi
+          {{ unifi.labels_def | to_nice_yaml() | indent(10) }}

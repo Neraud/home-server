@@ -4,7 +4,8 @@ metadata:
   name: unifi
   namespace: {{ unifi.namespace }}
   labels:
-    app.kubernetes.io/name: unifi
+    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:

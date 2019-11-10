@@ -11,6 +11,13 @@ unifi:
 
   namespace: "infra-unifi"
   base_image: "{{ _unifi_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: unifi
+    app.kubernetes.io/component: unifi
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _unifi_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _unifi_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _unifi_var_loader.base_image.tag }}"
