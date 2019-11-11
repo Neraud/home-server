@@ -31,5 +31,4 @@ spec:
               name: {{ homeassistant.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: homeassistant
-              app.kubernetes.io/component: homeassistant
+              {{ homeassistant.labels_def | to_nice_yaml() | indent(14) }}

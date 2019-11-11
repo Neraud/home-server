@@ -4,22 +4,21 @@ metadata:
   name: homeassistant
   namespace: {{ homeassistant.namespace }}
   labels:
-    app.kubernetes.io/name: homeassistant
-    app.kubernetes.io/component: homeassistant
+    {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homeassistant.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: homeassistant
-      app.kubernetes.io/component: homeassistant
+      {{ homeassistant.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: homeassistant
-        app.kubernetes.io/component: homeassistant
+        {{ homeassistant.labels_def | to_nice_yaml() | indent(8) }}
+        {{ homeassistant.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - image: "{{ homeassistant.container.image }}"
@@ -73,5 +72,4 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app.kubernetes.io/name: homeassistant
-          app.kubernetes.io/component: homeassistant
+          {{ homeassistant.labels_def | to_nice_yaml() | indent(10) }}

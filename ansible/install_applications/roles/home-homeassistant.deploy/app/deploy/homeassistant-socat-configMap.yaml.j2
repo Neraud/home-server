@@ -4,8 +4,8 @@ metadata:
   name: homeassistant-socat-config
   namespace: {{ homeassistant.namespace }}
   labels:
-    app.kubernetes.io/name: homeassistant
-    app.kubernetes.io/component: homeassistant
+    {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homeassistant.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   {% for name in homeassistant.serial_remote_devices | default({}) %}
   {% set remote_device = homeassistant.serial_remote_devices[name] %}

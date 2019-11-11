@@ -4,20 +4,19 @@ metadata:
   name: homeassistant-mysql
   namespace: {{ homeassistant.namespace }}
   labels:
-    app.kubernetes.io/name: homeassistant
-    app.kubernetes.io/component: mysql
+    {{ homeassistant_mysql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homeassistant_mysql.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: homeassistant
-      app.kubernetes.io/component: mysql
+      {{ homeassistant_mysql.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: homeassistant
-        app.kubernetes.io/component: mysql
+        {{ homeassistant_mysql.labels_def | to_nice_yaml() | indent(8) }}
+        {{ homeassistant_mysql.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - image: "{{ homeassistant_mysql.container.image }}"
@@ -69,5 +68,4 @@ spec:
           storage: 2G
       selector:
         matchLabels:
-          app.kubernetes.io/name: homeassistant
-          app.kubernetes.io/component: mysql
+          {{ homeassistant_mysql.labels_def | to_nice_yaml() | indent(10) }}
