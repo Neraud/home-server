@@ -17,6 +17,13 @@ pyload:
   base_image: "{{ _pyload_var_loader.base_image }}"
   repo: "{{ _pyload_var_loader.repo }}"
 
+  labels_def:
+    app.kubernetes.io/name: pyload
+    app.kubernetes.io/component: pyload
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _pyload_var_loader.base_image.tag }}"
+
   container:
     image: "{{ docker_registry.url }}/pyload:{{ _pyload_var_loader.repo.commit }}-custom"
     branch: "{{ _pyload_var_loader.repo.branch }}"

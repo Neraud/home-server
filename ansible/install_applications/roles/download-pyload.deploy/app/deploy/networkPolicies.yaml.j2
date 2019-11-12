@@ -4,15 +4,14 @@ metadata:
   name: allow-to-pyload
   namespace: {{ pyload.namespace }}
   labels:
-    app.kubernetes.io/name: pyload
-    app.kubernetes.io/component: pyload
+    {{ pyload.labels_def | to_nice_yaml() | indent(4) }}
+    {{ pyload.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: pyload
-      app.kubernetes.io/component: pyload
+      {{ pyload.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     # Allow from the ingress controller

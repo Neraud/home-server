@@ -4,22 +4,21 @@ metadata:
   name: pyload
   namespace: {{ pyload.namespace }}
   labels:
-    app.kubernetes.io/name: pyload
-    app.kubernetes.io/component: pyload
+    {{ pyload.labels_def | to_nice_yaml() | indent(4) }}
+    {{ pyload.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: pyload
-      app.kubernetes.io/component: pyload
+      {{ pyload.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: pyload
-        app.kubernetes.io/component: pyload
+        {{ pyload.labels_def | to_nice_yaml() | indent(8) }}
+        {{ pyload.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - image: "{{ pyload.container.image }}"
@@ -68,5 +67,4 @@ spec:
           storage: 32M
       selector:
         matchLabels:
-          app.kubernetes.io/name: pyload
-          app.kubernetes.io/component: pyload
+          {{ pyload.labels_def | to_nice_yaml() | indent(10) }}
