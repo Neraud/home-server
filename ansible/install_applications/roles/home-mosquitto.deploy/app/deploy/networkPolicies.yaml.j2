@@ -46,5 +46,4 @@ spec:
               name: {{ roomassistant.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: roomassistant
-              app.kubernetes.io/component: roomassistant
+              {{ roomassistant.labels_def | to_nice_yaml() | indent(14) }}

@@ -12,6 +12,13 @@ roomassistant:
   namespace: "home-roomassistant"
   base_image: "{{ _roomassistant_var_loader.base_image }}"
 
+  labels_def:
+    app.kubernetes.io/name: roomassistant
+    app.kubernetes.io/component: roomassistant
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _roomassistant_var_loader.base_image.tag }}"
+
   container:
     image: "{{ docker_registry.url }}/{{ _roomassistant_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _roomassistant_var_loader.base_image.tag }}"
     requests_cpu: "{{ roomassistant_container_requests_cpu | default('100m') }}"
