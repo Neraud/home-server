@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app.kubernetes.io/name: gitlab
+    {{ gitlab.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitlab.labels_desc | to_nice_yaml() | indent(4) }}
   name: gitlab
   namespace: {{ prometheus.namespace }}
 spec:
