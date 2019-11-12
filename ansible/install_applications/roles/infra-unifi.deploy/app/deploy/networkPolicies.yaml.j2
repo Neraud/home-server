@@ -20,10 +20,10 @@ spec:
       from:
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
 
     # Allow private ports from everywhere
     - ports:

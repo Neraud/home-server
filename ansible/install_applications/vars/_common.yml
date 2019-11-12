@@ -3,3 +3,10 @@
 kubernetes_user:
   name: "{{ standard_user.name }}"
   home: "{{ standard_user.home }}"
+
+ingress_nginx:
+  namespace_labels_def:
+    app.kubernetes.io/name: ingress-nginx
+
+  labels_def:
+    app.kubernetes.io/name: ingress-nginx
