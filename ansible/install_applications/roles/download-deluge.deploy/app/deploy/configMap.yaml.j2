@@ -4,8 +4,8 @@ metadata:
   name: deluge-config
   namespace: {{ deluge.namespace }}
   labels:
-    app.kubernetes.io/name: deluge
-    app.kubernetes.io/component: deluge
+    {{ deluge.labels_def | to_nice_yaml() | indent(4) }}
+    {{ deluge.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   core_delta.conf: |
     {{ lookup('template', role_path + '/app/config/core_delta.conf.j2') | replace('\n', '\n    ') }}
