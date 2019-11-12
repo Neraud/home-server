@@ -4,7 +4,8 @@ metadata:
   name: airsonic
   namespace: {{ airsonic.namespace }}
   labels:
-    app.kubernetes.io/name: airsonic
+    {{ airsonic.labels_def | to_nice_yaml() | indent(4) }}
+    {{ airsonic.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:

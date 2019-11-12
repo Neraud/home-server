@@ -4,15 +4,14 @@ metadata:
   name: allow-to-airsonic
   namespace: {{ airsonic.namespace }}
   labels:
-    app.kubernetes.io/name: airsonic
-    app.kubernetes.io/component: airsonic
+    {{ airsonic.labels_def | to_nice_yaml() | indent(4) }}
+    {{ airsonic.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: airsonic
-      app.kubernetes.io/component: airsonic
+      {{ airsonic.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     # Allow from the ingress controller
