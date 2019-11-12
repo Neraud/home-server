@@ -1,8 +1,11 @@
 
+
 * Use ansible module k8s wait_condition when it makes sense
 
 * Configure kubernetes Liveness, Readiness and Startup Probes
     * See https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+
+* Ansible always changed for network policies ?
 
 * Home
     * Shinobi / ZoneMinder / MotionEye ?
