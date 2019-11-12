@@ -4,8 +4,8 @@ metadata:
   name: sabnzbd-config
   namespace: {{ sabnzbd.namespace }}
   labels:
-    app.kubernetes.io/name: sabnzbd
-    app.kubernetes.io/component: sabnzbd
+    {{ sabnzbd.labels_def | to_nice_yaml() | indent(4) }}
+    {{ sabnzbd.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   sabnzbd_delta.ini: |
     {{ lookup('template', role_path + '/app/config/sabnzbd_delta.ini.j2') | replace('\n', '\n    ') }}

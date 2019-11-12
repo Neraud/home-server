@@ -31,5 +31,4 @@ spec:
               name: {{ sabnzbd.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: sabnzbd
-              app.kubernetes.io/component: sabnzbd
+              {{ sabnzbd.labels_def | to_nice_yaml() | indent(14) }}

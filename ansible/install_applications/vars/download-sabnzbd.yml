@@ -13,6 +13,13 @@ sabnzbd:
   namespace: "{{ _sabnzbd_var_loader.namespace }}"
   base_image: "{{ _sabnzbd_var_loader.base_image }}"
   servername: "sabnzbd.{{ _sabnzbd_var_loader.namespace }}.svc.cluster.local"
+  
+  labels_def:
+    app.kubernetes.io/name: sabnzbd
+    app.kubernetes.io/component: sabnzbd
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _sabnzbd_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _sabnzbd_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _sabnzbd_var_loader.base_image.tag }}-custom"
