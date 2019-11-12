@@ -12,6 +12,13 @@ plex:
   namespace: "stream-plex"
   base_image: "{{ _plex_var_loader.base_image }}"
 
+  labels_def:
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/component: plex
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _plex_var_loader.base_image.tag }}"
+
   container:
     image: "{{ docker_registry.url }}/{{ _plex_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _plex_var_loader.base_image.tag }}"
     requests_cpu: "{{ plex_container_requests_cpu | default('500m') }}"

@@ -4,12 +4,11 @@ metadata:
   name: plex
   namespace: {{ plex.namespace }}
   labels:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: plex
+    {{ plex.labels_def | to_nice_yaml() | indent(4) }}
+    {{ plex.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
     targetPort: 32400
   selector:
-    app.kubernetes.io/name: plex
-    app.kubernetes.io/component: plex
+    {{ plex.labels_def | to_nice_yaml() | indent(4) }}

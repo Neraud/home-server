@@ -4,7 +4,8 @@ metadata:
   name: plex
   namespace: {{ plex.namespace }}
   labels:
-    app.kubernetes.io/name: plex
+    {{ plex.labels_def | to_nice_yaml() | indent(4) }}
+    {{ plex.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:
