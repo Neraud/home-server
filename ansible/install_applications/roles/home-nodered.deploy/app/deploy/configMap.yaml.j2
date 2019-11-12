@@ -4,8 +4,8 @@ metadata:
   name: nodered
   namespace: {{ nodered.namespace }}
   labels:
-    app.kubernetes.io/name: nodered
-    app.kubernetes.io/component: nodered
+    {{ nodered.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nodered.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   settings.js: |-
     {{ lookup('template', role_path + '/app/config/settings.js.j2') | replace('\n', '\n    ') }}

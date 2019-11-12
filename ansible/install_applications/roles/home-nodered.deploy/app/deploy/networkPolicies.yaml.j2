@@ -4,15 +4,14 @@ metadata:
   name: allow-to-nodered
   namespace: {{ nodered.namespace }}
   labels:
-    app.kubernetes.io/name: nodered
-    app.kubernetes.io/component: nodered
+    {{ nodered.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nodered.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: nodered
-      app.kubernetes.io/component: nodered
+      {{ nodered.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     # Allow from the ingress controller

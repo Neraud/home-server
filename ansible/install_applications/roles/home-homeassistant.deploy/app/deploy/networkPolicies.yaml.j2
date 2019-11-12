@@ -31,8 +31,7 @@ spec:
               name: {{ nodered.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: nodered
-              app.kubernetes.io/component: nodered
+              {{ nodered.labels_def | to_nice_yaml() | indent(14) }}
 
 ---
 

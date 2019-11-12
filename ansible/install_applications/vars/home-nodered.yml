@@ -13,6 +13,13 @@ nodered:
   namespace: "home-nodered"
   base_image: "{{ _nodered_var_loader.base_image }}"
 
+  labels_def:
+    app.kubernetes.io/name: nodered
+    app.kubernetes.io/component: nodered
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nodered_var_loader.base_image.tag }}-custom"
+
   container:
     image: "{{ docker_registry.url }}/{{ _nodered_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nodered_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ nodered_container_requests_cpu | default('250m') }}"
