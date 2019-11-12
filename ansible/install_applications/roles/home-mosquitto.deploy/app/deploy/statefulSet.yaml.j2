@@ -4,22 +4,21 @@ metadata:
   name: mosquitto
   namespace: {{ mosquitto.namespace }}
   labels:
-    app.kubernetes.io/name: mosquitto
-    app.kubernetes.io/component: mosquitto
+    {{ mosquitto.labels_def | to_nice_yaml() | indent(4) }}
+    {{ mosquitto.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: mosquitto
-      app.kubernetes.io/component: mosquitto
+      {{ mosquitto.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: mosquitto
-        app.kubernetes.io/component: mosquitto
+        {{ mosquitto.labels_def | to_nice_yaml() | indent(8) }}
+        {{ mosquitto.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - image: "{{ mosquitto.container.image }}"
@@ -71,6 +70,5 @@ spec:
           storage: 128M
       selector:
         matchLabels:
-          app.kubernetes.io/name: mosquitto
-          app.kubernetes.io/component: mosquitto
+          {{ mosquitto.labels_def | to_nice_yaml() | indent(10) }}
           storage: data

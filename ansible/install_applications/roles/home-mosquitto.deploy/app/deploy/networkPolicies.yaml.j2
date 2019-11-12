@@ -4,15 +4,14 @@ metadata:
   name: allow-to-mosquitto
   namespace: {{ mosquitto.namespace }}
   labels:
-    app.kubernetes.io/name: mosquitto
-    app.kubernetes.io/component: mosquitto
+    {{ mosquitto.labels_def | to_nice_yaml() | indent(4) }}
+    {{ mosquitto.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: mosquitto
-      app.kubernetes.io/component: mosquitto
+      {{ mosquitto.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     - ports:
