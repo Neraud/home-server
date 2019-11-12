@@ -32,5 +32,4 @@ spec:
               name: {{ sickchill.namespace }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: sickchill
-              app.kubernetes.io/component: sickchill
+              {{ sickchill.labels_def | to_nice_yaml() | indent(14) }}

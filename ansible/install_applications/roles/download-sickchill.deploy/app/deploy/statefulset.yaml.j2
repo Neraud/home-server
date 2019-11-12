@@ -4,22 +4,21 @@ metadata:
   name: sickchill
   namespace: {{ sickchill.namespace }}
   labels:
-    app.kubernetes.io/name: sickchill
-    app.kubernetes.io/component: sickchill
+    {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}
+    {{ sickchill.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: sickchill
-      app.kubernetes.io/component: sickchill
+      {{ sickchill.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: sickchill
-        app.kubernetes.io/component: sickchill
+        {{ sickchill.labels_def | to_nice_yaml() | indent(8) }}
+        {{ sickchill.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       initContainers:
       - name: inject-config
@@ -82,5 +81,4 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app.kubernetes.io/name: sickchill
-          app.kubernetes.io/component: sickchill
+          {{ sickchill.labels_def | to_nice_yaml() | indent(10) }}

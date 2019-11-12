@@ -4,12 +4,12 @@ metadata:
   name: sickchill
   namespace: {{ sickchill.namespace }}
   labels:
-    app.kubernetes.io/name: sickchill
+    {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}
+    {{ sickchill.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
     targetPort: 8081
     name: web
   selector:
-    app.kubernetes.io/name: sickchill
-    app.kubernetes.io/component: sickchill
+    {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}

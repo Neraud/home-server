@@ -4,8 +4,8 @@ metadata:
   name: sickchill-config
   namespace: {{ sickchill.namespace }}
   labels:
-    app.kubernetes.io/name: sickchill
-    app.kubernetes.io/component: sickchill
+    {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}
+    {{ sickchill.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   config_delta.ini: |
     {{ lookup('template', role_path + '/app/config/config_delta.ini.j2') | replace('\n', '\n    ') }}

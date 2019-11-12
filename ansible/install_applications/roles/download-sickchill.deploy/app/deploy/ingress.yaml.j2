@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: sickchill
   namespace: {{ sickchill.namespace }}
+  labels:
+    {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}
+    {{ sickchill.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:
