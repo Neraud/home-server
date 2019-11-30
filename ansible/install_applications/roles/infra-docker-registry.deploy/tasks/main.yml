@@ -24,9 +24,13 @@
   become_user: "{{ kubernetes_user.name }}"
 
 - name: Wait for Docker registry to be available
-  wait_for:
-    host: 127.0.0.1
-    port: "{{ docker_registry.port }}"
-    state: started
-    sleep: 2
-    timeout: 60
+  k8s_facts:
+    kind: StatefulSet
+    namespace: "{{ docker_registry.namespace }}"
+    name: docker-registry
+  register: k8s_result
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 10
+  delay: 3
