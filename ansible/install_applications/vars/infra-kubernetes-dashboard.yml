@@ -4,7 +4,7 @@
 _kubernetes_dashboard_var_loader:
   base_image:
     name: "kubernetesui/dashboard"
-    tag: "v2.0.0-beta4"
+    tag: "v2.0.0-beta6"
   
 kubernetes_dashboard:
   enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
