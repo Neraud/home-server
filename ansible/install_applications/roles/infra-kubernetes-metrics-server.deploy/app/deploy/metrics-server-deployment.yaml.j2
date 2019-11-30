@@ -41,6 +41,13 @@ spec:
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 1000
+        readinessProbe:
+          httpGet:
+            scheme: HTTPS
+            path: /healthz
+            port: main-port
+          initialDelaySeconds: 10
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ kubernetes_metrics_server.container.requests_cpu }}"
