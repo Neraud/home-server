@@ -35,6 +35,13 @@ spec:
           name: docker-registry
         - containerPort: 5001
           name: debug
+        readinessProbe:
+          httpGet:
+            scheme: HTTPS
+            path: /
+            port: docker-registry
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ docker_registry.container.requests_cpu }}"
