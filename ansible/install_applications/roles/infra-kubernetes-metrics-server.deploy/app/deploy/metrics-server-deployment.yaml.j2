@@ -27,13 +27,20 @@ spec:
       - name: metrics-server
         image: "{{ kubernetes_metrics_server.container.image }}"
         imagePullPolicy: Always
+        args:
+        - --cert-dir=/tmp
+        - --secure-port=4443
         # TODO : Fix kubelet serving certificate and remove this insecure flag
         # See https://github.com/kubernetes/kubeadm/issues/1223
-        args:
         - --kubelet-insecure-tls=true
         ports:
-        - containerPort: 443
-          name: metrics
+        - name: main-port
+          containerPort: 4443
+          protocol: TCP
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
         resources:
           requests:
             cpu: "{{ kubernetes_metrics_server.container.requests_cpu }}"
@@ -44,4 +51,6 @@ spec:
         volumeMounts:
         - name: tmp-dir
           mountPath: /tmp
-
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+        capability/general-purpose: 'yes'
