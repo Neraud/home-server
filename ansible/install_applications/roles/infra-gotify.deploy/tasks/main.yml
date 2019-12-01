@@ -21,18 +21,16 @@
   become_user: "{{ kubernetes_user.name }}"
 
 - name: Wait for Gotify to be available
-  uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/version"
-    method: GET
-    headers:
-      Host: "infra.{{ web_base_domain }}"
-    return_content: no
-    validate_certs: no
-  register: gotify_available
-  until:
-  - gotify_available.status == 200
-  retries: 18
-  delay: 10
+  k8s_facts:
+    kind: StatefulSet
+    namespace: "{{ gotify.namespace }}"
+    name: gotify
+  register: k8s_result
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 10
+  delay: 3
 
 - name: List existing users
   uri:
