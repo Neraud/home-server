@@ -26,6 +26,13 @@ spec:
         ports:
         - containerPort: 8000
           name: http
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ docker_registry_ui.context_root }}
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ docker_registry_ui.container.requests_cpu }}"

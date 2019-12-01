@@ -28,5 +28,6 @@ docker_registry_ui:
     limits_cpu: "{{ docker_registry_ui_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ docker_registry_ui_container_limits_memory | default('32Mi') }}"
 
+  context_root: /docker-registry-ui
   admin_users: "{{ docker_registry_ui_admin_users | default([]) }}"
   event_api_token: "{{ _docker_registry_ui_var_loader.event_api_token }}"

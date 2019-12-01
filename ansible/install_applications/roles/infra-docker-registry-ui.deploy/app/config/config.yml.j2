@@ -1,7 +1,7 @@
 # Listen interface.
 listen_addr: 0.0.0.0:8000
 # Base path of Docker Registry UI.
-base_path: /docker-regitry-ui
+base_path: {{ docker_registry_ui.context_root }}
 
 # Registry URL with schema and port.
 registry_url: https://{{ docker_registry.servername }}
