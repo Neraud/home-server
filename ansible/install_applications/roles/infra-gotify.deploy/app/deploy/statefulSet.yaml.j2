@@ -26,6 +26,13 @@ spec:
         ports:
         - containerPort: 80
           name: gotify
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /health
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ gotify.container.requests_cpu }}"
