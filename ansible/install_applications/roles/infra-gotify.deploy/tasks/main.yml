@@ -61,6 +61,7 @@
     force_basic_auth: yes
     user: "{{ gotify.default_admin_user }}"
     password: "{{ gotify.default_admin_password }}"
+  changed_when: true
   with_items: "{{ gotify.users }}"
   when: item.name not in (gotify_existing_users.json | map(attribute='name'))
 
@@ -98,5 +99,6 @@
     force_basic_auth: yes
     user: "{{ item.0.name }}"
     password: "{{ item.0.password }}"
+  changed_when: true
   loop: "{{ gotify.users | subelements('applications') }}"
   when: item.1.name not in (gotify_existing_applications_cleaned[item.0.name] | map(attribute='name'))
