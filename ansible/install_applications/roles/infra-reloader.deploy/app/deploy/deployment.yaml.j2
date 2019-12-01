@@ -21,7 +21,12 @@ spec:
       containers:
       - name: reloader
         image: "{{ reloader.container.image }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
         resources:
           requests:
             cpu: "{{ reloader.container.requests_cpu }}"
