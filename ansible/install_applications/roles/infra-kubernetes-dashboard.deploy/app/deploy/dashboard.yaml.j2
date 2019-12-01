@@ -41,7 +41,8 @@ metadata:
 spec:
   ports:
     - port: 443
-      targetPort: 8443
+      name: https
+      targetPort: https
   selector:
     {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
 
@@ -212,6 +213,12 @@ spec:
             # If not specified, Dashboard will attempt to auto discover the API server and connect
             # to it. Uncomment only if the default does not work.
             # - --apiserver-host=http://my-address:port
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 2001
+            readOnlyRootFilesystem: true
           resources:
             requests:
               cpu: "{{ kubernetes_dashboard.container.requests_cpu }}"
@@ -244,6 +251,9 @@ spec:
         - name: tmp-volume
           emptyDir: {}
       serviceAccountName: kubernetes-dashboard
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+        capability/general-purpose: 'yes'
       # Comment the following tolerations if Dashboard must not be deployed on master
       tolerations:
         - key: node-role.kubernetes.io/master
@@ -291,10 +301,17 @@ spec:
       containers:
         - name: dashboard-metrics-scraper
           image: "{{ kubernetes_dashboard_metrics_scraper.container.image }}"
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8000
               protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 2001
+            readOnlyRootFilesystem: true
           resources:
             requests:
               cpu: "{{ kubernetes_dashboard_metrics_scraper.container.requests_cpu }}"
@@ -320,6 +337,9 @@ spec:
           - mountPath: /tmp
             name: tmp-volume
       serviceAccountName: kubernetes-dashboard
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+        capability/general-purpose: 'yes'
       # Comment the following tolerations if Dashboard must not be deployed on master
       tolerations:
         - key: node-role.kubernetes.io/master
