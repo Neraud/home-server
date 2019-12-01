@@ -21,11 +21,17 @@ spec:
         {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ docker_registry_ui.container.image }}"
-        name: docker-registry-ui
+      - name: docker-registry-ui
+        image: "{{ docker_registry_ui.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
           name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          runAsGroup: 65534 # nobody
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -43,6 +49,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: docker-registry-ui-config
           mountPath: /opt/config.yml
           subPath: config.yml

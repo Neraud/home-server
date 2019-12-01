@@ -8,6 +8,8 @@ metadata:
     {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
-    - port: 8000
+    - name: http
+      port: 8000
+      targetPort: http
   selector:
     {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(4) }}
