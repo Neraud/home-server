@@ -235,7 +235,7 @@ Gotify can be used to send notifications.
 `user` also has a `sample` application, and you can send a test message via the command line :
 
 ```shell
-[root@master-1$] apt-get -q -y install jq
+[root@master$] apt-get -q -y install jq
 
 [user@master$] token=$(curl -s -k -H "Host: infra.k8stest.com" -u user:Passw0rd https://127.0.0.1:30443/gotify/application | jq -r '.[] | select(.name=="sample") | .token')
 
