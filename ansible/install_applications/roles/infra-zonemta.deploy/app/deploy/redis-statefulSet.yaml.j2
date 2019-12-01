@@ -24,6 +24,7 @@ spec:
         command:
         - redis-server
         - "--requirepass {{ zonemta_redis.password }}"
+        - "--appendonly yes"
         ports:
         - containerPort: 6379
           name: redis
