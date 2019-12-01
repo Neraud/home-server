@@ -22,13 +22,7 @@ spec:
       containers:
       - name: mailhog
         image: "{{ mailhog.container.image }}"
-        resources:
-          requests:
-            cpu: "{{ mailhog.container.requests_cpu }}"
-            memory: "{{ mailhog.container.requests_memory }}"
-          limits:
-            cpu: "{{ mailhog.container.limits_cpu }}"
-            memory: "{{ mailhog.container.limits_memory }}"
+        imagePullPolicy: Always
         env:
           - name: MH_UI_WEB_PATH
             value: mailhog
@@ -41,14 +35,27 @@ spec:
           name: smtp
         - containerPort: 8025
           name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
         readinessProbe:
           tcpSocket:
             port: smtp
           initialDelaySeconds: 10
           periodSeconds: 10
+        resources:
+          requests:
+            cpu: "{{ mailhog.container.requests_cpu }}"
+            memory: "{{ mailhog.container.requests_memory }}"
+          limits:
+            cpu: "{{ mailhog.container.limits_cpu }}"
+            memory: "{{ mailhog.container.limits_memory }}"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: mailhog-smtp
           mountPath: /etc/mailhog/smtp.json
           subPath: smtp.json
