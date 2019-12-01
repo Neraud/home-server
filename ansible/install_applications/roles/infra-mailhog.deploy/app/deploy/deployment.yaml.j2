@@ -41,6 +41,11 @@ spec:
           name: smtp
         - containerPort: 8025
           name: http
+        readinessProbe:
+          tcpSocket:
+            port: smtp
+          initialDelaySeconds: 10
+          periodSeconds: 10
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
