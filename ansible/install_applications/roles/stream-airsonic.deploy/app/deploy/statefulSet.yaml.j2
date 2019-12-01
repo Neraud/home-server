@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: inject-properties
-        image: busybox
+        image: "{{ busybox.container.image }}"
         command: [ "sh", "/config/inject_properties.sh" ]
         volumeMounts:
         - name: airsonic-data-pv-claim

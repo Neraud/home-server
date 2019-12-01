@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: busybox
+        image: "{{ busybox.container.image }}"
         command:
           - "sh"
           - "-c"

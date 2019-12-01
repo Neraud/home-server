@@ -10,3 +10,14 @@ ingress_nginx:
 
   labels_def:
     app.kubernetes.io/name: ingress-nginx
+
+# To avoid loops inside busybox_init
+_busybox_var_loader:
+  base_image:
+    name: "busybox"
+    tag: "1.31.1"
+
+busybox:
+  base_image: "{{ _busybox_var_loader.base_image }}"
+  container:
+    image: "{{ _busybox_var_loader.base_image.name }}:{{ _busybox_var_loader.base_image.tag }}"

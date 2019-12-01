@@ -31,6 +31,21 @@ watchers:
     branch: master
     commit: 0d3c2f14b1fc239863c73e733be3c97712abebf1
   
+
+  ########
+  # Misc #
+  ########
+  - type: docker_registry
+    repo: {{ busybox.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ busybox.base_image.name }}
+    tag: {{ busybox.base_image.tag }}
+    includes:
+      - "^[0-9]+\\.[0-9]+\\.[0-9]$"
+    excludes:
+      - 1\.[0-2][0-9]\..*
+      - 1\.30\..*
+  
+
   #########
   # Infra #
   #########
@@ -473,3 +488,4 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^11\.[0-9]+(\.[0-9]+)?-alpine
+
