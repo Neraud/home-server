@@ -36,6 +36,14 @@ spec:
         ports:
         - containerPort: 27017
           name: mongo
+        readinessProbe:
+          exec:
+            command:
+            - mongo
+            - --eval
+            - "db.adminCommand('ping')"
+          initialDelaySeconds: 10
+          periodSeconds: 10
         resources:
           requests:
             cpu: "{{ zonemta_mongo.container.requests_cpu }}"

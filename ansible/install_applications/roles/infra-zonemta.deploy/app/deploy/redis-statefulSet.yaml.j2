@@ -28,6 +28,14 @@ spec:
         ports:
         - containerPort: 6379
           name: redis
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "/usr/local/bin/redis-cli -a {{ zonemta_redis.password }} ping"
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ zonemta_redis.container.requests_cpu }}"
