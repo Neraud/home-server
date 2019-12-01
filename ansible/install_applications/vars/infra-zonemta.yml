@@ -4,8 +4,8 @@
 _zonemta_var_loader:
   base_image:
     name: "node"
-    tag: "10.16.3-alpine"
-  version: 1.16.5
+    tag: "12.13.1-alpine3.10"
+  version: 1.16.6
   namespace: "infra-zonemta"
 
 zonemta:
@@ -55,7 +55,7 @@ zonemta:
 _zonemta_mongo_var_loader:
   base_image:
     name: "mongo"
-    tag: "4.2.0-bionic"
+    tag: "4.2.1-bionic"
 
 zonemta_mongo:
   base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
@@ -86,7 +86,7 @@ zonemta_mongo:
 _zonemta_redis_var_loader:
   base_image:
     name: "redis"
-    tag: "5.0.5-alpine3.9"
+    tag: "5.0.7-alpine3.10"
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"
