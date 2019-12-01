@@ -23,6 +23,7 @@ spec:
       containers:
       - name: zonemta
         image: "{{ zonemta.container.image }}"
+        imagePullPolicy: Always
         env:
         - name: NODE_OPTIONS
           value: "--max-old-space-size={{ zonemta.nodejs_max_memory }}"
@@ -31,6 +32,11 @@ spec:
           name: smtp
         - containerPort: 12080
           name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
         readinessProbe:
           tcpSocket:
             port: smtp
@@ -46,6 +52,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: zonemta-config
           mountPath: /opt/zone-mta/config
         - name: zonemta-certificates

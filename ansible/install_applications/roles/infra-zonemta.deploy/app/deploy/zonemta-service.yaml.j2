@@ -9,7 +9,7 @@ metadata:
 spec:
   ports:
   - port: 587
-    targetPort: 1587
     name: smtp
+    targetPort: smtp
   selector:
     {{ zonemta.labels_def | to_nice_yaml() | indent(4) }}

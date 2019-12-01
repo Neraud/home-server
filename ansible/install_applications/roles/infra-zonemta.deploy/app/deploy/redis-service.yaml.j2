@@ -10,5 +10,6 @@ spec:
   ports:
   - port: 6379
     name: redis
+    targetPort: redis
   selector:
     {{ zonemta_redis.labels_def | to_nice_yaml() | indent(4) }}

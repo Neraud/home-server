@@ -10,5 +10,6 @@ spec:
   ports:
   - port: 27017
     name: mongo
+    targetPort: mongo
   selector:
     {{ zonemta_mongo.labels_def | to_nice_yaml() | indent(4) }}
