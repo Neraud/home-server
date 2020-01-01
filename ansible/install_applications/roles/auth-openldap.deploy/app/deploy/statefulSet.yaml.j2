@@ -43,6 +43,11 @@ spec:
           name: ldap
         - containerPort: 636
           name: ldaps
+        readinessProbe:
+          tcpSocket:
+            port: ldap
+          initialDelaySeconds: 10
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ openldap.container.requests_cpu }}"
