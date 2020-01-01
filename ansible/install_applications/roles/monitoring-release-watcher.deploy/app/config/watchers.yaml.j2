@@ -73,14 +73,16 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+-amd64"
     excludes:
       - ^1\.1\.
-  - type: docker_registry
+  - name: phpLDAPadmin-php
+    type: docker_registry
     repo: {{ phpldapadmin.base_image.repo | default('registry-1.docker.io') }}
     image: {{ phpldapadmin.base_image.name }}
     tag: {{ phpldapadmin.base_image.tag }}
     includes:
-      - "[0-9]+\\.[0-9]+\\.[0-9]+-amd64"
-    excludes:
-      - ^0\.[1-7]\.
+      - "7.3.[0-9]+-apache-buster"
+  - type: github_tag
+    repo: leenooks/phpLDAPadmin
+    tag: {{ phpldapadmin.version }}
   
   ##############
   # Apps : Dev #

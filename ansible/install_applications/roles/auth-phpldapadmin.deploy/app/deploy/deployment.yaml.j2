@@ -38,10 +38,13 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
         - name: config-volume
-          mountPath: /container/environment/01-custom
+          mountPath: /opt/phpldapadmin/config/config.php
+          subPath: config.php
+        - name: config-volume
+          mountPath: /etc/ldap/ldap.conf
+          subPath: ldap.conf
         - name: cluster-ca-volume
-          # workaround : the container chown the /container/service/ldap-client/assets/certs folder, so we can't mount a secret directly inside it
-          mountPath: /container/service/ldap-client/assets/server-certs/ca.crt
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       volumes:
       - name: tz-config

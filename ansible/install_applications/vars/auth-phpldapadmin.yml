@@ -3,29 +3,33 @@
 # To avoid loops inside phpldapadmin
 _phpldapadmin_var_loader:
   base_image:
-    name: "osixia/phpldapadmin"
-    tag: "0.9.0-amd64"
-
+    name: "php"
+    # phpldapadmin 1.2.5 doesn't support PHP 7.4
+    tag: "7.3.13-apache-buster"
+  version: 1.2.5
+  
 phpldapadmin:
   enabled: "{{ openldap_enabled | default(True) }}"
 
   namespace: "auth-phpldapadmin"
   base_image: "{{ _phpldapadmin_var_loader.base_image }}"
+  version: "{{ _phpldapadmin_var_loader.version }}"
   
   labels_def:
     app.kubernetes.io/name: phpldapadmin
     app.kubernetes.io/component: phpldapadmin
 
   labels_desc:
-    app.kubernetes.io/version: "{{ _phpldapadmin_var_loader.base_image.tag }}"
+    app.kubernetes.io/version: "{{ _phpldapadmin_var_loader.version }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _phpldapadmin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _phpldapadmin_var_loader.base_image.tag }}"
+    image: "{{ docker_registry.url }}/phpldapadmin-{{ _phpldapadmin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _phpldapadmin_var_loader.version }}-{{ _phpldapadmin_var_loader.base_image.tag }}"
     requests_cpu: "{{ phpldapadmin_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ phpldapadmin_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ phpldapadmin_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ phpldapadmin_container_limits_memory | default('256Mi') }}"
-
+  
   ldap_servername: "{{ phpldapadmin_ldap_servername | default(openldap.ldap.servername) }}"
+  basedn: "{{ openldap.ldap.basedn }}"
   bind_id: "{{ phpldapadmin_bind_id | default(openldap.ldap.readonly_user_dn) }}"
   bind_password: "{{ phpldapadmin_bind_password | default(openldap.ldap.readonly_user_password) }}"

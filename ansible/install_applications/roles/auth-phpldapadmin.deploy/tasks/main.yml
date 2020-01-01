@@ -10,12 +10,9 @@
   vars:
     base_image: "{{ phpldapadmin.base_image }}"
     private_image: "{{ phpldapadmin.container.image }}"
-
-- name: List config files
-  set_fact:
-    phpldapadmin_config_files: "{{ phpldapadmin_config_files | default([]) + [ item ] }}"
-  with_fileglob:
-    - "{{ role_path }}/app/config/*.yaml*"
+    build: yes
+    build_args:
+      phpldapadmin_version: "{{ phpldapadmin.version }}"
 
 - name: Deploy phpLDAPadmin
   k8s:
