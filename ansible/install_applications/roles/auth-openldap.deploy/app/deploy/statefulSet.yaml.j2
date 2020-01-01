@@ -24,10 +24,12 @@ spec:
       containers:
       - name: openldap
         image: "{{ openldap.container.image }}"
+        imagePullPolicy: Always
         args: ["--copy-service"]
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: openldap-data-pv-claim
           mountPath: /var/lib/ldap
         - name: openldap-config-pv-claim
@@ -43,6 +45,12 @@ spec:
           name: ldap
         - containerPort: 636
           name: ldaps
+        securityContext:
+          # See README.MD for details
+          #runAsNonRoot: true
+          #runAsUser: 999 # openldap
+          #runAsGroup: 999 # openldap
+          #readOnlyRootFilesystem: true
         readinessProbe:
           tcpSocket:
             port: ldap
