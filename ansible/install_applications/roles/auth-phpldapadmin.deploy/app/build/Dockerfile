@@ -3,6 +3,12 @@ FROM $from_image
 
 ARG phpldapadmin_version
 
+# Change apache port
+RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
+    sed -i 's/<VirtualHost \*:80>/<VirtualHost *:8080>/g' /etc/apache2/sites-enabled/000-default.conf
+
+EXPOSE 8080
+
 # Use the default production configuration
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
