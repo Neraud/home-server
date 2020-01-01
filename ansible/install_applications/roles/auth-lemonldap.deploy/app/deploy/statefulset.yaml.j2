@@ -24,6 +24,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
         command:
           - "sh"
           - "-c"
@@ -38,18 +39,23 @@ spec:
       containers:
       - name: lemonldap
         image: "{{ lemonldap.container.image }}"
+        imagePullPolicy: Always
         ports:
-          - containerPort: 80
-            name: http
-          - containerPort: {{ lemonldap.fastcgi_port }}
-            name: fastcgi
+        - containerPort: 80
+          name: http
+        - containerPort: {{ lemonldap.fastcgi_port }}
+          name: fastcgi
         env:
-          - name: SSODOMAIN
-            value: "{{ web_base_domain }}"
-          - name: FASTCGI_LISTEN_PORT
-            value: "{{ lemonldap.fastcgi_port }}"
-          - name: MANAGER_HOSTNAME
-            value: "infra.{{ web_base_domain }}"
+        - name: SSODOMAIN
+          value: "{{ web_base_domain }}"
+        - name: FASTCGI_LISTEN_PORT
+          value: "{{ lemonldap.fastcgi_port }}"
+        - name: MANAGER_HOSTNAME
+          value: "infra.{{ web_base_domain }}"
+        securityContext:
+          # lemnldap requires root and a writable root filesystem
+          #runAsNonRoot: true
+          #readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -67,6 +73,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: lemonldap-data-pv-claim
           mountPath: {{ lemonldap.persistent_volume_path }}
         - name: lmconf-volume
