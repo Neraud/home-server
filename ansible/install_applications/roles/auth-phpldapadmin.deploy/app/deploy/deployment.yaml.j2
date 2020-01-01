@@ -23,10 +23,15 @@ spec:
     spec:
       containers:
       - image: "{{ phpldapadmin.container.image }}"
+        imagePullPolicy: Always
         name: phpldapadmin
         ports:
-          - name: http
+        - name: http
           containerPort: 8080
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 33 # www-data
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -42,6 +47,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: config-volume
           mountPath: /opt/phpldapadmin/config/config.php
           subPath: config.php
@@ -51,6 +57,8 @@ spec:
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -61,5 +69,7 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'

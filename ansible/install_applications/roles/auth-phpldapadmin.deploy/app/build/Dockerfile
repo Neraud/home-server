@@ -6,11 +6,18 @@ ARG phpldapadmin_version
 # Change apache port
 RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
     sed -i 's/<VirtualHost \*:80>/<VirtualHost *:8080>/g' /etc/apache2/sites-enabled/000-default.conf
-
 EXPOSE 8080
 
 # Use the default production configuration
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+# Use a dedicated volume for all run or tmp files
+# php sessions are already stored under /tmp by default
+VOLUME [ "/tmp" ]
+# Change Apache run paths
+ENV APACHE_PID_FILE /tmp/run/apache2/apache2.pid
+ENV APACHE_RUN_DIR /tmp/run/apache2
+ENV APACHE_LOCK_DIR /tmp/lock/apache2
 
 # Install dependencies
 RUN apt-get update && \
@@ -25,3 +32,5 @@ RUN mkdir -p /opt/phpldapadmin && \
     cp /opt/phpldapadmin/config/config.php.example /opt/phpldapadmin/config/config.php && \
     rm -Rf /var/www/html && \
     ln -s /opt/phpldapadmin/htdocs /var/www/html
+
+USER www-data
