@@ -50,6 +50,13 @@ spec:
             value: "{{ lemonldap.fastcgi_port }}"
           - name: MANAGER_HOSTNAME
             value: "infra.{{ web_base_domain }}"
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ lemonldap.container.requests_cpu }}"
