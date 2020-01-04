@@ -26,6 +26,7 @@ spec:
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+)($|/)
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
         image: "{{ node_exporter.container.image }}"
+        imagePullPolicy: Always
         name: node-exporter
         readinessProbe:
           httpGet:
@@ -34,6 +35,8 @@ spec:
             port: 9100
           initialDelaySeconds: 3
           periodSeconds: 5
+        securityContext:
+          readOnlyRootFilesystem: true
         resources:
           limits:
             cpu: {{ node_exporter.container.limits_cpu }}
@@ -63,6 +66,7 @@ spec:
             fieldRef:
               fieldPath: status.podIP
         image: quay.io/coreos/kube-rbac-proxy:v0.4.1
+        imagePullPolicy: Always
         name: kube-rbac-proxy
         ports:
         - containerPort: 9100
@@ -76,6 +80,8 @@ spec:
             - /bin/sh
             - -c 
             - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+        securityContext:
+          readOnlyRootFilesystem: true
         resources:
           limits:
             cpu: 20m
