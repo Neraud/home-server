@@ -4,7 +4,7 @@
 _elasticsearch_var_loader:
   base_image:
     name: "amazon/opendistro-for-elasticsearch"
-    tag: "1.2.0"
+    tag: "1.3.0"
   namespace: "logging-elasticsearch"
   cluster_name: k8s-logs
 
@@ -35,6 +35,7 @@ elasticsearch:
   context_path: "{{ elasticsearch_context_path | default('/') }}"
   replicas: "{{ elasticsearch_replicas | default(1) }}"
   cluster_name: "{{ _elasticsearch_var_loader.cluster_name }}"
+  max_java_memory: "{{ elasticsearch_max_memory | default('512m') }}"
 
   # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
   # We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
