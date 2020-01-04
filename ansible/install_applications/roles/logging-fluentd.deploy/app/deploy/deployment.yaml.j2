@@ -22,6 +22,7 @@ spec:
       containers:
       - name: fluentd
         image: "{{ fluentd.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 24224
           name: fluentd
@@ -38,6 +39,10 @@ spec:
             value: "{{ fluentd_elasticsearch_password }}"
           - name: SSL_CERT_FILE
             value: "/etc/ssl/cluster/ca.crt"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999 # fluent
+          readOnlyRootFilesystem: true
         readinessProbe:
           tcpSocket:
             port: fluentd
@@ -53,6 +58,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: fluentd-config
           mountPath: /fluentd/etc/
         - name: fluentd-includes
@@ -60,6 +66,8 @@ spec:
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -73,5 +81,7 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
