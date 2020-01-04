@@ -21,6 +21,7 @@ spec:
       containers:
       - name: nginx-log-exporter
         image: "{{ nginx_log_exporter.container.image }}"
+        imagePullPolicy: Always
         args:
         - -config-file
         - /etc/prometheus-nginxlog-exporter.yaml
@@ -34,6 +35,10 @@ spec:
             port: metrics
           initialDelaySeconds: 3
           periodSeconds: 5
+        securityContext:
+          # Run as root to be able to read host logs
+          #runAsNonRoot: true
+          readOnlyRootFilesystem: true
         resources:
           requests:
             cpu: "{{ nginx_log_exporter.container.requests_cpu }}"
@@ -44,8 +49,10 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: host-nginx-logs
           mountPath: {{ nginx_log_exporter.container.logs_mount_point }}
+          readOnly: true
         - mountPath: /etc/prometheus-nginxlog-exporter.yaml
           name: nginx-log-exporter-config
           subPath: prometheus-nginxlog-exporter.yaml
