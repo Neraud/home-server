@@ -21,11 +21,16 @@ spec:
         {{ release_watcher.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ release_watcher.container.image }}"
-        name: release-watcher
+      - name: release-watcher
+        image: "{{ release_watcher.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
           name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random UID
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -43,6 +48,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: release-watcher-config
           mountPath: /data/config.yaml
           subPath: config.yaml
