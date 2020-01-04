@@ -30,6 +30,13 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /metrics
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ nginx_exporter.container.requests_cpu }}"
