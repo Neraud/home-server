@@ -39,6 +39,9 @@ spec:
     fsGroup: 2000
     runAsNonRoot: true
     runAsUser: 1000
+    # TODO : readOnlyRootFilesystem is present in the CRD, but it doesn't get injected at the container level
+    # I guess this section is only applied at the POD level.
+    #readOnlyRootFilesystem: true
   serviceAccountName: prometheus-k8s
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}

@@ -24,6 +24,7 @@ spec:
         - --config-reloader-image=quay.io/coreos/configmap-reload:v0.0.1
         - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:{{ prometheus_operator.base_image.tag }}
         image: "{{ prometheus_operator.container.image }}"
+        imagePullPolicy: Always
         name: prometheus-operator
         ports:
         - containerPort: 8080
@@ -44,6 +45,7 @@ spec:
             memory: {{ prometheus_operator.container.requests_memory }}
         securityContext:
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
       nodeSelector:
         beta.kubernetes.io/os: linux
         capability/general-purpose: 'yes'
