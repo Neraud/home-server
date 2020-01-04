@@ -32,14 +32,21 @@ spec:
         image: "{{ fluentbit.container.image }}"
         imagePullPolicy: Always
         ports:
-          - containerPort: 2020
-            name: metrics
+        - containerPort: 2020
+          name: metrics
         env:
         - name: FLUENT_FLUENTD_HOST
           value: "{{ fluentd.servername }}"
         - name: FLUENT_FLUENTD_PORT
           value: "24224"
+        securityContext:
+          # Run as root to be able to read host logs
+          #runAsNonRoot: true
+          readOnlyRootFilesystem: true
         volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
         - name: varlog
           mountPath: /var/log
         - name: varlibdockercontainers
@@ -63,6 +70,9 @@ spec:
             memory: "{{ fluentbit.container.limits_memory }}"
       terminationGracePeriodSeconds: 10
       volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
       - name: varlog
         hostPath:
           path: /var/log
