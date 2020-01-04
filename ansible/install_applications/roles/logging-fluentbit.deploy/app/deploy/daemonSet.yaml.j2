@@ -47,6 +47,13 @@ spec:
           readOnly: true
         - name: fluent-bit-config
           mountPath: /fluent-bit/etc/
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /api/v1/metrics/prometheus
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ fluentbit.container.requests_cpu }}"
