@@ -28,10 +28,15 @@ spec:
         ports:
         - containerPort: 3000
           name: http
+        securityContext:
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             path: /api/health
             port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ grafana.container.requests_cpu }}"
@@ -42,6 +47,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - mountPath: /var/lib/grafana
           name: grafana-pv-claim
           readOnly: false
