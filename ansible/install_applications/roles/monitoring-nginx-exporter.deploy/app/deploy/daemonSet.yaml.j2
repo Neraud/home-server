@@ -19,6 +19,7 @@ spec:
       containers:
       - name: nginx-exporter
         image: "{{ nginx_exporter.container.image }}"
+        imagePullPolicy: Always
         args:
         - -nginx.scrape-uri
         - http://$(NODE_IP):81/status
@@ -30,6 +31,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random uid
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -47,6 +52,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
       volumes:
       - name: tz-config
         hostPath:
