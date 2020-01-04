@@ -26,7 +26,7 @@ kibana:
     limits_cpu: "{{ kibana_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ kibana_container_limits_memory | default('2048Mi') }}"
   
-  nodejs_max_memory: "{{ kibana_nodejs_max_memory | default('1500') }}"
+  nodejs_max_memory: "{{ kibana_nodejs_max_memory | default('1024') }}"
 
   context_path: "{{ kibana_context_path | default('/kibana') }}"
   
