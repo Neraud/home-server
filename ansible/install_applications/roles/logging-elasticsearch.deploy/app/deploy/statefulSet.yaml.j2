@@ -23,6 +23,7 @@ spec:
       containers:
       - name: elasticsearch
         image: "{{ elasticsearch.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 9300
           name: transport
@@ -30,6 +31,11 @@ spec:
           name: http
         - containerPort: 9600
           name: metrics
+        securityContext:
+          # TODO : elasticsearch requires to run as root for now :/
+          #runAsNonRoot: true
+          #runAsUser: 1000
+          #readOnlyRootFilesystem: true
         readinessProbe:
           tcpSocket:
             port: transport
@@ -45,6 +51,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: elasticsearch-pv-claim
           mountPath: /usr/share/elasticsearch/data
         - name: elasticsearch-config
@@ -64,17 +71,28 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
+          - name: node.master
+            value: "true"
+          - name: node.ingest
+            value: "true"
+          - name: node.data
+            value: "true"
           - name: discovery.seed_hosts
             value: "{% for i in range(0, elasticsearch.replicas|int) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}{% endfor %}"
           - name: cluster.initial_master_nodes
             value: "{% for i in range(0, elasticsearch.replicas|int) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}{% endfor %}"
           - name: discovery.zen.minimum_master_nodes
             value: "{{ (elasticsearch.replicas|int / 2 + 1) | int }}"
+          - name: PROCESSORS
+            valueFrom:
+              resourceFieldRef:
+                resource: limits.cpu
           - name: ES_JAVA_OPTS
-            value: "-Xms512m -Xmx512m"
+            value: "-Xms{{ elasticsearch.max_java_memory }} -Xmx{{ elasticsearch.max_java_memory }}"
       initContainers:
       - name: fix-permissions
         image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
         command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
         securityContext:
           privileged: true
@@ -83,11 +101,13 @@ spec:
           mountPath: /usr/share/elasticsearch/data
       - name: increase-vm-max-map
         image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
         command: ["sysctl", "-w", "vm.max_map_count=262144"]
         securityContext:
           privileged: true
       - name: increase-fd-ulimit
         image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
         command: ["sh", "-c", "ulimit -n 65536"]
         securityContext:
           privileged: true
