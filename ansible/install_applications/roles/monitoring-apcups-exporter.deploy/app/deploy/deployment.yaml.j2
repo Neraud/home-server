@@ -19,14 +19,19 @@ spec:
         {{ apcups_exporter.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ apcups_exporter.container.image }}"
-        name: apcups-exporter
+      - name: apcups-exporter
+        image: "{{ apcups_exporter.container.image }}"
+        imagePullPolicy: Always
         env:
         - name: APCUPS_ADDR
           value: apcupsd.monitoring-apcups-exporter:3551
         ports:
         - containerPort: 9162
           name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random UID
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -44,6 +49,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
       volumes:
       - name: tz-config
         hostPath:
