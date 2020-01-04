@@ -27,6 +27,13 @@ spec:
         ports:
         - containerPort: 9162
           name: metrics
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ apcups_exporter.container.requests_cpu }}"
