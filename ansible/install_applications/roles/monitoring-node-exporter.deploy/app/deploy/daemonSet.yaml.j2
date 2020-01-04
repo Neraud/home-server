@@ -27,6 +27,13 @@ spec:
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
         image: "{{ node_exporter.container.image }}"
         name: node-exporter
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            host: 127.0.0.1
+            port: 9100
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           limits:
             cpu: {{ node_exporter.container.limits_cpu }}
@@ -61,6 +68,14 @@ spec:
         - containerPort: 9100
           hostPort: 9100
           name: https
+        readinessProbe:
+          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+          exec:
+            command:
+            - /bin/sh
+            - -c 
+            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
         resources:
           limits:
             cpu: 20m
