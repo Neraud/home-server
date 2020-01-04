@@ -26,6 +26,13 @@ spec:
         ports:
         - containerPort: 8080
           name: metrics
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ release_watcher.container.requests_cpu }}"
