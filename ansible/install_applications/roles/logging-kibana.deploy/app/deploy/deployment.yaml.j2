@@ -20,6 +20,13 @@ spec:
       containers:
       - name: kibana
         image: "{{ kibana.container.image }}"
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /kibana/
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ kibana.container.requests_cpu }}"
