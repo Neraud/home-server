@@ -51,10 +51,6 @@
   retries: 30
   delay: 10
 
-# TODO : remove once kibana is updated to 7.2
-- name: Workaround for kibana 'type' mapping
-  import_tasks: type_mapping_workaround.yml
-
 - name: List Kibana saved objects
   set_fact:
     kibana_config_saved_objects_files: "{{ kibana_config_saved_objects_files | default([]) + [ item ] }}"
