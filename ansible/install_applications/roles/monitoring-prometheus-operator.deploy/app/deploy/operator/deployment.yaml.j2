@@ -28,6 +28,13 @@ spec:
         ports:
         - containerPort: 8080
           name: http
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /healthz
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           limits:
             cpu: {{ prometheus_operator.container.limits_cpu }}
