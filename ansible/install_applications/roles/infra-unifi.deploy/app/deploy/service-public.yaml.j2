@@ -12,6 +12,6 @@ spec:
   # Port used for controller GUI/API as seen in a web browser
   - name: https-crtl
     port: 443
-    targetPort: 8443
+    targetPort: https-crtl
   selector:
     {{ unifi.labels_def | to_nice_yaml() | indent(4) }}

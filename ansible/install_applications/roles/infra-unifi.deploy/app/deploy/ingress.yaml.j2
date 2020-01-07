@@ -11,7 +11,7 @@ metadata:
 spec:
   tls:
     - hosts:
-      - infra.{{ web_base_domain }}
+      - unifi.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
   - host: unifi.{{ web_base_domain }}
@@ -20,4 +20,4 @@ spec:
         - path: /
           backend:
             serviceName: unifi-frontend
-            servicePort: 443
+            servicePort: https-crtl
