@@ -3,8 +3,8 @@
 # To avoid loops inside unifi
 _unifi_var_loader:
    base_image:
-    name: "linuxserver/unifi-controller"
-    tag: "amd64-5.11.46-ls36"
+    name: "jacobalberty/unifi"
+    tag: "5.12.35"
 
 unifi:
   enabled: "{{ unifi_enabled | default(True) }}"

@@ -1,5 +1,5 @@
 ---
-
+  
 glusterfs_volumes:
   docker-registry-data:
     replicas: 2
@@ -41,7 +41,7 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: zonemta
       app.kubernetes.io/component: redis
-  unifi-config:
+  unifi-data:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 16M
