@@ -476,14 +476,14 @@ watchers:
     excludes:
       - amd64-[0-1]\.
       - amd64-2\.[0-1]\.
-  - type: docker_registry
-    repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}
-    image: {{ ttrss.base_image.name }}
-    tag: {{ ttrss.base_image.tag }}
-    includes:
-      - amd64-[0-9]+\.[0-9]+.*
-    excludes:
-      - amd64-latest
+#  - type: docker_registry
+#    repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}
+#    image: {{ ttrss.base_image.name }}
+#    tag: {{ ttrss.base_image.tag }}
+#    includes:
+#      - amd64-[0-9]+\.[0-9]+.*
+#    excludes:
+#      - amd64-latest
   - name: TT-RSS PostgreSQL
     type: docker_registry
     repo: {{ ttrss_pgsql.base_image.repo | default('registry-1.docker.io') }}
