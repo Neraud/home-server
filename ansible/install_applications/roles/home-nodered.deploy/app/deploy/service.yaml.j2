@@ -9,6 +9,6 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 1880
+    targetPort: nodered
   selector:
     {{ nodered.labels_def | to_nice_yaml() | indent(4) }}

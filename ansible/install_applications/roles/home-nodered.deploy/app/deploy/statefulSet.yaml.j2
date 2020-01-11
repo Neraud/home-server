@@ -21,8 +21,9 @@ spec:
         {{ nodered.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ nodered.container.image }}"
-        name: nodered
+      - name: nodered
+        image: "{{ nodered.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 1880
           name: nodered
@@ -33,9 +34,21 @@ spec:
           limits:
             cpu: "{{ nodered.container.limits_cpu }}"
             memory: "{{ nodered.container.limits_memory }}"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001 # node-red
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: "{{ nodered.context_root }}"
+            port: nodered
+          initialDelaySeconds: 3
+          periodSeconds: 5
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: nodered-pv-claim
           mountPath: /data
           subPath: data
