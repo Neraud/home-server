@@ -9,7 +9,7 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 8080
+    targetPort: http
     name: http
   selector:
     {{ sabnzbd.labels_def | to_nice_yaml() | indent(4) }}
