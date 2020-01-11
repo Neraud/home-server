@@ -15,4 +15,14 @@ RUN echo "Installing socat and requirements" && \
 RUN mkdir -p /etc/supervisor/conf.d/
 ADD supervisord.conf /etc/supervisor/
 
+RUN echo "Creating homeassistant user" && \
+        addgroup -g 1000 homeassistant && \
+        adduser -u 1000 -G homeassistant -s /bin/sh -D homeassistant
+
+RUN echo "Install and configure sudo fo socat" && \
+        apk add --no-cache sudo && \
+        echo "homeassistant ALL=(ALL) NOPASSWD: /usr/bin/socat" >> /etc/sudoers
+
+USER homeassistant
+
 CMD [ "sh", "/opt/entrypoint.sh" ]

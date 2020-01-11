@@ -9,6 +9,7 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 8123
+    name: homeassistant
+    targetPort: homeassistant
   selector:
     {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
