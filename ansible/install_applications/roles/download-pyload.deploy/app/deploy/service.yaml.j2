@@ -9,7 +9,7 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 8000
+    targetPort: webui
     name: webui
   selector:
     {{ pyload.labels_def | to_nice_yaml() | indent(4) }}
