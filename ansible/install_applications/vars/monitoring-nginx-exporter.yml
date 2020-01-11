@@ -4,13 +4,20 @@
 _nginx_exporter_var_loader:
   base_image:
     name: "nginx/nginx-prometheus-exporter"
-    tag: "0.4.2"
+    tag: "0.5.0"
 
 nginx_exporter:
   enabled: "{{ nginx_exporter_enabled | default(True) }}"
 
   namespace: "monitoring-nginx-exporter"
   base_image: "{{ _nginx_exporter_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: nginx-exporter
+    app.kubernetes.io/component: nginx-exporter
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nginx_exporter_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _nginx_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nginx_exporter_var_loader.base_image.tag }}"

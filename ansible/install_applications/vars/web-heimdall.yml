@@ -11,6 +11,13 @@ heimdall:
 
   namespace: "web-heimdall"
   base_image: "{{ _heimdall_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: heimdall
+    app.kubernetes.io/component: heimdall
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _heimdall_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _heimdall_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _heimdall_var_loader.base_image.tag }}-custom"

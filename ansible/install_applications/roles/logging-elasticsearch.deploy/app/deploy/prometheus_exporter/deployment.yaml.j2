@@ -4,8 +4,8 @@ metadata:
   name: elasticsearch-exporter
   namespace: {{ elasticsearch.namespace }}
   labels:
-    app: elasticsearch
-    app-component: elastic-exporter
+    {{ elasticsearch_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ elasticsearch_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   replicas: 1
   strategy:
@@ -15,13 +15,12 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: elasticsearch
-      app-component: elastic-exporter
+      {{ elasticsearch_exporter.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app: elasticsearch
-        app-component: elastic-exporter
+        {{ elasticsearch_exporter.labels_def | to_nice_yaml() | indent(8) }}
+        {{ elasticsearch_exporter.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       securityContext:
         runAsNonRoot: true

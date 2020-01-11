@@ -69,6 +69,7 @@ The folowing services are deployed :
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://infra.k8stest.com/phpldapadmin/>          | Web-based LDAP browser                                 |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                  | Modern outbound SMTP relay                             |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://infra.k8stest.com/mailhog/>               | MailHog is an email testing tool for developers        |
+| [Gotify](https://gotify.net/)                                    | <https://infra.k8stest.com/gotify/>                | A simple server for sending and receiving messages     |
 | [Prometheus](https://prometheus.io/)                             | <https://infra.k8stest.com/prometheus/>            | Monitoring solution                                    |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | <https://infra.k8stest.com/alertmanager/>          | Alert manager for Prometheus                           |
 | [Grafana](https://grafana.com/)                                  | <https://infra.k8stest.com/grafana/>               | Platform for beautiful analytics and monitoring        |
@@ -205,8 +206,8 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: mailhog
-      app-component: mailhog
+      app.kubernetes.io/name: mailhog
+      app.kubernetes.io/component: mailhog
   ingress:
     # Allow smtp from everywhere
     - ports:
@@ -234,7 +235,7 @@ Gotify can be used to send notifications.
 `user` also has a `sample` application, and you can send a test message via the command line :
 
 ```shell
-[root@master-1$] apt-get -q -y install jq
+[root@master$] apt-get -q -y install jq
 
 [user@master$] token=$(curl -s -k -H "Host: infra.k8stest.com" -u user:Passw0rd https://127.0.0.1:30443/gotify/application | jq -r '.[] | select(.name=="sample") | .token')
 
@@ -313,7 +314,7 @@ To push values on this sensor :
 ```shell
 [user@master$] kubectl --namespace=home-mosquitto \
   run test-mqtt-pub -it --rm --image=aksakalli/mqtt-client --restart=Never \
-  --labels="app=mosquitto,app-component=test" \
+  --labels="app.kubernetes.io/name=mosquitto,app.kubernetes.io/component=test" \
   --overrides='
 {
     "spec": {
@@ -346,7 +347,7 @@ To debug all messages sent via Mosquitto :
 ```shell
 [user@master$] kubectl --namespace=home-mosquitto \
   run test-mqtt-sub -it --rm --image=aksakalli/mqtt-client --restart=Never \
-  --labels="app=mosquitto,app-component=test" \
+  --labels="app.kubernetes.io/name=mosquitto,app.kubernetes.io/component=test" \
   --overrides='
 {
     "spec": {

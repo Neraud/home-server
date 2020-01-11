@@ -4,26 +4,42 @@ metadata:
   name: zonemta-mongo
   namespace: "{{ zonemta.namespace }}"
   labels:
-    app: zonemta
-    app-component: mongo
+    {{ zonemta_mongo.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zonemta_mongo.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: zonemta
-      app-component: mongo
+      {{ zonemta_mongo.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: zonemta
-        app-component: mongo
+        {{ zonemta_mongo.labels_def | to_nice_yaml() | indent(8) }}
+        {{ zonemta_mongo.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-data-dir
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /data/db
+            mkdir -p /data/configdb
+            chown -R 1001:1001 /data/*
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: zonemta-mongo-pv-claim
+          mountPath: /data
       containers:
-      - image: "{{ zonemta_mongo.container.image }}"
-        name: mongo
+      - name: mongo
+        image: "{{ zonemta_mongo.container.image }}"
+        imagePullPolicy: Always
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           value: {{ zonemta_mongo.root_user }}
@@ -37,6 +53,19 @@ spec:
         ports:
         - containerPort: 27017
           name: mongo
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          runAsGroup: 1001
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          exec:
+            command:
+            - mongo
+            - --eval
+            - "db.adminCommand('ping')"
+          initialDelaySeconds: 10
+          periodSeconds: 10
         resources:
           requests:
             cpu: "{{ zonemta_mongo.container.requests_cpu }}"
@@ -47,14 +76,23 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
+        - mountPath: /tmp
+          name: tmp-volume
         - name: zonemta-mongo-pv-claim
           mountPath: /data/db
+          subPath: db
+        - name: zonemta-mongo-pv-claim
+          mountPath: /data/configdb
+          subPath: configdb
         - name: zonemta-mongo-init
           mountPath: /docker-entrypoint-initdb.d/
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: tmp-volume
+        emptyDir: {}
       - name: zonemta-mongo-init
         secret:
           secretName: zonemta-mongo-init
@@ -71,5 +109,4 @@ spec:
           storage: 512M
       selector:
         matchLabels:
-          app: zonemta
-          app-component: mongo
+          {{ zonemta_mongo.labels_def | to_nice_yaml() | indent(10) }}

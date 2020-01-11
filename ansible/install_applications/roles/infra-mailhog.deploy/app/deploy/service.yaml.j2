@@ -4,13 +4,15 @@ metadata:
   name: mailhog
   namespace: {{ mailhog.namespace }}
   labels:
-    app: mailhog
+    {{ mailhog.labels_def | to_nice_yaml() | indent(4) }}
+    {{ mailhog.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
     - port: 1025
       name: smtp
+      targetPort: smtp
     - port: 8025
       name: http
+      targetPort: http
   selector:
-    app: mailhog
-    app-component: mailhog
+    {{ mailhog.labels_def | to_nice_yaml() | indent(4) }}

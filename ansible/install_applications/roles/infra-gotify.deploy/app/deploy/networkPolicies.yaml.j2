@@ -4,26 +4,26 @@ metadata:
   name: allow-to-gotify
   namespace: {{ gotify.namespace }}
   labels:
-    app: gotify
+    {{ gotify.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gotify.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: gotify
-      app-component: gotify
+      {{ gotify.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     - ports:
-        - port: gotify
+        - port: http
       from:
         # Allow from the ingress controller
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
     
         # Allow from homeassistant
         - namespaceSelector:
@@ -31,5 +31,4 @@ spec:
               name: {{ homeassistant.namespace }}
           podSelector:
             matchLabels:
-              app: homeassistant
-              app-component: homeassistant
+              {{ homeassistant.labels_def | to_nice_yaml() | indent(14) }}

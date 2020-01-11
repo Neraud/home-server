@@ -4,7 +4,8 @@ metadata:
   name: mailhog
   namespace: {{ mailhog.namespace }}
   labels:
-    app: mailhog
+    {{ mailhog.labels_def | to_nice_yaml() | indent(4) }}
+    {{ mailhog.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:
@@ -17,4 +18,4 @@ spec:
         - path: /mailhog/?(.*)
           backend:
             serviceName: mailhog
-            servicePort: 8025
+            servicePort: http

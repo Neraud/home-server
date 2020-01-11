@@ -15,7 +15,12 @@ health:
     interval: 10s
     threshold: 3
 http:
-  addr: :5000
+  addr: :5443
+
+  tls:
+    certificate: /certs/server.crt
+    key: /certs/server.key
+
   headers:
     X-Content-Type-Options: [nosniff]
   

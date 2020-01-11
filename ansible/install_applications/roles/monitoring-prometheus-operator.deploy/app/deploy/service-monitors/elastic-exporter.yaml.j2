@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: elastic-exporter
+    {{ elasticsearch_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ elasticsearch_exporter.labels_desc | to_nice_yaml() | indent(4) }}
   name: elastic-exporter
   namespace: {{ prometheus.namespace }}
 spec:

@@ -4,7 +4,8 @@ metadata:
   name: homeassistant
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
+    {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homeassistant.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:

@@ -4,30 +4,39 @@ metadata:
   name: phpldapadmin
   namespace: {{ phpldapadmin.namespace }}
   labels:
-    app: phpldapadmin
-    app-component: phpldapadmin
+    {{ phpldapadmin.labels_def | to_nice_yaml() | indent(4) }}
+    {{ phpldapadmin.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: phpldapadmin
-      app-component: phpldapadmin
+      {{ phpldapadmin.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: phpldapadmin
-        app-component: phpldapadmin
+        {{ phpldapadmin.labels_def | to_nice_yaml() | indent(8) }}
+        {{ phpldapadmin.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - image: "{{ phpldapadmin.container.image }}"
+        imagePullPolicy: Always
         name: phpldapadmin
         ports:
-          - name: http
-            containerPort: 80
+        - name: http
+          containerPort: 8080
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 33 # www-data
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
         resources:
           requests:
             cpu: "{{ phpldapadmin.container.requests_cpu }}"
@@ -38,12 +47,18 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: config-volume
-          mountPath: /container/environment/01-custom
+          mountPath: /opt/phpldapadmin/config/config.php
+          subPath: config.php
+        - name: config-volume
+          mountPath: /etc/ldap/ldap.conf
+          subPath: ldap.conf
         - name: cluster-ca-volume
-          # workaround : the container chown the /container/service/ldap-client/assets/certs folder, so we can't mount a secret directly inside it
-          mountPath: /container/service/ldap-client/assets/server-certs/ca.crt
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -54,5 +69,7 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'

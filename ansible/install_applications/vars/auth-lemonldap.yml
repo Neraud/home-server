@@ -4,13 +4,20 @@
 _lemonldap_var_loader:
   base_image:
     name: "coudot/lemonldap-ng"
-    tag: "2.0.6"
+    tag: "2.0.7"
 
 lemonldap:
   enabled: "{{ lemonldap_enabled | default(True) }}"
 
   namespace: "auth-lemonldap"
   base_image: "{{ _lemonldap_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: lemonldap
+    app.kubernetes.io/component: lemonldap
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _lemonldap_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _lemonldap_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _lemonldap_var_loader.base_image.tag }}-custom"

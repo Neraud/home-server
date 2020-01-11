@@ -14,6 +14,13 @@ docker_registry_ui:
   namespace: "infra-docker-registry-ui"
   base_image: "{{ _docker_registry_ui_var_loader.base_image }}"
 
+  labels_def:
+    app.kubernetes.io/name: docker-registry-ui
+    app.kubernetes.io/component: docker-registry-ui
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _docker_registry_ui_var_loader.base_image.tag }}"
+
   container:
     image: "{{ docker_registry.url }}/{{ _docker_registry_ui_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _docker_registry_ui_var_loader.base_image.tag }}"
     requests_cpu: "{{ docker_registry_ui_container_requests_cpu | default('100m') }}"
@@ -21,5 +28,6 @@ docker_registry_ui:
     limits_cpu: "{{ docker_registry_ui_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ docker_registry_ui_container_limits_memory | default('32Mi') }}"
 
+  context_root: /docker-registry-ui
   admin_users: "{{ docker_registry_ui_admin_users | default([]) }}"
   event_api_token: "{{ _docker_registry_ui_var_loader.event_api_token }}"

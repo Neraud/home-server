@@ -12,6 +12,13 @@ node_exporter:
 
   namespace: "monitoring-node-exporter"
   base_image: "{{ _node_exporter_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: node-exporter
+    app.kubernetes.io/component: node-exporter
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _node_exporter_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _node_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _node_exporter_var_loader.base_image.tag }}"

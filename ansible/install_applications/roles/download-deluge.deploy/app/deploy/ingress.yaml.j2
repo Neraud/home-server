@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: deluge
   namespace: {{ deluge.namespace }}
+  labels:
+    {{ deluge.labels_def | to_nice_yaml() | indent(4) }}
+    {{ deluge.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/configuration-snippet: |

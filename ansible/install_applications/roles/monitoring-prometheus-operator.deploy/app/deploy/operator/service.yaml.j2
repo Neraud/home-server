@@ -1,13 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app.kubernetes.io/component: controller
-    app.kubernetes.io/name: prometheus-operator
-    app.kubernetes.io/version: v0.33.0
-    prometheus-target: prometheus-operator
   name: prometheus-operator
   namespace: {{ prometheus.namespace }}
+  labels:
+    {{ prometheus_operator.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus_operator.labels_desc | to_nice_yaml() | indent(4) }}
+    prometheus-target: prometheus-operator
 spec:
   clusterIP: None
   ports:
@@ -15,5 +14,4 @@ spec:
     port: 8080
     targetPort: http
   selector:
-    app.kubernetes.io/component: controller
-    app.kubernetes.io/name: prometheus-operator
+    {{ prometheus_operator.labels_def | to_nice_yaml() | indent(4) }}

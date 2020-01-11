@@ -4,7 +4,8 @@ metadata:
   name: docker-registry-ui
   namespace: {{ docker_registry_ui.namespace }}
   labels:
-    app: docker-registry-ui
+    {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(4) }}
+    {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:
@@ -14,7 +15,7 @@ spec:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: /docker-regitry-ui
+        - path: {{ docker_registry_ui.context_root }}
           backend:
             serviceName: docker-registry-ui
-            servicePort: 8000
+            servicePort: http

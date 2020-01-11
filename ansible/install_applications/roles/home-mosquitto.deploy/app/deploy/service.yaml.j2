@@ -4,7 +4,8 @@ metadata:
   name: mosquitto
   namespace: {{ mosquitto.namespace }}
   labels:
-    app: mosquitto
+    {{ mosquitto.labels_def | to_nice_yaml() | indent(4) }}
+    {{ mosquitto.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 1883
@@ -12,5 +13,4 @@ spec:
   - port: 8883
     name: mqtts
   selector:
-    app: mosquitto
-    app-component: mosquitto
+    {{ mosquitto.labels_def | to_nice_yaml() | indent(4) }}

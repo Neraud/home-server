@@ -4,29 +4,41 @@ metadata:
   name: docker-registry-ui
   namespace: {{ docker_registry_ui.namespace }}
   labels:
-    app: docker-registry-ui
-    app-component: docker-registry-ui
+    {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(4) }}
+    {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: docker-registry-ui
-      app-component: docker-registry-ui
+      {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: docker-registry-ui
-        app-component: docker-registry-ui
+        {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(8) }}
+        {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ docker_registry_ui.container.image }}"
-        name: docker-registry-ui
+      - name: docker-registry-ui
+        image: "{{ docker_registry_ui.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
           name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          runAsGroup: 65534 # nobody
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ docker_registry_ui.context_root }}
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ docker_registry_ui.container.requests_cpu }}"
@@ -37,6 +49,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: docker-registry-ui-config
           mountPath: /opt/config.yml
           subPath: config.yml

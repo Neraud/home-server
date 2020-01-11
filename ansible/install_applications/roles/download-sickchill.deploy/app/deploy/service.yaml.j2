@@ -4,12 +4,12 @@ metadata:
   name: sickchill
   namespace: {{ sickchill.namespace }}
   labels:
-    app: sickchill
+    {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}
+    {{ sickchill.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
-    targetPort: 8081
+    targetPort: sickchill
     name: web
   selector:
-    app: sickchill
-    app-component: sickchill
+    {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}

@@ -4,8 +4,8 @@ metadata:
   name: mosquitto-config
   namespace: {{ mosquitto.namespace }}
   labels:
-    app: mosquitto
-    app-component: mosquitto
+    {{ mosquitto.labels_def | to_nice_yaml() | indent(4) }}
+    {{ mosquitto.labels_desc | to_nice_yaml() | indent(4) }}
 data:
 {% for mosquitto_config_file in mosquitto_config_files %}
   {{ mosquitto_config_file | basename | replace(".j2", "") }}: |

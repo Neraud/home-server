@@ -1,0 +1,42 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: apcups-alerts
+  labels:
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
+    role: alert-rules
+spec:
+{% raw %}
+  groups:
+    - name: apcups
+      rules:
+        - alert: ApcUpsBatteryChargeWarning
+          annotations:
+            message: The battery of {{ $labels.ups_name }} is low ({{ $value }}%).
+          expr: apcupsd_battery_charge_percent < 50
+          for: 3m
+          labels:
+            severity: warning
+        - alert: ApcUpsBatteryChargeCritical
+          annotations:
+            message: The battery of {{ $labels.ups_name }} is very low ({{ $value }}%).
+          expr: apcupsd_battery_charge_percent < 25
+          for: 1m
+          labels:
+            severity: critical
+        - alert: ApcUpsRunningOnBatteryWarning
+          annotations:
+            message: The UPS {{ $labels.ups_name }} has been running on battery for {{ $value }}s.
+          expr: apcupsd_battery_time_on_seconds > 0
+          for: 10s
+          labels:
+            severity: warning
+        - alert: ApcUpsRunningOnBatteryCritical
+          annotations:
+            message: The UPS {{ $labels.ups_name }} has been running on battery for {{ $value }}s.
+          expr: apcupsd_battery_time_on_seconds > 0
+          for: 30s
+          labels:
+            severity: critical
+{% endraw %}

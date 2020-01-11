@@ -5,7 +5,8 @@ metadata:
   name: fluentd
   namespace: {{ fluentd.namespace }}
   labels:
-    app: fluentd
+    {{ fluentd.labels_def | to_nice_yaml() | indent(4) }}
+    {{ fluentd.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   clusterIP: None
   ports:
@@ -13,5 +14,4 @@ spec:
       port: 24224
       targetPort: 24224
   selector:
-    app: fluentd
-    app-component: fluentd
+    {{ fluentd.labels_def | to_nice_yaml() | indent(4) }}

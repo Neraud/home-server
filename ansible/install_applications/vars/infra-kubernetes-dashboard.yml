@@ -4,13 +4,21 @@
 _kubernetes_dashboard_var_loader:
   base_image:
     name: "kubernetesui/dashboard"
-    tag: "v2.0.0-beta4"
+    tag: "v2.0.0-beta6"
   
 kubernetes_dashboard:
   enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
 
   namespace: "infra-kubernetes-dashboard"
   base_image: "{{ _kubernetes_dashboard_var_loader.base_image }}"
+
+  labels_def:
+    app.kubernetes.io/name: kubernetes-dashboard
+    app.kubernetes.io/component: dashboard
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _kubernetes_dashboard_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: kubernetes-dashboard
 
   container:
     image: "{{ docker_registry.url }}/{{ _kubernetes_dashboard_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_var_loader.base_image.tag }}"
@@ -28,6 +36,14 @@ _kubernetes_dashboard_metrics_scraper_var_loader:
   
 kubernetes_dashboard_metrics_scraper:
   base_image: "{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image }}"
+
+  labels_def:
+    app.kubernetes.io/name: kubernetes-dashboard
+    app.kubernetes.io/component: metrics-scraper
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: kubernetes-dashboard
 
   container:
     image: "{{ docker_registry.url }}/{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.tag }}"

@@ -1,10 +1,11 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  labels:
-    app: kube-state-metrics
   name: kube-state-metrics
   namespace: {{ prometheus.namespace }}
+  labels:
+    {{ kube_state_metrics.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kube_state_metrics.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   endpoints:
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -30,7 +31,7 @@ spec:
     scheme: https
     tlsConfig:
       insecureSkipVerify: true
-  jobLabel: k8s-app
+  jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
     - {{ kube_state_metrics.namespace }}

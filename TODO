@@ -1,8 +1,19 @@
 
-* Use ansible module k8s wait_condition when it makes sense
+* TTRSS LinuxServer image doesn't exist anymore, migratre to something else
 
-* Configure kubernetes Liveness, Readiness and Startup Probes
-    * See https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+* Migrate LinuxServer images to other or custom ones
+ * Heimdall
+ * Sickchill
+ * Deluge
+ * Sabnzbd
+
+* Replace Plex by Jellyfin
+
+* Clean gitlab
+ * Disable integrated Grafana ?
+ * Deprecation logs
+
+* Ansible always changed for network policies ?
 
 * Home
     * Shinobi / ZoneMinder / MotionEye ?

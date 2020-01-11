@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: fluent-bit
+    {{ fluentbit.labels_def | to_nice_yaml() | indent(4) }}
+    {{ fluentbit.labels_desc | to_nice_yaml() | indent(4) }}
   name: fluent-bit
   namespace: {{ prometheus.namespace }}
 spec:

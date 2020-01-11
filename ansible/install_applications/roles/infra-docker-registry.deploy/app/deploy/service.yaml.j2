@@ -4,14 +4,14 @@ metadata:
   name: docker-registry
   namespace: {{ docker_registry.namespace }}
   labels:
-    app: docker-registry
-    app-component: registry
+    {{ docker_registry.labels_def | to_nice_yaml() | indent(4) }}
+    {{ docker_registry.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   type: NodePort
   ports:
     - port: 443
-      targetPort: 443
+      name: docker-registry
+      targetPort: docker-registry
       nodePort: {{ docker_registry.port }}
   selector:
-    app: docker-registry
-    app-component: registry
+    {{ docker_registry.labels_def | to_nice_yaml() | indent(4) }}

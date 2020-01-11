@@ -4,11 +4,12 @@ metadata:
   name: homeassistant
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
+    {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homeassistant.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
-    targetPort: 8123
+    name: homeassistant
+    targetPort: homeassistant
   selector:
-    app: homeassistant
-    app-component: homeassistant
+    {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}

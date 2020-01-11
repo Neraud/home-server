@@ -7,10 +7,10 @@ if [ -d $OUT_CONVERTED_ROOT ]; then
   rm -R $OUT_CONVERTED_ROOT
 fi
 echo "Install jq"
-apt-get install jq
+apt-get -y install jq
 
 echo "Converting Kubernetes Prometheus rules"
-KUBERNETES_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/kubernetes_rules.yaml
+KUBERNETES_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/kubernetes_rules.yaml.j2
 mkdir -p $(dirname $KUBERNETES_RULES)
 cat <<EOF >$KUBERNETES_RULES
 apiVersion: monitoring.coreos.com/v1
@@ -18,16 +18,17 @@ kind: PrometheusRule
 metadata:
   name: kubernetes-rules
   labels:
-    app: prometheus
-    app-component: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
 EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/kubernetes-mixin/prometheus_rules.yml >>$KUBERNETES_RULES
+echo '{% endraw %}' >>$KUBERNETES_RULES
 
 echo "Converting Kubernetes Prometheus alerts"
-KUBERNETES_ALERTS=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/kubernetes_alerts.yaml
+KUBERNETES_ALERTS=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/kubernetes_alerts.yaml.j2
 mkdir -p $(dirname $KUBERNETES_ALERTS)
 cat <<EOF >$KUBERNETES_ALERTS
 apiVersion: monitoring.coreos.com/v1
@@ -35,13 +36,14 @@ kind: PrometheusRule
 metadata:
   name: kubernetes-alerts
   labels:
-    app: prometheus
-    app-component: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
 EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/kubernetes-mixin/prometheus_alerts.yml >>$KUBERNETES_ALERTS
+echo '{% endraw %}' >>$KUBERNETES_ALERTS
 
 echo "Converting Kubernetes Grafana dashboards"
 GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
@@ -52,7 +54,7 @@ for file in $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/*.json; do
 done
 
 echo "Converting NodeExporter Prometheus rules"
-NODE_EXPORTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_rules.yaml
+NODE_EXPORTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_rules.yaml.j2
 mkdir -p $(dirname $NODE_EXPORTER_RULES)
 cat <<EOF >$NODE_EXPORTER_RULES
 apiVersion: monitoring.coreos.com/v1
@@ -60,16 +62,17 @@ kind: PrometheusRule
 metadata:
   name: node-rules
   labels:
-    app: prometheus
-    app-component: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
 EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/node-mixin/prometheus_rules.yml >>$NODE_EXPORTER_RULES
+echo '{% endraw %}' >>$NODE_EXPORTER_RULES
 
 echo "Converting NodeExporter Prometheus alerts"
-NODE_EXPORTER_ALERTS=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_alerts.yaml
+NODE_EXPORTER_ALERTS=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_alerts.yaml.j2
 mkdir -p $(dirname $NODE_EXPORTER_ALERTS)
 cat <<EOF >$NODE_EXPORTER_ALERTS
 apiVersion: monitoring.coreos.com/v1
@@ -77,13 +80,14 @@ kind: PrometheusRule
 metadata:
   name: node-alerts
   labels:
-    app: prometheus
-    app-component: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
 EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/node-mixin/prometheus_alerts.yml >>$NODE_EXPORTER_ALERTS
+echo '{% endraw %}' >>$NODE_EXPORTER_ALERTS
 
 echo "Converting NodeExporter Grafana dashboards"
 GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
@@ -91,7 +95,7 @@ mkdir -p $GRAFANA_DASHBOARD_ROOT
 cp $OUT_GENERATED_ROOT/node-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
 
 echo "Converting Gluster Prometheus rules"
-GLUSTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/gluster_rules.yaml
+GLUSTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/gluster_rules.yaml.j2
 mkdir -p $(dirname $GLUSTER_RULES)
 cat <<EOF >$GLUSTER_RULES
 apiVersion: monitoring.coreos.com/v1
@@ -99,16 +103,17 @@ kind: PrometheusRule
 metadata:
   name: gluster-rules
   labels:
-    app: gluster
-    app-component: gluster
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
 EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/gluster-mixin/prometheus_rules.yml >>$GLUSTER_RULES
+echo '{% endraw %}' >>$GLUSTER_RULES
 
 echo "Converting Gluster Prometheus alerts"
-GLUSTER_ALERTS=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/gluster_alerts.yaml
+GLUSTER_ALERTS=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/gluster_alerts.yaml.j2
 mkdir -p $(dirname $GLUSTER_ALERTS)
 cat <<EOF >$GLUSTER_ALERTS
 apiVersion: monitoring.coreos.com/v1
@@ -116,13 +121,14 @@ kind: PrometheusRule
 metadata:
   name: gluster-alerts
   labels:
-    app: gluster
-    app-component: gluster
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
 EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/gluster-mixin/prometheus_alerts.yml >>$GLUSTER_ALERTS
+echo '{% endraw %}' >>$GLUSTER_ALERTS
 
 echo "Convert Gluster Grafana dashboard"
 GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards

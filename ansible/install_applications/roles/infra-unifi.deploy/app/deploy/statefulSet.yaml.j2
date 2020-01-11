@@ -4,24 +4,38 @@ metadata:
   name: unifi
   namespace: {{ unifi.namespace }}
   labels:
-    app: unifi
-    app-component: unifi
+    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      app: unifi
-      app-component: unifi
+      {{ unifi.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: unifi
-        app-component: unifi
+        {{ unifi.labels_def | to_nice_yaml() | indent(8) }}
+        {{ unifi.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /unifi/data
+            mkdir -p /unifi/log
+            chown -R 999:999 /unifi/*
+        volumeMounts:
+        - name: unifi-pv-claim
+          mountPath: /unifi
       containers:
-      - image: "{{ unifi.container.image }}"
-        name: unifi
+      - name: unifi
+        image: "{{ unifi.container.image }}"
+        imagePullPolicy: Always        
         ports:
         # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
         - name: stun
@@ -42,13 +56,23 @@ spec:
         - name: speed-test
           containerPort: 6789 # Port used for UniFi mobile speed test.
           protocol: TCP
-        #- containerPort: 27117 # 	Port used for local-bound database communication.
-        #  protocol: TCP
         - name: ap-discovery
           containerPort: 10001 # 	Port used for AP discovery
           protocol: UDP
-        #- containerPort: 1900 # Port used for "Make controller discoverable on L2 network" in controller settings.
-        #  protocol: UDP
+        env:
+        - name: RUNAS_UID0
+          value: "false"
+        readinessProbe:
+          httpGet:
+            scheme: HTTPS
+            path: /
+            port: https-crtl
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999  # unifi
+          readOnlyRootFilesystem: true
         resources:
           requests:
             cpu: "{{ unifi.container.requests_cpu }}"
@@ -59,8 +83,9 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: unifi-pv-claim
-          mountPath: /config
+          mountPath: /unifi
       volumes:
       - name: tz-config
         hostPath:
@@ -78,5 +103,4 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app: unifi
-          app-component: unifi
+          {{ unifi.labels_def | to_nice_yaml() | indent(10) }}

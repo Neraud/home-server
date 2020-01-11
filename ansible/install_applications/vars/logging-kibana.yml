@@ -4,13 +4,20 @@
 _kibana_var_loader:
   base_image:
     name: "amazon/opendistro-for-elasticsearch-kibana"
-    tag: "1.2.0"
+    tag: "1.3.0"
 
 kibana:
   enabled: "{{ kibana_enabled | default(True) }}"
 
   namespace: "logging-kibana"
   base_image: "{{ _kibana_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: kibana
+    app.kubernetes.io/component: kibana
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _kibana_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _kibana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kibana_var_loader.base_image.tag }}"
@@ -19,7 +26,7 @@ kibana:
     limits_cpu: "{{ kibana_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ kibana_container_limits_memory | default('2048Mi') }}"
   
-  nodejs_max_memory: "{{ kibana_nodejs_max_memory | default('1500') }}"
+  nodejs_max_memory: "{{ kibana_nodejs_max_memory | default('1024') }}"
 
   context_path: "{{ kibana_context_path | default('/kibana') }}"
   

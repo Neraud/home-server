@@ -4,8 +4,8 @@ metadata:
   name: nginx-exporter-prometheus
   namespace: {{ nginx_exporter.namespace }}
   labels:
-    app: nginx-exporter
-    app-component: nginx-exporter
+    {{ nginx_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nginx_exporter.labels_desc | to_nice_yaml() | indent(4) }}
     prometheus-target: nginx-exporter
 spec:
   ports:
@@ -13,5 +13,4 @@ spec:
       name: metrics
       targetPort: metrics
   selector:
-    app: nginx-exporter
-    app-component: nginx-exporter
+    {{ nginx_exporter.labels_def | to_nice_yaml() | indent(4) }}

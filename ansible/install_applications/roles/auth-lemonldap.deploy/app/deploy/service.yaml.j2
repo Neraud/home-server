@@ -4,11 +4,11 @@ metadata:
   name: lemonldap
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
+    {{ lemonldap.labels_def | to_nice_yaml() | indent(4) }}
+    {{ lemonldap.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
     name: http
   selector:
-    app: lemonldap
-    app-component: lemonldap
+    {{ lemonldap.labels_def | to_nice_yaml() | indent(4) }}

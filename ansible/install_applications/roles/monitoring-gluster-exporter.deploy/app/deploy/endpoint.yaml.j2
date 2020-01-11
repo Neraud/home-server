@@ -4,6 +4,9 @@ apiVersion: v1
 metadata:
   name: gluster-exporter
   namespace: {{ gluster_exporter.namespace }}
+  labels:
+    {{ gluster_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gluster_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 subsets:
 {% for glusterfs_node in groups['glusterfs_servers'] | map('extract', hostvars, ['ansible_host']) %}
 - addresses:

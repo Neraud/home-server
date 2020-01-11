@@ -4,22 +4,21 @@ metadata:
   name: sickchill
   namespace: {{ sickchill.namespace }}
   labels:
-    app: sickchill
-    app-component: sickchill
+    {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}
+    {{ sickchill.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: sickchill
-      app-component: sickchill
+      {{ sickchill.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: sickchill
-        app-component: sickchill
+        {{ sickchill.labels_def | to_nice_yaml() | indent(8) }}
+        {{ sickchill.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       initContainers:
       - name: inject-config
@@ -31,11 +30,25 @@ spec:
         - name: sickchill-config
           mountPath: /tmp/config
       containers:
-      - image: "{{ sickchill.container.image }}"
-        name: sickchill
+      - name: sickchill
+        image: "{{ sickchill.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 8081
           name: sickchill
+        securityContext:
+          # TODO : sickchill requires to run as root for now :/
+          #runAsNonRoot: true
+          #runAsUser: xxxx
+          #runAsGroup: xxxx
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ sickchill.context_root }}
+            port: sickchill
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ sickchill.container.requests_cpu }}"
@@ -46,6 +59,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: sickchill-config-pv-claim
           mountPath: /config
         - name: sickchill-download
@@ -82,5 +96,4 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app: sickchill
-          app-component: sickchill
+          {{ sickchill.labels_def | to_nice_yaml() | indent(10) }}

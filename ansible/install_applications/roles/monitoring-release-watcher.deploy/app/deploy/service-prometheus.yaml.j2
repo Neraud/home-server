@@ -4,8 +4,8 @@ metadata:
   name: release-watcher-prometheus
   namespace: {{ release_watcher.namespace }}
   labels:
-    app: release-watcher
-    app-component: release-watcher
+    {{ release_watcher.labels_def | to_nice_yaml() | indent(4) }}
+    {{ release_watcher.labels_desc | to_nice_yaml() | indent(4) }}
     prometheus-target: release-watcher
 spec:
   ports:
@@ -13,5 +13,4 @@ spec:
       name: metrics
       targetPort: metrics
   selector:
-    app: release-watcher
-    app-component: release-watcher
+    {{ release_watcher.labels_def | to_nice_yaml() | indent(4) }}

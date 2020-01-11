@@ -4,22 +4,22 @@ metadata:
   name: nginx-exporter
   namespace: {{ nginx_exporter.namespace }}
   labels:
-    app: nginx-exporter
-    app-component: nginx-exporter
+    {{ nginx_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nginx_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      app: nginx-exporter
-      app-component: nginx-exporter
+      {{ nginx_exporter.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app: nginx-exporter
-        app-component: nginx-exporter
+        {{ nginx_exporter.labels_def | to_nice_yaml() | indent(8) }}
+        {{ nginx_exporter.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - name: nginx-exporter
         image: "{{ nginx_exporter.container.image }}"
+        imagePullPolicy: Always
         args:
         - -nginx.scrape-uri
         - http://$(NODE_IP):81/status
@@ -31,6 +31,17 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random uid
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /metrics
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ nginx_exporter.container.requests_cpu }}"
@@ -41,6 +52,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
       volumes:
       - name: tz-config
         hostPath:

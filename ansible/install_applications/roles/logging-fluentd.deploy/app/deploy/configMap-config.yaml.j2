@@ -4,8 +4,8 @@ metadata:
   name: fluentd-config
   namespace: {{ fluentd.namespace }}
   labels:
-    app: fluentd
-    app-component: fluentd
+    {{ fluentd.labels_def | to_nice_yaml() | indent(4) }}
+    {{ fluentd.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   fluent.conf: |
     {{ lookup('file', role_path + '/app/config/fluent.conf')  | replace('\n', '\n    ') }}

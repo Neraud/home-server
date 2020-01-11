@@ -4,8 +4,8 @@ metadata:
   name: gitlab
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
-    app-component: gitlab
+    {{ gitlab.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitlab.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   gitlab.rb: |
     {{ lookup('template', role_path + '/app/config/gitlab.rb.j2') | replace('\n', '\n    ') }}

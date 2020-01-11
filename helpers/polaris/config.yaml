@@ -5,10 +5,10 @@ resources:
   memoryLimitsMissing: warning
 images:
   tagNotSpecified: error
-  pullPolicyNotAlways: ignore
+  pullPolicyNotAlways: warning
 healthChecks:
   readinessProbeMissing: warning
-  livenessProbeMissing: warning
+  livenessProbeMissing: ignore
 networking:
   hostNetworkSet: warning
   hostPortSet: warning

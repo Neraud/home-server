@@ -4,15 +4,14 @@ metadata:
   name: allow-to-prometheus-k8s
   namespace: {{ prometheus.namespace }}
   labels:
-    app: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: prometheus
-      prometheus: k8s
+      {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
 
 
   ingress:
@@ -22,10 +21,10 @@ spec:
       from:
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
 
     # Allow from alertmanager
     - ports:
@@ -33,8 +32,7 @@ spec:
       from:
         - podSelector:
             matchLabels:
-              app: alertmanager
-              alertmanager: main
+              {{ alertmanager.labels_def | to_nice_yaml() | indent(14) }}
 
     # Allow from grafana
     - ports:
@@ -45,5 +43,4 @@ spec:
               name: {{ grafana.namespace }}
           podSelector:
             matchLabels:
-              app: grafana
-              app-component: grafana
+              {{ grafana.labels_def | to_nice_yaml() | indent(14) }}

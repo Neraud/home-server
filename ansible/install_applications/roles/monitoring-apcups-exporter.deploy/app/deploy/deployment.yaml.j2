@@ -4,30 +4,41 @@ metadata:
   name: apcups-exporter
   namespace: {{ apcups_exporter.namespace }}
   labels:
-    app: apcups-exporter
-    app-component: apcups-exporter
+    {{ apcups_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ apcups_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      app: apcups-exporter
-      app-component: apcups-exporter
+      {{ apcups_exporter.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: apcups-exporter
-        app-component: apcups-exporter
+        {{ apcups_exporter.labels_def | to_nice_yaml() | indent(8) }}
+        {{ apcups_exporter.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ apcups_exporter.container.image }}"
-        name: apcups-exporter
+      - name: apcups-exporter
+        image: "{{ apcups_exporter.container.image }}"
+        imagePullPolicy: Always
         env:
         - name: APCUPS_ADDR
           value: apcupsd.monitoring-apcups-exporter:3551
         ports:
         - containerPort: 9162
           name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random UID
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ apcups_exporter.container.requests_cpu }}"
@@ -38,6 +49,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
       volumes:
       - name: tz-config
         hostPath:

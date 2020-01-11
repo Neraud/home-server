@@ -4,23 +4,33 @@ metadata:
   name: kibana
   namespace: {{ kibana.namespace }}
   labels:
-    app: kibana
-    app-component: kibana
+    {{ kibana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kibana.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kibana
-      app-component: kibana
+      {{ kibana.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app: kibana
-        app-component: kibana
+        {{ kibana.labels_def | to_nice_yaml() | indent(8) }}
+        {{ kibana.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - name: kibana
         image: "{{ kibana.container.image }}"
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /kibana/
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        securityContext:
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
         resources:
           requests:
             cpu: "{{ kibana.container.requests_cpu }}"
@@ -37,12 +47,15 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: kibana-config
           mountPath: /usr/share/kibana/config/kibana.yml
           subPath: kibana.yml
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /usr/share/kibana/optimize/
       volumes:
       - name: tz-config
         hostPath:
@@ -53,5 +66,7 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'

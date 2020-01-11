@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: gluster-rules
+  labels:
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
+    role: alert-rules
+spec:
+{% raw %}
+  "groups":
+    - "name": "gluster-volume.rules"
+      "rules":
+        - "expr": |
+            sum(max(gluster_subvol_capacity_used_bytes{job="gluster-exporter"}) BY (volume, subvolume)) BY (volume)
+          "record": "gluster:volume_capacity_used_bytes_total:sum"
+        - "expr": |
+            sum(max(gluster_subvol_capacity_total_bytes{job="gluster-exporter"}) BY (volume, subvolume)) BY (volume)
+          "record": "gluster:volume_capacity_total_bytes:sum"
+{% endraw %}

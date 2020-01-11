@@ -1,18 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: alertmanager
-    alertmanager: main
-    prometheus-target: alertmanager-main
-  name: alertmanager-main
+  name: alertmanager-k8s
   namespace: {{ prometheus.namespace }}
+  labels:
+    {{ alertmanager.labels_def | to_nice_yaml() | indent(4) }}
+    {{ alertmanager.labels_desc | to_nice_yaml() | indent(4) }}
+    prometheus-target: alertmanager-k8s
 spec:
   ports:
   - name: web
     port: 9093
     targetPort: web
   selector:
-    alertmanager: main
-    app: alertmanager
+    {{ alertmanager.labels_def | to_nice_yaml() | indent(4) }}
   sessionAffinity: ClientIP

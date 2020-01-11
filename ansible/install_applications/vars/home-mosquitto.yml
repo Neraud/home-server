@@ -14,6 +14,13 @@ mosquitto:
   base_image: "{{ _mosquitto_var_loader.base_image }}"
   servername: "mosquitto.{{ _mosquitto_var_loader.namespace }}.svc.cluster.local"
 
+  labels_def:
+    app.kubernetes.io/name: mosquitto
+    app.kubernetes.io/component: mosquitto
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _mosquitto_var_loader.base_image.tag }}"
+
   container:
     image: "{{ docker_registry.url }}/{{ _mosquitto_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _mosquitto_var_loader.base_image.tag }}"
     requests_cpu: "{{ mosquitto_container_requests_cpu | default('100m') }}"
@@ -23,3 +30,4 @@ mosquitto:
 
   listeners: "{{ mosquitto_listeners | default([]) }}"
   credentials: "{{ mosquitto_credentials | default([]) }}"
+  healthcheck_credential: "{{ mosquitto_healthcheck_credential | default({}) }}"

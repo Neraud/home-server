@@ -4,25 +4,29 @@ metadata:
   name: reloader
   namespace: {{ reloader.namespace }}
   labels:
-    app: reloader
-    app-component: reloader
+    {{ reloader.labels_def | to_nice_yaml() | indent(4) }}
+    {{ reloader.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   replicas: 1
   revisionHistoryLimit: 2
   selector:
     matchLabels:
-      app: reloader
-      app-component: reloader
+      {{ reloader.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app: reloader
-        app-component: reloader
+        {{ reloader.labels_def | to_nice_yaml() | indent(8) }}
+        {{ reloader.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - name: reloader
         image: "{{ reloader.container.image }}"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
         resources:
           requests:
             cpu: "{{ reloader.container.requests_cpu }}"

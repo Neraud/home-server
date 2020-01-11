@@ -14,8 +14,8 @@ local_lv_prefix: local_
 #    mount_path: /path/on/kubernetes/node (optional)
 #    reclaim_policy: Retain
 #    labels:
-#      app: appName
-#      app-component: componentName
+#      app.kubernetes.io/name: appName
+#      app.kubernetes.io/component: componentName
 #      storage: storageDetail
 
 kubernetes_glusterfs_endpoint: glusterfs-cluster
@@ -31,6 +31,6 @@ kubernetes_glusterfs_available_namespaces:
 #    mount_path: /path/on/kubernetes/node (optional)
 #    reclaim_policy: Retain
 #    labels:
-#      app: appName
-#      app-component: componentName
+#      app.kubernetes.io/name: appName
+#      app.kubernetes.io/component: componentName
 #      storage: storageDetail

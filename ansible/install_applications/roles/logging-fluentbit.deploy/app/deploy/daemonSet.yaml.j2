@@ -4,24 +4,23 @@ metadata:
   name: fluent-bit
   namespace: {{ fluentbit.namespace }}
   labels:
-    app: fluent-bit
-    app-component: fluent-bit
+    {{ fluentbit.labels_def | to_nice_yaml() | indent(4) }}
+    {{ fluentbit.labels_desc | to_nice_yaml() | indent(4) }}
     kubernetes.io/cluster-service: "true"
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: fluent-bit
-      app-component: fluent-bit
+      {{ fluentbit.labels_def | to_nice_yaml() | indent(6) }}
       kubernetes.io/cluster-service: "true"
   updateStrategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: fluent-bit
-        app-component: fluent-bit
+        {{ fluentbit.labels_def | to_nice_yaml() | indent(8) }}
+        {{ fluentbit.labels_desc | to_nice_yaml() | indent(8) }}
         kubernetes.io/cluster-service: "true"
       annotations:
         prometheus.io/scrape: "true"
@@ -33,14 +32,21 @@ spec:
         image: "{{ fluentbit.container.image }}"
         imagePullPolicy: Always
         ports:
-          - containerPort: 2020
-            name: metrics
+        - containerPort: 2020
+          name: metrics
         env:
         - name: FLUENT_FLUENTD_HOST
           value: "{{ fluentd.servername }}"
         - name: FLUENT_FLUENTD_PORT
           value: "24224"
+        securityContext:
+          # Run as root to be able to read host logs
+          #runAsNonRoot: true
+          readOnlyRootFilesystem: true
         volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
         - name: varlog
           mountPath: /var/log
         - name: varlibdockercontainers
@@ -48,6 +54,13 @@ spec:
           readOnly: true
         - name: fluent-bit-config
           mountPath: /fluent-bit/etc/
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /api/v1/metrics/prometheus
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ fluentbit.container.requests_cpu }}"
@@ -57,6 +70,9 @@ spec:
             memory: "{{ fluentbit.container.limits_memory }}"
       terminationGracePeriodSeconds: 10
       volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
       - name: varlog
         hostPath:
           path: /var/log

@@ -4,8 +4,8 @@ metadata:
   name: grafana-etc
   namespace: {{ grafana.namespace }}
   labels:
-    app: grafana
-    app-component: grafana
+    {{ grafana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ grafana.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   grafana.ini: |
     {{ lookup('template', role_path + '/app/config/etc/grafana.ini.j2') | replace('\n', '\n    ') }}

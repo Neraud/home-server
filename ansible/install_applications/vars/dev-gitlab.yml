@@ -14,6 +14,13 @@ gitlab:
   namespace: "dev-gitlab"
   base_image: "{{ _gitlab_var_loader.base_image }}"
 
+  labels_def:
+    app.kubernetes.io/name: gitlab
+    app.kubernetes.io/component: gitlab
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _gitlab_var_loader.base_image.tag }}"
+
   container:
     image: "{{ docker_registry.url }}/{{ _gitlab_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _gitlab_var_loader.base_image.tag }}"
     requests_cpu: "{{ gitlab_container_requests_cpu | default('500m') }}"

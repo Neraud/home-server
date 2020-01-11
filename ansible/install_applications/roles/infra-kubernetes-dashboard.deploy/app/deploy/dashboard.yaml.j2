@@ -23,7 +23,8 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 
@@ -33,15 +34,17 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 spec:
   ports:
     - port: 443
-      targetPort: 8443
+      name: https
+      targetPort: https
   selector:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
 
 ---
 
@@ -49,7 +52,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard-certs
   namespace: {{ kubernetes_dashboard.namespace }}
 type: Opaque
@@ -60,7 +64,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard-csrf
   namespace: {{ kubernetes_dashboard.namespace }}
 type: Opaque
@@ -73,7 +78,8 @@ apiVersion: v1
 kind: Secret
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard-key-holder
   namespace: {{ kubernetes_dashboard.namespace }}
 type: Opaque
@@ -84,7 +90,8 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard-settings
   namespace: {{ kubernetes_dashboard.namespace }}
 
@@ -94,7 +101,8 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 rules:
@@ -124,7 +132,8 @@ kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
 rules:
   # Allow Metrics Scraper to get metrics from the Metrics server
@@ -138,7 +147,8 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 roleRef:
@@ -172,7 +182,8 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   labels:
-    k8s-app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   name: kubernetes-dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
 spec:
@@ -180,18 +191,20 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      k8s-app: kubernetes-dashboard
+      {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        k8s-app: kubernetes-dashboard
+        {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(8) }}
+        {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
         - name: kubernetes-dashboard
           image: "{{ kubernetes_dashboard.container.image }}"
           imagePullPolicy: Always
           ports:
-            - containerPort: 8443
+            - name: https
+              containerPort: 8443
               protocol: TCP
           args:
             - --auto-generate-certificates
@@ -200,6 +213,12 @@ spec:
             # If not specified, Dashboard will attempt to auto discover the API server and connect
             # to it. Uncomment only if the default does not work.
             # - --apiserver-host=http://my-address:port
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 2001
+            readOnlyRootFilesystem: true
           resources:
             requests:
               cpu: "{{ kubernetes_dashboard.container.requests_cpu }}"
@@ -213,11 +232,16 @@ spec:
               # Create on-disk volume to store exec logs
             - mountPath: /tmp
               name: tmp-volume
+          readinessProbe:
+            httpGet:
+              scheme: HTTPS
+              path: /
+              port: https
           livenessProbe:
             httpGet:
               scheme: HTTPS
               path: /
-              port: 8443
+              port: https
             initialDelaySeconds: 30
             timeoutSeconds: 30
       volumes:
@@ -227,6 +251,9 @@ spec:
         - name: tmp-volume
           emptyDir: {}
       serviceAccountName: kubernetes-dashboard
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+        capability/general-purpose: 'yes'
       # Comment the following tolerations if Dashboard must not be deployed on master
       tolerations:
         - key: node-role.kubernetes.io/master
@@ -238,15 +265,16 @@ kind: Service
 apiVersion: v1
 metadata:
   labels:
-    k8s-app: dashboard-metrics-scraper
+    {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard_metrics_scraper.labels_desc | to_nice_yaml() | indent(4) }}
   name: dashboard-metrics-scraper
   namespace: {{ kubernetes_dashboard.namespace }}
 spec:
   ports:
     - port: 8000
-      targetPort: 8000
+      targetPort: http
   selector:
-    k8s-app: dashboard-metrics-scraper
+    {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(4) }}
 
 ---
 
@@ -254,7 +282,8 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   labels:
-    k8s-app: dashboard-metrics-scraper
+    {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard_metrics_scraper.labels_desc | to_nice_yaml() | indent(4) }}
   name: dashboard-metrics-scraper
   namespace: {{ kubernetes_dashboard.namespace }}
 spec:
@@ -262,18 +291,27 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      k8s-app: dashboard-metrics-scraper
+      {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        k8s-app: dashboard-metrics-scraper
+        {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(8) }}
+        {{ kubernetes_dashboard_metrics_scraper.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
         - name: dashboard-metrics-scraper
           image: "{{ kubernetes_dashboard_metrics_scraper.container.image }}"
+          imagePullPolicy: Always
           ports:
-            - containerPort: 8000
+            - name: http
+              containerPort: 8000
               protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1001
+            runAsGroup: 2001
+            readOnlyRootFilesystem: true
           resources:
             requests:
               cpu: "{{ kubernetes_dashboard_metrics_scraper.container.requests_cpu }}"
@@ -281,17 +319,27 @@ spec:
             limits:
               cpu: "{{ kubernetes_dashboard_metrics_scraper.container.limits_cpu }}"
               memory: "{{ kubernetes_dashboard_metrics_scraper.container.limits_memory }}"
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            timeoutSeconds: 30
           livenessProbe:
             httpGet:
               scheme: HTTP
               path: /
-              port: 8000
+              port: http
             initialDelaySeconds: 30
             timeoutSeconds: 30
           volumeMounts:
           - mountPath: /tmp
             name: tmp-volume
       serviceAccountName: kubernetes-dashboard
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+        capability/general-purpose: 'yes'
       # Comment the following tolerations if Dashboard must not be deployed on master
       tolerations:
         - key: node-role.kubernetes.io/master

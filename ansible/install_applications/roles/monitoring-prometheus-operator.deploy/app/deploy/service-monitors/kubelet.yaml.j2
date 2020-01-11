@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: kubelet
+    app.kubernetes.io/name: kubelet
   name: kubelet
   namespace: {{ prometheus.namespace }}
 spec:
@@ -38,7 +38,7 @@ spec:
     scheme: https
     tlsConfig:
       insecureSkipVerify: true
-  jobLabel: k8s-app
+  jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
     - kube-system

@@ -4,29 +4,42 @@ metadata:
   name: pyload
   namespace: {{ pyload.namespace }}
   labels:
-    app: pyload
-    app-component: pyload
+    {{ pyload.labels_def | to_nice_yaml() | indent(4) }}
+    {{ pyload.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: pyload
-      app-component: pyload
+      {{ pyload.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: pyload
-        app-component: pyload
+        {{ pyload.labels_def | to_nice_yaml() | indent(8) }}
+        {{ pyload.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ pyload.container.image }}"
-        name: pyload
+      - name: pyload
+        image: "{{ pyload.container.image }}"
+        imagePullPolicy: Always        
         ports:
         - containerPort: 8000
           name: webui
+        securityContext:
+          # TODO : pyload requires to run as root for now :/
+          #runAsNonRoot: true
+          #runAsUser: xxxx
+          #runAsGroup: xxxx
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ pyload.context_root }}
+            port: webui
+          initialDelaySeconds: 3
+          periodSeconds: 5
         env:
           - name: PYLOAD_DEFAULT_USER
             value: "{{ pyload.default_user }}"
@@ -44,6 +57,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: pyload-config-pv-claim
           mountPath: /config
         - name: pyload-download
@@ -68,5 +82,4 @@ spec:
           storage: 32M
       selector:
         matchLabels:
-          app: pyload
-          app-component: pyload
+          {{ pyload.labels_def | to_nice_yaml() | indent(10) }}

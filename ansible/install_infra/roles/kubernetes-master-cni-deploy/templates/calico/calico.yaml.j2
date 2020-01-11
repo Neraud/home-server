@@ -461,11 +461,11 @@ metadata:
   name: calico-node
   namespace: kube-system
   labels:
-    k8s-app: calico-node
+    app.kubernetes.io/name: calico-node
 spec:
   selector:
     matchLabels:
-      k8s-app: calico-node
+      app.kubernetes.io/name: calico-node
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
@@ -473,7 +473,7 @@ spec:
   template:
     metadata:
       labels:
-        k8s-app: calico-node
+        app.kubernetes.io/name: calico-node
       annotations:
         # This, along with the CriticalAddonsOnly toleration below,
         # marks the pod as a critical add-on, ensuring it gets
@@ -709,13 +709,13 @@ metadata:
   name: calico-kube-controllers
   namespace: kube-system
   labels:
-    k8s-app: calico-kube-controllers
+    app.kubernetes.io/name: calico-kube-controllers
 spec:
   # The controllers can only have a single active instance.
   replicas: 1
   selector:
     matchLabels:
-      k8s-app: calico-kube-controllers
+      app.kubernetes.io/name: calico-kube-controllers
   strategy:
     type: Recreate
   template:
@@ -723,7 +723,7 @@ spec:
       name: calico-kube-controllers
       namespace: kube-system
       labels:
-        k8s-app: calico-kube-controllers
+        app.kubernetes.io/name: calico-kube-controllers
       annotations:
         scheduler.alpha.kubernetes.io/critical-pod: ""
     spec:

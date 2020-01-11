@@ -4,7 +4,8 @@ metadata:
   name: dashboard
   namespace: {{ kubernetes_dashboard.namespace }}
   labels:
-    app: kubernetes-dashboard
+    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
@@ -22,4 +23,4 @@ spec:
       - path: /kube/?(.*)
         backend:
           serviceName: kubernetes-dashboard
-          servicePort: 443
+          servicePort: https

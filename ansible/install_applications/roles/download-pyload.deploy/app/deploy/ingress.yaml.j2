@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: pyload
   namespace: {{ pyload.namespace }}
+  labels:
+    {{ pyload.labels_def | to_nice_yaml() | indent(4) }}
+    {{ pyload.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:

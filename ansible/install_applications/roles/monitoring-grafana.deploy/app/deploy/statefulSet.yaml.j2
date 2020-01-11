@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
-    app: grafana
-    app-component: grafana
+    {{ grafana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ grafana.labels_desc | to_nice_yaml() | indent(4) }}
   name: grafana
   namespace: {{ grafana.namespace }}
   annotations:
@@ -12,13 +12,12 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: grafana
-      app-component: grafana
+      {{ grafana.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app: grafana
-        app-component: grafana
+        {{ grafana.labels_def | to_nice_yaml() | indent(8) }}
+        {{ grafana.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - image: "{{ grafana.container.image }}"
@@ -29,10 +28,15 @@ spec:
         ports:
         - containerPort: 3000
           name: http
+        securityContext:
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             path: /api/health
             port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ grafana.container.requests_cpu }}"
@@ -43,6 +47,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - mountPath: /var/lib/grafana
           name: grafana-pv-claim
           readOnly: false
@@ -103,5 +108,4 @@ spec:
           storage: 128M
       selector:
         matchLabels:
-          app: grafana
-          app-component: grafana
+          {{ grafana.labels_def | to_nice_yaml() | indent(10) }}

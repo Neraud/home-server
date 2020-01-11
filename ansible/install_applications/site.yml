@@ -100,9 +100,9 @@
   tags: kubernetes-app-monitoring-grafana
   when: grafana_enabled | bool
 
-- import_playbook: app-web-ttrss.yml
-  tags: kubernetes-app-web-ttrss
-  when: ttrss_enabled | bool
+#- import_playbook: app-web-ttrss.yml
+#  tags: kubernetes-app-web-ttrss
+#  when: ttrss_enabled | bool
 
 - import_playbook: app-web-heimdall.yml
   tags: kubernetes-app-web-heimdall
@@ -132,9 +132,9 @@
   tags: kubernetes-app-stream-airsonic
   when: airsonic_enabled | bool
 
-- import_playbook: app-stream-plex.yml
-  tags: kubernetes-app-stream-plex
-  when: plex_enabled | bool
+#- import_playbook: app-stream-plex.yml
+#  tags: kubernetes-app-stream-plex
+#  when: plex_enabled | bool
 
 - import_playbook: app-dev-gitlab.yml
   tags: kubernetes-app-dev-gitlab

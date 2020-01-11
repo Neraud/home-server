@@ -5,13 +5,20 @@ _kubernetes_metrics_server_var_loader:
   base_image:
     repo: "k8s.gcr.io"
     name: "metrics-server-amd64"
-    tag: "v0.3.5"
+    tag: "v0.3.6"
 
 kubernetes_metrics_server:
   enabled: "{{ kubernetes_metrics_server_enabled | default(True) }}"
 
   namespace: "infra-kubernetes-metrics-server"
   base_image: "{{ _kubernetes_metrics_server_var_loader.base_image }}"
+
+  labels_def:
+    app.kubernetes.io/name: metrics-server
+    app.kubernetes.io/component: metrics-server
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _kubernetes_metrics_server_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _kubernetes_metrics_server_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_metrics_server_var_loader.base_image.tag }}"

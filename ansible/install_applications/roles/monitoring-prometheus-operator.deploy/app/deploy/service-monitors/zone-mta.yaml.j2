@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: zonemta
+    {{ zonemta.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zonemta.labels_desc | to_nice_yaml() | indent(4) }}
   name: zonemta
   namespace: {{ prometheus.namespace }}
 spec:

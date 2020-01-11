@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zonemta
+  name: zonemta-server
   namespace: "{{ zonemta.namespace }}"
   labels:
-    app: zonemta
-    app-component: zonemta
+    {{ zonemta.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zonemta.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: zonemta
-      app-component: zonemta
+      {{ zonemta.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: zonemta
-        app-component: zonemta
+        {{ zonemta.labels_def | to_nice_yaml() | indent(8) }}
+        {{ zonemta.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ zonemta.container.image }}"
-        name: zonemta
+      - name: zonemta
+        image: "{{ zonemta.container.image }}"
+        imagePullPolicy: Always
         env:
         - name: NODE_OPTIONS
           value: "--max-old-space-size={{ zonemta.nodejs_max_memory }}"
@@ -32,6 +32,16 @@ spec:
           name: smtp
         - containerPort: 12080
           name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          tcpSocket:
+            port: smtp
+          initialDelaySeconds: 10
+          periodSeconds: 10
         resources:
           requests:
             cpu: "{{ zonemta.container.requests_cpu }}"
@@ -42,6 +52,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: zonemta-config
           mountPath: /opt/zone-mta/config
         - name: zonemta-certificates

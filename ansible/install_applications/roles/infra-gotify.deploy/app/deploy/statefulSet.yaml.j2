@@ -4,29 +4,58 @@ metadata:
   name: gotify
   namespace: {{ gotify.namespace }}
   labels:
-    app: gotify
-    app-component: gotify
+    {{ gotify.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gotify.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: gotify
-      app-component: gotify
+      {{ gotify.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: gotify
-        app-component: gotify
+        {{ gotify.labels_def | to_nice_yaml() | indent(8) }}
+        {{ gotify.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-data-dir
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /app/data/db
+            mkdir -p /app/data/images
+            mkdir -p /app/data/plugins
+            chown -R 1000:1000 /app/data/*
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: gotify-pv-claim
+          mountPath: /app/data
       containers:
-      - image: "{{ gotify.container.image }}"
-        name: gotify
+      - name: gotify
+        image: "{{ gotify.container.image }}"
+        imagePullPolicy: Always        
         ports:
-        - containerPort: 80
-          name: gotify
+        - containerPort: 8080
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /health
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ gotify.container.requests_cpu }}"
@@ -37,6 +66,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: gotify-pv-claim
           mountPath: /app/data
         - name: gotify-config
@@ -62,5 +92,4 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app: gotify
-          app-component: gotify
+          {{ gotify.labels_def | to_nice_yaml() | indent(10) }}

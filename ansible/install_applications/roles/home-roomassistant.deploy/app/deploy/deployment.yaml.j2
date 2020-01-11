@@ -4,25 +4,25 @@ metadata:
   name: roomassistant
   namespace: {{ roomassistant.namespace }}
   labels:
-    app: roomassistant
-    app-component: roomassistant
+    {{ roomassistant.labels_def | to_nice_yaml() | indent(4) }}
+    {{ roomassistant.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: roomassistant
-      app-component: roomassistant
+      {{ roomassistant.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: roomassistant
-        app-component: roomassistant
+        {{ roomassistant.labels_def | to_nice_yaml() | indent(8) }}
+        {{ roomassistant.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ roomassistant.container.image }}"
-        name: roomassistant
+      - name: roomassistant
+        image: "{{ roomassistant.container.image }}"
+        imagePullPolicy: Always
 {% if roomassistant.environment_variables | default({}) | length > 0 %}
         env:
 {% for env_var in roomassistant.environment_variables | dict2items %}
@@ -30,6 +30,10 @@ spec:
           value: "{{ env_var.value }}"
 {% endfor %}
 {% endif %}
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # node
+          readOnlyRootFilesystem: true
         resources:
           requests:
             cpu: "{{ roomassistant.container.requests_cpu }}"
@@ -40,6 +44,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
       volumes:
       - name: tz-config
         hostPath:

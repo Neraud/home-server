@@ -4,12 +4,12 @@ metadata:
   name: pyload
   namespace: {{ pyload.namespace }}
   labels:
-    app: pyload
+    {{ pyload.labels_def | to_nice_yaml() | indent(4) }}
+    {{ pyload.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
-    targetPort: 8000
+    targetPort: webui
     name: webui
   selector:
-    app: pyload
-    app-component: pyload
+    {{ pyload.labels_def | to_nice_yaml() | indent(4) }}

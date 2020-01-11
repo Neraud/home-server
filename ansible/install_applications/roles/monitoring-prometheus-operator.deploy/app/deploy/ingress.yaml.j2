@@ -4,7 +4,8 @@ metadata:
   name: prometheus
   namespace: {{ prometheus.namespace }}
   labels:
-    app: prometheus
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 spec:
@@ -18,5 +19,5 @@ spec:
             servicePort: 9090
         - path: /alertmanager/?(.*)
           backend:
-            serviceName: alertmanager-main
+            serviceName: alertmanager-k8s
             servicePort: 9093

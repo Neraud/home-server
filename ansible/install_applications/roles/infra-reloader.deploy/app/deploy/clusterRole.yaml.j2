@@ -3,7 +3,8 @@ kind: ClusterRole
 metadata:
   name: reloader-role
   labels:
-    app: reloader
+    {{ reloader.labels_def | to_nice_yaml() | indent(4) }}
+    {{ reloader.labels_desc | to_nice_yaml() | indent(4) }}
 rules:
   - apiGroups:
       - ""

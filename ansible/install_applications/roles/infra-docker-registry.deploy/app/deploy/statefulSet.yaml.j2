@@ -4,38 +4,57 @@ metadata:
   name: docker-registry
   namespace: {{ docker_registry.namespace }}
   labels:
-    app: docker-registry
-    app-component: registry
+    {{ docker_registry.labels_def | to_nice_yaml() | indent(4) }}
+    {{ docker_registry.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: docker-registry
-      app-component: registry
+      {{ docker_registry.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: docker-registry
-        app-component: registry
+        {{ docker_registry.labels_def | to_nice_yaml() | indent(8) }}
+        {{ docker_registry.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-data-dir
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /var/lib/registry/docker
+            chown -R 1000:1000 /var/lib/registry/*
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: docker-registry-pv-claim
+          mountPath: /var/lib/registry
       containers:
-      - image: "{{ docker_registry.container.image }}"
-        name: docker-registry
-        env:
-        - name: REGISTRY_HTTP_ADDR
-          value: 0.0.0.0:443
-        - name: REGISTRY_HTTP_TLS_CERTIFICATE
-          value: /certs/server.crt
-        - name: REGISTRY_HTTP_TLS_KEY
-          value: /certs/server.key
+      - name: docker-registry
+        image: "{{ docker_registry.container.image }}"
+        imagePullPolicy: Always
         ports:
-        - containerPort: 443
+        - containerPort: 5443
           name: docker-registry
         - containerPort: 5001
           name: debug
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTPS
+            path: /
+            port: docker-registry
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ docker_registry.container.requests_cpu }}"
@@ -46,6 +65,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: docker-registry-pv-claim
           mountPath: /var/lib/registry
         - name: docker-registry-config
@@ -76,5 +96,4 @@ spec:
           storage: 10G
       selector:
         matchLabels:
-          app: docker-registry
-          app-component: registry
+          {{ docker_registry.labels_def | to_nice_yaml() | indent(10) }}

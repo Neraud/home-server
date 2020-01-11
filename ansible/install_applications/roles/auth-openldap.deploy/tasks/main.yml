@@ -42,7 +42,7 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
-- name: Fetch openldap internal endpoint
+- name: Fetch OpenLDAP internal endpoint
   k8s_facts:
     api_version: v1
     kind: Service
@@ -52,24 +52,41 @@
   become_user: "{{ kubernetes_user.name }}"
   register: openldap_service
 
-- name: Set openldap internal endpoint
+- name: Set OpenLDAP internal endpoint
   set_fact:
     openldap_internal_uri: "ldap://{{ openldap_service.resources[0].spec.clusterIP }}"
 
 - name: Wait for OpenLDAP to be available
-  wait_for:
-    host: "{{ openldap_service.resources[0].spec.clusterIP }}"
-    port: 389
-    sleep: 5
-    timeout: 300
-  register: wait_for_openldap_result
+  k8s_facts:
+    kind: StatefulSet
+    namespace: "{{ openldap.namespace }}"
+    name: openldap
+  register: k8s_result
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 30
+  delay: 5
 
-# When the container starts, the port may be open but the OpenLDAP service might not be available yet, so we wait a bit more
-# TODO : find a better way to detect that OpenLDAP is available
-- name: Wait for OpenLDAP to be really available
-  wait_for:
-    timeout: 30
-  when: wait_for_openldap_result.elapsed > 0
+# On first start, OpenLdap restarts to run its setup process
+# So if the first wait task has waited, we make sure it's really still up a few seconds later
+- name:
+  pause:
+    seconds: 10
+  when: k8s_result.attempts > 1
+
+- name: Wait for OpenLDAP to be available
+  k8s_facts:
+    kind: StatefulSet
+    namespace: "{{ openldap.namespace }}"
+    name: openldap
+  register: k8s_result
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 30
+  delay: 5
+  when: k8s_result.attempts > 1
 
 - name: Create LDAP base OUs
   ldap_entry:

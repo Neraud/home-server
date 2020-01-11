@@ -13,6 +13,13 @@ sickchill:
   namespace: "{{ _sickchill_var_loader.namespace }}"
   base_image: "{{ _sickchill_var_loader.base_image }}"
   servername: "sickchill.{{ _sickchill_var_loader.namespace }}.svc.cluster.local"
+  
+  labels_def:
+    app.kubernetes.io/name: sickchill
+    app.kubernetes.io/component: sickchill
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _sickchill_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _sickchill_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _sickchill_var_loader.base_image.tag }}"

@@ -12,6 +12,13 @@ deluge:
   namespace: "download-deluge"
   base_image: "{{ _deluge_var_loader.base_image }}"
 
+  labels_def:
+    app.kubernetes.io/name: deluge
+    app.kubernetes.io/component: deluge
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _deluge_var_loader.base_image.tag }}"
+
   container:
     image: "{{ docker_registry.url }}/{{ _deluge_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _deluge_var_loader.base_image.tag }}"
     requests_cpu: "{{ deluge_container_requests_cpu | default('100m') }}"

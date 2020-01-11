@@ -4,7 +4,7 @@
 _gotify_var_loader:
   base_image:
     name: "gotify/server"
-    tag: "2.0.8"
+    tag: "2.0.12"
   namespace: "infra-gotify"
 
 gotify:
@@ -13,6 +13,13 @@ gotify:
   namespace: "{{ _gotify_var_loader.namespace }}"
   base_image: "{{ _gotify_var_loader.base_image }}"
   servername: "gotify.{{ _gotify_var_loader.namespace }}.svc.cluster.local"
+  
+  labels_def:
+    app.kubernetes.io/name: gotify
+    app.kubernetes.io/component: gotify
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _gotify_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/gotify-server:{{ _gotify_var_loader.base_image.tag }}"

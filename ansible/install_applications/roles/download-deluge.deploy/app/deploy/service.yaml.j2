@@ -4,12 +4,12 @@ metadata:
   name: deluge
   namespace: {{ deluge.namespace }}
   labels:
-    app: deluge
+    {{ deluge.labels_def | to_nice_yaml() | indent(4) }}
+    {{ deluge.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
-    targetPort: 8112
+    targetPort: webui
     name: webui
   selector:
-    app: deluge
-    app-component: deluge
+    {{ deluge.labels_def | to_nice_yaml() | indent(4) }}

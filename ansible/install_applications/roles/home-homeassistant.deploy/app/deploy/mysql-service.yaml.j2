@@ -4,12 +4,11 @@ metadata:
   name: homeassistant-mysql
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
-    app-component: mysql
+    {{ homeassistant_mysql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homeassistant_mysql.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
     - port: 3306
+      name: mysql
   selector:
-    app: homeassistant
-    app-component: mysql
-  clusterIP: None
+    {{ homeassistant_mysql.labels_def | to_nice_yaml() | indent(4) }}

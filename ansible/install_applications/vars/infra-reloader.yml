@@ -4,13 +4,20 @@
 _reloader_var_loader:
   base_image:
     name: "stakater/reloader"
-    tag: "v0.0.40"
+    tag: "v0.0.49"
 
 reloader:
   enabled: "{{ reloader_enabled | default(True) }}"
 
   namespace: "infra-reloader"
   base_image: "{{ _reloader_var_loader.base_image }}"
+
+  labels_def:
+    app.kubernetes.io/name: reloader
+    app.kubernetes.io/component: reloader
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _reloader_var_loader.base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _reloader_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _reloader_var_loader.base_image.tag }}"

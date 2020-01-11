@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app: alertmanager
+    {{ alertmanager.labels_def | to_nice_yaml() | indent(4) }}
+    {{ alertmanager.labels_desc | to_nice_yaml() | indent(4) }}
   name: alertmanager
   namespace: {{ prometheus.namespace }}
 spec:
@@ -17,5 +18,4 @@ spec:
     port: web
   selector:
     matchLabels:
-      alertmanager: main
-      prometheus-target: alertmanager-main
+      {{ alertmanager.labels_def | to_nice_yaml() | indent(6) }}

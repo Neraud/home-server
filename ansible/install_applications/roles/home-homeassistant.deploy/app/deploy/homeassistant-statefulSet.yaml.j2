@@ -4,34 +4,49 @@ metadata:
   name: homeassistant
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
-    app-component: homeassistant
+    {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homeassistant.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: homeassistant
-      app-component: homeassistant
+      {{ homeassistant.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: homeassistant
-        app-component: homeassistant
+        {{ homeassistant.labels_def | to_nice_yaml() | indent(8) }}
+        {{ homeassistant.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /homeassistant-config/config
+            chown -R 1000:1000 /homeassistant-config/config
+        volumeMounts:
+        - name: homeassistant-pv-claim
+          mountPath: /homeassistant-config
       containers:
-      - image: "{{ homeassistant.container.image }}"
-        name: homeassistant
+      - name: homeassistant
+        image: "{{ homeassistant.container.image }}"
+        imagePullPolicy: Always        
         ports:
         - containerPort: 8123
           name: homeassistant
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: homeassistant-pv-claim
           mountPath: /config
+          subPath: config
         - name: homeassistant-socat-config
           mountPath: /etc/supervisor/conf.d/
         - name: homeassistant-config
@@ -40,6 +55,19 @@ spec:
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.cert
           subPath: ca.crt
+        - name: run-volume
+          mountPath: /run/udev
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # homeassistant
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: homeassistant
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ homeassistant.container.requests_cpu }}"
@@ -60,6 +88,8 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - name: run-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
@@ -73,5 +103,4 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app: homeassistant
-          app-component: homeassistant
+          {{ homeassistant.labels_def | to_nice_yaml() | indent(10) }}

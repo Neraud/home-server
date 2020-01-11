@@ -4,8 +4,8 @@ metadata:
   name: homeassistant-config
   namespace: {{ homeassistant.namespace }}
   labels:
-    app: homeassistant
-    app-component: homeassistant
+    {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homeassistant.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   ldap-auth-config.cfg: |-
     {{ lookup('template', role_path + '/app/config/ldap-auth-config.cfg.j2') | replace('\n', '\n    ') }}

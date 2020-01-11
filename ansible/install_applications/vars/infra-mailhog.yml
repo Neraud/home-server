@@ -12,6 +12,14 @@ mailhog:
 
   namespace: "{{ _mailhog_var_loader.namespace }}"
   base_image: "{{ _mailhog_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/component: server
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _mailhog_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: zonemta
 
   container:
     image: "{{ docker_registry.url }}/{{ _mailhog_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _mailhog_var_loader.base_image.tag }}"

@@ -4,31 +4,32 @@ metadata:
   name: openldap
   namespace: {{ openldap.namespace }}
   labels:
-    app: openldap
-    app-component: openldap
+    {{ openldap.labels_def | to_nice_yaml() | indent(4) }}
+    {{ openldap.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: openldap
-      app-component: openldap
+      {{ openldap.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: openldap
-        app-component: openldap
+        {{ openldap.labels_def | to_nice_yaml() | indent(8) }}
+        {{ openldap.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - name: openldap
         image: "{{ openldap.container.image }}"
+        imagePullPolicy: Always
         args: ["--copy-service"]
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: openldap-data-pv-claim
           mountPath: /var/lib/ldap
         - name: openldap-config-pv-claim
@@ -44,6 +45,17 @@ spec:
           name: ldap
         - containerPort: 636
           name: ldaps
+        securityContext:
+          # See README.MD for details
+          #runAsNonRoot: true
+          #runAsUser: 999 # openldap
+          #runAsGroup: 999 # openldap
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          tcpSocket:
+            port: ldap
+          initialDelaySeconds: 60
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ openldap.container.requests_cpu }}"
@@ -74,8 +86,7 @@ spec:
           storage: 256M
       selector:
         matchLabels:
-          app: openldap
-          app-component: openldap
+          {{ openldap.labels_def | to_nice_yaml() | indent(10) }}
           storage: data
   - metadata:
       name: openldap-config-pv-claim
@@ -87,8 +98,7 @@ spec:
           storage: 16M
       selector:
         matchLabels:
-          app: openldap
-          app-component: openldap
+          {{ openldap.labels_def | to_nice_yaml() | indent(10) }}
           storage: config
   - metadata:
       name: openldap-run-pv-claim
@@ -100,6 +110,5 @@ spec:
           storage: 16M
       selector:
         matchLabels:
-          app: openldap
-          app-component: openldap
+          {{ openldap.labels_def | to_nice_yaml() | indent(10) }}
           storage: run

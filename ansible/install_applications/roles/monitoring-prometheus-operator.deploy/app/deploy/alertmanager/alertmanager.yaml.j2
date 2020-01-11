@@ -1,15 +1,18 @@
 apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
 metadata:
-  labels:
-    app: alertmanager
-    app-component: alertmanager
-    alertmanager: main
-  name: main
+  name: k8s
   namespace: {{ prometheus.namespace }}
+  labels:
+    {{ alertmanager.labels_def | to_nice_yaml() | indent(4) }}
+    {{ alertmanager.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   baseImage: "{{ alertmanager.base_image.repo }}/{{ alertmanager.base_image.name }}"
   version: "{{ alertmanager.base_image.tag }}"
+  podMetadata:
+    labels:
+      {{ alertmanager.labels_def | to_nice_yaml() | indent(6) }}
+      {{ alertmanager.labels_desc | to_nice_yaml() | indent(6) }}
   nodeSelector:
     kubernetes.io/os: linux
     capability/general-purpose: 'yes'
@@ -28,4 +31,7 @@ spec:
     fsGroup: 2000
     runAsNonRoot: true
     runAsUser: 1000
-  serviceAccountName: alertmanager-main
+    # TODO : readOnlyRootFilesystem is present in the CRD, but it doesn't get injected at the container level
+    # I guess this section is only applied at the POD level.
+    #readOnlyRootFilesystem: true
+  serviceAccountName: alertmanager-k8s

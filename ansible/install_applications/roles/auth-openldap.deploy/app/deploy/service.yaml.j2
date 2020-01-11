@@ -4,13 +4,15 @@ metadata:
   name: openldap
   namespace: {{ openldap.namespace }}
   labels:
-    app: openldap
+    {{ openldap.labels_def | to_nice_yaml() | indent(4) }}
+    {{ openldap.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 389
     name: ldap
+    targetPort: ldap
   - port: 636
     name: ldaps
+    targetPort: ldaps
   selector:
-    app: openldap
-    app-component: openldap
+    {{ openldap.labels_def | to_nice_yaml() | indent(4) }}

@@ -36,24 +36,16 @@
     mode: 0755
 
 - name: Wait for Kibana to be available
-  uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/app/kibana"
-    method: GET
-    headers:
-      Host: "infra.{{ web_base_domain }}"
-    return_content: no
-    validate_certs: no
-    user: "{{ kibana.elasticsearch.user }}"
-    password: "{{ kibana.elasticsearch.password }}"
-  register: kibana_available
-  until:
-  - kibana_available.status == 200
+  k8s_facts:
+    kind: Deployment
+    namespace: "{{ kibana.namespace }}"
+    name: kibana
+  register: k8s_result
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
   retries: 30
   delay: 10
-
-# TODO : remove once kibana is updated to 7.2
-- name: Workaround for kibana 'type' mapping
-  import_tasks: type_mapping_workaround.yml
 
 - name: List Kibana saved objects
   set_fact:

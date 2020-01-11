@@ -14,6 +14,13 @@ docker_registry:
   namespace: "{{ _docker_registry_var_loader.namespace }}"
   base_image: "{{ _docker_registry_var_loader.base_image }}"
 
+  labels_def:
+    app.kubernetes.io/name: docker-registry
+    app.kubernetes.io/component: registry
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _docker_registry_var_loader.base_image.tag }}"
+
   container:
     image: "{% if _docker_registry_var_loader.base_image.repo is defined %}{{ _docker_registry_var_loader.base_image.repo }}/{% endif %}{{ _docker_registry_var_loader.base_image.name }}:{{ _docker_registry_var_loader.base_image.tag }}"
     requests_cpu: "{{ docker_registry_container_requests_cpu | default('50m') }}"

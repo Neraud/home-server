@@ -4,11 +4,10 @@ metadata:
   name: heimdall
   namespace: {{ heimdall.namespace }}
   labels:
-    app: heimdall
-    app-component: heimdall
+    {{ heimdall.labels_def | to_nice_yaml() | indent(4) }}
+    {{ heimdall.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
   selector:
-    app: heimdall
-    app-component: heimdall
+    {{ heimdall.labels_def | to_nice_yaml() | indent(4) }}

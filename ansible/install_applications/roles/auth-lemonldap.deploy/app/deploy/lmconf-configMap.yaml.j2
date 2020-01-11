@@ -4,8 +4,8 @@ metadata:
   name: lemonldap-lmconf
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
-    app-component: lemonldap
+    {{ lemonldap.labels_def | to_nice_yaml() | indent(4) }}
+    {{ lemonldap.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   lmConf.json: |
     {{ lookup('template', role_path + '/app/config/lmConf.json.j2', convert_data=False) | replace('\n', '\n    ') }}

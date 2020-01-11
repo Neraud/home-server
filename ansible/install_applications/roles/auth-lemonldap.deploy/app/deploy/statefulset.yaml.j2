@@ -4,27 +4,27 @@ metadata:
   name: lemonldap
   namespace: {{ lemonldap.namespace }}
   labels:
-    app: lemonldap
-    app-component: lemonldap
+    {{ lemonldap.labels_def | to_nice_yaml() | indent(4) }}
+    {{ lemonldap.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lemonldap
-      app-component: lemonldap
+      {{ lemonldap.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: lemonldap
-        app-component: lemonldap
+        {{ lemonldap.labels_def | to_nice_yaml() | indent(8) }}
+        {{ lemonldap.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       initContainers:
       - name: create-folders
-        image: busybox
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
         command:
           - "sh"
           - "-c"
@@ -39,18 +39,30 @@ spec:
       containers:
       - name: lemonldap
         image: "{{ lemonldap.container.image }}"
+        imagePullPolicy: Always
         ports:
-          - containerPort: 80
-            name: http
-          - containerPort: {{ lemonldap.fastcgi_port }}
-            name: fastcgi
+        - containerPort: 80
+          name: http
+        - containerPort: {{ lemonldap.fastcgi_port }}
+          name: fastcgi
         env:
-          - name: SSODOMAIN
-            value: "{{ web_base_domain }}"
-          - name: FASTCGI_LISTEN_PORT
-            value: "{{ lemonldap.fastcgi_port }}"
-          - name: MANAGER_HOSTNAME
-            value: "infra.{{ web_base_domain }}"
+        - name: SSODOMAIN
+          value: "{{ web_base_domain }}"
+        - name: FASTCGI_LISTEN_PORT
+          value: "{{ lemonldap.fastcgi_port }}"
+        - name: MANAGER_HOSTNAME
+          value: "infra.{{ web_base_domain }}"
+        securityContext:
+          # lemnldap requires root and a writable root filesystem
+          #runAsNonRoot: true
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ lemonldap.container.requests_cpu }}"
@@ -61,6 +73,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: lemonldap-data-pv-claim
           mountPath: {{ lemonldap.persistent_volume_path }}
         - name: lmconf-volume
@@ -92,6 +105,5 @@ spec:
           storage: 32M
       selector:
         matchLabels:
-          app: lemonldap
-          app-component: lemonldap
+          {{ lemonldap.labels_def | to_nice_yaml() | indent(10) }}
           storage: data

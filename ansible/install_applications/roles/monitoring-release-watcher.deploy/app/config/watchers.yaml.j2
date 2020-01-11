@@ -31,6 +31,21 @@ watchers:
     branch: master
     commit: 0d3c2f14b1fc239863c73e733be3c97712abebf1
   
+
+  ########
+  # Misc #
+  ########
+  - type: docker_registry
+    repo: {{ busybox.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ busybox.base_image.name }}
+    tag: {{ busybox.base_image.tag }}
+    includes:
+      - "^[0-9]+\\.[0-9]+\\.[0-9]$"
+    excludes:
+      - 1\.[0-2][0-9]\..*
+      - 1\.30\..*
+  
+
   #########
   # Infra #
   #########
@@ -58,14 +73,16 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+-amd64"
     excludes:
       - ^1\.1\.
-  - type: docker_registry
+  - name: phpLDAPadmin-php
+    type: docker_registry
     repo: {{ phpldapadmin.base_image.repo | default('registry-1.docker.io') }}
     image: {{ phpldapadmin.base_image.name }}
     tag: {{ phpldapadmin.base_image.tag }}
     includes:
-      - "[0-9]+\\.[0-9]+\\.[0-9]+-amd64"
-    excludes:
-      - ^0\.[1-7]\.
+      - "7.3.[0-9]+-apache-buster"
+  - type: github_tag
+    repo: leenooks/phpLDAPadmin
+    tag: {{ phpldapadmin.version }}
   
   ##############
   # Apps : Dev #
@@ -269,7 +286,7 @@ watchers:
     image: {{ zonemta_redis.base_image.name }}
     tag: {{ zonemta_redis.base_image.tag }}
     includes:
-      - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine3\\.9"
+      - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9]+"
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: {{ zonemta_mongo.base_image.repo | default('registry-1.docker.io') }}
@@ -285,10 +302,10 @@ watchers:
     image: {{ zonemta.base_image.name }}
     tag: {{ zonemta.base_image.tag }}
     includes:
-      - 10\.[0-9]+\.[0-9]+-alpine
+      - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\\.[0-9]+"
     excludes:
-      - 10\.[0-9]\..*
-      - 10\.1[0-5]\..*
+      - 12\.[0-9]\..*
+      - 12\.1[0-2]\..*
   
   ##################
   # Apps : Logging #
@@ -326,6 +343,7 @@ watchers:
     includes:
       - v[1-9]\.[0-9]+\.[0-9]+.*debian.*
     excludes:
+      - .*(armhf|arm64).*
       - v1\.[0-4]\..*
   - type: docker_registry
     repo: {{ kibana.base_image.repo | default('registry-1.docker.io') }}
@@ -458,14 +476,14 @@ watchers:
     excludes:
       - amd64-[0-1]\.
       - amd64-2\.[0-1]\.
-  - type: docker_registry
-    repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}
-    image: {{ ttrss.base_image.name }}
-    tag: {{ ttrss.base_image.tag }}
-    includes:
-      - amd64-[0-9]+\.[0-9]+.*
-    excludes:
-      - amd64-latest
+#  - type: docker_registry
+#    repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}
+#    image: {{ ttrss.base_image.name }}
+#    tag: {{ ttrss.base_image.tag }}
+#    includes:
+#      - amd64-[0-9]+\.[0-9]+.*
+#    excludes:
+#      - amd64-latest
   - name: TT-RSS PostgreSQL
     type: docker_registry
     repo: {{ ttrss_pgsql.base_image.repo | default('registry-1.docker.io') }}
@@ -473,3 +491,4 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^11\.[0-9]+(\.[0-9]+)?-alpine
+

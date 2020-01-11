@@ -4,25 +4,25 @@ metadata:
   name: fluentd
   namespace: {{ fluentd.namespace }}
   labels:
-    app: fluentd
-    app-component: fluentd
+    {{ fluentd.labels_def | to_nice_yaml() | indent(4) }}
+    {{ fluentd.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: fluentd
-      app-component: fluentd
+      {{ fluentd.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app: fluentd
-        app-component: fluentd
+        {{ fluentd.labels_def | to_nice_yaml() | indent(8) }}
+        {{ fluentd.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - name: fluentd
         image: "{{ fluentd.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 24224
           name: fluentd
@@ -39,6 +39,15 @@ spec:
             value: "{{ fluentd_elasticsearch_password }}"
           - name: SSL_CERT_FILE
             value: "/etc/ssl/cluster/ca.crt"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999 # fluent
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          tcpSocket:
+            port: fluentd
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ fluentd.container.requests_cpu }}"
@@ -49,6 +58,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: fluentd-config
           mountPath: /fluentd/etc/
         - name: fluentd-includes
@@ -56,6 +66,8 @@ spec:
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -69,5 +81,7 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'

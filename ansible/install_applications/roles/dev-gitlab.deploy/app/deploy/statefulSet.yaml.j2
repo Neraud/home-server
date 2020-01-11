@@ -4,26 +4,26 @@ metadata:
   name: gitlab
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
-    app-component: gitlab
+    {{ gitlab.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitlab.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: gitlab
-      app-component: gitlab
+      {{ gitlab.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: gitlab
-        app-component: gitlab
+        {{ gitlab.labels_def | to_nice_yaml() | indent(8) }}
+        {{ gitlab.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ gitlab.container.image }}"
-        name: gitlab
+      - name: gitlab
+        image: "{{ gitlab.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           name: gitlab
@@ -43,6 +43,19 @@ spec:
           name: gitlab-monitor
         - containerPort: 9236
           name: gitaly-metrics
+        securityContext:
+          # TODO : gitlab requires to run as root for now :/
+          #runAsNonRoot: true
+          #runAsUser: xxxx
+          #runAsGroup: xxxx
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ gitlab.context_path }}-/readiness
+            port: gitlab
+          initialDelaySeconds: 15
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ gitlab.container.requests_cpu }}"
@@ -53,6 +66,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
@@ -86,8 +100,7 @@ spec:
           storage: 8M
       selector:
         matchLabels:
-          app: gitlab
-          app-component: gitlab
+          {{ gitlab.labels_def | to_nice_yaml() | indent(10) }}
           storage: config
   - metadata:
       name: gitlab-data-pv-claim
@@ -99,6 +112,5 @@ spec:
           storage: 1G
       selector:
         matchLabels:
-          app: gitlab
-          app-component: gitlab
+          {{ gitlab.labels_def | to_nice_yaml() | indent(10) }}
           storage: data

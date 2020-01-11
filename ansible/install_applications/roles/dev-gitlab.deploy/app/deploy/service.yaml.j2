@@ -4,12 +4,12 @@ metadata:
   name: gitlab
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
-    app-component: gitlab
+    {{ gitlab.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitlab.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   - port: 80
-    targetPort: 80
+    name: gitlab
+    targetPort: gitlab
   selector:
-    app: gitlab
-    app-component: gitlab
+    {{ gitlab.labels_def | to_nice_yaml() | indent(4) }}

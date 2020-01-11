@@ -4,7 +4,8 @@ metadata:
   name: nodered
   namespace: {{ nodered.namespace }}
   labels:
-    app: nodered
+    {{ nodered.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nodered.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   tls:
     - hosts:

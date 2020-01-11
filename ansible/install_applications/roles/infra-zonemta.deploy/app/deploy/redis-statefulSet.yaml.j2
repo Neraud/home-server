@@ -4,30 +4,59 @@ metadata:
   name: zonemta-redis
   namespace: "{{ zonemta.namespace }}"
   labels:
-    app: zonemta
-    app-component: redis
+    {{ zonemta_redis.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zonemta_redis.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      app: zonemta
-      app-component: redis
+      {{ zonemta_redis.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: zonemta
-        app-component: redis
+        {{ zonemta_redis.labels_def | to_nice_yaml() | indent(8) }}
+        {{ zonemta_redis.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-data-dir
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /data-volume/data
+            chown -R 999:1000 /data-volume/*
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: zonemta-redis-pv-claim
+          mountPath: /data-volume
       containers:
-      - image: "{{ zonemta_redis.container.image }}"
-        name: redis
+      - name: redis
+        image: "{{ zonemta_redis.container.image }}"
+        imagePullPolicy: Always
         command:
         - redis-server
         - "--requirepass {{ zonemta_redis.password }}"
+        - "--appendonly yes"
         ports:
         - containerPort: 6379
           name: redis
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "/usr/local/bin/redis-cli -a {{ zonemta_redis.password }} ping"
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ zonemta_redis.container.requests_cpu }}"
@@ -38,8 +67,10 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: zonemta-redis-pv-claim
           mountPath: /data
+          subPath: data
       volumes:
       - name: tz-config
         hostPath:
@@ -57,5 +88,4 @@ spec:
           storage: 32M
       selector:
         matchLabels:
-          app: zonemta
-          app-component: redis
+          {{ zonemta_redis.labels_def | to_nice_yaml() | indent(10) }}

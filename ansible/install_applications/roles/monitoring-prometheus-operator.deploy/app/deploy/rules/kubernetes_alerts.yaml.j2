@@ -3,11 +3,11 @@ kind: PrometheusRule
 metadata:
   name: kubernetes-alerts
   labels:
-    app: prometheus
-    app-component: prometheus
-    prometheus: k8s
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
     role: alert-rules
 spec:
+{% raw %}
   "groups":
   - "name": "kubernetes-absent"
     "rules":
@@ -447,3 +447,4 @@ spec:
         apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 86400
       "labels":
         "severity": "critical"
+{% endraw %}

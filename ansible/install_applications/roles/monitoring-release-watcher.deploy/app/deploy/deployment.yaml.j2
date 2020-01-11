@@ -4,29 +4,40 @@ metadata:
   name: release-watcher
   namespace: {{ release_watcher.namespace }}
   labels:
-    app: release-watcher
-    app-component: release-watcher
+    {{ release_watcher.labels_def | to_nice_yaml() | indent(4) }}
+    {{ release_watcher.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      app: release-watcher
-      app-component: release-watcher
+      {{ release_watcher.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: release-watcher
-        app-component: release-watcher
+        {{ release_watcher.labels_def | to_nice_yaml() | indent(8) }}
+        {{ release_watcher.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ release_watcher.container.image }}"
-        name: release-watcher
+      - name: release-watcher
+        image: "{{ release_watcher.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
           name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random UID
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ release_watcher.container.requests_cpu }}"
@@ -37,6 +48,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: release-watcher-config
           mountPath: /data/config.yaml
           subPath: config.yaml

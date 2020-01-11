@@ -1,21 +1,20 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  labels:
-    app: node-exporter
-    app-component: node-exporter
   name: node-exporter
   namespace: {{ node_exporter.namespace }}
+  labels:
+    {{ node_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ node_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      app: node-exporter
-      app-component: node-exporter
+      {{ node_exporter.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
       labels:
-        app: node-exporter
-        app-component: node-exporter
+        {{ node_exporter.labels_def | to_nice_yaml() | indent(8) }}
+        {{ node_exporter.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
       - args:
@@ -27,7 +26,17 @@ spec:
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+)($|/)
         - --collector.filesystem.ignored-fs-types=^(autofs|binfmt_misc|cgroup|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|mqueue|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|sysfs|tracefs)$
         image: "{{ node_exporter.container.image }}"
+        imagePullPolicy: Always
         name: node-exporter
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            host: 127.0.0.1
+            port: 9100
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        securityContext:
+          readOnlyRootFilesystem: true
         resources:
           limits:
             cpu: {{ node_exporter.container.limits_cpu }}
@@ -57,11 +66,22 @@ spec:
             fieldRef:
               fieldPath: status.podIP
         image: quay.io/coreos/kube-rbac-proxy:v0.4.1
+        imagePullPolicy: Always
         name: kube-rbac-proxy
         ports:
         - containerPort: 9100
           hostPort: 9100
           name: https
+        readinessProbe:
+          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+          exec:
+            command:
+            - /bin/sh
+            - -c 
+            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+        securityContext:
+          readOnlyRootFilesystem: true
         resources:
           limits:
             cpu: 20m

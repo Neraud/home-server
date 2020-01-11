@@ -1,0 +1,86 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: node-exporter-alerts
+  labels:
+    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
+    role: alert-rules
+spec:
+{% raw %}
+  groups:
+    - name: node-exporter
+      rules:
+        - alert: OutOfMemory
+          expr: (node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes * 100 < 10
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Out of memory (instance {{ $labels.instance }})"
+            description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        - alert: UnusualNetworkThroughputIn
+          expr: sum by (instance) (irate(node_network_receive_bytes_total[2m])) / 1024 / 1024 > 100
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Unusual network throughput in (instance {{ $labels.instance }})"
+            description: "Host network interfaces are probably receiving too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        - alert: UnusualNetworkThroughputOut
+          expr: sum by (instance) (irate(node_network_transmit_bytes_total[2m])) / 1024 / 1024 > 100
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Unusual network throughput out (instance {{ $labels.instance }})"
+            description: "Host network interfaces are probably sending too much data (> 100 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        - alert: UnusualDiskReadRate
+          expr: sum by (instance) (irate(node_disk_read_bytes_total[2m])) / 1024 / 1024 > 50
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Unusual disk read rate (instance {{ $labels.instance }})"
+            description: "Disk is probably reading too much data (> 50 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        - alert: UnusualDiskWriteRate
+          expr: sum by (instance) (irate(node_disk_written_bytes_total[2m])) / 1024 / 1024 > 50
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Unusual disk write rate (instance {{ $labels.instance }})"
+            description: "Disk is probably writing too much data (> 50 MB/s)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        - alert: OutOfDiskSpaceWarning
+          expr: node_filesystem_free_bytes / node_filesystem_size_bytes * 100 < 20
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Out of disk space ({{ $labels.mountpoint }} on {{ $labels.instance }})"
+            description: "Disk is almost full (< 20% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        - alert: OutOfDiskSpaceCritical
+          expr: node_filesystem_free_bytes / node_filesystem_size_bytes * 100 < 10
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Out of disk space ({{ $labels.mountpoint }} on {{ $labels.instance }})"
+            description: "Disk is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        - alert: OutOfInodesWarning
+          expr: node_filesystem_files_free / node_filesystem_files * 100 < 20
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Out of inodes ({{ $labels.mountpoint }} on {{ $labels.instance }})"
+            description: "Disk is almost running out of available inodes (< 20% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+        - alert: OutOfInodesCritical
+          expr: node_filesystem_files_free / node_filesystem_files * 100 < 10
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Out of inodes ({{ $labels.mountpoint }} on {{ $labels.instance }})"
+            description: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+{% endraw %}

@@ -4,8 +4,8 @@ metadata:
   name: gitlab-prometheus
   namespace: {{ gitlab.namespace }}
   labels:
-    app: gitlab
-    app-component: gitlab
+    {{ gitlab.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitlab.labels_desc | to_nice_yaml() | indent(4) }}
     prometheus-target: gitlab
 spec:
   ports:
@@ -34,5 +34,4 @@ spec:
     name: gitaly-metrics
     targetPort: gitaly-metrics
   selector:
-    app: gitlab
-    app-component: gitlab
+    {{ gitlab.labels_def | to_nice_yaml() | indent(4) }}

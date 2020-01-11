@@ -4,14 +4,14 @@ metadata:
   name: allow-to-grafana
   namespace: {{ grafana.namespace }}
   labels:
-    app: grafana
+    {{ grafana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ grafana.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      app: grafana
-      app-component: grafana
+      {{ grafana.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     - ports:
@@ -20,10 +20,10 @@ spec:
         # Allow from the ingress controller
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
 
         # Allow from prometheus
         - namespaceSelector:
@@ -31,5 +31,4 @@ spec:
               name: {{ prometheus.namespace }}
           podSelector:
             matchLabels:
-              app: prometheus
-              prometheus: k8s
+              {{ prometheus.labels_def | to_nice_yaml() | indent(14) }}

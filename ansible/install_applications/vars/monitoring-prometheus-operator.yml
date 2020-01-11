@@ -11,6 +11,14 @@ prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
 
   base_image: "{{ _prometheus_operator_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: prometheus-operator
+    app.kubernetes.io/component: controller
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _prometheus_operator_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: prometheus
 
   container:
     image: "{{ docker_registry.url }}/{{ _prometheus_operator_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_var_loader.base_image.tag }}"
@@ -34,6 +42,15 @@ prometheus:
 
   namespace: "{{ _prometheus_var_loader.namespace }}"
   base_image: "{{ _prometheus_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/component: prometheus
+    app.kubernetes.io/instance: k8s
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _prometheus_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: prometheus
 
   container:
     image: "{{ docker_registry.url }}/{{ _prometheus_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_var_loader.base_image.tag }}"
@@ -54,6 +71,15 @@ _alertmanager_var_loader:
 
 alertmanager:
   base_image: "{{ _alertmanager_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/component: alertmanager
+    app.kubernetes.io/instance: k8s
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _alertmanager_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: prometheus
 
   container:
     image: "{{ docker_registry.url }}/{{ _alertmanager_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _alertmanager_var_loader.base_image.tag }}"

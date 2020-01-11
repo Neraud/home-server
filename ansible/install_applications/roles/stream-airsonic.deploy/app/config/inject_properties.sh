@@ -14,4 +14,5 @@ else
     grep -E "${PROPERTIES_TO_DEPLOY}" ${SOURCE} >> ${TARGET}
 fi
 
+chmod 775 ${TARGET}
 echo "Finished"

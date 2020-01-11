@@ -1,13 +1,11 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  labels:
-    app.kubernetes.io/component: controller
-    app.kubernetes.io/name: prometheus-operator
-    app.kubernetes.io/version: {{ prometheus_operator.base_image.tag }}
-    app: prometheus-operator
   name: prometheus-operator
   namespace: {{ prometheus.namespace }}
+  labels:
+    {{ prometheus_operator.labels_def | to_nice_yaml() | indent(4) }}
+    {{ prometheus_operator.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   endpoints:
   - honorLabels: true
@@ -15,7 +13,4 @@ spec:
     interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
   selector:
     matchLabels:
-      app.kubernetes.io/component: controller
-      app.kubernetes.io/name: prometheus-operator
-      app.kubernetes.io/version: {{ prometheus_operator.base_image.tag }}
       prometheus-target: prometheus-operator

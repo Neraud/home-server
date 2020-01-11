@@ -2,7 +2,12 @@
 
 - name: Set mount path
   set_fact:
-    homeassistant_mount_path: "{{ all_volumes['homeassistant-config']['mount_path'] }}"
+    homeassistant_mount_path: "{{ all_volumes['homeassistant-config']['mount_path'] }}/config"
+
+- name: Ensure HomeAssistant config folder exists
+  file:
+    path: "{{ homeassistant_mount_path }}"
+    state: directory
 
 - name: Check if HomeAssistant is already configured
   stat:
