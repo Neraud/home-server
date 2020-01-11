@@ -9,6 +9,7 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 80
+    name: gitlab
+    targetPort: gitlab
   selector:
     {{ gitlab.labels_def | to_nice_yaml() | indent(4) }}

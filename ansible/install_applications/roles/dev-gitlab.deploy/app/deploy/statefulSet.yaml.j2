@@ -21,8 +21,9 @@ spec:
         {{ gitlab.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ gitlab.container.image }}"
-        name: gitlab
+      - name: gitlab
+        image: "{{ gitlab.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           name: gitlab
@@ -42,6 +43,19 @@ spec:
           name: gitlab-monitor
         - containerPort: 9236
           name: gitaly-metrics
+        securityContext:
+          # TODO : gitlab requires to run as root for now :/
+          #runAsNonRoot: true
+          #runAsUser: xxxx
+          #runAsGroup: xxxx
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ gitlab.context_path }}-/readiness
+            port: gitlab
+          initialDelaySeconds: 15
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ gitlab.container.requests_cpu }}"
@@ -52,6 +66,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
