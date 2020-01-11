@@ -9,7 +9,7 @@ metadata:
 spec:
   ports:
   - port: 80
-    targetPort: 8112
+    targetPort: webui
     name: webui
   selector:
     {{ deluge.labels_def | to_nice_yaml() | indent(4) }}

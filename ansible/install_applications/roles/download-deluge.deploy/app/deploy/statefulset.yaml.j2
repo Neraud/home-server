@@ -30,11 +30,25 @@ spec:
         - name: deluge-config
           mountPath: /tmp/config
       containers:
-      - image: "{{ deluge.container.image }}"
-        name: deluge
+      - name: deluge
+        image: "{{ deluge.container.image }}"
+        imagePullPolicy: Always
         ports:
         - containerPort: 8112
           name: webui
+        securityContext:
+          # TODO : deluge requires to run as root for now :/
+          #runAsNonRoot: true
+          #runAsUser: xxxx
+          #runAsGroup: xxxx
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: webui
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ deluge.container.requests_cpu }}"
@@ -45,6 +59,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: deluge-config-pv-claim
           mountPath: /config
         - name: deluge-download
