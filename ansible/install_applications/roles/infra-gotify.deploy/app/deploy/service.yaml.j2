@@ -7,9 +7,8 @@ metadata:
     {{ gotify.labels_def | to_nice_yaml() | indent(4) }}
     {{ gotify.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
-  type: NodePort
   ports:
-    - port: 8080
+    - port: 80
       name: http
       targetPort: http
   selector:
