@@ -35,6 +35,18 @@ persistence true
 persistence_location /mosquitto/data/
 
 
+# =================================================================
+# Logs
+# =================================================================
+log_dest stdout
+log_timestamp_format %Y-%m-%dT%H:%M:%S
+log_type error
+log_type warning
+# All logins are logged as notice, healthcheck included
+#log_type notice
+log_type information
+
+
 {% if mosquitto.credentials | default([]) | length > 0 %}
 # =================================================================
 # Security

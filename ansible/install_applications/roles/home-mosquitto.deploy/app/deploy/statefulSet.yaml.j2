@@ -21,13 +21,26 @@ spec:
         {{ mosquitto.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ mosquitto.container.image }}"
-        name: mosquitto
+      - name: mosquitto
+        image: "{{ mosquitto.container.image }}"
+        imagePullPolicy: Always        
         ports:
         - containerPort: 1883
           name: mqtt
         - containerPort: 8883
           name: mqtts
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1883 # mosquitto
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "timeout -t 3 sh -c \"mosquitto_sub {% if mosquitto.healthcheck_credential %}-u {{ mosquitto.healthcheck_credential.user }} -P {{ mosquitto.healthcheck_credential.password }}{% endif %} -t '\\$SYS/broker/uptime' -C 1 | grep second\""
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ mosquitto.container.requests_cpu }}"
@@ -38,6 +51,7 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: mosquitto-config
           mountPath: /mosquitto/config
         - name: certs-volume

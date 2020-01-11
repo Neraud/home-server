@@ -30,3 +30,4 @@ mosquitto:
 
   listeners: "{{ mosquitto_listeners | default([]) }}"
   credentials: "{{ mosquitto_credentials | default([]) }}"
+  healthcheck_credential: "{{ mosquitto_healthcheck_credential | default({}) }}"

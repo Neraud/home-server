@@ -1,5 +1,4 @@
 ---
-
 mosquitto_default_listener_servername: mosquitto.home-mosquitto.svc.cluster.local
 mosquitto_listeners:
   # Keep the "non tls" listener to avoid breaking the NGinx Ingress
@@ -13,5 +12,12 @@ mosquitto_listeners:
 
 # password generated with mosquitto_passwd
 mosquitto_credentials:
+  # health / Passw0rd
+  - health:$6$qh+kiKBX+jNsa9cN$aDh6MZhhhTZuKLXKvfN9LSk6TKNa+ZCZYRHvG1FFocuCSWVj9Ke/AHYjhGIhgzzJN6lIMU3mu862O0ovXV2/Cw==
   # user / Passw0rd
   - user:$6$iHdTqa9599orI9G2$/MPMDSugrFk98BUPguy/ap7gVStgB3sUYS1pQTdWcT6CFNz+8DcbMfL0pyiUpEjTpTHufPzbxAUXSzOYybiDgg==
+
+# User used for the healthcheck. Has to be already created by mosquitto_credentials
+mosquitto_healthcheck_credential:
+  user: health
+  password: "Passw0rd"
