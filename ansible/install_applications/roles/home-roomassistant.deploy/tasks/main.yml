@@ -10,6 +10,7 @@
   vars:
     base_image: "{{ roomassistant.base_image }}"
     private_image: "{{ roomassistant.container.image }}"
+    build: yes
 
 - name: Deploy Room Assistant
   k8s:
