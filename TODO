@@ -1,10 +1,4 @@
 
-
-* Use ansible module k8s wait_condition when it makes sense
-
-* Configure kubernetes Liveness, Readiness and Startup Probes
-    * See https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
-
 * TTRSS LinuxServer image doesn't exist anymore, migratre to something else
 
 * Migrate LinuxServer images to other or custom ones
