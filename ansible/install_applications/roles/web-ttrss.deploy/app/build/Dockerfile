@@ -15,9 +15,13 @@ RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 # php sessions are already stored under /tmp by default
 VOLUME [ "/tmp" ]
 # Change Apache run paths
-ENV APACHE_PID_FILE /tmp/run/apache2/apache2.pid
-ENV APACHE_RUN_DIR /tmp/run/apache2
-ENV APACHE_LOCK_DIR /tmp/lock/apache2
+ENV APACHE_PID_FILE /tmp/apache2/run/apache2.pid
+ENV APACHE_RUN_DIR /tmp/apache2/run/
+ENV APACHE_LOCK_DIR /tmp/apache2/lock/
+
+# Inject an optional Apache2 configuration folder
+RUN echo "IncludeOptional /tmp/apache2/conf/*.conf" > /etc/apache2/conf-available/custom.conf && \
+    a2enconf custom
 
 # Install php extensions
 RUN apt-get update && \
@@ -38,6 +42,12 @@ RUN mkdir -p /opt/ttrss && \
     ln -s /opt/ttrss /var/www/html && \
     chown -R www-data:www-data /opt/ttrss && \
     chown -R www-data:www-data /var/www
+
+ENV TTRSS_RUN_ROOT_DIR=/opt/ttrss
+
+# Prepare apache conf for alias if needed
+RUN touch /etc/apache2/conf-enabled/ttrss-context.conf && \
+    chown www-data:www-data /etc/apache2/conf-enabled/ttrss-context.conf
 
 ADD entrypoint.sh /opt/
 RUN chown www-data:www-data /opt/entrypoint.sh && \

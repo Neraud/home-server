@@ -28,10 +28,12 @@ spec:
         env:
         - name: TTRSS_CONTEXT_ROOT
           value: {{ ttrss.context_root }}
+        - name: TTRSS_RUN_ROOT_DIR
+          value: /tmp/tt-rss
         securityContext:
           runAsNonRoot: true
           runAsUser: 33 # www-data
-        #  readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: true
         resources:
           requests:
             cpu: "{{ ttrss.container.requests_cpu }}"

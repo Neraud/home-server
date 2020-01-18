@@ -27,13 +27,15 @@ spec:
         env:
         - name: TTRSS_CONTEXT_ROOT
           value: {{ ttrss.context_root }}
+        - name: TTRSS_RUN_ROOT_DIR
+          value: /tmp/tt-rss
         ports:
         - containerPort: 8080
           name: ttrss
         securityContext:
           runAsNonRoot: true
           runAsUser: 33 # www-data
-        #  readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
