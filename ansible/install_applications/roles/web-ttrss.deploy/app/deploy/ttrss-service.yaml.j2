@@ -8,6 +8,7 @@ metadata:
     {{ ttrss.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
-  - port: 80
+  - port: 8080
+    name: ttrss
   selector:
     {{ ttrss.labels_def | to_nice_yaml() | indent(4) }}

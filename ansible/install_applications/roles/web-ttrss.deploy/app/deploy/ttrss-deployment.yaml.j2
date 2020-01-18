@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ttrss
+  name: ttrss-web
   namespace: {{ ttrss.namespace }}
   labels:
     {{ ttrss.labels_def | to_nice_yaml() | indent(4) }}
@@ -21,11 +21,24 @@ spec:
         {{ ttrss.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ ttrss.container.image }}"
-        name: ttrss
+      - name: ttrss-web
+        image: "{{ ttrss.container.image }}"
+        imagePullPolicy: Always
+        env:
+        - name: TTRSS_CONTEXT_ROOT
+          value: {{ ttrss.context_root }}
         ports:
-        - containerPort: 80
+        - containerPort: 8080
           name: ttrss
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 33 # www-data
+        #  readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ ttrss.context_root }}/
+            port: ttrss
         resources:
           requests:
             cpu: "{{ ttrss.container.requests_cpu }}"
@@ -36,15 +49,15 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: ttrss-config
-          mountPath: /config/nginx/site-confs/default
-          subPath: nginx_site.conf
-        - name: ttrss-config
-          mountPath: /config/config.php
+          mountPath: /opt/ttrss/config.php
           subPath: config.php
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -55,5 +68,7 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'

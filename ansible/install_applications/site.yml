@@ -100,9 +100,9 @@
   tags: kubernetes-app-monitoring-grafana
   when: grafana_enabled | bool
 
-#- import_playbook: app-web-ttrss.yml
-#  tags: kubernetes-app-web-ttrss
-#  when: ttrss_enabled | bool
+- import_playbook: app-web-ttrss.yml
+  tags: kubernetes-app-web-ttrss
+  when: ttrss_enabled | bool
 
 - import_playbook: app-web-heimdall.yml
   tags: kubernetes-app-web-heimdall
