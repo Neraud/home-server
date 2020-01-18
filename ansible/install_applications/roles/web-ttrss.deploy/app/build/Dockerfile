@@ -2,6 +2,8 @@ ARG from_image
 FROM $from_image
 
 ARG ttrss_commit
+ARG ttrss_plugin_auth_ldap_commit
+ARG ttrss_plugin_mailer_smtp_commit
 
 # Change apache port
 RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
@@ -59,11 +61,11 @@ CMD ["web"]
 RUN apt-get update && \
     apt-get install -y libldap2-dev && \
     docker-php-ext-install ldap && \
-    curl -sL "https://github.com/hydrian/TTRSS-Auth-LDAP/archive/52e452cc97b5101dc6d9e911462fe5e161197930.tar.gz" | tar xz --strip-components=2 -C /opt/ttrss/plugins.local && \
+    curl -sL "https://github.com/hydrian/TTRSS-Auth-LDAP/archive/${ttrss_plugin_auth_ldap_commit}.tar.gz" | tar xz --strip-components=2 -C /opt/ttrss/plugins.local && \
     rm -rf /var/lib/apt/lists/*
 
 # Install plugin LDAP Auth Mailer SMTP
 RUN mkdir /opt/ttrss/plugins.local/mailer_smtp && \
-    curl -sL "https://git.tt-rss.org/fox/ttrss-mailer-smtp/archive/eebc18f00ef5fbaebd4f9a6e43685f87ba8b537f.tar.gz" | tar xz --strip-components=1 -C /opt/ttrss/plugins.local/mailer_smtp
+    curl -sL "https://git.tt-rss.org/fox/ttrss-mailer-smtp/archive/${ttrss_plugin_mailer_smtp_commit}.tar.gz" | tar xz --strip-components=1 -C /opt/ttrss/plugins.local/mailer_smtp
 
 USER www-data

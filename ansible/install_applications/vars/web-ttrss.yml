@@ -38,7 +38,13 @@ ttrss:
     limits_memory: "{{ ttrss_container_limits_memory | default('64Mi') }}"
 
   context_root: "{{ ttrss_context_root | default('/') }}"
-   
+
+  plugins:
+    auth_ldap:
+      commit: 52e452cc97b5101dc6d9e911462fe5e161197930
+    mailer_smtp:
+      commit: eebc18f00ef5fbaebd4f9a6e43685f87ba8b537f
+
   ldap:
     servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
     users_dn: "{{ ttrss_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
