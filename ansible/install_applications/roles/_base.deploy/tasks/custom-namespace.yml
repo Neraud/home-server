@@ -64,9 +64,9 @@
 #  - "[namespace].nfs-[volume_name]" PVs
 #  - "nfs-[volume_name]" PVCs in the namespace
 
-- name: Create NFS persistant volumes & claims
+- name: Create NFS persistent volumes & claims
   k8s:
-    definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/nas-nfs-persistant-volume.yaml.j2') }}"
+    definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/nas-nfs-persistent-volume.yaml.j2') }}"
     state: present
   loop: "{{ kubernetes_nfs_storage | dict2items | default([]) }}"
   loop_control:
