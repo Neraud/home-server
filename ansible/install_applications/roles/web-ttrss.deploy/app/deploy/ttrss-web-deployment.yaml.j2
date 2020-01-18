@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttrss-web
+  namespace: {{ ttrss.namespace }}
+  labels:
+    {{ ttrss.labels_web_def | to_nice_yaml() | indent(4) }}
+    {{ ttrss.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ ttrss.labels_web_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ ttrss.labels_web_def | to_nice_yaml() | indent(8) }}
+        {{ ttrss.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      containers:
+      - name: ttrss-web
+        image: "{{ ttrss.container.image }}"
+        imagePullPolicy: Always
+        env:
+        - name: TTRSS_CONTEXT_ROOT
+          value: {{ ttrss.context_root }}
+        ports:
+        - containerPort: 8080
+          name: ttrss
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 33 # www-data
+        #  readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ ttrss.context_root }}/
+            port: ttrss
+        resources:
+          requests:
+            cpu: "{{ ttrss.container.requests_cpu }}"
+            memory: "{{ ttrss.container.requests_memory }}"
+          limits:
+            cpu: "{{ ttrss.container.limits_cpu }}"
+            memory: "{{ ttrss.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: ttrss-config
+          mountPath: /opt/ttrss/config.php
+          subPath: config.php
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: ttrss-config
+        configMap:
+          name: ttrss-config
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'

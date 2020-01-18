@@ -9,4 +9,10 @@ if [ "$TTRSS_CONTEXT_ROOT" != "/" ]; then
     ln -s /opt/ttrss /var/www/html/$TTRSS_CONTEXT_ROOT
 fi
 
-docker-php-entrypoint apache2-foreground
+if [ "$1" == "job" ]; then
+    echo "Stating job"
+    docker-php-entrypoint /opt/ttrss/update_daemon2.php
+else
+    echo "Stating web"
+    docker-php-entrypoint apache2-foreground
+fi

@@ -16,7 +16,14 @@ ttrss:
   
   labels_def:
     app.kubernetes.io/name: ttrss
-    app.kubernetes.io/component: server
+  
+  labels_web_def:
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: web
+  
+  labels_job_def:
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: job
 
   labels_desc:
     app.kubernetes.io/version: "{{ _ttrss_var_loader.commit }}-{{ _ttrss_var_loader.base_image.tag }}"

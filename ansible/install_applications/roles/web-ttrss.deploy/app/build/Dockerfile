@@ -28,6 +28,7 @@ RUN apt-get update && \
     apt-get install -y libpq-dev && \
     docker-php-ext-install pgsql pdo_pgsql && \
     docker-php-ext-install opcache && \
+    docker-php-ext-install pcntl && \
     rm -rf /var/lib/apt/lists/*
 
 # Install TTRSS
@@ -42,6 +43,7 @@ ADD entrypoint.sh /opt/
 RUN chown www-data:www-data /opt/entrypoint.sh && \
     chmod 744 /opt/entrypoint.sh
 ENTRYPOINT ["/opt/entrypoint.sh"]
+CMD ["web"]
 
 # Install plugin LDAP Auth
 RUN apt-get update && \
