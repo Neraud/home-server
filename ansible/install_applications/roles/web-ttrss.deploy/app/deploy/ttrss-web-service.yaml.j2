@@ -4,10 +4,11 @@ metadata:
   name: ttrss
   namespace: {{ ttrss.namespace }}
   labels:
-    {{ ttrss.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ttrss.labels_web_def | to_nice_yaml() | indent(4) }}
     {{ ttrss.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
-  - port: 80
+  - port: 8080
+    name: ttrss
   selector:
-    {{ ttrss.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ttrss.labels_web_def | to_nice_yaml() | indent(4) }}

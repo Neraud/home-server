@@ -11,7 +11,7 @@ metadata:
 spec:
   capacity:
     storage: {{ item.value.capacity }}
-  accessModes: [ "ReadWriteOnce" ]
+  accessModes: [ "ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany" ]
   persistentVolumeReclaimPolicy: {{ item.value.reclaim_policy }}
   storageClassName: {{ kubernetes_local_lvm_storage_class_name }}
   local:

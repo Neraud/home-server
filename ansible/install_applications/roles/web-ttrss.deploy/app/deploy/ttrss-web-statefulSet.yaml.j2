@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ttrss-web
+  namespace: {{ ttrss.namespace }}
+  labels:
+    {{ ttrss.labels_web_def | to_nice_yaml() | indent(4) }}
+    {{ ttrss.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ ttrss.labels_web_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ ttrss.labels_web_def | to_nice_yaml() | indent(8) }}
+        {{ ttrss.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/ttrss-data/feed-icons
+            mkdir -p /opt/ttrss-data/cache/images
+            mkdir -p /opt/ttrss-data/cache/export
+            mkdir -p /opt/ttrss-data/cache/upload
+            mkdir -p /opt/ttrss-data/lock
+            chown -R 33:33 /opt/ttrss-data/
+        volumeMounts:
+        - name: ttrss-data-pv-claim
+          mountPath: /opt/ttrss-data
+      containers:
+      - name: ttrss-web
+        image: "{{ ttrss.container.image }}"
+        imagePullPolicy: Always
+        env:
+        - name: TTRSS_CONTEXT_ROOT
+          value: {{ ttrss.context_root }}
+        - name: TTRSS_RUN_ROOT_DIR
+          value: /opt/ttrss-data
+        ports:
+        - containerPort: 8080
+          name: ttrss
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 33 # www-data
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ ttrss.context_root }}/
+            port: ttrss
+        resources:
+          requests:
+            cpu: "{{ ttrss.container.requests_cpu }}"
+            memory: "{{ ttrss.container.requests_memory }}"
+          limits:
+            cpu: "{{ ttrss.container.limits_cpu }}"
+            memory: "{{ ttrss.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: ttrss-data-pv-claim
+          mountPath: /opt/ttrss-data
+        - name: ttrss-config
+          mountPath: /opt/ttrss/config.php
+          subPath: config.php
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: ttrss-data-pv-claim
+        persistentVolumeClaim:
+          claimName: ttrss-data-pv-claim
+      - name: ttrss-config
+        configMap:
+          name: ttrss-config
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'

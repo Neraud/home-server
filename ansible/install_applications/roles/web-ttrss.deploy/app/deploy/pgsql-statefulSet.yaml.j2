@@ -18,9 +18,23 @@ spec:
         {{ ttrss_pgsql.labels_def | to_nice_yaml() | indent(8) }}
         {{ ttrss_pgsql.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /var/lib/postgresql/data
+            chown -R 70:70 /var/lib/postgresql/data
+        volumeMounts:
+        - name: ttrss-pgsql-pv-claim
+          mountPath: /var/lib/postgresql
       containers:
-      - image: "{{ ttrss_pgsql.container.image }}"
-        name: pgsql
+      - name: pgsql
+        image: "{{ ttrss_pgsql.container.image }}"
+        imagePullPolicy: Always
         env:
         - name: POSTGRES_USER
           value: {{ ttrss_pgsql.user }}
@@ -31,11 +45,19 @@ spec:
             secretKeyRef:
               name: ttrss-pgsql-pass
               key: password
-        - name: PGDATA
-          value: /var/lib/postgresql/data/pgdata
         ports:
         - containerPort: 5432
           name: pgsql
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 70 # postgres
+          readOnlyRootFilesystem: true
+        readinessProbe:
+           exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U {{ ttrss_pgsql.user }} -d {{ ttrss_pgsql.database }} -h 127.0.0.1
         resources:
           requests:
             cpu: "{{ ttrss_pgsql.container.requests_cpu }}"
@@ -46,10 +68,16 @@ spec:
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
+          readOnly: true
         - name: ttrss-pgsql-pv-claim
           mountPath: /var/lib/postgresql/data
+          subPath: data
         - name: ttrss-pgsql-init
           mountPath: /docker-entrypoint-initdb.d/
+        - name: run-volume
+          mountPath: /var/run/postgresql/
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -57,6 +85,10 @@ spec:
       - name: ttrss-pgsql-init
         configMap:
           name: ttrss-pgsql-init
+      - name: run-volume
+        emptyDir: {}
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

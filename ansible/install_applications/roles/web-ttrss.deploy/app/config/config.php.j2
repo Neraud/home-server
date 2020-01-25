@@ -42,21 +42,21 @@
 	// *** Files and directories ***
 	// *****************************
 
-	define('PHP_EXECUTABLE', '/usr/bin/php');
+	define('PHP_EXECUTABLE', '/usr/local/bin/php');
 	// Path to PHP *COMMAND LINE* executable, used for various command-line tt-rss
 	// programs and update daemon. Do not try to use CGI binary here, it won't work.
 	// If you see HTTP headers being displayed while running tt-rss scripts,
 	// then most probably you are using the CGI binary. If you are unsure what to
 	// put in here, ask your hosting provider.
 
-	define('LOCK_DIRECTORY', 'lock');
+	define('LOCK_DIRECTORY', '/opt/ttrss-data/lock');
 	// Directory for lockfiles, must be writable to the user you run
 	// daemon process or cronjobs under.
 
-	define('CACHE_DIR', 'cache');
+	define('CACHE_DIR', '/opt/ttrss-data/cache');
 	// Local cache directory for RSS feed content.
 
-	define('ICONS_DIR', "feed-icons");
+	define('ICONS_DIR', "/opt/ttrss-data/feed-icons");
 	define('ICONS_URL', "feed-icons");
 	// Local and URL path to the directory, where feed favicons are stored.
 	// Unless you really know what you're doing, please keep those relative

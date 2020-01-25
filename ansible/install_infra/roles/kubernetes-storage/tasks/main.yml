@@ -1,8 +1,8 @@
 ---
 
-- name: Create local-lvm persistant volumes
+- name: Create local-lvm persistent volumes
   k8s:
-    definition: "{{ lookup('template', 'local-persistant-volume.yaml.j2') }}"
+    definition: "{{ lookup('template', 'local-persistent-volume.yaml.j2') }}"
     state: present
   loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:
@@ -10,9 +10,9 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
-- name: Create GlusterFS persistant volumes
+- name: Create GlusterFS persistent volumes
   k8s:
-    definition: "{{ lookup('template', 'glusterfs-persistant-volume.yaml.j2') }}"
+    definition: "{{ lookup('template', 'glusterfs-persistent-volume.yaml.j2') }}"
     state: present
   loop: "{{ glusterfs_volumes | default({}) | dict2items }}"
   loop_control:

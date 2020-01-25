@@ -36,7 +36,7 @@ The apiserver is accessed though a HAProxy that distributes requests accross the
 
 ### Storage
 
-All persistant volumes use GlusterFS.
+All persistent volumes use GlusterFS.
 
 The GlusterFS volumes are built on 3 nodes with 2 replicas.
 To lower the storage requirements, only 2 nodes hold data, with the 3rd one only being an arbiter.

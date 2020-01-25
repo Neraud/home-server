@@ -3,33 +3,48 @@
 # To avoid loops inside ttrss
 _ttrss_var_loader:
   base_image:
-    name: "linuxserver/tt-rss"
-    # Keep the image version in sync with the ttrss_pgsql.schema_url variable
-    tag: "amd64-19.8-ls31"
-
+    name: "php"
+    tag: "7.4.1-apache-buster"
+  commit: 040dfc71fc
+  
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
 
   namespace: "web-ttrss"
   base_image: "{{ _ttrss_var_loader.base_image }}"
+  commit: "{{ _ttrss_var_loader.commit }}"
   
   labels_def:
     app.kubernetes.io/name: ttrss
-    app.kubernetes.io/component: server
+    app.kubernetes.io/component: ttrss
+  
+  labels_web_def:
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: web
+  
+  labels_job_def:
+    app.kubernetes.io/name: ttrss
+    app.kubernetes.io/component: job
 
   labels_desc:
-    app.kubernetes.io/version: "{{ _ttrss_var_loader.base_image.tag }}"
+    app.kubernetes.io/version: "{{ _ttrss_var_loader.commit }}-{{ _ttrss_var_loader.base_image.tag }}"
     app.kubernetes.io/part-of: ttrss
 
   container:
-    image: "{{ docker_registry.url }}/{{ _ttrss_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _ttrss_var_loader.base_image.tag }}-custom"
+    image: "{{ docker_registry.url }}/ttrss-{{ _ttrss_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _ttrss_var_loader.commit }}-{{ _ttrss_var_loader.base_image.tag }}"
     requests_cpu: "{{ ttrss_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ ttrss_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ ttrss_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ ttrss_container_limits_memory | default('64Mi') }}"
 
   context_root: "{{ ttrss_context_root | default('/') }}"
-   
+
+  plugins:
+    auth_ldap:
+      commit: 52e452cc97b5101dc6d9e911462fe5e161197930
+    mailer_smtp:
+      commit: eebc18f00e
+
   ldap:
     servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
     users_dn: "{{ ttrss_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
@@ -76,6 +91,5 @@ ttrss_pgsql:
   user: "{{ ttrss_pgsql_user | default('ttrss') }}"
   database: "{{ ttrss_pgsql_database | default('ttrss') }}"
   password: "{{ ttrss_pgsql_password | default('clear_password') }}"
-  # Keep the schema URL in sync with the image version in _ttrss_var_loader.base_image.tag
-  schema_url: 'https://git.tt-rss.org/fox/tt-rss/raw/19.8/schema/ttrss_schema_pgsql.sql'
+  schema_url: "https://git.tt-rss.org/fox/tt-rss/raw/{{ _ttrss_var_loader.commit }}/schema/ttrss_schema_pgsql.sql"
   schema_path_temp: /tmp/tt-rss-schema.sql
