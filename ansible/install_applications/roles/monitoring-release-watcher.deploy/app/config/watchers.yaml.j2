@@ -476,14 +476,38 @@ watchers:
     excludes:
       - amd64-[0-1]\.
       - amd64-2\.[0-1]\.
-#  - type: docker_registry
-#    repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}
-#    image: {{ ttrss.base_image.name }}
-#    tag: {{ ttrss.base_image.tag }}
-#    includes:
-#      - amd64-[0-9]+\.[0-9]+.*
-#    excludes:
-#      - amd64-latest
+  - name: TT-RSS PHP
+    type: docker_registry
+    repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ ttrss.base_image.name }}
+    tag: {{ ttrss.base_image.tag }}
+    includes:
+      - '[0-9]+\.[0-9]+.[0-9]+-apache-buster'
+  - name: TT-RSS
+    type: raw_html
+    page_url: https://git.tt-rss.org/fox/tt-rss/commits/master
+    id: {{ ttrss.commit }}
+    container_selector: "#commits-table"
+    item_selector: "tbody tr"
+    id_selector: "[class~=sha]"
+    id_attribute: ""
+    date_selector: "[class~=time-since]"
+    date_attribute: "title"
+  - name: TT-RSS Auth LDAP
+    type: github_commit
+    repo: hydrian/TTRSS-Auth-LDAP
+    branch: master
+    commit: {{ ttrss.plugins.auth_ldap.commit }}
+  - name: TT-RSS Mailer SMTP
+    type: raw_html
+    page_url: https://git.tt-rss.org/fox/ttrss-mailer-smtp/commits/master
+    id: {{ ttrss.plugins.mailer_smtp.commit }}
+    container_selector: "#commits-table"
+    item_selector: "tbody tr"
+    id_selector: "[class~=sha]"
+    id_attribute: ""
+    date_selector: "[class~=time-since]"
+    date_attribute: "title"
   - name: TT-RSS PostgreSQL
     type: docker_registry
     repo: {{ ttrss_pgsql.base_image.repo | default('registry-1.docker.io') }}

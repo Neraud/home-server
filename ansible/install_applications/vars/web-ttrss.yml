@@ -5,7 +5,7 @@ _ttrss_var_loader:
   base_image:
     name: "php"
     tag: "7.4.1-apache-buster"
-  commit: 040dfc71fc969fa4a8e8cc9b9cadf5d3b231990b
+  commit: 040dfc71fc
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -43,7 +43,7 @@ ttrss:
     auth_ldap:
       commit: 52e452cc97b5101dc6d9e911462fe5e161197930
     mailer_smtp:
-      commit: eebc18f00ef5fbaebd4f9a6e43685f87ba8b537f
+      commit: eebc18f00e
 
   ldap:
     servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
