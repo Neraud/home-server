@@ -26,7 +26,6 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.10 unifi.k8stest.com
 192.168.100.10 home.k8stest.com
 192.168.100.10 web.k8stest.com
-192.168.100.10 heimdall.k8stest.com
 192.168.100.10 dev.k8stest.com
 192.168.100.10 stream.k8stest.com
 192.168.100.10 plex.k8stest.com
@@ -83,7 +82,7 @@ The folowing services are deployed :
 | [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8stest.com>                         | MQTT broker                                            |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                  | Presence tracking                                      |
 | [TT-RSS](https://tt-rss.org/)                                    | <https://web.k8stest.com/tt-rss/>                  | News feed (RSS/Atom) reader and aggregator             |
-| [Heimdall](https://heimdall.site/)                               | <https://heimdall.k8stest.com/>                    | Application dashboard                                  |
+| [Homer](https://github.com/bastienwirtz/homer)                   | <https://web.k8stest.com/homer/>                   | A very simple static homepage for your server          |
 | [Gitlab](https://about.gitlab.com/)                              | <https://dev.k8stest.com/gitlab/>                  | Source code management and CI/CD                       |
 | [Plex](https://www.plex.tv/)                                     | <https://plex.k8stest.com/>                        | Video streaming                                        |
 | [Airsonic](https://airsonic.github.io/)                          | <https://stream.k8stest.com/airsonic/>             | Music streaming                                        |
@@ -91,6 +90,9 @@ The folowing services are deployed :
 | [Deluge](https://deluge-torrent.org/)                            | <https://dl.k8stest.com/deluge/>                   | Torrent client                                         |
 | [pyload](https://pyload.net/)                                    | <https://dl.k8stest.com/pyload/>                   | HTTP download manager                                  |
 | [SABnzbd](https://sabnzbd.org/)                                  | <https://dl.k8stest.com/sabnzbd/>                  | Binary newsreader                                      |
+
+
+Once the Vagrant environment is started, you can easily list all the service URLs on the [Homer dashboard](https://web.k8stest.com/homer/).
 
 ### Kubernetes dashboard
 
@@ -400,9 +402,9 @@ The real use case would be to use either a real shell, and/or enable the BLE plu
 TT-RSS is installed.
 The default account is `admin` / `password`.
 
-### Heimdall
+### Homer
 
-Heimdall is installed.
+Homer is installed.
 
 Apps deployed in the cluster are added on the dashboard.
 

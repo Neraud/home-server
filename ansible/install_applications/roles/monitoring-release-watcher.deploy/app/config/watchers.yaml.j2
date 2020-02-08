@@ -467,15 +467,22 @@ watchers:
   ##############
   # Apps : Web #
   ##############
-  - type: docker_registry
-    repo: {{ heimdall.base_image.repo | default('registry-1.docker.io') }}
-    image: {{ heimdall.base_image.name }}
-    tag: {{ heimdall.base_image.tag }}
+  - name: Homer NGinx
+    type: docker_registry
+    repo: {{ homer.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ homer.base_image.name }}
+    tag: {{ homer.base_image.tag }}
     includes:
-      - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
+      - ^[0-9]+\.[0-9]+\.[0-9]+-alpine$
     excludes:
-      - amd64-[0-1]\.
-      - amd64-2\.[0-1]\.
+      - ^1\.[0-9]\..*-alpine$
+      - ^1\.1[0-6]\..*-alpine$
+  - name: Homer
+    type: github_commit
+    repo: bastienwirtz/homer
+    branch: master
+    commit: {{ homer.commit }}
+    
   - name: TT-RSS PHP
     type: docker_registry
     repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}
@@ -515,4 +522,3 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^11\.[0-9]+(\.[0-9]+)?-alpine
-

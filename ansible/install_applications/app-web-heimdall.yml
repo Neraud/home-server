@@ -1,6 +1,0 @@
----
-
-- name: Provision web-heimdall
-  hosts: controller
-  roles:
-  - role: web-heimdall.deploy
