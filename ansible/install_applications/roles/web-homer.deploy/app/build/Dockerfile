@@ -9,8 +9,12 @@ EXPOSE 8080
 
 # Use a dedicated volume for all run or tmp files
 VOLUME [ "/tmp" ]
-#/ # grep pid /etc/nginx/nginx.conf 
-#pid        /var/run/nginx.pid;
+RUN mkdir -p /tmp/nginx && \
+    mv /var/cache/nginx /tmp/nginx/cache && \
+    ln -s /tmp/nginx/cache /var/cache/nginx && \
+    mkdir -p /tmp/nginx/run/ && \
+    sed -i -E 's|pid +/var/run/nginx.pid;|pid /tmp/nginx/run/nginx.pid;|' /etc/nginx/nginx.conf && \
+    chown -R nginx:nginx /tmp/nginx
 
 # Install homer
 RUN mkdir -p /opt/homer && \
@@ -28,4 +32,4 @@ RUN chown nginx:nginx /opt/entrypoint.sh && \
     chmod 744 /opt/entrypoint.sh
 ENTRYPOINT ["/opt/entrypoint.sh"]
 
-#USER nginx
+USER nginx

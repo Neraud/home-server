@@ -2,7 +2,9 @@
 
 HOMER_CONTEXT_ROOT="${HOMER_CONTEXT_ROOT:-/}"
 
-mkdir -p /tmp/nginx/conf/
+mkdir -p /tmp/nginx/cache
+mkdir -p /tmp/nginx/conf
+mkdir -p /tmp/nginx/run
 
 echo "Using HOMER_CONTEXT_ROOT = $HOMER_CONTEXT_ROOT"
 if [ "$HOMER_CONTEXT_ROOT" != "/" ]; then
