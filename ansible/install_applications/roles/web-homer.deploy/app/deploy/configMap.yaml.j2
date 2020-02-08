@@ -9,3 +9,5 @@ metadata:
 data:
   config.yml: |
     {{ lookup('template', role_path + '/app/config/config.yml.j2')  | replace('\n', '\n    ') }}
+  images.csv: |
+    {{ lookup('template', role_path + '/app/config/images.csv.j2')  | replace('\n', '\n    ') }}

@@ -19,6 +19,10 @@ RUN mkdir -p /opt/homer && \
     rm -Rf /usr/share/nginx/html && \
     ln -s /opt/homer /usr/share/nginx/html
 
+# Prepare downloaded asset folder
+RUN mkdir -p /tmp/homer/downloaded_assets && \
+    ln -s /tmp/homer/downloaded_assets /opt/homer/assets/download
+
 ADD entrypoint.sh /opt/
 RUN chown nginx:nginx /opt/entrypoint.sh && \
     chmod 744 /opt/entrypoint.sh

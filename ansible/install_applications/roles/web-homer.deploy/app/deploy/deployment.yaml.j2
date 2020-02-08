@@ -56,6 +56,9 @@ spec:
         - name: homer-config
           mountPath: /opt/homer/config.yml
           subPath: config.yml
+        - name: homer-config
+          mountPath: /opt/images.csv
+          subPath: images.csv
       volumes:
       - name: tz-config
         hostPath:

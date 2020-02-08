@@ -30,6 +30,8 @@ homer:
     limits_cpu: "{{ homer_container_limits_cpu | default('50m') }}"
     limits_memory: "{{ homer_container_limits_memory | default('16Mi') }}"
 
+  images_to_download: "{{ homer_images_to_download | default([]) }}"
+
   config:
     title: "{{ homer_config_title | default('') }}"
     subtitle: "{{ homer_config_subtitle | default('') }}"
