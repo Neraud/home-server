@@ -2,69 +2,63 @@
 # Homepage configuration
 # See https://fontawesome.com/icons for icons options
 
-title: "Demo homepage"
-subtitle: "Homer"
-logo: "assets/logo.png"
-# icon: "fas fa-skull-crossbones" Optional icon
+title: "{{ homer.config.title }}"
+subtitle: "{{ homer.config.subtitle }}"
+logo: "{{ homer.config.logo }}"
+icon: "{{ homer.config.icon }}"
 
+{% if homer.config.message %}
 # Optional message
-# 
 message:
-  # url: https://....
-  style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
-  title: "Demo !" 
-  content: "This is a dummy homepage demo. Find more information on github.com/bastienwirtz/homer"
+{% if 'url' in homer.config.message %}  url: "{{ homer.config.message.url }}"
+{% endif %}
+  style: "{{ homer.config.message.style }}"
+  title: "{{ homer.config.message.title }}"
+  content: "{{ homer.config.message.content }}"
+{% endif %}
 
+
+{% if homer.config.links %}
 # Optional navbar
 links:
-  - name: "ansible"
-    icon: "fab fa-github"
-    url: "https://github.com/xxxxx/ansible/"
-    target: '_blank' # optionnal html a tag target attribute
-  - name: "Wiki"
-    icon: "fas fa-book"
-    url: "https://wiki.xxxxxx.com/"
+{% for link in homer.config.links %}
+  - name: "{{ link.name }}"
+    icon: "{{ link.icon }}"
+    url: "{{ link.url }}"
+{% if 'target' in link %}    target: "{{ link.target }}"
+{% endif %}
+{% endfor %}
+{% endif %}
 
+
+{% if homer.config.services %}
 # Services
 # First level array represent a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
-  - name: "DevOps"
-    icon: "fas fa-code-branch"
+{% for service in homer.config.services %}
+  - 
+{% if 'name' in service %}    name: "{{ service.name }}"
+{% endif %}
+{% if 'icon' in service %}    icon: "{{ service.icon }}"
+{% endif %}
+{% if service['items'] %}
     items:
-      - name: "Jenkins"
-        logo: "assets/tools/jenkins.png"
-        subtitle: "Continuous integration server"
-        tag: "CI"
-        url: "https://jenkins.io/"
-        target: '_blank' # optionnal html a tag target attribute
-      - name: "RabbitMQ Management"
-        logo: "assets/tools/rabbitmq.png"
-        subtitle: "Manage & monitor RabbitMQ server"
-        tag: "haproxy"
-        # Optional tagstyle
-        # Same styling options as the optional message.
-        tagstyle: "is-success"
-        url: "https://www.rabbitmq.com/"
-  - name: "Monitoring"
-    icon: "fas fa-heartbeat"
-    items:
-      - name: "M/Monit"
-        logo: "assets/tools/monit.png"
-        subtitle: "Monitor & manage all monit enabled hosts"
-        tag: "monit"
-        url: "https://mmonit.com/monit/"
-      - name: "Grafana"
-        logo: "assets/tools/grafana.png"
-        subtitle: "Metric analytics & dashboards"
-        url: "https://grafana.com/"
-      - name: "Kibana"
-        logo: "assets/tools/elastic.png"
-        subtitle: "Explore & visualize logs"
-        tag: "elk"
-        url: "https://www.elastic.co/products/kibana"
-      - name: "Website monitoring"
-        logo: "assets/tools/pingdom.png"
-        subtitle: "Pingdom public reports overview"
-        tag: "CI"
-        url: "https://www.pingdom.com/"
+{% for service_item in service['items'] %}
+      - name: "{{ service_item.name }}"
+{% if 'logo' in service_item %}        logo: "{{ service_item.logo }}"
+{% endif %}
+{% if 'subtitle' in service_item %}        subtitle: "{{ service_item.subtitle }}"
+{% endif %}
+{% if 'tag' in service_item %}        tag: "{{ service_item.tag }}"
+{% endif %}
+{% if 'url' in service_item %}        url: "{{ service_item.url }}"
+{% endif %}
+{% if 'target' in service_item %}        target: "{{ service_item.target }}"
+{% endif %}
+{% if 'tagstyle' in service_item %}        tagstyle: "{{ service_item.tagstyle }}"
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}

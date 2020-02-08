@@ -30,4 +30,11 @@ homer:
     limits_cpu: "{{ homer_container_limits_cpu | default('50m') }}"
     limits_memory: "{{ homer_container_limits_memory | default('16Mi') }}"
 
-  applications: "{{ homer_applications | default([]) }}"
+  config:
+    title: "{{ homer_config_title | default('') }}"
+    subtitle: "{{ homer_config_subtitle | default('') }}"
+    logo: "{{ homer_config_logo | default('') }}"
+    icon: "{{ homer_config_icon | default('') }}"
+    message: "{{ homer_config_message | default({}) }}"
+    links: "{{ homer_config_links | default([]) }}"
+    services: "{{ homer_config_services | default([]) }}"
