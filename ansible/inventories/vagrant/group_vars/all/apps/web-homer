@@ -1,0 +1,199 @@
+---
+
+homer_config_title: "Homeserver"
+homer_config_subtitle: "On Vagrant"
+homer_config_logo: "assets/logo.png"
+
+# Optional message
+homer_config_message:
+  title: "Welcome !"
+  content: |
+    This dashboard is configured to list the applications deployed on the Kubernetes cluster. 
+    If promted, the credentials are usually : user / Passw0rd
+  style: "is-dark"
+
+# Optional navbar
+homer_config_links:
+  - name: "GitHub"
+    icon: "fab fa-github"
+    url: "https://github.com/x/y" # TODO add the future github link
+    target: "_blank"
+
+homer_images_to_download:
+  - name: kubernetes.svg
+    source: https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg
+  - name: docker-registry.svg
+    source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/docker-registry.svg
+  - name: gotify.png
+    source: https://github.com/gotify/logo/raw/master/gotify-logo-small.png
+  - name: mailhog.png
+    source: https://hub.helm.sh/api/chartsvc/v1/assets/codecentric/mailhog/logo
+  - name: unifi.svg
+    source: https://prd-www-cdn.ubnt.com/media/images/ubnt-logo-u.svg
+
+  - name: prometheus.svg
+    source: https://raw.githubusercontent.com/cncf/artwork/master/projects/prometheus/icon/color/prometheus-icon-color.svg
+  - name: grafana.svg
+    source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/grafana.svg
+  - name: kibana.svg
+    source: https://symbols.getvecta.com/stencil_86/1_kibana-icon.bfd8044f1e.svg
+
+  - name: lemon-ldap.svg
+    source: "https://upload.wikimedia.org/wikipedia/fr/2/24/Logo_lemonldap-ng.svg"
+  - name: phpldapadmin.png
+    source: https://raw.githubusercontent.com/leenooks/phpLDAPadmin/master/htdocs/images/default/logo-small.png
+
+  - name: ttrss.png
+    source: https://git.tt-rss.org/fox/tt-rss/raw/master/images/logo_small.png
+
+  - name: homeassistant.svg
+    source: https://www.home-assistant.io/images/home-assistant-logo.svg
+  - name: node-red.svg
+    source: https://nodered.org/about/resources/media/node-red-icon-2.svg
+
+  - name: gitlab.svg
+    source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/gitlab.svg
+
+  - name: sickchill.png
+    source: https://raw.githubusercontent.com/SickChill/SickChill/master/gui/slick/images/sickchill-sc.png
+  - name: deluge.png
+    source: https://git.deluge-torrent.org/deluge/plain/deluge/ui/web/icons/deluge-192.png
+  - name: pyload.svg
+    source: https://raw.githubusercontent.com/pyload/pyload/master/media/logo.svg
+  - name: sabnzbd.svg
+    source: https://sabnzbd.org/images/logo-full.svg
+
+  - name: airsonic.png
+    source: https://raw.githubusercontent.com/airsonic/airsonic/master/airsonic-main/src/main/webapp/icons/default_dark/logo_light.png
+
+# First level array represent a group.
+# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+homer_config_services:
+  - name: "Infrastructure"
+    icon: "fas fa-server"
+    items:
+      - name: "Dashboard Kubernetes"
+        logo: "assets/download/kubernetes.svg"
+        url: "https://infra.{{ web_base_domain }}/kube"
+        target: "_blank"
+      - name: "Docker Registry UI"
+        logo: "assets/download/docker-registry.svg"
+        url: "https://infra.{{ web_base_domain }}/docker-regitry-ui"
+        subtitle: "Web UI for Docker Registry"
+        target: "_blank"
+      - name: "Gotify"
+        logo: "assets/download/gotify.png"
+        url: "https://infra.{{ web_base_domain }}/gotify"
+        subtitle: "Server for sending and receiving messages"
+        target: "_blank"
+      - name: "MailHog"
+        logo: "assets/download/mailhog.png"
+        url: "https://infra.{{ web_base_domain }}/mailhog/"
+        subtitle: "MailHog is an email testing tool for developers"
+        target: "_blank"
+      - name: "UniFi"
+        logo: "assets/download/unifi.svg"
+        url: "https://unifi.{{ web_base_domain }}/"
+        subtitle: "Controller for Unifi devices"
+        target: "_blank"
+  - name: "Monitoring"
+    icon: "fas fa-heartbeat"
+    items:
+      - name: "Prometheus"
+        logo: "assets/download/prometheus.svg"
+        url: "https://infra.{{ web_base_domain }}/prometheus/"
+        subtitle: "Monitoring solution"
+        target: "_blank"
+      - name: "AlertManager"
+        logo: "assets/download/prometheus.svg"
+        url: "https://infra.{{ web_base_domain }}/alertmanager/"
+        subtitle: "Alert manager for Prometheus"
+        target: "_blank"
+      - name: "Grafana"
+        logo: "assets/download/grafana.svg"
+        url: "https://infra.{{ web_base_domain }}/grafana/"
+        subtitle: "Platform for beautiful analytics and monitoring"
+        target: "_blank"
+      - name: "Kibana"
+        logo: "assets/download/kibana.svg"
+        url: "https://infra.{{ web_base_domain }}/kibana/"
+        subtitle: "Visualize your Elasticsearch data"
+        target: "_blank"
+  - name: "Auth"
+    icon: "fas fa-at"
+    items:
+      - name: "LemonLDAP"
+        logo: "assets/download/lemon-ldap.svg"
+        url: "https://infra.{{ web_base_domain }}/lemonldap/manager.html"
+        subtitle: "Web Single Sign On and Access Management"
+        target: "_blank"
+      - name: "Php LDAP Admin"
+        logo: "assets/download/phpldapadmin.png"
+        url: "https://infra.{{ web_base_domain }}/phpldapadmin/"
+        subtitle: "Web-based LDAP browser"
+        target: "_blank"
+  - name: "Web"
+    icon: "fas fa-globe"
+    items:
+      - name: "TT-RSS"
+        logo: "assets/download/ttrss.png"
+        url: "https://web.{{ web_base_domain }}/tt-rss/"
+        subtitle: "News feed (RSS/Atom) reader and aggregator"
+        target: "_blank"
+      - name: "Homer"
+        logo: "assets/logo.png"
+        url: "https://web.{{ web_base_domain }}/homer/"
+        subtitle: "A very simple static homepage for your server"
+        target: "_blank"
+  - name: "Home"
+    icon: "fas fa-home"
+    items:
+      - name: "HomeAssistant"
+        logo: "assets/download/homeassistant.svg"
+        url: "https://home.{{ web_base_domain }}/"
+        subtitle: "Home automation"
+        target: "_blank"
+      - name: "NodeRED"
+        logo: "assets/download/node-red.svg"
+        url: "https://home.{{ web_base_domain }}/node-red/"
+        subtitle: "Flow-based programming for the IoT"
+        target: "_blank"
+  - name: "Dev"
+    icon: "fab fa-dev"
+    items:
+      - name: "Gitlab"
+        logo: "assets/download/gitlab.svg"
+        url: "https://dev.{{ web_base_domain }}/gitlab/"
+        subtitle: "Source code management and CI/CD"
+        target: "_blank"
+  - name: "Download"
+    icon: "fas fa-download"
+    items:
+      - name: "SickChill"
+        logo: "assets/download/sickchill.png"
+        url: "https://dl.{{ web_base_domain }}/sickchill/"
+        subtitle: "Automatic Video Library Manager for TV Shows"
+        target: "_blank"
+      - name: "Deluge"
+        logo: "assets/download/deluge.png"
+        url: "https://dl.{{ web_base_domain }}/deluge/"
+        subtitle: "Torrent client"
+        target: "_blank"
+      - name: "PyLoad"
+        logo: "assets/download/pyload.svg"
+        url: "https://dl.{{ web_base_domain }}/pyload/"
+        subtitle: "HTTP download manager"
+        target: "_blank"
+      - name: "SABnzbd"
+        logo: "assets/download/sabnzbd.svg"
+        url: "https://dl.{{ web_base_domain }}/sabnzbd/"
+        subtitle: "Binary newsreader"
+        target: "_blank"
+  - name: "Stream"
+    icon: "fas fa-stream"
+    items:
+      - name: "Airsonic"
+        logo: "assets/download/airsonic.png"
+        url: "https://stream.{{ web_base_domain }}/airsonic/"
+        subtitle: "Music streaming"
+        target: "_blank"
