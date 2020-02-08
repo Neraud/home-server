@@ -11,9 +11,11 @@ The Vagrantfile creates 4 *similar* guests :
 
 These settings are configured in `Vagrantconfig.yaml`, feel free to change them or add mode nodes.
 
+CPUs are capped at 33% usage (`cpu_execution_cap`) to avoid destroying a poor host machine.
+
 ## NAS
 
-To simulate a NAS, NFS Server is installed on Master and exports the content of `/opt/mock_nas` to other hosts as NFS shares.
+To simulate a NAS, NFS Server is installed on `master-1` and exports the content of `/opt/mock_nas` to other hosts as NFS shares.
 
 ## Test hosts
 
@@ -36,11 +38,12 @@ To test the deployed services, you will have to add the following domains to you
 
 To avoid using `root` directly, a standard user is created. For the Vagrant environment, it's simply named `user`.
 
-This `user` can
+This `user` can :
 
 * `sudo` without password
 * SSH to other machines without password (using RSA keys)
 * use kubectl
+* use docker
 
 ## HTTPS
 
