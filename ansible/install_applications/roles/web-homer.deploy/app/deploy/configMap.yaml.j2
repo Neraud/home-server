@@ -7,5 +7,5 @@ metadata:
     {{ homer.labels_def | to_nice_yaml() | indent(4) }}
     {{ homer.labels_desc | to_nice_yaml() | indent(4) }}
 data:
-  config.yaml: |
-    {{ lookup('template', role_path + '/app/config/config.yaml.j2')  | replace('\n', '\n    ') }}
+  config.yml: |
+    {{ lookup('template', role_path + '/app/config/config.yml.j2')  | replace('\n', '\n    ') }}

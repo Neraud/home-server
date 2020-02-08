@@ -54,8 +54,8 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: homer-config
-          mountPath: /opt/homer/config.yaml
-          subPath: config.yaml
+          mountPath: /opt/homer/config.yml
+          subPath: config.yml
       volumes:
       - name: tz-config
         hostPath:
