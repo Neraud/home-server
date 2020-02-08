@@ -104,9 +104,9 @@
   tags: kubernetes-app-web-ttrss
   when: ttrss_enabled | bool
 
-- import_playbook: app-web-heimdall.yml
-  tags: kubernetes-app-web-heimdall
-  when: heimdall_enabled | bool
+- import_playbook: app-web-homer.yml
+  tags: kubernetes-app-web-homer
+  when: homer_enabled | bool
 
 - import_playbook: app-infra-unifi.yml
   tags: kubernetes-app-infra-unifi

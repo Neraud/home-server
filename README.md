@@ -66,7 +66,7 @@ The folowing services are deployed :
 | [Mosquitto](https://mosquitto.org/)                              | MQTT broker                                            |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | Presence tracking                                      |
 | [TT-RSS](https://tt-rss.org/)                                    | News feed (RSS/Atom) reader and aggregator             |
-| [Heimdall](https://heimdall.site/)                               | Application dashboard                                  |
+| [Homer](https://github.com/bastienwirtz/homer)                   | Application dashboard                                  |
 | [Gitlab](https://about.gitlab.com/)                              | Source code management and CI/CD                       |
 | [Plex](https://www.plex.tv/)                                     | Video streaming                                        |
 | [Airsonic](https://airsonic.github.io/)                          | Music streaming                                        |

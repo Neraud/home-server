@@ -1,0 +1,33 @@
+---
+
+# To avoid loops inside homer
+_homer_var_loader:
+  base_image:
+    name: "nginx"
+    tag: "1.17.8-alpine"
+  commit: 5fe53dce3c1e1d3357f614b0157dc55079dff913
+
+homer:
+  enabled: "{{ homer_enabled | default(True) }}"
+
+  namespace: "web-homer"
+  base_image: "{{ _homer_var_loader.base_image }}"
+  commit: "{{ _homer_var_loader.commit }}"
+  context_root: "/homer"
+  
+  labels_def:
+    app.kubernetes.io/name: homer
+    app.kubernetes.io/component: homer
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _homer_var_loader.commit }}"
+
+  container:
+    image: "{{ docker_registry.url }}/homer-{{ _homer_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homer_var_loader.commit }}-{{ _homer_var_loader.base_image.tag }}"
+
+    requests_cpu: "{{ homer_container_requests_cpu | default('50m') }}"
+    requests_memory: "{{ homer_container_requests_memory | default('16Mi') }}"
+    limits_cpu: "{{ homer_container_limits_cpu | default('50m') }}"
+    limits_memory: "{{ homer_container_limits_memory | default('16Mi') }}"
+
+  applications: "{{ homer_applications | default([]) }}"

@@ -1,17 +1,17 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-to-heimdall
-  namespace: {{ heimdall.namespace }}
+  name: allow-to-homer
+  namespace: {{ homer.namespace }}
   labels:
-    {{ heimdall.labels_def | to_nice_yaml() | indent(4) }}
-    {{ heimdall.labels_desc | to_nice_yaml() | indent(4) }}
+    {{ homer.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homer.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      {{ heimdall.labels_def | to_nice_yaml() | indent(6) }}
+      {{ homer.labels_def | to_nice_yaml() | indent(6) }}
 
   ingress:
     # Allow from the ingress controller

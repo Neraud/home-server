@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: homer
+  namespace: {{ homer.namespace }}
+  labels:
+    {{ homer.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homer.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^({{ homer.context_root }})$ $1/ permanent;
+spec:
+  tls:
+    - hosts:
+      - web.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: web.{{ web_base_domain }}
+    http:
+      paths:
+        - path: {{ homer.context_root }}
+          backend:
+            serviceName: homer
+            servicePort: http

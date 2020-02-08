@@ -467,15 +467,6 @@ watchers:
   ##############
   # Apps : Web #
   ##############
-  - type: docker_registry
-    repo: {{ heimdall.base_image.repo | default('registry-1.docker.io') }}
-    image: {{ heimdall.base_image.name }}
-    tag: {{ heimdall.base_image.tag }}
-    includes:
-      - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
-    excludes:
-      - amd64-[0-1]\.
-      - amd64-2\.[0-1]\.
   - name: TT-RSS PHP
     type: docker_registry
     repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homer-config
+  namespace: {{ homer.namespace }}
+  labels:
+    {{ homer.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homer.labels_desc | to_nice_yaml() | indent(4) }}
+data:
+  config.yaml: |
+    {{ lookup('template', role_path + '/app/config/config.yaml.j2')  | replace('\n', '\n    ') }}

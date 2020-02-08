@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homer
+  namespace: {{ homer.namespace }}
+  labels:
+    {{ homer.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homer.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ homer.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ homer.labels_def | to_nice_yaml() | indent(8) }}
+        {{ homer.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      containers:
+      - name: homer
+        image: "{{ homer.container.image }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: HOMER_CONTEXT_ROOT
+          value: "{{ homer.context_root }}"
+        securityContext:
+          # TODO : homer requires to run as root and write to the rootFS for now :/
+          #runAsNonRoot: true
+          #runAsUser: 101 # nginx
+          #readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: "{{ homer.container.requests_cpu }}"
+            memory: "{{ homer.container.requests_memory }}"
+          limits:
+            cpu: "{{ homer.container.limits_cpu }}"
+            memory: "{{ homer.container.limits_memory }}"
+        #readinessProbe:
+        #  httpGet:
+        #    scheme: HTTP
+        #    path: /
+        #    port: http
+        #  initialDelaySeconds: 3
+        #  periodSeconds: 5
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: homer-config
+          mountPath: /opt/homer/config.yaml
+          subPath: config.yaml
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: homer-config
+        configMap:
+          name: homer-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
