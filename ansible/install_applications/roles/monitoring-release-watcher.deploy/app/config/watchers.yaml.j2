@@ -102,15 +102,22 @@ watchers:
   ###################
   # Apps : Download #
   ###################
-  - type: docker_registry
-    repo: {{ deluge.base_image.repo | default('registry-1.docker.io') }}
-    image: {{ deluge.base_image.name }}
-    tag: {{ deluge.base_image.tag }}
+  - name: Deluge Baseimage
+    type: docker_registry
+    repo: {{ deluge_base.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ deluge_base.base_image.name }}
+    tag: {{ deluge_base.base_image.tag }}
     includes:
-      - amd64-[0-9]+\.[0-9]+\.[0-9]+-
+      - "[0-9]+\\.[0-9]+\\.[0-9]+-alpine"
     excludes:
-      - amd64-latest
-      - amd64-[0-1]\.
+      - ^0\..*
+      - ^1\.[01]\..*
+  - name: Deluge
+    type: pypi
+    package: deluge
+    version: {{ deluge.version }}
+    excludes: 
+      - ^1\..*
   - type: github_commit
     repo: {{ pyload.repo.name }}
     branch: {{ pyload.repo.branch }}

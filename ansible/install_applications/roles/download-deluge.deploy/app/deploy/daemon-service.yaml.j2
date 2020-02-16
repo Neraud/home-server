@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: deluge-daemon
+  namespace: {{ deluge.namespace }}
+  labels:
+    {{ deluge_daemon.labels_def | to_nice_yaml() | indent(4) }}
+    {{ deluge_daemon.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  ports:
+  - port: 58846
+    targetPort: daemon
+    name: daemon
+  selector:
+    {{ deluge_daemon.labels_def | to_nice_yaml() | indent(4) }}

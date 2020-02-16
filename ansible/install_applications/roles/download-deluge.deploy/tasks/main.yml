@@ -6,11 +6,31 @@
     application_namespace: "{{ deluge.namespace }}"
     create_nfs_pvc: yes
 
-- name: Ensure Deluge image is up-to-date in the private registry
+- name: Ensure Deluge base image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
-    base_image: "{{ deluge.base_image }}"
-    private_image: "{{ deluge.container.image }}"
+    base_image: "{{ deluge_base.base_image }}"
+    private_image: "{{ deluge_base.private_image }}"
+    build: yes
+    build_path: "{{ role_path }}/app/build/base"
+    build_args:
+      deluge_version: "{{ deluge.version }}"
+
+- name: Ensure Deluge daemon image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ deluge_daemon.base_image }}"
+    private_image: "{{ deluge_daemon.container.image }}"
+    build: yes
+    build_path: "{{ role_path }}/app/build/daemon"
+
+- name: Ensure Deluge web image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ deluge_daemon.base_image }}"
+    private_image: "{{ deluge_web.container.image }}"
+    build: yes
+    build_path: "{{ role_path }}/app/build/web"
 
 - name: Deploy Deluge
   k8s:

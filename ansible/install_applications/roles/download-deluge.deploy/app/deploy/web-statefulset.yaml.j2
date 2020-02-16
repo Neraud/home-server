@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: deluge-web
+  namespace: {{ deluge.namespace }}
+  labels:
+    {{ deluge_web.labels_def | to_nice_yaml() | indent(4) }}
+    {{ deluge_web.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  selector:
+    matchLabels:
+      {{ deluge_web.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ deluge_web.labels_def | to_nice_yaml() | indent(8) }}
+        {{ deluge_web.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/deluge/config
+            chown -R 1000:1000 /opt/deluge/config
+        volumeMounts:
+        - name: deluge-config
+          mountPath: /opt/deluge
+      containers:
+      - name: deluge-web
+        image: "{{ deluge_web.container.image }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8112
+          name: webui
+        env:
+        - name: "XDG_CONFIG_HOME"
+          value: "/opt/deluge/config/"
+        - name: "DELUGE_CONF_WEB_DEFAULT_DAEMON"
+          value: "deluge-daemon:58846"
+        - name: "DELUGE_CONF_WEB_PORT"
+          value: "8112"
+        - name: "DELUGE_CONF_WEB_HTTPS"
+          value: "false"
+        - name: "DELUGE_CONF_WEB_BASE"
+          value: "{{ deluge_web.context_root }}"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # deluge
+          readOnlyRootFilesystem: true
+        #readinessProbe:
+        #  httpGet:
+        #    scheme: HTTP
+        #    path: {{ deluge_web.context_root }}
+        #    port: webui
+        #  initialDelaySeconds: 3
+        #  periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ deluge_web.container.requests_cpu }}"
+            memory: "{{ deluge_web.container.requests_memory }}"
+          limits:
+            cpu: "{{ deluge_web.container.limits_cpu }}"
+            memory: "{{ deluge_web.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: deluge-config
+          mountPath: /opt/deluge/config
+          subPath: config
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: deluge-config
+        persistentVolumeClaim:
+          claimName: deluge-config-pv-claim
+      - name: tmp-volume
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'

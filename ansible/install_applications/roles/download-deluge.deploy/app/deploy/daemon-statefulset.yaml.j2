@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: deluge-daemon
+  namespace: {{ deluge.namespace }}
+  labels:
+    {{ deluge_daemon.labels_def | to_nice_yaml() | indent(4) }}
+    {{ deluge_daemon.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  selector:
+    matchLabels:
+      {{ deluge_daemon.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ deluge_daemon.labels_def | to_nice_yaml() | indent(8) }}
+        {{ deluge_daemon.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/deluge/config
+            chown -R 1000:1000 /opt/deluge/config
+        volumeMounts:
+        - name: deluge-config
+          mountPath: /opt/deluge
+      containers:
+      - name: deluge-daemon
+        image: "{{ deluge_daemon.container.image }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 58846
+          name: daemon
+        env:
+        - name: "XDG_CONFIG_HOME"
+          value: "/opt/deluge/config/"
+        - name: "DELUGE_CONF_CORE_TORRENTFILES_LOCATION"
+          value: "/mnt/download/torrent/torrent-files"
+        - name: "DELUGE_CONF_CORE_AUTOADD_LOCATION"
+          value: "/mnt/download/torrent/auto-load"
+        - name: "DELUGE_CONF_CORE_DOWNLOAD_LOCATION"
+          value: "/mnt/download/torrent/pending"
+        - name: "DELUGE_CONF_CORE_MOVE_COMPLETED_PATH"
+          value: "/mnt/download/torrent/done"
+        - name: "DELUGE_CONF_CORE_ALLOW_REMOTE"
+          value: "TRUE"
+        - name: "DELUGE_CONF_CORE_DAEMON_PORT"
+          value: "58846"
+        - name: "DELUGE_CONF_CORE_MOVE_COMPLETED"
+          value: "true"
+        - name: "DELUGE_CONF_CORE_COPY_TORRENT_FILE"
+          value: "true"
+        - name: "DELUGE_CONF_CORE_AUTOADD_ENABLE"
+          value: "true"
+        - name: "DELUGE_CONF_CORE_PLUGINS_LOCATION"
+          value: "/opt/deluge/config/plugins"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # deluge
+          readOnlyRootFilesystem: true
+        #readinessProbe:
+        #  tcpSocket:
+        #    port: daemon
+        #  initialDelaySeconds: 3
+        #  periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ deluge_daemon.container.requests_cpu }}"
+            memory: "{{ deluge_daemon.container.requests_memory }}"
+          limits:
+            cpu: "{{ deluge_daemon.container.limits_cpu }}"
+            memory: "{{ deluge_daemon.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: deluge-config
+          mountPath: /opt/deluge/config
+          subPath: config
+        - name: deluge-download
+          mountPath: /mnt/download
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: deluge-config
+        persistentVolumeClaim:
+          claimName: deluge-config-pv-claim
+      - name: deluge-download
+        persistentVolumeClaim:
+          claimName: nfs-download
+      - name: tmp-volume
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'
