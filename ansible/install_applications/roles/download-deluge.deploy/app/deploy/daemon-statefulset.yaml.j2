@@ -65,11 +65,11 @@ spec:
           runAsNonRoot: true
           runAsUser: 1000 # deluge
           readOnlyRootFilesystem: true
-        #readinessProbe:
-        #  tcpSocket:
-        #    port: daemon
-        #  initialDelaySeconds: 3
-        #  periodSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: daemon
+          initialDelaySeconds: 3
+          periodSeconds: 15
         resources:
           requests:
             cpu: "{{ deluge_daemon.container.requests_cpu }}"
