@@ -242,7 +242,7 @@ glusterfs_volumes:
       app.kubernetes.io/name: elasticsearch
       app.kubernetes.io/component: elasticsearch
       app.kubernetes.io/instance: k8s-logs
-  deluge-config:
+  deluge-data:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 16M

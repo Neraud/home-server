@@ -31,7 +31,7 @@ spec:
             mkdir -p /opt/deluge/config
             chown -R 1000:1000 /opt/deluge/config
         volumeMounts:
-        - name: deluge-config
+        - name: deluge-data
           mountPath: /opt/deluge
       containers:
       - name: deluge-web
@@ -71,7 +71,7 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: deluge-config
+        - name: deluge-data
           mountPath: /home/deluge/.config/deluge
           subPath: config
         - name: deluge-secret
@@ -86,9 +86,9 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: deluge-config
+      - name: deluge-data
         persistentVolumeClaim:
-          claimName: deluge-config-pv-claim
+          claimName: deluge-data-pv-claim
       - name: deluge-secret
         secret:
           secretName: deluge-secret

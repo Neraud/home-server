@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: deluge-config-pv-claim
+  name: deluge-data-pv-claim
   namespace: {{ deluge.namespace }}
   labels:
     {{ deluge.labels_def | to_nice_yaml() | indent(4) }}
