@@ -15,9 +15,10 @@ RUN echo "Creating deluge user" && \
     addgroup -g 1000 deluge && \
     adduser -u 1000 -G deluge -s /bin/sh -D deluge
 
-VOLUME [ "/opt/deluge/config" ]
-RUN mkdir -p /opt/deluge/config && \
-    chown -R deluge:deluge /opt/deluge
+ENV XDG_CONFIG_HOME=/home/deluge/.config
+
+VOLUME [ "/home/deluge/.config/deluge" ]
+RUN mkdir -p /home/deluge/.config/deluge && \
+    chown -R deluge:deluge /home/deluge
 
 USER deluge
-

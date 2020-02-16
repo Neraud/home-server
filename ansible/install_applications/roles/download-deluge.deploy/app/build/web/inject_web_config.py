@@ -7,7 +7,7 @@ from deluge.config import Config
 from deluge.ui.web.server import CONFIG_DEFAULTS as WEB_CONFIG_DEFAULTS
 
 envNamePrefix = "DELUGE_CONF_WEB_"
-configDir = '/opt/deluge/config'
+configDir = '/home/deluge/.config/deluge'
 configFileName = 'web.conf'
 configPath = configDir + '/' + configFileName
 

@@ -7,7 +7,7 @@ from deluge.config import Config
 from deluge.core.preferencesmanager import DEFAULT_PREFS as CORE_CONFIG_DEFAULTS
 
 envNamePrefix = "DELUGE_CONF_CORE_"
-configDir = '/opt/deluge/config'
+configDir = '/home/deluge/.config/deluge'
 configFileName = 'core.conf'
 configPath = configDir + '/' + configFileName
 

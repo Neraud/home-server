@@ -39,8 +39,6 @@ spec:
         - containerPort: 58846
           name: daemon
         env:
-        - name: "XDG_CONFIG_HOME"
-          value: "/opt/deluge/config/"
         - name: "DELUGE_CONF_CORE_TORRENTFILES_LOCATION"
           value: "/mnt/download/torrent/torrent-files"
         - name: "DELUGE_CONF_CORE_AUTOADD_LOCATION"
@@ -60,7 +58,7 @@ spec:
         - name: "DELUGE_CONF_CORE_AUTOADD_ENABLE"
           value: "true"
         - name: "DELUGE_CONF_CORE_PLUGINS_LOCATION"
-          value: "/opt/deluge/config/plugins"
+          value: "/home/deluge/.config/deluge/plugins"
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000 # deluge
@@ -82,7 +80,7 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: deluge-config
-          mountPath: /opt/deluge/config
+          mountPath: /home/deluge/.config/deluge
           subPath: config
         - name: deluge-download
           mountPath: /mnt/download

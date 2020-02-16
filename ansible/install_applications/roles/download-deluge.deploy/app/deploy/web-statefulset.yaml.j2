@@ -39,8 +39,6 @@ spec:
         - containerPort: 8112
           name: webui
         env:
-        - name: "XDG_CONFIG_HOME"
-          value: "/opt/deluge/config/"
         - name: "DELUGE_CONF_WEB_DEFAULT_DAEMON"
           value: "deluge-daemon:58846"
         - name: "DELUGE_CONF_WEB_PORT"
@@ -72,7 +70,7 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: deluge-config
-          mountPath: /opt/deluge/config
+          mountPath: /home/deluge/.config/deluge
           subPath: config
         - name: tmp-volume
           mountPath: /tmp
