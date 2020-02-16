@@ -6,6 +6,8 @@ metadata:
   labels:
     {{ deluge_daemon.labels_def | to_nice_yaml() | indent(4) }}
     {{ deluge_daemon.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -82,6 +84,9 @@ spec:
         - name: deluge-config
           mountPath: /home/deluge/.config/deluge
           subPath: config
+        - name: deluge-secret
+          mountPath: /home/deluge/.config/deluge/auth
+          subPath: auth
         - name: deluge-download
           mountPath: /mnt/download
         - name: tmp-volume
@@ -93,6 +98,9 @@ spec:
       - name: deluge-config
         persistentVolumeClaim:
           claimName: deluge-config-pv-claim
+      - name: deluge-secret
+        secret:
+          secretName: deluge-secret
       - name: deluge-download
         persistentVolumeClaim:
           claimName: nfs-download

@@ -19,6 +19,10 @@ deluge:
   labels_desc:
     app.kubernetes.io/version: "{{ _deluge_var_loader.version }}"
 
+  local_user:
+    name: localclient
+    password: "{{ deluge_local_user_password | default('clear_password') }}"
+    level: 10
 
 # To avoid loops inside deluge_base
 _deluge_base_var_loader:
@@ -50,6 +54,9 @@ deluge_daemon:
     limits_cpu: "{{ deluge_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ deluge_container_limits_memory | default('256Mi') }}"
 
+  # See https://dev.deluge-torrent.org/wiki/UserGuide/Authentication
+  users: "{{ (deluge_daemon_users | default([])) + [ deluge.local_user, deluge_web.daemon_user ] }}"
+
 deluge_web:
   base_image: "{{ deluge_base.image }}"
 
@@ -67,3 +74,8 @@ deluge_web:
     limits_memory: "{{ deluge_container_limits_memory | default('128Mi') }}"
 
   context_root: "{{ deluge_web_context_root | default('/') }}"
+
+  daemon_user:
+    name: "{{ deluge_web_user_name | default('web') }}"
+    password: "{{ deluge_web_user_password | default('clear_password') }}"
+    level: 10
