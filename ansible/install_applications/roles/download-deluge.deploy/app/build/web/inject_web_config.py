@@ -57,6 +57,9 @@ if 'DELUGE_WEB_PASSWORD' in os.environ:
         config['pwd_salt'] = salt
         logging.debug("pwd_sha1 = %s" % hashedPassword)
         config['pwd_sha1'] = hashedPassword
+        # Set first_login to avoid being promted to change the password
+        logging.debug("first_login = %s" % False)
+        config['first_login'] = False
     else:
         logging.info("Password and salt are unchanged")
 else:
