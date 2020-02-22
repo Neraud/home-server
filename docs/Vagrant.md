@@ -497,7 +497,7 @@ Deluge is installed.
 
 The mock NAS storage is used as media storage.
 
-The webui uses the default password : `deluge`.
+The webui uses the password : `Passw0rd`.
 
 ### pyload
 

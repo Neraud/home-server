@@ -75,6 +75,8 @@ deluge_web:
 
   context_root: "{{ deluge_web_context_root | default('/') }}"
 
+  password: "{{ deluge_web_password | default('clear_password') }}"
+
   daemon_user:
     name: "{{ deluge_web_user_name | default('web') }}"
     password: "{{ deluge_web_user_password | default('clear_password') }}"

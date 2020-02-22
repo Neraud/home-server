@@ -49,6 +49,8 @@ spec:
           value: "false"
         - name: "DELUGE_CONF_WEB_BASE"
           value: "{{ deluge_web.context_root }}"
+        - name: "DELUGE_WEB_PASSWORD"
+          value: "{{ deluge_web.password }}"
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000 # deluge
