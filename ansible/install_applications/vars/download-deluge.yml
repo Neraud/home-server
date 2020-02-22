@@ -3,27 +3,81 @@
 # To avoid loops inside deluge
 _deluge_var_loader:
   base_image:
-    name: "linuxserver/deluge"
-    tag: "amd64-2.0.3-2201906121747ubuntu18.04.1-ls40"
+    name: "emmercm/libtorrent"
+    tag: "1.2.4-alpine"
+  version: 2.0.3
 
 deluge:
   enabled: "{{ deluge_enabled | default(True) }}"
 
   namespace: "download-deluge"
-  base_image: "{{ _deluge_var_loader.base_image }}"
+  version: "{{ _deluge_var_loader.version }}"
 
   labels_def:
     app.kubernetes.io/name: deluge
-    app.kubernetes.io/component: deluge
-
+  
   labels_desc:
-    app.kubernetes.io/version: "{{ _deluge_var_loader.base_image.tag }}"
+    app.kubernetes.io/version: "{{ _deluge_var_loader.version }}"
+
+  local_user:
+    name: localclient
+    password: "{{ deluge_local_user_password | default('clear_password') }}"
+    level: 10
+
+# To avoid loops inside deluge_base
+_deluge_base_var_loader:
+  base_image: "{{ _deluge_var_loader.base_image }}"
+  image: 
+    repo: "{{ docker_registry.url }}"
+    name: "deluge-base"
+    tag: "{{ _deluge_var_loader.version }}-{{ _deluge_var_loader.base_image.name | regex_replace('.*/', '') }}-{{ _deluge_var_loader.base_image.tag }}"
+
+deluge_base:
+  base_image: "{{ _deluge_base_var_loader.base_image }}"
+  private_image: "{{_deluge_base_var_loader.image.repo }}/{{_deluge_base_var_loader.image.name }}:{{_deluge_base_var_loader.image.tag }}"
+  image: "{{ _deluge_base_var_loader.image }}"
+
+
+deluge_daemon:
+  base_image: "{{ deluge_base.image }}"
+
+  labels_def:
+    app.kubernetes.io/name: deluge
+    app.kubernetes.io/component: deluge-daemon
+
+  labels_desc: "{{ deluge.labels_desc }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _deluge_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _deluge_var_loader.base_image.tag }}"
+    image: "{{ docker_registry.url }}/deluge-daemon:{{ _deluge_base_var_loader.image.tag }}"
     requests_cpu: "{{ deluge_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ deluge_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ deluge_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ deluge_container_limits_memory | default('256Mi') }}"
 
-  context_root: "{{ deluge_context_root | default('/') }}"
+  # See https://dev.deluge-torrent.org/wiki/UserGuide/Authentication
+  users: "{{ (deluge_daemon_users | default([])) + [ deluge.local_user, deluge_web.daemon_user ] }}"
+
+deluge_web:
+  base_image: "{{ deluge_base.image }}"
+
+  labels_def:
+    app.kubernetes.io/name: deluge
+    app.kubernetes.io/component: deluge-web
+
+  labels_desc: "{{ deluge.labels_desc }}"
+
+  container:
+    image: "{{ docker_registry.url }}/deluge-web:{{ _deluge_base_var_loader.image.tag }}"
+    requests_cpu: "{{ deluge_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ deluge_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ deluge_container_limits_cpu | default('50m') }}"
+    limits_memory: "{{ deluge_container_limits_memory | default('128Mi') }}"
+
+  context_root: "{{ deluge_web_context_root | default('/') }}"
+
+  password: "{{ deluge_web_password | default('clear_password') }}"
+
+  daemon_user:
+    name: "{{ deluge_web_user_name | default('web') }}"
+    password: "{{ deluge_web_user_password | default('clear_password') }}"
+    level: 10

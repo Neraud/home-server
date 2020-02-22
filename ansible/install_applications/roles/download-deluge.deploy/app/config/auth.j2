@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for user in deluge_daemon.users %}
+{{ user.name }}:{{ user.password }}:{{ user.level }}
+{% endfor %}
