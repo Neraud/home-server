@@ -272,7 +272,7 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: sabnzbd
       app.kubernetes.io/component: sabnzbd
-  sickchill-config:
+  sickchill-data:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 32M

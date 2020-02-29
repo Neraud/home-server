@@ -1,15 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
+import sys
+sys.path.append('/opt/sickchill/lib/')
 
-import configparser
-
-config = configparser.ConfigParser()
-# Do not lowercase keys : https://stackoverflow.com/a/19359720
-config.optionxform = str
+from configobj import ConfigObj
 
 print("Reading config files :")
-filesRead = config.read(['/config/config.ini', '/tmp/config/config_delta.ini'])
-print(filesRead)
+print(" - /opt/sickchill-data/config.ini")
+config = ConfigObj('/opt/sickchill-data/config.ini', encoding='UTF-8', options={'indent_type': '  '})
+print(" - /tmp/config/config_delta.ini")
+config_delta = ConfigObj('/tmp/config/config_delta.ini', encoding='UTF-8', options={'indent_type': '  '})
+config.merge(config_delta)
 
-with open('/config/config.ini', 'w') as configfile:
-    print("Writing to /config/config.ini")
-    config.write(configfile)
+with open('/opt/sickchill-data/config.ini', 'w') as configfile:
+  print("Writing to %s" % configfile.name)
+  config.write(configfile)

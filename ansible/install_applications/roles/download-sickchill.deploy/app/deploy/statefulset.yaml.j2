@@ -21,12 +21,25 @@ spec:
         {{ sickchill.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/sickchill/data
+            chown -R 1000:1000 /opt/sickchill/data
+        volumeMounts:
+        - name: sickchill-data-pv-claim
+          mountPath: /opt/sickchill
       - name: inject-config
-        image: python:3.6.8-alpine3.9
+        image: {{ sickchill.container.image }}
         command: [ "python", "/tmp/config/mergeConf.py" ]
         volumeMounts:
-        - name: sickchill-config-pv-claim
-          mountPath: /config
+        - name: sickchill-data-pv-claim
+          mountPath: /opt/sickchill-data
+          subPath: data
         - name: sickchill-config
           mountPath: /tmp/config
       containers:
@@ -37,11 +50,9 @@ spec:
         - containerPort: 8081
           name: sickchill
         securityContext:
-          # TODO : sickchill requires to run as root for now :/
-          #runAsNonRoot: true
-          #runAsUser: xxxx
-          #runAsGroup: xxxx
-          #readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -60,8 +71,9 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: sickchill-config-pv-claim
-          mountPath: /config
+        - name: sickchill-data-pv-claim
+          mountPath: /opt/sickchill-data
+          subPath: data
         - name: sickchill-download
           mountPath: /mnt/download
         - name: sickchill-multimedia
@@ -70,6 +82,8 @@ spec:
         # But mounting it enables the use of the reloader
         - name: sickchill-config
           mountPath: /tmp/config
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -83,11 +97,13 @@ spec:
       - name: sickchill-multimedia
         persistentVolumeClaim:
           claimName: nfs-multimetia
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
-      name: sickchill-config-pv-claim
+      name: sickchill-data-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}

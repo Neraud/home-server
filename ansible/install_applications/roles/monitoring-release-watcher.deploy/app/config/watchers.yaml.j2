@@ -139,9 +139,9 @@ watchers:
     image: {{ sickchill.base_image.name }}
     tag: {{ sickchill.base_image.tag }}
     includes:
-      - amd64.*
+      - 2\.[7-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - amd64-latest
+      - .*-alpine3\.10
   
   ###############
   # Apps : Home #
@@ -529,3 +529,5 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^11\.[0-9]+(\.[0-9]+)?-alpine
+
+  

@@ -11,6 +11,9 @@
   vars:
     base_image: "{{ sickchill.base_image }}"
     private_image: "{{ sickchill.container.image }}"
+    build: yes
+    build_args:
+      sickchill_version: "{{ sickchill.version }}"
 
 - name: Deploy Sickchill
   k8s:
