@@ -21,12 +21,25 @@ spec:
         {{ sickchill.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/sickchill/data
+            chown -R 1000:1000 /opt/sickchill/data
+        volumeMounts:
+        - name: sickchill-data-pv-claim
+          mountPath: /opt/sickchill
       - name: inject-config
-        image: python:3.6.8-alpine3.9
+        image: {{ sickchill.container.image }}
         command: [ "python", "/tmp/config/mergeConf.py" ]
         volumeMounts:
         - name: sickchill-data-pv-claim
-          mountPath: /config
+          mountPath: /opt/sickchill-data
+          subPath: data
         - name: sickchill-config
           mountPath: /tmp/config
       containers:
@@ -37,10 +50,8 @@ spec:
         - containerPort: 8081
           name: sickchill
         securityContext:
-          # TODO : sickchill requires to run as root for now :/
-          #runAsNonRoot: true
-          #runAsUser: xxxx
-          #runAsGroup: xxxx
+          runAsNonRoot: true
+          runAsUser: 1000
           #readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
@@ -61,7 +72,8 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: sickchill-data-pv-claim
-          mountPath: /config
+          mountPath: /opt/sickchill-data
+          subPath: data
         - name: sickchill-download
           mountPath: /mnt/download
         - name: sickchill-multimedia
