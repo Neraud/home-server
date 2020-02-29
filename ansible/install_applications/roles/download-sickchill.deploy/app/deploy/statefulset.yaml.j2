@@ -25,7 +25,7 @@ spec:
         image: python:3.6.8-alpine3.9
         command: [ "python", "/tmp/config/mergeConf.py" ]
         volumeMounts:
-        - name: sickchill-config-pv-claim
+        - name: sickchill-data-pv-claim
           mountPath: /config
         - name: sickchill-config
           mountPath: /tmp/config
@@ -60,7 +60,7 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: sickchill-config-pv-claim
+        - name: sickchill-data-pv-claim
           mountPath: /config
         - name: sickchill-download
           mountPath: /mnt/download
@@ -87,7 +87,7 @@ spec:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
-      name: sickchill-config-pv-claim
+      name: sickchill-data-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
