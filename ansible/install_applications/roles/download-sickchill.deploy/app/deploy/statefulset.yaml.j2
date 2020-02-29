@@ -52,7 +52,7 @@ spec:
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000
-          #readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -82,6 +82,8 @@ spec:
         # But mounting it enables the use of the reloader
         - name: sickchill-config
           mountPath: /tmp/config
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -95,6 +97,8 @@ spec:
       - name: sickchill-multimedia
         persistentVolumeClaim:
           claimName: nfs-multimetia
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
