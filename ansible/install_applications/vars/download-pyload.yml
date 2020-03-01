@@ -3,12 +3,12 @@
 # To avoid loops inside pyload
 _pyload_var_loader:
   base_image:
-    name: "lsiobase/python"
-    tag: "amd64-3.10"
+    name: "python"
+    tag: "2.7.17-alpine3.11"
   repo:
     name: "pyload/pyload"
     branch: "stable"
-    commit: "9f95fef3aa2fd90fe0cb65e8fa68a6b7648490e9"
+    commit: "33b8c7b9fe4d24f8b94a88ed5d9e4cb6ddf33b09"
 
 pyload:
   enabled: "{{ pyload_enabled | default(True) }}"

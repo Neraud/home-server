@@ -1,44 +1,35 @@
 ARG from_image
 FROM $from_image
 
-ARG PYLOAD_RELEASE
-ARG PYLOAD_BRANCH=stable
+ARG pyload_version
 
-ENV PYLOAD_DEFAULT_USER=pyload
-ENV PYLOAD_DEFAULT_PASSWORD=pyload
-ENV PYLOAD_WEB_PATH=/
-ENV PYLOAD_DOWNLOAD_PATH=/downloads
+## Install requirements
+RUN apk add --no-cache libcurl ffmpeg nodejs sqlite tesseract-ocr unrar unzip && \
+    apk add --no-cache --virtual .build_deps build-base python2-dev curl-dev openssl-dev libffi-dev zlib-dev jpeg-dev && \
+    pip install pycurl pycrypto pyOpenSSL pillow && \
+    apk del .build_deps
 
-RUN echo "**** install requirements ****" && \
-    apk add --no-cache \
-        py-crypto \
-        py-curl \
-        py-imaging \
-        tesseract-ocr \
-        py-pexpect \
-        expect \
-        nodejs
+RUN echo "Creating pyload user" && \
+    addgroup -g 1000 pyload && \
+    adduser -u 1000 -G pyload -s /bin/sh -D pyload
 
-RUN \
- echo "**** install app ****" && \
- mkdir -p \
-	/app/pyload && \
- if [ -z ${PYLOAD_RELEASE+x} ]; then \
- 	PYLOAD_RELEASE=$(curl -sX GET "https://api.github.com/repos/pyload/pyload/commits/${PYLOAD_BRANCH}" \
-        | awk '/sha/{print $4;exit}' FS='[""]'); \
- fi && \
- curl -o \
-	/tmp/pyload.tar.gz -L \
-	"https://github.com/pyload/pyload/archive/${PYLOAD_RELEASE}.tar.gz" && \
- tar xf /tmp/pyload.tar.gz -C \
-	/app/pyload --strip-components=1 && \
- echo "**** Cleanup ****" && \
- rm -Rf /tmp/*
+VOLUME [ "/opt/pyload-data" ]
+RUN mkdir -p /opt/pyload && \
+    chown -R pyload:pyload /opt/pyload && \
+    mkdir -p /opt/pyload-data && \
+    chown -R pyload:pyload /opt/pyload-data
 
-# add local files
-COPY root/etc/ /etc/
-COPY root/app/ /app/
+USER pyload
 
-# ports and volumes
+# Install pyload
+RUN mkdir -p /opt/pyload && \
+    cd /opt/pyload && \
+    wget -qO- https://github.com/pyload/pyload/archive/${pyload_version}.tar.gz | tar xz --strip-components=1
+
+
+ADD --chown=pyload:pyload entrypoint.sh /opt/entrypoint.sh
+RUN chmod +x /opt/entrypoint.sh
+
 EXPOSE 8000
-VOLUME /config /downloads
+
+ENTRYPOINT [ "/opt/entrypoint.sh" ]

@@ -13,8 +13,7 @@
     private_image: "{{ pyload.container.image }}"
     build: yes
     build_args:
-      PYLOAD_BRANCH: "{{ pyload.container.branch }}"
-      PYLOAD_RELEASE: "{{ pyload.container.commit }}"
+      pyload_version: "{{ pyload.container.commit }}"
 
 - name: Deploy pyLoad
   k8s:
