@@ -26,8 +26,8 @@ RUN mkdir -p /opt/pyload && \
     cd /opt/pyload && \
     wget -qO- https://github.com/pyload/pyload/archive/${pyload_version}.tar.gz | tar xz --strip-components=1
 
-
 ADD --chown=pyload:pyload entrypoint.sh /opt/entrypoint.sh
+ADD --chown=pyload:pyload inject_conf.py /opt/inject_conf.py
 RUN chmod +x /opt/entrypoint.sh
 
 EXPOSE 8000

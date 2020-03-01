@@ -56,9 +56,9 @@ spec:
             value: "{{ pyload.default_user }}"
           - name: PYLOAD_DEFAULT_PASSWORD
             value: "{{ pyload.default_password }}"
-          - name: PYLOAD_WEB_PATH
+          - name: PYLOAD_CONF_webinterface_prefix
             value: "{{ pyload.context_root }}"
-          - name: PYLOAD_DOWNLOAD_PATH
+          - name: PYLOAD_CONF_general_download_folder
             value: /mnt/download/pyload
         resources:
           requests:

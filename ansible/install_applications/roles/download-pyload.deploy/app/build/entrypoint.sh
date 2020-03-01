@@ -17,9 +17,8 @@ if [ "$PYLOAD_DEFAULT_USER" != "" -a "$PYLOAD_DEFAULT_PASSWORD" != "" ] ; then
 	sqlite3 /opt/pyload-data/files.db "INSERT OR REPLACE INTO users (id, name, password) VALUES ((SELECT id FROM users WHERE name = '${PYLOAD_DEFAULT_USER}'), '${PYLOAD_DEFAULT_USER}', '${password_to_save}');"
 fi
 
-echo "- setting the web path to $PYLOAD_WEB_PATH"
-sed -i "s|\"Path Prefix\" *= *.*|\"Path Prefix\" = $PYLOAD_WEB_PATH|" /opt/pyload-data/pyload.conf
-echo "- setting download path to $PYLOAD_DOWNLOAD_PATH"
-sed -i "s|\"Download Folder\" *= *.*|\"Download Folder\" = $PYLOAD_DOWNLOAD_PATH|" /opt/pyload-data/pyload.conf
+echo "Inject configuration"
+python /opt/inject_conf.py
 
+echo "Start pyload"
 python /opt/pyload/pyLoadCore.py --configdir=/opt/pyload-data
