@@ -60,6 +60,8 @@ spec:
             value: "{{ pyload.context_root }}"
           - name: PYLOAD_CONF_general_download_folder
             value: /mnt/download/pyload
+          - name: PYLOAD_CONF_log_file_log
+            value: "False"
         resources:
           requests:
             cpu: "{{ pyload.container.requests_cpu }}"
