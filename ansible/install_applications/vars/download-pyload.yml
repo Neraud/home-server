@@ -25,7 +25,7 @@ pyload:
     app.kubernetes.io/version: "{{ _pyload_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_registry.url }}/pyload:{{ _pyload_var_loader.repo.commit }}-custom"
+    image: "{{ docker_registry.url }}/pyload:{{ _pyload_var_loader.repo.commit }}_{{ _pyload_var_loader.base_image.name }}{{ _pyload_var_loader.base_image.tag }}"
     branch: "{{ _pyload_var_loader.repo.branch }}"
     commit: "{{ _pyload_var_loader.repo.commit }}"
     requests_cpu: "{{ pyload_container_requests_cpu | default('100m') }}"
