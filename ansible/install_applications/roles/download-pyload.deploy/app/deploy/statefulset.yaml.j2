@@ -41,11 +41,9 @@ spec:
         - containerPort: 8001
           name: webui
         securityContext:
-          # TODO : pyload requires to run as root for now :/
-          #runAsNonRoot: true
-          #runAsUser: xxxx
-          #runAsGroup: xxxx
-          #readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
