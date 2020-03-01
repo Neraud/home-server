@@ -20,19 +20,30 @@ spec:
         {{ pyload.labels_def | to_nice_yaml() | indent(8) }}
         {{ pyload.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/pyload/data
+            chown -R 1000:1000 /opt/pyload/data
+        volumeMounts:
+        - name: pyload-config-pv-claim
+          mountPath: /opt/pyload
       containers:
       - name: pyload
         image: "{{ pyload.container.image }}"
         imagePullPolicy: Always        
         ports:
-        - containerPort: 8000
+        - containerPort: 8001
           name: webui
         securityContext:
-          # TODO : pyload requires to run as root for now :/
-          #runAsNonRoot: true
-          #runAsUser: xxxx
-          #runAsGroup: xxxx
-          #readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -45,8 +56,12 @@ spec:
             value: "{{ pyload.default_user }}"
           - name: PYLOAD_DEFAULT_PASSWORD
             value: "{{ pyload.default_password }}"
-          - name: PYLOAD_WEB_PATH
+          - name: PYLOAD_CONF_webinterface_prefix
             value: "{{ pyload.context_root }}"
+          - name: PYLOAD_CONF_general_download_folder
+            value: /mnt/download/pyload
+          - name: PYLOAD_CONF_log_file_log
+            value: "False"
         resources:
           requests:
             cpu: "{{ pyload.container.requests_cpu }}"
@@ -59,7 +74,8 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: pyload-config-pv-claim
-          mountPath: /config
+          mountPath: /opt/pyload-data
+          subPath: data
         - name: pyload-download
           mountPath: /mnt/download
       volumes:
