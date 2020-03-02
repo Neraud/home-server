@@ -41,10 +41,9 @@ spec:
         - containerPort: 8080
           name: http
         securityContext:
-          # TODO : sabnzbd requires to run as root for now :/
-          #runAsNonRoot: true
-          #runAsUser: 1000
-          #readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP

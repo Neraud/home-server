@@ -60,7 +60,10 @@ RUN cd /opt/sabnzbd && \
 # Install nzbToMedia
 RUN cd /opt/nzbToMedia && \
     wget -qO- https://github.com/clinton-hall/nzbToMedia/archive/${nzbToMedia_version}.tar.gz | tar xz --strip-components=1 && \
-    ln -s /opt/sabnzbd-data/autoProcessMedia.cfg /opt/nzbToMedia/autoProcessMedia.cfg
+    ln -s /opt/sabnzbd-data/nzbtomedia/autoProcessMedia.cfg /opt/nzbToMedia/autoProcessMedia.cfg && \
+    ln -s /opt/sabnzbd-data/nzbtomedia/autoProcessMedia.cfg.old /opt/nzbToMedia/autoProcessMedia.cfg.old && \
+    ln -s /opt/sabnzbd-data/nzbtomedia/nzbtomedia.db /opt/nzbToMedia/nzbtomedia.db && \
+    ln -s /opt/sabnzbd-data/nzbtomedia/logs /opt/nzbToMedia/logs
 
 ADD --chown=sabnzbd:sabnzbd entrypoint.sh /opt/entrypoint.sh
 ADD --chown=sabnzbd:sabnzbd inject_conf.py /opt/inject_conf.py

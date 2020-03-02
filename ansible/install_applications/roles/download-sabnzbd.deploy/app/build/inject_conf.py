@@ -21,9 +21,9 @@ with open('/opt/sabnzbd-data/sabnzbd.ini', 'w') as configfile:
 
 
 
-if path.exists('/opt/sabnzbd-data/autoProcessMedia.cfg'):
+if path.exists('/opt/sabnzbd-data/nzbtomedia/autoProcessMedia.cfg'):
     print("Reading autoProcessMedia config file from existing file")
-    autoProcessMediaPath='/opt/sabnzbd-data/autoProcessMedia.cfg'
+    autoProcessMediaPath='/opt/sabnzbd-data/nzbtomedia/autoProcessMedia.cfg'
 else:
     print("Reading autoProcessMedia config file from default file")
     autoProcessMediaPath='/opt/nzbToMedia/autoProcessMedia.cfg.spec'
@@ -36,5 +36,5 @@ print("Merging the autoProcessMedia configs")
 config.merge(configDelta)
 
 print("Writing resulting autoProcessMedia config file")
-with open('/opt/sabnzbd-data/autoProcessMedia.cfg', 'w') as configfile:
+with open('/opt/sabnzbd-data/nzbtomedia/autoProcessMedia.cfg', 'w') as configfile:
     config.write(configfile)

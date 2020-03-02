@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Create folders for nzbtomedia"
+mkdir -p /opt/sabnzbd-data/nzbtomedia/logs
+
 echo "Inject configuration"
 python /opt/inject_conf.py
 
