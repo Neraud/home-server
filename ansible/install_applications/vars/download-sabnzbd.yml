@@ -3,8 +3,11 @@
 # To avoid loops inside sabnzbd
 _sabnzbd_var_loader:
   base_image:
-    name: "linuxserver/sabnzbd"
-    tag: "amd64-2.3.9-0ubuntu1jcfp118.04-u-ls33"
+    name: "python"
+    tag: "2.7.17-alpine3.11"
+  repo:
+    name: sabnzbd/sabnzbd
+    version: 2.3.9
   namespace: "download-sabnzbd"
 
 sabnzbd:
@@ -12,6 +15,7 @@ sabnzbd:
 
   namespace: "{{ _sabnzbd_var_loader.namespace }}"
   base_image: "{{ _sabnzbd_var_loader.base_image }}"
+  repo: "{{ _sabnzbd_var_loader.repo }}"
   servername: "sabnzbd.{{ _sabnzbd_var_loader.namespace }}.svc.cluster.local"
   
   labels_def:
@@ -20,9 +24,18 @@ sabnzbd:
 
   labels_desc:
     app.kubernetes.io/version: "{{ _sabnzbd_var_loader.base_image.tag }}"
+  
+  par2cmdline:
+    repo:
+      name: Parchive/par2cmdline
+      version: v0.8.1
+  nzbToMedia:
+    repo:
+      name: clinton-hall/nzbToMedia
+      version: 12.1.04
 
   container:
-    image: "{{ docker_registry.url }}/{{ _sabnzbd_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _sabnzbd_var_loader.base_image.tag }}-custom"
+    image: "{{ docker_registry.url }}/sabnzbd:{{ _sabnzbd_var_loader.repo.version }}_{{ _sabnzbd_var_loader.base_image.name }}{{ _sabnzbd_var_loader.base_image.tag }}"
     requests_cpu: "{{ sabnzbd_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ sabnzbd_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ sabnzbd_container_limits_cpu | default('200m') }}"

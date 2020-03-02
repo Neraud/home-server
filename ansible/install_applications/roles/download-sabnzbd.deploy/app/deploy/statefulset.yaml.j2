@@ -21,14 +21,18 @@ spec:
         {{ sabnzbd.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       initContainers:
-      - name: inject-config
-        image: python:2.7.16-alpine3.9
-        command: [ "python", "/tmp/config/mergeConf.py" ]
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/sabnzbd/data
+            chown -R 1000:1000 /opt/sabnzbd/data
         volumeMounts:
         - name: sabnzbd-config-pv-claim
-          mountPath: /config
-        - name: sabnzbd-config
-          mountPath: /tmp/config
+          mountPath: /opt/sabnzbd
       containers:
       - name: sabnzbd
         image: "{{ sabnzbd.container.image }}"
@@ -37,11 +41,9 @@ spec:
         - containerPort: 8080
           name: http
         securityContext:
-          # TODO : sabnzbd requires to run as root for now :/
-          #runAsNonRoot: true
-          #runAsUser: xxxx
-          #runAsGroup: xxxx
-          #readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -61,11 +63,10 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: sabnzbd-config-pv-claim
-          mountPath: /config
+          mountPath: /opt/sabnzbd-data
+          subPath: data
         - name: sabnzbd-download
           mountPath: /mnt/download
-        # sabnzbd-config is not used by the container directly
-        # But mounting it enables the use of the reloader
         - name: sabnzbd-config
           mountPath: /tmp/config
       volumes:

@@ -11,7 +11,3 @@ data:
     {{ lookup('template', role_path + '/app/config/sabnzbd_delta.ini.j2') | replace('\n', '\n    ') }}
   autoProcessMedia_delta.cfg: |
     {{ lookup('template', role_path + '/app/config/autoProcessMedia_delta.cfg.j2') | replace('\n', '\n    ') }}
-  mergeConf.py: |
-    {{ lookup('file', role_path + '/app/config/mergeConf.py') | replace('\n', '\n    ') }}
-  configobj.py: |
-    {{ lookup('file', role_path + '/app/config/configobj.py') | replace('\n', '\n    ') }}

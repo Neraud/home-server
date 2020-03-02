@@ -12,6 +12,10 @@
     base_image: "{{ sabnzbd.base_image }}"
     private_image: "{{ sabnzbd.container.image }}"
     build: yes
+    build_args:
+      sabnzbd_version: "{{ sabnzbd.repo.version }}"
+      par2cmdline_version: "{{ sabnzbd.par2cmdline.repo.version }}"
+      nzbToMedia_version: "{{ sabnzbd.nzbToMedia.repo.version }}"
 
 - name: Deploy sabnzbd
   k8s:
