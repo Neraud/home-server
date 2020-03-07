@@ -209,18 +209,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: jellyfin
       app.kubernetes.io/component: jellyfin
-      storage: data
-  jellyfin-cache:
-    replicas: 2
-    capacity: 128M
-    arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: jellyfin
-      app.kubernetes.io/component: jellyfin
-      storage: cache
   gitlab-config:
     replicas: 2
     capacity: 16M
