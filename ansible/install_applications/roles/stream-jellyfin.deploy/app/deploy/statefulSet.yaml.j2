@@ -24,6 +24,13 @@ spec:
         ports:
         - containerPort: 8096
           name: jellyfin
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: jellyfin
+          initialDelaySeconds: 3
+          periodSeconds: 5
         resources:
           requests:
             cpu: "{{ jellyfin.container.requests_cpu }}"
