@@ -84,7 +84,7 @@ volumeClaimTemplates:
 We can't really schedule all our applications on any Kubernetes node.
 
 * Some applications require dedicated hardware on the machine (Home automation requires USB sticks plugged in)
-* Some node are far less powerful (Plex transcoding on a Atom CPU is not a good idea)
+* Some node are far less powerful (video transcoding on a Atom CPU is not a good idea)
 
 To avoid those issues without hard-pinning the applications on dedicated nodes, we use a looser tagging system.
 

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin
+  namespace: {{ jellyfin.namespace }}
+  labels:
+    {{ jellyfin.labels_def | to_nice_yaml() | indent(4) }}
+    {{ jellyfin.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  ports:
+  - port: 80
+    targetPort: 8096
+  selector:
+    {{ jellyfin.labels_def | to_nice_yaml() | indent(4) }}

@@ -71,10 +71,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 2, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
 		end
 		
-		# Used to set up Plex Media Server.
-		# It needs to be called using localhost the first time
-		controller.vm.network "forwarded_port", guest: 32400, host: 32400
-
 		controller.vm.network "private_network", ip: controller_conf['ip']
 		controller.vm.synced_folder "../", "/opt/provision", type: "virtualbox"
 		controller.vm.provision "shell", path: "init_new_node.sh", args: "ansible", keep_color: true

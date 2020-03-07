@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jellyfin
+  namespace: {{ jellyfin.namespace }}
+  labels:
+    {{ jellyfin.labels_def | to_nice_yaml() | indent(4) }}
+    {{ jellyfin.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  selector:
+    matchLabels:
+      {{ jellyfin.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ jellyfin.labels_def | to_nice_yaml() | indent(8) }}
+        {{ jellyfin.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /jellyfin/config
+            mkdir -p /jellyfin/cache
+            chown -R 1000:1000 /jellyfin
+        volumeMounts:
+        - name: jellyfin-pv-claim
+          mountPath: /jellyfin
+      containers:
+      - image: "{{ jellyfin.container.image }}"
+        name: jellyfin
+        ports:
+        - containerPort: 8096
+          name: jellyfin
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: jellyfin
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ jellyfin.container.requests_cpu }}"
+            memory: "{{ jellyfin.container.requests_memory }}"
+          limits:
+            cpu: "{{ jellyfin.container.limits_cpu }}"
+            memory: "{{ jellyfin.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: jellyfin-pv-claim
+          mountPath: /config
+          subPath: config
+        - name: jellyfin-multimedia
+          mountPath: /media
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: jellyfin-multimedia
+        persistentVolumeClaim:
+          claimName: nfs-multimetia
+      - name: tmp-volume
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: jellyfin-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          {{ jellyfin.labels_def | to_nice_yaml() | indent(10) }}

@@ -199,16 +199,16 @@ glusterfs_volumes:
       app.kubernetes.io/name: airsonic
       app.kubernetes.io/component: airsonic
       storage: playlists
-  plex-data:
+  jellyfin-data:
     replicas: 2
-    capacity: 1G
-    arbiterCapacity: 64M
+    capacity: 256M
+    arbiterCapacity: 16M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app.kubernetes.io/name: plex
-      app.kubernetes.io/component: plex
+      app.kubernetes.io/name: jellyfin
+      app.kubernetes.io/component: jellyfin
   gitlab-config:
     replicas: 2
     capacity: 16M

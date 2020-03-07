@@ -30,7 +30,6 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.10 web.k8stest.com
 192.168.100.10 dev.k8stest.com
 192.168.100.10 stream.k8stest.com
-192.168.100.10 plex.k8stest.com
 192.168.100.10 dl.k8stest.com
 ```
 
@@ -87,7 +86,7 @@ The folowing services are deployed :
 | [TT-RSS](https://tt-rss.org/)                                    | <https://web.k8stest.com/tt-rss/>                  | News feed (RSS/Atom) reader and aggregator             |
 | [Homer](https://github.com/bastienwirtz/homer)                   | <https://web.k8stest.com/homer/>                   | A very simple static homepage for your server          |
 | [Gitlab](https://about.gitlab.com/)                              | <https://dev.k8stest.com/gitlab/>                  | Source code management and CI/CD                       |
-| [Plex](https://www.plex.tv/)                                     | <https://plex.k8stest.com/>                        | Video streaming                                        |
+| [Jellyfin](https://jellyfin.org/)                                | <https://stream.k8stest.com/jellyfin/>             | Video streaming                                        |
 | [Airsonic](https://airsonic.github.io/)                          | <https://stream.k8stest.com/airsonic/>             | Music streaming                                        |
 | [Sickchill](https://sickchill.github.io/)                        | <https://dl.k8stest.com/sickchill/>                | Automatic Video Library Manager for TV Shows.          |
 | [Deluge](https://deluge-torrent.org/)                            | <https://dl.k8stest.com/deluge/>                   | Torrent client                                         |
@@ -418,66 +417,9 @@ Gitlab is installed using the omnibus package.
 The `root` account password is set the first time the site is displayed.
 The default `user` account (from OpenLDAP) also has access.
 
-### Plex
+### Jellyfin
 
-Plex Media Server is deployed.
-
-However the configuration is a bit more complicated for this one.
-
-First, you'll need a [Plex account](https://www.plex.tv/sign-up/).
-If you already have one and just want to test this repo on Vagrant, I'd recommend to create a dedicated test account.
-
-#### Using SSH tunnel (recommended)
-
-Basically, we'll follow the [official documentation](https://github.com/plexinc/pms-docker#running-on-a-headless-server-with-container-using-host-networking)
-
-The Master Vagrant guest already has a port forward for port 32400.
-
-We only need to forward this port to the plex container :
-
-```shell
-root@master:~# ufw allow 32400
-Rule added
-Rule added (v6)
-
-root@master:~# su - user
-
-user@master:~$ kubectl --namespace=stream-plex port-forward plex-0 32400:32400 --address 0.0.0.0
-Forwarding from 0.0.0.0:32400 -> 32400
-```
-
-Then use the [localhost URL](http://localhost:32400/web/) to access PMS and proceed with the setup process.
-Once done, you can use it with the proper URL without any issue.
-
-You can safely stop the port-forwarding and block the port again :
-
-```shell
-user@master:~$ exit
-logout
-
-root@master:~# ufw deny 32400
-Rule updated
-Rule updated (v6)
-```
-
-#### Using the Claim token
-
-Using a special environment variable `PLEX_CLAIM` when the container start can automate this setup process.
-
-It's easy to get the Plex Plaim manually (just hit the [claim URL](https://www.plex.tv/claim/)). However, it's only valid for 5 minutes.
-
-To have a less time sensitive method, the playbook can fetch the claim automatically before starting the PMS container.
-But to do so, it needs your plex token.
-
-To get your Plex Token :
-
-* Go to your [Plex account](https://app.plex.tv/desktop#!/account)
-* (Log in if prompted)
-* Once the page is displayed, open the developer console in your browser (usually with the F12 key)
-* Reload the page
-* You should see around 50 requests captured in your browser, scroll up the list, look for a request that starts *user*, and click on it
-* On the right panel, select the response tab and on the 2nd line look for the authToken property
-* In `ansible/inventories/vagrant/group_vars/all/apps/stream-plex`, set this token in the variable `plex_token`
+Jellyfin is deployed.
 
 ### Airsonic
 
