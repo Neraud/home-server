@@ -86,6 +86,7 @@ The folowing services are deployed :
 | [TT-RSS](https://tt-rss.org/)                                    | <https://web.k8stest.com/tt-rss/>                  | News feed (RSS/Atom) reader and aggregator             |
 | [Homer](https://github.com/bastienwirtz/homer)                   | <https://web.k8stest.com/homer/>                   | A very simple static homepage for your server          |
 | [Gitlab](https://about.gitlab.com/)                              | <https://dev.k8stest.com/gitlab/>                  | Source code management and CI/CD                       |
+| [Jellyfin](https://jellyfin.org/)                                | <https://stream.k8stest.com/jellyfin/>             | Video streaming                                        |
 | [Airsonic](https://airsonic.github.io/)                          | <https://stream.k8stest.com/airsonic/>             | Music streaming                                        |
 | [Sickchill](https://sickchill.github.io/)                        | <https://dl.k8stest.com/sickchill/>                | Automatic Video Library Manager for TV Shows.          |
 | [Deluge](https://deluge-torrent.org/)                            | <https://dl.k8stest.com/deluge/>                   | Torrent client                                         |
@@ -415,6 +416,10 @@ Gitlab is installed using the omnibus package.
 
 The `root` account password is set the first time the site is displayed.
 The default `user` account (from OpenLDAP) also has access.
+
+### Jellyfin
+
+Jellyfin is deployed.
 
 ### Airsonic
 

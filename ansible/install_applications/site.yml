@@ -132,6 +132,10 @@
   tags: kubernetes-app-stream-airsonic
   when: airsonic_enabled | bool
 
+- import_playbook: app-stream-jellyfin.yml
+  tags: kubernetes-app-stream-jellyfin
+  when: jellyfin_enabled | bool
+
 - import_playbook: app-dev-gitlab.yml
   tags: kubernetes-app-dev-gitlab
   when: gitlab_enabled | bool

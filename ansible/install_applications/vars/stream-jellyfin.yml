@@ -1,0 +1,29 @@
+---
+
+# To avoid loops inside jellyfin
+_jellyfin_var_loader:
+  base_image:
+    name: "jellyfin/jellyfin"
+    tag: "10.4.3-amd64"
+
+jellyfin:
+  enabled: "{{ jellyfin_enabled | default(True) }}"
+
+  namespace: "stream-jellyfin"
+  base_image: "{{ _jellyfin_var_loader.base_image }}"
+
+  labels_def:
+    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/component: jellyfin
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _jellyfin_var_loader.base_image.tag }}"
+
+  container:
+    image: "{{ docker_registry.url }}/{{ _jellyfin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.base_image.tag }}"
+    requests_cpu: "{{ jellyfin_container_requests_cpu | default('500m') }}"
+    requests_memory: "{{ jellyfin_container_requests_memory | default('512Mi') }}"
+    limits_cpu: "{{ jellyfin_container_limits_cpu | default('2000m') }}"
+    limits_memory: "{{ jellyfin_container_limits_memory | default('512Mi') }}"
+
+  context_path: "{{ jellyfin_context_path | default('/jellyfin') }}"

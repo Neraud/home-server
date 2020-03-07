@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jellyfin
+  namespace: {{ jellyfin.namespace }}
+  labels:
+    {{ jellyfin.labels_def | to_nice_yaml() | indent(4) }}
+    {{ jellyfin.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  selector:
+    matchLabels:
+      {{ jellyfin.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ jellyfin.labels_def | to_nice_yaml() | indent(8) }}
+        {{ jellyfin.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      containers:
+      - image: "{{ jellyfin.container.image }}"
+        name: jellyfin
+        ports:
+        - containerPort: 8096
+          name: jellyfin
+        resources:
+          requests:
+            cpu: "{{ jellyfin.container.requests_cpu }}"
+            memory: "{{ jellyfin.container.requests_memory }}"
+          limits:
+            cpu: "{{ jellyfin.container.limits_cpu }}"
+            memory: "{{ jellyfin.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: jellyfin-data-pv-claim
+          mountPath: /config
+        - name: jellyfin-cache-pv-claim
+          mountPath: /cache
+        - name: jellyfin-multimedia
+          mountPath: /media
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: jellyfin-multimedia
+        persistentVolumeClaim:
+          claimName: nfs-multimetia
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: jellyfin-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          {{ jellyfin.labels_def | to_nice_yaml() | indent(10) }}
+          storage: data
+  - metadata:
+      name: jellyfin-cache-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M
+      selector:
+        matchLabels:
+          {{ jellyfin.labels_def | to_nice_yaml() | indent(10) }}
+          storage: cache
