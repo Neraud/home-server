@@ -10,18 +10,11 @@ watchers:
       - .*[ab][1-9]$
       - .*rc[1-9]$
       - .*2\.[0-8]\..*$
-  
+
+
   #################################
   # Installed by ansible on hosts #
   #################################
-  - type: github_commit
-    repo: Neraud/release-watcher
-    branch: master
-    commit: {{ release_watcher.repo.version }}
-  - type: github_commit
-    repo: mdlayher/apcupsd_exporter
-    branch: master
-    commit: {{ apcups_exporter.repo.version }}
   - type: github_commit
     repo: spotify/docker-gc
     branch: master
@@ -463,6 +456,14 @@ watchers:
   #    - .*(alpha|beta|rc).*
   #    - ^v0\.[0-9]\..*
   #    - ^v0\.1[0-5]\..*
+  - type: github_commit
+    repo: Neraud/release-watcher
+    branch: master
+    commit: {{ release_watcher.repo.version }}
+  - type: github_commit
+    repo: mdlayher/apcupsd_exporter
+    branch: master
+    commit: {{ apcups_exporter.repo.version }}
 
 
   #################
