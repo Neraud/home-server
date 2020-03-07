@@ -1,7 +1,7 @@
 ---
 common:
   box_name: debian/contrib-buster64
-  box_version: 10.0.0
+  box_version: 10.3.0
   # Name of the storage controller to add the DATA disk.
   # To find the exact name, start the box a first time and look at the storage settings in VirtualBox
   sata_controller_name: "SATA Controller"
