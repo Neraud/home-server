@@ -70,7 +70,7 @@
 
 # On first start, OpenLdap restarts to run its setup process
 # So if the first wait task has waited, we make sure it's really still up a few seconds later
-- name:
+- name: Wait a bit ...
   pause:
     seconds: 10
   when: k8s_result.attempts > 1
