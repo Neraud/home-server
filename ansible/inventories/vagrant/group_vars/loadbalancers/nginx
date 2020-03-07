@@ -188,22 +188,6 @@ nginx_sites:
         proxy_enable_websocket: True
         lemonLdap_protected: True
 
-  - name: streams-plex
-    enabled_name: 410-stream-plex
-    server_name: "plex.{{ web_base_domain }}"
-    http_port: 80
-    https_port: 443
-    https_cert:
-      mode: file
-      cert_path: "{{ custom_ssl_pki_root_dir }}/web/plex.{{ web_base_domain }}/server.crt"
-      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/plex.{{ web_base_domain }}/server.key"
-    force_http_to_https: True
-    disable_robots: True
-    locations:
-      - path: /
-        proxy_pass: https://kubernetes-https-ingress
-        proxy_enable_websocket: True
-
   - name: dev
     enabled_name: 500-dev
     server_name: "dev.{{ web_base_domain }}"

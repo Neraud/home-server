@@ -1,6 +1,0 @@
----
-
-- name: Provision stream-plex
-  hosts: controller
-  roles:
-  - role: stream-plex.deploy

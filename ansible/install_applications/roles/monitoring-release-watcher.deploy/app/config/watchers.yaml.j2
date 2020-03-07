@@ -475,15 +475,6 @@ watchers:
       - .*-RELEASE
     excludes:
       - 10\.[0-3]\.
-  - type: docker_registry
-    repo: {{ plex.base_image.repo | default('registry-1.docker.io') }}
-    image: {{ plex.base_image.name }}
-    tag: {{ plex.base_image.tag }}
-    includes:
-      - "[0-9]+\\.[0-9]+\\.[0-9]+\\..*"
-    excludes:
-      - 1\.[0-9]\.
-      - 1\.1[0-5]\.
   
   ##############
   # Apps : Web #

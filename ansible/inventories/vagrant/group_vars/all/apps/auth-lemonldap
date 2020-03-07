@@ -37,8 +37,6 @@ lemonldap_location_rules:
         rule: skip
   - domain: "stream.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'stream')
-  - domain: "plex.{{ web_base_domain }}"
-    default_rule: skip
   - domain: "dev.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'dev')
     rules:

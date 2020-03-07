@@ -68,7 +68,6 @@ The folowing services are deployed :
 | [TT-RSS](https://tt-rss.org/)                                    | News feed (RSS/Atom) reader and aggregator             |
 | [Homer](https://github.com/bastienwirtz/homer)                   | A very simple static homepage for your server          |
 | [Gitlab](https://about.gitlab.com/)                              | Source code management and CI/CD                       |
-| [Plex](https://www.plex.tv/)                                     | Video streaming                                        |
 | [Airsonic](https://airsonic.github.io/)                          | Music streaming                                        |
 | [Sickchill](https://sickchill.github.io/)                        | Automatic Video Library Manager for TV Shows.          |
 | [Deluge](https://deluge-torrent.org/)                            | Torrent client                                         |

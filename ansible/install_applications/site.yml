@@ -132,10 +132,6 @@
   tags: kubernetes-app-stream-airsonic
   when: airsonic_enabled | bool
 
-#- import_playbook: app-stream-plex.yml
-#  tags: kubernetes-app-stream-plex
-#  when: plex_enabled | bool
-
 - import_playbook: app-dev-gitlab.yml
   tags: kubernetes-app-dev-gitlab
   when: gitlab_enabled | bool
