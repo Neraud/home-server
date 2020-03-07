@@ -475,6 +475,14 @@ watchers:
       - .*-RELEASE
     excludes:
       - 10\.[0-3]\.
+  - type: docker_registry
+    repo: {{ jellyfin.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ jellyfin.base_image.name }}
+    tag: {{ jellyfin.base_image.tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
+    excludes:
+      - ^10\.[0-3]\..*
   
   ##############
   # Apps : Web #
