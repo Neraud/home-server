@@ -52,7 +52,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ gitlab.context_path }}-/readiness
+            path: {{ gitlab.context_path }}/-/readiness
             port: gitlab
           initialDelaySeconds: 15
           periodSeconds: 5
