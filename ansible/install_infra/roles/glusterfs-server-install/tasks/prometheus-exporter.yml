@@ -26,7 +26,7 @@
   git:
     repo: https://github.com/gluster/gluster-prometheus.git
     dest: "{{ gluster_prometheus_exporter_go_path }}/src/github.com/gluster/gluster-prometheus"
-    version: 0d3c2f14b1fc239863c73e733be3c97712abebf1
+    version: 97c41e63b47e0fac9d968bc62897d674e3171b67
   register: clone_gluster_prometheus_result
 
 - name: Make Gluster Prometheus Exporter
