@@ -297,15 +297,17 @@ watchers:
     type: github_tag
     repo: {{ zonemta.repo.name }}
     tag : {{ zonemta.repo.release }}
+    includes:
+      - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
-      - ^v1\.1[0-5]\.
+      - ^v1\.1[0-7]\.
   - name: "ZoneMTA Redis"
     type: docker_registry
     repo: {{ zonemta_redis.base_image.repo | default('registry-1.docker.io') }}
     image: {{ zonemta_redis.base_image.name }}
     tag: {{ zonemta_redis.base_image.tag }}
     includes:
-      - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9]+"
+      - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: {{ zonemta_mongo.base_image.repo | default('registry-1.docker.io') }}
@@ -314,17 +316,17 @@ watchers:
     includes:
       - 4\.[0-9]+.[0-9]+-bionic
     excludes:
-      - 4\.0\..*
+      - 4\.[0-1]\..*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: {{ zonemta.base_image.repo | default('registry-1.docker.io') }}
     image: {{ zonemta.base_image.name }}
     tag: {{ zonemta.base_image.tag }}
     includes:
-      - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\\.[0-9]+"
+      - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\\.[0-9][0-9]"
     excludes:
       - 12\.[0-9]\..*
-      - 12\.1[0-2]\..*
+      - 12\.1[0-5]\..*
   
   ##################
   # Apps : Logging #
@@ -548,5 +550,3 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^11\.[0-9]+(\.[0-9]+)?-alpine
-
-  
