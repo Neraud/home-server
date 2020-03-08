@@ -2,27 +2,28 @@
 
 roomassistant_enabled: true
 
-# See https://github.com/mKeRix/room-assistant/wiki/Configuration
-roomassistant_environment_variables:
-  SERVICES: mqtt,shell
-  ROOM: example-room
-  AUTO_DISCOVERY: true
-  MQTT_URL: "mqtt://{{ mosquitto.servername }}"
-  MQTT_USERNAME: user
-  MQTT_PASSWORD: Passw0rd
-  MQTT_REJECT_UNAUTHORIZED: true
-  SHELL_COMMANDS: >
-    [
-      {
-        \"channel\": \"example-script\",
-        \"command\": \"echo $(($RANDOM%100))\",
-        \"cron\": \"*/30 * * * * *\",
-        \"number\": true,
-        \"discoveryType\": \"sensor\",
-        \"discoveryConfig\": {
-          \"name\": \"Test RoomAssistant\",
-          \"unit_of_measurement\": \"%\",
-          \"value_template\": \"{{ '{{' }} value_json.value {{ '}}' }}\"
-        }
-      }
-    ]
+roomassistant_config_instance_name: 'example-room'
+
+# See https://www.room-assistant.io/integrations/home-assistant.html#settings
+#roomassistant_config_integrations_homeassistant: 
+#  mqttUrl: mqtt://hassio.local:1883
+#  mqttOptions:
+#    username: youruser
+#    password: yourpass
+
+# See https://www.room-assistant.io/integrations/bluetooth-low-energy.html#settings
+#roomassistant_config_integrations_ble: 
+#  whitelist:
+#    - 77-50-fb-4d-ab-70
+#    - 2f234454cf6d4a0fadf2f4911ba9ffa6-1-2
+#  timeout: 5
+#  maxDistance: 7
+
+# See https://www.room-assistant.io/integrations/shell.html#settings
+#roomassistant_config_integrations_shell: 
+#  sensors:
+#    - name: Random
+#      command: 'echo $(($RANDOM%100))'
+#      cron: '*/30 * * * * *'
+#      icon: mdi:dice-3-outline
+#      unitOfMeasurement: '%'
