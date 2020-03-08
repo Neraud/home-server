@@ -42,6 +42,10 @@ data:
           "type": "portmap",
           "snat": true,
           "capabilities": {"portMappings": true}
+        },
+        {
+          "type": "bandwidth",
+          "capabilities": {"bandwidth": true}
         }
       ]
     }
@@ -61,6 +65,7 @@ spec:
     plural: felixconfigurations
     singular: felixconfiguration
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -75,6 +80,7 @@ spec:
     singular: ipamblock
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -89,6 +95,7 @@ spec:
     singular: blockaffinity
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -103,6 +110,7 @@ spec:
     singular: ipamhandle
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -117,6 +125,7 @@ spec:
     singular: ipamconfig
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -131,6 +140,7 @@ spec:
     singular: bgppeer
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -145,6 +155,7 @@ spec:
     singular: bgpconfiguration
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -159,6 +170,7 @@ spec:
     singular: ippool
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -173,6 +185,7 @@ spec:
     singular: hostendpoint
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -187,6 +200,7 @@ spec:
     singular: clusterinformation
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -201,6 +215,7 @@ spec:
     singular: globalnetworkpolicy
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -215,6 +230,7 @@ spec:
     singular: globalnetworkset
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -229,6 +245,7 @@ spec:
     singular: networkpolicy
 
 ---
+
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
@@ -300,9 +317,9 @@ roleRef:
   kind: ClusterRole
   name: calico-kube-controllers
 subjects:
-  - kind: ServiceAccount
-    name: calico-kube-controllers
-    namespace: kube-system
+- kind: ServiceAccount
+  name: calico-kube-controllers
+  namespace: kube-system
 ---
 # Include a clusterrole for the calico-node DaemonSet,
 # and bind it to the calico-node serviceaccount.
@@ -328,6 +345,12 @@ rules:
       - watch
       - list
       # Used to discover Typhas.
+      - get
+  # Pod CIDR auto-detection on kubeadm needs access to config maps.
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs:
       - get
   - apiGroups: [""]
     resources:
@@ -436,6 +459,7 @@ rules:
       - daemonsets
     verbs:
       - get
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -446,9 +470,9 @@ roleRef:
   kind: ClusterRole
   name: calico-node
 subjects:
-  - kind: ServiceAccount
-    name: calico-node
-    namespace: kube-system
+- kind: ServiceAccount
+  name: calico-node
+  namespace: kube-system
 
 ---
 # Source: calico/templates/calico-node.yaml
@@ -479,10 +503,10 @@ spec:
         # marks the pod as a critical add-on, ensuring it gets
         # priority scheduling and that its resources are reserved
         # if it ever gets evicted.
-        scheduler.alpha.kubernetes.io/critical-pod: ""
+        scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
       hostNetwork: true
       tolerations:
         # Make sure calico-node gets scheduled on all nodes.
@@ -503,7 +527,7 @@ spec:
         # It can be deleted if this is a fresh installation, or if you have already
         # upgraded to use calico-ipam.
         - name: upgrade-ipam
-          image: calico/cni:v3.9.1
+          image: calico/cni:v3.13.0
           command: ["/opt/cni/bin/calico-ipam", "-upgrade"]
           env:
             - name: KUBERNETES_NODE_NAME
@@ -520,10 +544,12 @@ spec:
               name: host-local-net-dir
             - mountPath: /host/opt/cni/bin
               name: cni-bin-dir
+          securityContext:
+            privileged: true
         # This container installs the CNI binaries
         # and CNI network config file on each node.
         - name: install-cni
-          image: calico/cni:v3.9.1
+          image: calico/cni:v3.13.0
           command: ["/install-cni.sh"]
           env:
             # Name of the CNI config file to create.
@@ -554,19 +580,23 @@ spec:
               name: cni-bin-dir
             - mountPath: /host/etc/cni/net.d
               name: cni-net-dir
+          securityContext:
+            privileged: true
         # Adds a Flex Volume Driver that creates a per-pod Unix Domain Socket to allow Dikastes
         # to communicate with Felix over the Policy Sync API.
         - name: flexvol-driver
-          image: calico/pod2daemon-flexvol:v3.9.1
+          image: calico/pod2daemon-flexvol:v3.13.0
           volumeMounts:
-            - name: flexvol-driver-host
-              mountPath: /host/driver
+          - name: flexvol-driver-host
+            mountPath: /host/driver
+          securityContext:
+            privileged: true
       containers:
         # Runs calico-node container on each Kubernetes node.  This
         # container programs network policy and routes on each
         # host.
         - name: calico-node
-          image: calico/node:v3.9.1
+          image: calico/node:v3.13.0
           env:
             # Use Kubernetes API as the backing datastore.
             - name: DATASTORE_TYPE
@@ -627,17 +657,18 @@ spec:
           livenessProbe:
             exec:
               command:
-                - /bin/calico-node
-                - -felix-live
+              - /bin/calico-node
+              - -felix-live
+              - -bird-live
             periodSeconds: 10
             initialDelaySeconds: 10
             failureThreshold: 6
           readinessProbe:
             exec:
               command:
-                - /bin/calico-node
-                - -felix-ready
-                - -bird-ready
+              - /bin/calico-node
+              - -felix-ready
+              - -bird-ready
             periodSeconds: 10
           volumeMounts:
             - mountPath: /lib/modules
@@ -693,6 +724,7 @@ spec:
             type: DirectoryOrCreate
             path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec/nodeagent~uds
 ---
+
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -725,10 +757,10 @@ spec:
       labels:
         app.kubernetes.io/name: calico-kube-controllers
       annotations:
-        scheduler.alpha.kubernetes.io/critical-pod: ""
+        scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
       tolerations:
         # Mark the pod as a critical add-on for rescheduling.
         - key: CriticalAddonsOnly
@@ -739,7 +771,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
         - name: calico-kube-controllers
-          image: calico/kube-controllers:v3.9.1
+          image: calico/kube-controllers:v3.13.0
           env:
             # Choose which controllers to run.
             - name: ENABLED_CONTROLLERS
@@ -749,12 +781,23 @@ spec:
           readinessProbe:
             exec:
               command:
-                - /usr/bin/check-status
-                - -r
+              - /usr/bin/check-status
+              - -r
 
 ---
+
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: calico-kube-controllers
   namespace: kube-system
+---
+# Source: calico/templates/calico-etcd-secrets.yaml
+
+---
+# Source: calico/templates/calico-typha.yaml
+
+---
+# Source: calico/templates/configure-canal.yaml
+
+

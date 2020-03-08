@@ -6,6 +6,8 @@ metadata:
   labels:
     {{ roomassistant.labels_def | to_nice_yaml() | indent(4) }}
     {{ roomassistant.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
@@ -23,13 +25,6 @@ spec:
       - name: roomassistant
         image: "{{ roomassistant.container.image }}"
         imagePullPolicy: Always
-{% if roomassistant.environment_variables | default({}) | length > 0 %}
-        env:
-{% for env_var in roomassistant.environment_variables | dict2items %}
-        - name: "{{ env_var.key }}"
-          value: "{{ env_var.value }}"
-{% endfor %}
-{% endif %}
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000 # node
@@ -45,9 +40,14 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
+        - name: roomassistant-config
+          mountPath: /room-assistant/config
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: roomassistant-config
+        configMap:
+          name: roomassistant-config
       nodeSelector:
         capability/home: 'yes'

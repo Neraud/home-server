@@ -24,7 +24,7 @@
   become_user: "{{ kubernetes_user.name }}"
 
 - name: Wait for Docker registry to be available
-  k8s_facts:
+  k8s_info:
     kind: StatefulSet
     namespace: "{{ docker_registry.namespace }}"
     name: docker-registry

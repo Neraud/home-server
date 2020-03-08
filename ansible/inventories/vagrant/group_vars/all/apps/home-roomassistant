@@ -1,0 +1,15 @@
+---
+roomassistant_config_integrations_homeassistant:
+  mqttUrl: mqtt://{{ mosquitto.servername }}
+  mqttOptions:
+    username: user
+    password: Passw0rd
+
+# See https://www.room-assistant.io/integrations/shell.html#settings
+roomassistant_config_integrations_shell:
+  sensors:
+    - name: Random
+      command: "echo $(($RANDOM%100))"
+      cron: "*/30 * * * * *"
+      icon: mdi:dice-3-outline
+      unitOfMeasurement: "%"

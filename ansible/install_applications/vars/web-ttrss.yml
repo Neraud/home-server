@@ -4,9 +4,9 @@
 _ttrss_var_loader:
   base_image:
     name: "php"
-    tag: "7.4.1-apache-buster"
-  commit: 040dfc71fc
-  full_commit: 040dfc71fc969fa4a8e8cc9b9cadf5d3b231990b
+    tag: "7.4.3-apache-buster"
+  commit: da926067ab
+  full_commit: da926067abf2645ed3ac24add2354a2c52ea4964
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -42,7 +42,7 @@ ttrss:
 
   plugins:
     auth_ldap:
-      commit: 52e452cc97b5101dc6d9e911462fe5e161197930
+      commit: 6f4fc14589c0d6f13a419d1628fbb902929fe8b5
     mailer_smtp:
       commit: eebc18f00e
 
@@ -69,7 +69,7 @@ ttrss:
 _ttrss_pgsql_var_loader:
   base_image:
     name: "postgres"
-    tag: "11.5-alpine"
+    tag: "11.7-alpine"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"

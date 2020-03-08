@@ -4,7 +4,7 @@
 _roomassistant_var_loader:
   base_image:
     name: "mkerix/room-assistant"
-    tag: "1.1.1"
+    tag: "2.1.1"
 
 roomassistant:
   enabled: "{{ roomassistant_enabled | default(True) }}"
@@ -26,4 +26,9 @@ roomassistant:
     limits_cpu: "{{ roomassistant_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ roomassistant_container_limits_memory | default('256Mi') }}"
 
-  environment_variables: "{{ roomassistant_environment_variables | default({}) }}"
+  config:
+    instance_name: "{{ roomassistant_config_instance_name | default('roomassistant') }}"
+    integrations:
+      homeassistant: "{{ roomassistant_config_integrations_homeassistant | default({}) }}"
+      ble: "{{ roomassistant_config_integrations_ble | default({}) }}"
+      shell: "{{ roomassistant_config_integrations_shell | default({}) }}"

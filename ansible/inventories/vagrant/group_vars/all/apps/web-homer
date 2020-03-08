@@ -65,6 +65,8 @@ homer_images_to_download:
 
   - name: airsonic.png
     source: https://raw.githubusercontent.com/airsonic/airsonic/master/airsonic-main/src/main/webapp/icons/default_dark/logo_light.png
+  - name: jellyfin.svg
+    source: https://jellyfin.org/images/banner-dark.svg
 
 # First level array represent a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
@@ -196,4 +198,9 @@ homer_config_services:
         logo: "assets/download/airsonic.png"
         url: "https://stream.{{ web_base_domain }}/airsonic/"
         subtitle: "Music streaming"
+        target: "_blank"
+      - name: "Jellyfin"
+        logo: "assets/download/jellyfin.svg"
+        url: "https://stream.{{ web_base_domain }}/jellyfin/"
+        subtitle: "Media streaming"
         target: "_blank"

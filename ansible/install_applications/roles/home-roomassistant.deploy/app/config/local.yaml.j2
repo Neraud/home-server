@@ -1,0 +1,32 @@
+# {{ ansible_managed }}
+
+global:
+  instanceName: {{ roomassistant.config.instance_name }}
+  integrations:
+{% if roomassistant.config.integrations.homeassistant %}
+    - homeAssistant
+{% endif %}
+{% if roomassistant.config.integrations.ble %}
+    - bluetoothLowEnergy
+{% endif %}
+{% if roomassistant.config.integrations.shell %}
+    - shell
+{% endif %}
+
+cluster:
+  autoDiscovery: False
+
+{% if roomassistant.config.integrations.homeassistant %}
+homeAssistant:
+  {{ roomassistant.config.integrations.homeassistant | to_nice_yaml() | indent(2) }}
+{% endif %}
+
+{% if roomassistant.config.integrations.ble %}
+bluetoothLowEnergy:
+  {{ roomassistant.config.integrations.ble | to_nice_yaml() | indent(2) }}
+{% endif %}
+
+{% if roomassistant.config.integrations.shell %}
+shell:
+  {{ roomassistant.config.integrations.shell | to_nice_yaml() | indent(2) }}
+{% endif %}

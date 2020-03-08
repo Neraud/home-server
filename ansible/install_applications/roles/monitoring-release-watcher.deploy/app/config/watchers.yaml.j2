@@ -5,23 +5,16 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 2.8.5
+    version: 2.9.6
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
-      - .*2\.[0-7]\..*$
-  
+      - .*2\.[0-8]\..*$
+
+
   #################################
   # Installed by ansible on hosts #
   #################################
-  - type: github_commit
-    repo: Neraud/release-watcher
-    branch: master
-    commit: {{ release_watcher.repo.version }}
-  - type: github_commit
-    repo: mdlayher/apcupsd_exporter
-    branch: master
-    commit: {{ apcups_exporter.repo.version }}
   - type: github_commit
     repo: spotify/docker-gc
     branch: master
@@ -29,7 +22,7 @@ watchers:
   - type: github_commit
     repo: gluster/gluster-prometheus
     branch: master
-    commit: 0d3c2f14b1fc239863c73e733be3c97712abebf1
+    commit: 97c41e63b47e0fac9d968bc62897d674e3171b67
   
 
   ########
@@ -52,7 +45,10 @@ watchers:
   - type: github_commit
     repo: coreos/flannel
     branch: master
-    commit: 862c448ef28fd890e2ac4e5fddc49e7fe9693b31
+    commit: 960b3243b9a7faccdfe7b3c09097105e68030ea7
+  - type: github_release
+    repo: projectcalico/calico
+    release: v3.13.0
 
 
   ###############
@@ -168,8 +164,7 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
-      - 0\.[0-8].*
-      - 0\.9[0-7].*
+      - 0\.[0-9][0-9]\.*
       - .*dev
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
@@ -212,7 +207,7 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - .*arm32
-      - 0\..*
+      - ^[0-1]\..*
 
   ################
   # Apps : Infra #
@@ -226,8 +221,9 @@ watchers:
   - type: github_release
     repo: kubernetes/dashboard
     release: {{ kubernetes_dashboard.base_image.tag }}
-#    excludes:
-#      - .*beta.*
+    excludes:
+      - .*beta.*
+#      - .*rc.*
   - type: docker_registry
     repo: {{ docker_registry_ui.base_image.repo | default('registry-1.docker.io') }}
     image: {{ docker_registry_ui.base_image.name }}
@@ -235,7 +231,7 @@ watchers:
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
-      - 0\.[0-7]\.
+      - 0\.[0-8]\.
   - type: docker_registry
     repo: {{ gotify.base_image.repo | default('registry-1.docker.io') }}
     image: {{ gotify.base_image.name }}
@@ -246,12 +242,12 @@ watchers:
       - 1\..*
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: nginx-0.26.1
+    release: nginx-0.30.0
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
   #- type: docker_registry
   #  repo: quay.io
   #  image: kubernetes-ingress-controller/nginx-ingress-controller
-  #  tag: 0.26.1
+  #  tag: 0.30.0
   #  excludes:
   #    - .*(alpha|beta).*
   #    - 0\.[0-9]\.
@@ -284,7 +280,7 @@ watchers:
       - .*SNAPSHOT.*
       - ^PR-.*
       - dev
-      - v0\.0\.[0-2]?[0-9]$
+      - v0\.0\.[0-4]?[0-9]$
   - type: docker_registry
     repo: {{ unifi.base_image.repo | default('registry-1.docker.io') }}
     image: {{ unifi.base_image.name }}
@@ -300,15 +296,17 @@ watchers:
     type: github_tag
     repo: {{ zonemta.repo.name }}
     tag : {{ zonemta.repo.release }}
+    includes:
+      - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
-      - ^v1\.1[0-5]\.
+      - ^v1\.1[0-7]\.
   - name: "ZoneMTA Redis"
     type: docker_registry
     repo: {{ zonemta_redis.base_image.repo | default('registry-1.docker.io') }}
     image: {{ zonemta_redis.base_image.name }}
     tag: {{ zonemta_redis.base_image.tag }}
     includes:
-      - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9]+"
+      - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: {{ zonemta_mongo.base_image.repo | default('registry-1.docker.io') }}
@@ -317,17 +315,17 @@ watchers:
     includes:
       - 4\.[0-9]+.[0-9]+-bionic
     excludes:
-      - 4\.0\..*
+      - 4\.[0-1]\..*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: {{ zonemta.base_image.repo | default('registry-1.docker.io') }}
     image: {{ zonemta.base_image.name }}
     tag: {{ zonemta.base_image.tag }}
     includes:
-      - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\\.[0-9]+"
+      - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\\.[0-9][0-9]"
     excludes:
       - 12\.[0-9]\..*
-      - 12\.1[0-2]\..*
+      - 12\.1[0-5]\..*
   
   ##################
   # Apps : Logging #
@@ -339,6 +337,7 @@ watchers:
     excludes:
       - latest
       - ^0\..*
+      - ^1\.[0-3]\..*
   - type: docker_registry
     repo: {{ elasticsearch_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ elasticsearch_exporter.base_image.name }}
@@ -357,7 +356,7 @@ watchers:
     excludes:
       - .*debug.*
       - ^0\.
-      - 1\.0\..*
+      - 1\.[0-2]\..*
   - type: docker_registry
     repo: {{ fluentd.base_image.repo | default('registry-1.docker.io') }}
     image: {{ fluentd.base_image.name }}
@@ -366,7 +365,7 @@ watchers:
       - v[1-9]\.[0-9]+\.[0-9]+.*debian.*
     excludes:
       - .*(armhf|arm64).*
-      - v1\.[0-4]\..*
+      - v1\.[0-8]\..*
   - type: docker_registry
     repo: {{ kibana.base_image.repo | default('registry-1.docker.io') }}
     image: {{ kibana.base_image.name }}
@@ -374,6 +373,7 @@ watchers:
     excludes:
       - latest
       - ^0\..*
+      - ^1\.[0-3]\..*
   
   #####################
   # Apps : Monitoring #
@@ -400,14 +400,18 @@ watchers:
     repo: {{ nginx_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ nginx_exporter.base_image.name }}
     tag: {{ nginx_exporter.base_image.tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+.[0-9]+
     excludes:
-      - ^0\.[0-3]\..*
+      - ^0\.[0-5]\..*
   - type: docker_registry
     repo: {{ nginx_log_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ nginx_log_exporter.base_image.name }}
     tag: {{ nginx_log_exporter.base_image.tag }}
+    includes:
+      - ^v[0-9]+\.[0-9]+.[0-9]+
     excludes:
-      - latest
+      - ^v1\.[0-3]\..*
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
@@ -463,6 +467,14 @@ watchers:
   #    - .*(alpha|beta|rc).*
   #    - ^v0\.[0-9]\..*
   #    - ^v0\.1[0-5]\..*
+  - type: github_commit
+    repo: Neraud/release-watcher
+    branch: master
+    commit: {{ release_watcher.repo.version }}
+  - type: github_commit
+    repo: mdlayher/apcupsd_exporter
+    branch: master
+    commit: {{ apcups_exporter.repo.version }}
 
 
   #################
@@ -510,7 +522,9 @@ watchers:
     image: {{ ttrss.base_image.name }}
     tag: {{ ttrss.base_image.tag }}
     includes:
-      - '[0-9]+\.[0-9]+.[0-9]+-apache-buster'
+      - '[7-9]+\.[0-9]+.[0-9]+-apache-buster'
+    excludes:
+      - 7\.[0-3]\..*
   - name: TT-RSS
     type: raw_html
     page_url: https://git.tt-rss.org/fox/tt-rss/commits/master
@@ -543,5 +557,3 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^11\.[0-9]+(\.[0-9]+)?-alpine
-
-  

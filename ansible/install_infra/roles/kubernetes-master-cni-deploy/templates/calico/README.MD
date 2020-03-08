@@ -1,1 +1,1 @@
-https://docs.projectcalico.org/v3.9/getting-started/kubernetes/installation/calico
+See https://docs.projectcalico.org/manifests/calico.yaml

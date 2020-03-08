@@ -43,7 +43,7 @@
   become_user: "{{ kubernetes_user.name }}"
 
 - name: Fetch OpenLDAP internal endpoint
-  k8s_facts:
+  k8s_info:
     api_version: v1
     kind: Service
     name: openldap
@@ -57,7 +57,7 @@
     openldap_internal_uri: "ldap://{{ openldap_service.resources[0].spec.clusterIP }}"
 
 - name: Wait for OpenLDAP to be available
-  k8s_facts:
+  k8s_info:
     kind: StatefulSet
     namespace: "{{ openldap.namespace }}"
     name: openldap
@@ -70,13 +70,13 @@
 
 # On first start, OpenLdap restarts to run its setup process
 # So if the first wait task has waited, we make sure it's really still up a few seconds later
-- name:
+- name: Wait a bit ...
   pause:
     seconds: 10
   when: k8s_result.attempts > 1
 
 - name: Wait for OpenLDAP to be available
-  k8s_facts:
+  k8s_info:
     kind: StatefulSet
     namespace: "{{ openldap.namespace }}"
     name: openldap

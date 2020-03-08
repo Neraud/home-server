@@ -1,7 +1,7 @@
 ---
 
 - name: Wait for EasticSearch to be available
-  k8s_facts:
+  k8s_info:
     kind: StatefulSet
     namespace: "{{ elasticsearch.namespace }}"
     name: elasticsearch
@@ -15,14 +15,14 @@
 
 # On first start, EasticSearch restarts to run its setup process
 # So if the first wait task has waited, we make sure it's really still up a few seconds later
-- name:
+- name: Wait a bit ...
   pause:
     seconds: 10
   when: k8s_result.attempts > 1
   listen: "Reconfigure Elasticsearch security"
 
 - name: Wait for EasticSearch to be available
-  k8s_facts:
+  k8s_info:
     kind: StatefulSet
     namespace: "{{ elasticsearch.namespace }}"
     name: elasticsearch
