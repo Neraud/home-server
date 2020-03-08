@@ -366,7 +366,7 @@ watchers:
       - v[1-9]\.[0-9]+\.[0-9]+.*debian.*
     excludes:
       - .*(armhf|arm64).*
-      - v1\.[0-4]\..*
+      - v1\.[0-8]\..*
   - type: docker_registry
     repo: {{ kibana.base_image.repo | default('registry-1.docker.io') }}
     image: {{ kibana.base_image.name }}
