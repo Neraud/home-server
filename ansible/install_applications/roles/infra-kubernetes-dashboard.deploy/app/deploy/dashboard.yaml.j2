@@ -213,12 +213,6 @@ spec:
             # If not specified, Dashboard will attempt to auto discover the API server and connect
             # to it. Uncomment only if the default does not work.
             # - --apiserver-host=http://my-address:port
-          securityContext:
-            allowPrivilegeEscalation: false
-            runAsNonRoot: true
-            runAsUser: 1001
-            runAsGroup: 2001
-            readOnlyRootFilesystem: true
           resources:
             requests:
               cpu: "{{ kubernetes_dashboard.container.requests_cpu }}"
@@ -244,6 +238,12 @@ spec:
               port: https
             initialDelaySeconds: 30
             timeoutSeconds: 30
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            runAsUser: 1001
+            runAsGroup: 2001
       volumes:
         - name: kubernetes-dashboard-certs
           secret:
@@ -297,6 +297,8 @@ spec:
       labels:
         {{ kubernetes_dashboard_metrics_scraper.labels_def | to_nice_yaml() | indent(8) }}
         {{ kubernetes_dashboard_metrics_scraper.labels_desc | to_nice_yaml() | indent(8) }}
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'runtime/default'
     spec:
       containers:
         - name: dashboard-metrics-scraper
@@ -306,12 +308,6 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
-          securityContext:
-            allowPrivilegeEscalation: false
-            runAsNonRoot: true
-            runAsUser: 1001
-            runAsGroup: 2001
-            readOnlyRootFilesystem: true
           resources:
             requests:
               cpu: "{{ kubernetes_dashboard_metrics_scraper.container.requests_cpu }}"
@@ -336,6 +332,12 @@ spec:
           volumeMounts:
           - mountPath: /tmp
             name: tmp-volume
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            runAsUser: 1001
+            runAsGroup: 2001
       serviceAccountName: kubernetes-dashboard
       nodeSelector:
         "beta.kubernetes.io/os": linux
