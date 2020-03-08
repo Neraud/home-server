@@ -357,7 +357,7 @@ watchers:
     excludes:
       - .*debug.*
       - ^0\.
-      - 1\.0\..*
+      - 1\.[0-2]\..*
   - type: docker_registry
     repo: {{ fluentd.base_image.repo | default('registry-1.docker.io') }}
     image: {{ fluentd.base_image.name }}
