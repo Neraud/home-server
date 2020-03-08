@@ -36,7 +36,7 @@
     mode: 0755
 
 - name: Wait for Kibana to be available
-  k8s_facts:
+  k8s_info:
     kind: Deployment
     namespace: "{{ kibana.namespace }}"
     name: kibana

@@ -1,7 +1,7 @@
 ---
 
 - name: Wait for EasticSearch to be available
-  k8s_facts:
+  k8s_info:
     kind: StatefulSet
     namespace: "{{ elasticsearch.namespace }}"
     name: elasticsearch
@@ -22,7 +22,7 @@
   listen: "Reconfigure Elasticsearch security"
 
 - name: Wait for EasticSearch to be available
-  k8s_facts:
+  k8s_info:
     kind: StatefulSet
     namespace: "{{ elasticsearch.namespace }}"
     name: elasticsearch
