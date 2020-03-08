@@ -400,8 +400,10 @@ watchers:
     repo: {{ nginx_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ nginx_exporter.base_image.name }}
     tag: {{ nginx_exporter.base_image.tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+.[0-9]+
     excludes:
-      - ^0\.[0-3]\..*
+      - ^0\.[0-5]\..*
   - type: docker_registry
     repo: {{ nginx_log_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ nginx_log_exporter.base_image.name }}
