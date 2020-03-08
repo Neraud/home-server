@@ -408,8 +408,10 @@ watchers:
     repo: {{ nginx_log_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ nginx_log_exporter.base_image.name }}
     tag: {{ nginx_log_exporter.base_image.tag }}
+    includes:
+      - ^v[0-9]+\.[0-9]+.[0-9]+
     excludes:
-      - latest
+      - ^v1\.[0-3]\..*
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
