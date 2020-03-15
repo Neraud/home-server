@@ -5,6 +5,15 @@ echo "Deleting Prometheus namespace"
 su user -c "kubectl delete namespace monitoring-prometheus"
 
 echo ""
+echo "Deleting the CRDs"
+su user -c "kubectl delete --ignore-not-found customresourcedefinitions \
+  prometheuses.monitoring.coreos.com \
+  servicemonitors.monitoring.coreos.com \
+  podmonitors.monitoring.coreos.com \
+  alertmanagers.monitoring.coreos.com \
+  prometheusrules.monitoring.coreos.com"
+
+echo ""
 echo "Release the PVs"
 su user -c "kubectl patch pv prometheus-k8s -p '{\"spec\":{\"claimRef\": null}}'"
 
