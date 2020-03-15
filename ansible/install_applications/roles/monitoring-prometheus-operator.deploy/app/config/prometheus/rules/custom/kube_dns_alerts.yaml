@@ -1,0 +1,10 @@
+- name: kube-dns
+  rules:
+    - alert: CorednsPanicCount
+      expr: increase(coredns_panic_count_total[10m]) > 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "CoreDNS Panic Count (instance {{ $labels.instance }})"
+        description: "Number of CoreDNS panics encountered\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"

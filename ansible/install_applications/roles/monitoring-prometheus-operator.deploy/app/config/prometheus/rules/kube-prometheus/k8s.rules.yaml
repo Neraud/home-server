@@ -1,0 +1,60 @@
+- name: k8s.rules
+  rules:
+    - expr: |
+        sum(rate(container_cpu_usage_seconds_total{job="kubelet", image!="", container!="POD"}[5m])) by (namespace)
+      record: "namespace:container_cpu_usage_seconds_total:sum_rate"
+    - expr: |
+        sum by (namespace, pod, container) (
+          rate(container_cpu_usage_seconds_total{job="kubelet", image!="", container!="POD"}[5m])
+        )
+      record: "namespace_pod_container:container_cpu_usage_seconds_total:sum_rate"
+    - expr: |
+        sum(container_memory_usage_bytes{job="kubelet", image!="", container!="POD"}) by (namespace)
+      record: "namespace:container_memory_usage_bytes:sum"
+    - expr: |
+        sum by (namespace, label_name) (
+            sum(kube_pod_container_resource_requests_memory_bytes{job="kube-state-metrics"} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~"^(Pending|Running)$"} == 1)) by (namespace, pod)
+          * on (namespace, pod)
+            group_left(label_name) kube_pod_labels{job="kube-state-metrics"}
+        )
+      record: "namespace:kube_pod_container_resource_requests_memory_bytes:sum"
+    - expr: |
+        sum by (namespace, label_name) (
+            sum(kube_pod_container_resource_requests_cpu_cores{job="kube-state-metrics"} * on (endpoint, instance, job, namespace, pod, service) group_left(phase) (kube_pod_status_phase{phase=~"^(Pending|Running)$"} == 1)) by (namespace, pod)
+          * on (namespace, pod)
+            group_left(label_name) kube_pod_labels{job="kube-state-metrics"}
+        )
+      record: "namespace:kube_pod_container_resource_requests_cpu_cores:sum"
+    - expr: |
+        sum(
+          label_replace(
+            label_replace(
+              kube_pod_owner{job="kube-state-metrics", owner_kind="ReplicaSet"},
+              "replicaset", "$1", "owner_name", "(.*)"
+            ) * on(replicaset, namespace) group_left(owner_name) kube_replicaset_owner{job="kube-state-metrics"},
+            "workload", "$1", "owner_name", "(.*)"
+          )
+        ) by (namespace, workload, pod)
+      labels:
+        workload_type: deployment
+      record: mixin_pod_workload
+    - expr: |
+        sum(
+          label_replace(
+            kube_pod_owner{job="kube-state-metrics", owner_kind="DaemonSet"},
+            "workload", "$1", "owner_name", "(.*)"
+          )
+        ) by (namespace, workload, pod)
+      labels:
+        workload_type: daemonset
+      record: mixin_pod_workload
+    - expr: |
+        sum(
+          label_replace(
+            kube_pod_owner{job="kube-state-metrics", owner_kind="StatefulSet"},
+            "workload", "$1", "owner_name", "(.*)"
+          )
+        ) by (namespace, workload, pod)
+      labels:
+        workload_type: statefulset
+      record: mixin_pod_workload

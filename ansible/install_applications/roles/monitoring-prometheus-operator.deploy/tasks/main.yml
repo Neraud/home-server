@@ -65,6 +65,30 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+- name: List Prometheus rules files from custom
+  set_fact:
+    prometheus_rules_custom: "{{ prometheus_rules_custom | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/prometheus/rules/custom/*"
+
+- name: List Prometheus rules files from gluster-mixin
+  set_fact:
+    prometheus_rules_gluster_mixin: "{{ prometheus_rules_gluster_mixin | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/prometheus/rules/gluster-mixin/*"
+
+- name: List Prometheus rules files from kube-prometheus
+  set_fact:
+    prometheus_rules_kube_prometheus: "{{ prometheus_rules_kube_prometheus | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/prometheus/rules/kube-prometheus/*"
+
+- name: List Prometheus rules files from node-mixin
+  set_fact:
+    prometheus_rules_node_mixin: "{{ prometheus_rules_node_mixin | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/prometheus/rules/node-mixin/*"
+
 - name: Deploy Prometheus Rules
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

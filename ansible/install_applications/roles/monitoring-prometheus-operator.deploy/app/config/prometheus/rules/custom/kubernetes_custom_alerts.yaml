@@ -1,19 +1,9 @@
-apiVersion: monitoring.coreos.com/v1
-kind: PrometheusRule
-metadata:
-  name: kubernetes-custom-alerts
-  labels:
-    {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
-    {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
-    role: alert-rules
-spec:
-{% raw %}
-  groups:
-  - name: kubernetes-custom-storage
-    rules:
+- name: kubernetes-custom-storage
+  rules:
     - alert: KubePersistentVolumeUsageWarning
       annotations:
-        message: The PersistentVolume claimed by {{ $labels.persistentvolumeclaim
+        message:
+          The PersistentVolume claimed by {{ $labels.persistentvolumeclaim
           }} in Namespace {{ $labels.namespace }} is only {{ printf "%0.2f" $value
           }}% free.
       expr: |
@@ -26,7 +16,8 @@ spec:
         severity: warning
     - alert: KubePersistentVolumeFullInTwoWeeks
       annotations:
-        message: Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim
+        message:
+          Based on recent sampling, the PersistentVolume claimed by {{ $labels.persistentvolumeclaim
           }} in Namespace {{ $labels.namespace }} is expected to fill up within 2
           weeks. Currently {{ printf "%0.2f" $value }}% is available.
       expr: |
@@ -40,4 +31,3 @@ spec:
       for: 5m
       labels:
         severity: warning
-{% endraw %}
