@@ -17,7 +17,7 @@ cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0prometheusCustomRes
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0prometheusruleCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusruleCustomResourceDefinition.yaml
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0servicemonitorCustomResourceDefinition.yaml $OPERATOR_ROOT/servicemonitorCustomResourceDefinition.yaml
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-clusterRoleBinding.yaml $OPERATOR_ROOT/clusterRoleBinding.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-clusterRole.yaml $OPERATOR_ROOT/clusterRole.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-clusterRole.yaml $OPERATOR_ROOT/clusterRole.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-deployment.yaml $OPERATOR_ROOT/deployment.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-serviceAccount.yaml $OPERATOR_ROOT/serviceAccount.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-service.yaml $OPERATOR_ROOT/service.yaml.j2
@@ -48,7 +48,7 @@ echo "Converting Kube state metrics"
 KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/monitoring-kube-state-metrics.deploy/app/deploy
 mkdir -p $KUBE_STATE_METRICS_ROOT
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-state-metrics-deployment.yaml $KUBE_STATE_METRICS_ROOT/deployment.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/serviceAccount.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/service.yaml.j2
@@ -57,7 +57,7 @@ echo "Converting NodeExporter"
 NODE_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring-node-exporter.deploy/app/deploy
 mkdir -p $NODE_EXPORTER_ROOT
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/clusterRole.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/clusterRole.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/node-exporter-daemonset.yaml $NODE_EXPORTER_ROOT/daemonSet.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/node-exporter-serviceAccount.yaml $NODE_EXPORTER_ROOT/serviceAccount.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/service.yaml.j2
@@ -66,7 +66,7 @@ echo "Converting Prometheus"
 PROMETHEUS_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/prometheus
 mkdir -p $PROMETHEUS_ROOT
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-clusterRoleBinding.yaml $PROMETHEUS_ROOT/clusterRoleBinding.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-clusterRole.yaml $PROMETHEUS_ROOT/clusterRole.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-clusterRole.yaml $PROMETHEUS_ROOT/clusterRole.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-prometheus.yaml $PROMETHEUS_ROOT/prometheus.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-roleBindingConfig.yaml $PROMETHEUS_ROOT/roleBindingConfig.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-roleConfig.yaml $PROMETHEUS_ROOT/roleConfig.yaml.j2
