@@ -72,6 +72,8 @@ cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-roleBindingConfig.yaml $PROMET
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-roleConfig.yaml $PROMETHEUS_ROOT/roleConfig.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-serviceAccount.yaml $PROMETHEUS_ROOT/serviceAccount.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-service.yaml $PROMETHEUS_ROOT/service.yaml.j2
+# Not really the same file, but the role inside should sort of match
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-roleSpecificNamespaces.yaml $PROMETHEUS_ROOT/clusterRole-allNamespaces.yaml.j2
 
 echo "Converting ServiceMonitors"
 SERVICE_MONITOR_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/service-monitors
