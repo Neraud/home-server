@@ -31,13 +31,17 @@ cp $OUT_GENERATED_ROOT/alertmanager-service.yaml $ALERTMANAGER_ROOT/service.yaml
 
 echo "Converting Grafana"
 GRAFANA_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/deploy
+GRAFANA_DASHBOARDS_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
 mkdir -p $GRAFANA_ROOT
+mkdir -p $GRAFANA_DASHBOARDS_ROOT
 cp $OUT_GENERATED_ROOT/grafana-dashboardDatasources.yaml $GRAFANA_ROOT/datasources-secret.yaml.j2
 cp $OUT_GENERATED_ROOT/grafana-dashboardDefinitions.yaml $GRAFANA_ROOT/dashboardProviders-configMap.yaml.j2
 cp $OUT_GENERATED_ROOT/grafana-dashboardSources.yaml $GRAFANA_ROOT/dashboards-configMap.yaml.j2
 cp $OUT_GENERATED_ROOT/grafana-deployment.yaml $GRAFANA_ROOT/statefulSet.yaml.j2
 cp $OUT_GENERATED_ROOT/grafana-serviceAccount.yaml $GRAFANA_ROOT/serviceAccount.yaml.j2
 cp $OUT_GENERATED_ROOT/grafana-service.yaml $GRAFANA_ROOT/service.yaml.j2
+echo "Extract dashboards"
+python3 extract_dashboards.py $GRAFANA_ROOT/dashboardProviders-configMap.yaml.j2 $GRAFANA_DASHBOARDS_ROOT
 
 echo "Converting Kube state metrics"
 KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/monitoring-kube-state-metrics.deploy/app/deploy

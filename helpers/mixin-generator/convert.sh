@@ -45,13 +45,14 @@ EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/kubernetes-mixin/prometheus_alerts.yml >>$KUBERNETES_ALERTS
 echo '{% endraw %}' >>$KUBERNETES_ALERTS
 
-echo "Converting Kubernetes Grafana dashboards"
-GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
-mkdir -p $GRAFANA_DASHBOARD_ROOT
-for file in $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/*.json; do
-  echo "Processing $file file.."
-  cat $file | sed -e 's/fakeCluster=\\"\$cluster\\", *//g' -e 's/, *fakeCluster=\\"\$cluster\\"}/}/g' -e 's/{fakeCluster=\\"\$cluster\\"}//g' >$GRAFANA_DASHBOARD_ROOT/$(basename $file)
-done
+# Dashboard are already included by kube-prometheus
+#echo "Converting Kubernetes Grafana dashboards"
+#GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
+#mkdir -p $GRAFANA_DASHBOARD_ROOT
+#for file in $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/*.json; do
+#  echo "Processing $file file.."
+#  cat $file | sed -e 's/fakeCluster=\\"\$cluster\\", *//g' -e 's/, *fakeCluster=\\"\$cluster\\"}/}/g' -e 's/{fakeCluster=\\"\$cluster\\"}//g' >$GRAFANA_DASHBOARD_ROOT/$(basename $file)
+#done
 
 echo "Converting NodeExporter Prometheus rules"
 NODE_EXPORTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/node_rules.yaml.j2
@@ -89,10 +90,11 @@ EOF
 sed 's/^/  /' $OUT_GENERATED_ROOT/node-mixin/prometheus_alerts.yml >>$NODE_EXPORTER_ALERTS
 echo '{% endraw %}' >>$NODE_EXPORTER_ALERTS
 
-echo "Converting NodeExporter Grafana dashboards"
-GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
-mkdir -p $GRAFANA_DASHBOARD_ROOT
-cp $OUT_GENERATED_ROOT/node-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
+# Dashboard are already included by kube-prometheus
+#echo "Converting NodeExporter Grafana dashboards"
+#GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
+#mkdir -p $GRAFANA_DASHBOARD_ROOT
+#cp $OUT_GENERATED_ROOT/node-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
 
 echo "Converting Gluster Prometheus rules"
 GLUSTER_RULES=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/rules/gluster_rules.yaml.j2

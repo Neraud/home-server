@@ -36,8 +36,9 @@ echo " - generating prometheus_alerts ..."
 jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' >/out/kubernetes-mixin/prometheus_alerts.yml
 echo " - generating prometheus_rules ..."
 jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' >/out/kubernetes-mixin/prometheus_rules.yml
-echo " - generating dashboards_out ..."
-jsonnet -J vendor -m /out/kubernetes-mixin/dashboards -e '(import "mixin.libsonnet").grafanaDashboards'
+# Dashboard are already included by kube-prometheus
+#echo " - generating dashboards_out ..."
+#jsonnet -J vendor -m /out/kubernetes-mixin/dashboards -e '(import "mixin.libsonnet").grafanaDashboards'
 
 echo "===================================================================================================="
 
@@ -65,8 +66,9 @@ echo " - generating prometheus_alerts ..."
 jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusAlerts)' >/out/node-mixin/prometheus_alerts.yml
 echo " - generating prometheus_rules ..."
 jsonnet -J vendor -S -e 'std.manifestYamlDoc((import "mixin.libsonnet").prometheusRules)' >/out/node-mixin/prometheus_rules.yml
-echo " - generating dashboards_out ..."
-jsonnet -J vendor -m /out/node-mixin/dashboards -e '(import "mixin.libsonnet").grafanaDashboards'
+# Dashboard are already included by kube-prometheus
+#echo " - generating dashboards_out ..."
+#jsonnet -J vendor -m /out/node-mixin/dashboards -e '(import "mixin.libsonnet").grafanaDashboards'
 
 echo "===================================================================================================="
 echo "Gluster mixin"
