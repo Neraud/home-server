@@ -86,3 +86,8 @@ cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubeControllerManager.yaml $SERV
 cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubelet.yaml $SERVICE_MONITOR_ROOT/kubelet.yaml.j2
 cp $OUT_GENERATED_ROOT/prometheus-serviceMonitorKubeScheduler.yaml $SERVICE_MONITOR_ROOT/kubeScheduler.yaml.j2
 cp $OUT_GENERATED_ROOT/prometheus-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus.yaml.j2
+
+echo "Convert PrometheusRules"
+PROMEHTEUS_RULES_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/config/prometheus/rules/kube-prometheus
+mkdir -p $PROMEHTEUS_RULES_ROOT
+python3 extract_rules.py $OUT_GENERATED_ROOT/prometheus-rules.yaml $PROMEHTEUS_RULES_ROOT
