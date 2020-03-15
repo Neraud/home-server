@@ -45,8 +45,6 @@ mkdir -p $KUBE_STATE_METRICS_ROOT
 cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml.j2
 cp $OUT_GENERATED_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml
 cp $OUT_GENERATED_ROOT/kube-state-metrics-deployment.yaml $KUBE_STATE_METRICS_ROOT/deployment.yaml.j2
-cp $OUT_GENERATED_ROOT/kube-state-metrics-roleBinding.yaml $KUBE_STATE_METRICS_ROOT/roleBinding.yaml.j2
-cp $OUT_GENERATED_ROOT/kube-state-metrics-role.yaml $KUBE_STATE_METRICS_ROOT/role.yaml.j2
 cp $OUT_GENERATED_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/serviceAccount.yaml.j2
 cp $OUT_GENERATED_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/service.yaml.j2
 
