@@ -3,7 +3,6 @@
 import sys
 import yaml
 import json
-import re
 
 configmap_path = sys.argv[1]
 dashboards_dir = sys.argv[2]
@@ -33,9 +32,6 @@ def traverse(obj, path=None, callback=None):
 
 
 def update_dashboard(path, value):
-    # Fix link to other dashboard
-    if path and path[-1] == "linkUrl" and value.startswith('./d/'):
-        value = re.sub('./d/', '/grafana/d/', value)
 
     # Disable 'editable'
     if path and path[-1] == 'editable' and value:
@@ -45,10 +41,6 @@ def update_dashboard(path, value):
         # Add 'infra' tag
         if 'infra' not in value:
             value.insert(0, 'infra')
-        # Rename 'kubernetes-mixin' tag
-        if 'kubernetes-mixin' in value:
-            value.remove('kubernetes-mixin')
-            value.append('kubernetes')
 
     return value
 

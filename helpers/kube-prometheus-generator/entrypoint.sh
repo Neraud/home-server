@@ -17,6 +17,50 @@ local kp =
   {
     _config+:: {
       namespace: 'monitoring',
+
+      prometheus+:: {
+        name: 'k8s',
+        replicas: 1,
+      },
+
+      alertmanager+:: {
+        name: 'k8s',
+        replicas: 1,
+      },
+
+      grafanaK8s+:: {
+        dashboardTags: ['infra', 'kubernetes'],
+
+        // For links between grafana dashboards, you need to tell us if your grafana
+        // servers under some non-root path.
+        linkPrefix: '/grafana',
+      },
+    },
+
+    prometheus+:: {
+      prometheus+: {
+        // Reference info: https://coreos.com/operators/prometheus/docs/latest/api.html#prometheusspec
+        spec+: {
+          nodeSelector+: {
+            'capability/general-purpose': 'yes',
+          },
+          // An e.g. of the purpose of this is so the "Source" links on http://<alert-manager>/#/alerts are valid.
+          externalUrl: 'https://infra.{{ web_base_domain }}/prometheus/',
+        },
+      },
+    },
+    
+    alertmanager+:: {
+      alertmanager+: {
+        // Reference info: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#alertmanagerspec
+        spec+: {
+          nodeSelector+: {
+            'capability/general-purpose': 'yes',
+          },
+          externalUrl: 'https://infra.{{ web_base_domain }}/alertmanager/',
+          secrets: [ 'cluster-ca' ],
+        },
+      },
     },
   };
 
