@@ -31,7 +31,7 @@ cp $OUT_GENERATED_ROOT/alertmanager-service.yaml $ALERTMANAGER_ROOT/service.yaml
 
 echo "Converting Grafana"
 GRAFANA_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/deploy
-GRAFANA_DASHBOARDS_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
+GRAFANA_DASHBOARDS_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards/kube-prometheus
 mkdir -p $GRAFANA_ROOT
 mkdir -p $GRAFANA_DASHBOARDS_ROOT
 cp $OUT_GENERATED_ROOT/grafana-dashboardDatasources.yaml $GRAFANA_ROOT/datasources-secret.yaml.j2

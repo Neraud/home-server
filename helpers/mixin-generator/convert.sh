@@ -45,7 +45,7 @@ echo '{% endraw %}' >>$KUBERNETES_ALERTS
 
 # Dashboard are already included by kube-prometheus
 #echo "Converting Kubernetes Grafana dashboards"
-#GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
+#GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards/kubernetes-mixin
 #mkdir -p $GRAFANA_DASHBOARD_ROOT
 #for file in $OUT_GENERATED_ROOT/kubernetes-mixin/dashboards/*.json; do
 #  echo "Processing $file file.."
@@ -90,7 +90,7 @@ echo '{% endraw %}' >>$NODE_EXPORTER_ALERTS
 
 # Dashboard are already included by kube-prometheus
 #echo "Converting NodeExporter Grafana dashboards"
-#GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
+#GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards/node-mixin
 #mkdir -p $GRAFANA_DASHBOARD_ROOT
 #cp $OUT_GENERATED_ROOT/node-mixin/dashboards/* $GRAFANA_DASHBOARD_ROOT/
 
@@ -131,7 +131,7 @@ sed 's/^/  /' $OUT_GENERATED_ROOT/gluster-mixin/prometheus_alerts.yml >>$GLUSTER
 echo '{% endraw %}' >>$GLUSTER_ALERTS
 
 echo "Convert Gluster Grafana dashboard"
-GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards
+GRAFANA_DASHBOARD_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards/gluster-mixin
 mkdir -p $GRAFANA_DASHBOARD_ROOT
 for file in $OUT_GENERATED_ROOT/gluster-mixin/dashboards/*.json; do
   echo " - processing $file"
