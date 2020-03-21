@@ -4,7 +4,7 @@
 _grafana_var_loader:
   base_image:
     name: "grafana/grafana"
-    tag: "6.2.2"
+    tag: "6.6.0"
 
 grafana:
   enabled: "{{ grafana_enabled | default(True) }}"

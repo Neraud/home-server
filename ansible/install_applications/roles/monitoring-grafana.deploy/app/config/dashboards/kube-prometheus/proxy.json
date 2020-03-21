@@ -10,7 +10,7 @@
     "hideControls": false,
     "id": null,
     "links": [],
-    "refresh": "",
+    "refresh": "10s",
     "rows": [
         {
             "collapse": false,
@@ -185,15 +185,15 @@
                     "gridPos": {},
                     "id": 4,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -356,15 +356,15 @@
                     "gridPos": {},
                     "id": 6,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -640,15 +640,15 @@
                     "gridPos": {},
                     "id": 9,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -979,8 +979,8 @@
         "list": [
             {
                 "current": {
-                    "text": "Prometheus",
-                    "value": "Prometheus"
+                    "text": "default",
+                    "value": "default"
                 },
                 "hide": 0,
                 "label": null,
@@ -1004,7 +1004,7 @@
                 "query": "label_values(kubeproxy_network_programming_duration_seconds_bucket{job=\"kube-proxy\"}, instance)",
                 "refresh": 2,
                 "regex": "",
-                "sort": 0,
+                "sort": 1,
                 "tagValuesQuery": "",
                 "tags": [],
                 "tagsQuery": "",

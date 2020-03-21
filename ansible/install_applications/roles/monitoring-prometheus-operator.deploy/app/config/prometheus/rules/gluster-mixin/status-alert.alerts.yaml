@@ -1,18 +1,18 @@
-- name: status-alert.rules
+- name: status-alert.alerts
   rules:
-    - alert: GlusterBrickStatus
-      annotations:
-        message: "Gluster Brick {{$labels.hostname}}:{{$labels.brick_path}} is down."
-      expr: |
-        gluster_brick_up{job="gluster-exporter"} == 0
-      for: 1m
-      labels:
-        severity: critical
-    - alert: GlusterVolumeStatus
-      annotations:
-        message: "Gluster Volume {{$labels.volume}} is down."
-      expr: |
-        gluster_volume_up{job="gluster-exporter"} == 0
-      for: 1m
-      labels:
-        severity: critical
+  - alert: GlusterBrickStatus
+    annotations:
+      message: Gluster Brick {{$labels.hostname}}:{{$labels.brick_path}} is down.
+    expr: |
+      gluster_brick_up{job="gluster-exporter"} == 0
+    for: 1m
+    labels:
+      severity: critical
+  - alert: GlusterVolumeStatus
+    annotations:
+      message: Gluster Volume {{$labels.volume}} is down.
+    expr: |
+      gluster_volume_up{job="gluster-exporter"} == 0
+    for: 1m
+    labels:
+      severity: critical

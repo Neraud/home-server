@@ -12,8 +12,7 @@ spec:
     - name: alertmanager-k8s
       namespace: {{ prometheus.namespace }}
       port: web
-  baseImage: "{{ prometheus.base_image.repo }}/{{ prometheus.base_image.name }}"
-  version: "{{ prometheus.base_image.tag }}"
+  image: "{{ prometheus.container.image }}"
   podMetadata:
     labels:
       {{ prometheus.labels_def | to_nice_yaml() | indent(6) }}

@@ -1,119 +1,25 @@
-- name: kubernetes-system
+- name: kubernetes-system.alerts
   rules:
-    - alert: KubeNodeNotReady
-      annotations:
-        message: "{{ $labels.node }} has been unready for more than 15 minutes."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodenotready"
-      expr: |
-        kube_node_status_condition{job="kube-state-metrics",condition="Ready",status="true"} == 0
-      for: 15m
-      labels:
-        severity: warning
-    - alert: KubeVersionMismatch
-      annotations:
-        message: "There are {{ $value }} different semantic versions of Kubernetes components running."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeversionmismatch"
-      expr: |
-        count(count by (gitVersion) (label_replace(kubernetes_build_info{job!~"kube-dns|coredns"},"gitVersion","$1","gitVersion","(v[0-9]*.[0-9]*.[0-9]*).*"))) > 1
-      for: 15m
-      labels:
-        severity: warning
-    - alert: KubeClientErrors
-      annotations:
-        message: "Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance }}' is experiencing {{ $value | humanizePercentage }} errors.'"
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclienterrors"
-      expr: |
-        (sum(rate(rest_client_requests_total{code=~"5.."}[5m])) by (instance, job)
-          /
-        sum(rate(rest_client_requests_total[5m])) by (instance, job))
-        > 0.01
-      for: 15m
-      labels:
-        severity: warning
-    - alert: KubeletTooManyPods
-      annotations:
-        message: "Kubelet '{{ $labels.node }}' is running at {{ $value | humanizePercentage }} of its Pod capacity."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubelettoomanypods"
-      expr: |
-        max(max(kubelet_running_pod_count{job="kubelet"}) by(instance) * on(instance) group_left(node) kubelet_node_name{job="kubelet"}) by(node) / max(kube_node_status_capacity_pods{job="kube-state-metrics"}) by(node) > 0.95
-      for: 15m
-      labels:
-        severity: warning
-    - alert: KubeAPILatencyHigh
-      annotations:
-        message: "The API server has a 99th percentile latency of {{ $value }} seconds for {{ $labels.verb }} {{ $labels.resource }}."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapilatencyhigh"
-      expr: |
-        cluster_quantile:apiserver_request_duration_seconds:histogram_quantile{job="apiserver",quantile="0.99",subresource!="log",verb!~"^(?:LIST|WATCH|WATCHLIST|PROXY|CONNECT)$"} > 1
-      for: 10m
-      labels:
-        severity: warning
-    - alert: KubeAPILatencyHigh
-      annotations:
-        message: "The API server has a 99th percentile latency of {{ $value }} seconds for {{ $labels.verb }} {{ $labels.resource }}."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapilatencyhigh"
-      expr: |
-        cluster_quantile:apiserver_request_duration_seconds:histogram_quantile{job="apiserver",quantile="0.99",subresource!="log",verb!~"^(?:LIST|WATCH|WATCHLIST|PROXY|CONNECT)$"} > 4
-      for: 10m
-      labels:
-        severity: critical
-    - alert: KubeAPIErrorsHigh
-      annotations:
-        message: "API server is returning errors for {{ $value | humanizePercentage }} of requests."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorshigh"
-      expr: |
-        sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[5m]))
-          /
-        sum(rate(apiserver_request_total{job="apiserver"}[5m])) > 0.03
-      for: 10m
-      labels:
-        severity: critical
-    - alert: KubeAPIErrorsHigh
-      annotations:
-        message: "API server is returning errors for {{ $value | humanizePercentage }} of requests."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorshigh"
-      expr: |
-        sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[5m]))
-          /
-        sum(rate(apiserver_request_total{job="apiserver"}[5m])) > 0.01
-      for: 10m
-      labels:
-        severity: warning
-    - alert: KubeAPIErrorsHigh
-      annotations:
-        message: "API server is returning errors for {{ $value | humanizePercentage }} of requests for {{ $labels.verb }} {{ $labels.resource }} {{ $labels.subresource }}."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorshigh"
-      expr: |
-        sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[5m])) by (resource,subresource,verb)
-          /
-        sum(rate(apiserver_request_total{job="apiserver"}[5m])) by (resource,subresource,verb) > 0.10
-      for: 10m
-      labels:
-        severity: critical
-    - alert: KubeAPIErrorsHigh
-      annotations:
-        message: "API server is returning errors for {{ $value | humanizePercentage }} of requests for {{ $labels.verb }} {{ $labels.resource }} {{ $labels.subresource }}."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorshigh"
-      expr: |
-        sum(rate(apiserver_request_total{job="apiserver",code=~"^(?:5..)$"}[5m])) by (resource,subresource,verb)
-          /
-        sum(rate(apiserver_request_total{job="apiserver"}[5m])) by (resource,subresource,verb) > 0.05
-      for: 10m
-      labels:
-        severity: warning
-    - alert: KubeClientCertificateExpiration
-      annotations:
-        message: "A client certificate used to authenticate to the apiserver is expiring in less than 7.0 days."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclientcertificateexpiration"
-      expr: |
-        apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 604800
-      labels:
-        severity: warning
-    - alert: KubeClientCertificateExpiration
-      annotations:
-        message: "A client certificate used to authenticate to the apiserver is expiring in less than 24.0 hours."
-        runbook_url: "https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclientcertificateexpiration"
-      expr: |
-        apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 86400
-      labels:
-        severity: critical
+  - alert: KubeVersionMismatch
+    annotations:
+      message: There are {{ $value }} different semantic versions of Kubernetes components
+        running.
+      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeversionmismatch
+    expr: |
+      count(count by (gitVersion) (label_replace(kubernetes_build_info{job!~"kube-dns|coredns"},"gitVersion","$1","gitVersion","(v[0-9]*.[0-9]*.[0-9]*).*"))) > 1
+    for: 15m
+    labels:
+      severity: warning
+  - alert: KubeClientErrors
+    annotations:
+      message: Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance
+        }}' is experiencing {{ $value | humanizePercentage }} errors.'
+      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclienterrors
+    expr: |
+      (sum(rate(rest_client_requests_total{code=~"5.."}[5m])) by (instance, job)
+        /
+      sum(rate(rest_client_requests_total[5m])) by (instance, job))
+      > 0.01
+    for: 15m
+    labels:
+      severity: warning

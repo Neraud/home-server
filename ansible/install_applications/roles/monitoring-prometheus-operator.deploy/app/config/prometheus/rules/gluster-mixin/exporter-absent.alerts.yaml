@@ -1,10 +1,10 @@
-- name: exporter-absent
+- name: exporter-absent.alerts
   rules:
-    - alert: GlusterExporterDown
-      annotations:
-        message: "GlusterExporter has disappeared from Prometheus target discovery."
-      expr: |
-        absent(up{job="gluster-exporter"}==1)
-      for: 15m
-      labels:
-        severity: critical
+  - alert: GlusterExporterDown
+    annotations:
+      message: GlusterExporter has disappeared from Prometheus target discovery.
+    expr: |
+      absent(up{job="gluster-exporter"}==1)
+    for: 15m
+    labels:
+      severity: critical

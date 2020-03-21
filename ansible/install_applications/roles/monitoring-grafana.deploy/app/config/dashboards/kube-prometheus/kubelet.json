@@ -10,7 +10,7 @@
     "hideControls": false,
     "id": null,
     "links": [],
-    "refresh": "",
+    "refresh": "10s",
     "rows": [
         {
             "collapse": false,
@@ -73,7 +73,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "sum(up{job=\"kubelet\"})",
+                            "expr": "sum(up{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "",
@@ -153,7 +153,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "sum(kubelet_running_pod_count{job=\"kubelet\", instance=~\"$instance\"})",
+                            "expr": "sum(kubelet_running_pod_count{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -233,7 +233,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "sum(kubelet_running_container_count{job=\"kubelet\", instance=~\"$instance\"})",
+                            "expr": "sum(kubelet_running_container_count{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -313,7 +313,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "sum(volume_manager_total_volumes{job=\"kubelet\", instance=~\"$instance\", state=\"actual_state_of_world\"})",
+                            "expr": "sum(volume_manager_total_volumes{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\", state=\"actual_state_of_world\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -393,7 +393,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "sum(volume_manager_total_volumes{job=\"kubelet\", instance=~\"$instance\",state=\"desired_state_of_world\"})",
+                            "expr": "sum(volume_manager_total_volumes{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\",state=\"desired_state_of_world\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -473,7 +473,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "sum(rate(kubelet_node_config_error{job=\"kubelet\", instance=~\"$instance\"}[5m]))",
+                            "expr": "sum(rate(kubelet_node_config_error{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\"}[5m]))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -519,15 +519,15 @@
                     "gridPos": {},
                     "id": 8,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -545,7 +545,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(rate(kubelet_runtime_operations_total{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (operation_type, instance)",
+                            "expr": "sum(rate(kubelet_runtime_operations_total{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (operation_type, instance)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} {{operation_type}}",
@@ -598,15 +598,15 @@
                     "gridPos": {},
                     "id": 9,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -624,7 +624,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(rate(kubelet_runtime_operations_errors_total{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance, operation_type)",
+                            "expr": "sum(rate(kubelet_runtime_operations_errors_total{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance, operation_type)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} {{operation_type}}",
@@ -690,15 +690,15 @@
                     "gridPos": {},
                     "id": 10,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -716,7 +716,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_runtime_operations_duration_seconds_bucket{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance, operation_type, le))",
+                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_runtime_operations_duration_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance, operation_type, le))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} {{operation_type}}",
@@ -782,15 +782,15 @@
                     "gridPos": {},
                     "id": 11,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -808,14 +808,14 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(rate(kubelet_pod_start_duration_seconds_count{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance)",
+                            "expr": "sum(rate(kubelet_pod_start_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} pod",
                             "refId": "A"
                         },
                         {
-                            "expr": "sum(rate(kubelet_pod_worker_duration_seconds_count{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance)",
+                            "expr": "sum(rate(kubelet_pod_worker_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} worker",
@@ -868,15 +868,15 @@
                     "gridPos": {},
                     "id": 12,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -894,14 +894,14 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_start_duration_seconds_count{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance, le))",
+                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_start_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance, le))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} pod",
                             "refId": "A"
                         },
                         {
-                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_worker_duration_seconds_bucket{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance, le))",
+                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_pod_worker_duration_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance, le))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} worker",
@@ -967,17 +967,17 @@
                     "gridPos": {},
                     "id": 13,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
-                        "hideEmpty": "true",
-                        "hideZero": "true",
+                        "current": true,
+                        "hideEmpty": true,
+                        "hideZero": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -995,7 +995,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(rate(storage_operation_duration_seconds_count{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance, operation_name, volume_plugin)",
+                            "expr": "sum(rate(storage_operation_duration_seconds_count{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance, operation_name, volume_plugin)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} {{operation_name}} {{volume_plugin}}",
@@ -1048,17 +1048,17 @@
                     "gridPos": {},
                     "id": 14,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
-                        "hideEmpty": "true",
-                        "hideZero": "true",
+                        "current": true,
+                        "hideEmpty": true,
+                        "hideZero": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -1076,7 +1076,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(rate(storage_operation_errors_total{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance, operation_name, volume_plugin)",
+                            "expr": "sum(rate(storage_operation_errors_total{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance, operation_name, volume_plugin)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} {{operation_name}} {{volume_plugin}}",
@@ -1142,17 +1142,17 @@
                     "gridPos": {},
                     "id": 15,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
-                        "hideEmpty": "true",
-                        "hideZero": "true",
+                        "current": true,
+                        "hideEmpty": true,
+                        "hideZero": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
+                        "rightSide": true,
                         "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -1170,7 +1170,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "histogram_quantile(0.99, sum(rate(storage_operation_duration_seconds_bucket{job=\"kubelet\", instance=~\"$instance\"}[5m])) by (instance, operation_name, volume_plugin, le))",
+                            "expr": "histogram_quantile(0.99, sum(rate(storage_operation_duration_seconds_bucket{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\"}[5m])) by (instance, operation_name, volume_plugin, le))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} {{operation_name}} {{volume_plugin}}",
@@ -1236,15 +1236,15 @@
                     "gridPos": {},
                     "id": 16,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -1262,7 +1262,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(rate(kubelet_cgroup_manager_duration_seconds_count{job=\"kubelet\", instance=~\"$instance\"}[5m])) by (instance, operation_type)",
+                            "expr": "sum(rate(kubelet_cgroup_manager_duration_seconds_count{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\"}[5m])) by (instance, operation_type)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{operation_type}}",
@@ -1315,15 +1315,15 @@
                     "gridPos": {},
                     "id": 17,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -1341,7 +1341,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_cgroup_manager_duration_seconds_bucket{job=\"kubelet\", instance=~\"$instance\"}[5m])) by (instance, operation_type, le))",
+                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_cgroup_manager_duration_seconds_bucket{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\"}[5m])) by (instance, operation_type, le))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} {{operation_type}}",
@@ -1408,15 +1408,15 @@
                     "gridPos": {},
                     "id": 18,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -1434,7 +1434,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(rate(kubelet_pleg_relist_duration_seconds_count{job=\"kubelet\", instance=~\"$instance\"}[5m])) by (instance)",
+                            "expr": "sum(rate(kubelet_pleg_relist_duration_seconds_count{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\"}[5m])) by (instance)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -1487,15 +1487,15 @@
                     "gridPos": {},
                     "id": 19,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -1513,7 +1513,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_interval_seconds_bucket{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance, le))",
+                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_interval_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance, le))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -1579,15 +1579,15 @@
                     "gridPos": {},
                     "id": 20,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -1605,7 +1605,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_duration_seconds_bucket{job=\"kubelet\",instance=~\"$instance\"}[5m])) by (instance, le))",
+                            "expr": "histogram_quantile(0.99, sum(rate(kubelet_pleg_relist_duration_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])) by (instance, le))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -1697,28 +1697,28 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(rate(rest_client_requests_total{job=\"kubelet\", instance=~\"$instance\",code=~\"2..\"}[5m]))",
+                            "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\",code=~\"2..\"}[5m]))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "2xx",
                             "refId": "A"
                         },
                         {
-                            "expr": "sum(rate(rest_client_requests_total{job=\"kubelet\", instance=~\"$instance\",code=~\"3..\"}[5m]))",
+                            "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\",code=~\"3..\"}[5m]))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "3xx",
                             "refId": "B"
                         },
                         {
-                            "expr": "sum(rate(rest_client_requests_total{job=\"kubelet\", instance=~\"$instance\",code=~\"4..\"}[5m]))",
+                            "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\",code=~\"4..\"}[5m]))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "4xx",
                             "refId": "C"
                         },
                         {
-                            "expr": "sum(rate(rest_client_requests_total{job=\"kubelet\", instance=~\"$instance\",code=~\"5..\"}[5m]))",
+                            "expr": "sum(rate(rest_client_requests_total{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\",code=~\"5..\"}[5m]))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "5xx",
@@ -1784,15 +1784,15 @@
                     "gridPos": {},
                     "id": 22,
                     "legend": {
-                        "alignAsTable": "true",
+                        "alignAsTable": true,
                         "avg": false,
-                        "current": "true",
+                        "current": true,
                         "max": false,
                         "min": false,
-                        "rightSide": "true",
-                        "show": "true",
+                        "rightSide": true,
+                        "show": true,
                         "total": false,
-                        "values": "true"
+                        "values": true
                     },
                     "lines": true,
                     "linewidth": 1,
@@ -1810,7 +1810,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "histogram_quantile(0.99, sum(rate(rest_client_request_latency_seconds_bucket{job=\"kubelet\", instance=~\"$instance\"}[5m])) by (instance, verb, url, le))",
+                            "expr": "histogram_quantile(0.99, sum(rate(rest_client_request_latency_seconds_bucket{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\", instance=~\"$instance\"}[5m])) by (instance, verb, url, le))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}} {{verb}} {{url}}",
@@ -1902,7 +1902,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "process_resident_memory_bytes{job=\"kubelet\",instance=~\"$instance\"}",
+                            "expr": "process_resident_memory_bytes{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -1981,7 +1981,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "rate(process_cpu_seconds_total{job=\"kubelet\",instance=~\"$instance\"}[5m])",
+                            "expr": "rate(process_cpu_seconds_total{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}[5m])",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -2060,7 +2060,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "go_goroutines{job=\"kubelet\",instance=~\"$instance\"}",
+                            "expr": "go_goroutines{cluster=\"$cluster\",job=\"kubelet\", metrics_path=\"/metrics\",instance=~\"$instance\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{instance}}",
@@ -2123,8 +2123,8 @@
         "list": [
             {
                 "current": {
-                    "text": "Prometheus",
-                    "value": "Prometheus"
+                    "text": "default",
+                    "value": "default"
                 },
                 "hide": 0,
                 "label": null,
@@ -2139,16 +2139,36 @@
                 "allValue": null,
                 "current": {},
                 "datasource": "$datasource",
+                "hide": 2,
+                "includeAll": false,
+                "label": "cluster",
+                "multi": false,
+                "name": "cluster",
+                "options": [],
+                "query": "label_values(kube_pod_info, cluster)",
+                "refresh": 2,
+                "regex": "",
+                "sort": 1,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "allValue": null,
+                "current": {},
+                "datasource": "$datasource",
                 "hide": 0,
                 "includeAll": true,
                 "label": null,
                 "multi": false,
                 "name": "instance",
                 "options": [],
-                "query": "label_values(kubelet_runtime_operations{job=\"kubelet\"}, instance)",
+                "query": "label_values(kubelet_runtime_operations_total{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\"}, instance)",
                 "refresh": 2,
                 "regex": "",
-                "sort": 0,
+                "sort": 1,
                 "tagValuesQuery": "",
                 "tags": [],
                 "tagsQuery": "",

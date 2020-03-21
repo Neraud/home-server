@@ -1,34 +1,38 @@
-- name: thinpool-utilization
+- name: thinpool-utilization.alerts
   rules:
-    - alert: GlusterThinpoolDataUtilization
-      annotations:
-        message: "Gluster Thinpool {{ $labels.thinpool_name }} Data Utilization more than 80%"
-      expr: |
-        gluster_thinpool_data_used_bytes{job="gluster-exporter"} / gluster_thinpool_data_total_bytes{job="gluster-exporter"} > 0.8
-      for: 5m
-      labels:
-        severity: warning
-    - alert: GlusterThinpoolDataUtilization
-      annotations:
-        message: "Gluster Thinpool {{ $labels.thinpool_name }} Data Utilization more than 90%"
-      expr: |
-        gluster_thinpool_data_used_bytes{job="gluster-exporter"} / gluster_thinpool_data_total_bytes{job="gluster-exporter"} > 0.9
-      for: 5m
-      labels:
-        severity: critical
-    - alert: GlusterThinpoolMetadataUtilization
-      annotations:
-        message: "Gluster Thinpool {{ $labels.thinpool_name }} Metadata Utilization more than 80%"
-      expr: |
-        gluster_thinpool_metadata_used_bytes{job="gluster-exporter"} / gluster_thinpool_metadata_total_bytes{job="gluster-exporter"} > 0.8
-      for: 5m
-      labels:
-        severity: warning
-    - alert: GlusterThinpoolMetadataUtilization
-      annotations:
-        message: "Gluster Thinpool {{ $labels.thinpool_name }} Metadata Utilization more than 90%"
-      expr: |
-        gluster_thinpool_metadata_used_bytes{job="gluster-exporter"} / gluster_thinpool_metadata_total_bytes{job="gluster-exporter"} > 0.9
-      for: 5m
-      labels:
-        severity: critical
+  - alert: GlusterThinpoolDataUtilization
+    annotations:
+      message: Gluster Thinpool {{ $labels.thinpool_name }} Data Utilization more
+        than 80%
+    expr: |
+      gluster_thinpool_data_used_bytes{job="gluster-exporter"} / gluster_thinpool_data_total_bytes{job="gluster-exporter"} > 0.8
+    for: 5m
+    labels:
+      severity: warning
+  - alert: GlusterThinpoolDataUtilization
+    annotations:
+      message: Gluster Thinpool {{ $labels.thinpool_name }} Data Utilization more
+        than 90%
+    expr: |
+      gluster_thinpool_data_used_bytes{job="gluster-exporter"} / gluster_thinpool_data_total_bytes{job="gluster-exporter"} > 0.9
+    for: 5m
+    labels:
+      severity: critical
+  - alert: GlusterThinpoolMetadataUtilization
+    annotations:
+      message: Gluster Thinpool {{ $labels.thinpool_name }} Metadata Utilization more
+        than 80%
+    expr: |
+      gluster_thinpool_metadata_used_bytes{job="gluster-exporter"} / gluster_thinpool_metadata_total_bytes{job="gluster-exporter"} > 0.8
+    for: 5m
+    labels:
+      severity: warning
+  - alert: GlusterThinpoolMetadataUtilization
+    annotations:
+      message: Gluster Thinpool {{ $labels.thinpool_name }} Metadata Utilization more
+        than 90%
+    expr: |
+      gluster_thinpool_metadata_used_bytes{job="gluster-exporter"} / gluster_thinpool_metadata_total_bytes{job="gluster-exporter"} > 0.9
+    for: 5m
+    labels:
+      severity: critical

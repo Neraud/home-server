@@ -65,7 +65,7 @@
                     "timeShift": null,
                     "title": "CPU Usage",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -165,7 +165,7 @@
                     "timeShift": null,
                     "title": "Load Average",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -278,7 +278,7 @@
                     "timeShift": null,
                     "title": "Memory Usage",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -375,6 +375,9 @@
                     ],
                     "thresholds": "80, 90",
                     "title": "Memory Usage",
+                    "tooltip": {
+                        "shared": false
+                    },
                     "type": "singlestat",
                     "valueFontSize": "80%",
                     "valueMaps": [
@@ -444,7 +447,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "rate(node_disk_read_bytes_total{job=\"node-exporter\", instance=\"$instance\", device!=\"\"}[$__interval])",
+                            "expr": "rate(node_disk_read_bytes_total{job=\"node-exporter\", instance=\"$instance\", device=~\"nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\"}[$__interval])",
                             "format": "time_series",
                             "interval": "1m",
                             "intervalFactor": 2,
@@ -452,7 +455,7 @@
                             "refId": "A"
                         },
                         {
-                            "expr": "rate(node_disk_written_bytes_total{job=\"node-exporter\", instance=\"$instance\", device!=\"\"}[$__interval])",
+                            "expr": "rate(node_disk_written_bytes_total{job=\"node-exporter\", instance=\"$instance\", device=~\"nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\"}[$__interval])",
                             "format": "time_series",
                             "interval": "1m",
                             "intervalFactor": 2,
@@ -460,7 +463,7 @@
                             "refId": "B"
                         },
                         {
-                            "expr": "rate(node_disk_io_time_seconds_total{job=\"node-exporter\", instance=\"$instance\", device!=\"\"}[$__interval])",
+                            "expr": "rate(node_disk_io_time_seconds_total{job=\"node-exporter\", instance=\"$instance\", device=~\"nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\"}[$__interval])",
                             "format": "time_series",
                             "interval": "1m",
                             "intervalFactor": 2,
@@ -473,7 +476,7 @@
                     "timeShift": null,
                     "title": "Disk I/O",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -568,7 +571,7 @@
                     "timeShift": null,
                     "title": "Disk Space Usage",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -661,7 +664,7 @@
                     "timeShift": null,
                     "title": "Network Received",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },
@@ -741,7 +744,7 @@
                     "timeShift": null,
                     "title": "Network Transmitted",
                     "tooltip": {
-                        "shared": true,
+                        "shared": false,
                         "sort": 0,
                         "value_type": "individual"
                     },

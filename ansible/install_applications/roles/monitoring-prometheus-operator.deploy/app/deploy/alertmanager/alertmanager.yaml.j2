@@ -7,8 +7,7 @@ metadata:
     {{ alertmanager.labels_def | to_nice_yaml() | indent(4) }}
     {{ alertmanager.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
-  baseImage: "{{ alertmanager.base_image.repo }}/{{ alertmanager.base_image.name }}"
-  version: "{{ alertmanager.base_image.tag }}"
+  image: "{{ alertmanager.container.image }}"
   podMetadata:
     labels:
       {{ alertmanager.labels_def | to_nice_yaml() | indent(6) }}

@@ -75,8 +75,7 @@ spec:
         capability/general-purpose: 'yes'
       securityContext:
         runAsNonRoot: true
-        runAsUser: 472
-        fsGroup: 472
+        runAsUser: 65534
       serviceAccountName: grafana
       volumes:
       - name: tz-config
