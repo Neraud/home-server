@@ -78,6 +78,9 @@ echo " - installing requirements ..."
 jb init
 jb install github.com/coreos/kube-prometheus/jsonnet/kube-prometheus
 
+# Workaround for https://github.com/prometheus/node_exporter/issues/1643
+sed -i "s/summary: 'Number of conntrack are getting close to the limit'$/summary: 'Number of conntrack are getting close to the limit',/" vendor/node-mixin/alerts/alerts.libsonnet
+
 mkdir -p /out/kube-prometheus
 echo " - generating kube-prometheus ..."
 jsonnet -J vendor -m /out/kube-prometheus config.jsonnet | xargs -I{} sh -c 'cat {} | gojsontoyaml > {}.yaml; rm -f {}' -- {}
