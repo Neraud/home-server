@@ -1,8 +1,6 @@
 ---
 
 glusterfs_volume_mounts:
-  prometheus-k8s:
-    mount_path: /data/volumes/prometheus-k8s
   homeassistant-config:
     mount_path: /data/volumes/homeassistant-config
   nodered-data:

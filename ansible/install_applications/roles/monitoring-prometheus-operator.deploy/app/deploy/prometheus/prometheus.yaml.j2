@@ -7,6 +7,22 @@ metadata:
     {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
     {{ prometheus.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
+  initContainers:
+  - name: create-folders
+    image: "{{ busybox.container.image }}"
+    imagePullPolicy: Always
+    command:
+      - "sh"
+      - "-c"
+      - |
+        mkdir -p /data/prometheus-db
+        chown -R 1000:1000 /data/prometheus-db
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: False
+    volumeMounts:
+    - name: prometheus-k8s-db
+      mountPath: /data
   alerting:
     alertmanagers:
     - name: alertmanager-k8s
@@ -47,8 +63,10 @@ spec:
   retention: {{ prometheus.retention }}
   storage:
     volumeClaimTemplate:
-      metadata:
-        name: prometheus-k8s-pv-claim
+      #metadata:
+      #  # Ignored, see https://github.com/coreos/prometheus-operator/issues/3093
+      #  # gets named prometheus-k8s-db
+      #  name: prometheus-k8s-pv-claim
       spec:
         accessModes: [ "ReadWriteOnce" ]
         storageClassName: {{ kubernetes_glusterfs_storage_class_name }}

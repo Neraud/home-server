@@ -1,8 +1,0 @@
----
-
-- name: Read all volumes
-  set_fact:
-    all_volumes: "{{ local_lvm_storage | default({}) | combine(glusterfs_volume_mounts | default({})) }}"
-
-- include_tasks: prepare.yml
-  when: "'prometheus-k8s' in all_volumes"

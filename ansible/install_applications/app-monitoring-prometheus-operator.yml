@@ -1,10 +1,5 @@
 ---
 
-- name: Prepare monitoring-prometheus-operator
-  hosts: kubernetes_nodes
-  roles:
-  - role: monitoring-prometheus-operator.prepare
-
 - name: Provision monitoring-prometheus-operator
   hosts: controller
   roles:
