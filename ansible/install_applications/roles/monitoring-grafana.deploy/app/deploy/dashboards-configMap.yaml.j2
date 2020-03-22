@@ -9,5 +9,5 @@ metadata:
 data:
 {% for grafana_dashboard_file in grafana_dashboard_files %}
   {{ grafana_dashboard_file | basename }}: |-
-    {{ lookup('file', grafana_dashboard_file) | replace('\n', '') }}
+    {{ lookup('file', grafana_dashboard_file) | regex_replace('\n *', '') }}
 {% endfor %}

@@ -1,0 +1,11 @@
+- name: kubernetes-system-scheduler.alerts
+  rules:
+  - alert: KubeSchedulerDown
+    annotations:
+      message: KubeScheduler has disappeared from Prometheus target discovery.
+      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeschedulerdown
+    expr: |
+      absent(up{job="kube-scheduler"} == 1)
+    for: 15m
+    labels:
+      severity: critical

@@ -1,0 +1,16 @@
+- name: release-watcher
+  rules:
+    - alert: ReleaseWatcherMissedReleasesWarning
+      annotations:
+        message: The application {{ $labels.name }} has {{ $value }} new releases.
+      expr: missed_releases > 10
+      for: 3m
+      labels:
+        severity: warning
+    - alert: ReleaseWatcherMissedReleasesCritical
+      annotations:
+        message: The application {{ $labels.name }} has {{ $value }} new releases.
+      expr: missed_releases > 25
+      for: 5m
+      labels:
+        severity: critical

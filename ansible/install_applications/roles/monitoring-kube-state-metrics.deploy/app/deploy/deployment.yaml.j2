@@ -19,6 +19,26 @@ spec:
     spec:
       containers:
       - args:
+        - --host=127.0.0.1
+        - --port=8081
+        - --telemetry-host=127.0.0.1
+        - --telemetry-port=8082
+        image: "{{ kube_state_metrics.container.image }}"
+        imagePullPolicy: Always
+        name: kube-state-metrics
+        securityContext:
+          runAsUser: 65534
+          readOnlyRootFilesystem: true
+        #readinessProbe:
+        # As we bind to 127.0.0.1, we can't add probes to this container
+        resources:
+          requests:
+            cpu: "{{ kube_state_metrics.container.requests_cpu }}"
+            memory: "{{ kube_state_metrics.container.requests_memory }}"
+          limits:
+            cpu: "{{ kube_state_metrics.container.limits_cpu }}"
+            memory: "{{ kube_state_metrics.container.limits_memory }}"
+      - args:
         - --logtostderr
         - --secure-listen-address=:8443
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
@@ -40,6 +60,7 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
+          runAsUser: 65534
           readOnlyRootFilesystem: true
         resources:
           limits:
@@ -70,6 +91,7 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
+          runAsUser: 65534
           readOnlyRootFilesystem: true
         resources:
           limits:
@@ -78,25 +100,6 @@ spec:
           requests:
             cpu: 10m
             memory: 20Mi
-      - args:
-        - --host=127.0.0.1
-        - --port=8081
-        - --telemetry-host=127.0.0.1
-        - --telemetry-port=8082
-        image: "{{ kube_state_metrics.container.image }}"
-        imagePullPolicy: Always
-        name: kube-state-metrics
-        securityContext:
-          readOnlyRootFilesystem: true
-        #readinessProbe:
-        # As we bind to 127.0.0.1, we can't add probes to this container
-        resources:
-          requests:
-            cpu: "{{ kube_state_metrics.container.requests_cpu }}"
-            memory: "{{ kube_state_metrics.container.requests_memory }}"
-          limits:
-            cpu: "{{ kube_state_metrics.container.limits_cpu }}"
-            memory: "{{ kube_state_metrics.container.limits_memory }}"
       nodeSelector:
         kubernetes.io/os: linux
         capability/general-purpose: 'yes'

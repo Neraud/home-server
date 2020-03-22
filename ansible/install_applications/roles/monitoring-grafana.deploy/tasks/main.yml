@@ -15,7 +15,9 @@
   set_fact:
     grafana_dashboard_files: "{{ grafana_dashboard_files | default([]) + [ item ] }}"
   with_fileglob:
-    - "{{ role_path }}/app/config/dashboards/*.json"
+    - "{{ role_path }}/app/config/dashboards/custom/*.json"
+    - "{{ role_path }}/app/config/dashboards/kube-prometheus/*.json"
+    - "{{ role_path }}/app/config/dashboards/gluster-mixin/*.json"
 
 - name: Deploy Grafana
   k8s:

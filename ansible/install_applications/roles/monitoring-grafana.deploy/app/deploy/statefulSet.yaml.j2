@@ -19,6 +19,19 @@ spec:
         {{ grafana.labels_def | to_nice_yaml() | indent(8) }}
         {{ grafana.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /grafana/data
+            chown -R 65534:65534 /grafana/data
+        volumeMounts:
+        - name: grafana-pv-claim
+          mountPath: /grafana
       containers:
       - image: "{{ grafana.container.image }}"
         name: grafana
@@ -30,6 +43,7 @@ spec:
           name: http
         securityContext:
           runAsNonRoot: true
+          runAsUser: 65534
           readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
@@ -73,10 +87,6 @@ spec:
       nodeSelector:
         beta.kubernetes.io/os: linux
         capability/general-purpose: 'yes'
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 472
-        fsGroup: 472
       serviceAccountName: grafana
       volumes:
       - name: tz-config
