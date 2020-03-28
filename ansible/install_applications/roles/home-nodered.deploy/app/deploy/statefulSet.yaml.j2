@@ -20,6 +20,27 @@ spec:
         {{ nodered.labels_def | to_nice_yaml() | indent(8) }}
         {{ nodered.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            if [ -d /nodered/data ] ; then
+              echo "NodeRed data folder already exists, ignoring bootstrap"
+            else
+              echo "NodeRed data folder doesn't exist, injecting bootstrap"
+              mkdir -p /nodered/data
+              cp -RL /nodered-bootstrap/* /nodered/data/
+            fi
+            chown -R 1001:1001 /nodered/data
+        volumeMounts:
+        - name: nodered-pv-claim
+          mountPath: /nodered
+        - name: nodered-bootstrap
+          mountPath: /nodered-bootstrap
       containers:
       - name: nodered
         image: "{{ nodered.container.image }}"
@@ -67,6 +88,9 @@ spec:
       - name: nodered-config
         configMap:
           name: nodered
+      - name: nodered-bootstrap
+        configMap:
+          name: nodered-bootstrap
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
