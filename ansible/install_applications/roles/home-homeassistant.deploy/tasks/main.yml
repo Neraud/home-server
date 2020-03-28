@@ -18,6 +18,33 @@
     base_image: "{{ homeassistant_mysql.base_image }}"
     private_image: "{{ homeassistant_mysql.container.image }}"
 
+- name: Fetch Gotify token
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/application"
+    method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ homeassistant.gotify.username }}"
+    password: "{{ homeassistant.gotify.password }}"
+  register: homeassistant_gotify_applications
+  when:
+    - homeassistant.gotify.enabled | bool
+
+- name: Extract Gotify application token
+  set_fact:
+    homeassistant_gotify_application_token: "{{ homeassistant_gotify_applications.json | selectattr('name', 'match', homeassistant.gotify.application_name) | map(attribute='token') | first  }}"
+  when:
+    - homeassistant.gotify.enabled | bool
+
+- name: List bootstrap config files
+  set_fact:
+    homeassistant_bootstrap_config_files: "{{ homeassistant_bootstrap_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/bootstrap/*.yaml*"
+
 - name: Deploy Home Assistant
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

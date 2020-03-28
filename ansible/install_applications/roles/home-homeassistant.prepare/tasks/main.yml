@@ -1,8 +1,0 @@
----
-
-- name: Read all volumes
-  set_fact:
-    all_volumes: "{{ local_lvm_storage | default({}) | combine(glusterfs_volume_mounts | default({})) }}"
-
-- include_tasks: prepare.yml
-  when: "'homeassistant-config' in all_volumes"
