@@ -28,11 +28,19 @@ spec:
           - "sh"
           - "-c"
           - |
-            mkdir -p /homeassistant-config/config
+            if [ -d /homeassistant-config/config ] ; then
+              echo "HomeAssistant config folder already exists, ignoring bootstrap"
+            else
+              echo "HomeAssistant config folder doesn't exist, injecting bootstrap"
+              mkdir -p /homeassistant-config/config
+              cp -RL /homeassistant-config-bootstrap/* /homeassistant-config/config/
+            fi
             chown -R 1000:1000 /homeassistant-config/config
         volumeMounts:
         - name: homeassistant-pv-claim
           mountPath: /homeassistant-config
+        - name: homeassistant-config-bootstrap
+          mountPath: /homeassistant-config-bootstrap
       containers:
       - name: homeassistant
         image: "{{ homeassistant.container.image }}"
@@ -82,6 +90,9 @@ spec:
       - name: homeassistant-config
         configMap:
           name: homeassistant-config
+      - name: homeassistant-config-bootstrap
+        configMap:
+          name: homeassistant-config-bootstrap
       - name: homeassistant-socat-config
         configMap:
           name: homeassistant-socat-config

@@ -20,6 +20,19 @@ spec:
         {{ mosquitto.labels_def | to_nice_yaml() | indent(8) }}
         {{ mosquitto.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /mosquitto/data
+            chown -R 1883:1883 /mosquitto
+        volumeMounts:
+        - name: mosquitto-data-pv-claim
+          mountPath: /mosquitto
       containers:
       - name: mosquitto
         image: "{{ mosquitto.container.image }}"

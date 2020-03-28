@@ -1,9 +1,0 @@
----
-
-- name: Include applications var files
-  include_vars:
-    dir: "{{ role_path }}/../../vars"
-
-- name: Read all volumes
-  set_fact:
-    all_volumes: "{{ local_lvm_storage | default({}) | combine(glusterfs_volume_mounts | default({})) }}"
