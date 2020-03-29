@@ -17,6 +17,7 @@
     base_image: "{{ kubernetes_dashboard_metrics_scraper.base_image }}"
     private_image: "{{ kubernetes_dashboard_metrics_scraper.container.image }}"
 
+# TODO : kubernetes-dashboard-csrf is always changed, its resourceVersion is incremented each time we deploy
 - name: Deploy Kubernetes dashboard
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
