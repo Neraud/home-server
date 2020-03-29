@@ -17,7 +17,6 @@ spec:
     # Allow from everywhere
     - ports:
         - port: docker-registry
-      from: []
 
 # We need to docker pull/push from the kubernetes nodes, so we can't limit the access from docker registry
 # TODO find a way to identify Nodes ?
