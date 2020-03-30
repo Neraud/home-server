@@ -1,0 +1,62 @@
+---
+
+- name: Creates Wireguard keys dir
+  file:
+    path: "{{ wireguard.server.keys_dir }}"
+    state: directory
+
+- name: Generate Wireguard server private key
+  shell: wg genkey > private.key
+  args: 
+    chdir: "{{ wireguard.server.keys_dir }}"
+    creates: private.key
+
+- name: Set Wireguard server private key permissions 
+  file:
+    path: "{{ wireguard.server.keys_dir }}/private.key"
+    mode: 0600
+
+- name: Generate Wireguard server public key
+  shell: cat private.key | wg pubkey > public.key
+  args: 
+    chdir: "{{ wireguard.server.keys_dir }}"
+    creates: public.key
+
+- name: Generate Wireguard client directories
+  file:
+    path: "{{ wireguard.server.clients_dir }}/{{ item.key }}"
+    state: directory
+    mode: 0700
+  loop: "{{ wireguard.clients | dict2items }}"
+
+- name: Generate Wireguard clients private keys
+  shell: wg genkey > private.key
+  args: 
+    chdir: "{{ wireguard.server.clients_dir }}/{{ item.key }}"
+    creates: "private.key"
+  loop: "{{ wireguard.clients | dict2items }}"
+
+- name: Generate Wireguard clients public keys
+  shell: cat private.key | wg pubkey > public.key
+  args: 
+    chdir: "{{ wireguard.server.clients_dir }}/{{ item.key }}"
+    creates: "public.key"
+  loop: "{{ wireguard.clients | dict2items }}"
+
+- name: Generate Wireguard client configurations
+  template:
+    src: client.conf.j2
+    dest: "{{ wireguard.server.clients_dir }}/{{ item.key }}/client.conf"
+    owner: root
+    group: root
+    mode: 0600
+  loop: "{{ wireguard.clients | dict2items }}"
+
+- name: Configure Wireguard
+  template:
+    src: interface.conf.j2
+    dest: "/etc/wireguard/{{ wireguard.server.interface }}.conf"
+    owner: root
+    group: root
+    mode: 0600
+  notify: Restart Wireguard

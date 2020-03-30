@@ -1,0 +1,4 @@
+---
+
+wireguard_cidr_prefix: "192.168.110"
+wireguard_server_endpoint: "{{ keepalived_virtual_ip }}:51820"
