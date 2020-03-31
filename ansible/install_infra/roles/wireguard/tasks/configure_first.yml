@@ -22,6 +22,22 @@
     chdir: "{{ wireguard.server.keys_dir }}"
     creates: public.key
 
+- name: List existing client directories
+  find:
+    paths: "{{ wireguard.server.clients_dir }}"
+    file_type: directory
+    recurse: no
+  register: existing_client_dirs
+
+- name: Delete obsolete client directories
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ existing_client_dirs.files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  when: (item.path | basename) not in wireguard.clients
+
 - name: Generate Wireguard client directories
   file:
     path: "{{ wireguard.server.clients_dir }}/{{ item.key }}"
