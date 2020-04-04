@@ -19,3 +19,12 @@ wireguard:
     clients_dir: /etc/wireguard/clients
   
   clients: "{{ wireguard_clients | default({}) }}"
+
+  keepalived_instance:
+    name: wireguard
+    virtual_router_id: 104
+    is_master: "{{ wireguard_keepalived_instance_is_master | default('false') }}"
+    interface: "{{ wireguard_keepalived_instance_interface }}"
+    priority: "{{ wireguard_keepalived_instance_priority | default(100) }}"
+    auth_pass: "{{ wireguard_keepalived_instance_auth_pass }}"
+    virtual_ip: "{{ wireguard_keepalived_instance_virtual_ip }}"
