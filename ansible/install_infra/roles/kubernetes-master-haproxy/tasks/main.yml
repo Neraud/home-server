@@ -8,7 +8,9 @@
 
 
 - name: Configure UFW for HAproxy
-  import_tasks: ../../firewall/tasks/add-applications.yml
+  include_role:
+    name: firewall
+    tasks_from: add-applications
   vars:
     ufw_applications: "{{ haproxy_ufw_applications }}"
 

@@ -19,6 +19,8 @@
   notify: Reload ufw
 
 - name: Configure UFW for Kubernetes CNI
-  import_tasks: ../../firewall/tasks/add-applications.yml
+  include_role:
+    name: firewall
+    tasks_from: add-applications
   vars:
     ufw_applications: "{{ kubernetes_cni_flannel_ufw_applications }}"
