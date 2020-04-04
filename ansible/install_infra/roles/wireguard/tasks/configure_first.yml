@@ -7,18 +7,18 @@
 
 - name: Generate Wireguard server private key
   shell: wg genkey > private.key
-  args: 
+  args:
     chdir: "{{ wireguard.server.keys_dir }}"
     creates: private.key
 
-- name: Set Wireguard server private key permissions 
+- name: Set Wireguard server private key permissions
   file:
     path: "{{ wireguard.server.keys_dir }}/private.key"
     mode: 0600
 
 - name: Generate Wireguard server public key
-  shell: cat private.key | wg pubkey > public.key
-  args: 
+  shell: wg pubkey < private.key > public.key
+  args:
     chdir: "{{ wireguard.server.keys_dir }}"
     creates: public.key
 
@@ -47,14 +47,14 @@
 
 - name: Generate Wireguard clients private keys
   shell: wg genkey > private.key
-  args: 
+  args:
     chdir: "{{ wireguard.server.clients_dir }}/{{ item.key }}"
     creates: "private.key"
   loop: "{{ wireguard.clients | dict2items }}"
 
 - name: Generate Wireguard clients public keys
-  shell: cat private.key | wg pubkey > public.key
-  args: 
+  shell: wg pubkey < private.key > public.key
+  args:
     chdir: "{{ wireguard.server.clients_dir }}/{{ item.key }}"
     creates: "public.key"
   loop: "{{ wireguard.clients | dict2items }}"
