@@ -1,6 +1,10 @@
 ---
 
-nginx_listen_ip: "{{ keepalived_instance_virtual_ip }}"
+nginx_keepalived_instance_interface: eth1
+nginx_keepalived_instance_auth_pass: Passw0rd
+nginx_keepalived_instance_virtual_ip: 192.168.100.100
+
+nginx_listen_ip: "{{ nginx_keepalived_instance_virtual_ip }}"
 #nginx_ssl_dhparam_generate: True
 
 nginx_extra_log_formats:
@@ -26,7 +30,6 @@ nginx_upstreams:
       - master-2:{{ kubernetes_ingress_mqtt_port }}
       - master-3:{{ kubernetes_ingress_mqtt_port }}
       - node-home:{{ kubernetes_ingress_mqtt_port }}
-
 
 nginx_sites:
   - name: default-site
@@ -240,7 +243,6 @@ nginx_streams:
       cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
       cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
     proxy_pass: kubernetes-mqtt-ingress
-
 
 nginx_ufw_applications:
   - name: custom_nginx

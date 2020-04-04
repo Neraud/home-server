@@ -22,15 +22,15 @@ To simulate a NAS, NFS Server is installed on `master-1` and exports the content
 To test the deployed services, you will have to add the following domains to your hosts file :
 
 ```ini
-192.168.100.10 k8stest.com
-192.168.100.10 infra.k8stest.com
-192.168.100.10 auth.k8stest.com
-192.168.100.10 unifi.k8stest.com
-192.168.100.10 home.k8stest.com
-192.168.100.10 web.k8stest.com
-192.168.100.10 dev.k8stest.com
-192.168.100.10 stream.k8stest.com
-192.168.100.10 dl.k8stest.com
+192.168.100.100 k8stest.com
+192.168.100.100 infra.k8stest.com
+192.168.100.100 auth.k8stest.com
+192.168.100.100 unifi.k8stest.com
+192.168.100.100 home.k8stest.com
+192.168.100.100 web.k8stest.com
+192.168.100.100 dev.k8stest.com
+192.168.100.100 stream.k8stest.com
+192.168.100.100 dl.k8stest.com
 ```
 
 ## User

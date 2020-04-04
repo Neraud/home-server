@@ -6,3 +6,12 @@ nginx_streams_conf_dir: /etc/nginx/streams_conf.d
 nginx_streams_available_dir: /etc/nginx/streams-available
 nginx_streams_enabled_dir: /etc/nginx/streams-enabled
 nginx_ssl_letsencrypt_deploy_certs_script: /opt/deploy_letsencrypt_certs.sh
+
+nginx_keepalived_instance:
+    name: nginx_public
+    virtual_router_id: 102
+    is_master: "{{ nginx_keepalived_instance_is_master | default('false') }}"
+    interface: "{{ nginx_keepalived_instance_interface }}"
+    priority: "{{ nginx_keepalived_instance_priority | default(100) }}"
+    auth_pass: "{{ nginx_keepalived_instance_auth_pass }}"
+    virtual_ip: "{{ nginx_keepalived_instance_virtual_ip }}"

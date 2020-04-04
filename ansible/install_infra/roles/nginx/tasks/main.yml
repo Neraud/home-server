@@ -11,6 +11,13 @@
   vars:
     ufw_applications: "{{ nginx_ufw_applications }}"
 
+- name: Configure Keepalived VirtualIP
+  include_role:
+    name: keepalived
+    tasks_from: add-virtual-ip
+  vars:
+    keepalived_instance: "{{ nginx_keepalived_instance }}"
+
 - name: Install NGinx
   apt:
     pkg: nginx
