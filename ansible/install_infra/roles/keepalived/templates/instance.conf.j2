@@ -1,0 +1,30 @@
+# {{ ansible_managed }}
+
+vrrp_instance {{ keepalived_instance.name }} {
+    state {{ keepalived_instance.is_master | ternary('MASTER', 'BACKUP') }}
+    
+    interface {{ keepalived_instance.interface }}
+    
+    # arbitrary unique number from 1 to 255
+    # used to differentiate multiple instances of vrrpd
+    # running on the same NIC (and hence same socket).
+    virtual_router_id {{ keepalived_instance.virtual_router_id }}
+
+    # for electing MASTER, highest priority wins
+    priority {{ keepalived_instance.priority }}
+
+    # VRRP Advert interval in seconds (e.g. 0.92) (use default)
+    advert_int 1
+
+    authentication {
+        auth_type PASS
+
+        # Password for accessing vrrpd.
+        # should be the same on all machines.
+        # Only the first eight (8) characters are used.
+        auth_pass {{ keepalived_instance.auth_pass }}
+    }
+    virtual_ipaddress {
+        {{ keepalived_instance.virtual_ip }}
+    }
+}

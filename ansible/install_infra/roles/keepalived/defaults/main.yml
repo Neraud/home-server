@@ -1,10 +1,10 @@
 ---
 
-#keepalived_interface: eth0
-#keepalived_virtual_ip: 192.18.1.1
-keepalived_is_master: false
-keepalived_priority: 100
-keepalived_auth_pass: clear_pass
+#keepalived_instance_interface: eth0
+#keepalived_instance_virtual_ip: 192.18.1.1
+keepalived_instance_is_master: false
+keepalived_instance_priority: 100
+keepalived_instance_auth_pass: clear_pass
 
 # Enable applications exposed via keepalived
 keepalived_ufw_applications: []

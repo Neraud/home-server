@@ -1,6 +1,6 @@
 ---
 
-haproxy_apiserver_bind_ip: "{{ keepalived_virtual_ip }}"
+haproxy_apiserver_bind_ip: "{{ keepalived_instance_virtual_ip }}"
 haproxy_apiserver_port: 6444
 kubernetes_apiserver_port: 6443
 

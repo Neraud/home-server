@@ -1,9 +1,9 @@
 ---
 
-keepalived_interface: eth1
-keepalived_auth_pass: Passw0rd
+keepalived_instance_interface: eth1
+keepalived_instance_auth_pass: Passw0rd
 
-keepalived_ufw_applications: 
+keepalived_ufw_applications:
   # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
   - name: unifi-controller
     title: Unifi Controller
@@ -15,4 +15,3 @@ keepalived_ufw_applications:
     description: Unifi Controller Guest Portal
     ports: "8880,8843/tcp"
     rule: allow
-
