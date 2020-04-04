@@ -293,11 +293,10 @@ The Unifi Controller is installed.
 
 The Web GUI will be available using the standard ReverseProxy + Ingress chain.
 
-However, the controller requires a few other non-http ports, which has 2 impacts on the settings :
+However, the controller requires a few other non-http ports, which 2 impacts on the settings :
 
-* the IP of the Node that hosts the Pod is configred in the variable `unifi_private_ip`
-* these ports are exposed on a `unifi-private` service on this IP
-* these ports are allowed in this node's firewall
+* these ports are exposed on a `unifi-private` service on the loadbalancer virtual IP
+* these ports are allowed in the loadbalancers' firewall
 
 When setting the controller up, the inform URL setting will need to be changed to : `http://[unifi_private_ip]:8080/inform`
 

@@ -6,13 +6,6 @@
     value: "1"
     state: present
 
-- name: Configure UFW for Keepalived
-  include_role:
-    name: firewall
-    tasks_from: add-applications
-  vars:
-    ufw_applications: "{{ keepalived_ufw_applications | default([]) }}"
-
 - name: Allow VRRP multicast
   ufw:
     dest: 224.0.0.18

@@ -2,7 +2,6 @@
 
 nginx_keepalived_instance_interface: eth1
 nginx_keepalived_instance_auth_pass: Passw0rd
-nginx_keepalived_instance_virtual_ip: 192.168.100.100
 
 nginx_listen_ip: "{{ nginx_keepalived_instance_virtual_ip }}"
 #nginx_ssl_dhparam_generate: True
@@ -259,4 +258,16 @@ nginx_ufw_applications:
     title: Mosquitto
     description: Mosquitto is an open source message broker that implements the MQTT (MQ Telemetry Transport) protocol v3.1.
     ports: 8883/tcp
+    rule: allow
+
+  # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+  - name: unifi-controller
+    title: Unifi Controller
+    description: Unifi Controller
+    ports: "8080,8443,6789/tcp|3478,10001/udp"
+    rule: allow
+  - name: unifi-controller-guest-portal
+    title: Unifi Controller Guest Portal
+    description: Unifi Controller Guest Portal
+    ports: "8880,8843/tcp"
     rule: allow

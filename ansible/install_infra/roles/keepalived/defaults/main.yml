@@ -5,6 +5,3 @@
 keepalived_instance_is_master: false
 keepalived_instance_priority: 100
 keepalived_instance_auth_pass: clear_pass
-
-# Enable applications exposed via keepalived
-keepalived_ufw_applications: []
