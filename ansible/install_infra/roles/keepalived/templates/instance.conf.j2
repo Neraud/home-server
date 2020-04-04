@@ -1,5 +1,12 @@
 # {{ ansible_managed }}
 
+{% if keepalived_instance.check_script is defined %}
+vrrp_script chk_{{ keepalived_instance.name }} {
+    script "{{ keepalived_instance.check_script.script }}"
+    interval {{ keepalived_instance.check_script.interval }}
+}
+{% endif %}
+
 vrrp_instance {{ keepalived_instance.name }} {
     state {{ keepalived_instance.is_master | ternary('MASTER', 'BACKUP') }}
     
@@ -24,6 +31,13 @@ vrrp_instance {{ keepalived_instance.name }} {
         # Only the first eight (8) characters are used.
         auth_pass {{ keepalived_instance.auth_pass }}
     }
+
+{% if keepalived_instance.check_script is defined %}
+    track_script {
+        chk_{{ keepalived_instance.name }}
+    }
+{% endif %}
+
     virtual_ipaddress {
 {% for virtual_ip in keepalived_instance.virtual_ips %}
         {{ virtual_ip }}
