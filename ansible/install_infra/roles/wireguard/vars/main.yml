@@ -27,4 +27,7 @@ wireguard:
     interface: "{{ wireguard_keepalived_instance_interface }}"
     priority: "{{ wireguard_keepalived_instance_priority | default(100) }}"
     auth_pass: "{{ wireguard_keepalived_instance_auth_pass }}"
+    check_script:
+      script: "/usr/bin/wg show {{ wireguard_server_interface }}"
+      interval: 5
     virtual_ips: [ "{{ wireguard_keepalived_instance_virtual_ip }}" ]
