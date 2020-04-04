@@ -18,5 +18,5 @@ haproxy_keepalived_instance:
     interface: "{{ haproxy_kubernetes_keepalived_instance_interface }}"
     priority: "{{ haproxy_kubernetes_keepalived_instance_priority | default(100) }}"
     auth_pass: "{{ haproxy_kubernetes_keepalived_instance_auth_pass }}"
-    virtual_ip: "{{ haproxy_kubernetes_keepalived_instance_virtual_ip }}"
+    virtual_ips: [ "{{ haproxy_kubernetes_keepalived_instance_virtual_ip }}" ]
 

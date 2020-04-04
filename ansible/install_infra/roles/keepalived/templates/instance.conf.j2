@@ -25,6 +25,8 @@ vrrp_instance {{ keepalived_instance.name }} {
         auth_pass {{ keepalived_instance.auth_pass }}
     }
     virtual_ipaddress {
-        {{ keepalived_instance.virtual_ip }}
+{% for virtual_ip in keepalived_instance.virtual_ips %}
+        {{ virtual_ip }}
+{% endfor %}
     }
 }

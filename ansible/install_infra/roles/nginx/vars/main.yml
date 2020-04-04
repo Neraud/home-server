@@ -14,7 +14,7 @@ nginx_keepalived_public_instance:
     interface: "{{ nginx_keepalived_instance_public_interface }}"
     priority: "{{ nginx_keepalived_instance_public_priority | default(100) }}"
     auth_pass: "{{ nginx_keepalived_instance_public_auth_pass }}"
-    virtual_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+    virtual_ips: [ "{{ nginx_keepalived_instance_public_virtual_ip }}" ]
 
 nginx_keepalived_internal_instance:
     name: nginx_internal
@@ -23,4 +23,4 @@ nginx_keepalived_internal_instance:
     interface: "{{ nginx_keepalived_instance_internal_interface }}"
     priority: "{{ nginx_keepalived_instance_internal_priority | default(100) }}"
     auth_pass: "{{ nginx_keepalived_instance_internal_auth_pass }}"
-    virtual_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    virtual_ips: [ "{{ nginx_keepalived_instance_internal_virtual_ip }}" ]

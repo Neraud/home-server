@@ -27,4 +27,4 @@ wireguard:
     interface: "{{ wireguard_keepalived_instance_interface }}"
     priority: "{{ wireguard_keepalived_instance_priority | default(100) }}"
     auth_pass: "{{ wireguard_keepalived_instance_auth_pass }}"
-    virtual_ip: "{{ wireguard_keepalived_instance_virtual_ip }}"
+    virtual_ips: [ "{{ wireguard_keepalived_instance_virtual_ip }}" ]
