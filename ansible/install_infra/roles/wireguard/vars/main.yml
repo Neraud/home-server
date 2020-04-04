@@ -1,0 +1,21 @@
+---
+
+wireguard_ufw_applications:
+  - name: wireguard
+    title: Wireguard server
+    description: Wireguard server
+    ports: "{{ wireguard_server_listen_port }}/udp"
+    rule: allow
+
+wireguard:
+  config_dir: /etc/wireguard
+  cidr_prefix: "{{ wireguard_cidr_prefix | mandatory }}"
+
+  server:
+    interface: "{{ wireguard_server_interface }}"
+    listen_port: "{{ wireguard_server_listen_port }}"
+    endpoint: "{{ wireguard_server_endpoint }}"
+    keys_dir: /etc/wireguard
+    clients_dir: /etc/wireguard/clients
+  
+  clients: "{{ wireguard_clients | default({}) }}"

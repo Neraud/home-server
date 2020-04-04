@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+[Interface]
+PrivateKey = {{ lookup('file', wireguard.server.clients_dir + '/' + item.key + '/private.key') }}
+Address = {{ wireguard.cidr_prefix }}.{{ item.value.ip_suffix }}/32
+DNS = {{ groups['dns_servers'] | map('extract', hostvars, ['ansible_host']) | join(',') }}
+
+[Peer]
+PublicKey = {{ lookup('file', wireguard.server.keys_dir + '/public.key') }}
+Endpoint = {{ wireguard.server.endpoint }}
+AllowedIPs = {{ item.value.allowed_ips }}
+PersistentKeepalive = 21

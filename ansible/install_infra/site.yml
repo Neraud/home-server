@@ -31,6 +31,11 @@
     - keepalived
     - fail2ban
 
+- name: Provision Wireguard
+  hosts: wireguard_servers
+  roles:
+    - { role: wireguard, tags: wireguard-server }
+
 - name: Prepare Kubernetes members
   hosts: kubernetes_nodes
   roles:

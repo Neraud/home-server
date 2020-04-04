@@ -1,0 +1,41 @@
+---
+
+- name: Enable IPv4 forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    reload: yes
+
+- name: Configure UFW for Wireguard
+  import_tasks: ../../firewall/tasks/add-applications.yml
+  vars:
+    ufw_applications: "{{ wireguard_ufw_applications }}"
+
+- name: Install Linux kernel headers
+  apt:
+    name: linux-headers-amd64
+
+- name: Install Wireguard
+  apt:
+    pkg:
+    - wireguard
+    state: present
+
+- include_tasks: configure_first.yml
+  when: ansible_hostname == groups['wireguard_servers'][0]
+
+- name: Synchronize Wireguard configuration
+  synchronize:
+    src: "{{ wireguard.config_dir }}/"
+    dest: "{{ wireguard.config_dir }}/"
+    recursive: yes
+    delete: yes
+  delegate_to: "{{ groups['wireguard_servers'][0] }}"
+  notify: Restart Wireguard
+  when: ansible_hostname != groups['wireguard_servers'][0]
+
+- name: Auto-start Wireguard
+  service:
+    name: wg-quick@{{ wireguard.server.interface }}
+    state: started
+    enabled: yes

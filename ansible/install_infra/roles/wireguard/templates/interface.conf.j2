@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+[Interface]
+PrivateKey = {{ lookup('file', wireguard.server.keys_dir + '/private.key') }}
+Address = {{ wireguard.cidr_prefix }}.1/24
+ListenPort = {{ wireguard.server.listen_port }}
+
+{% for client in wireguard.clients | dict2items %}
+# Client "{{ client.key }}"
+[Peer]
+PublicKey = {{ lookup('file', wireguard.server.clients_dir + '/' + client.key + '/public.key') }}
+AllowedIPs = {{ wireguard.cidr_prefix }}.{{ client.value.ip_suffix }}/32
+
+{% endfor %}
