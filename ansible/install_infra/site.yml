@@ -7,6 +7,7 @@
     - common-apt
     - firewall
     - usb-serial
+    - keepalived
 
 - name: Provision OpenSSL PKI
   hosts: controller
@@ -28,7 +29,6 @@
   roles:
     - { role: openssl-pki-deploy, tags: openssl-pki }
     - { role: nginx, tags: nginx }
-    - keepalived
     - fail2ban
 
 - name: Provision Wireguard
