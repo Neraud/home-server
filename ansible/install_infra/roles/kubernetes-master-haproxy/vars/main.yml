@@ -1,6 +1,6 @@
 ---
 
-haproxy_apiserver_bind_ip: "{{ keepalived_instance_virtual_ip }}"
+haproxy_apiserver_bind_ip: "{{ haproxy_kubernetes_keepalived_instance_virtual_ip }}"
 haproxy_apiserver_port: 6444
 kubernetes_apiserver_port: 6443
 
@@ -10,3 +10,13 @@ haproxy_ufw_applications:
     description: Kubernetes API server (behind HAproxy)
     ports: "{{ haproxy_apiserver_port }}/tcp"
     rule: allow
+
+haproxy_keepalived_instance: 
+    name: haproxy_kubernetes
+    virtual_router_id: 103
+    is_master: "{{ haproxy_kubernetes_keepalived_instance_is_master | default('false') }}"
+    interface: "{{ haproxy_kubernetes_keepalived_instance_interface }}"
+    priority: "{{ haproxy_kubernetes_keepalived_instance_priority | default(100) }}"
+    auth_pass: "{{ haproxy_kubernetes_keepalived_instance_auth_pass }}"
+    virtual_ip: "{{ haproxy_kubernetes_keepalived_instance_virtual_ip }}"
+

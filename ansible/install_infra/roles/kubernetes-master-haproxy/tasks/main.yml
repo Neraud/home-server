@@ -6,13 +6,19 @@
     value: "1"
     state: present
 
-
 - name: Configure UFW for HAproxy
   include_role:
     name: firewall
     tasks_from: add-applications
   vars:
     ufw_applications: "{{ haproxy_ufw_applications }}"
+
+- name: Configure Keepalived VirtualIP
+  include_role:
+    name: keepalived
+    tasks_from: add-virtual-ip
+  vars:
+    keepalived_instance: "{{ haproxy_keepalived_instance }}"
 
 - name: Install HAproxy
   apt:
