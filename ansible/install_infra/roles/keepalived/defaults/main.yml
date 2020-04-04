@@ -1,7 +1,0 @@
----
-
-#keepalived_instance_interface: eth0
-#keepalived_instance_virtual_ip: 192.18.1.1
-keepalived_instance_is_master: false
-keepalived_instance_priority: 100
-keepalived_instance_auth_pass: clear_pass

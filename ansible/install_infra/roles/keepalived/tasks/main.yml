@@ -27,18 +27,6 @@
     src: keepalived.conf.j2
   notify: Restart Keepalived
 
-#- name: Configure virtual IP
-#  import_tasks: add-virtual-ip.yml
-#  vars:
-#    keepalived_instance:
-#      name: default
-#      is_master: "{{ keepalived_instance_is_master }}"
-#      interface: "{{ keepalived_instance_interface }}"
-#      priority: "{{ keepalived_instance_priority }}"
-#      auth_pass: "{{ keepalived_instance_auth_pass }}"
-#      virtual_ip: "{{ keepalived_instance_virtual_ip }}"
-#      virtual_router_id: 101
-
 - name: Auto-start Keepalived
   service:
     name: keepalived
