@@ -7,20 +7,13 @@ nginx_streams_available_dir: /etc/nginx/streams-available
 nginx_streams_enabled_dir: /etc/nginx/streams-enabled
 nginx_ssl_letsencrypt_deploy_certs_script: /opt/deploy_letsencrypt_certs.sh
 
-nginx_keepalived_public_instance:
-    name: nginx_public
+nginx_keepalived_instance:
+    name: nginx
     virtual_router_id: 101
     is_master: "{{ nginx_keepalived_instance_public_is_master | default('false') }}"
     interface: "{{ nginx_keepalived_instance_public_interface }}"
     priority: "{{ nginx_keepalived_instance_public_priority | default(100) }}"
     auth_pass: "{{ nginx_keepalived_instance_public_auth_pass }}"
-    virtual_ips: [ "{{ nginx_keepalived_instance_public_virtual_ip }}" ]
-
-nginx_keepalived_internal_instance:
-    name: nginx_internal
-    virtual_router_id: 102
-    is_master: "{{ nginx_keepalived_instance_internal_is_master | default('false') }}"
-    interface: "{{ nginx_keepalived_instance_internal_interface }}"
-    priority: "{{ nginx_keepalived_instance_internal_priority | default(100) }}"
-    auth_pass: "{{ nginx_keepalived_instance_internal_auth_pass }}"
-    virtual_ips: [ "{{ nginx_keepalived_instance_internal_virtual_ip }}" ]
+    virtual_ips: 
+      - "{{ nginx_keepalived_instance_public_virtual_ip }}"
+      - "{{ nginx_keepalived_instance_internal_virtual_ip }}"
