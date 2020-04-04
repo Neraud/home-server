@@ -1,9 +1,10 @@
 ---
 
-nginx_keepalived_instance_interface: eth1
-nginx_keepalived_instance_auth_pass: Passw0rd
+nginx_keepalived_instance_public_interface: eth1
+nginx_keepalived_instance_public_auth_pass: Passw0rd
+nginx_keepalived_instance_internal_interface: eth1
+nginx_keepalived_instance_internal_auth_pass: Passw0rd
 
-nginx_listen_ip: "{{ nginx_keepalived_instance_virtual_ip }}"
 #nginx_ssl_dhparam_generate: True
 
 nginx_extra_log_formats:
@@ -35,6 +36,7 @@ nginx_sites:
     enabled_name: 000-default-site
     server_name: "{{ web_base_domain }}"
     default: True
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -62,6 +64,7 @@ nginx_sites:
     enabled_name: 010-auth
     server_name: "auth.{{ web_base_domain }}"
     default: False
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -83,6 +86,7 @@ nginx_sites:
     enabled_name: 100-infra
     server_name: "infra.{{ web_base_domain }}"
     default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -108,6 +112,7 @@ nginx_sites:
     enabled_name: 110-infra-unifi
     server_name: "unifi.{{ web_base_domain }}"
     default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -130,6 +135,7 @@ nginx_sites:
     enabled_name: 200-web
     server_name: "web.{{ web_base_domain }}"
     default: False
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -152,6 +158,7 @@ nginx_sites:
     enabled_name: 300-home
     server_name: "home.{{ web_base_domain }}"
     default: False
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -173,6 +180,7 @@ nginx_sites:
   - name: stream
     enabled_name: 400-stream
     server_name: "stream.{{ web_base_domain }}"
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -193,6 +201,7 @@ nginx_sites:
   - name: dev
     enabled_name: 500-dev
     server_name: "dev.{{ web_base_domain }}"
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -215,6 +224,7 @@ nginx_sites:
   - name: download
     enabled_name: 600-download
     server_name: "dl.{{ web_base_domain }}"
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
@@ -235,6 +245,7 @@ nginx_sites:
 nginx_streams:
   - name: home_mqtt
     enabled_name: 100-home_mqtt
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: False
     https_port: 8883
     https_cert:
