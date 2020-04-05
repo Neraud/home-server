@@ -7,13 +7,31 @@
       - go-dep
     state: present
 
-- name: Install Keepalived exporter
-  command: go get -v github.com/gen2brain/keepalived_exporter
-  environment:
-    GOPATH: "{{ keepalived.exporter.path }}"
-  register: install_result
-  changed_when: "install_result.stdout_lines | length > 0"
+- name: Clone Keepalived Prometheus Exporter repo
+  git:
+    repo: https://github.com/cafebazaar/keepalived-exporter
+    dest: "{{ keepalived.exporter.path }}"
+    version: 48b851ccf6421bc9e92940f4aae8fd97ad20b44a
+  register: clone_keepalived_exporter_result
   notify: Restart Keepalived Exporter
+
+- name: Make Keepalived Prometheus Exporter
+  make:
+    chdir: "{{ keepalived.exporter.path }}"
+  when: clone_keepalived_exporter_result.changed
+  notify: Restart Keepalived Exporter
+  tags:
+    # ansible-lint warns : [503] Tasks that run when changed should likely be handlers
+    # But it's not a handler, we just want to only trigger a new make if files have changed
+    - skip_ansible_lint
+
+# make changes go.mod, which breaks the next run.
+# We workaround that by resetting it
+- name: Reset go.mod
+  command: git checkout -- go.mod
+  args:
+    chdir: "{{ keepalived.exporter.path }}"
+  changed_when: False
 
 - name: Create systemd service
   template:

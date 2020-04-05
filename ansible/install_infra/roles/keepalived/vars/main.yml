@@ -7,8 +7,8 @@ keepalived:
   - name: prometheus_keepalived_exporter
     title: Prometheus Keepalived Exporter
     description: Prometheus Keepalived Exporter
-    ports: 9650/tcp
+    ports: 2112/tcp
     rule: allow
 
   exporter:
-    path: /opt/keepalived_exporter
+    path: /opt/keepalived-exporter
