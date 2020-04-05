@@ -2,3 +2,6 @@
 
 keepalived:
   include_conf_dir: /etc/keepalived/includes
+
+  exporter:
+    path: /opt/keepalived_exporter

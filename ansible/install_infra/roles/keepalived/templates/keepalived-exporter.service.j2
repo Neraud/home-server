@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Keepalived Exporter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart={{ keepalived.exporter.path }}/bin/keepalived_exporter
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
