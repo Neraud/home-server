@@ -19,7 +19,7 @@ haproxy_keepalived_instance:
     priority: "{{ haproxy_kubernetes_keepalived_instance_priority | default(100) }}"
     auth_pass: "{{ haproxy_kubernetes_keepalived_instance_auth_pass }}"
     check_script:
-      script: /usr/bin/pgrep haproxy
+      script: systemctl is-active --quiet haproxy
       interval: 5
     virtual_ips: [ "{{ haproxy_kubernetes_keepalived_instance_virtual_ip }}" ]
 

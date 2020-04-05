@@ -15,7 +15,7 @@ nginx_keepalived_instance:
     priority: "{{ nginx_keepalived_instance_public_priority | default(100) }}"
     auth_pass: "{{ nginx_keepalived_instance_public_auth_pass }}"
     check_script:
-      script: /usr/bin/pgrep nginx
+      script: systemctl is-active --quiet nginx
       interval: 5
     virtual_ips: 
       - "{{ nginx_keepalived_instance_public_virtual_ip }}"
