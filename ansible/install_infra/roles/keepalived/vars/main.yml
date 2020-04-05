@@ -3,5 +3,12 @@
 keepalived:
   include_conf_dir: /etc/keepalived/includes
 
+  ufw_applications:
+  - name: prometheus_keepalived_exporter
+    title: Prometheus Keepalived Exporter
+    description: Prometheus Keepalived Exporter
+    ports: 9650/tcp
+    rule: allow
+
   exporter:
     path: /opt/keepalived_exporter

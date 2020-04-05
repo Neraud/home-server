@@ -1,5 +1,12 @@
 ---
 
+- name: Configure UFW for Keepalived
+  include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ keepalived.ufw_applications }}"
+
 - name: Allow non local ip bind
   sysctl:
     name: "net.ipv4.ip_nonlocal_bind"
