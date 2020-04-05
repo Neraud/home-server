@@ -7,6 +7,10 @@
     - common-apt
     - firewall
     - usb-serial
+
+- name: Provision Keepalived
+  hosts: keepalived
+  roles:
     - keepalived
 
 - name: Provision OpenSSL PKI
