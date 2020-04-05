@@ -1,0 +1,15 @@
+---
+
+keepalived_exporter:
+  enabled: "{{ keepalived_exporter_enabled | default(True) }}"
+  
+  namespace: "monitoring-keepalived-exporter"
+  
+  labels_def:
+    app.kubernetes.io/name: keepalived-exporter
+    app.kubernetes.io/component: keepalived-exporter
+
+  labels_desc:
+    app.kubernetes.io/version: custom
+
+  port: 9650
