@@ -16,7 +16,9 @@
   when: ansible_swaptotal_mb > 0
 
 - name: Configure UFW for Kubernetes
-  import_tasks: ../../firewall/tasks/add-applications.yml
+  include_role:
+    name: firewall
+    tasks_from: add-applications
   vars:
     ufw_applications: "{{ kubernetes_ufw_applications }}"
 

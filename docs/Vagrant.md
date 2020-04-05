@@ -22,15 +22,15 @@ To simulate a NAS, NFS Server is installed on `master-1` and exports the content
 To test the deployed services, you will have to add the following domains to your hosts file :
 
 ```ini
-192.168.100.10 k8stest.com
-192.168.100.10 infra.k8stest.com
-192.168.100.10 auth.k8stest.com
-192.168.100.10 unifi.k8stest.com
-192.168.100.10 home.k8stest.com
-192.168.100.10 web.k8stest.com
-192.168.100.10 dev.k8stest.com
-192.168.100.10 stream.k8stest.com
-192.168.100.10 dl.k8stest.com
+192.168.100.100 k8stest.com
+192.168.100.101 infra.k8stest.com
+192.168.100.100 auth.k8stest.com
+192.168.100.101 unifi.k8stest.com
+192.168.100.100 home.k8stest.com
+192.168.100.100 web.k8stest.com
+192.168.100.100 dev.k8stest.com
+192.168.100.100 stream.k8stest.com
+192.168.100.100 dl.k8stest.com
 ```
 
 ## User
@@ -293,11 +293,10 @@ The Unifi Controller is installed.
 
 The Web GUI will be available using the standard ReverseProxy + Ingress chain.
 
-However, the controller requires a few other non-http ports, which has 2 impacts on the settings :
+However, the controller requires a few other non-http ports, which 2 impacts on the settings :
 
-* the IP of the Node that hosts the Pod is configred in the variable `unifi_private_ip`
-* these ports are exposed on a `unifi-private` service on this IP
-* these ports are allowed in this node's firewall
+* these ports are exposed on a `unifi-private` service on the loadbalancer virtual IP
+* these ports are allowed in the loadbalancers' firewall
 
 When setting the controller up, the inform URL setting will need to be changed to : `http://[unifi_private_ip]:8080/inform`
 

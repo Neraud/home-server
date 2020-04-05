@@ -1,15 +1,17 @@
 ---
 
+- name: Configure UFW for Keepalived
+  include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ keepalived.ufw_applications }}"
+
 - name: Allow non local ip bind
   sysctl:
     name: "net.ipv4.ip_nonlocal_bind"
     value: "1"
     state: present
-
-- name: Configure UFW for Keepalived
-  import_tasks: ../../firewall/tasks/add-applications.yml
-  vars:
-    ufw_applications: "{{ keepalived_ufw_applications | default([]) }}"
 
 - name: Allow VRRP multicast
   ufw:
@@ -20,6 +22,11 @@
   apt:
     pkg: keepalived
     state: present
+
+- name: Prepare Keepalived conf folder
+  file:
+    path: "{{ keepalived.include_conf_dir }}"
+    state: directory
 
 - name: Configure Keepalived
   template:
@@ -32,3 +39,5 @@
     name: keepalived
     state: started
     enabled: yes
+
+- import_tasks: prometheus-exporter.yml

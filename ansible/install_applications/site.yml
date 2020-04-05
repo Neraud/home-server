@@ -64,6 +64,10 @@
   tags: kubernetes-app-monitoring-kubernetes
   when: kubernetes_monitoring_enabled | bool
 
+- import_playbook: app-monitoring-keepalived-exporter.yml
+  tags: kubernetes-app-monitoring-keepalived-exporter
+  when: keepalived_exporter_enabled | bool
+
 - import_playbook: app-monitoring-kube-state-metrics.yml
   tags: kubernetes-app-monitoring-kube-state-metrics
   when: kube_state_metrics_enabled | bool

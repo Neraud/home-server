@@ -1,7 +1,9 @@
 ---
 
 - name: Configure UFW for gluster
-  import_tasks: ../../firewall/tasks/add-applications.yml
+  include_role:
+    name: firewall
+    tasks_from: add-applications
   vars:
     ufw_applications: "{{ gluster_ufw_applications }}"
 

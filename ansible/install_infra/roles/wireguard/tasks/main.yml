@@ -7,9 +7,18 @@
     reload: yes
 
 - name: Configure UFW for Wireguard
-  import_tasks: ../../firewall/tasks/add-applications.yml
+  include_role:
+    name: firewall
+    tasks_from: add-applications
   vars:
     ufw_applications: "{{ wireguard_ufw_applications }}"
+
+- name: Configure Keepalived VirtualIP
+  include_role:
+    name: keepalived
+    tasks_from: add-virtual-ip
+  vars:
+    keepalived_instance: "{{ wireguard.keepalived_instance }}"
 
 - name: Install Linux kernel headers
   apt:

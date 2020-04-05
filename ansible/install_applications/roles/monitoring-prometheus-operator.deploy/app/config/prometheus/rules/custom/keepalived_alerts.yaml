@@ -1,0 +1,23 @@
+- name: keepalived
+  rules:
+    - alert: KeepalivedScriptFailure
+      annotations:
+        message: Keepalived script {{ $labels.name }} has detected a failure.
+      expr: keepalived_script_status == 0
+      for: 3m
+      labels:
+        severity: warning
+    - alert: KeepalivedInterfaceInstanceFailure
+      annotations:
+        message: Keepalived interface {{ $labels.iname }} has a failured instance.
+      expr: keepalived_vrrp_state == 3
+      for: 3m
+      labels:
+        severity: warning
+    - alert: KeepalivedInterfaceInstanceNoMaster
+      annotations:
+        message: Keepalived interface {{ $labels.iname }} has no master.
+      expr: count by (iname) (count by (iname, instance) (keepalived_vrrp_state == 3)) unless count by (iname) (count by (iname, instance) (keepalived_vrrp_state < 3))
+      for: 2m
+      labels:
+        severity: critical

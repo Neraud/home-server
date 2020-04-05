@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{ keepalived_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ keepalived_exporter.labels_desc | to_nice_yaml() | indent(4) }}
+  name: keepalived-exporter
+  namespace: {{ prometheus.namespace }}
+spec:
+  endpoints:
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    port: metrics
+  namespaceSelector:
+    matchNames:
+    - {{ keepalived_exporter.namespace }}
+  selector:
+    matchLabels:
+      prometheus-target: keepalived-exporter

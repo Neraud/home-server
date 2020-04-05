@@ -1,4 +1,9 @@
 ---
 
+wireguard_keepalived_instance_interface: eth1
+wireguard_keepalived_instance_auth_pass: Passw0rd
+wireguard_keepalived_instance_virtual_ip: 192.168.100.103
+
 wireguard_cidr_prefix: "192.168.110"
-wireguard_server_endpoint: "{{ keepalived_virtual_ip }}:51820"
+# For a real environment, this endpoint would be the public IP
+wireguard_server_endpoint: "{{ wireguard_keepalived_instance_virtual_ip }}:51820"

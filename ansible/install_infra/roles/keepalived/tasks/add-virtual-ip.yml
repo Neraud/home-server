@@ -1,0 +1,7 @@
+---
+
+- name: Configure Keepalived instance
+  template:
+    dest: "{{ keepalived.include_conf_dir }}/{{ keepalived_instance.name }}.conf"
+    src: instance.conf.j2
+  notify: Restart Keepalived

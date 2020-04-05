@@ -8,6 +8,11 @@
     - firewall
     - usb-serial
 
+- name: Provision Keepalived
+  hosts: keepalived
+  roles:
+    - keepalived
+
 - name: Provision OpenSSL PKI
   hosts: controller
   roles:
@@ -28,7 +33,6 @@
   roles:
     - { role: openssl-pki-deploy, tags: openssl-pki }
     - { role: nginx, tags: nginx }
-    - keepalived
     - fail2ban
 
 - name: Provision Wireguard

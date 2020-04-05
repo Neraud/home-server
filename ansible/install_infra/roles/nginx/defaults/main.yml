@@ -16,6 +16,7 @@ nginx_extra_log_formats: []
 #    enabled_name: 000-default-site
 #    server_name: _
 #    default: True
+#    listen_ip: "*"
 #    http_port: 80
 #    https_port: False
 #    root: /var/www/html
@@ -73,6 +74,7 @@ nginx_extra_log_formats: []
 #nginx_streams:
 #  - name: stream_01
 #    enabled_name: 000-stream_01
+#    listen_ip: "*"
 #    http_port: 8880
 #    https_port: 8443
 #    https_cert:

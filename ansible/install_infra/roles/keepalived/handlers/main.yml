@@ -4,3 +4,9 @@
   service:
     name: keepalived
     state: restarted
+
+- name: Restart Keepalived Exporter
+  service:
+    name: keepalived-exporter
+    state: restarted
+    daemon_reload: yes
