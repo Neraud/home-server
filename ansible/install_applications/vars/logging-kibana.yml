@@ -21,10 +21,10 @@ kibana:
 
   container:
     image: "{{ docker_registry.url }}/{{ _kibana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kibana_var_loader.base_image.tag }}-custom"
-    requests_cpu: "{{ kibana_container_requests_cpu | default('250m') }}"
-    requests_memory: "{{ kibana_container_requests_memory | default('512Mi') }}"
-    limits_cpu: "{{ kibana_container_limits_cpu | default('500m') }}"
-    limits_memory: "{{ kibana_container_limits_memory | default('512Mi') }}"
+    requests_cpu: "{{ kibana_container_requests_cpu | default('50m') }}"
+    requests_memory: "{{ kibana_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ kibana_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ kibana_container_limits_memory | default('256Mi') }}"
   
   nodejs_max_memory: "{{ kibana_nodejs_max_memory | default('1024') }}"
 
