@@ -49,9 +49,6 @@ elasticsearch:
     group: "{{ elasticsearch_ldap_group }}"
     roles_dn: "{{ elasticsearch_ldap_roles_dn }}"
 
-  exporter:
-    user: "{{ elasticsearch_exporter_user | default('exporter') }}"
-    password: "{{ elasticsearch_exporter_password | default('password') }}"
 
 
 # To avoid loops inside elasticsearch_exporter
