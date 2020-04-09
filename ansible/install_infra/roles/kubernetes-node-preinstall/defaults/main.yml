@@ -1,7 +1,7 @@
 ---
 
-kubernetes_kubelet_system_reserved_cpu: 250m
-kubernetes_kubelet_system_reserved_memory: 256M
+kubernetes_kubelet_system_reserved_cpu: 500m
+kubernetes_kubelet_system_reserved_memory: 512M
 
 kubernetes_kubelet_extra_parameters:
   - "--node-ip {{ kubernetes_kubelet_ip}}"
