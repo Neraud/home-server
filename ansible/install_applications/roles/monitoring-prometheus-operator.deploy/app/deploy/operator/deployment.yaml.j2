@@ -22,6 +22,8 @@ spec:
         - --kubelet-service=kube-system/kubelet
         - --logtostderr=true
         - --config-reloader-image=jimmidyson/configmap-reload:v0.3.0
+        - --config-reloader-cpu={{ prometheus_operator.container.config_reloader_cpu }}
+        - --config-reloader-memory={{ prometheus_operator.container.config_reloader_memory }}
         - --prometheus-config-reloader=quay.io/coreos/prometheus-config-reloader:{{ prometheus_operator.base_image.tag }}
         image: "{{ prometheus_operator.container.image }}"
         imagePullPolicy: Always

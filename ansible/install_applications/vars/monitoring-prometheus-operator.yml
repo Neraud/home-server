@@ -27,6 +27,8 @@ prometheus_operator:
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ prometheus_operator_container_limits_memory | default('200Mi') }}"
 
+    config_reloader_cpu: "{{ prometheus_operator_container_config_reloader_cpu | default('100m') }}"
+    config_reloader_memory: "{{ prometheus_operator_container_config_reloader_cpu | default('25Mi') }}"
 
 
 # To avoid loops inside prometheus
