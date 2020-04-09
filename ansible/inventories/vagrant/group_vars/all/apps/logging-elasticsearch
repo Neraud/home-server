@@ -5,6 +5,11 @@
 elasticsearch_servername: elasticsearch.logging-elasticsearch.svc.cluster.local
 
 elasticsearch_internal_users:
+  - name: "{{ elasticsearch_admin_user_user }}"
+    password: "{{ elasticsearch_admin_user_password }}"
+    reserved: True
+    backend_roles:
+      - admin
   - name: "{{ elasticsearch_exporter_user }}"
     password: "{{ elasticsearch_exporter_password }}"
     reserved: True
@@ -20,6 +25,9 @@ elasticsearch_internal_users:
     reserved: True
     backend_roles:
       - kibana_server
+
+elasticsearch_admin_user_user: admin
+elasticsearch_admin_user_password: password
 
 elasticsearch_context_path: /elasticsearch
 elasticsearch_ldap_group: "cn=elasticsearch,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
