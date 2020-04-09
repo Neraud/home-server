@@ -17,6 +17,18 @@ spec:
         {{ kibana.labels_def | to_nice_yaml() | indent(8) }}
         {{ kibana.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: copy-optimize
+        image: "{{ kibana.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            cp -R /usr/share/kibana/optimize/* /usr/share/kibana/optimize-tmp/
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /usr/share/kibana/optimize-tmp
       containers:
       - name: kibana
         image: "{{ kibana.container.image }}"
