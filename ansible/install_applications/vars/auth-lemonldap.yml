@@ -21,9 +21,9 @@ lemonldap:
 
   container:
     image: "{{ docker_registry.url }}/{{ _lemonldap_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _lemonldap_var_loader.base_image.tag }}-custom"
-    requests_cpu: "{{ lemonldap_container_requests_cpu | default('100m') }}"
+    requests_cpu: "{{ lemonldap_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ lemonldap_container_requests_memory | default('384Mi') }}"
-    limits_cpu: "{{ lemonldap_container_limits_cpu | default('200m') }}"
+    limits_cpu: "{{ lemonldap_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ lemonldap_container_limits_memory | default('384Mi') }}"
 
   fastcgi_port: "{{ lemonldap_fastcgi_port | default(9000) }}"

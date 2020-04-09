@@ -21,9 +21,9 @@ grafana:
 
   container:
     image: "{{ docker_registry.url }}/{{ _grafana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _grafana_var_loader.base_image.tag }}"
-    requests_cpu: "{{ grafana_container_requests_cpu | default('100m') }}"
+    requests_cpu: "{{ grafana_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ grafana_container_requests_memory | default('100Mi') }}"
-    limits_cpu: "{{ grafana_container_limits_cpu | default('200m') }}"
+    limits_cpu: "{{ grafana_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ grafana_container_limits_memory | default('200Mi') }}"
 
   admin:

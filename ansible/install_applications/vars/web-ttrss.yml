@@ -33,9 +33,9 @@ ttrss:
 
   container:
     image: "{{ docker_registry.url }}/ttrss-{{ _ttrss_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _ttrss_var_loader.commit }}-{{ _ttrss_var_loader.base_image.tag }}"
-    requests_cpu: "{{ ttrss_container_requests_cpu | default('100m') }}"
+    requests_cpu: "{{ ttrss_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ ttrss_container_requests_memory | default('64Mi') }}"
-    limits_cpu: "{{ ttrss_container_limits_cpu | default('200m') }}"
+    limits_cpu: "{{ ttrss_container_limits_cpu | default('25m') }}"
     limits_memory: "{{ ttrss_container_limits_memory | default('64Mi') }}"
 
   context_root: "{{ ttrss_context_root | default('/') }}"
@@ -84,9 +84,9 @@ ttrss_pgsql:
 
   container:
     image: "{{ docker_registry.url }}/tt-rss-{{ _ttrss_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _ttrss_pgsql_var_loader.base_image.tag }}"
-    requests_cpu: "{{ ttrss_pgsql_container_requests_cpu | default('250m') }}"
+    requests_cpu: "{{ ttrss_pgsql_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ ttrss_pgsql_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ ttrss_pgsql_container_limits_cpu | default('500m') }}"
+    limits_cpu: "{{ ttrss_pgsql_container_limits_cpu | default('25m') }}"
     limits_memory: "{{ ttrss_pgsql_container_limits_memory | default('256Mi') }}"
 
   user: "{{ ttrss_pgsql_user | default('ttrss') }}"
