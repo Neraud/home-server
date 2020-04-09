@@ -1,2 +1,3 @@
 ---
 kubernetes_kubelet_ip: "{{ host_ip }}"
+kubernetes_kubelet_system_reserved_memory: 256M
