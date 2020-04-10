@@ -22,7 +22,23 @@ kube_state_metrics:
 
   container:
     image: "{{ docker_registry.url }}/{{ _kube_state_metrics_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kube_state_metrics_var_loader.base_image.tag }}"
-    requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('25m') }}"
+    requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('20m') }}"
     requests_memory: "{{ kube_state_metrics_container_requests_memory | default('150Mi') }}"
-    limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('25m') }}"
+    limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ kube_state_metrics_container_limits_memory | default('150Mi') }}"
+
+# To avoid loops kube_state_metrics_rbac_proxy kube_state_metrics
+_kube_state_metrics_rbac_proxy_var_loader:
+  base_image:
+    repo: quay.io
+    name: "coreos/kube-rbac-proxy"
+    tag: "v0.4.1"
+
+kube_state_metrics_rbac_proxy:
+  base_image: "{{ _kube_state_metrics_rbac_proxy_var_loader.base_image }}"
+  container:
+    image: "{{ docker_registry.url }}/{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.tag }}"
+    requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('10m') }}"
+    requests_memory: "{{ kube_state_metrics_container_requests_memory | default('20Mi') }}"
+    limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('20m') }}"
+    limits_memory: "{{ kube_state_metrics_container_limits_memory | default('40Mi') }}"
