@@ -67,7 +67,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: quay.io/coreos/kube-rbac-proxy:v0.4.1
+        image: "{{ node_exporter_rbac_proxy.container.image }}"
         imagePullPolicy: Always
         name: kube-rbac-proxy
         ports:
@@ -86,11 +86,11 @@ spec:
           readOnlyRootFilesystem: true
         resources:
           limits:
-            cpu: 20m
-            memory: 40Mi
+            cpu: {{ node_exporter_rbac_proxy.container.limits_cpu }}
+            memory: {{ node_exporter_rbac_proxy.container.limits_memory }}
           requests:
-            cpu: 10m
-            memory: 20Mi
+            cpu: {{ node_exporter_rbac_proxy.container.requests_cpu }}
+            memory: {{ node_exporter_rbac_proxy.container.requests_memory }}
       hostNetwork: true
       hostPID: true
       nodeSelector:
