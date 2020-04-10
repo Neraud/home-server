@@ -39,6 +39,13 @@ spec:
             value: "{{ fluentd_elasticsearch_password }}"
           - name: SSL_CERT_FILE
             value: "/etc/ssl/cluster/ca.crt"
+          # https://github.com/uken/fluent-plugin-elasticsearch#stopped-to-send-events-on-k8s-why
+          - name: FLUENT_ELASTICSEARCH_RELOAD_CONNECTIONS
+            value: "false"
+          - name: FLUENT_ELASTICSEARCH_RECONNECT_ON_ERROR
+            value: "true"
+          - name: FLUENT_ELASTICSEARCH_RELOAD_ON_FAILURE
+            value: "true"
         securityContext:
           runAsNonRoot: true
           runAsUser: 999 # fluent
