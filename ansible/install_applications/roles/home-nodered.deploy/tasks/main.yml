@@ -11,6 +11,11 @@
     base_image: "{{ nodered.base_image }}"
     private_image: "{{ nodered.container.image }}"
     build: yes
+    build_args:
+      nodered_additional_modules_ldapauth_fork_version: "{{ nodered.additional_modules.ldapauth_fork.version }}"
+      nodered_additional_modules_node_red_contrib_home_assistant_websocket_version: "{{ nodered.additional_modules.node_red_contrib_home_assistant_websocket.version }}"
+      nodered_additional_modules_node_red_contrib_time_range_switch_version: "{{ nodered.additional_modules.node_red_contrib_time_range_switch.version }}"
+      nodered_additional_modules_node_red_contrib_stoptimer_version: "{{ nodered.additional_modules.node_red_contrib_stoptimer.version }}"
 
 - name: Deploy Node-RED
   k8s:

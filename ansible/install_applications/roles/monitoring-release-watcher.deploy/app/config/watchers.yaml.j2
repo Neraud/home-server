@@ -203,6 +203,24 @@ watchers:
     tag: {{ nodered.base_image.tag }}
     includes:
       - .*-slim-v10
+  - type: github_tag
+    repo: vesse/node-ldapauth-fork
+    tag: v{{ nodered.additional_modules.ldapauth_fork.version }}
+    includes:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+    excludes:
+      - '.*-rc.*'
+  - type: github_tag
+    repo: zachowj/node-red-contrib-home-assistant-websocket 
+    tag: v{{ nodered.additional_modules.node_red_contrib_home_assistant_websocket.version }}
+    includes:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+  - type: github_tag
+    repo: biddster/node-red-contrib-time-range-switch
+    tag: {{ nodered.additional_modules.node_red_contrib_time_range_switch.version }}
+    includes:
+      - '[0-9]+\.[0-9]+\.[0-9]+'
+  # TODO : support NPM for nodered.additional_modules.node_red_contrib_stoptimer
   - type: docker_registry
     repo: {{ roomassistant.base_image.repo | default('registry-1.docker.io') }}
     image: {{ roomassistant.base_image.name }}

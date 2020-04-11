@@ -34,3 +34,13 @@ nodered:
     manager_password: "{{ nodered_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
     group_base: "{{ nodered_ldap_group_base }}"
     group: "{{ nodered_ldap_group }}"
+
+  additional_modules:
+    ldapauth_fork:
+      version: 4.2.0
+    node_red_contrib_home_assistant_websocket:
+      version: 0.9.1
+    node_red_contrib_time_range_switch:
+      version: 0.6.1
+    node_red_contrib_stoptimer:
+      version: 0.0.7
