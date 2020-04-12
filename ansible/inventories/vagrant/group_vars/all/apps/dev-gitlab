@@ -1,5 +1,9 @@
 ---
 
+# The vagrant default config doesn't have enough resources to start gitlab properly
+# To test gilab, either create a larger cluster, or shut some other services down.
+gitlab_enabled: false
+
 gitlab_context_path: /gitlab
 gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}"
 
