@@ -1,11 +1,16 @@
 ARG from_image
 FROM $from_image
 
+ARG nodered_additional_modules_ldapauth_fork_version
+ARG nodered_additional_modules_node_red_contrib_home_assistant_websocket_version
+ARG nodered_additional_modules_node_red_contrib_time_range_switch_version
+ARG nodered_additional_modules_node_red_contrib_stoptimer_version
+
 # Authentication
-RUN npm install ldapauth-fork@4.2.0
+RUN npm install ldapauth-fork@${nodered_additional_modules_ldapauth_fork_version}
 ADD ldap-user-authentication.js /usr/src/node-red/ldap-user-authentication.js
 
 # Contrib nodes
-RUN npm install node-red-contrib-home-assistant-websocket@0.9.1
-RUN npm install node-red-contrib-time-range-switch@0.6.1
-RUN npm install node-red-contrib-stoptimer@0.0.7
+RUN npm install node-red-contrib-home-assistant-websocket@${nodered_additional_modules_node_red_contrib_home_assistant_websocket_version}
+RUN npm install node-red-contrib-time-range-switch@${nodered_additional_modules_node_red_contrib_time_range_switch_version}
+RUN npm install node-red-contrib-stoptimer@${nodered_additional_modules_node_red_contrib_stoptimer_version}

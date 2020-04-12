@@ -21,9 +21,9 @@ airsonic:
 
   container:
     image: "{{ docker_registry.url }}/{{ _airsonic_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _airsonic_var_loader.base_image.tag }}"
-    requests_cpu: "{{ airsonic_container_requests_cpu | default('250m') }}"
+    requests_cpu: "{{ airsonic_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ airsonic_container_requests_memory | default('512Mi') }}"
-    limits_cpu: "{{ airsonic_container_limits_cpu | default('500m') }}"
+    limits_cpu: "{{ airsonic_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ airsonic_container_limits_memory | default('512Mi') }}"
 
   context_path: "{{ airsonic_context_path | default('/airsonic') }}"

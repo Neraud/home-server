@@ -1,39 +1,5 @@
 ---
 
-- name: Wait for EasticSearch to be available
-  k8s_info:
-    kind: StatefulSet
-    namespace: "{{ elasticsearch.namespace }}"
-    name: elasticsearch
-  register: k8s_result
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
-  retries: 60
-  delay: 3
-  listen: "Reconfigure Elasticsearch security"
-
-# On first start, EasticSearch restarts to run its setup process
-# So if the first wait task has waited, we make sure it's really still up a few seconds later
-- name: Wait a bit ...
-  pause:
-    seconds: 10
-  when: k8s_result.attempts > 1
-  listen: "Reconfigure Elasticsearch security"
-
-- name: Wait for EasticSearch to be available
-  k8s_info:
-    kind: StatefulSet
-    namespace: "{{ elasticsearch.namespace }}"
-    name: elasticsearch
-  register: k8s_result
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
-  retries: 60
-  delay: 3
-  listen: "Reconfigure Elasticsearch security"
-
 # Security configuration changes are only taken into account the first time ES is deployed, or after running securityadmin.sh
 # The following tasks ensures that each time something changes in ES deployment, security configurations are properly updated.
 - name: Reconfigure security

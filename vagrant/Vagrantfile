@@ -24,6 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	settings['nodes'].each do |node_conf|
 		config.vm.define node_conf['name'] do |node|			
 			node.vm.provider :virtualbox do |vb|
+				vb.auto_nat_dns_proxy = false
 				vb.customize ["modifyvm", :id, "--ioapic", "on"]
 				vb.customize ["modifyvm", :id, "--memory", node_conf['memory']]
 				vb.customize ["modifyvm", :id, "--cpus", node_conf['cpu']]
@@ -54,6 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	controller_conf = settings['controller']
 	config.vm.define controller_conf['name'] do |controller|
 		controller.vm.provider :virtualbox do |vb|
+			vb.auto_nat_dns_proxy = false
 			vb.customize ["modifyvm", :id, "--ioapic", "on"]
 			vb.customize ["modifyvm", :id, "--memory", controller_conf['memory']]
 			vb.customize ["modifyvm", :id, "--cpus", controller_conf['cpu']]

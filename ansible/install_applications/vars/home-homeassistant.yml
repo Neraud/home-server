@@ -24,9 +24,9 @@ homeassistant:
 
   container:
     image: "{{ docker_registry.url }}/{{ _homeassistant_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homeassistant_var_loader.base_image.tag }}-custom"
-    requests_cpu: "{{ homeassistant_homeassistant_container_requests_cpu | default('500m') }}"
+    requests_cpu: "{{ homeassistant_homeassistant_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ homeassistant_homeassistant_container_requests_memory | default('512Mi') }}"
-    limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('1000m') }}"
+    limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ homeassistant_homeassistant_container_limits_memory | default('512Mi') }}"
 
   mqtt:
@@ -78,9 +78,9 @@ homeassistant_mysql:
   
   container:
     image: "{{ docker_registry.url }}/home-assistant-{{ _homeassistant_mysql_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homeassistant_mysql_var_loader.base_image.tag }}"
-    requests_cpu: "{{ homeassistant_mysql_container_requests_cpu | default('250m') }}"
+    requests_cpu: "{{ homeassistant_mysql_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ homeassistant_mysql_container_requests_memory | default('512Mi') }}"
-    limits_cpu: "{{ homeassistant_mysql_container_limits_cpu | default('500m') }}"
+    limits_cpu: "{{ homeassistant_mysql_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ homeassistant_mysql_container_limits_memory | default('512Mi') }}"
 
   user: "{{ homeassistant_mysql_user | default('homeassistant') }}"

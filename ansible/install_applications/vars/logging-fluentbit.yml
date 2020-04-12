@@ -21,7 +21,7 @@ fluentbit:
 
   container:
     image: "{{ docker_registry.url }}/{{ _fluentbit_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _fluentbit_var_loader.base_image.tag }}"
-    requests_cpu: "{{ fluentbit_container_requests_cpu | default('5m') }}"
-    requests_memory: "{{ fluentbit_container_requests_memory | default('10Mi') }}"
-    limits_cpu: "{{ fluentbit_container_limits_cpu | default('50m') }}"
-    limits_memory: "{{ fluentbit_container_limits_memory | default('60Mi') }}"
+    requests_cpu: "{{ fluentbit_container_requests_cpu | default('20m') }}"
+    requests_memory: "{{ fluentbit_container_requests_memory | default('16Mi') }}"
+    limits_cpu: "{{ fluentbit_container_limits_cpu | default('75m') }}"
+    limits_memory: "{{ fluentbit_container_limits_memory | default('64Mi') }}"

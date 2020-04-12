@@ -21,7 +21,7 @@ nginx_exporter:
 
   container:
     image: "{{ docker_registry.url }}/{{ _nginx_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nginx_exporter_var_loader.base_image.tag }}"
-    requests_cpu: "{{ nginx_exporter_container_requests_cpu | default('25m') }}"
-    requests_memory: "{{ nginx_exporter_container_requests_memory | default('64Mi') }}"
-    limits_cpu: "{{ nginx_exporter_container_limits_cpu | default('25m') }}"
-    limits_memory: "{{ nginx_exporter_container_limits_memory | default('64Mi') }}"
+    requests_cpu: "{{ nginx_exporter_container_requests_cpu | default('20m') }}"
+    requests_memory: "{{ nginx_exporter_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ nginx_exporter_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ nginx_exporter_container_limits_memory | default('32Mi') }}"

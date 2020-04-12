@@ -22,9 +22,9 @@ nodered:
 
   container:
     image: "{{ docker_registry.url }}/{{ _nodered_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nodered_var_loader.base_image.tag }}-custom"
-    requests_cpu: "{{ nodered_container_requests_cpu | default('250m') }}"
+    requests_cpu: "{{ nodered_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ nodered_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ nodered_container_limits_cpu | default('500m') }}"
+    limits_cpu: "{{ nodered_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ nodered_container_limits_memory | default('256Mi') }}"
 
   ldap:
@@ -34,3 +34,13 @@ nodered:
     manager_password: "{{ nodered_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
     group_base: "{{ nodered_ldap_group_base }}"
     group: "{{ nodered_ldap_group }}"
+
+  additional_modules:
+    ldapauth_fork:
+      version: 4.3.2
+    node_red_contrib_home_assistant_websocket:
+      version: 0.22.2
+    node_red_contrib_time_range_switch:
+      version: 1.0.0
+    node_red_contrib_stoptimer:
+      version: 0.0.7

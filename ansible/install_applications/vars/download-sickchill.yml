@@ -27,7 +27,7 @@ sickchill:
     image: "{{ docker_registry.url }}/sickchill:{{ _sickchill_var_loader.version }}_{{ _sickchill_var_loader.base_image.name }}{{ _sickchill_var_loader.base_image.tag }}"
     requests_cpu: "{{ sickchill_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ sickchill_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ sickchill_container_limits_cpu | default('200m') }}"
+    limits_cpu: "{{ sickchill_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ sickchill_container_limits_memory | default('256Mi') }}"
 
   context_root: "{{ sickchill_context_root | default('/') }}"

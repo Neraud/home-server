@@ -11,6 +11,12 @@
     base_image: "{{ node_exporter.base_image }}"
     private_image: "{{ node_exporter.container.image }}"
 
+- name: Ensure node exporter rbac_proxy image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ node_exporter_rbac_proxy.base_image }}"
+    private_image: "{{ node_exporter_rbac_proxy.container.image }}"
+
 - name: Deploy node exporter
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

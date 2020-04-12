@@ -21,9 +21,9 @@ unifi:
 
   container:
     image: "{{ docker_registry.url }}/{{ _unifi_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _unifi_var_loader.base_image.tag }}"
-    requests_cpu: "{{ unifi_container_requests_cpu | default('500m') }}"
+    requests_cpu: "{{ unifi_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ unifi_container_requests_memory | default('1024Mi') }}"
-    limits_cpu: "{{ unifi_container_limits_cpu | default('1000m') }}"
+    limits_cpu: "{{ unifi_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ unifi_container_limits_memory | default('1024Mi') }}"
 
   private_ip: "{{ unifi_private_ip | default('') }}"

@@ -10,6 +10,7 @@
   vars:
     base_image: "{{ kibana.base_image }}"
     private_image: "{{ kibana.container.image }}"
+    build: yes
 
 - name: Deploy Kibana
   k8s:

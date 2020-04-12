@@ -51,3 +51,73 @@
     - "{{ role_path }}/app/deploy/prometheus_exporter/*.yaml*"
   become: yes
   become_user: "{{ kubernetes_user.name }}"
+
+- name: Wait for ElasticSearch to be available
+  k8s_info:
+    kind: StatefulSet
+    namespace: "{{ elasticsearch.namespace }}"
+    name: elasticsearch
+  register: k8s_result
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 3
+
+# On first start, ElasticSearch restarts to run its setup process
+# So if the first wait task has waited, we make sure it's really still up a few seconds later
+- name: Wait a bit ...
+  pause:
+    seconds: 10
+  when: k8s_result.attempts > 1
+
+- name: Wait for ElasticSearch to be available
+  k8s_info:
+    kind: StatefulSet
+    namespace: "{{ elasticsearch.namespace }}"
+    name: elasticsearch
+  register: k8s_result
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 3
+
+- name: Get current default ElasticSearch index template
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_template/default"
+    method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [ 200, 404 ]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: current_default_index_template
+
+- name: Configure default ElasticSearch index template
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_template/default"
+    method: POST
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    body:
+        index_patterns: [ "*" ]
+        order: -1
+        settings: "{{ default_index_settings }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_default_index_template
+  changed_when: True
+  failed_when: "not set_default_index_template.json.acknowledged | default (false)"
+  when: not current_default_index_template.json or (current_default_index_template.json.default.settings.index != default_index_settings)
+  vars:
+    default_index_settings:
+      # By default, an index is created with 1 replica.
+      # If we only have 1 node, this index will remain yellow
+      number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+      #number_of_shards: 1

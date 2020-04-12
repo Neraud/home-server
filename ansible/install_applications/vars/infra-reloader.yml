@@ -21,7 +21,7 @@ reloader:
 
   container:
     image: "{{ docker_registry.url }}/{{ _reloader_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _reloader_var_loader.base_image.tag }}"
-    requests_cpu: "{{ reloader_container_requests_cpu | default('100m') }}"
+    requests_cpu: "{{ reloader_container_requests_cpu | default('10m') }}"
     requests_memory: "{{ reloader_container_requests_memory | default('128Mi') }}"
-    limits_cpu: "{{ reloader_container_limits_cpu | default('250m') }}"
+    limits_cpu: "{{ reloader_container_limits_cpu | default('50m') }}"
     limits_memory: "{{ reloader_container_limits_memory | default('128Mi') }}"

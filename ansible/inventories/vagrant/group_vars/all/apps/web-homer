@@ -80,7 +80,7 @@ homer_config_services:
         target: "_blank"
       - name: "Docker Registry UI"
         logo: "assets/download/docker-registry.svg"
-        url: "https://infra.{{ web_base_domain }}/docker-regitry-ui"
+        url: "https://infra.{{ web_base_domain }}/docker-registry-ui"
         subtitle: "Web UI for Docker Registry"
         target: "_blank"
       - name: "Gotify"

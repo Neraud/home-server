@@ -22,7 +22,24 @@ node_exporter:
 
   container:
     image: "{{ docker_registry.url }}/{{ _node_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _node_exporter_var_loader.base_image.tag }}"
-    requests_cpu: "{{ node_exporter_container_requests_cpu | default('102m') }}"
+    requests_cpu: "{{ node_exporter_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ node_exporter_container_requests_memory | default('180Mi') }}"
-    limits_cpu: "{{ node_exporter_container_limits_cpu | default('102m') }}"
+    limits_cpu: "{{ node_exporter_container_limits_cpu | default('750m') }}"
     limits_memory: "{{ node_exporter_container_limits_memory | default('180Mi') }}"
+
+
+# To avoid loops node_exporter_rbac_proxy node_exporter
+_node_exporter_rbac_proxy_var_loader:
+  base_image:
+    repo: quay.io
+    name: "coreos/kube-rbac-proxy"
+    tag: "v0.4.1"
+
+node_exporter_rbac_proxy:
+  base_image: "{{ _node_exporter_rbac_proxy_var_loader.base_image }}"
+  container:
+    image: "{{ docker_registry.url }}/{{ _node_exporter_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _node_exporter_rbac_proxy_var_loader.base_image.tag }}"
+    requests_cpu: "{{ node_exporter_container_requests_cpu | default('10m') }}"
+    requests_memory: "{{ node_exporter_container_requests_memory | default('20Mi') }}"
+    limits_cpu: "{{ node_exporter_container_limits_cpu | default('250m') }}"
+    limits_memory: "{{ node_exporter_container_limits_memory | default('40Mi') }}"

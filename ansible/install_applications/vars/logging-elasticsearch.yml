@@ -25,9 +25,9 @@ elasticsearch:
   
   container:
     image: "{{ docker_registry.url }}/{{ _elasticsearch_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _elasticsearch_var_loader.base_image.tag }}"
-    requests_cpu: "{{ elasticsearch_container_requests_cpu | default('100m') }}"
+    requests_cpu: "{{ elasticsearch_container_requests_cpu | default('250m') }}"
     requests_memory: "{{ elasticsearch_container_requests_memory | default('1024Mi') }}"
-    limits_cpu: "{{ elasticsearch_container_limits_cpu | default('1000m') }}"
+    limits_cpu: "{{ elasticsearch_container_limits_cpu | default('750m') }}"
     limits_memory: "{{ elasticsearch_container_limits_memory | default('1024Mi') }}"
   
   servername: "{{ elasticsearch_servername | default('elasticsearch.' + _elasticsearch_var_loader.namespace + '.svc.cluster.local') }}"
@@ -40,7 +40,11 @@ elasticsearch:
   # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
   # We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
   internal_users: "{{ elasticsearch_internal_users | default([]) }}"
-  
+
+  admin_user:
+    user: "{{ elasticsearch_admin_user_user | default('admin') }}"
+    password: "{{ elasticsearch_admin_user_password | default(['password']) }}"
+
   ldap:
     servername: "{{ elasticsearch_ldap_servername | default(openldap.ldap.servername) }}"
     manager_dn: "{{ elasticsearch_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
@@ -49,9 +53,6 @@ elasticsearch:
     group: "{{ elasticsearch_ldap_group }}"
     roles_dn: "{{ elasticsearch_ldap_roles_dn }}"
 
-  exporter:
-    user: "{{ elasticsearch_exporter_user | default('exporter') }}"
-    password: "{{ elasticsearch_exporter_password | default('password') }}"
 
 
 # To avoid loops inside elasticsearch_exporter

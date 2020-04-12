@@ -203,6 +203,24 @@ watchers:
     tag: {{ nodered.base_image.tag }}
     includes:
       - .*-slim-v10
+  - type: github_tag
+    repo: vesse/node-ldapauth-fork
+    tag: v{{ nodered.additional_modules.ldapauth_fork.version }}
+    includes:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+    excludes:
+      - '.*-rc.*'
+  - type: github_tag
+    repo: zachowj/node-red-contrib-home-assistant-websocket 
+    tag: v{{ nodered.additional_modules.node_red_contrib_home_assistant_websocket.version }}
+    includes:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+  - type: github_tag
+    repo: biddster/node-red-contrib-time-range-switch
+    tag: {{ nodered.additional_modules.node_red_contrib_time_range_switch.version }}
+    includes:
+      - '[0-9]+\.[0-9]+\.[0-9]+'
+  # TODO : support NPM for nodered.additional_modules.node_red_contrib_stoptimer
   - type: docker_registry
     repo: {{ roomassistant.base_image.repo | default('registry-1.docker.io') }}
     image: {{ roomassistant.base_image.name }}
@@ -370,6 +388,34 @@ watchers:
     excludes:
       - .*(armhf|arm64).*
       - v1\.[0-8]\..*
+  - type: github_tag
+    repo: uken/fluent-plugin-elasticsearch
+    tag: v{{ fluentd.plugins.elasticsearch.version }}
+    includes:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+    excludes:
+      - 'v[1-3]\..*'
+  - type: github_tag
+    repo: bungoume/fluent-plugin-ua-parser
+    tag: v{{ fluentd.plugins.ua_parser.version }}
+    includes:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+    excludes:
+      - 'v0\..*'
+  - type: github_tag
+    repo: ua-parser/uap-core 
+    tag: v{{ fluentd.plugins.uap_core.version }}
+    includes:
+      - v[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - v0\.[0-6]\..*
+  - type: github_tag
+    repo: y-ken/fluent-plugin-geoip
+    tag: v{{ fluentd.plugins.geoip.version }}
+    includes:
+      - v[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - v0\..*
   - type: docker_registry
     repo: {{ kibana.base_image.repo | default('registry-1.docker.io') }}
     image: {{ kibana.base_image.name }}

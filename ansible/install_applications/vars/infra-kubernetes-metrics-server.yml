@@ -22,7 +22,7 @@ kubernetes_metrics_server:
 
   container:
     image: "{{ docker_registry.url }}/{{ _kubernetes_metrics_server_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_metrics_server_var_loader.base_image.tag }}"
-    requests_cpu: "{{ kubernetes_metrics_server_container_requests_cpu | default('50m') }}"
+    requests_cpu: "{{ kubernetes_metrics_server_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ kubernetes_metrics_server_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ kubernetes_metrics_server_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ kubernetes_metrics_server_container_limits_memory | default('256Mi') }}"

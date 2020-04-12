@@ -36,9 +36,9 @@ sabnzbd:
 
   container:
     image: "{{ docker_registry.url }}/sabnzbd:{{ _sabnzbd_var_loader.repo.version }}_{{ _sabnzbd_var_loader.base_image.name }}{{ _sabnzbd_var_loader.base_image.tag }}"
-    requests_cpu: "{{ sabnzbd_container_requests_cpu | default('100m') }}"
+    requests_cpu: "{{ sabnzbd_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ sabnzbd_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ sabnzbd_container_limits_cpu | default('200m') }}"
+    limits_cpu: "{{ sabnzbd_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ sabnzbd_container_limits_memory | default('256Mi') }}"
 
   context_root: "{{ sabnzbd_context_root | default('/') }}"
