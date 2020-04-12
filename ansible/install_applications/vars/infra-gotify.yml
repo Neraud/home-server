@@ -25,7 +25,7 @@ gotify:
     image: "{{ docker_registry.url }}/gotify-server:{{ _gotify_var_loader.base_image.tag }}"
     requests_cpu: "{{ gotify_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ gotify_container_requests_memory | default('64Mi') }}"
-    limits_cpu: "{{ gotify_container_limits_cpu | default('50m') }}"
+    limits_cpu: "{{ gotify_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ gotify_container_limits_memory | default('64Mi') }}"
 
   default_admin_user: "{{ gotify_default_admin_user | default('admin') }}"

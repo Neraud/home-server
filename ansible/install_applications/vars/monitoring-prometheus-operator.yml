@@ -27,7 +27,7 @@ prometheus_operator:
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('50m') }}"
     limits_memory: "{{ prometheus_operator_container_limits_memory | default('200Mi') }}"
 
-    config_reloader_cpu: "{{ prometheus_operator_container_config_reloader_cpu | default('25m') }}"
+    config_reloader_cpu: "{{ prometheus_operator_container_config_reloader_cpu | default('50m') }}"
     config_reloader_memory: "{{ prometheus_operator_container_config_reloader_cpu | default('25Mi') }}"
 
 
@@ -58,7 +58,7 @@ prometheus:
     image: "{{ docker_registry.url }}/{{ _prometheus_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ prometheus_container_requests_memory | default('768Mi') }}"
-    limits_cpu: "{{ prometheus_container_limits_cpu | default('200m') }}"
+    limits_cpu: "{{ prometheus_container_limits_cpu | default('400m') }}"
     limits_memory: "{{ prometheus_container_limits_memory | default('768Mi') }}"
   
   servername: "prometheus-k8s.{{ _prometheus_var_loader.namespace }}.svc.cluster.local"

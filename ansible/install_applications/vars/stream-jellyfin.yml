@@ -21,9 +21,9 @@ jellyfin:
 
   container:
     image: "{{ docker_registry.url }}/{{ _jellyfin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.base_image.tag }}"
-    requests_cpu: "{{ jellyfin_container_requests_cpu | default('200m') }}"
+    requests_cpu: "{{ jellyfin_container_requests_cpu | default('250m') }}"
     requests_memory: "{{ jellyfin_container_requests_memory | default('512Mi') }}"
-    limits_cpu: "{{ jellyfin_container_limits_cpu | default('500m') }}"
+    limits_cpu: "{{ jellyfin_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ jellyfin_container_limits_memory | default('512Mi') }}"
 
   context_path: "{{ jellyfin_context_path | default('/jellyfin') }}"

@@ -26,7 +26,7 @@ phpldapadmin:
     image: "{{ docker_registry.url }}/phpldapadmin-{{ _phpldapadmin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _phpldapadmin_var_loader.version }}-{{ _phpldapadmin_var_loader.base_image.tag }}"
     requests_cpu: "{{ phpldapadmin_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ phpldapadmin_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ phpldapadmin_container_limits_cpu | default('50m') }}"
+    limits_cpu: "{{ phpldapadmin_container_limits_cpu | default('150m') }}"
     limits_memory: "{{ phpldapadmin_container_limits_memory | default('256Mi') }}"
   
   ldap_servername: "{{ phpldapadmin_ldap_servername | default(openldap.ldap.servername) }}"

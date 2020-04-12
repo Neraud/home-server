@@ -26,7 +26,7 @@ homeassistant:
     image: "{{ docker_registry.url }}/{{ _homeassistant_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homeassistant_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ homeassistant_homeassistant_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ homeassistant_homeassistant_container_requests_memory | default('512Mi') }}"
-    limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('200m') }}"
+    limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ homeassistant_homeassistant_container_limits_memory | default('512Mi') }}"
 
   mqtt:

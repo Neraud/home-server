@@ -28,9 +28,9 @@ pyload:
     image: "{{ docker_registry.url }}/pyload:{{ _pyload_var_loader.repo.commit }}_{{ _pyload_var_loader.base_image.name }}{{ _pyload_var_loader.base_image.tag }}"
     branch: "{{ _pyload_var_loader.repo.branch }}"
     commit: "{{ _pyload_var_loader.repo.commit }}"
-    requests_cpu: "{{ pyload_container_requests_cpu | default('100m') }}"
+    requests_cpu: "{{ pyload_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ pyload_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ pyload_container_limits_cpu | default('200m') }}"
+    limits_cpu: "{{ pyload_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ pyload_container_limits_memory | default('256Mi') }}"
 
   context_root: "{{ pyload_context_root | default('/') }}"

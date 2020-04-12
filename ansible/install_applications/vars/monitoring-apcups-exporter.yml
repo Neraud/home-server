@@ -28,10 +28,10 @@ apcups_exporter:
 
   container:
     image: "{{ docker_registry.url }}/apcups-exporter:{{ _apcups_exporter_var_loader.repo.version }}-custom"
-    requests_cpu: "{{ apcups_exporter_container_requests_cpu | default('25m') }}"
-    requests_memory: "{{ apcups_exporter_container_requests_memory | default('64Mi') }}"
-    limits_cpu: "{{ apcups_exporter_container_limits_cpu | default('50m') }}"
-    limits_memory: "{{ apcups_exporter_container_limits_memory | default('64Mi') }}"
+    requests_cpu: "{{ apcups_exporter_container_requests_cpu | default('20m') }}"
+    requests_memory: "{{ apcups_exporter_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ apcups_exporter_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ apcups_exporter_container_limits_memory | default('32Mi') }}"
 
   repo: "{{ _apcups_exporter_var_loader.repo }}"
     

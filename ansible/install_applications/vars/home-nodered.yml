@@ -24,7 +24,7 @@ nodered:
     image: "{{ docker_registry.url }}/{{ _nodered_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nodered_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ nodered_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ nodered_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ nodered_container_limits_cpu | default('50m') }}"
+    limits_cpu: "{{ nodered_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ nodered_container_limits_memory | default('256Mi') }}"
 
   ldap:
