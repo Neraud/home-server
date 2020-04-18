@@ -54,6 +54,8 @@ spec:
           readOnly: true
         - name: fluent-bit-config
           mountPath: /fluent-bit/etc/
+        - name: certs-volume
+          mountPath: /fluent-bit/certs
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -82,6 +84,9 @@ spec:
       - name: fluent-bit-config
         configMap:
           name: fluent-bit-config
+      - name: certs-volume
+        secret:
+          secretName: fluent-bit-certs
       serviceAccountName: fluent-bit
       tolerations:
       - key: node-role.kubernetes.io/master
