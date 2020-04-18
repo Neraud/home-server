@@ -31,6 +31,8 @@ fluentd:
   plugins:
     elasticsearch:
       version: "4.0.7"
+    prometheus:
+      version: "1.7.2"
     ua_parser:
       version: "1.2.0"
     uap_core:
