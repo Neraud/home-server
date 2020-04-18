@@ -231,17 +231,6 @@ glusterfs_volumes:
       app.kubernetes.io/name: gitlab
       app.kubernetes.io/component: gitlab
       storage: data
-  elasticsearch-k8s-data:
-    replicas: 2
-    capacity: 4G
-    arbiterCapacity: 128M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: elasticsearch
-      app.kubernetes.io/component: elasticsearch
-      app.kubernetes.io/instance: k8s-logs
   deluge-data:
     replicas: 2
     capacity: 256M

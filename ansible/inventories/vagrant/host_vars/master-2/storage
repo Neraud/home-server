@@ -1,3 +1,11 @@
 ---
 
-local_lvm_storage: {}
+local_lvm_storage: 
+  elasticsearch-k8s-data:
+    capacity: 4G
+    filesystem: ext4
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: elasticsearch
+      app.kubernetes.io/instance: k8s-logs
