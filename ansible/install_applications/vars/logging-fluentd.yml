@@ -28,6 +28,8 @@ fluentd:
     limits_cpu: "{{ fluentd_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ fluentd_container_limits_memory | default('200Mi') }}"
 
+  shared_key: "{{ fluentd_shared_key | default('secret') }}"
+
   plugins:
     elasticsearch:
       version: "4.0.7"

@@ -48,6 +48,13 @@ spec:
             value: "true"
           - name: FLUENT_ELASTICSEARCH_RELOAD_ON_FAILURE
             value: "true"
+          - name: FLUENT_SELF_HOSTNAME
+            value: "{{ fluentd.servername }}"
+          - name: FLUENT_SHARED_KEY
+            valueFrom:
+              secretKeyRef:
+                name: fluentd-secret
+                key: fluentd_shared_key
         securityContext:
           runAsNonRoot: true
           runAsUser: 999 # fluent

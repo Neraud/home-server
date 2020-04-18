@@ -39,6 +39,11 @@ spec:
           value: "{{ fluentd.servername }}"
         - name: FLUENT_FLUENTD_PORT
           value: "24224"
+        - name: FLUENT_FLUENTD_SHARED_KEY
+          valueFrom:
+            secretKeyRef:
+              name: fluent-bit-secret
+              key: fluentd_shared_key
         securityContext:
           # Run as root to be able to read host logs
           #runAsNonRoot: true
