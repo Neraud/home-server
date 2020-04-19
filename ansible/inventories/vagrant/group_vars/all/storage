@@ -109,7 +109,7 @@ glusterfs_volumes:
   grafana-data:
     replicas: 2
     capacity: 128M
-    arbiterCapacity: 32M
+    arbiterCapacity: 64M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
