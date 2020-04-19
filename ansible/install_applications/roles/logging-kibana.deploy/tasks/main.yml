@@ -38,14 +38,14 @@
 
 - name: Wait for Kibana to be available
   k8s_info:
-    kind: Deployment
+    kind: StatefulSet
     namespace: "{{ kibana.namespace }}"
     name: kibana
   register: k8s_result
   become: yes
   become_user: "{{ kubernetes_user.name }}"
   until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
-  retries: 30
+  retries: 60
   delay: 10
 
 - name: List Kibana saved objects

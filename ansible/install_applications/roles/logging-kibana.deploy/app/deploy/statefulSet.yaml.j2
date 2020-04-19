@@ -1,0 +1,172 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kibana
+  namespace: {{ kibana.namespace }}
+  labels:
+    {{ kibana.labels_def | to_nice_yaml() | indent(4) }}
+    {{ kibana.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ kibana.labels_def | to_nice_yaml() | indent(6) }}
+  template:
+    metadata:
+      labels:
+        {{ kibana.labels_def | to_nice_yaml() | indent(8) }}
+        {{ kibana.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-data-dir
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /kibana-data/data
+            mkdir -p /kibana-data/optimize
+            chown -R 1000:1000 /kibana-data/*
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: kibana-data-pv-claim
+          mountPath: /kibana-data
+      - name: copy-optimize
+        image: "{{ kibana.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            if [ -z "$(ls -A /usr/share/kibana/optimize-tmp)" ]; then
+              echo "Kibana optimize folder is empty, copying from the image"
+              cp -R /usr/share/kibana/optimize/* /usr/share/kibana/optimize-tmp/
+            else
+              echo "Kibana optimize folder is not empty, skipping copy"
+            fi
+        volumeMounts:
+        - name: kibana-data-pv-claim
+          mountPath: /usr/share/kibana/optimize-tmp
+          subPath: optimize
+      - name: optimize
+        image: "{{ kibana.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            /usr/local/bin/kibana-docker --optimize
+        securityContext:
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: "{{ kibana.optimize.requests_cpu }}"
+            memory: "{{ kibana.optimize.requests_memory }}"
+          limits:
+            cpu: "{{ kibana.optimize.limits_cpu }}"
+            memory: "{{ kibana.optimize.limits_memory }}"
+        env:
+        - name: NODE_OPTIONS
+          value: "--max-old-space-size={{ kibana.optimize.nodejs_max_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: kibana-config
+          mountPath: /usr/share/kibana/config/kibana.yml
+          subPath: kibana.yml
+        - name: kibana-data-pv-claim
+          mountPath: /usr/share/kibana/data
+          subPath: data
+        - name: kibana-data-pv-claim
+          mountPath: /usr/share/kibana/optimize
+          subPath: optimize
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: kibana-config
+        configMap:
+          name: kibana
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      containers:
+      - name: kibana
+        image: "{{ kibana.container.image }}"
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /kibana/
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        securityContext:
+          runAsNonRoot: true
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: "{{ kibana.container.requests_cpu }}"
+            memory: "{{ kibana.container.requests_memory }}"
+          limits:
+            cpu: "{{ kibana.container.limits_cpu }}"
+            memory: "{{ kibana.container.limits_memory }}"
+        env:
+        - name: NODE_OPTIONS
+          value: "--max-old-space-size={{ kibana.nodejs_max_memory }}"
+        ports:
+        - name: http
+          containerPort: 5601
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: kibana-config
+          mountPath: /usr/share/kibana/config/kibana.yml
+          subPath: kibana.yml
+        - name: kibana-data-pv-claim
+          mountPath: /usr/share/kibana/data
+          subPath: data
+        - name: kibana-data-pv-claim
+          mountPath: /usr/share/kibana/optimize
+          subPath: optimize
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: kibana-config
+        configMap:
+          name: kibana
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: kibana-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 64M
+      selector:
+        matchLabels:
+          {{ kibana.labels_def | to_nice_yaml() | indent(10) }}
