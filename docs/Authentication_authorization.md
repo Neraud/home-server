@@ -112,11 +112,11 @@ However, the groups inside Gitlab can't be mapped with LDAP groups (it requires 
 
 HomeAssistant doesn't natively support LDAP authentication.
 However, it supports a generic [command line](https://www.home-assistant.io/docs/authentication/providers/#command-line) authentication provider.
-And the community has developped an [LDAP script](https://github.com/efficiosoft/ldap-auth-sh).
+And the community has developed an [LDAP script](https://github.com/efficiosoft/ldap-auth-sh).
 
 This works well, and allows filtering on the `app_groups` `homeassistant`.
 
-However, it does't seem like this authentication provider can be used the first time HomeAssistant is accessed.
+However, it doesn't seem like this authentication provider can be used the first time HomeAssistant is accessed.
 The standard process wants to create a user in the local HomeAssistant provider.
 
 In the deployed configuration, both providers are enabled.

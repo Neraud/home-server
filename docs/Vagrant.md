@@ -58,7 +58,7 @@ For more information, take a look at the [authentication and authorization page]
 
 ## Services
 
-The folowing services are deployed :
+The following services are deployed :
 
 | Service                                                          | Test URL                                           | Description                                            |
 | ---------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------ |
@@ -93,7 +93,6 @@ The folowing services are deployed :
 | [pyload](https://pyload.net/)                                    | <https://dl.k8stest.com/pyload/>                   | HTTP download manager                                  |
 | [SABnzbd](https://sabnzbd.org/)                                  | <https://dl.k8stest.com/sabnzbd/>                  | Binary newsreader                                      |
 
-
 Once the Vagrant environment is started, you can easily list all the service URLs on the [Homer dashboard](https://web.k8stest.com/homer/).
 
 ### Kubernetes dashboard
@@ -115,7 +114,7 @@ You can do so using a terminal (assuming you start at the project root) :
 
 Docker Registry UI is installed and configured to show the images stored in the local private registry.
 
-The LdemonLDAP user name is sent to Docker Registry UI, and usernames added in the `docker_registry_ui_admin_users` variables are allowed to remove tags from the registry (by default `user` is allowed).
+The LemonLDAP user name is sent to Docker Registry UI, and usernames added in the `docker_registry_ui_admin_users` variables are allowed to remove tags from the registry (by default `user` is allowed).
 
 ### OpenLDAP
 
@@ -231,7 +230,7 @@ EOF
 
 Gotify can be used to send notifications.
 
-2 users are created : 
+2 users are created :
 
 * `admin` / `Passw0rd`
 * `user` / `Passw0rd`

@@ -1,5 +1,5 @@
 
-# Hardware deail
+# Hardware detail
 
 This page describes the hardware I currently run my 'production' on.
 
@@ -56,7 +56,7 @@ This box runs an [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Inte
 
 ## NAS
 
-Media and backps are stored on a Synology NAS DS415+
+Media and backups are stored on a Synology NAS DS415+
 With 4 WD Red 6To (WD60EFRX) in SHR mode.
 
 ## Network
@@ -79,6 +79,6 @@ With 4 WD Red 6To (WD60EFRX) in SHR mode.
 | Storage  | Crucial M4 64 GB       | (incl.)  |
 
 (ordered 2013-07)
-(dead 2019-08, won't boot after chaning the dead fan)
+(dead 2019-08, won't boot after changing the dead fan)
 
 This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.

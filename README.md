@@ -7,7 +7,7 @@ It creates a Kubernetes cluster on self hosted bare metal hosts and deploy apps.
 
 It also contains a Vagrant environment to test the playbooks and services.
 
-## Why selfhosted
+## Why self-hosted
 
 Not taking into account personal bias about hosting in the cloud, I'm running 2 types of services that are not compatible with cloud providers :
 
@@ -42,7 +42,7 @@ To test this cluster, take a look at the [Vagrant page](docs/Vagrant.md).
 
 ## Services
 
-The folowing services are deployed :
+The following services are deployed :
 
 | Service                                                          | Description                                            |
 | ---------------------------------------------------------------- | ------------------------------------------------------ |
