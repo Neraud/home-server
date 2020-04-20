@@ -7,9 +7,9 @@ To be clear, the cluster installed by this playbook isn't high available.
 On the hardware side of things, at least 2 major points of failure remain :
 
 * Single internet link
-* Single power delivery (allviated by a UPS)
+* Single power delivery (alleviated by a UPS)
 
-Also as it's a home setup, it's obviously not replicated accros multiple sites.
+Also as it's a home setup, it's obviously not replicated across multiple sites.
 
 ## Software stack
 
@@ -30,7 +30,7 @@ It's installed on the 3 master nodes, and all nodes in the cluster are configure
 
 Kubernetes is installed using 3 master nodes, using the [stacked etcd topology](https://kubernetes.io/docs/setup/independent/ha-topology/#stacked-etcd-topology)
 
-The apiserver is accessed though a HAProxy that distributes requests accross the 3 master nodes.
+The apiserver is accessed though a HAProxy that distributes requests across the 3 master nodes.
 
 **HighAvailability** : Kubernetes tolerates the loss of 1 master node
 
@@ -63,9 +63,9 @@ If it stays down for a long period, SSL certs will expire.
 
 #### Load balancing
 
-Trafic is not load balanced between the 3 NGinx instances.
+Traffic is not load balanced between the 3 NGinx instances.
 
-It could easily be added. Howver, using a single active NGinx instance allows for a more effective fail2ban filtering.
+It could easily be added. However, using a single active NGinx instance allows for a more effective fail2ban filtering.
 If an IP tries to scan or brute force access to the cluster, fail2ban add an iptables rule to deny this IP. Using 3 hosts means that each instance will have its own fail2ban counters and its own iptables rules. It will allow for more tries before denying the IP.
 
 ## Applications

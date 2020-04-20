@@ -26,6 +26,8 @@ spec:
         ports:
         - containerPort: 24224
           name: fluentd
+        - containerPort: 24231
+          name: metrics
         env:
           - name:  FLUENT_ELASTICSEARCH_HOST
             value: "{{ elasticsearch.servername }}"
@@ -46,13 +48,23 @@ spec:
             value: "true"
           - name: FLUENT_ELASTICSEARCH_RELOAD_ON_FAILURE
             value: "true"
+          - name: FLUENT_SELF_HOSTNAME
+            value: "{{ fluentd.servername }}"
+          - name: FLUENT_SHARED_KEY
+            valueFrom:
+              secretKeyRef:
+                name: fluentd-secret
+                key: fluentd_shared_key
         securityContext:
           runAsNonRoot: true
           runAsUser: 999 # fluent
           readOnlyRootFilesystem: true
         readinessProbe:
-          tcpSocket:
-            port: fluentd
+          # Using a tcpSocket on the fluentd port generates TLS errors
+          httpGet:
+            scheme: HTTP
+            path: /metrics
+            port: metrics
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
@@ -70,6 +82,8 @@ spec:
           mountPath: /fluentd/etc/
         - name: fluentd-includes
           mountPath: /fluentd/etc/conf.d
+        - name: certs-volume
+          mountPath: /fluentd/certs
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
@@ -85,6 +99,9 @@ spec:
       - name: fluentd-includes
         configMap:
           name: fluentd-includes
+      - name: certs-volume
+        secret:
+          secretName: fluentd-certs
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca

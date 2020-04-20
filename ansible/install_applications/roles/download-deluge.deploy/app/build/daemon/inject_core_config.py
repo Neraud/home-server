@@ -2,6 +2,7 @@
 
 import os
 import logging
+import re
 logging.basicConfig(level=logging.DEBUG)
 from deluge.config import Config
 from deluge.core.preferencesmanager import DEFAULT_PREFS as CORE_CONFIG_DEFAULTS
@@ -29,6 +30,8 @@ for param in os.environ.keys():
             propertyValue = True
         elif propertyValue.lower() in ("false", "no"):
             propertyValue = False
+        elif re.match(r'^\[.*\]$', propertyValue):
+            propertyValue = propertyValue[1:-1].split(',')
 
         logging.debug("Injecting %s = %s" % (propertyName, propertyValue))
         config[propertyName] = propertyValue

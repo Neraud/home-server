@@ -1,0 +1,19 @@
+---
+
+kubernetes_user:
+  name: "{{ standard_user.name }}"
+  home: "{{ standard_user.home }}"
+
+local_storage_vg: data_vg
+local_lv_prefix: local_
+
+#local_lvm_storage:
+#  appname-componentName-storageDetail:
+#    capacity: 20G
+#    filesystem: ext4 (optional)
+#    mount_path: /path/on/kubernetes/node (optional)
+#    reclaim_policy: Retain
+#    labels:
+#      app.kubernetes.io/name: appName
+#      app.kubernetes.io/component: componentName
+#      storage: storageDetail

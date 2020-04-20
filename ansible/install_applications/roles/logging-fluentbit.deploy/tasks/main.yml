@@ -11,6 +11,15 @@
     base_image: "{{ fluentbit.base_image }}"
     private_image: "{{ fluentbit.container.image }}"
 
+- name: Read certificate files
+  slurp:
+    src: "{{ item }}"
+  register: fluentbit_generated_certificate_files
+  with_items:
+    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/fluentbit/server.crt"
+    - "{{ custom_ssl_pki_root_dir }}/cluster/fluentbit/server.key"
+
 - name: List parser files
   set_fact:
     fluentbit_parser_files: "{{ fluentbit_parser_files | default([]) + [ item ] }}"

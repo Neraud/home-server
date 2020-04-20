@@ -83,6 +83,17 @@
   retries: 60
   delay: 3
 
+- name: Prepare wanted index settings
+  set_fact:
+    wanted_index_settings: 
+      # By default, an index is created with 1 replica.
+      # If we only have 1 node, this index will remain yellow
+      number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+      # After 30 seconds without search, an index is flagged idle and not refresh automatically
+      # Our prometheus exporter won't see new documents and trigger a ElasticNoNewDocuments alert when this happens
+      # To avoid that, we force the scheduled refresh
+      refresh_interval: "10s"
+
 - name: Get current default ElasticSearch index template
   uri:
     url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_template/default"
@@ -105,7 +116,7 @@
     body:
         index_patterns: [ "*" ]
         order: -1
-        settings: "{{ default_index_settings }}"
+        settings: "{{ wanted_index_settings }}"
     body_format: json
     validate_certs: no
     force_basic_auth: yes
@@ -114,10 +125,38 @@
   register: set_default_index_template
   changed_when: True
   failed_when: "not set_default_index_template.json.acknowledged | default (false)"
-  when: not current_default_index_template.json or (current_default_index_template.json.default.settings.index != default_index_settings)
-  vars:
-    default_index_settings:
-      # By default, an index is created with 1 replica.
-      # If we only have 1 node, this index will remain yellow
-      number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
-      #number_of_shards: 1
+  when: not current_default_index_template.json or (current_default_index_template.json.default.settings.index != wanted_index_settings)
+
+- name: List existing ElasticSearch logstash indices
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/logstash*"
+    method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [ 200, 404 ]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: elasticsearch_existing_indices
+
+- name: Update existing ElasticSearch logstash indices
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/{{ item.key }}/_settings"
+    method: PUT
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    body:
+      index: "{{ wanted_index_settings }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_index_settings
+  changed_when: True
+  failed_when: "not set_index_settings.json.acknowledged | default (false)"
+  loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when: wanted_index_settings | dict2items | difference(item.value.settings.index | dict2items)

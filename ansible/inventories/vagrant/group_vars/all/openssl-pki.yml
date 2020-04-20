@@ -103,6 +103,20 @@ openssl_custom_pki:
         locality_name: Paris
         organization_name: Test
         email_address: user@mail.net
+      - name: "fluentd"
+        common_name: "{{ fluentd_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
+      - name: "fluentbit"
+        common_name: "{{ fluentbit_servername }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
       - name: "elasticsearch"
         common_name: "{{ elasticsearch_servername }}"
         country_name: FR

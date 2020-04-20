@@ -1,15 +1,15 @@
 
 # Bare metal
 
-Using kubernetes with a cloud provider is quite magical. Many thinkgs just work.
+Using Kubernetes with a cloud provider is quite magical. Many things just work.
 
 On bare metal however, it involves less magic and more work ;p
 
 ## Network
 
-(See [NGINX Ingress Controller - Bare-metal consederations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/))
+(See [NGINX Ingress Controller - Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/))
 
-To route inbound trafic to the ingress, we've choosen to use a non-containerized NGinx Reverse Proxy.
+To route inbound traffic to the ingress, we've chosen to use a non-containerized NGinx Reverse Proxy.
 
 It matches the [Using a self-provisioned edge](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/#using-a-self-provisioned-edge) section of the documentation.
 
@@ -54,7 +54,7 @@ Using LVs mean that we can easily extend an existing volume if the space require
 
 ### Local volume tagging
 
-As we create all the Volumes before creating the Persistant Volume Claims, we can't be sure that the prepared volumes are bound to the correct pod.
+As we create all the Volumes before creating the Persistent Volume Claims, we can't be sure that the prepared volumes are bound to the correct pod.
 
 To make sure of it, we use labels.
 
@@ -65,7 +65,7 @@ For example, if we have a stateful application that has both a frontend and MySQ
 * `app.kubernetes.io/name: my-awesome-app`, `app.kubernetes.io/component: my-awesome-app`
 * `app.kubernetes.io/name: my-awesome-app`, `app.kubernetes.io/component: mysql`
 
-The Persistant Volume Claim will use these same labels as selectors :
+The Persistent Volume Claim will use these same labels as selectors :
 
 ```yaml
 volumeClaimTemplates:
@@ -114,7 +114,7 @@ But that shouldn't stop us from using it !
 
 Ideally, GlusterFS will be deployed using the new [Gluster Container Storage](https://github.com/gluster/gcs) project.
 
-It uses an Operator to automatically deploy Glusterd2 containers, a dynamic volume provisioner, a prometheus exporter ... pretty much the whole stack.
+It uses an Operator to automatically deploy Glusterd2 containers, a dynamic volume provisioner, a Prometheus exporter ... pretty much the whole stack.
 
 But it's not stable yet.
 

@@ -109,7 +109,7 @@ glusterfs_volumes:
   grafana-data:
     replicas: 2
     capacity: 128M
-    arbiterCapacity: 32M
+    arbiterCapacity: 64M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
@@ -231,17 +231,17 @@ glusterfs_volumes:
       app.kubernetes.io/name: gitlab
       app.kubernetes.io/component: gitlab
       storage: data
-  elasticsearch-k8s-data:
+  kibana-data:
     replicas: 2
-    capacity: 4G
-    arbiterCapacity: 128M
+    capacity: 64M
+    arbiterCapacity: 16M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
     labels:
-      app.kubernetes.io/name: elasticsearch
-      app.kubernetes.io/component: elasticsearch
-      app.kubernetes.io/instance: k8s-logs
+      app.kubernetes.io/name: kibana
+      app.kubernetes.io/component: kibana
+      storage: data
   deluge-data:
     replicas: 2
     capacity: 256M

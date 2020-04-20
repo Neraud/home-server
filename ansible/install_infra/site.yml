@@ -81,12 +81,13 @@
   roles:
     - kubernetes-node-join
     - kubernetes-node-postinstall
+    - { role: kubernetes-storage-local, tags: kubernetes-storage }
 
 - name: Provision Kubernetes infra applications
   hosts: controller
   roles:
+    - { role: kubernetes-storage-distributed, tags: kubernetes-storage }
     - kubernetes-infra
-    - { role: kubernetes-storage, tags: kubernetes-storage }
 
 - name: Provision APC UPS
   hosts: apcups

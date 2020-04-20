@@ -26,4 +26,8 @@ RUN mkdir -p /home/deluge/.config/deluge && \
     mkdir -p /opt/deluge && \
     chown -R deluge:deluge /opt/deluge
 
+ENV PYTHON_EGG_CACHE=/tmp/deluge/.cache/Python-Eggs
+RUN mkdir -p /tmp/deluge/.cache/Python-Eggs && \
+    chown -R deluge:deluge /tmp/deluge
+
 USER deluge
