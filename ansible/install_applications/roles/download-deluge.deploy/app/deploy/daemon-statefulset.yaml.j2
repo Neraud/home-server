@@ -57,6 +57,16 @@ spec:
           value: "true"
         - name: "DELUGE_CONF_CORE_PLUGINS_LOCATION"
           value: "/home/deluge/.config/deluge/plugins"
+        - name: "DELUGE_CONF_CORE_ENABLED_PLUGINS"
+          value: "[AutoAdd]"
+        - name: "DELUGE_CONF_AUTOADD_1_PATH"
+          value: "/mnt/download/torrent/auto-load"
+        - name: "DELUGE_CONF_AUTOADD_1_COPY_TORRENT"
+          value: "/mnt/download/torrent/torrent-files"
+        - name: "DELUGE_CONF_AUTOADD_1_DOWNLOAD_LOCATION"
+          value: "/mnt/download/torrent/pending"
+        - name: "DELUGE_CONF_AUTOADD_1_MOVE_COMPLETED_PATH"
+          value: "/mnt/download/torrent/done"
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000 # deluge

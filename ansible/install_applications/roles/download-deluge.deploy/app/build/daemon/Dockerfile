@@ -9,6 +9,7 @@ ENV DELUGE_CONF_CORE_GEOIP_DB_LOCATION /opt/deluge/GeoIP-country.dat
 RUN wget -O - https://dl.miyuru.lk/geoip/maxmind/country/maxmind4.dat.gz | gunzip -c > /opt/deluge/GeoIP-country.dat
 
 ADD --chown=deluge:deluge inject_core_config.py /opt/deluge/inject_core_config.py
+ADD --chown=deluge:deluge inject_autoadd_config.py /opt/deluge/inject_autoadd_config.py
 ADD --chown=deluge:deluge entrypoint.sh /opt/deluge/entrypoint.sh
 RUN chmod +x /opt/deluge/entrypoint.sh
 
