@@ -22,6 +22,7 @@
     build: yes
     build_args:
       jellyfin_plugins_anime_url: "{{ jellyfin.plugins.anime.url }}"
+      jellyfin_plugins_ldapauth_url: "{{ jellyfin.plugins.ldapauth.url }}"
 
 - name: List config files
   set_fact:

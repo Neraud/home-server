@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<PluginConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LdapServer>{{ jellyfin.ldap.servername }}</LdapServer>
+  <LdapBaseDn>{{ jellyfin.ldap.users_dn }}</LdapBaseDn>
+  <LdapPort>636</LdapPort>
+  <UseSsl>true</UseSsl>
+  <UseStartTls>false</UseStartTls>
+  <SkipSslVerify>false</SkipSslVerify>
+  <LdapSearchAttributes>uid, cn, mail, displayName</LdapSearchAttributes>
+  <LdapUsernameAttribute>cn</LdapUsernameAttribute>
+  <LdapSearchFilter>(memberOf={{ jellyfin.ldap.group }})</LdapSearchFilter>
+  <LdapAdminFilter>(memberOf={{ jellyfin.ldap.admin_group }})</LdapAdminFilter>
+  <LdapBindUser>{{ jellyfin.ldap.manager_dn }}</LdapBindUser>
+  <LdapBindPassword>{{ jellyfin.ldap.manager_password }}</LdapBindPassword>
+  <CreateUsersFromLdap>true</CreateUsersFromLdap>
+</PluginConfiguration>

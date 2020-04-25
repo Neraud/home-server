@@ -417,7 +417,8 @@ The default `user` account (from OpenLDAP) also has access.
 
 ### Jellyfin
 
-Jellyfin is deployed.
+Jellyfin is deployed and configured.
+The default `user` account (from OpenLDAP) has admin access.
 
 ### Airsonic
 

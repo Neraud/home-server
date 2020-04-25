@@ -39,3 +39,14 @@ jellyfin:
     anime: 
       url: https://github.com/jellyfin/jellyfin-plugin-anime/releases/download/v8/jellyfin-plugin-anime_8.0.0.0.zip
       version: v8
+    ldapauth:
+      url: https://github.com/jellyfin/jellyfin-plugin-ldapauth/releases/download/v6/jellyfin-plugin-ldapauth_6.0.zip
+      version: v6
+
+  ldap:
+    servername: "{{ jellyfin_ldap_servername | default(openldap.ldap.servername) }}"
+    users_dn: "{{ jellyfin_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    manager_dn: "{{ jellyfin_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ jellyfin_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group: "{{ jellyfin_ldap_group }}"
+    admin_group: "{{ jellyfin_ldap_admin_group }}"
