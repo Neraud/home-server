@@ -11,6 +11,7 @@
   vars:
     base_image: "{{ jellyfin.base_image }}"
     private_image: "{{ jellyfin.container.image }}"
+    build: yes
 
 - name: Deploy Jellyfin
   k8s:
