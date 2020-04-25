@@ -13,6 +13,7 @@ openldap_ldap_structure_groups_ou_dns:
   app_groups: "ou=app_groups,{{ openldap_ldap_basedn }}"
   elasticsearch_roles: "ou=elasticsearch_roles,{{ openldap_ldap_basedn }}"
   grafana_roles: "ou=grafana_roles,{{ openldap_ldap_basedn }}"
+  jellyfin_roles: "ou=jellyfin_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
   - id: user
@@ -85,6 +86,11 @@ openldap_ldap_groups:
     ou: app_groups
     members:
       - user
+  - id: jellyfin
+    description: Jellyfin
+    ou: app_groups
+    members:
+      - user
   - id: ttrss
     description: TT-RSS
     ou: app_groups
@@ -116,5 +122,12 @@ openldap_ldap_groups:
   - id: kibanauser
     description: Kibana user
     ou: elasticsearch_roles
+    members:
+      - user
+
+  # Roles for Jellyfin
+  - id: admin
+    description: Jellyfin Admin
+    ou: jellyfin_roles
     members:
       - user

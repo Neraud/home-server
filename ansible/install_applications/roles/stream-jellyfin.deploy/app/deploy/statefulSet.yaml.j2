@@ -6,6 +6,8 @@ metadata:
   labels:
     {{ jellyfin.labels_def | to_nice_yaml() | indent(4) }}
     {{ jellyfin.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -32,6 +34,30 @@ spec:
         volumeMounts:
         - name: jellyfin-pv-claim
           mountPath: /jellyfin
+      - name: inject-conf
+        image: "{{ jellyfin.conf_injection_container.image }}"
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: jellyfin-config
+          mountPath: /config-source
+        - name: jellyfin-pv-claim
+          mountPath: /config-target
+          subPath: config
+      - name: inject-certificate
+        image: "{{ jellyfin.conf_injection_container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            cp /etc/ssl/certs/ca-certificates.crt /tmp-cert
+            cat /etc/ssl/cluster/ca.crt >> /tmp-cert/ca-certificates.crt
+        volumeMounts:
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        - name: tmp-cert-volume
+          mountPath: /tmp-cert
       containers:
       - image: "{{ jellyfin.container.image }}"
         name: jellyfin
@@ -45,7 +71,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: /
+            path: {{ jellyfin.context_path }}
             port: jellyfin
           initialDelaySeconds: 3
           periodSeconds: 5
@@ -64,16 +90,27 @@ spec:
           subPath: config
         - name: jellyfin-multimedia
           mountPath: /media
+        - name: tmp-cert-volume
+          mountPath: /etc/ssl/certs/ca-certificates.crt
+          subPath: ca-certificates.crt
         - name: tmp-volume
           mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: jellyfin-config
+        configMap:
+          name: jellyfin-config
       - name: jellyfin-multimedia
         persistentVolumeClaim:
           claimName: nfs-multimetia
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
       - name: tmp-volume
+        emptyDir: {}
+      - name: tmp-cert-volume
         emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'

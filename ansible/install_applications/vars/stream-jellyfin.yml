@@ -4,13 +4,17 @@
 _jellyfin_var_loader:
   base_image:
     name: "jellyfin/jellyfin"
-    tag: "10.4.3-amd64"
+    tag: "10.5.4-amd64"
+  conf_injection_base_image:
+    name: "python"
+    tag: "3.8.2-alpine3.11"
 
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"
 
   namespace: "stream-jellyfin"
   base_image: "{{ _jellyfin_var_loader.base_image }}"
+  conf_injection_base_image: "{{ _jellyfin_var_loader.conf_injection_base_image }}"
 
   labels_def:
     app.kubernetes.io/name: jellyfin
@@ -19,11 +23,30 @@ jellyfin:
   labels_desc:
     app.kubernetes.io/version: "{{ _jellyfin_var_loader.base_image.tag }}"
 
+  conf_injection_container:
+    image: "{{ docker_registry.url }}/jellyfin-conf-inject-{{ _jellyfin_var_loader.conf_injection_base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.conf_injection_base_image.tag }}"
+
   container:
-    image: "{{ docker_registry.url }}/{{ _jellyfin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.base_image.tag }}"
+    image: "{{ docker_registry.url }}/{{ _jellyfin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ jellyfin_container_requests_cpu | default('250m') }}"
     requests_memory: "{{ jellyfin_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ jellyfin_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ jellyfin_container_limits_memory | default('512Mi') }}"
 
   context_path: "{{ jellyfin_context_path | default('/jellyfin') }}"
+
+  plugins:
+    anime: 
+      url: https://github.com/jellyfin/jellyfin-plugin-anime/releases/download/v8/jellyfin-plugin-anime_8.0.0.0.zip
+      version: v8
+    ldapauth:
+      url: https://github.com/jellyfin/jellyfin-plugin-ldapauth/releases/download/v6/jellyfin-plugin-ldapauth_6.0.zip
+      version: v6
+
+  ldap:
+    servername: "{{ jellyfin_ldap_servername | default(openldap.ldap.servername) }}"
+    users_dn: "{{ jellyfin_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    manager_dn: "{{ jellyfin_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
+    manager_password: "{{ jellyfin_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
+    group: "{{ jellyfin_ldap_group }}"
+    admin_group: "{{ jellyfin_ldap_admin_group }}"

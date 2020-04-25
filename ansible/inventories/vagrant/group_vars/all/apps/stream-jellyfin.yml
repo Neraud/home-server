@@ -1,0 +1,4 @@
+---
+
+jellyfin_ldap_group: "cn=jellyfin,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
+jellyfin_ldap_admin_group: "cn=admin,{{ openldap.ldap.structure_groups_ou_dns['jellyfin_roles'] }}"
