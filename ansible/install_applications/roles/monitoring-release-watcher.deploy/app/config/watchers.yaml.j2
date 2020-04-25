@@ -543,6 +543,17 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
       - ^10\.[0-4]\..*
+  - name: Jellyfin inject conf
+    type: docker_registry
+    repo: {{ jellyfin.conf_injection_base_image.repo | default('registry-1.docker.io') }}
+    image: {{ jellyfin.conf_injection_base_image.name }}
+    tag: {{ jellyfin.conf_injection_base_image.tag }}
+    includes:
+      - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
+    excludes:
+      - 3\.[0-7]\..*
+      - .*-alpine3\.[0-9]$
+      - .*-alpine3\.10
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anime
     tag: {{ jellyfin.plugins.anime.version }}

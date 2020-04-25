@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jellyfin-config
+  namespace: {{ jellyfin.namespace }}
+  labels:
+    {{ jellyfin.labels_def | to_nice_yaml() | indent(4) }}
+    {{ jellyfin.labels_desc | to_nice_yaml() | indent(4) }}
+data:
+{% for jellyfin_config_file in jellyfin_config_files %}
+  {{ jellyfin_config_file | basename | replace(".j2", "") }}: |
+    {{ lookup(jellyfin_config_file | regex_search('.j2$') | ternary('template','file'), jellyfin_config_file) | replace('\n', '\n    ') }}
+{% endfor %}

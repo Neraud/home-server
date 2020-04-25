@@ -6,6 +6,8 @@ metadata:
   labels:
     {{ jellyfin.labels_def | to_nice_yaml() | indent(4) }}
     {{ jellyfin.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -32,6 +34,15 @@ spec:
         volumeMounts:
         - name: jellyfin-pv-claim
           mountPath: /jellyfin
+      - name: inject-conf
+        image: "{{ jellyfin.conf_injection_container.image }}"
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: jellyfin-config
+          mountPath: /config-source
+        - name: jellyfin-pv-claim
+          mountPath: /config-target
+          subPath: config
       containers:
       - image: "{{ jellyfin.container.image }}"
         name: jellyfin
@@ -70,6 +81,9 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: jellyfin-config
+        configMap:
+          name: jellyfin-config
       - name: jellyfin-multimedia
         persistentVolumeClaim:
           claimName: nfs-multimetia

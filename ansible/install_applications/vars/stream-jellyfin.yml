@@ -5,12 +5,16 @@ _jellyfin_var_loader:
   base_image:
     name: "jellyfin/jellyfin"
     tag: "10.5.4-amd64"
+  conf_injection_base_image:
+    name: "python"
+    tag: "3.8.2-alpine3.11"
 
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"
 
   namespace: "stream-jellyfin"
   base_image: "{{ _jellyfin_var_loader.base_image }}"
+  conf_injection_base_image: "{{ _jellyfin_var_loader.conf_injection_base_image }}"
 
   labels_def:
     app.kubernetes.io/name: jellyfin
@@ -18,6 +22,9 @@ jellyfin:
 
   labels_desc:
     app.kubernetes.io/version: "{{ _jellyfin_var_loader.base_image.tag }}"
+
+  conf_injection_container:
+    image: "{{ docker_registry.url }}/jellyfin-conf-inject-{{ _jellyfin_var_loader.conf_injection_base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.conf_injection_base_image.tag }}"
 
   container:
     image: "{{ docker_registry.url }}/{{ _jellyfin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.base_image.tag }}-custom"
