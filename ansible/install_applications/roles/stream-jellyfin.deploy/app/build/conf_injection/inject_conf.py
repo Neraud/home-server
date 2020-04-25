@@ -24,13 +24,12 @@ def handleOneFile(sourceFile):
 
   if os.path.exists(targetFile):
     print("Merging configurations")
-    mergeXml(sourceFile, targetFile)
+    mergeXmlFile(sourceFile, targetFile)
   else:
     print("Target doesn't exist, copying the input file")
     copyfile(sourceFile, targetFile)
 
-def mergeXml(sourceFile, targetFile):
-  targetUpdated = False
+def mergeXmlFile(sourceFile, targetFile):
   with open(sourceFile) as sourceFileFd, open(targetFile) as targetFileFd:
     sourceDoc = xmltodict.parse(sourceFileFd.read())
     targetDoc = xmltodict.parse(targetFileFd.read())
@@ -38,29 +37,32 @@ def mergeXml(sourceFile, targetFile):
     
     if topLevel not in targetDoc:
       raise Exception("Top level '%s' not in target document" % topLevel)
+    
+    targetDoc[topLevel] = mergeXmlContent(targetDoc[topLevel], sourceDoc[topLevel], [topLevel])
 
-    for propertyName in sourceDoc[topLevel].keys():
-      if propertyName.startswith('@'):
+  with open(targetFile, 'w') as targetFileFd:
+    print("Writing updated target file")
+    targetFileFd.write(xmltodict.unparse(targetDoc, pretty=True))
+
+def mergeXmlContent(target, source, path=None):
+    if path is None: path = []
+    print(path)
+    for key in source:
+      if key.startswith('@'):
         continue
-
-      propertyValueSource = sourceDoc[topLevel][propertyName]
-      if propertyName in targetDoc[topLevel]:
-        propertyValueTarget = targetDoc[topLevel][propertyName]
+      if key in target:
+        if isinstance(target[key], dict) and isinstance(source[key], dict):
+          mergeXmlContent(target[key], source[key], path + [str(key)])
+        elif target[key] == source[key]:
+          print(" - %s.%s : %s (unchanged)" % ('.'.join(path), key, source[key]))
+          pass
+        else:
+          print(" - %s.%s : %s -> %s" % ('.'.join(path), key, target[key], source[key]))
+          target[key] = source[key]
       else:
-        propertyValueTarget = "[not set]"
-      
-      if propertyValueSource != propertyValueTarget:
-        targetUpdated = True
-        print(" - %s : %s -> %s" % (propertyName, propertyValueTarget, propertyValueSource))
-        targetDoc[topLevel][propertyName] = propertyValueSource
-      else:
-        print(" - %s : %s (unchanged)" % (propertyName, propertyValueSource))
-  
-  if targetUpdated:
-    with open(targetFile, 'w') as targetFileFd:
-      print("Writing updated target file")
-      targetFileFd.write(xmltodict.unparse(targetDoc, pretty=True))
-
+        print(" - %s.%s : [not defined] -> %s" % ('.'.join(path), key, source[key]))
+        target[key] = source[key]
+    return target
 
 if not os.path.exists(targetConfigFolder):
   print("Creating missing config dir")
