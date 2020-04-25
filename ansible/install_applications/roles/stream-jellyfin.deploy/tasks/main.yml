@@ -12,6 +12,8 @@
     base_image: "{{ jellyfin.base_image }}"
     private_image: "{{ jellyfin.container.image }}"
     build: yes
+    build_args:
+      jellyfin_plugins_anime_url: "{{ jellyfin.plugins.anime.url }}"
 
 - name: Deploy Jellyfin
   k8s:

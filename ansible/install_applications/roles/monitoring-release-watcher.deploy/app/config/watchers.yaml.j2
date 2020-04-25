@@ -543,6 +543,9 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
       - ^10\.[0-4]\..*
+  - type: github_tag
+    repo: jellyfin/jellyfin-plugin-anime
+    tag: {{ jellyfin.plugins.anime.version }}
   
   ##############
   # Apps : Web #

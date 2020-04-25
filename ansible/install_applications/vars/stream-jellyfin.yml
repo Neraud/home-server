@@ -27,3 +27,8 @@ jellyfin:
     limits_memory: "{{ jellyfin_container_limits_memory | default('512Mi') }}"
 
   context_path: "{{ jellyfin_context_path | default('/jellyfin') }}"
+
+  plugins:
+    anime: 
+      url: https://github.com/jellyfin/jellyfin-plugin-anime/releases/download/v8/jellyfin-plugin-anime_8.0.0.0.zip
+      version: v8
