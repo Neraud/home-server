@@ -56,7 +56,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: /
+            path: {{ jellyfin.context_path }}
             port: jellyfin
           initialDelaySeconds: 3
           periodSeconds: 5
