@@ -4,7 +4,7 @@
 _kubernetes_dashboard_var_loader:
   base_image:
     name: "kubernetesui/dashboard"
-    tag: "v2.0.0-rc5"
+    tag: "v2.0.0"
   
 kubernetes_dashboard:
   enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
@@ -32,7 +32,7 @@ kubernetes_dashboard:
 _kubernetes_dashboard_metrics_scraper_var_loader:
   base_image:
     name: "kubernetesui/metrics-scraper"
-    tag: "v1.0.3"
+    tag: "v1.0.4"
   
 kubernetes_dashboard_metrics_scraper:
   base_image: "{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image }}"
