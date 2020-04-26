@@ -3,8 +3,8 @@
 # To avoid loops inside nodered
 _nodered_var_loader:
   base_image:
-    name: "nodered/node-red-docker"
-    tag: "0.20.8-slim-v10"
+    name: "nodered/node-red"
+    tag: "1.0.6-12-minimal-amd64"
 
 nodered:
   enabled: "{{ nodered_enabled | default(True) }}"
@@ -37,9 +37,9 @@ nodered:
 
   additional_modules:
     ldapauth_fork:
-      version: 4.3.2
+      version: 4.3.3
     node_red_contrib_home_assistant_websocket:
-      version: 0.22.2
+      version: 0.22.3
     node_red_contrib_time_range_switch:
       version: 1.0.0
     node_red_contrib_stoptimer:

@@ -203,7 +203,9 @@ watchers:
     image: {{ nodered.base_image.name }}
     tag: {{ nodered.base_image.tag }}
     includes:
-      - .*-slim-v10
+      - .*-12-minimal-amd64
+    excludes:
+      - 1\.0\.[0-5]-.*
   - type: github_tag
     repo: vesse/node-ldapauth-fork
     tag: v{{ nodered.additional_modules.ldapauth_fork.version }}
@@ -623,3 +625,4 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^11\.[0-9]+(\.[0-9]+)?-alpine
+
