@@ -267,7 +267,9 @@ watchers:
       - 1\..*
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: nginx-0.30.0
+    release: controller-0.31.1
+    includes:
+      - controller-[0-9]+\.[0-9]+\.[0-9]+.*
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
   #- type: docker_registry
   #  repo: quay.io
