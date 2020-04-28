@@ -6,6 +6,9 @@ metadata:
   labels:
     {{ lemonldap.labels_def | to_nice_yaml() | indent(4) }}
     {{ lemonldap.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    # Not needed here, but it's a workaround for the "duplicated location /" error in ingress-nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   tls:
     - hosts:
