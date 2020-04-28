@@ -3,7 +3,7 @@
 kubernetes_nginx_ingress_http_port: "{{ kubernetes_ingress_http_port }}"
 kubernetes_nginx_ingress_https_port: "{{ kubernetes_ingress_https_port }}"
 kubernetes_nginx_ingress_mqtt_port: "{{ kubernetes_ingress_mqtt_port }}"
-kubernetes_nginx_ingress_mqtt_target: "default/mosquitto:1883"
+kubernetes_nginx_ingress_mqtt_target: "home-mosquitto/mosquitto:1883"
 
 kubernetes_nfs_storage:
   nfs-multimetia:
