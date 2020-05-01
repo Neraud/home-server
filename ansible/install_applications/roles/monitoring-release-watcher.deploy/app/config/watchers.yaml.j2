@@ -318,12 +318,10 @@ watchers:
     image: {{ unifi.base_image.name }}
     tag: {{ unifi.base_image.tag }}
     includes:
-      - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
+      - "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     excludes:
-      - LTS
-      - latest
-      - amd64-5\.[0-9]\..*
-      - amd64-5\.10\.[01]?[0-9]-.*
+      - 5\.[0-9]\..*
+      - 5\.1[01]\..*
   - name: ZoneMTA
     type: github_tag
     repo: {{ zonemta.repo.name }}
