@@ -4,7 +4,7 @@ metadata:
   labels:
     {{ fluentd.labels_def | to_nice_yaml() | indent(4) }}
     {{ fluentd.labels_desc | to_nice_yaml() | indent(4) }}
-  name: fluent-bit
+  name: fluentd
   namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
