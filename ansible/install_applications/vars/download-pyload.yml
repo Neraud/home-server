@@ -4,11 +4,11 @@
 _pyload_var_loader:
   base_image:
     name: "python"
-    tag: "2.7.17-alpine3.11"
+    tag: "2.7.18-alpine3.11"
   repo:
     name: "pyload/pyload"
     branch: "stable"
-    commit: "c993d094388849fea912785c0e960234e8d69737"
+    commit: "04d4225f7257b40125117f407b4e17c33ac66e8a"
 
 pyload:
   enabled: "{{ pyload_enabled | default(True) }}"
