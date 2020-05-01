@@ -4,7 +4,7 @@
 _airsonic_var_loader:
   base_image:
     name: "airsonic/airsonic"
-    tag: "10.5.0-RELEASE"
+    tag: "10.6.1-RELEASE"
 
 airsonic:
   enabled: "{{ airsonic_enabled | default(True) }}"

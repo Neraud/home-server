@@ -543,7 +543,7 @@ watchers:
     includes:
       - .*-RELEASE
     excludes:
-      - 10\.[0-3]\.
+      - 10\.[0-5]\.
   - type: docker_registry
     repo: {{ jellyfin.base_image.repo | default('registry-1.docker.io') }}
     image: {{ jellyfin.base_image.name }}
