@@ -4,7 +4,7 @@
 _jellyfin_var_loader:
   base_image:
     name: "jellyfin/jellyfin"
-    tag: "10.5.4-amd64"
+    tag: "10.5.5-amd64"
   conf_injection_base_image:
     name: "python"
     tag: "3.8.2-alpine3.11"

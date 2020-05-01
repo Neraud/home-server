@@ -4,7 +4,7 @@
 _release_watcher_var_loader:
   repo:
     url: "https://github.com/Neraud/release-watcher"
-    version: "c805290efe1d80d71098874b72ee2163b45686f1"
+    version: "b282d63d9887f16ab509a2223e3807c0a0b402ee"
 
 release_watcher:
   enabled: "{{ release_watcher_enabled | default(True) }}"
@@ -28,3 +28,7 @@ release_watcher:
   repo: "{{ _release_watcher_var_loader.repo }}"
   
   path: "{{ release_watcher_path | default('/opt/release-watcher') }}"
+
+  github:
+    username: "{{ release_watcher_github_username | default(None) }}"
+    password: "{{ release_watcher_github_password | default(None) }}"

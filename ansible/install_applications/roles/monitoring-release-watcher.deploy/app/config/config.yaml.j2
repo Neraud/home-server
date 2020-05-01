@@ -8,6 +8,14 @@ core:
   # once every 24h
   sleepDuration: 86400
 
+common:
+  github:
+    rate_limit_wait_max: 300
+{% if release_watcher.github.username %}
+    username: "{{ release_watcher.github.username }}"
+    password: "{{ release_watcher.github.password }}"
+{% endif %}
+
 sources:
   - type: file
     path: watchers.yaml

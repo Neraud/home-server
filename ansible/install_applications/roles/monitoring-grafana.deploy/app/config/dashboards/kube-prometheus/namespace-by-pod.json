@@ -138,7 +138,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum(irate(container_network_receive_bytes_total{namespace=~\"$namespace\"}[$__interval:$resolution]))",
+                    "expr": "sum(irate(container_network_receive_bytes_total{namespace=~\"$namespace\"}[$interval:$resolution]))",
                     "format": "time_series",
                     "instant": null,
                     "intervalFactor": 1,
@@ -259,7 +259,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "sum(irate(container_network_transmit_bytes_total{namespace=~\"$namespace\"}[$__interval:$resolution]))",
+                    "expr": "sum(irate(container_network_transmit_bytes_total{namespace=~\"$namespace\"}[$interval:$resolution]))",
                     "format": "time_series",
                     "instant": null,
                     "intervalFactor": 1,
@@ -456,7 +456,7 @@
             ],
             "targets": [
                 {
-                    "expr": "sum(irate(container_network_receive_bytes_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                    "expr": "sum(irate(container_network_receive_bytes_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                     "format": "table",
                     "instant": true,
                     "intervalFactor": 2,
@@ -465,7 +465,7 @@
                     "step": 10
                 },
                 {
-                    "expr": "sum(irate(container_network_transmit_bytes_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                    "expr": "sum(irate(container_network_transmit_bytes_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                     "format": "table",
                     "instant": true,
                     "intervalFactor": 2,
@@ -474,7 +474,7 @@
                     "step": 10
                 },
                 {
-                    "expr": "sum(irate(container_network_receive_packets_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                    "expr": "sum(irate(container_network_receive_packets_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                     "format": "table",
                     "instant": true,
                     "intervalFactor": 2,
@@ -483,7 +483,7 @@
                     "step": 10
                 },
                 {
-                    "expr": "sum(irate(container_network_transmit_packets_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                    "expr": "sum(irate(container_network_transmit_packets_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                     "format": "table",
                     "instant": true,
                     "intervalFactor": 2,
@@ -492,7 +492,7 @@
                     "step": 10
                 },
                 {
-                    "expr": "sum(irate(container_network_receive_packets_dropped_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                    "expr": "sum(irate(container_network_receive_packets_dropped_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                     "format": "table",
                     "instant": true,
                     "intervalFactor": 2,
@@ -501,7 +501,7 @@
                     "step": 10
                 },
                 {
-                    "expr": "sum(irate(container_network_transmit_packets_dropped_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                    "expr": "sum(irate(container_network_transmit_packets_dropped_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                     "format": "table",
                     "instant": true,
                     "intervalFactor": 2,
@@ -579,7 +579,7 @@
             "steppedLine": false,
             "targets": [
                 {
-                    "expr": "sum(irate(container_network_receive_bytes_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                    "expr": "sum(irate(container_network_receive_bytes_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                     "format": "time_series",
                     "intervalFactor": 1,
                     "legendFormat": "{{pod}}",
@@ -668,7 +668,7 @@
             "steppedLine": false,
             "targets": [
                 {
-                    "expr": "sum(irate(container_network_transmit_bytes_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                    "expr": "sum(irate(container_network_transmit_bytes_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                     "format": "time_series",
                     "intervalFactor": 1,
                     "legendFormat": "{{pod}}",
@@ -768,7 +768,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_receive_packets_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                            "expr": "sum(irate(container_network_receive_packets_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                             "format": "time_series",
                             "intervalFactor": 1,
                             "legendFormat": "{{pod}}",
@@ -857,7 +857,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_transmit_packets_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                            "expr": "sum(irate(container_network_transmit_packets_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                             "format": "time_series",
                             "intervalFactor": 1,
                             "legendFormat": "{{pod}}",
@@ -966,7 +966,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_receive_packets_dropped_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                            "expr": "sum(irate(container_network_receive_packets_dropped_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                             "format": "time_series",
                             "intervalFactor": 1,
                             "legendFormat": "{{pod}}",
@@ -1055,7 +1055,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_transmit_packets_dropped_total{namespace=~\"$namespace\"}[$__interval:$resolution])) by (pod)",
+                            "expr": "sum(irate(container_network_transmit_packets_dropped_total{namespace=~\"$namespace\"}[$interval:$resolution])) by (pod)",
                             "format": "time_series",
                             "intervalFactor": 1,
                             "legendFormat": "{{pod}}",

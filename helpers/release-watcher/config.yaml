@@ -11,6 +11,12 @@ core:
   threads: 5
   runMode: once
 
+common:
+  github:
+    rate_limit_wait_max: 120
+    #username: name
+    #password: password or pat
+
 sources:
   - type: file
     path: tmp/watchers.yaml

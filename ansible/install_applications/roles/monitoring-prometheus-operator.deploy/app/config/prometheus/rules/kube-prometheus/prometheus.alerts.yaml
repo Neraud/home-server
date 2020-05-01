@@ -127,8 +127,8 @@
   - alert: PrometheusRemoteStorageFailures
     annotations:
       description: Prometheus {{$labels.namespace}}/{{$labels.pod}} failed to send
-        {{ printf "%.1f" $value }}% of the samples to {{ if $labels.queue }}{{ $labels.queue
-        }}{{ else }}{{ $labels.url }}{{ end }}.
+        {{ printf "%.1f" $value }}% of the samples to {{ $labels.remote_name}}:{{
+        $labels.url }}
       summary: Prometheus fails to send samples to remote storage.
     expr: |
       (
@@ -148,8 +148,8 @@
   - alert: PrometheusRemoteWriteBehind
     annotations:
       description: Prometheus {{$labels.namespace}}/{{$labels.pod}} remote write is
-        {{ printf "%.1f" $value }}s behind for {{ if $labels.queue }}{{ $labels.queue
-        }}{{ else }}{{ $labels.url }}{{ end }}.
+        {{ printf "%.1f" $value }}s behind for {{ $labels.remote_name}}:{{ $labels.url
+        }}.
       summary: Prometheus remote write is behind.
     expr: |
       # Without max_over_time, failed scrapes could create false negatives, see
@@ -166,8 +166,8 @@
   - alert: PrometheusRemoteWriteDesiredShards
     annotations:
       description: Prometheus {{$labels.namespace}}/{{$labels.pod}} remote write desired
-        shards calculation wants to run {{ $value }} shards, which is more than the
-        max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="prometheus-k8s",namespace="monitoring"}`
+        shards calculation wants to run {{ $value }} shards for queue {{ $labels.remote_name}}:{{
+        $labels.url }}, which is more than the max of {{ printf `prometheus_remote_storage_shards_max{instance="%s",job="prometheus-k8s",namespace="monitoring"}`
         $labels.instance | query | first | value }}.
       summary: Prometheus remote write desired shards calculation wants to run more
         than configured max shards.

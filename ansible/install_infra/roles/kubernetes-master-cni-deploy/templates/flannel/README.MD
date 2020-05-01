@@ -1,0 +1,1 @@
+See https://github.com/coreos/flannel/blob/master/Documentation/kube-flannel.yml

@@ -25,7 +25,7 @@ kube_state_metrics:
     requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('20m') }}"
     requests_memory: "{{ kube_state_metrics_container_requests_memory | default('192Mi') }}"
     limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('100m') }}"
-    limits_memory: "{{ kube_state_metrics_container_limits_memory | default('192Mi') }}"
+    limits_memory: "{{ kube_state_metrics_container_limits_memory | default('256Mi') }}"
 
 # To avoid loops kube_state_metrics_rbac_proxy kube_state_metrics
 _kube_state_metrics_rbac_proxy_var_loader:

@@ -31,7 +31,7 @@
                 "#d44a3a"
             ],
             "datasource": "prometheus",
-            "description": "Missed releases for $name",
+            "description": "New releases for $name",
             "format": "none",
             "gauge": {
                 "maxValue": 100,
@@ -86,7 +86,7 @@
             "tableColumn": "",
             "targets": [
                 {
-                    "expr": "missed_releases{name=\"${name:raw}\"}",
+                    "expr": "releasewatcher_new_releases_total{name=\"${name:raw}\"}",
                     "format": "time_series",
                     "intervalFactor": 1,
                     "refId": "A"
@@ -122,14 +122,14 @@
                     "value": "$__all"
                 },
                 "datasource": "prometheus",
-                "definition": "label_values(missed_releases, name)",
+                "definition": "label_values(releasewatcher_new_releases_total, name)",
                 "hide": 2,
                 "includeAll": true,
                 "label": null,
                 "multi": false,
                 "name": "name",
                 "options": [],
-                "query": "label_values(missed_releases, name)",
+                "query": "label_values(releasewatcher_new_releases_total, name)",
                 "refresh": 1,
                 "regex": "",
                 "skipUrlSync": false,

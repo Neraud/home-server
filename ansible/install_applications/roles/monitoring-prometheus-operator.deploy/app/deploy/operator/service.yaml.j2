@@ -10,8 +10,8 @@ metadata:
 spec:
   clusterIP: None
   ports:
-  - name: http
-    port: 8080
-    targetPort: http
+  - name: https
+    port: 8443
+    targetPort: https
   selector:
     {{ prometheus_operator.labels_def | to_nice_yaml() | indent(4) }}

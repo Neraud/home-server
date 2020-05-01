@@ -1,16 +1,30 @@
 - name: release-watcher
   rules:
-    - alert: ReleaseWatcherMissedReleasesWarning
+    - alert: ReleaseWatcherNewReleasesWarning
       annotations:
         message: The application {{ $labels.name }} has {{ $value }} new releases.
-      expr: missed_releases > 10
+      expr: releasewatcher_new_releases_total{type!="github_commit"}  > 10
       for: 3m
       labels:
         severity: warning
-    - alert: ReleaseWatcherMissedReleasesCritical
+    - alert: ReleaseWatcherNewReleasesCritical
       annotations:
         message: The application {{ $labels.name }} has {{ $value }} new releases.
-      expr: missed_releases > 25
-      for: 5m
+      expr: releasewatcher_new_releases_total{type!="github_commit"}  > 25
+      for: 3m
+      labels:
+        severity: critical
+    - alert: ReleaseWatcherNewCommitsWarning
+      annotations:
+        message: The application {{ $labels.name }} has {{ $value }} new commits.
+      expr: releasewatcher_new_releases_total{type="github_commit"}  > 50
+      for: 3m
+      labels:
+        severity: warning
+    - alert: ReleaseWatcherNewCommitsCritical
+      annotations:
+        message: The application {{ $labels.name }} has {{ $value }} new commits.
+      expr: releasewatcher_new_releases_total{type="github_commit"}  > 100
+      for: 3m
       labels:
         severity: critical

@@ -5,7 +5,7 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 2.9.6
+    version: 2.9.7
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
@@ -22,11 +22,11 @@ watchers:
   - type: github_commit
     repo: gluster/gluster-prometheus
     branch: master
-    commit: 97c41e63b47e0fac9d968bc62897d674e3171b67
+    commit: 863db4baa8543b7a4d4b7c8cd6778109b6c1d93e
   - type: github_commit
     repo: cafebazaar/keepalived-exporter
     branch: master
-    commit: 48b851ccf6421bc9e92940f4aae8fd97ad20b44a
+    commit: ed3e11b190ae36f92dbaf960b25026735438e6c6
   
 
   ########
@@ -49,10 +49,12 @@ watchers:
   - type: github_commit
     repo: coreos/flannel
     branch: master
-    commit: 960b3243b9a7faccdfe7b3c09097105e68030ea7
+    commit: 485649719be5a21b0fe7e44f699f7acbb66137fa
   - type: github_release
     repo: projectcalico/calico
-    release: v3.13.0
+    release: v3.13.3
+    excludes:
+      - v3\.1[0-2]\..*
 
 
   ###############
@@ -98,7 +100,7 @@ watchers:
       - .*-rc[0-9]+.*
       - ^[1-9]\.
       - ^1[01]\.
-      - ^12\.[0-7]\.
+      - ^12\.[0-9]\.
   
   ###################
   # Apps : Download #
@@ -138,7 +140,7 @@ watchers:
     repo: {{ sabnzbd.repo.name }}
     release: {{ sabnzbd.repo.version }}
     excludes:
-      - .*(RC|Beta).*
+      - .*(RC|Alpha|Beta).*
   - name: SABnzbd par2cmdline
     type: github_release
     repo: {{ sabnzbd.par2cmdline.repo.name }}
@@ -157,6 +159,9 @@ watchers:
     excludes:
       - .*-alpine3\.[0-9]$
       - .*-alpine3\.10
+  - type: github_tag
+    repo: SickChill/SickChill
+    tag: {{ sickchill.version }}
   
   ###############
   # Apps : Home #
@@ -168,7 +173,8 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
-      - 0\.[0-9][0-9]\.*
+      - 0\.[0-9][0-9]\..*
+      - 0\.10[0-7]\..*
       - .*dev
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
@@ -202,7 +208,9 @@ watchers:
     image: {{ nodered.base_image.name }}
     tag: {{ nodered.base_image.tag }}
     includes:
-      - .*-slim-v10
+      - .*-12-minimal-amd64
+    excludes:
+      - 1\.0\.[0-5]-.*
   - type: github_tag
     repo: vesse/node-ldapauth-fork
     tag: v{{ nodered.additional_modules.ldapauth_fork.version }}
@@ -245,7 +253,7 @@ watchers:
     release: {{ kubernetes_dashboard.base_image.tag }}
     excludes:
       - .*beta.*
-#      - .*rc.*
+      - .*rc.*
   - type: docker_registry
     repo: {{ docker_registry_ui.base_image.repo | default('registry-1.docker.io') }}
     image: {{ docker_registry_ui.base_image.name }}
@@ -264,7 +272,9 @@ watchers:
       - 1\..*
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: nginx-0.30.0
+    release: controller-0.31.1
+    includes:
+      - controller-[0-9]+\.[0-9]+\.[0-9]+.*
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
   #- type: docker_registry
   #  repo: quay.io
@@ -308,12 +318,10 @@ watchers:
     image: {{ unifi.base_image.name }}
     tag: {{ unifi.base_image.tag }}
     includes:
-      - amd64-[0-9]+\.[0-9]+\.[0-9]+.*
+      - "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     excludes:
-      - LTS
-      - latest
-      - amd64-5\.[0-9]\..*
-      - amd64-5\.10\.[01]?[0-9]-.*
+      - 5\.[0-9]\..*
+      - 5\.1[01]\..*
   - name: ZoneMTA
     type: github_tag
     repo: {{ zonemta.repo.name }}
@@ -344,7 +352,7 @@ watchers:
     image: {{ zonemta.base_image.name }}
     tag: {{ zonemta.base_image.tag }}
     includes:
-      - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\\.[0-9][0-9]"
+      - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
       - 12\.[0-9]\..*
       - 12\.1[0-5]\..*
@@ -377,6 +385,7 @@ watchers:
       - "[1-9]\\.[0-9]+\\.[0-9].*"
     excludes:
       - .*debug.*
+      - .*rc.*
       - ^0\.
       - 1\.[0-2]\..*
   - type: docker_registry
@@ -438,7 +447,7 @@ watchers:
   - type: github_commit
     repo: coreos/kube-prometheus
     branch: master
-    commit: a5e278372a7d353d9c515ff94f7f3491cd127061
+    commit: 49ad6a67affcaab1adb0d23e9588c79cd7cb622f
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
@@ -534,7 +543,7 @@ watchers:
     includes:
       - .*-RELEASE
     excludes:
-      - 10\.[0-3]\.
+      - 10\.[0-5]\.
   - type: docker_registry
     repo: {{ jellyfin.base_image.repo | default('registry-1.docker.io') }}
     image: {{ jellyfin.base_image.name }}
@@ -620,4 +629,5 @@ watchers:
     image: {{ ttrss_pgsql.base_image.name }}
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
-      - ^11\.[0-9]+(\.[0-9]+)?-alpine
+      - ^12\.[0-9]+(\.[0-9]+)?-alpine
+
