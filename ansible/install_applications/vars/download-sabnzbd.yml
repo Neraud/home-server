@@ -4,7 +4,7 @@
 _sabnzbd_var_loader:
   base_image:
     name: "python"
-    tag: "2.7.17-alpine3.11"
+    tag: "2.7.18-alpine3.11"
   repo:
     name: sabnzbd/sabnzbd
     version: 2.3.9
@@ -32,7 +32,7 @@ sabnzbd:
   nzbToMedia:
     repo:
       name: clinton-hall/nzbToMedia
-      version: 12.1.04
+      version: 12.1.05
 
   container:
     image: "{{ docker_registry.url }}/sabnzbd:{{ _sabnzbd_var_loader.repo.version }}_{{ _sabnzbd_var_loader.base_image.name }}{{ _sabnzbd_var_loader.base_image.tag }}"
