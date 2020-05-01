@@ -9,7 +9,7 @@
       rate(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[15m]) * 60 * 5 > 0
     for: 15m
     labels:
-      severity: critical
+      severity: warning
   - alert: KubePodNotReady
     annotations:
       message: Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in a non-ready
@@ -19,7 +19,7 @@
       sum by (namespace, pod) (max by(namespace, pod) (kube_pod_status_phase{job="kube-state-metrics", phase=~"Pending|Unknown"}) * on(namespace, pod) group_left(owner_kind) max by(namespace, pod, owner_kind) (kube_pod_owner{owner_kind!="Job"})) > 0
     for: 15m
     labels:
-      severity: critical
+      severity: warning
   - alert: KubeDeploymentGenerationMismatch
     annotations:
       message: Deployment generation for {{ $labels.namespace }}/{{ $labels.deployment
@@ -32,7 +32,7 @@
       kube_deployment_metadata_generation{job="kube-state-metrics"}
     for: 15m
     labels:
-      severity: critical
+      severity: warning
   - alert: KubeDeploymentReplicasMismatch
     annotations:
       message: Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has not
@@ -50,7 +50,7 @@
       )
     for: 15m
     labels:
-      severity: critical
+      severity: warning
   - alert: KubeStatefulSetReplicasMismatch
     annotations:
       message: StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} has not
@@ -68,7 +68,7 @@
       )
     for: 15m
     labels:
-      severity: critical
+      severity: warning
   - alert: KubeStatefulSetGenerationMismatch
     annotations:
       message: StatefulSet generation for {{ $labels.namespace }}/{{ $labels.statefulset
@@ -81,7 +81,7 @@
       kube_statefulset_metadata_generation{job="kube-state-metrics"}
     for: 15m
     labels:
-      severity: critical
+      severity: warning
   - alert: KubeStatefulSetUpdateNotRolledOut
     annotations:
       message: StatefulSet {{ $labels.namespace }}/{{ $labels.statefulset }} update
@@ -101,7 +101,7 @@
       )
     for: 15m
     labels:
-      severity: critical
+      severity: warning
   - alert: KubeDaemonSetRolloutStuck
     annotations:
       message: Only {{ $value | humanizePercentage }} of the desired Pods of DaemonSet
@@ -113,7 +113,7 @@
       kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics"} < 1.00
     for: 15m
     labels:
-      severity: critical
+      severity: warning
   - alert: KubeContainerWaiting
     annotations:
       message: Pod {{ $labels.namespace }}/{{ $labels.pod }} container {{ $labels.container}}
@@ -143,7 +143,7 @@
       runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubedaemonsetmisscheduled
     expr: |
       kube_daemonset_status_number_misscheduled{job="kube-state-metrics"} > 0
-    for: 10m
+    for: 15m
     labels:
       severity: warning
   - alert: KubeCronJobRunning

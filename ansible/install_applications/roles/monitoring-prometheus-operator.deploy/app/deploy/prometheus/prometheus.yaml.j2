@@ -36,6 +36,7 @@ spec:
   nodeSelector:
     kubernetes.io/os: linux
     capability/general-purpose: 'yes'
+  podMonitorNamespaceSelector: {}
   podMonitorSelector: {}
   replicas: 1
   externalUrl: https://infra.{{ web_base_domain }}/prometheus/
