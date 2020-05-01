@@ -4,7 +4,7 @@
 _zonemta_var_loader:
   base_image:
     name: "node"
-    tag: "12.16.2-alpine3.11"
+    tag: "12.16.3-alpine3.11"
   version: 2.0.0
   namespace: "infra-zonemta"
 
@@ -86,7 +86,7 @@ zonemta_mongo:
 _zonemta_redis_var_loader:
   base_image:
     name: "redis"
-    tag: "5.0.9-alpine3.11"
+    tag: "6.0.0-alpine3.11"
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"
