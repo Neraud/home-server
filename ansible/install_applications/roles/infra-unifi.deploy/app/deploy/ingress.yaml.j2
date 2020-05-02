@@ -8,8 +8,6 @@ metadata:
     {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    # Not needed here, but it's a workaround for the "duplicated location /" error in ingress-nginx
-    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   tls:
     - hosts:
