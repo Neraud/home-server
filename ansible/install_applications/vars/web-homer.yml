@@ -5,7 +5,7 @@ _homer_var_loader:
   base_image:
     name: "nginx"
     tag: "1.18.0-alpine"
-  commit: c424ddba7207903d31c5371a93adab492dc117fc
+  commit: b317857892921423479b713fb530f5d07d1f5d82
 
 homer:
   enabled: "{{ homer_enabled | default(True) }}"
