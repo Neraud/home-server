@@ -608,6 +608,16 @@ watchers:
     id_attribute: ""
     date_selector: "[class~=time-since]"
     date_attribute: "title"
+  - name: TT-RSS Data migration
+    type: raw_html
+    page_url: https://git.tt-rss.org/fox/ttrss-data-migration/commits/master
+    id: {{ ttrss.plugins.data_migration.commit }}
+    container_selector: "#commits-table"
+    item_selector: "tbody tr"
+    id_selector: "[class~=sha]"
+    id_attribute: ""
+    date_selector: "[class~=time-since]"
+    date_attribute: "title"
   - name: TT-RSS Auth LDAP
     type: github_commit
     repo: hydrian/TTRSS-Auth-LDAP

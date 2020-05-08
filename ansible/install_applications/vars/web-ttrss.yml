@@ -41,6 +41,8 @@ ttrss:
   context_root: "{{ ttrss_context_root | default('/') }}"
 
   plugins:
+    data_migration:
+      commit: 7ad0075303
     auth_ldap:
       commit: 6f4fc14589c0d6f13a419d1628fbb902929fe8b5
     mailer_smtp:
