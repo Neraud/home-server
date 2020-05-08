@@ -24,7 +24,7 @@ glusterfs_volumes:
   zonemta-mongo-data:
     replicas: 2
     capacity: 1G
-    arbiterCapacity: 64M
+    arbiterCapacity: 128M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
@@ -109,7 +109,7 @@ glusterfs_volumes:
   grafana-data:
     replicas: 2
     capacity: 128M
-    arbiterCapacity: 64M
+    arbiterCapacity: 128M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
@@ -129,7 +129,7 @@ glusterfs_volumes:
   ttrss-pgsql:
     replicas: 2
     capacity: 1G
-    arbiterCapacity: 64M
+    arbiterCapacity: 128M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
