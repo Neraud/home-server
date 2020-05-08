@@ -26,7 +26,7 @@ This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Cor
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-NUC-Kit-NUC8i5BEH-Generation/dp/B07JCF1LCL)                                          | 373,01 € |
 | RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 168,25 € |
-| Storage  | [WD Blue SN500](https://www.amazon.fr/gp/product/B07P7TFKRH)                                                                       | 65,45 €  |
+| Storage  | [WD Blue SN500 NVME](https://www.amazon.fr/gp/product/B07P7TFKRH)                                                                  | 65,45 €  |
 
 (ordered 2019-05)
 
@@ -38,7 +38,7 @@ This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/pr
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-NUC-Kit-NUC8i5BEH-Generation/dp/B07JCF1LCL)                                          | 381,07 € |
 | RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 140,06 € |
-| Storage  | [WD Blue SN500](https://www.amazon.fr/gp/product/B07P7TFKRH)                                                                       | 63,43 €  |
+| Storage  | [WD Blue SN500 SATA](https://www.amazon.fr/gp/product/B073SBX6TY/)                                                                 | 63,43 €  |
 
 (ordered 2019-08)
 
