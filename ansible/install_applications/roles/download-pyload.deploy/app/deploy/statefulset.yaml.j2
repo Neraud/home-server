@@ -38,7 +38,7 @@ spec:
         image: "{{ pyload.container.image }}"
         imagePullPolicy: Always        
         ports:
-        - containerPort: 8001
+        - containerPort: 8000
           name: webui
         securityContext:
           runAsNonRoot: true
