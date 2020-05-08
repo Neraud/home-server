@@ -3,7 +3,7 @@
 function handleRemoteHost() {
     remoteHost="$1"
     echo " - remote : $remoteHost"
-    rsync -arv --delete /etc/letsencrypt $remoteHost:/etc/letsencrypt
+    rsync -arv --delete /etc/letsencrypt/ $remoteHost:/etc/letsencrypt
     ssh $remoteHost "systemctl reload nginx"
 }
 
