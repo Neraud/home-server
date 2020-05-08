@@ -67,6 +67,8 @@
     # so suppress the ansible-lint warning
     - skip_ansible_lint
 
+# TODO : stop nginx on other nodes to make sure we're on the active one
+
 - name: Create staging letsencrypt certificate
   command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --staging --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_ssl_letsencrypt_deploy_certs_script }}"
   args:
