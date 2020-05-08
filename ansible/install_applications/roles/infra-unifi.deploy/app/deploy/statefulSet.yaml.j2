@@ -86,10 +86,14 @@ spec:
           readOnly: true
         - name: unifi-pv-claim
           mountPath: /unifi
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
