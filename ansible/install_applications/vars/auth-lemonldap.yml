@@ -4,7 +4,7 @@
 _lemonldap_var_loader:
   base_image:
     name: "coudot/lemonldap-ng"
-    tag: "2.0.7"
+    tag: "2.0.8"
 
 lemonldap:
   enabled: "{{ lemonldap_enabled | default(True) }}"
