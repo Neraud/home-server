@@ -7,13 +7,13 @@ sabnzbd_nzbToMedia_config_sickbeard:
     enabled: 1
     host: "{{ sickchill.servername }}"
     port: 80
-    api_key: "{{ sickchill_api_key }}"
-    web_root: "{{ sickchill_context_root }}"
+    api_key: "{{ sickchill.api_key }}"
+    web_root: "{{ sickchill.context_root }}"
     ssl: 0
   anime:
     enabled: 1
     host: "{{ sickchill.servername }}"
     port: 80
-    api_key: "{{ sickchill_api_key }}"
-    web_root: "{{ sickchill_context_root }}"
+    api_key: "{{ sickchill.api_key }}"
+    web_root: "{{ sickchill.context_root }}"
     ssl: 0
