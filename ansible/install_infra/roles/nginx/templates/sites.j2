@@ -47,6 +47,9 @@ server {
 		# Drop post datas
 		fastcgi_pass_request_body  off;
 		fastcgi_param CONTENT_LENGTH "";
+		
+		# Allow very large body, we don't care, it's dropped !
+		client_max_body_size 1024m;
 
 		# Keep original hostname
 		fastcgi_param HOST $http_host;
@@ -171,6 +174,9 @@ server {
 		# Drop post datas
 		fastcgi_pass_request_body  off;
 		fastcgi_param CONTENT_LENGTH "";
+		
+		# Allow very large body, we don't care, it's dropped !
+		client_max_body_size 1024m;
 
 		# Keep original hostname
 		fastcgi_param HOST $http_host;
