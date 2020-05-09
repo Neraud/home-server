@@ -33,6 +33,9 @@ sickchill:
   context_root: "{{ sickchill_context_root | default('/') }}"
   api_key: "{{ sickchill_api_key | default('abcdefghijklmnopqrstuvwxyz123456') }}"
 
+  web_username: "{{ sickchill_web_username | default('') }}"
+  web_password: "{{ sickchill_web_password | default('') }}"
+
   smtp:
     host: "{{ sickchill_smtp_host | default(zonemta.smtp_servername) }}"
     port: "{{ sickchill_smtp_port | default(587) }}"
