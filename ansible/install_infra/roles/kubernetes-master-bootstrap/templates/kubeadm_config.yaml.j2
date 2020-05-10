@@ -1,7 +1,7 @@
-apiVersion: kubeadm.k8s.io/v1beta1
+apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
 clusterName: {{ kubernetes_cluster_name }}
-controlPlaneEndpoint: "{{ kubernetes_apiserver_bind_ip }}:{{ haproxy_kubernetes_apiserver_port }}"
+controlPlaneEndpoint: {{ kubernetes_apiserver_bind_ip }}:{{ haproxy_kubernetes_apiserver_port }}
 networking:
   podSubnet: {{ kubernetes_pod_network_cidr }}
 
@@ -16,7 +16,7 @@ scheduler:
 
 ---
 
-apiVersion: kubeadm.k8s.io/v1beta1
+apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
 localAPIEndpoint:
 {% if kubernetes_apiserver_ip is defined %}

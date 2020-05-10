@@ -26,7 +26,7 @@ watchers:
   - type: github_commit
     repo: cafebazaar/keepalived-exporter
     branch: master
-    commit: ed3e11b190ae36f92dbaf960b25026735438e6c6
+    commit: dd522e896c7e99c27a2ed58b8989002f923edd1c
   
 
   ########
@@ -52,9 +52,9 @@ watchers:
     commit: 485649719be5a21b0fe7e44f699f7acbb66137fa
   - type: github_release
     repo: projectcalico/calico
-    release: v3.13.3
+    release: v3.14.0
     excludes:
-      - v3\.1[0-2]\..*
+      - v3\.1[0-3]\..*
 
 
   ###############
@@ -602,6 +602,16 @@ watchers:
     type: raw_html
     page_url: https://git.tt-rss.org/fox/tt-rss/commits/master
     id: {{ ttrss.commit }}
+    container_selector: "#commits-table"
+    item_selector: "tbody tr"
+    id_selector: "[class~=sha]"
+    id_attribute: ""
+    date_selector: "[class~=time-since]"
+    date_attribute: "title"
+  - name: TT-RSS Data migration
+    type: raw_html
+    page_url: https://git.tt-rss.org/fox/ttrss-data-migration/commits/master
+    id: {{ ttrss.plugins.data_migration.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"
     id_selector: "[class~=sha]"

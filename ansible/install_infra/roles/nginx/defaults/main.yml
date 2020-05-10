@@ -5,7 +5,7 @@ nginx_ssl_dhparam_generate: False
 nginx_ssl_dhparam_path: /etc/nginx/dhparams.pem
 nginx_ssl_dhparam_size: 2048
 nginx_ssl_certbot_enabled: false
-nginx_ssl_certbot_slaves: []
+nginx_ssl_certbot_slaves: "{{ groups['loadbalancers'] | difference(inventory_hostname) }}"
 
 nginx_extra_log_formats: []
 #  - name: extra

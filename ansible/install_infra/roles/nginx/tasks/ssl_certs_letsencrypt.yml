@@ -4,7 +4,9 @@
   apt:
     pkg: certbot
     state: present
-  with_items: "{{ nginx_sites }}"
+  loop: "{{ nginx_sites }}"
+  loop_control:
+    label: "{{ item.name }}"
   when: item.https_cert is defined and item.https_cert.mode == "letsencrypt"
 
 - name: Generate deploy cert script
@@ -12,20 +14,26 @@
     dest: "{{ nginx_ssl_letsencrypt_deploy_certs_script }}"
     src: deploy_letsencrypt_certs.sh.j2
     mode: 0755
-  with_items: "{{ nginx_sites }}"
+  loop: "{{ nginx_sites }}"
+  loop_control:
+    label: "{{ item.name }}"
   when: item.https_cert is defined and item.https_cert.mode == "letsencrypt"
 
 - name: Ensures the webroot folders exist
   file:
     path: "{{ item.https_cert.docroot }}"
     state: directory
-  with_items: "{{ nginx_sites }}"
+  loop: "{{ nginx_sites }}"
+  loop_control:
+    label: "{{ item.name }}"
   when: item.https_cert is defined and item.https_cert.mode == "letsencrypt"
 
 - name: Look for existing letsencrypt certificates
   stat:
     path: "/etc/letsencrypt/live/{{ item.server_name }}"
-  with_items: "{{ nginx_sites }}"
+  loop: "{{ nginx_sites }}"
+  loop_control:
+    label: "{{ item.name }}"
   register: existing_letsencrypt_certificates
 
 - name: Generate bootstrap sites for new letsencrypt sites
@@ -33,9 +41,9 @@
     src: sites_bootstrap_for_letsencrypt.j2
     dest: "/etc/nginx/sites-available/{{ item.0.name }}"
     backup: yes
-  with_together:
-    - "{{ nginx_sites }}"
-    - "{{ existing_letsencrypt_certificates.results }}"
+  loop: "{{ nginx_sites | zip(existing_letsencrypt_certificates.results) | list }}"
+  loop_control:
+    label: "{{ item.0.name }}"
   when: item.0.https_cert is defined and item.0.https_cert.mode == "letsencrypt" and not item.1.stat.exists
   register: generate_bootstrap_sites
 
@@ -44,9 +52,9 @@
     src: /etc/nginx/sites-available/{{ item.0.name }}
     dest: /etc/nginx/sites-enabled/{{ item.0.enabled_name }}
     state: link
-  with_together:
-    - "{{ nginx_sites }}"
-    - "{{ existing_letsencrypt_certificates.results }}"
+  loop: "{{ nginx_sites | zip(existing_letsencrypt_certificates.results) | list }}"
+  loop_control:
+    label: "{{ item.0.name }}"
   when: item.0.https_cert is defined and item.0.https_cert.mode == "letsencrypt" and not item.1.stat.exists
 
 - name: Force nginx restart to load bootstrap sites
@@ -59,18 +67,24 @@
     # so suppress the ansible-lint warning
     - skip_ansible_lint
 
+# TODO : stop nginx on other nodes to make sure we're on the active one
+
 - name: Create staging letsencrypt certificate
   command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --staging --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_ssl_letsencrypt_deploy_certs_script }}"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
-  with_items: "{{ nginx_sites }}"
+  loop: "{{ nginx_sites }}"
+  loop_control:
+    label: "{{ item.name }}"
   when: item.https_cert is defined and item.https_cert.mode == "letsencrypt" and not item.https_cert.live | default(False)
 
 - name: Create live letsencrypt certificate
   command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_ssl_letsencrypt_deploy_certs_script }}"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
-  with_items: "{{ nginx_sites }}"
+  loop: "{{ nginx_sites }}"
+  loop_control:
+    label: "{{ item.name }}"
   when: item.https_cert is defined and item.https_cert.mode == "letsencrypt" and item.https_cert.live | default(False)
 
 - name: Create renew job

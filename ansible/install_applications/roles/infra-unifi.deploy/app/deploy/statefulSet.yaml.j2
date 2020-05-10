@@ -32,6 +32,23 @@ spec:
         volumeMounts:
         - name: unifi-pv-claim
           mountPath: /unifi
+      - name: inject-certificates
+        image: "{{ unifi.container.image }}"
+        command:
+          - "sh"
+          - "-c"
+          - |
+            cp /etc/ssl/certs/java/cacerts /etc/ssl/certs/java_target/cacerts
+            /usr/bin/keytool \
+              -importcert -noprompt \
+              -keystore /etc/ssl/certs/java_target/cacerts -storepass changeit \
+              -alias cluster -file /etc/ssl/cluster/ca.crt
+        volumeMounts:
+        - name: keystore-volume
+          mountPath: /etc/ssl/certs/java_target
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
       containers:
       - name: unifi
         image: "{{ unifi.container.image }}"
@@ -84,12 +101,23 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
+        - name: keystore-volume
+          mountPath: /etc/ssl/certs/java
         - name: unifi-pv-claim
           mountPath: /unifi
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: keystore-volume
+        emptyDir: {}
+      - name: tmp-volume
+        emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

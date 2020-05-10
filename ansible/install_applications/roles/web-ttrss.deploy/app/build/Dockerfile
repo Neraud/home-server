@@ -2,6 +2,7 @@ ARG from_image
 FROM $from_image
 
 ARG ttrss_commit
+ARG ttrss_plugin_data_migration_commit
 ARG ttrss_plugin_auth_ldap_commit
 ARG ttrss_plugin_mailer_smtp_commit
 
@@ -57,6 +58,14 @@ RUN chown www-data:www-data /opt/entrypoint.sh && \
 ENTRYPOINT ["/opt/entrypoint.sh"]
 CMD ["web"]
 
+# Install plugin data migration
+RUN apt-get update && \
+    apt-get install -y zlib1g-dev libzip-dev && \
+    docker-php-ext-install zip && \
+    mkdir /opt/ttrss/plugins.local/data_migration && \
+    curl -sL "https://git.tt-rss.org/fox/ttrss-data-migration/archive/${ttrss_plugin_data_migration_commit}.tar.gz" | tar xz --strip-components=1 -C /opt/ttrss/plugins.local/data_migration && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install plugin LDAP Auth
 RUN apt-get update && \
     apt-get install -y libldap2-dev && \
@@ -64,7 +73,7 @@ RUN apt-get update && \
     curl -sL "https://github.com/hydrian/TTRSS-Auth-LDAP/archive/${ttrss_plugin_auth_ldap_commit}.tar.gz" | tar xz --strip-components=2 -C /opt/ttrss/plugins.local && \
     rm -rf /var/lib/apt/lists/*
 
-# Install plugin LDAP Auth Mailer SMTP
+# Install plugin Mailer SMTP
 RUN mkdir /opt/ttrss/plugins.local/mailer_smtp && \
     curl -sL "https://git.tt-rss.org/fox/ttrss-mailer-smtp/archive/${ttrss_plugin_mailer_smtp_commit}.tar.gz" | tar xz --strip-components=1 -C /opt/ttrss/plugins.local/mailer_smtp
 

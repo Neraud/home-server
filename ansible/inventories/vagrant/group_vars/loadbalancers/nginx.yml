@@ -246,7 +246,7 @@ nginx_streams:
   - name: home_mqtt
     enabled_name: 100-home_mqtt
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
-    http_port: False
+    http_port: 1883
     https_port: 8883
     https_cert:
       mode: file
@@ -268,7 +268,7 @@ nginx_ufw_applications:
   - name: mosquitto
     title: Mosquitto
     description: Mosquitto is an open source message broker that implements the MQTT (MQ Telemetry Transport) protocol v3.1.
-    ports: 8883/tcp
+    ports: 1883,8883/tcp
     rule: allow
 
   # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used

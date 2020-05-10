@@ -13,6 +13,7 @@
     build: yes
     build_args:
       ttrss_commit: "{{ ttrss.commit }}"
+      ttrss_plugin_data_migration_commit: "{{ ttrss.plugins.data_migration.commit }}"
       ttrss_plugin_auth_ldap_commit: "{{ ttrss.plugins.auth_ldap.commit }}"
       ttrss_plugin_mailer_smtp_commit: "{{ ttrss.plugins.mailer_smtp.commit }}"
 

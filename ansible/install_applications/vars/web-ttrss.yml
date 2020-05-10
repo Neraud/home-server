@@ -5,8 +5,8 @@ _ttrss_var_loader:
   base_image:
     name: "php"
     tag: "7.4.5-apache-buster"
-  commit: 3a4b9249a9
-  full_commit: 3a4b9249a99972798ce6285bf79b8ce86971bde7
+  commit: c8243b03c9
+  full_commit: c8243b03c9194e6522fed4d2d582cec9f7a544d5
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -41,6 +41,8 @@ ttrss:
   context_root: "{{ ttrss_context_root | default('/') }}"
 
   plugins:
+    data_migration:
+      commit: 7ad0075303
     auth_ldap:
       commit: 6f4fc14589c0d6f13a419d1628fbb902929fe8b5
     mailer_smtp:
