@@ -77,7 +77,7 @@
       sum(increase(container_cpu_cfs_throttled_periods_total{container!="", }[5m])) by (container, pod, namespace)
         /
       sum(increase(container_cpu_cfs_periods_total{}[5m])) by (container, pod, namespace)
-        > ( 25 / 100 )
+        > ( 33 / 100 )
     for: 15m
     labels:
       severity: warning
