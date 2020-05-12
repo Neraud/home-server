@@ -97,7 +97,9 @@
 - import_tasks: ssl_certs_selfsigned.yml
 
 - import_tasks: ssl_certs_letsencrypt.yml
-  when: nginx_ssl_certbot_enabled | default(false)
+  when: 
+   - nginx_ssl_certbot_enabled | default(false)
+   - nginx_sites | map(attribute='https_cert')| select('defined') | selectattr('mode', 'match', 'letsencrypt') | list | length > 0
 
 - name: Configure site upstreams
   template:

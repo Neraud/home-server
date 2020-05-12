@@ -4,20 +4,12 @@
   apt:
     pkg: certbot
     state: present
-  loop: "{{ nginx_sites }}"
-  loop_control:
-    label: "{{ item.name }}"
-  when: item.https_cert is defined and item.https_cert.mode == "letsencrypt"
 
 - name: Generate deploy cert script
   template:
     dest: "{{ nginx_ssl_letsencrypt_deploy_certs_script }}"
     src: deploy_letsencrypt_certs.sh.j2
     mode: 0755
-  loop: "{{ nginx_sites }}"
-  loop_control:
-    label: "{{ item.name }}"
-  when: item.https_cert is defined and item.https_cert.mode == "letsencrypt"
 
 - name: Ensures the webroot folders exist
   file:
