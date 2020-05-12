@@ -5,7 +5,7 @@ nginx_default_index_html_path: /var/www/html/index.nginx-debian.html
 nginx_streams_conf_dir: /etc/nginx/streams_conf.d
 nginx_streams_available_dir: /etc/nginx/streams-available
 nginx_streams_enabled_dir: /etc/nginx/streams-enabled
-nginx_ssl_letsencrypt_deploy_certs_script: /opt/deploy_letsencrypt_certs.sh
+nginx_letsencrypt_dir: /opt/letsencrypt
 
 nginx_keepalived_instance:
     name: nginx

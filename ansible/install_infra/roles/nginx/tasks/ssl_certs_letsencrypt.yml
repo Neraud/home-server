@@ -5,10 +5,15 @@
     pkg: certbot
     state: present
 
-- name: Generate deploy cert script
+- name: Ensures letsencrypt folder exist
+  file:
+    path: "{{ nginx_letsencrypt_dir }}"
+    state: directory
+
+- name: Generate hook script
   template:
-    dest: "{{ nginx_ssl_letsencrypt_deploy_certs_script }}"
-    src: deploy_letsencrypt_certs.sh.j2
+    dest: "{{ nginx_letsencrypt_dir }}/post_hook.sh"
+    src: letsencrypt/post_hook.sh.j2
     mode: 0755
 
 - name: Ensures the webroot folders exist
@@ -62,7 +67,7 @@
 # TODO : stop nginx on other nodes to make sure we're on the active one
 
 - name: Create staging letsencrypt certificate
-  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --staging --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_ssl_letsencrypt_deploy_certs_script }}"
+  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --staging --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
   loop: "{{ nginx_sites }}"
@@ -71,7 +76,7 @@
   when: item.https_cert is defined and item.https_cert.mode == "letsencrypt" and not item.https_cert.live | default(False)
 
 - name: Create live letsencrypt certificate
-  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_ssl_letsencrypt_deploy_certs_script }}"
+  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
   loop: "{{ nginx_sites }}"
