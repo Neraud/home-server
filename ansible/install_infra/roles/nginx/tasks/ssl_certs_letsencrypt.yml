@@ -67,7 +67,7 @@
 # TODO : stop nginx on other nodes to make sure we're on the active one
 
 - name: Create staging letsencrypt certificate
-  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --staging --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
+  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --staging --agree-tos -d {{ item.server_name }} --post-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
   loop: "{{ nginx_sites }}"
@@ -76,7 +76,7 @@
   when: item.https_cert is defined and item.https_cert.mode == "letsencrypt" and not item.https_cert.live | default(False)
 
 - name: Create live letsencrypt certificate
-  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --agree-tos -d {{ item.server_name }} --deploy-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
+  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --agree-tos -d {{ item.server_name }} --post-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
   loop: "{{ nginx_sites }}"
