@@ -20,7 +20,7 @@
   file:
     path: "{{ item.https_cert.docroot }}"
     state: directory
-  loop: "{{ nginx_sites }}"
+  loop: "{{ nginx_letsencrypt_sites }}"
   loop_control:
     label: "{{ item.name }}"
   when: item.https_cert is defined and item.https_cert.mode == "letsencrypt"
@@ -28,7 +28,7 @@
 - name: Look for existing letsencrypt certificates
   stat:
     path: "/etc/letsencrypt/live/{{ item.server_name }}"
-  loop: "{{ nginx_sites }}"
+  loop: "{{ nginx_letsencrypt_sites }}"
   loop_control:
     label: "{{ item.name }}"
   register: existing_letsencrypt_certificates
@@ -38,10 +38,10 @@
     src: sites_bootstrap_for_letsencrypt.j2
     dest: "/etc/nginx/sites-available/{{ item.0.name }}"
     backup: yes
-  loop: "{{ nginx_sites | zip(existing_letsencrypt_certificates.results) | list }}"
+  loop: "{{ nginx_letsencrypt_sites | zip(existing_letsencrypt_certificates.results) | list }}"
   loop_control:
     label: "{{ item.0.name }}"
-  when: item.0.https_cert is defined and item.0.https_cert.mode == "letsencrypt" and not item.1.stat.exists
+  when: not item.1.stat.exists
   register: generate_bootstrap_sites
 
 - name: Enable bootstrap sites for new letsencrypt sites
@@ -49,10 +49,10 @@
     src: /etc/nginx/sites-available/{{ item.0.name }}
     dest: /etc/nginx/sites-enabled/{{ item.0.enabled_name }}
     state: link
-  loop: "{{ nginx_sites | zip(existing_letsencrypt_certificates.results) | list }}"
+  loop: "{{ nginx_letsencrypt_sites | zip(existing_letsencrypt_certificates.results) | list }}"
   loop_control:
     label: "{{ item.0.name }}"
-  when: item.0.https_cert is defined and item.0.https_cert.mode == "letsencrypt" and not item.1.stat.exists
+  when: not item.1.stat.exists
 
 - name: Force nginx restart to load bootstrap sites
   service:
@@ -67,22 +67,22 @@
 # TODO : stop nginx on other nodes to make sure we're on the active one
 
 - name: Create staging letsencrypt certificate
-  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --staging --agree-tos -d {{ item.server_name }} --post-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
+  command: certbot certonly -n --webroot -w {{ nginx_letsencrypt_docroot }}/{{ item.server_name | default('_') }} -m {{ item.https_cert.email }} --staging --agree-tos -d {{ item.server_name }} --post-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
-  loop: "{{ nginx_sites }}"
+  loop: "{{ nginx_letsencrypt_sites }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.https_cert is defined and item.https_cert.mode == "letsencrypt" and not item.https_cert.live | default(False)
+  when: not (item.https_cert.live | default(False))
 
 - name: Create live letsencrypt certificate
-  command: certbot certonly -n --webroot -w {{ item.https_cert.docroot }} -m {{ item.https_cert.email }} --agree-tos -d {{ item.server_name }} --post-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
+  command: certbot certonly -n --webroot -w {{ nginx_letsencrypt_docroot }}/{{ item.server_name | default('_') }} -m {{ item.https_cert.email }} --agree-tos -d {{ item.server_name }} --post-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
-  loop: "{{ nginx_sites }}"
+  loop: "{{ nginx_letsencrypt_sites }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.https_cert is defined and item.https_cert.mode == "letsencrypt" and item.https_cert.live | default(False)
+  when: item.https_cert.live | default(False)
 
 - name: Create renew job
   cron:
