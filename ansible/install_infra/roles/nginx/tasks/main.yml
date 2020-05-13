@@ -94,10 +94,18 @@
     creates: "{{ nginx_ssl_dhparam_path }}"
   when: nginx_ssl_dhparam_generate
 
+- name: List certificates to generate
+  set_fact: 
+    nginx_selfsigned_sites: "{{ nginx_sites | selectattr('https_cert', 'defined') | selectattr('https_cert.mode', 'equalto', 'selfsigned') | list }}"
+    nginx_letsencrypt_sites: "{{ nginx_sites | selectattr('https_cert', 'defined') | selectattr('https_cert.mode', 'equalto', 'letsencrypt') | list }}"
+
 - import_tasks: ssl_certs_selfsigned.yml
+  when: nginx_selfsigned_sites | length > 0
 
 - import_tasks: ssl_certs_letsencrypt.yml
-  when: nginx_ssl_certbot_enabled | default(false)
+  when:
+   - nginx_ssl_certbot_enabled | default(false)
+   - nginx_letsencrypt_sites | length > 0
 
 - name: Configure site upstreams
   template:

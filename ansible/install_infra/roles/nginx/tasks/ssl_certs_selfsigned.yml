@@ -4,26 +4,23 @@
   file:
     path: "{{ item.https_cert.cert_key_path | dirname }}"
     state: directory
-  loop: "{{ nginx_sites }}"
+  loop: "{{ nginx_selfsigned_sites }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.https_cert is defined and item.https_cert.mode == "selfsigned"
 
 - name: Ensures the SSL Certs folders exist
   file:
     path: "{{ item.https_cert.cert_path | dirname }}"
     state: directory
-  loop: "{{ nginx_sites }}"
+  loop: "{{ nginx_selfsigned_sites }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.https_cert is defined and item.https_cert.mode == "selfsigned"
 
 - name: Generate self-signed SSL Certs
   command: openssl req -new -nodes -x509 -subj "{{ item.https_cert.subject }}" -days 3650 -keyout {{ item.https_cert.cert_key_path }} -out {{ item.https_cert.cert_path }} -extensions v3_ca
   args:
     creates: "{{ item.https_cert.cert_path }}"
-  loop: "{{ nginx_sites }}"
+  loop: "{{ nginx_selfsigned_sites }}"
   loop_control:
     label: "{{ item.name }}"
-  when: item.https_cert is defined and item.https_cert.mode == "selfsigned"
   notify: Restart NGinx
