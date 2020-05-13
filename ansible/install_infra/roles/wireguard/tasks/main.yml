@@ -22,7 +22,7 @@
 
 - name: Install Linux kernel headers
   apt:
-    name: linux-headers-amd64
+    name: "linux-headers-{{ ansible_kernel }}"
 
 - name: Install Wireguard
   apt:
