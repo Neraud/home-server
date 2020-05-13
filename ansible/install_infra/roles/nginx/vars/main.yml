@@ -6,6 +6,7 @@ nginx_streams_conf_dir: /etc/nginx/streams_conf.d
 nginx_streams_available_dir: /etc/nginx/streams-available
 nginx_streams_enabled_dir: /etc/nginx/streams-enabled
 nginx_letsencrypt_dir: /opt/letsencrypt
+nginx_letsencrypt_docroot: /var/www/letsencrypt
 
 nginx_keepalived_instance:
     name: nginx

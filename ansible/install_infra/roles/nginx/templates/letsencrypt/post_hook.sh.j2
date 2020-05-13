@@ -4,12 +4,16 @@ function handleRemoteHost() {
     remoteHost="$1"
     echo " - remote : $remoteHost"
     rsync -arv --delete /etc/letsencrypt/ $remoteHost:/etc/letsencrypt
+    echo "restarting nginx ..."
     ssh $remoteHost "systemctl restart nginx"
 }
 
 function handleLocalHost() {
     echo " - local"
-    systemctl reload nginx
+    rm /etc/systemd/system/nginx.service.d/10-bootstrap_letsencrypt.conf
+    systemctl daemon-reload
+    echo "restarting nginx ..."
+    systemctl restart nginx
 }
 
 handleLocalHost

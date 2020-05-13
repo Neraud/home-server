@@ -10,12 +10,6 @@ server {
 	
 	access_log /var/log/nginx/{{ item.name }}_access.log main;
 	error_log /var/log/nginx/{{ item.name }}_error.log;	
-		
-	{% if item.https_cert is defined and item.https_cert.mode == "letsencrypt" %}
-	location /.well-known {
-    	alias {{ item.https_cert.docroot }}/.well-known;
-    }
-	{% endif %}
 	
 	{% if item.force_http_to_https | default(False) %}
 	location / { rewrite ^ https://$server_name$request_uri? permanent; }
