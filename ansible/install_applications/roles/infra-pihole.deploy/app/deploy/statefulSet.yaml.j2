@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pihole
+  namespace: "{{ pihole.namespace }}"
+  labels:
+    {{ pihole.labels_def | to_nice_yaml() | indent(4) }}
+    {{ pihole.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ pihole.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ pihole.labels_def | to_nice_yaml() | indent(8) }}
+        {{ pihole.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      containers:
+      - name: pihole
+        image: "{{ pihole.container.image }}"
+        imagePullPolicy: Always
+        ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
+          - name: dns
+            containerPort: 53
+            protocol: TCP
+          - name: dns-udp
+            containerPort: 53
+            protocol: UDP
+          - name: https
+            containerPort: 443
+            protocol: TCP
+          - name: client-udp
+            containerPort: 67
+            protocol: UDP
+        securityContext:
+          # pihole requires root and a writable root filesystem
+          #runAsNonRoot: true
+          #readOnlyRootFilesystem: true
+        env:
+          - name: WEBPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: pihole
+                key: webPassword
+          - name: DNS1
+            value: {{ pihole.dns_1 }}
+          - name: DNS2
+            value: {{ pihole.dns_2 }}
+          - name: DNSMASQ_USER
+            value: pihole
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ pihole.container.requests_cpu }}"
+            memory: "{{ pihole.container.requests_memory }}"
+          limits:
+            cpu: "{{ pihole.container.limits_cpu }}"
+            memory: "{{ pihole.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: pihole-pv-claim
+          mountPath: /etc/pihole
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: pihole-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          {{ pihole.labels_def | to_nice_yaml() | indent(10) }}
