@@ -70,6 +70,7 @@ The following services are deployed :
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://infra.k8stest.com/phpldapadmin/>          | Web-based LDAP browser                                 |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                  | Modern outbound SMTP relay                             |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://infra.k8stest.com/mailhog/>               | MailHog is an email testing tool for developers        |
+| [PiHole](https://pi-hole.net/)                                   | <https://infra.k8stest.com/pihole/admin/>          | A black hole for Internet advertisements               |
 | [Gotify](https://gotify.net/)                                    | <https://infra.k8stest.com/gotify/>                | A simple server for sending and receiving messages     |
 | [Prometheus](https://prometheus.io/)                             | <https://infra.k8stest.com/prometheus/>            | Monitoring solution                                    |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | <https://infra.k8stest.com/alertmanager/>          | Alert manager for Prometheus                           |
@@ -224,6 +225,39 @@ EOF
     --body "This is the message body sent to MailHog"
 
 [user@master$] kubectl --namespace=infra-mailhog delete networkpolicies allow-to-test-mailhog
+```
+
+### PiHole
+
+PiHole is configured.
+
+The web admin uses the password : `Passw0rd`.
+
+To test it, you can use nslookup :
+
+```shell
+[root@master$] apt-get -q -y install dnsutils
+
+# This one is resolved
+[user@master$] nslookup -port=30053 google.com 192.168.100.11
+Server:         192.168.100.11
+Address:        192.168.100.11#30053
+
+Non-authoritative answer:
+Name:   google.com
+Address: 216.58.215.46
+Name:   google.com
+Address: 2a00:1450:4007:80a::200e
+
+# This one is blocked
+[user@master$] nslookup -port=30053 ad.doubleclick.net 192.168.100.11
+Server:         192.168.100.11
+Address:        192.168.100.11#30053
+
+Name:   ad.doubleclick.net
+Address: 0.0.0.0
+Name:   ad.doubleclick.net
+Address: ::
 ```
 
 ### Gotify
