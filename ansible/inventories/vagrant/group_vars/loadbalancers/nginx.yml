@@ -30,6 +30,12 @@ nginx_upstreams:
       - master-2:{{ kubernetes_ingress_mqtt_port }}
       - master-3:{{ kubernetes_ingress_mqtt_port }}
       - node-home:{{ kubernetes_ingress_mqtt_port }}
+  - name: kubernetes-pihole
+    servers:
+      - master-1:{{ kubernetes_pihole_port }}
+      - master-2:{{ kubernetes_pihole_port }}
+      - master-3:{{ kubernetes_pihole_port }}
+      - node-home:{{ kubernetes_pihole_port }}
 
 nginx_sites:
   - name: default-site
@@ -246,13 +252,19 @@ nginx_streams:
   - name: home_mqtt
     enabled_name: 100-home_mqtt
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
-    http_port: 1883
-    https_port: 8883
+    tcp_port: 1883
+    ssl_port: 8883
     https_cert:
       mode: file
       cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
       cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
     proxy_pass: kubernetes-mqtt-ingress
+  - name: infra_pihole
+    enabled_name: 050-infra_pihole
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    tcp_port: 53
+    udp_port: 53
+    proxy_pass: kubernetes-pihole
 
 nginx_ufw_applications:
   - name: custom_nginx

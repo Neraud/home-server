@@ -28,6 +28,10 @@
   tags: kubernetes-app-infra-docker-registry-ui
   when: docker_registry_ui_enabled | bool
 
+- import_playbook: app-infra-pihole.yml
+  tags: kubernetes-app-infra-pihole
+  when: pihole_enabled | bool
+
 - import_playbook: app-infra-gotify.yml
   tags: kubernetes-app-infra-gotify
   when: gotify_enabled | bool

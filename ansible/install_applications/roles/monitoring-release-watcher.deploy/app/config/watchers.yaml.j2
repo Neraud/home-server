@@ -263,6 +263,14 @@ watchers:
     excludes:
       - 0\.[0-8]\.
   - type: docker_registry
+    repo: {{ pihole.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ pihole.base_image.name }}
+    tag: {{ pihole.base_image.tag }}
+    includes:
+      - "v[0-9]+\\.[0-9]+-amd64"
+    excludes:
+      - v[1-4]\..*
+  - type: docker_registry
     repo: {{ gotify.base_image.repo | default('registry-1.docker.io') }}
     image: {{ gotify.base_image.name }}
     tag: {{ gotify.base_image.tag }}

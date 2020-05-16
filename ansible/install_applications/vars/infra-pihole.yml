@@ -1,0 +1,33 @@
+---
+
+# To avoid loops inside pihole
+_pihole_var_loader:
+  base_image:
+    name: "pihole/pihole"
+    tag: "v5.0-amd64"
+  namespace: "infra-pihole"
+
+pihole:
+  enabled: "{{ pihole_enabled | default(True) }}"
+
+  namespace: "{{ _pihole_var_loader.namespace }}"
+  base_image: "{{ _pihole_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: pihole
+    app.kubernetes.io/component: pihole
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _pihole_var_loader.base_image.tag }}"
+
+  container:
+    image: "{{ docker_registry.url }}/{{ _pihole_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _pihole_var_loader.base_image.tag }}"
+    requests_cpu: "{{ pihole_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ pihole_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ pihole_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ pihole_container_limits_memory | default('128Mi') }}"
+
+  context_root: '/pihole'
+  web_password: "{{ pihole_web_password | default('clear_password') }}"
+  dns_1:  "{{ pihole_dns_1 | default('1.1.1.1') }}"
+  dns_2:  "{{ pihole_dns_2 | default('1.0.0.1') }}"
