@@ -10,3 +10,22 @@ dns_static_hosts:
   - name: node-home
     ip: 192.168.100.14
 
+  # Add our web domains to the list, so that we can go to the vip directly
+  - name: "{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+  - name: "auth.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+  - name: "infra.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+  - name: "unifi.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+  - name: "web.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+  - name: "home.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+  - name: "stream.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+  - name: "dev.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+  - name: "download.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
