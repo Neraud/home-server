@@ -1,8 +1,8 @@
 ---
 
-nginx_keepalived_instance_public_interface: eth1
+nginx_keepalived_instance_public_interface: "{{ default_network_interface }}"
 nginx_keepalived_instance_public_auth_pass: Passw0rd
-nginx_keepalived_instance_internal_interface: eth1
+nginx_keepalived_instance_internal_interface: "{{ default_network_interface }}"
 nginx_keepalived_instance_internal_auth_pass: Passw0rd
 
 #nginx_ssl_dhparam_generate: True
