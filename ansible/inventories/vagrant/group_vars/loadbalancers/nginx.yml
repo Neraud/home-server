@@ -17,25 +17,21 @@ nginx_upstreams:
       - master-1:{{ kubernetes_ingress_https_port }}
       - master-2:{{ kubernetes_ingress_https_port }}
       - master-3:{{ kubernetes_ingress_https_port }}
-      - node-home:{{ kubernetes_ingress_https_port }}
   - name: kubernetes-lemonldap-handler-ingress
     servers:
       - master-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
       - master-2:{{ kubernetes_ingress_lemonLdap_handler_port }}
       - master-3:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - node-home:{{ kubernetes_ingress_lemonLdap_handler_port }}
   - name: kubernetes-mqtt-ingress
     servers:
       - master-1:{{ kubernetes_ingress_mqtt_port }}
       - master-2:{{ kubernetes_ingress_mqtt_port }}
       - master-3:{{ kubernetes_ingress_mqtt_port }}
-      - node-home:{{ kubernetes_ingress_mqtt_port }}
   - name: kubernetes-pihole
     servers:
       - master-1:{{ kubernetes_pihole_port }}
       - master-2:{{ kubernetes_pihole_port }}
       - master-3:{{ kubernetes_pihole_port }}
-      - node-home:{{ kubernetes_pihole_port }}
 
 nginx_sites:
   - name: default-site
