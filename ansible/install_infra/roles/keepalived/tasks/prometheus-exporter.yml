@@ -32,6 +32,10 @@
   args:
     chdir: "{{ keepalived.exporter.path }}"
   changed_when: False
+  tags:
+    # ansible-lint warns : [303] git used in place of git module
+    # But it's not a standard git clone
+    - skip_ansible_lint
 
 - name: Create systemd service
   template:

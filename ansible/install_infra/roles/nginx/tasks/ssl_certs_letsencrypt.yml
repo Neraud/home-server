@@ -32,13 +32,13 @@
 
 - name: Create staging letsencrypt certificate
   command: >
-    certbot certonly -n 
-    --webroot -w {{ nginx_letsencrypt_docroot }}/{{ item.server_name | default('_') }} 
-    -m {{ item.https_cert.email }} 
-    --staging 
-    --agree-tos 
-    -d {{ item.server_name }} 
-    --pre-hook "{{ nginx_letsencrypt_dir }}/pre_hook.sh" 
+    certbot certonly -n
+    --webroot -w {{ nginx_letsencrypt_docroot }}/{{ item.server_name | default('_') }}
+    -m {{ item.https_cert.email }}
+    --staging
+    --agree-tos
+    -d {{ item.server_name }}
+    --pre-hook "{{ nginx_letsencrypt_dir }}/pre_hook.sh"
     --post-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
@@ -49,12 +49,12 @@
 
 - name: Create live letsencrypt certificate
   command: >
-    certbot certonly -n 
-    --webroot -w {{ nginx_letsencrypt_docroot }}/{{ item.server_name | default('_') }} 
-    -m {{ item.https_cert.email }} 
-    --agree-tos 
-    -d {{ item.server_name }} 
-    --pre-hook "{{ nginx_letsencrypt_dir }}/pre_hook.sh" 
+    certbot certonly -n
+    --webroot -w {{ nginx_letsencrypt_docroot }}/{{ item.server_name | default('_') }}
+    -m {{ item.https_cert.email }}
+    --agree-tos
+    -d {{ item.server_name }}
+    --pre-hook "{{ nginx_letsencrypt_dir }}/pre_hook.sh"
     --post-hook "{{ nginx_letsencrypt_dir }}/post_hook.sh"
   args:
     creates: /etc/letsencrypt/live/{{ item.server_name }}
