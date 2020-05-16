@@ -76,10 +76,19 @@ spec:
           readOnly: true
         - name: pihole-pv-claim
           mountPath: /etc/pihole
+        - name: pihole-config
+          mountPath: /etc/dnsmasq.d/05-custom.conf
+          subPath: 05-custom.conf
+        - name: pihole-config
+          mountPath: /etc/dnsmasq_hosts
+          subPath: dnsmasq_hosts
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: pihole-config
+        configMap:
+          name: pihole-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

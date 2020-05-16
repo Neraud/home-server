@@ -1,0 +1,12 @@
+---
+
+dns_static_hosts:
+  - name: master-1
+    ip: 192.168.100.11
+  - name: master-2
+    ip: 192.168.100.12
+  - name: master-3
+    ip: 192.168.100.13
+  - name: node-home
+    ip: 192.168.100.14
+
