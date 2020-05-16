@@ -21,6 +21,8 @@ wireguard:
   
   clients: "{{ wireguard_clients | default({}) }}"
 
+  clients_dns: "{{ wireguard_clients_dns | default(groups['dns_servers'] | map('extract', hostvars, ['ansible_host']) | list) }}"
+
   keepalived_instance:
     name: wireguard
     virtual_router_id: 104
