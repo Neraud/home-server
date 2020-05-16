@@ -1,6 +1,7 @@
 ---
 
 wireguard_server_interface: wg0
+#wireguard_server_lan_interface: eth0
 wireguard_server_listen_port: 51820
 #wireguard_cidr_prefix: "192.168.1"
 #wireguard_server_endpoint: public_ip:51820

@@ -13,6 +13,7 @@ wireguard:
 
   server:
     interface: "{{ wireguard_server_interface }}"
+    lan_interface: "{{ wireguard_server_lan_interface }}"
     listen_port: "{{ wireguard_server_listen_port }}"
     endpoint: "{{ wireguard_server_endpoint }}"
     keys_dir: /etc/wireguard
