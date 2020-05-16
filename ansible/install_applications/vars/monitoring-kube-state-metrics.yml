@@ -39,6 +39,6 @@ kube_state_metrics_rbac_proxy:
   container:
     image: "{{ docker_registry.url }}/{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.tag }}"
     requests_cpu: "{{ kube_state_metrics_rbac_proxy_container_requests_cpu | default('10m') }}"
-    requests_memory: "{{ kube_state_metrics_rbac_proxy_container_requests_memory | default('20Mi') }}"
+    requests_memory: "{{ kube_state_metrics_rbac_proxy_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ kube_state_metrics_rbac_proxy_container_limits_cpu | default('250m') }}"
-    limits_memory: "{{ kube_state_metrics_rbac_proxy_container_limits_memory | default('40Mi') }}"
+    limits_memory: "{{ kube_state_metrics_rbac_proxy_container_limits_memory | default('64Mi') }}"
