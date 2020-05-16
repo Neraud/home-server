@@ -239,9 +239,9 @@ To test it, you can use nslookup :
 [root@master$] apt-get -q -y install dnsutils
 
 # This one is resolved
-[user@master$] nslookup -port=30053 google.com 192.168.100.11
-Server:         192.168.100.11
-Address:        192.168.100.11#30053
+[user@master$] nslookup -port=30053 google.com 192.168.100.101
+Server:         192.168.100.101
+Address:        192.168.100.101#53
 
 Non-authoritative answer:
 Name:   google.com
@@ -250,9 +250,9 @@ Name:   google.com
 Address: 2a00:1450:4007:80a::200e
 
 # This one is blocked
-[user@master$] nslookup -port=30053 ad.doubleclick.net 192.168.100.11
-Server:         192.168.100.11
-Address:        192.168.100.11#30053
+[user@master$] nslookup -port=30053 ad.doubleclick.net 192.168.100.101
+Server:         192.168.100.101
+Address:        192.168.100.101#53
 
 Name:   ad.doubleclick.net
 Address: 0.0.0.0
