@@ -1,10 +1,16 @@
 #jinja2: trim_blocks: "true", lstrip_blocks: "false"
 # {{ ansible_managed }}
 
-{% if item.http_port | default(False) %}
+{% if item.tcp_port | default(False) or item.udp_port | default(False) %}
 server {
-	listen {{ item.listen_ip | default(nginx_listen_ip) }}:{{ item.http_port }};
-	listen [::]:{{ item.http_port }};
+	{% if item.tcp_port | default(False) %}
+	listen {{ item.listen_ip | default(nginx_listen_ip) }}:{{ item.tcp_port }};
+	listen [::]:{{ item.tcp_port }};
+	{% endif %}
+	{% if item.udp_port | default(False) %}
+	listen {{ item.listen_ip | default(nginx_listen_ip) }}:{{ item.udp_port }} udp;
+	listen [::]:{{ item.udp_port }} udp;
+	{% endif %}
 
 	access_log /var/log/nginx/{{ item.name }}_stream_access.log basic buffer=32k;
 	error_log /var/log/nginx/{{ item.name }}_stream_error.log;
@@ -16,10 +22,10 @@ server {
 }
 {% endif %}
 
-{% if item.https_port | default(False) %}
+{% if item.ssl_port | default(False) %}
 server {
-	listen {{ item.listen_ip | default(nginx_listen_ip) }}:{{ item.https_port }} ssl;
-	listen [::]:{{ item.https_port }} ssl;
+	listen {{ item.listen_ip | default(nginx_listen_ip) }}:{{ item.ssl_port }} ssl;
+	listen [::]:{{ item.ssl_port }} ssl;
 
 	access_log /var/log/nginx/{{ item.name }}_stream_ssl_access.log basic buffer=32k;
 	error_log /var/log/nginx/{{ item.name }}_stream_ssl_error.log;

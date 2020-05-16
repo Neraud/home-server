@@ -246,8 +246,8 @@ nginx_streams:
   - name: home_mqtt
     enabled_name: 100-home_mqtt
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
-    http_port: 1883
-    https_port: 8883
+    tcp_port: 1883
+    ssl_port: 8883
     https_cert:
       mode: file
       cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
