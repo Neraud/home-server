@@ -113,7 +113,7 @@ server=/cluster.local/10.96.0.10
 #except-interface=
 # Or which to listen on by address (remember to include 127.0.0.1 if
 # you use this.)
-#listen-address=
+listen-address={{ ansible_host }}
 # If you want dnsmasq to provide only DNS service on an interface,
 # configure it as shown above, and then use the following line to
 # disable DHCP and TFTP on it.
@@ -126,7 +126,7 @@ server=/cluster.local/10.96.0.10
 # want dnsmasq to really bind only the interfaces it is listening on,
 # uncomment this option. About the only time you may need this is when
 # running another nameserver on the same machine.
-#bind-interfaces
+bind-interfaces
 
 # If you don't want dnsmasq to read /etc/hosts, uncomment the
 # following line.
