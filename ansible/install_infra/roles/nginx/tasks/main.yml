@@ -95,7 +95,7 @@
   when: nginx_ssl_dhparam_generate
 
 - name: List certificates to generate
-  set_fact: 
+  set_fact:
     nginx_selfsigned_sites: "{{ nginx_sites | selectattr('https_cert', 'defined') | selectattr('https_cert.mode', 'equalto', 'selfsigned') | list }}"
     nginx_letsencrypt_sites: "{{ nginx_sites | selectattr('https_cert', 'defined') | selectattr('https_cert.mode', 'equalto', 'letsencrypt') | list }}"
 

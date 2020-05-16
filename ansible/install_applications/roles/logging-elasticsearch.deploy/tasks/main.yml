@@ -85,7 +85,7 @@
 
 - name: Prepare wanted index settings
   set_fact:
-    wanted_index_settings: 
+    wanted_index_settings:
       # By default, an index is created with 1 replica.
       # If we only have 1 node, this index will remain yellow
       number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"

@@ -5,7 +5,7 @@
     name: firewall
     tasks_from: add-applications
   vars:
-    ufw_applications: 
+    ufw_applications:
     - name: ser2net
       title: ser2net
       description: ser2net
