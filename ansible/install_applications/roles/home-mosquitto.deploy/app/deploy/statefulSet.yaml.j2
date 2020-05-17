@@ -51,7 +51,7 @@ spec:
             command:
             - sh
             - -c
-            - "timeout -t 3 sh -c \"mosquitto_sub {% if mosquitto.healthcheck_credential %}-u {{ mosquitto.healthcheck_credential.user }} -P {{ mosquitto.healthcheck_credential.password }}{% endif %} -t '\\$SYS/broker/uptime' -C 1 | grep second\""
+            - mosquitto_sub {% if mosquitto.healthcheck_credential %}-u {{ mosquitto.healthcheck_credential.user }} -P {{ mosquitto.healthcheck_credential.password }}{% endif %} -t '$SYS/broker/uptime' -C 1 | grep second
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
