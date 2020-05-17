@@ -23,7 +23,7 @@
     url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/application"
     method: GET
     headers:
-      Host: "infra.{{ web_base_domain }}"
+      Host: "web.{{ web_base_domain }}"
     return_content: yes
     validate_certs: no
     force_basic_auth: yes

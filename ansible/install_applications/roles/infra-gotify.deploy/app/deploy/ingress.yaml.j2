@@ -13,10 +13,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - infra.{{ web_base_domain }}
+      - web.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: infra.{{ web_base_domain }}
+  - host: web.{{ web_base_domain }}
     http:
       paths:
         - path: /gotify/?(.*)

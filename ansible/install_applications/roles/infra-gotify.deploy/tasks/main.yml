@@ -37,7 +37,7 @@
     url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/user"
     method: GET
     headers:
-      Host: "infra.{{ web_base_domain }}"
+      Host: "web.{{ web_base_domain }}"
     return_content: yes
     validate_certs: no
     force_basic_auth: yes
@@ -50,7 +50,7 @@
     url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/user"
     method: POST
     headers:
-      Host: "infra.{{ web_base_domain }}"
+      Host: "web.{{ web_base_domain }}"
     body:
       name: "{{ item.name }}"
       pass: "{{ item.password }}"
@@ -70,7 +70,7 @@
     url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/application"
     method: GET
     headers:
-      Host: "infra.{{ web_base_domain }}"
+      Host: "web.{{ web_base_domain }}"
     return_content: yes
     validate_certs: no
     force_basic_auth: yes
@@ -89,7 +89,7 @@
     url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/application"
     method: POST
     headers:
-      Host: "infra.{{ web_base_domain }}"
+      Host: "web.{{ web_base_domain }}"
     body:
       name: "{{ item.1.name }}"
       description: "{{ item.1.desc }}"
