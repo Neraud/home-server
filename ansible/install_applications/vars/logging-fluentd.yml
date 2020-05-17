@@ -4,7 +4,7 @@
 _fluentd_var_loader:
   base_image:
     name: "fluent/fluentd"
-    tag: "v1.10.3-debian-1.0"
+    tag: "v1.10.4-debian-1.0"
   namespace: "logging-fluentd"
 
 fluentd:
