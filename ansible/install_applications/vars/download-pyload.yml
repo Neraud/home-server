@@ -8,7 +8,7 @@ _pyload_var_loader:
   repo:
     name: "pyload/pyload"
     branch: "stable"
-    commit: "4c70eb084aefd3b27a40a7886d18220837733eb6"
+    commit: "07fb28caf3e75aab1bd478f4e3cefe42bdcad751"
 
 pyload:
   enabled: "{{ pyload_enabled | default(True) }}"
