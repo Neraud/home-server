@@ -5,5 +5,7 @@ wireguard_keepalived_instance_auth_pass: Passw0rd
 wireguard_keepalived_instance_virtual_ip: 192.168.100.103
 
 wireguard_cidr_prefix: "192.168.110"
+wireguard_server_lan_interface: "{{ default_network_interface }}"
 # For a real environment, this endpoint would be the public IP
 wireguard_server_endpoint: "{{ wireguard_keepalived_instance_virtual_ip }}:51820"
+wireguard_clients_dns: [ "{{ nginx_keepalived_instance_internal_virtual_ip }}" ]

@@ -12,10 +12,6 @@ lemonldap_location_rules:
       - name: 00-ElasticSearch
         uri: ^/elasticsearch/
         rule: skip
-      # Disable Auth for Gotify
-      - name: 00-Gotify
-        uri: ^/gotify/
-        rule: skip
     exportedHeaders:
       Auth-User: "$uid"
   - domain: "unifi.{{ web_base_domain }}"
@@ -24,6 +20,11 @@ lemonldap_location_rules:
     #requiredAuthnLevel: 4
   - domain: "web.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'web')
+    rules:
+      # Disable Auth for Gotify
+      - name: 00-Gotify
+        uri: ^/gotify/
+        rule: skip
   - domain: "home.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'home')
     rules:
@@ -37,6 +38,11 @@ lemonldap_location_rules:
         rule: skip
   - domain: "stream.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'stream')
+    rules:
+      # Skip jellyfin to enable streming in the LAN
+      - name: 00-Jellyfin
+        uri: ^/jellyfin
+        rule: skip
   - domain: "dev.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'dev')
     rules:

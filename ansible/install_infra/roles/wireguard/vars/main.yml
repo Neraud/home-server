@@ -13,12 +13,15 @@ wireguard:
 
   server:
     interface: "{{ wireguard_server_interface }}"
+    lan_interface: "{{ wireguard_server_lan_interface }}"
     listen_port: "{{ wireguard_server_listen_port }}"
     endpoint: "{{ wireguard_server_endpoint }}"
     keys_dir: /etc/wireguard
     clients_dir: /etc/wireguard/clients
   
   clients: "{{ wireguard_clients | default({}) }}"
+
+  clients_dns: "{{ wireguard_clients_dns | default(groups['dns_servers'] | map('extract', hostvars, ['ansible_host']) | list) }}"
 
   keepalived_instance:
     name: wireguard

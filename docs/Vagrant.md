@@ -28,9 +28,9 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 unifi.k8stest.com
 192.168.100.100 home.k8stest.com
 192.168.100.100 web.k8stest.com
-192.168.100.100 dev.k8stest.com
-192.168.100.100 stream.k8stest.com
-192.168.100.100 dl.k8stest.com
+192.168.100.101 dev.k8stest.com
+192.168.100.101 stream.k8stest.com
+192.168.100.101 dl.k8stest.com
 ```
 
 ## User
@@ -71,7 +71,7 @@ The following services are deployed :
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                  | Modern outbound SMTP relay                             |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://infra.k8stest.com/mailhog/>               | MailHog is an email testing tool for developers        |
 | [PiHole](https://pi-hole.net/)                                   | <https://infra.k8stest.com/pihole/admin/>          | A black hole for Internet advertisements               |
-| [Gotify](https://gotify.net/)                                    | <https://infra.k8stest.com/gotify/>                | A simple server for sending and receiving messages     |
+| [Gotify](https://gotify.net/)                                    | <https://web.k8stest.com/gotify/>                  | A simple server for sending and receiving messages     |
 | [Prometheus](https://prometheus.io/)                             | <https://infra.k8stest.com/prometheus/>            | Monitoring solution                                    |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | <https://infra.k8stest.com/alertmanager/>          | Alert manager for Prometheus                           |
 | [Grafana](https://grafana.com/)                                  | <https://infra.k8stest.com/grafana/>               | Platform for beautiful analytics and monitoring        |
@@ -274,9 +274,9 @@ Gotify can be used to send notifications.
 ```shell
 [root@master$] apt-get -q -y install jq
 
-[user@master$] token=$(curl -s -k -H "Host: infra.k8stest.com" -u user:Passw0rd https://127.0.0.1:30443/gotify/application | jq -r '.[] | select(.name=="sample") | .token')
+[user@master$] token=$(curl -s -k -H "Host: web.k8stest.com" -u user:Passw0rd https://127.0.0.1:30443/gotify/application | jq -r '.[] | select(.name=="sample") | .token')
 
-[user@master$] curl -X POST -s -k -H "Host: infra.k8stest.com" -H "X-Gotify-Key: $token" https://127.0.0.1:30443/gotify/message -F "title=Sample title" -F "message=Sample message"
+[user@master$] curl -X POST -s -k -H "Host: web.k8stest.com" -H "X-Gotify-Key: $token" https://127.0.0.1:30443/gotify/message -F "title=Sample title" -F "message=Sample message"
 ```
 
 ### Prometheus & AlertManager

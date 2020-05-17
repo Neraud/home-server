@@ -92,7 +92,7 @@ homer_config_services:
         target: "_blank"
       - name: "Gotify"
         logo: "assets/download/gotify.png"
-        url: "https://infra.{{ web_base_domain }}/gotify"
+        url: "https://web.{{ web_base_domain }}/gotify"
         subtitle: "Server for sending and receiving messages"
         target: "_blank"
       - name: "MailHog"
