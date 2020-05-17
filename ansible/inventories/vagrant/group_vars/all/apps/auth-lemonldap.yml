@@ -38,6 +38,11 @@ lemonldap_location_rules:
         rule: skip
   - domain: "stream.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'stream')
+    rules:
+      # Skip jellyfin to enable streming in the LAN
+      - name: 00-Jellyfin
+        uri: ^/jellyfin
+        rule: skip
   - domain: "dev.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'dev')
     rules:
