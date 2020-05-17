@@ -30,6 +30,8 @@ spec:
           - |
             mkdir -p /opt/pyload/data
             chown -R 1000:1000 /opt/pyload/data
+            # Ensure pid file is absent
+            rm -f /opt/pyload/data/pyload.pid
         volumeMounts:
         - name: pyload-config-pv-claim
           mountPath: /opt/pyload
