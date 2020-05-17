@@ -49,14 +49,15 @@ spec:
         ports:
         - containerPort: 8443
           name: https-main
-        readinessProbe:
-          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
-          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
-          exec:
-            command:
-            - /bin/sh
-            - -c 
-            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://127.0.0.1:8443/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+#        readinessProbe:
+#          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+#          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+#          # We can't use wget on an SSL endpoint, it leaks ssl_client defunct processes
+#          exec:
+#            command:
+#            - /bin/sh
+#            - -c 
+#            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://127.0.0.1:8443/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
@@ -80,14 +81,15 @@ spec:
         ports:
         - containerPort: 9443
           name: https-self
-        readinessProbe:
-          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
-          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
-          exec:
-            command:
-            - /bin/sh
-            - -c 
-            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://127.0.0.1:9443/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+#        readinessProbe:
+#          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+#          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+#          # We can't use wget on an SSL endpoint, it leaks ssl_client defunct processes
+#          exec:
+#            command:
+#            - /bin/sh
+#            - -c 
+#            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://127.0.0.1:9443/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
