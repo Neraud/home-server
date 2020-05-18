@@ -1,0 +1,6 @@
+---
+
+- name: Provision monitoring-pihole-exporter
+  hosts: controller
+  roles:
+  - role: monitoring-pihole-exporter.deploy
