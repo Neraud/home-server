@@ -38,4 +38,5 @@ grafana:
     group: "{{ grafana_ldap_group }}"
     group_mapping: "{{ grafana_ldap_group_mapping }}"
 
-  plugins: []
+  plugins:
+    - grafana-piechart-panel
