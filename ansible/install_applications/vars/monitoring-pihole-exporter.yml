@@ -1,0 +1,27 @@
+---
+
+# To avoid loops inside pihole_exporter
+_pihole_exporter_var_loader:
+  base_image:
+    name: "ekofr/pihole-exporter"
+    tag: "0.0.9"
+
+pihole_exporter:
+  enabled: "{{ pihole_exporter_enabled | default(True) }}"
+
+  namespace: "monitoring-pihole-exporter"
+  base_image: "{{ _pihole_exporter_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: pihole-exporter
+    app.kubernetes.io/component: pihole-exporter
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _pihole_exporter_var_loader.base_image.tag }}"
+
+  container:
+    image: "{{ docker_registry.url }}/{{ _pihole_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _pihole_exporter_var_loader.base_image.tag }}"
+    requests_cpu: "{{ pihole_exporter_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ pihole_exporter_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ pihole_exporter_container_limits_cpu | default('50m') }}"
+    limits_memory: "{{ pihole_exporter_container_limits_memory | default('32Mi') }}"

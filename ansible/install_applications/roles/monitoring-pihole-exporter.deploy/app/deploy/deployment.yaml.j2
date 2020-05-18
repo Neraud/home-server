@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole-exporter
+  namespace: {{ pihole_exporter.namespace }}
+  labels:
+    {{ pihole_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ pihole_exporter.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ pihole_exporter.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ pihole_exporter.labels_def | to_nice_yaml() | indent(8) }}
+        {{ pihole_exporter.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      containers:
+      - name: pihole-exporter
+        image: "{{ pihole_exporter.container.image }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9617
+          name: metrics
+        env:
+        - name: "PIHOLE_HOSTNAME"
+          value: "pihole.infra-pihole.svc.cluster.local"
+        - name: "PIHOLE_API_TOKEN"
+          value: "{{ pihole_api_token.stdout }}"
+        - name: "INTERVAL"
+          value: "30s"
+        - name: "PORT"
+          value: "9617"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random UID
+          readOnlyRootFilesystem: true
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /liveness
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /readiness
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ pihole_exporter.container.requests_cpu }}"
+            memory: "{{ pihole_exporter.container.requests_memory }}"
+          limits:
+            cpu: "{{ pihole_exporter.container.limits_cpu }}"
+            memory: "{{ pihole_exporter.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      nodeSelector:
+        capability/general-purpose: 'yes'
