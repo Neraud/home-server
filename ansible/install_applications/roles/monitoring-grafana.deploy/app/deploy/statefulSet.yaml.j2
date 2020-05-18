@@ -38,6 +38,8 @@ spec:
         env:
         - name: GF_SERVER_ROOT_URL
           value: https://infra.{{ web_base_domain }}/grafana/
+        - name: GF_INSTALL_PLUGINS
+          value: {{ grafana.plugins | join(',') }}
         ports:
         - containerPort: 3000
           name: http
@@ -62,6 +64,8 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
+        - name: tmp-volume
+          mountPath: /tmp
         - mountPath: /var/lib/grafana
           name: grafana-pv-claim
           readOnly: false
@@ -92,6 +96,8 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: tmp-volume
+        emptyDir: {}
       - name: grafana-etc
         configMap:
           name: grafana-etc
