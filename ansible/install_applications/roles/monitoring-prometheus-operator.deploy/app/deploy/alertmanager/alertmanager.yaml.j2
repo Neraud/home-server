@@ -7,6 +7,22 @@ metadata:
     {{ alertmanager.labels_def | to_nice_yaml() | indent(4) }}
     {{ alertmanager.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
+  initContainers:
+  - name: create-folders
+    image: "{{ busybox.container.image }}"
+    imagePullPolicy: Always
+    command:
+      - "sh"
+      - "-c"
+      - |
+        mkdir -p /data/alertmanager-db
+        chown -R 1000:1000 /data/alertmanager-db
+    securityContext:
+      runAsUser: 0
+      runAsNonRoot: False
+    volumeMounts:
+    - name: alertmanager-k8s-pv-claim
+      mountPath: /data
   image: "{{ alertmanager.container.image }}"
   podMetadata:
     labels:
@@ -34,3 +50,16 @@ spec:
     # I guess this section is only applied at the POD level.
     #readOnlyRootFilesystem: true
   serviceAccountName: alertmanager-k8s
+  storage:
+    volumeClaimTemplate:
+      metadata:
+        name: alertmanager-k8s-pv-claim
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+        resources:
+          requests:
+            storage: 16M
+        selector:
+          matchLabels:
+            {{ alertmanager.labels_def | to_nice_yaml() | indent(4) }}
