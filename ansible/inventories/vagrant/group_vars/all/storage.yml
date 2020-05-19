@@ -43,8 +43,8 @@ glusterfs_volumes:
       app.kubernetes.io/component: redis
   pihole-data:
     replicas: 2
-    capacity: 32M
-    arbiterCapacity: 16M
+    capacity: 128M
+    arbiterCapacity: 32M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
@@ -115,6 +115,17 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: prometheus
       app.kubernetes.io/component: prometheus
+      app.kubernetes.io/instance: k8s
+  alertmanager-k8s:
+    replicas: 2
+    capacity: 16M
+    arbiterCapacity: 16M
+    nodes: [master-2, master-3]
+    arbiters: [master-1]
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: alertmanager
+      app.kubernetes.io/component: alertmanager
       app.kubernetes.io/instance: k8s
   grafana-data:
     replicas: 2

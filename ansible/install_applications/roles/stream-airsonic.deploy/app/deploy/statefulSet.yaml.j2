@@ -107,7 +107,7 @@ spec:
         - name: airsonic-playlists-pv-claim
           mountPath: /airsonic/playlists
         - name: airsonic-multimedia
-          mountPath: /mnt/multimetia
+          mountPath: /mnt/multimedia
         # airsonic-config is not used by the container directly
         # But mounting it enables the use of the reloader
         - name: airsonic-config
@@ -124,7 +124,7 @@ spec:
           defaultMode: 0555
       - name: airsonic-multimedia
         persistentVolumeClaim:
-          claimName: nfs-multimetia
+          claimName: nfs-multimedia
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca

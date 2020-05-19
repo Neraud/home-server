@@ -48,5 +48,5 @@ airsonic:
 airsonic_extra_java_opts_default:
   # https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-use-tomcat-behind-a-proxy-server
   - -Dserver.use-forward-headers=true
-  - -Dairsonic.defaultMusicFolder=/mnt/multimetia/Music
-  - -Dairsonic.defaultPodcastFolder=/mnt/multimetia/Podcasts
+  - -Dairsonic.defaultMusicFolder=/mnt/multimedia/Music
+  - -Dairsonic.defaultPodcastFolder=/mnt/multimedia/Podcasts
