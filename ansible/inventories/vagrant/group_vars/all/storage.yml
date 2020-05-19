@@ -43,8 +43,8 @@ glusterfs_volumes:
       app.kubernetes.io/component: redis
   pihole-data:
     replicas: 2
-    capacity: 32M
-    arbiterCapacity: 16M
+    capacity: 128M
+    arbiterCapacity: 32M
     nodes: [master-2, master-3]
     arbiters: [master-1]
     reclaim_policy: Retain
