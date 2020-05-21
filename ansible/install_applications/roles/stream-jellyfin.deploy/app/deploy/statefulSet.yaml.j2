@@ -82,6 +82,9 @@ spec:
           limits:
             cpu: "{{ jellyfin.container.limits_cpu }}"
             memory: "{{ jellyfin.container.limits_memory }}"
+{% if jellyfin.container.limits_gpu %}
+            {{ jellyfin.container.limits_gpu | to_nice_yaml() | indent(12) }}
+{% endif %}
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
