@@ -8,6 +8,11 @@ RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \
     useradd -s /bin/sh -g jellyfin -u 1000 jellyfin
 
+# To use HW acceleration
+RUN echo "Create render group" && \
+    groupadd -g 107 render && \
+    usermod -a -G render jellyfin
+
 RUN echo "Install plugins requirements" && \
     apt-get update && \
     apt-get install -y zip curl && \

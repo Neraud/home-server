@@ -1,0 +1,27 @@
+---
+
+# To avoid loops inside intel_gpu_plugin
+_intel_gpu_plugin_var_loader:
+  base_image:
+    name: "intel/intel-gpu-plugin"
+    tag: "0.17.0"
+
+intel_gpu_plugin:
+  enabled: "{{ intel_gpu_plugin_enabled | default(True) }}"
+
+  namespace: "infra-intel-gpu-plugin"
+  base_image: "{{ _intel_gpu_plugin_var_loader.base_image }}"
+  
+  labels_def:
+    app.kubernetes.io/name: intel-gpu-plugin
+    app.kubernetes.io/component: intel-gpu-plugin
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _intel_gpu_plugin_var_loader.base_image.tag }}"
+
+  container:
+    image: "{{ docker_registry.url }}/{{ _intel_gpu_plugin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _intel_gpu_plugin_var_loader.base_image.tag }}"
+    requests_cpu: "{{ intel_gpu_plugin_container_requests_cpu | default('20m') }}"
+    requests_memory: "{{ intel_gpu_plugin_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ intel_gpu_plugin_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ intel_gpu_plugin_container_limits_memory | default('32Mi') }}"

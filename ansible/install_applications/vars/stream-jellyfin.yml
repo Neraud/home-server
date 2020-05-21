@@ -32,6 +32,7 @@ jellyfin:
     requests_memory: "{{ jellyfin_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ jellyfin_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ jellyfin_container_limits_memory | default('512Mi') }}"
+    limits_gpu: "{{ jellyfin_container_limits_gpu | default({}) }}"
 
   context_path: "{{ jellyfin_context_path | default('/jellyfin') }}"
 

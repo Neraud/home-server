@@ -82,12 +82,17 @@ spec:
           limits:
             cpu: "{{ jellyfin.container.limits_cpu }}"
             memory: "{{ jellyfin.container.limits_memory }}"
+{% if jellyfin.container.limits_gpu %}
+            {{ jellyfin.container.limits_gpu | to_nice_yaml() | indent(12) }}
+{% endif %}
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
         - name: jellyfin-pv-claim
           mountPath: /config
           subPath: config
+        - name: tmp-transcodes-volume
+          mountPath: /config/transcodes
         - name: jellyfin-multimedia
           mountPath: /media
         - name: tmp-cert-volume
@@ -111,6 +116,8 @@ spec:
       - name: tmp-volume
         emptyDir: {}
       - name: tmp-cert-volume
+        emptyDir: {}
+      - name: tmp-transcodes-volume
         emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'

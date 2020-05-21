@@ -7,3 +7,5 @@ kubernetes_node_labels:
     value: 'no'
   - name: capability/home
     value: 'yes'
+  - name: capability/gpu
+    value: "no"
