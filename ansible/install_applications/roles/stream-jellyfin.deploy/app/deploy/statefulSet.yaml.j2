@@ -91,6 +91,8 @@ spec:
         - name: jellyfin-pv-claim
           mountPath: /config
           subPath: config
+        - name: tmp-transcodes-volume
+          mountPath: /config/transcodes
         - name: jellyfin-multimedia
           mountPath: /media
         - name: tmp-cert-volume
@@ -114,6 +116,8 @@ spec:
       - name: tmp-volume
         emptyDir: {}
       - name: tmp-cert-volume
+        emptyDir: {}
+      - name: tmp-transcodes-volume
         emptyDir: {}
       nodeSelector:
         capability/general-purpose: 'yes'
