@@ -51,7 +51,7 @@ deluge_daemon:
     image: "{{ docker_registry.url }}/deluge-daemon:{{ _deluge_base_var_loader.image.tag }}"
     requests_cpu: "{{ deluge_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ deluge_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ deluge_container_limits_cpu | default('1000m') }}"
+    limits_cpu: "{{ deluge_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ deluge_container_limits_memory | default('256Mi') }}"
 
   # See https://dev.deluge-torrent.org/wiki/UserGuide/Authentication
@@ -68,9 +68,9 @@ deluge_web:
 
   container:
     image: "{{ docker_registry.url }}/deluge-web:{{ _deluge_base_var_loader.image.tag }}"
-    requests_cpu: "{{ deluge_container_requests_cpu | default('25m') }}"
+    requests_cpu: "{{ deluge_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ deluge_container_requests_memory | default('128Mi') }}"
-    limits_cpu: "{{ deluge_container_limits_cpu | default('50m') }}"
+    limits_cpu: "{{ deluge_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ deluge_container_limits_memory | default('128Mi') }}"
 
   context_root: "{{ deluge_web_context_root | default('/') }}"
