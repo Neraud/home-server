@@ -364,6 +364,14 @@ watchers:
     excludes:
       - 12\.[0-9]\..*
       - 12\.1[0-5]\..*
+  - type: docker_registry
+    repo: {{ intel_gpu_plugin.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ intel_gpu_plugin.base_image.name }}
+    tag: {{ intel_gpu_plugin.base_image.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+"
+    excludes:
+      - .*-rc.*
   
   ##################
   # Apps : Logging #
