@@ -18,3 +18,26 @@
   register: ufw_allow_app_result
   until: ufw_allow_app_result is succeeded
   with_items: "{{ ufw_applications | default([]) }}"
+
+# See https://serverfault.com/a/957824
+- name: Allow invalid packets (ipv4)
+  blockinfile:
+    path: /etc/ufw/before.rules
+    block: |
+      -A ufw-before-input -p {{ item.1.proto }} --dport {{ item.1.ports }} -j ACCEPT
+    marker: "# {mark} ANSIBLE MANAGED BLOCK : allow invalid packets for {{ item.0.name }} on {{ item.1.ports }}/{{ item.1.proto }}"
+    insertbefore: "# drop INVALID packets.*"
+    backup: yes
+  loop: "{{ ufw_applications | subelements('allow_invalid_packets', skip_missing=True) }}"
+  notify: Reload ufw
+
+- name: Allow invalid packets (ipv6)
+  blockinfile:
+    path: /etc/ufw/before6.rules
+    block: |
+      -A ufw6-before-input -p {{ item.1.proto }} --dport {{ item.1.ports }} -j ACCEPT
+    marker: "# {mark} ANSIBLE MANAGED BLOCK : allow invalid packets for {{ item.0.name }} on {{ item.1.ports }}/{{ item.1.proto }}"
+    insertbefore: "# drop INVALID packets.*"
+    backup: yes
+  loop: "{{ ufw_applications | subelements('allow_invalid_packets', skip_missing=True) }}"
+  notify: Reload ufw
