@@ -12,6 +12,10 @@ kubernetes_master_ufw_applications:
     description: etcd server client API
     ports: 2379,2380/tcp
     rule: allow
+    # To avoid having many BLOCKED in ufw.log, we allow invalid packets for 2380/tcp
+    allow_invalid_packets:
+      - proto: tcp
+        ports: 2380
   - name: kubernetes_scheduler
     title: Kubernetes Scheduler
     description: Kubernetes Scheduler
