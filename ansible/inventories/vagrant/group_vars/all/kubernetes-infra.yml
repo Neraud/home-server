@@ -4,7 +4,9 @@ kubernetes_ingress_http_port: 30080
 kubernetes_ingress_https_port: 30443
 kubernetes_ingress_lemonLdap_handler_port: 30081
 kubernetes_ingress_mqtt_port: 31883
-kubernetes_pihole_port: 30053
+# To avoid issues with having the same NodePort used for both protocols, we use different ports (see https://github.com/kubernetes/kubernetes/issues/85020)
+kubernetes_pihole_tcp_port: 30053
+kubernetes_pihole_udp_port: 30054
 
 kubernetes_local_lvm_storage_class_name: local-lvm
 kubernetes_glusterfs_storage_class_name: glusterfs
