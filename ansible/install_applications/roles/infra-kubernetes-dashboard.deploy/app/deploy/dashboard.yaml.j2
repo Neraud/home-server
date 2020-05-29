@@ -302,7 +302,7 @@ spec:
     spec:
       containers:
         - name: dashboard-metrics-scraper
-          image: kubernetesui/metrics-scraper:v1.0.4
+          image: "{{ kubernetes_dashboard_metrics_scraper.container.image }}"
           imagePullPolicy: Always
           ports:
             - name: http
