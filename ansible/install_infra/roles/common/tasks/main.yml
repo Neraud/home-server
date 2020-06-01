@@ -30,6 +30,12 @@
     pkg: "{{ common_default_packages }}"
     state: present
 
+- name: Install sensors
+  apt:
+    pkg: "lm-sensors"
+    state: present
+  when: ansible_virtualization_role != 'guest'
+
 - name: Ensure standard user exists
   user:
     name: "{{ standard_user.name }}"
