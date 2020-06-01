@@ -83,6 +83,66 @@
   retries: 60
   delay: 3
 
+- name: Load {{ elasticsearch.logstash_policy.name }} policy
+  set_fact:
+    logstash_policy_content: "{{ lookup('template', 'logstash_policy.json.j2') }}"
+
+- name: Get current logstash {{ elasticsearch.logstash_policy.name }} policy
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
+    method: GET
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [ 200, 404 ]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: current_ism_policy
+
+- name: Create logstash {{ elasticsearch.logstash_policy.name }} policy
+  uri:
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
+    method: PUT
+    headers:
+      Host: "infra.{{ web_base_domain }}"
+    body: "{{ logstash_policy_content }}"
+    body_format: json
+    validate_certs: no
+    status_code: [ 201 ]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_logstash_policy
+  changed_when: True
+  when: current_ism_policy.status == 404
+
+- name: Update {{ elasticsearch.logstash_policy.name }} policy if necessary
+  block:
+  - name: Filter fields from current {{ elasticsearch.logstash_policy.name }} policy
+    set_fact:
+      current_ism_policy_filtered: "{{ current_ism_policy_filtered | default({}) | combine({item.key: item.value}) }}"
+    when: item.key not in ['error_notification', 'last_updated_time']
+    loop: "{{ current_ism_policy.json.policy | default({}) | dict2items }}"
+
+  - name: Update {{ elasticsearch.logstash_policy.name }} policy
+    uri:
+      url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}?if_seq_no={{ current_ism_policy.json._seq_no }}&if_primary_term={{ current_ism_policy.json._primary_term }}"
+      method: PUT
+      headers:
+        Host: "infra.{{ web_base_domain }}"
+      body: "{{ logstash_policy_content }}"
+      body_format: json
+      validate_certs: no
+      status_code: [ 200 ]
+      force_basic_auth: yes
+      user: "{{ elasticsearch.admin_user.user }}"
+      password: "{{ elasticsearch.admin_user.password }}"
+    register: set_logstash_policy
+    changed_when: True
+    when: current_ism_policy_filtered != logstash_policy_content.policy
+  when: current_ism_policy.status != 404
+
 - name: Prepare wanted index settings
   set_fact:
     default_wanted_index_settings:
@@ -94,6 +154,9 @@
       # Our prometheus exporter won't see new documents and trigger a ElasticNoNewDocuments alert when this happens
       # To avoid that, we force the scheduled refresh
       refresh_interval: "10s"
+      opendistro:
+        index_state_management:
+          policy_id: "{{ elasticsearch.logstash_policy.name }}"
 
 - name: Get current default ElasticSearch index template
   uri:
