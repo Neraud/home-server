@@ -24,7 +24,6 @@ spec:
         - --path.rootfs=/host/root
         - --no-collector.wifi
         - --no-collector.hwmon
-        - --collector.systemd
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
         image: "{{ node_exporter.container.image }}"
         imagePullPolicy: Always
