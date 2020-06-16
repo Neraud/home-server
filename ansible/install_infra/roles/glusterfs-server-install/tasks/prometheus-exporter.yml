@@ -67,6 +67,17 @@
     dest: /etc/gluster-exporter/gluster-exporter.toml
   notify: Restart Gluster Prometheus Exporter
 
+- name: Prepare Gluster Prometheus Exporter service override
+  file:
+    path: /etc/systemd/system/gluster-exporter.service.d
+    state: directory
+
+- name: Configure Gluster Prometheus Exporter service
+  template:
+    src: gluster-exporter_override.service.j2
+    dest: /etc/systemd/system/gluster-exporter.service.d/override.conf
+  notify: Restart Gluster Prometheus Exporter
+
 - name: Auto-start gluster-exporter
   service:
     name: gluster-exporter.service
