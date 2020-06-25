@@ -17,10 +17,16 @@ spec:
     # Allow from kubernetes-dashboard
     - ports:
         - port: 8000
+    {#
+    # Unfortunatly, the selector below has an issue.
+    # When kubernetes-dashboard and dashboard-metrics-scraper are on different nodes, the dashboard can't access the metrics
+    # Log: "Metric client health check failed: the server is currently unable to handle the request (get services dashboard-metrics-scraper). Retrying in 30 seconds."
+    # It also generates a prometheus alert : KubeAPIErrorsHigh
       from:
         - podSelector:
             matchLabels:
               {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(14) }}
+    #}
 
 ---
 

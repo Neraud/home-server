@@ -1,6 +1,7 @@
 ---
 
 - name: Restart Gluster Prometheus Exporter
-  service:
+  systemd:
     name: gluster-exporter.service
     state: restarted
+    daemon_reload: yes

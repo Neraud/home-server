@@ -37,6 +37,11 @@ elasticsearch:
   cluster_name: "{{ _elasticsearch_var_loader.cluster_name }}"
   max_java_memory: "{{ elasticsearch_max_java_memory | default('512m') }}"
 
+  logstash_policy:
+    name: "hot-cold-delete"
+    cold_age: "{{ elasticsearch_logstash_policy_cold_age | default('2d') }}"
+    delete_age: "{{ elasticsearch_logstash_policy_delete_age | default('7d') }}"
+
   # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
   # We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
   internal_users: "{{ elasticsearch_internal_users | default([]) }}"

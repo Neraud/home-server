@@ -27,11 +27,16 @@ nginx_upstreams:
       - master-1:{{ kubernetes_ingress_mqtt_port }}
       - master-2:{{ kubernetes_ingress_mqtt_port }}
       - master-3:{{ kubernetes_ingress_mqtt_port }}
-  - name: kubernetes-pihole
+  - name: kubernetes-pihole-tcp
     servers:
-      - master-1:{{ kubernetes_pihole_port }}
-      - master-2:{{ kubernetes_pihole_port }}
-      - master-3:{{ kubernetes_pihole_port }}
+      - master-1:{{ kubernetes_pihole_tcp_port }}
+      - master-2:{{ kubernetes_pihole_tcp_port }}
+      - master-3:{{ kubernetes_pihole_tcp_port }}
+  - name: kubernetes-pihole-udp
+    servers:
+      - master-1:{{ kubernetes_pihole_udp_port }}
+      - master-2:{{ kubernetes_pihole_udp_port }}
+      - master-3:{{ kubernetes_pihole_udp_port }}
 
 nginx_sites:
   - name: default-site
@@ -255,12 +260,16 @@ nginx_streams:
       cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
       cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
     proxy_pass: kubernetes-mqtt-ingress
-  - name: infra_pihole
-    enabled_name: 050-infra_pihole
+  - name: infra_pihole_tcp
+    enabled_name: 050-infra_pihole_tcp
     listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     tcp_port: 53
+    proxy_pass: kubernetes-pihole-tcp
+  - name: infra_pihole_udp
+    enabled_name: 050-infra_pihole_udp
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     udp_port: 53
-    proxy_pass: kubernetes-pihole
+    proxy_pass: kubernetes-pihole-udp
 
 nginx_ufw_applications:
   - name: custom_nginx
