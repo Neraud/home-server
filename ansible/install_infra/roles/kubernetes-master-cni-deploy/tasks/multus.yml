@@ -7,3 +7,11 @@
   become: yes
   become_user: "{{ kubernetes_user.name }}"
 
+- name: Deploy multus additional interfaces
+  k8s:
+    definition: "{{ lookup('template', item) }}"
+    state: present
+  with_fileglob:
+    - "templates/multus/interfaces/*.yml.j2"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"
