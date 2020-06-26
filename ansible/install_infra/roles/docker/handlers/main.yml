@@ -5,3 +5,8 @@
     name: docker
     state: restarted
     daemon_reload: yes
+
+- name: Restart avahi
+  systemd:
+    name: avahi-daemon
+    state: restarted

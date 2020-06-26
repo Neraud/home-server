@@ -34,3 +34,4 @@
   when: docker_add_standard_user_to_group
 
 - import_tasks: docker-gc.yml
+- import_tasks: docker-avahi.yml

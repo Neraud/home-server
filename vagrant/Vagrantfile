@@ -44,6 +44,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			end
 			
 			node.vm.network "private_network", ip: node_conf['ip']
+			if node_conf['additional_bridge']
+				node.vm.network "public_network"
+			end
 			node.vm.provision "shell", path: "init_new_node.sh", args: "node", keep_color: true
 			node.vm.provision "shell", path: "up_node.sh", run: "always", keep_color: true
 		end
@@ -74,6 +77,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		end
 		
 		controller.vm.network "private_network", ip: controller_conf['ip']
+		if controller_conf['additional_bridge']
+			controller.vm.network "public_network"
+		end
 		controller.vm.synced_folder "../", "/opt/provision", type: "virtualbox"
 		controller.vm.provision "shell", path: "init_new_node.sh", args: "ansible", keep_color: true
 		controller.vm.provision "shell", path: "ansible_provisioning.sh", keep_color: true

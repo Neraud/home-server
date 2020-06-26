@@ -10,3 +10,7 @@ kubernetes_pihole_udp_port: 30054
 
 kubernetes_local_lvm_storage_class_name: local-lvm
 kubernetes_glusterfs_storage_class_name: glusterfs
+
+kubernetes_k8s_bridge_name: k8s-bridge
+kubernetes_k8s_bridge_namespace: kube-system
+k8s_bridge_fullname: "{{ kubernetes_k8s_bridge_namespace }}/{{ kubernetes_k8s_bridge_name }}"

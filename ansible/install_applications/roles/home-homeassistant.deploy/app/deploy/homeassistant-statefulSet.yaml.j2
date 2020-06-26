@@ -19,6 +19,8 @@ spec:
       labels:
         {{ homeassistant.labels_def | to_nice_yaml() | indent(8) }}
         {{ homeassistant.labels_desc | to_nice_yaml() | indent(8) }}
+      annotations:
+        k8s.v1.cni.cncf.io/networks: {{ k8s_bridge_fullname }}
     spec:
       initContainers:
       - name: create-folders

@@ -1,0 +1,14 @@
+---
+
+- name: Install avahi-daemon
+  apt:
+    pkg: avahi-daemon
+    state: present
+
+- name: Enable avahi reflector
+  lineinfile:
+    path: /etc/avahi/avahi-daemon.conf
+    state: present
+    regexp: "#?enable-reflector=.*"
+    line: enable-reflector=yes
+  notify: Restart avahi

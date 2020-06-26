@@ -7,3 +7,6 @@
 - name: Deploy Calico CNI
   import_tasks: calico.yml
   when: kubernetes_cni == 'calico'
+
+- name: Deploy Multus CNI
+  import_tasks: multus.yml
