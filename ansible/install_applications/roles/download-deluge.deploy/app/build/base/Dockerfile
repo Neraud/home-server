@@ -7,6 +7,8 @@ ENV DELUGE_LOGLEVEL=info
 RUN echo "Install build requirements" && \
     apk add --no-cache --virtual .build_deps build-base python2-dev libffi-dev openssl-dev zlib-dev jpeg-dev geoip-dev && \
     echo "Install requirements" && \
+    apk add --no-cache py2-pip && \
+    pip install setuptools && \
     apk add --no-cache geoip && \
     pip install GeoIP && \
     echo "Install deluge" && \
