@@ -3551,7 +3551,7 @@ spec:
               value: "autodetect"
             # Skip wireguard interface
             - name: IP_AUTODETECTION_METHOD
-              value: skip-interface=wg.*
+              value: skip-interface=wg.*,k8sbr*
             # Enable IPIP
             - name: CALICO_IPV4POOL_IPIP
               value: "Always"
