@@ -610,10 +610,9 @@ watchers:
       - ^1\.[0-9]\..*-alpine$
       - ^1\.1[0-6]\..*-alpine$
   - name: Homer
-    type: github_commit
+    type: github_release
     repo: bastienwirtz/homer
-    branch: master
-    commit: {{ homer.commit }}
+    release: {{ homer.release }}
     
   - name: TT-RSS PHP
     type: docker_registry
