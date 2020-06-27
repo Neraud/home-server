@@ -7,7 +7,7 @@ _jellyfin_var_loader:
     tag: "10.5.5-amd64"
   conf_injection_base_image:
     name: "python"
-    tag: "3.8.3-alpine3.11"
+    tag: "3.8.3-alpine3.12"
 
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"
