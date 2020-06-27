@@ -2,7 +2,7 @@
 
 homer_config_title: "Homeserver"
 homer_config_subtitle: "On Vagrant"
-homer_config_logo: "assets/logo.png"
+homer_config_logo: "logo.png"
 
 # Optional message
 homer_config_message:
@@ -25,7 +25,7 @@ homer_images_to_download:
   - name: docker-registry.svg
     source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/docker-registry.svg
   - name: pihole.png
-    source: https://piholenet.b-cdn.net/wp-content/uploads/2016/12/Vortex-R.png
+    source: https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Pi-hole_Logo_2.png/220px-Pi-hole_Logo_2.png
   - name: gotify.png
     source: https://github.com/gotify/logo/raw/master/gotify-logo-small.png
   - name: mailhog.png
@@ -38,7 +38,7 @@ homer_images_to_download:
   - name: grafana.svg
     source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/grafana.svg
   - name: kibana.svg
-    source: https://symbols.getvecta.com/stencil_86/1_kibana-icon.bfd8044f1e.svg
+    source: https://symbols.getvecta.com/stencil_86/1_kibana-icon.90d43d6aab.svg
 
   - name: lemon-ldap.svg
     source: "https://upload.wikimedia.org/wikipedia/fr/2/24/Logo_lemonldap-ng.svg"
@@ -150,7 +150,7 @@ homer_config_services:
         subtitle: "News feed (RSS/Atom) reader and aggregator"
         target: "_blank"
       - name: "Homer"
-        logo: "assets/logo.png"
+        logo: "logo.png"
         url: "https://web.{{ web_base_domain }}/homer/"
         subtitle: "A very simple static homepage for your server"
         target: "_blank"

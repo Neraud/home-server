@@ -4,7 +4,7 @@
 _roomassistant_var_loader:
   base_image:
     name: "mkerix/room-assistant"
-    tag: "2.6.0"
+    tag: "2.8.2"
 
 roomassistant:
   enabled: "{{ roomassistant_enabled | default(True) }}"

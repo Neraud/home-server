@@ -10,7 +10,9 @@
       sum(apiserver_request:burnrate5m) > (14.40 * 0.01000)
     for: 2m
     labels:
+      long: 1h
       severity: critical
+      short: 5m
   - alert: KubeAPIErrorBudgetBurn
     annotations:
       message: The API server is burning too much error budget
@@ -21,7 +23,9 @@
       sum(apiserver_request:burnrate30m) > (6.00 * 0.01000)
     for: 15m
     labels:
+      long: 6h
       severity: critical
+      short: 30m
   - alert: KubeAPIErrorBudgetBurn
     annotations:
       message: The API server is burning too much error budget
@@ -32,7 +36,9 @@
       sum(apiserver_request:burnrate2h) > (3.00 * 0.01000)
     for: 1h
     labels:
+      long: 1d
       severity: warning
+      short: 2h
   - alert: KubeAPIErrorBudgetBurn
     annotations:
       message: The API server is burning too much error budget
@@ -43,4 +49,6 @@
       sum(apiserver_request:burnrate6h) > (1.00 * 0.01000)
     for: 3h
     labels:
+      long: 3d
       severity: warning
+      short: 6h

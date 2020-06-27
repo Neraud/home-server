@@ -1,7 +1,7 @@
 ARG from_image
 FROM $from_image
 
-ARG homer_commit
+ARG homer_release
 
 # Configure NGinx
 ADD default.conf /etc/nginx/conf.d/default.conf
@@ -18,10 +18,11 @@ RUN mkdir -p /tmp/nginx && \
 
 # Install homer
 RUN mkdir -p /opt/homer && \
-    cd /opt/homer && \
-    wget -qO- https://github.com/bastienwirtz/homer/archive/${homer_commit}.tar.gz | tar xz --strip-components=1 && \
+    curl -Lq -o /tmp/homer.zip https://github.com/bastienwirtz/homer/releases/download/${homer_release}/homer.zip && \
+    unzip /tmp/homer.zip -d /opt/homer && \
+    rm /tmp/homer.zip && \
     rm -Rf /usr/share/nginx/html && \
-    ln -s /opt/homer /usr/share/nginx/html
+    ln -s /opt/homer/ /usr/share/nginx/html
 
 # Prepare downloaded asset folder
 RUN mkdir -p /tmp/homer/downloaded_assets && \

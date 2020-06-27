@@ -10,6 +10,24 @@
     "hideControls": false,
     "id": null,
     "links": [],
+    "panels": [
+        {
+            "content": "The SLO (service level objective) and other metrics displayed on this dashboard are for informational purposes only.",
+            "datasource": null,
+            "description": "The SLO (service level objective) and other metrics displayed on this dashboard are for informational purposes only.",
+            "gridPos": {
+                "h": 2,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 2,
+            "mode": "markdown",
+            "span": 12,
+            "title": "Notice",
+            "type": "text"
+        }
+    ],
     "refresh": "10s",
     "rows": [
         {
@@ -37,7 +55,7 @@
                         "thresholdMarkers": true
                     },
                     "gridPos": {},
-                    "id": 2,
+                    "id": 3,
                     "interval": null,
                     "links": [],
                     "mappingType": 1,
@@ -108,7 +126,7 @@
                     "description": "How much error budget is left looking at our 0.990% availability gurantees?",
                     "fill": 10,
                     "gridPos": {},
-                    "id": 3,
+                    "id": 4,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -117,6 +135,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -215,7 +234,7 @@
                         "thresholdMarkers": true
                     },
                     "gridPos": {},
-                    "id": 4,
+                    "id": 5,
                     "interval": null,
                     "links": [],
                     "mappingType": 1,
@@ -285,7 +304,7 @@
                     "description": "How many read requests (LIST,GET) per second do the apiservers get by code?",
                     "fill": 10,
                     "gridPos": {},
-                    "id": 5,
+                    "id": 6,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -294,6 +313,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -382,7 +402,7 @@
                     "description": "How many percent of read requests (LIST,GET) per second are returned with errors (5xx)?",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 6,
+                    "id": 7,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -391,6 +411,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -462,7 +483,7 @@
                     "description": "How many seconds is the 99th percentile for reading (LIST|GET) a given resource?",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 7,
+                    "id": 8,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -471,6 +492,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -567,7 +589,7 @@
                         "thresholdMarkers": true
                     },
                     "gridPos": {},
-                    "id": 8,
+                    "id": 9,
                     "interval": null,
                     "links": [],
                     "mappingType": 1,
@@ -637,7 +659,7 @@
                     "description": "How many write requests (POST|PUT|PATCH|DELETE) per second do the apiservers get by code?",
                     "fill": 10,
                     "gridPos": {},
-                    "id": 9,
+                    "id": 10,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -646,6 +668,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -734,7 +757,7 @@
                     "description": "How many percent of write requests (POST|PUT|PATCH|DELETE) per second are returned with errors (5xx)?",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 10,
+                    "id": 11,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -743,6 +766,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -814,7 +838,7 @@
                     "description": "How many seconds is the 99th percentile for writing (POST|PUT|PATCH|DELETE) a given resource?",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 11,
+                    "id": 12,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -823,6 +847,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -906,7 +931,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 12,
+                    "id": 13,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -915,6 +940,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": false,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -985,7 +1011,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 13,
+                    "id": 14,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -994,6 +1020,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": false,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1064,7 +1091,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 14,
+                    "id": 15,
                     "legend": {
                         "alignAsTable": true,
                         "avg": false,
@@ -1073,6 +1100,7 @@
                         "min": false,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": true
                     },
@@ -1156,7 +1184,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 15,
+                    "id": 16,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -1165,6 +1193,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1235,7 +1264,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 16,
+                    "id": 17,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -1244,6 +1273,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1321,7 +1351,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 17,
+                    "id": 18,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -1330,6 +1360,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1420,7 +1451,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 18,
+                    "id": 19,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -1429,6 +1460,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1499,7 +1531,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 19,
+                    "id": 20,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -1508,6 +1540,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1578,7 +1611,7 @@
                     "datasource": "$datasource",
                     "fill": 1,
                     "gridPos": {},
-                    "id": 20,
+                    "id": 21,
                     "legend": {
                         "alignAsTable": false,
                         "avg": false,
@@ -1587,6 +1620,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1755,7 +1789,7 @@
             "30d"
         ]
     },
-    "timezone": "",
+    "timezone": "UTC",
     "title": "Kubernetes / API server",
     "uid": "09ec8aa1e996d6ffcd6817bbaff4db1b",
     "version": 0

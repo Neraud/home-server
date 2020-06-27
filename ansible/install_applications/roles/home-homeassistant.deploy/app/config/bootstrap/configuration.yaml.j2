@@ -1,6 +1,10 @@
 homeassistant:
   # Name of the location where Home Assistant is running
-  name: Home
+  name: Vagrant
+  
+  external_url: https://home.{{ web_base_domain }}
+  internal_url: https://home.{{ web_base_domain }}
+
   # Location required to calculate the time the sun rises and sets
   latitude: 0
   longitude: 0
@@ -28,7 +32,6 @@ default_config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 http:
-  base_url: https://home.{{ web_base_domain }}
   use_x_forwarded_for: true
   trusted_proxies: 10.244.0.0/16
 

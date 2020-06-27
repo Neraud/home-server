@@ -4,7 +4,7 @@
 _nodered_var_loader:
   base_image:
     name: "nodered/node-red"
-    tag: "1.0.6-12-minimal-amd64"
+    tag: "1.0.6-2-12-minimal-amd64"
 
 nodered:
   enabled: "{{ nodered_enabled | default(True) }}"
@@ -39,7 +39,7 @@ nodered:
     ldapauth_fork:
       version: 4.3.3
     node_red_contrib_home_assistant_websocket:
-      version: 0.22.3
+      version: 0.22.6
     node_red_contrib_time_range_switch:
       version: 1.0.0
     node_red_contrib_stoptimer:

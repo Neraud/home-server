@@ -4,7 +4,7 @@
 _elasticsearch_var_loader:
   base_image:
     name: "amazon/opendistro-for-elasticsearch"
-    tag: "1.7.0"
+    tag: "1.8.0"
   namespace: "logging-elasticsearch"
   cluster_name: k8s-logs
 

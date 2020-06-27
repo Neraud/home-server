@@ -12,7 +12,7 @@
     private_image: "{{ homer.container.image }}"
     build: yes
     build_args:
-      homer_commit: "{{ homer.commit }}"
+      homer_release: "{{ homer.release }}"
 
 - name: Deploy Homer
   k8s:

@@ -4,15 +4,15 @@
 _homer_var_loader:
   base_image:
     name: "nginx"
-    tag: "1.18.0-alpine"
-  commit: 55e0df5386b60935c3db568a94b70d4d6c0f0f49
+    tag: "1.19.0-alpine"
+  release: 140992663
 
 homer:
   enabled: "{{ homer_enabled | default(True) }}"
 
   namespace: "web-homer"
   base_image: "{{ _homer_var_loader.base_image }}"
-  commit: "{{ _homer_var_loader.commit }}"
+  release: "{{ _homer_var_loader.release }}"
   context_root: "/homer"
   
   labels_def:
@@ -20,10 +20,10 @@ homer:
     app.kubernetes.io/component: homer
 
   labels_desc:
-    app.kubernetes.io/version: "{{ _homer_var_loader.commit }}"
+    app.kubernetes.io/version: "{{ _homer_var_loader.release }}"
 
   container:
-    image: "{{ docker_registry.url }}/homer-{{ _homer_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homer_var_loader.commit }}-{{ _homer_var_loader.base_image.tag }}"
+    image: "{{ docker_registry.url }}/homer-{{ _homer_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homer_var_loader.release }}-{{ _homer_var_loader.base_image.tag }}"
 
     requests_cpu: "{{ homer_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ homer_container_requests_memory | default('16Mi') }}"
