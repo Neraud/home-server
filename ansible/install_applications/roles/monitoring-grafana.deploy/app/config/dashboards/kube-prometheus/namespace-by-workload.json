@@ -64,6 +64,7 @@
                 "min": false,
                 "rightSide": true,
                 "show": true,
+                "sideWidth": null,
                 "sort": "current",
                 "sortDesc": true,
                 "total": false,
@@ -157,6 +158,7 @@
                 "min": false,
                 "rightSide": true,
                 "show": true,
+                "sideWidth": null,
                 "sort": "current",
                 "sortDesc": true,
                 "total": false,
@@ -548,6 +550,7 @@
                         "min": false,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "sort": "current",
                         "sortDesc": true,
                         "total": false,
@@ -641,6 +644,7 @@
                         "min": false,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "sort": "current",
                         "sortDesc": true,
                         "total": false,
@@ -762,6 +766,7 @@
                 "min": false,
                 "rightSide": false,
                 "show": true,
+                "sideWidth": null,
                 "total": false,
                 "values": false
             },
@@ -851,6 +856,7 @@
                 "min": false,
                 "rightSide": false,
                 "show": true,
+                "sideWidth": null,
                 "total": false,
                 "values": false
             },
@@ -951,6 +957,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1040,6 +1047,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1149,6 +1157,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1238,6 +1247,7 @@
                         "min": false,
                         "rightSide": false,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": false
                     },
@@ -1500,7 +1510,7 @@
             "30d"
         ]
     },
-    "timezone": "",
+    "timezone": "UTC",
     "title": "Kubernetes / Networking / Namespace (Workload)",
     "uid": "bbb2a765a623ae38130206c7d94a160f",
     "version": 0

@@ -64,6 +64,7 @@
                 "min": false,
                 "rightSide": true,
                 "show": true,
+                "sideWidth": null,
                 "sort": "current",
                 "sortDesc": true,
                 "total": false,
@@ -157,6 +158,7 @@
                 "min": false,
                 "rightSide": true,
                 "show": true,
+                "sideWidth": null,
                 "sort": "current",
                 "sortDesc": true,
                 "total": false,
@@ -548,6 +550,7 @@
                         "min": false,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "sort": "current",
                         "sortDesc": true,
                         "total": false,
@@ -641,6 +644,7 @@
                         "min": false,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "sort": "current",
                         "sortDesc": true,
                         "total": false,
@@ -762,6 +766,7 @@
                 "min": true,
                 "rightSide": true,
                 "show": true,
+                "sideWidth": null,
                 "total": false,
                 "values": true
             },
@@ -851,6 +856,7 @@
                 "min": true,
                 "rightSide": true,
                 "show": true,
+                "sideWidth": null,
                 "total": false,
                 "values": true
             },
@@ -951,6 +957,7 @@
                         "min": true,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": true
                     },
@@ -1040,6 +1047,7 @@
                         "min": true,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": true
                     },
@@ -1149,6 +1157,7 @@
                         "min": true,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": true
                     },
@@ -1238,6 +1247,7 @@
                         "min": true,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": true
                     },
@@ -1327,6 +1337,7 @@
                         "min": true,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": true
                     },
@@ -1422,6 +1433,7 @@
                         "min": true,
                         "rightSide": true,
                         "show": true,
+                        "sideWidth": null,
                         "total": false,
                         "values": true
                     },
@@ -1634,7 +1646,7 @@
             "30d"
         ]
     },
-    "timezone": "",
+    "timezone": "UTC",
     "title": "Kubernetes / Networking / Cluster",
     "uid": "ff635a025bcfea7bc3dd4f508990a3e9",
     "version": 0

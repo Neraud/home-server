@@ -94,16 +94,22 @@
         has not been rolled out.
       runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubestatefulsetupdatenotrolledout
     expr: |
-      max without (revision) (
-        kube_statefulset_status_current_revision{job="kube-state-metrics"}
-          unless
-        kube_statefulset_status_update_revision{job="kube-state-metrics"}
-      )
-        *
       (
-        kube_statefulset_replicas{job="kube-state-metrics"}
-          !=
-        kube_statefulset_status_replicas_updated{job="kube-state-metrics"}
+        max without (revision) (
+          kube_statefulset_status_current_revision{job="kube-state-metrics"}
+            unless
+          kube_statefulset_status_update_revision{job="kube-state-metrics"}
+        )
+          *
+        (
+          kube_statefulset_replicas{job="kube-state-metrics"}
+            !=
+          kube_statefulset_status_replicas_updated{job="kube-state-metrics"}
+        )
+      )  and (
+        changes(kube_statefulset_status_replicas_updated{job="kube-state-metrics"}[5m])
+          ==
+        0
       )
     for: 15m
     labels:
@@ -150,16 +156,6 @@
     expr: |
       kube_daemonset_status_number_misscheduled{job="kube-state-metrics"} > 0
     for: 15m
-    labels:
-      severity: warning
-  - alert: KubeCronJobRunning
-    annotations:
-      message: CronJob {{ $labels.namespace }}/{{ $labels.cronjob }} is taking more
-        than 1h to complete.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecronjobrunning
-    expr: |
-      time() - kube_cronjob_next_schedule_time{job="kube-state-metrics"} > 3600
-    for: 1h
     labels:
       severity: warning
   - alert: KubeJobCompletion
