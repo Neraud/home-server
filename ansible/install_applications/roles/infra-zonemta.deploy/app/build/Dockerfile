@@ -5,7 +5,6 @@ ARG ZONE_MTA_VERSION
 
 RUN apk add --update \
   make \
-  python \
   && rm -rf /var/cache/apk/
 
 RUN mkdir -p /opt/zone-mta && chown -R node:node /opt/zone-mta

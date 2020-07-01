@@ -364,7 +364,7 @@ watchers:
       - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
       - 12\.[0-9]\..*
-      - 12\.1[0-5]\..*
+      - 12\.1[0-7]\..*
   - type: docker_registry
     repo: {{ intel_gpu_plugin.base_image.repo | default('registry-1.docker.io') }}
     image: {{ intel_gpu_plugin.base_image.name }}
