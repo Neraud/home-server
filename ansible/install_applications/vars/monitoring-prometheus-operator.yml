@@ -36,7 +36,7 @@ _prometheus_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/prometheus"
-    tag: "v2.17.2"
+    tag: "v2.19.2"
   namespace: "monitoring-prometheus"
 
 prometheus:
@@ -69,7 +69,7 @@ _alertmanager_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/alertmanager"
-    tag: "v0.20.0"
+    tag: "v0.21.0"
 
 alertmanager:
   base_image: "{{ _alertmanager_var_loader.base_image }}"

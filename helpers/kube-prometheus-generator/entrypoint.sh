@@ -17,6 +17,9 @@ local kp =
   {
     _config+:: {
       namespace: 'monitoring',
+      
+      cpuThrottlingPercent: 33,
+      cpuThrottlingSelector: 'namespace !~ "monitoring-.*exporter"',
 
       prometheus+:: {
         name: 'k8s',
