@@ -1,14 +1,9 @@
 FROM golang:1.14.5-alpine3.12
 
-RUN apk add --no-cache git make g++
+RUN apk add --no-cache git
 
-RUN echo "Install jsonnet" && \
-    mkdir -p /opt && \
-    cd /opt && \
-    git clone https://github.com/google/jsonnet && \
-    cd jsonnet && \
-    make && \
-    ln -s /opt/jsonnet/jsonnet /usr/local/bin/jsonnet
+RUN echo "Install go-jsonnet" && \
+    go get github.com/google/go-jsonnet/cmd/jsonnet
 
 RUN echo "Install jsonnet-bundler" && \
     go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb
