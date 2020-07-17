@@ -93,7 +93,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "apiserver_request:availability30d{verb=\"all\"}",
+                            "expr": "apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "",
@@ -155,7 +155,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "100 * (apiserver_request:availability30d{verb=\"all\"} - 0.990000)",
+                            "expr": "100 * (apiserver_request:availability30d{verb=\"all\", cluster=\"$cluster\"} - 0.990000)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "errorbudget",
@@ -272,7 +272,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "apiserver_request:availability30d{verb=\"read\"}",
+                            "expr": "apiserver_request:availability30d{verb=\"read\", cluster=\"$cluster\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "",
@@ -350,7 +350,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum by (code) (code_resource:apiserver_request_total:rate5m{verb=\"read\"})",
+                            "expr": "sum by (code) (code_resource:apiserver_request_total:rate5m{verb=\"read\", cluster=\"$cluster\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{ code }}",
@@ -431,7 +431,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"read\",code=~\"5..\"}) / sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"read\"})",
+                            "expr": "sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"read\",code=~\"5..\", cluster=\"$cluster\"}) / sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"read\", cluster=\"$cluster\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{ resource }}",
@@ -512,7 +512,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "cluster_quantile:apiserver_request_duration_seconds:histogram_quantile{verb=\"read\"}",
+                            "expr": "cluster_quantile:apiserver_request_duration_seconds:histogram_quantile{verb=\"read\", cluster=\"$cluster\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{ resource }}",
@@ -627,7 +627,7 @@
                     "tableColumn": "",
                     "targets": [
                         {
-                            "expr": "apiserver_request:availability30d{verb=\"write\"}",
+                            "expr": "apiserver_request:availability30d{verb=\"write\", cluster=\"$cluster\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "",
@@ -705,7 +705,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum by (code) (code_resource:apiserver_request_total:rate5m{verb=\"write\"})",
+                            "expr": "sum by (code) (code_resource:apiserver_request_total:rate5m{verb=\"write\", cluster=\"$cluster\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{ code }}",
@@ -786,7 +786,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"write\",code=~\"5..\"}) / sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"write\"})",
+                            "expr": "sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"write\",code=~\"5..\", cluster=\"$cluster\"}) / sum by (resource) (code_resource:apiserver_request_total:rate5m{verb=\"write\", cluster=\"$cluster\"})",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{ resource }}",
@@ -867,7 +867,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "cluster_quantile:apiserver_request_duration_seconds:histogram_quantile{verb=\"write\"}",
+                            "expr": "cluster_quantile:apiserver_request_duration_seconds:histogram_quantile{verb=\"write\", cluster=\"$cluster\"}",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{ resource }}",
@@ -1717,19 +1717,16 @@
             },
             {
                 "allValue": null,
-                "current": {
-                    "text": "prod",
-                    "value": "prod"
-                },
+                "current": {},
                 "datasource": "$datasource",
                 "hide": 2,
                 "includeAll": false,
-                "label": null,
+                "label": "cluster",
                 "multi": false,
                 "name": "cluster",
                 "options": [],
                 "query": "label_values(apiserver_request_total, cluster)",
-                "refresh": 1,
+                "refresh": 2,
                 "regex": "",
                 "sort": 1,
                 "tagValuesQuery": "",
