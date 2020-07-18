@@ -5,8 +5,8 @@ _ttrss_var_loader:
   base_image:
     name: "php"
     tag: "7.4.8-apache-buster"
-  commit: c352e872e9
-  full_commit: c352e872e9c54686e09ecb51cba1a59291d5b685
+  commit: 376fe6271d
+  full_commit: 376fe6271de1c3fa0cf56a0c80fd85e3ea39005e
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
