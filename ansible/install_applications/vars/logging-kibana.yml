@@ -4,7 +4,7 @@
 _kibana_var_loader:
   base_image:
     name: "amazon/opendistro-for-elasticsearch-kibana"
-    tag: "1.8.0"
+    tag: "1.9.0"
 
 kibana:
   enabled: "{{ kibana_enabled | default(True) }}"
