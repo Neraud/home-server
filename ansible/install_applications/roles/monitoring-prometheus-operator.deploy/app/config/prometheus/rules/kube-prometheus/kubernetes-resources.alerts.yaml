@@ -74,9 +74,9 @@
         }}.'
       runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-cputhrottlinghigh
     expr: |
-      sum(increase(container_cpu_cfs_throttled_periods_total{container!="", namespace !~ "monitoring-.*exporter"}[5m])) by (container, pod, namespace)
+      sum(increase(container_cpu_cfs_throttled_periods_total{container!="", namespace !~ "monitoring-.*(exporter|metrics)", container != "prometheus-config-reloader"}[5m])) by (container, pod, namespace)
         /
-      sum(increase(container_cpu_cfs_periods_total{namespace !~ "monitoring-.*exporter"}[5m])) by (container, pod, namespace)
+      sum(increase(container_cpu_cfs_periods_total{namespace !~ "monitoring-.*(exporter|metrics)", container != "prometheus-config-reloader"}[5m])) by (container, pod, namespace)
         > ( 33 / 100 )
     for: 15m
     labels:

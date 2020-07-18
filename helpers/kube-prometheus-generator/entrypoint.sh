@@ -19,7 +19,7 @@ local kp =
       namespace: 'monitoring',
       
       cpuThrottlingPercent: 33,
-      cpuThrottlingSelector: 'namespace !~ "monitoring-.*exporter"',
+      cpuThrottlingSelector: 'namespace !~ "monitoring-.*(exporter|metrics)", container != "prometheus-config-reloader"',
 
       prometheus+:: {
         name: 'k8s',
