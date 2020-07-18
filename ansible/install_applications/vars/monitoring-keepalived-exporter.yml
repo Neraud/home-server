@@ -12,4 +12,4 @@ keepalived_exporter:
   labels_desc:
     app.kubernetes.io/version: custom
 
-  port: 2112
+  port: "{{ keepalived_exporter_port | default(9165) }}"

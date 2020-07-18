@@ -4,7 +4,7 @@
 _nodered_var_loader:
   base_image:
     name: "nodered/node-red"
-    tag: "1.0.6-2-12-minimal-amd64"
+    tag: "1.1.2-12-minimal-amd64"
 
 nodered:
   enabled: "{{ nodered_enabled | default(True) }}"

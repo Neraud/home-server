@@ -11,7 +11,7 @@
   git:
     repo: https://github.com/cafebazaar/keepalived-exporter
     dest: "{{ keepalived.exporter.path }}"
-    version: e6d71a9703f05acc15aab3a702a00e10bec9d75c
+    version: 8d0ede6fcb097f8ece8234f583ee2603302396c5
   register: clone_keepalived_exporter_result
   notify: Restart Keepalived Exporter
 

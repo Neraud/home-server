@@ -4,7 +4,7 @@
 _homeassistant_var_loader:
   base_image:
     name: homeassistant/home-assistant
-    tag: "0.112.0"
+    tag: "0.112.4"
   namespace: "home-homeassistant"
 
 homeassistant:
@@ -63,7 +63,7 @@ homeassistant:
 _homeassistant_mysql_var_loader:
   base_image:
     name: "mysql"
-    tag: "5.7.30"
+    tag: "5.7.31"
 
 homeassistant_mysql:
   base_image: "{{ _homeassistant_mysql_var_loader.base_image }}"

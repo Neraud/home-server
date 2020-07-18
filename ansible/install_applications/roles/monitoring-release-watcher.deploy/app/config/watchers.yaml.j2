@@ -26,7 +26,7 @@ watchers:
   - type: github_commit
     repo: cafebazaar/keepalived-exporter
     branch: master
-    commit: e6d71a9703f05acc15aab3a702a00e10bec9d75c
+    commit: 8d0ede6fcb097f8ece8234f583ee2603302396c5
   
 
   ########
@@ -51,9 +51,9 @@ watchers:
     release: v0.12.0
   - type: github_release
     repo: projectcalico/calico
-    release: v3.15.0
+    release: v3.15.1
     excludes:
-      - v3\.1[0-3]\..*
+      - v3\.1[0-4]\..*
   - type: github_release
     repo: intel/multus-cni
     release: v3.4.2
@@ -76,7 +76,7 @@ watchers:
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+-amd64"
     excludes:
-      - ^1\.1\.
+      - ^1\.[0-3]\.
   - name: phpLDAPadmin-php
     type: docker_registry
     repo: {{ phpldapadmin.base_image.repo | default('registry-1.docker.io') }}
@@ -84,6 +84,9 @@ watchers:
     tag: {{ phpldapadmin.base_image.tag }}
     includes:
       - "7.3.[0-9]+-apache-buster"
+    excludes:
+      - "7.3.[0-9]-apache-buster"
+      - "7.3.[01][0-9]-apache-buster"
   - type: github_tag
     repo: leenooks/phpLDAPadmin
     tag: {{ phpldapadmin.version }}
@@ -102,6 +105,7 @@ watchers:
       - .*-rc[0-9]+.*
       - ^[1-9]\.
       - ^1[0-2]\.
+      - ^13\.0\.
   
   ###################
   # Apps : Download #
@@ -116,6 +120,7 @@ watchers:
     excludes:
       - ^0\..*
       - ^1\.[01]\..*
+      - ^1\.2\.[0-6]-.*
   - name: Deluge
     type: pypi
     package: deluge
@@ -175,7 +180,8 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
       - 0\.[0-9][0-9]\..*
-      - 0\.10[0-7]\..*
+      - 0\.10[0-9]\..*
+      - 0\.11[0-1]\..*
       - .*dev
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
@@ -194,7 +200,7 @@ watchers:
       - .*rc.*
       - 5\.[0-6]\..*
       - 5\.7\.[0-9]$
-      - 5\.7\.1[0-9]$
+      - 5\.7\.[12][0-9]$
   - type: docker_registry
     repo: {{ mosquitto.base_image.repo | default('registry-1.docker.io') }}
     image: {{ mosquitto.base_image.name }}
@@ -204,6 +210,7 @@ watchers:
     excludes:
       - latest
       - ^1\.[0-5]\.
+      - ^1\.6\.[0-9]$
   - type: docker_registry
     repo: {{ nodered.base_image.repo | default('registry-1.docker.io') }}
     image: {{ nodered.base_image.name }}
@@ -211,7 +218,7 @@ watchers:
     includes:
       - .*-12-minimal-amd64
     excludes:
-      - 1\.0\.[0-5]-.*
+      - 1\.0\..*
   - type: github_tag
     repo: vesse/node-ldapauth-fork
     tag: v{{ nodered.additional_modules.ldapauth_fork.version }}
@@ -238,7 +245,9 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - .*arm32
+      - beta
       - ^[0-1]\..*
+      - ^2\.[0-7]\..*
 
   ################
   # Apps : Infra #
@@ -279,6 +288,7 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - 1\..*
+      - ^2\.0\.[0-9]$
   - type: github_release
     repo: kubernetes/ingress-nginx
     release: controller-0.33.0
@@ -321,7 +331,7 @@ watchers:
       - .*SNAPSHOT.*
       - ^PR-.*
       - dev
-      - v0\.0\.[0-4]?[0-9]$
+      - v0\.0\.[0-5]?[0-9]$
   - type: docker_registry
     repo: {{ unifi.base_image.repo | default('registry-1.docker.io') }}
     image: {{ unifi.base_image.name }}
@@ -330,7 +340,7 @@ watchers:
       - "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     excludes:
       - 5\.[0-9]\..*
-      - 5\.1[01]\..*
+      - 5\.1[0-2]\..*
   - name: ZoneMTA
     type: github_tag
     repo: {{ zonemta.repo.name }}
@@ -345,7 +355,7 @@ watchers:
     image: {{ zonemta_redis.base_image.name }}
     tag: {{ zonemta_redis.base_image.tag }}
     includes:
-      - "[5-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
+      - "[6-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: {{ zonemta_mongo.base_image.repo | default('registry-1.docker.io') }}
@@ -363,6 +373,7 @@ watchers:
     includes:
       - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
+      - alpine3.1[01]
       - 12\.[0-9]\..*
       - 12\.1[0-7]\..*
   - type: docker_registry
@@ -384,7 +395,7 @@ watchers:
     excludes:
       - latest
       - ^0\..*
-      - ^1\.[0-3]\..*
+      - ^1\.[0-8]\..*
   - type: docker_registry
     repo: {{ elasticsearch_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ elasticsearch_exporter.base_image.name }}
@@ -404,7 +415,7 @@ watchers:
       - .*debug.*
       - .*rc.*
       - ^0\.
-      - 1\.[0-2]\..*
+      - 1\.[0-4]\..*
   - type: docker_registry
     repo: {{ fluentd.base_image.repo | default('registry-1.docker.io') }}
     image: {{ fluentd.base_image.name }}
@@ -413,7 +424,8 @@ watchers:
       - v[1-9]\.[0-9]+\.[0-9]+.*debian.*
     excludes:
       - .*(armhf|arm64).*
-      - v1\.[0-8]\..*
+      - v1\.[0-9]\..*
+      - v1\.10\..*
   - type: github_tag
     repo: uken/fluent-plugin-elasticsearch
     tag: v{{ fluentd.plugins.elasticsearch.version }}
@@ -456,7 +468,7 @@ watchers:
     excludes:
       - latest
       - ^0\..*
-      - ^1\.[0-3]\..*
+      - ^1\.[0-8]\..*
   
   #####################
   # Apps : Monitoring #
@@ -476,7 +488,7 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+.[0-9]+
     excludes:
-      - ^0\.[0-5]\..*
+      - ^0\.[0-7]\..*
   - type: docker_registry
     repo: {{ nginx_log_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ nginx_log_exporter.base_image.name }}
@@ -484,7 +496,7 @@ watchers:
     includes:
       - ^v[0-9]+\.[0-9]+.[0-9]+
     excludes:
-      - ^v1\.[0-3]\..*
+      - ^v1\.[0-6]\..*
   - type: docker_registry
     repo: {{ pihole_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ pihole_exporter.base_image.name }}
@@ -587,7 +599,7 @@ watchers:
     excludes:
       - 3\.[0-7]\..*
       - .*-alpine3\.[0-9]$
-      - .*-alpine3\.10
+      - .*-alpine3\.1[01]
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anime
     tag: {{ jellyfin.plugins.anime.version }}
@@ -607,7 +619,7 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine$
     excludes:
       - ^1\.[0-9]\..*-alpine$
-      - ^1\.1[0-6]\..*-alpine$
+      - ^1\.1[0-8]\..*-alpine$
   - name: Homer
     type: github_release
     repo: bastienwirtz/homer
@@ -622,6 +634,7 @@ watchers:
       - '[7-9]+\.[0-9]+.[0-9]+-apache-buster'
     excludes:
       - 7\.[0-3]\..*
+      - 7\.4\.[0-7]-.*
   - name: TT-RSS
     type: raw_html
     page_url: https://git.tt-rss.org/fox/tt-rss/commits/master

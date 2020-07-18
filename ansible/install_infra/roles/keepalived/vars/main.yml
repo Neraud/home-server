@@ -7,7 +7,7 @@ keepalived:
   - name: prometheus_keepalived_exporter
     title: Prometheus Keepalived Exporter
     description: Prometheus Keepalived Exporter
-    ports: 2112/tcp
+    ports: 9165/tcp
     rule: allow
 
   exporter:
