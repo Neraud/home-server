@@ -82,6 +82,9 @@ spec:
         - name: pihole-config
           mountPath: /etc/dnsmasq_hosts
           subPath: dnsmasq_hosts
+        - name: pihole-config
+          mountPath: /etc/pihole/pihole-FTL.conf
+          subPath: pihole-FTL.conf
       volumes:
       - name: tz-config
         hostPath:

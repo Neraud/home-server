@@ -31,3 +31,4 @@ pihole:
   web_password: "{{ pihole_web_password | default('clear_password') }}"
   dns_1:  "{{ pihole_dns_1 | default('1.1.1.1') }}"
   dns_2:  "{{ pihole_dns_2 | default('1.0.0.1') }}"
+  query_db_retention: "{{ pihole_query_db_retention | default(7) }}"

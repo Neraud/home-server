@@ -11,3 +11,5 @@ data:
     {{ lookup('template', role_path + '/app/config/05-custom.conf.j2')  | replace('\n', '\n    ') }}
   dnsmasq_hosts: |
     {{ lookup('template', role_path + '/app/config/dnsmasq_hosts.j2')  | replace('\n', '\n    ') }}
+  pihole-FTL.conf: |
+    {{ lookup('template', role_path + '/app/config/pihole-FTL.conf.j2')  | replace('\n', '\n    ') }}
