@@ -40,6 +40,10 @@
   tags: kubernetes-app-infra-gotify
   when: gotify_enabled | bool
 
+- import_playbook: app-infra-gandi-livedns.yml
+  tags: kubernetes-app-infra-gandi-livedns
+  when: gandi_livedns_enabled | bool
+
 - import_playbook: app-auth-openldap.yml
   tags: kubernetes-app-auth-openldap
   when: openldap_enabled | bool

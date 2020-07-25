@@ -1,0 +1,34 @@
+---
+
+# To avoid loops inside gandi_livedns
+_gandi_livedns_var_loader:
+  version: 1.0.0
+  base_image:
+    name: alpine
+    tag: "3.12.0"
+  
+gandi_livedns:
+  enabled: "{{ gandi_livedns_enabled | default(True) }}"
+
+  namespace: "infra-gandi-livedns"
+  base_image: "{{ _gandi_livedns_var_loader.base_image }}"
+
+  labels_def:
+    app.kubernetes.io/name: gandi-livedns
+    app.kubernetes.io/component: gandi-livedns
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _gandi_livedns_var_loader.version }}"
+
+  container:
+    image: "{{ docker_registry.url }}/gandi_livedns:{{ _gandi_livedns_var_loader.version }}-{{ _gandi_livedns_var_loader.base_image.name | regex_replace('.*/', '') }}-{{ _gandi_livedns_var_loader.base_image.tag }}"
+    requests_cpu: "{{ docker_registry_ui_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ docker_registry_ui_container_requests_memory | default('16Mi') }}"
+    limits_cpu: "{{ docker_registry_ui_container_limits_cpu | default('50m') }}"
+    limits_memory: "{{ docker_registry_ui_container_limits_memory | default('16Mi') }}"
+
+  cron: "{{ gandi_livedns_cron | default('*/10 * * * *') }}"
+
+  api_key: "{{ gandi_livedns_api_key | mandatory }}"
+  domain: "{{ gandi_livedns_domain | mandatory }}" 
+  records: "{{ gandi_livedns_records | default(['@']) }}" 
