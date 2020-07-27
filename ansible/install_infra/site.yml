@@ -8,6 +8,11 @@
     - firewall
     - usb-serial
 
+- name: Provision bluetooth
+  hosts: bluetooth
+  roles:
+    - bluetooth
+
 - name: Provision Keepalived
   hosts: keepalived
   roles:
