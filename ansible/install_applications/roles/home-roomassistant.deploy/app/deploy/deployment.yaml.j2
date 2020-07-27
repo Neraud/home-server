@@ -49,5 +49,7 @@ spec:
       - name: roomassistant-config
         configMap:
           name: roomassistant-config
+      # Host network required for bluetooth
+      hostNetwork: true
       nodeSelector:
         capability/home: 'yes'

@@ -1,6 +1,6 @@
 ---
 roomassistant_config_integrations_homeassistant:
-  mqttUrl: mqtt://{{ mosquitto.servername }}
+  mqttUrl: mqtt://{{ nginx_keepalived_instance_public_virtual_ip }}:1883
   mqttOptions:
     username: user
     password: Passw0rd
