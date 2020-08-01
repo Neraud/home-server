@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bash
+
+logConsole() {
+    fdmove -c 1 2 s6-echo "[$(basename `pwd`)]: $1";
+}
+
+logConsole "Executing: /usr/bin/socat pty,link={{ openzwave.serial_remote_device.device }},{{ openzwave.serial_remote_device.state }},user={{ openzwave.serial_remote_device.user }},group={{ openzwave.serial_remote_device.group }},mode={{ openzwave.serial_remote_device.mode }} tcp:{{ openzwave.serial_remote_device.host }}:{{ openzwave.serial_remote_device.port }}"
+exec /bin/fdmove -c 2 1 /usr/bin/socat pty,link={{ openzwave.serial_remote_device.device }},{{ openzwave.serial_remote_device.state }},user={{ openzwave.serial_remote_device.user }},group={{ openzwave.serial_remote_device.group }},mode={{ openzwave.serial_remote_device.mode }} tcp:{{ openzwave.serial_remote_device.host }}:{{ openzwave.serial_remote_device.port }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openzwave-config
+  namespace: {{ openzwave.namespace }}
+  labels:
+    {{ openzwave.labels_def | to_nice_yaml() | indent(4) }}
+    {{ openzwave.labels_desc | to_nice_yaml() | indent(4) }}
+data:
+  socat_service: |-
+    {{ lookup('template', role_path + '/app/config/socat_service.j2') | replace('\n', '\n    ') }}

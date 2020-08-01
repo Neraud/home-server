@@ -1,0 +1,6 @@
+---
+
+- name: Provision home-openzwave
+  hosts: controller
+  roles:
+  - role: home-openzwave.deploy

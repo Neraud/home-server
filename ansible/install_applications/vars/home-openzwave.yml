@@ -1,0 +1,35 @@
+---
+
+# To avoid loops inside openzwave
+_openzwave_var_loader:
+  base_image:
+    name: "openzwave/ozwdaemon"
+    tag: "allinone-build-169"
+
+openzwave:
+  enabled: "{{ openzwave_enabled | default(True) }}"
+
+  namespace: "home-openzwave"
+  base_image: "{{ _openzwave_var_loader.base_image }}"
+
+  labels_def:
+    app.kubernetes.io/name: openzwave
+    app.kubernetes.io/component: openzwave
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _openzwave_var_loader.base_image.tag }}"
+
+  container:
+    image: "{{ docker_registry.url }}/{{ _openzwave_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _openzwave_var_loader.base_image.tag }}-custom"
+    requests_cpu: "{{ openzwave_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ openzwave_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ openzwave_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ openzwave_container_limits_memory | default('256Mi') }}"
+
+  serial_remote_device: "{{ openzwave_serial_remote_device | mandatory }}"
+  ozw_network_key: "{{ openzwave_ozw_network_key | mandatory }}"
+  mqtt:
+    servername: "{{ mosquitto.servername }}"
+    port: 8883
+    user: "{{ openzwave_mqtt_user | default('openzwave') }}"
+    password: "{{ openzwave_mqtt_password | default('clear_password') }}"
