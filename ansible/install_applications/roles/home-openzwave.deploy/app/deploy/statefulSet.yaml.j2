@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: openzwave
+  namespace: {{ openzwave.namespace }}
+  labels:
+    {{ openzwave.labels_def | to_nice_yaml() | indent(4) }}
+    {{ openzwave.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ openzwave.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ openzwave.labels_def | to_nice_yaml() | indent(8) }}
+        {{ openzwave.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/ozw/config
+            #chown -R 1000:1000 /opt/ozw/config
+        volumeMounts:
+        - name: openzwave-pv-claim
+          mountPath: /opt/ozw
+      containers:
+      - name: openzwave
+        image: "{{ openzwave.container.image }}"
+        imagePullPolicy: Always
+        env:
+        - name: MQTT_SERVER
+          value: {{ openzwave.mqtt.servername }}
+        - name: MQTT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: openzwave-secret
+              key: mqtt_username
+        - name: MQTT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: openzwave-secret
+              key: mqtt_password
+        - name: USB_PATH
+          value: {{ openzwave.serial_remote_device.device }}
+        - name: OZW_NETWORK_KEY
+          valueFrom:
+            secretKeyRef:
+              name: openzwave-secret
+              key: ozw_network_key
+        ports:
+        - containerPort: 1983
+          name: ozw-admin
+        - containerPort: 5901
+          name: vnc
+        - containerPort: 7800
+          name: web
+        readinessProbe:
+          tcpSocket:
+            port: ozw-admin
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ openzwave.container.requests_cpu }}"
+            memory: "{{ openzwave.container.requests_memory }}"
+          limits:
+            cpu: "{{ openzwave.container.limits_cpu }}"
+            memory: "{{ openzwave.container.limits_memory }}"
+        securityContext:
+        # The image uses s6-overlay and needs both root user and write root fs
+        #  runAsNonRoot: true
+        #  runAsUser: 1000
+        #  readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: openzwave-pv-claim
+          mountPath: /opt/ozw/config
+          subPath: config
+        - name: openzwave-config
+          mountPath: /etc/services.d/socat/run
+          subPath: socat_service
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: openzwave-config
+        configMap:
+          name: openzwave-config
+          defaultMode: 0777
+      nodeSelector:
+        capability/home: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: openzwave-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 64M
+      selector:
+        matchLabels:
+          {{ openzwave.labels_def | to_nice_yaml() | indent(10) }}

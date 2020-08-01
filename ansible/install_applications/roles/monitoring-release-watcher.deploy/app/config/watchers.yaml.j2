@@ -248,6 +248,15 @@ watchers:
       - beta
       - ^[0-1]\..*
       - ^2\.[0-7]\..*
+  - type: docker_registry
+    repo: {{ openzwave.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ openzwave.base_image.name }}
+    tag: {{ openzwave.base_image.tag }}
+    includes:
+      - "allinone-amd64-"
+    excludes:
+      - "allinone-amd64-[0-9][0-9]$"
+      - "allinone-amd64-1[0-5][0-9]$"
 
   ################
   # Apps : Infra #

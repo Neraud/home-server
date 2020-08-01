@@ -1,0 +1,22 @@
+---
+
+- name: Ensure OpenZwave namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ openzwave.namespace }}"
+
+- name: Ensure OpenZwave image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ openzwave.base_image }}"
+    private_image: "{{ openzwave.container.image }}"
+    build: yes
+
+- name: Deploy OpenZwave
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"
+  become: yes
+  become_user: "{{ kubernetes_user.name }}"

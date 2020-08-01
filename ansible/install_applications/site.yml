@@ -132,14 +132,6 @@
   tags: kubernetes-app-infra-unifi
   when: unifi_enabled | bool
 
-- import_playbook: app-home-homeassistant.yml
-  tags: kubernetes-app-home-homeassistant
-  when: homeassistant_enabled | bool
-
-- import_playbook: app-home-nodered.yml
-  tags: kubernetes-app-home-nodered
-  when: nodered_enabled | bool
-
 - import_playbook: app-home-mosquitto.yml
   tags: kubernetes-app-home-mosquitto
   when: mosquitto_enabled | bool
@@ -147,6 +139,18 @@
 - import_playbook: app-home-roomassistant.yml
   tags: kubernetes-app-home-roomassistant
   when: roomassistant_enabled | bool
+
+- import_playbook: app-home-openzwave.yml
+  tags: kubernetes-app-home-openzwave
+  when: openzwave_enabled | bool
+
+- import_playbook: app-home-homeassistant.yml
+  tags: kubernetes-app-home-homeassistant
+  when: homeassistant_enabled | bool
+
+- import_playbook: app-home-nodered.yml
+  tags: kubernetes-app-home-nodered
+  when: nodered_enabled | bool
 
 - import_playbook: app-stream-airsonic.yml
   tags: kubernetes-app-stream-airsonic
