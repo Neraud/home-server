@@ -23,10 +23,9 @@ watchers:
     repo: gluster/gluster-prometheus
     branch: master
     commit: 3ebaacc2c690223f77fc93f5f237ab5065138660
-  - type: github_commit
+  - type: github_release
     repo: cafebazaar/keepalived-exporter
-    branch: master
-    commit: 8d0ede6fcb097f8ece8234f583ee2603302396c5
+    release: v1.0.3
   
 
   ########
@@ -696,3 +695,4 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^12\.[0-9]+(\.[0-9]+)?-alpine
+
