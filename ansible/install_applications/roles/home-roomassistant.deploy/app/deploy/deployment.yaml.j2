@@ -25,6 +25,9 @@ spec:
       - name: roomassistant
         image: "{{ roomassistant.container.image }}"
         imagePullPolicy: Always
+        env:
+        - name: NODE_LOG_LEVEL
+          value: info
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000 # node
