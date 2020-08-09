@@ -19,12 +19,12 @@ kubernetes_master_ufw_applications:
   - name: kubernetes_scheduler
     title: Kubernetes Scheduler
     description: Kubernetes Scheduler
-    ports: 10251/tcp
+    ports: 10251,10259/tcp
     rule: allow
   - name: kubernetes_controller_manager
     title: Kubernetes Controller Manager
     description: Kubernetes Controller Manager
-    ports: 10252/tcp
+    ports: 10252,10257/tcp
     rule: allow
 
 kubernetes_worker_ufw_applications: []
