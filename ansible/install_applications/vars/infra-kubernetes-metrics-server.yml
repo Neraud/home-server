@@ -4,8 +4,8 @@
 _kubernetes_metrics_server_var_loader:
   base_image:
     repo: "k8s.gcr.io"
-    name: "metrics-server-amd64"
-    tag: "v0.3.6"
+    name: "metrics-server/metrics-server"
+    tag: "v0.3.7"
 
 kubernetes_metrics_server:
   enabled: "{{ kubernetes_metrics_server_enabled | default(True) }}"

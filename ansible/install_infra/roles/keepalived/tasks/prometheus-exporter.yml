@@ -1,41 +1,17 @@
 ---
 
-- name: Install GO requirements
-  apt:
-    pkg:
-      - golang-go
-      - go-dep
-    state: present
+- name: Create Keepalived Prometheus Exporter dir
+  file:
+    path: "{{ keepalived.exporter.path }}"
+    state: directory
 
-- name: Clone Keepalived Prometheus Exporter repo
-  git:
-    repo: https://github.com/cafebazaar/keepalived-exporter
+- name: Download Keepalived Prometheus Exporter
+  unarchive:
+    src:  https://github.com/cafebazaar/keepalived-exporter/releases/download/v{{ keepalived.exporter.version }}/keepalived-exporter-{{ keepalived.exporter.version }}.linux-amd64.tar.gz
     dest: "{{ keepalived.exporter.path }}"
-    version: 8d0ede6fcb097f8ece8234f583ee2603302396c5
-  register: clone_keepalived_exporter_result
+    remote_src: yes
+    extra_opts: [ --strip-components=1 ]
   notify: Restart Keepalived Exporter
-
-- name: Make Keepalived Prometheus Exporter
-  make:
-    chdir: "{{ keepalived.exporter.path }}"
-  when: clone_keepalived_exporter_result.changed
-  notify: Restart Keepalived Exporter
-  tags:
-    # ansible-lint warns : [503] Tasks that run when changed should likely be handlers
-    # But it's not a handler, we just want to only trigger a new make if files have changed
-    - skip_ansible_lint
-
-# make changes go.mod, which breaks the next run.
-# We workaround that by resetting it
-- name: Reset go.mod
-  command: git checkout -- go.mod
-  args:
-    chdir: "{{ keepalived.exporter.path }}"
-  changed_when: False
-  tags:
-    # ansible-lint warns : [303] git used in place of git module
-    # But it's not a standard git clone
-    - skip_ansible_lint
 
 - name: Create systemd service
   template:

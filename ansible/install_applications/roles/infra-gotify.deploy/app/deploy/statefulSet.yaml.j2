@@ -44,6 +44,9 @@ spec:
         ports:
         - containerPort: 8080
           name: http
+        env:
+        - name: "GOTIFY_SERVER_PORT"
+          value: "8080"
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000

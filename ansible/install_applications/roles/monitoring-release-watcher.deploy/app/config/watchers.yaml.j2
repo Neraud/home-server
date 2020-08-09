@@ -5,7 +5,7 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 2.9.10
+    version: 2.9.11
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
@@ -23,10 +23,9 @@ watchers:
     repo: gluster/gluster-prometheus
     branch: master
     commit: 3ebaacc2c690223f77fc93f5f237ab5065138660
-  - type: github_commit
+  - type: github_release
     repo: cafebazaar/keepalived-exporter
-    branch: master
-    commit: 8d0ede6fcb097f8ece8234f583ee2603302396c5
+    release: v1.0.3
   
 
   ########
@@ -56,7 +55,7 @@ watchers:
       - v3\.1[0-4]\..*
   - type: github_release
     repo: intel/multus-cni
-    release: v3.4.2
+    release: v3.6
 
 
   ###############
@@ -256,7 +255,7 @@ watchers:
       - "allinone-amd64-"
     excludes:
       - "allinone-amd64-[0-9][0-9]$"
-      - "allinone-amd64-1[0-5][0-9]$"
+      - "allinone-amd64-1[0-6][0-9]$"
 
   ################
   # Apps : Infra #
@@ -392,7 +391,7 @@ watchers:
     includes:
       - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - alpine3.1[01]
+      - .*-alpine3.1[01]
       - 12\.[0-9]\..*
       - 12\.1[0-7]\..*
   - type: docker_registry
@@ -495,7 +494,7 @@ watchers:
   - type: github_commit
     repo: coreos/kube-prometheus
     branch: master
-    commit: b55c2825f7fa4491c6018bd256ef5d7e0b62404c
+    commit: 0edb796d5738c3dad0d1b72760da8728e3fa56bf
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
@@ -607,7 +606,7 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
-      - ^10\.[0-4]\..*
+      - ^10\.[0-5]\..*
   - name: Jellyfin inject conf
     type: docker_registry
     repo: {{ jellyfin.conf_injection_base_image.repo | default('registry-1.docker.io') }}
@@ -696,3 +695,4 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^12\.[0-9]+(\.[0-9]+)?-alpine
+

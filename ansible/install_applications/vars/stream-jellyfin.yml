@@ -4,10 +4,10 @@
 _jellyfin_var_loader:
   base_image:
     name: "jellyfin/jellyfin"
-    tag: "10.5.5-amd64"
+    tag: "10.6.2-amd64"
   conf_injection_base_image:
     name: "python"
-    tag: "3.8.4-alpine3.12"
+    tag: "3.8.5-alpine3.12"
 
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"
@@ -38,11 +38,11 @@ jellyfin:
 
   plugins:
     anime: 
-      url: https://github.com/jellyfin/jellyfin-plugin-anime/releases/download/v8/jellyfin-plugin-anime_8.0.0.0.zip
-      version: v8
+      url: https://repo.jellyfin.org/releases/plugin/anime/anime_9.0.0.0.zip
+      version: v9
     ldapauth:
-      url: https://github.com/jellyfin/jellyfin-plugin-ldapauth/releases/download/v6/jellyfin-plugin-ldapauth_6.0.zip
-      version: v6
+      url: https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_9.0.0.0.zip
+      version: v9
 
   ldap:
     servername: "{{ jellyfin_ldap_servername | default(openldap.ldap.servername) }}"
