@@ -37,7 +37,9 @@ spec:
               mkdir -p /homeassistant-config/config
               cp -RL /homeassistant-config-bootstrap/* /homeassistant-config/config/
             fi
+            mkdir -p /homeassistant-config/.local
             chown -R 1000:1000 /homeassistant-config/config
+            chown -R 1000:1000 /homeassistant-config/.local
         volumeMounts:
         - name: homeassistant-pv-claim
           mountPath: /homeassistant-config
@@ -57,6 +59,9 @@ spec:
         - name: homeassistant-pv-claim
           mountPath: /config
           subPath: config
+        - name: homeassistant-pv-claim
+          mountPath: /home/homeassistant/.local
+          subPath: .local
         - name: homeassistant-socat-config
           mountPath: /etc/supervisor/conf.d/
         - name: homeassistant-config
