@@ -5,7 +5,7 @@ _prometheus_operator_var_loader:
   base_image:
     repo: quay.io
     name: "coreos/prometheus-operator"
-    tag: "v0.40.0"
+    tag: "v0.41.1"
 
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
