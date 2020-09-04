@@ -247,9 +247,9 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - .*arm32
-      - beta
+      - .*beta.*
       - ^[0-1]\..*
-      - ^2\.[0-7]\..*
+      - ^2\.[0-8]\..*
   - type: docker_registry
     repo: {{ openzwave.base_image.repo | default('registry-1.docker.io') }}
     image: {{ openzwave.base_image.name }}
