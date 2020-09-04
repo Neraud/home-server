@@ -384,7 +384,7 @@ watchers:
     includes:
       - 4\.[0-9]+.[0-9]+-bionic
     excludes:
-      - 4\.[0-1]\..*
+      - 4\.[0-3]\..*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: {{ zonemta.base_image.repo | default('registry-1.docker.io') }}

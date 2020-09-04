@@ -86,7 +86,7 @@ zonemta_mongo:
 _zonemta_redis_var_loader:
   base_image:
     name: "redis"
-    tag: "6.0.6-alpine3.12"
+    tag: "6.0.7-alpine3.12"
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"
