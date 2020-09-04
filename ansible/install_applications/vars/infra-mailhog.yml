@@ -4,7 +4,7 @@
 _mailhog_var_loader:
   base_image:
     name: "mailhog/mailhog"
-    tag: "v1.0.0"
+    tag: "v1.0.1"
   namespace: "infra-mailhog"
 
 mailhog:
