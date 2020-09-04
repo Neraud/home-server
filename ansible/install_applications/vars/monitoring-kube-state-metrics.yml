@@ -5,7 +5,7 @@ _kube_state_metrics_var_loader:
   base_image:
     repo: quay.io
     name: "coreos/kube-state-metrics"
-    tag: "v1.9.5"
+    tag: "v1.9.7"
 
 kube_state_metrics:
   enabled: "{{ kube_state_metrics_enabled | default(True) }}"

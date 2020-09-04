@@ -62,8 +62,8 @@ homer_images_to_download:
     source: https://raw.githubusercontent.com/SickChill/SickChill/master/gui/slick/images/sickchill-sc.png
   - name: deluge.png
     source: https://git.deluge-torrent.org/deluge/plain/deluge/ui/web/icons/deluge-192.png
-  - name: pyload.svg
-    source: https://raw.githubusercontent.com/pyload/pyload/master/media/logo.svg
+  - name: pyload.png
+    source: https://raw.githubusercontent.com/pyload/pyload/stable/icons/logo.png
   - name: sabnzbd.svg
     source: https://sabnzbd.org/images/logo-full.svg
 
@@ -196,7 +196,7 @@ homer_config_services:
         subtitle: "Torrent client"
         target: "_blank"
       - name: "PyLoad"
-        logo: "assets/download/pyload.svg"
+        logo: "assets/download/pyload.png"
         url: "https://dl.{{ web_base_domain }}/pyload/"
         subtitle: "HTTP download manager"
         target: "_blank"

@@ -4,7 +4,7 @@
 _jellyfin_var_loader:
   base_image:
     name: "jellyfin/jellyfin"
-    tag: "10.6.2-amd64"
+    tag: "10.6.4-amd64"
   conf_injection_base_image:
     name: "python"
     tag: "3.8.5-alpine3.12"
@@ -38,8 +38,8 @@ jellyfin:
 
   plugins:
     anime: 
-      url: https://repo.jellyfin.org/releases/plugin/anime/anime_9.0.0.0.zip
-      version: v9
+      url: https://repo.jellyfin.org/releases/plugin/anime/anime_10.0.0.0.zip
+      version: v10
     ldapauth:
       url: https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_9.0.0.0.zip
       version: v9
