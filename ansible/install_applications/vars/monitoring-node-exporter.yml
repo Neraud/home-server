@@ -32,8 +32,8 @@ node_exporter:
 _node_exporter_rbac_proxy_var_loader:
   base_image:
     repo: quay.io
-    name: "coreos/kube-rbac-proxy"
-    tag: "v0.4.1"
+    name: "brancz/kube-rbac-proxy"
+    tag: "v0.6.0"
 
 node_exporter_rbac_proxy:
   base_image: "{{ _node_exporter_rbac_proxy_var_loader.base_image }}"
