@@ -162,10 +162,11 @@ watchers:
     image: {{ sickchill.base_image.name }}
     tag: {{ sickchill.base_image.tag }}
     includes:
-      - 2\.[7-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
+      - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
+      - ^3.[0-7]\..*
       - .*-alpine3\.[0-9]$
-      - .*-alpine3\.10
+      - .*-alpine3\.1[0-1]
   - type: github_tag
     repo: SickChill/SickChill
     tag: {{ sickchill.version }}

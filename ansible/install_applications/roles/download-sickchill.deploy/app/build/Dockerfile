@@ -27,7 +27,7 @@ RUN mkdir -p /opt/sickchill && \
     wget -qO- https://github.com/SickChill/SickChill/archive/${sickchill_version}.tar.gz | tar xz --strip-components=1
 
 # Make sure cache is linked to the data dir : See https://github.com/SickChill/SickChill/issues/6010
-RUN ln -s /opt/sickchill-data/cache /opt/sickchill/gui/slick/cache
+RUN ln -s /opt/sickchill-data/cache /opt/sickchill/sickchill/gui/slick/cache
 
 ADD --chown=sickchill:sickchill entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
