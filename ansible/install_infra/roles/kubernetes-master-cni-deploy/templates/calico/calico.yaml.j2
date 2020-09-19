@@ -453,6 +453,16 @@ spec:
           spec:
             description: FelixConfigurationSpec contains the values of the Felix configuration.
             properties:
+              allowIPIPPacketsFromWorkloads:
+                description: 'AllowIPIPPacketsFromWorkloads controls whether Felix
+                  will add a rule to drop IPIP encapsulated traffic from workloads
+                  [Default: false]'
+                type: boolean
+              allowVXLANPacketsFromWorkloads:
+                description: 'AllowVXLANPacketsFromWorkloads controls whether Felix
+                  will add a rule to drop VXLAN encapsulated traffic from workloads
+                  [Default: false]'
+                type: boolean
               awsSrcDstCheck:
                 description: 'Set source-destination-check on AWS EC2 instances. Accepted
                   value must be one of "DoNothing", "Enabled" or "Disabled". [Default:
@@ -3534,7 +3544,7 @@ spec:
         # It can be deleted if this is a fresh installation, or if you have already
         # upgraded to use calico-ipam.
         - name: upgrade-ipam
-          image: calico/cni:v3.16.0
+          image: calico/cni:v3.16.1
           command: ["/opt/cni/bin/calico-ipam", "-upgrade"]
           envFrom:
           - configMapRef:
@@ -3561,7 +3571,7 @@ spec:
         # This container installs the CNI binaries
         # and CNI network config file on each node.
         - name: install-cni
-          image: calico/cni:v3.16.0
+          image: calico/cni:v3.16.1
           command: ["/opt/cni/bin/install"]
           envFrom:
           - configMapRef:
@@ -3602,7 +3612,7 @@ spec:
         # Adds a Flex Volume Driver that creates a per-pod Unix Domain Socket to allow Dikastes
         # to communicate with Felix over the Policy Sync API.
         - name: flexvol-driver
-          image: calico/pod2daemon-flexvol:v3.16.0
+          image: calico/pod2daemon-flexvol:v3.16.1
           volumeMounts:
           - name: flexvol-driver-host
             mountPath: /host/driver
@@ -3613,7 +3623,7 @@ spec:
         # container programs network policy and routes on each
         # host.
         - name: calico-node
-          image: calico/node:v3.16.0
+          image: calico/node:v3.16.1
           envFrom:
           - configMapRef:
               # Allow KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT to be overridden for eBPF mode.
@@ -3819,7 +3829,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
         - name: calico-kube-controllers
-          image: calico/kube-controllers:v3.16.0
+          image: calico/kube-controllers:v3.16.1
           env:
             # Choose which controllers to run.
             - name: ENABLED_CONTROLLERS
