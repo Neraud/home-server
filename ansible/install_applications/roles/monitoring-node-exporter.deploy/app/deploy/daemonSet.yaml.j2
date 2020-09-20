@@ -71,14 +71,15 @@ spec:
         - containerPort: 9100
           hostPort: 9100
           name: https
-        readinessProbe:
-          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
-          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
-          exec:
-            command:
-            - /bin/sh
-            - -c 
-            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+        #readinessProbe:
+        #  # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+        #  # We can't use tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+        #  # We can't use exec -> it randomly fails with an issue to find /bin/sh (which indeed isn't in the container)"
+        #  exec:
+        #    command:
+        #    - /bin/sh
+        #    - -c 
+        #    - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
         securityContext:
           readOnlyRootFilesystem: true
         resources:

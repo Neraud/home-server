@@ -1,16 +1,16 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 import sys
-sys.path.append('/opt/sickchill/lib/')
+sys.path.append('/opt/sickchill/lib3/')
 
 from configobj import ConfigObj
 
-print("Reading config files :")
-print(" - /opt/sickchill-data/config.ini")
-config = ConfigObj('/opt/sickchill-data/config.ini', encoding='UTF-8', options={'indent_type': '  '})
-print(" - /tmp/config/config_delta.ini")
-config_delta = ConfigObj('/tmp/config/config_delta.ini', encoding='UTF-8', options={'indent_type': '  '})
-config.merge(config_delta)
+config_path = '/opt/sickchill-data/config.ini'
+config_delta_path = '/tmp/config/config_delta.ini'
 
-with open('/opt/sickchill-data/config.ini', 'w') as configfile:
-  print("Writing to %s" % configfile.name)
-  config.write(configfile)
+print("Reading config files :")
+print(" - %s" % config_path)
+config = ConfigObj(config_path, encoding='UTF-8', options={'indent_type': '  '})
+print(" - %s" % config_delta_path)
+config_delta = ConfigObj(config_delta_path, encoding='UTF-8', options={'indent_type': '  '})
+config.merge(config_delta)
+config.write()

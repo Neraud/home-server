@@ -25,10 +25,7 @@ ARG sabnzbd_version
 ARG nzbToMedia_version
 
 # Install requirements
-RUN apk add --no-cache openssl unrar unzip p7zip ffmpeg libgomp && \
-    apk add --no-cache --virtual .build_deps build-base python2-dev libffi-dev openssl-dev && \
-    pip install cheetah3 cryptography sabyenc && \
-    apk del .build_deps
+RUN apk add --no-cache openssl unrar unzip p7zip ffmpeg libgomp
 
 # Fetch par2 from builder
 COPY --from=par2_builder /usr/local/bin/par2 /usr/local/bin/par2
@@ -40,6 +37,21 @@ RUN echo "Creating sabnzbd user" && \
     addgroup -g 1000 sabnzbd && \
     adduser -u 1000 -G sabnzbd -s /bin/sh -D sabnzbd
 
+# Install sabnzbd
+RUN mkdir -p /opt/sabnzbd && \
+    cd /opt/sabnzbd && \
+    wget -qO- https://github.com/sabnzbd/sabnzbd/archive/${sabnzbd_version}.tar.gz | tar xz --strip-components=1
+
+
+# TODO temp workaround waiting for version 3.1.x
+# See https://github.com/sabnzbd/sabnzbd/issues/1609
+RUN sed -i 's/^feedparser$/feedparser<6.0.0/' /opt/sabnzbd/requirements.txt
+
+# Install python requirements
+RUN apk add --no-cache --virtual .build_deps build-base python2-dev libffi-dev openssl-dev && \
+    pip install -r /opt/sabnzbd/requirements.txt && \
+    apk del .build_deps
+
 VOLUME [ "/opt/sabnzbd-data" ]
 RUN mkdir -p /opt/sabnzbd && \
     chown -R sabnzbd:sabnzbd /opt/sabnzbd && \
@@ -49,10 +61,6 @@ RUN mkdir -p /opt/sabnzbd && \
     chown -R sabnzbd:sabnzbd /opt/nzbToMedia
 
 USER sabnzbd
-
-# Install sabnzbd
-RUN cd /opt/sabnzbd && \
-    wget -qO- https://github.com/sabnzbd/sabnzbd/archive/${sabnzbd_version}.tar.gz | tar xz --strip-components=1
 
 RUN cd /opt/sabnzbd && \
     python tools/make_mo.py

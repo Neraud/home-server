@@ -6,7 +6,7 @@ _phpldapadmin_var_loader:
     name: "php"
     # phpldapadmin 1.2.5 doesn't support PHP 7.4
     tag: "7.3.22-apache-buster"
-  version: 1.2.5
+  version: 1.2.6.1
   
 phpldapadmin:
   enabled: "{{ openldap_enabled | default(True) }}"
