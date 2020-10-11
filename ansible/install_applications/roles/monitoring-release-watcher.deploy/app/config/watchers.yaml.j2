@@ -354,7 +354,7 @@ watchers:
       - .*SNAPSHOT.*
       - ^PR-.*
       - dev
-      - v0\.0\.[0-5]?[0-9]$
+      - v0\.0\.[0-6]?[0-9]$
   - type: docker_registry
     repo: {{ unifi.base_image.repo | default('registry-1.docker.io') }}
     image: {{ unifi.base_image.name }}
