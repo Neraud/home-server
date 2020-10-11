@@ -5,7 +5,7 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 2.9.13
+    version: 2.9.14
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
@@ -52,7 +52,7 @@ watchers:
       - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
-    release: v3.16.1
+    release: v3.16.3
     excludes:
       - v3\.1[0-5]\..*
   - type: github_release
@@ -106,7 +106,7 @@ watchers:
       - .*-rc[0-9]+.*
       - ^[1-9]\.
       - ^1[0-2]\.
-      - ^13\.[0-2]\.
+      - ^13\.[0-3]\.
   
   ###################
   # Apps : Download #
@@ -184,7 +184,7 @@ watchers:
     excludes:
       - 0\.[0-9][0-9]\..*
       - 0\.10[0-9]\..*
-      - 0\.11[0-3]\..*
+      - 0\.11[0-5]\..*
       - .*dev
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
@@ -251,7 +251,7 @@ watchers:
       - .*arm32
       - .*beta.*
       - ^[0-1]\..*
-      - ^2\.[0-8]\..*
+      - ^2\.[0-9]\..*
   - type: docker_registry
     repo: {{ openzwave.base_image.repo | default('registry-1.docker.io') }}
     image: {{ openzwave.base_image.name }}
@@ -354,7 +354,7 @@ watchers:
       - .*SNAPSHOT.*
       - ^PR-.*
       - dev
-      - v0\.0\.[0-5]?[0-9]$
+      - v0\.0\.[0-6]?[0-9]$
   - type: docker_registry
     repo: {{ unifi.base_image.repo | default('registry-1.docker.io') }}
     image: {{ unifi.base_image.name }}
@@ -438,7 +438,7 @@ watchers:
       - .*debug.*
       - .*rc.*
       - ^0\.
-      - 1\.[0-4]\..*
+      - 1\.[0-5]\..*
   - type: docker_registry
     repo: {{ fluentd.base_image.repo | default('registry-1.docker.io') }}
     image: {{ fluentd.base_image.name }}
@@ -499,7 +499,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: master
-    commit: 59d6843d3d0c67ba0339241c6e4c38582a78fe3f
+    commit: 980e95de011319b88a3b9c0787a81dcdf338a898
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
@@ -519,7 +519,7 @@ watchers:
     includes:
       - ^v[0-9]+\.[0-9]+.[0-9]+
     excludes:
-      - ^v1\.[0-6]\..*
+      - ^v1\.[0-7]\..*
   - type: docker_registry
     repo: {{ pihole_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ pihole_exporter.base_image.name }}
