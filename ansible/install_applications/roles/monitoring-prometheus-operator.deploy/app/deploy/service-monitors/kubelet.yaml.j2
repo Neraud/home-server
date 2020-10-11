@@ -59,6 +59,7 @@ spec:
       insecureSkipVerify: true
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     honorLabels: true
+    honorTimestamps: false
     interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
     metricRelabelings:
     - action: drop
