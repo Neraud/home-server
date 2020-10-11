@@ -4,7 +4,7 @@
 _unifi_var_loader:
    base_image:
     name: "jacobalberty/unifi"
-    tag: "6.0.22"
+    tag: "6.0.23"
 
 unifi:
   enabled: "{{ unifi_enabled | default(True) }}"
