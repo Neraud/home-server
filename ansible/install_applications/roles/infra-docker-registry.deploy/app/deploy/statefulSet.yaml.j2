@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-data-dir
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.container.public_image }}"
         # Don't always pull : if the cluster goes down, pihole can't restart without registry and registry can't restart without pulling busybox
         imagePullPolicy: IfNotPresent
         command:
