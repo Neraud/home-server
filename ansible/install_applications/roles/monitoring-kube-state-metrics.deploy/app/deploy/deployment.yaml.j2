@@ -27,7 +27,7 @@ spec:
         imagePullPolicy: Always
         name: kube-state-metrics
         securityContext:
-          runAsUser: 65534
+          runAsGroup: 65532
           readOnlyRootFilesystem: true
         #readinessProbe:
         # As we bind to 127.0.0.1, we can't add probes to this container
@@ -61,7 +61,9 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
-          runAsUser: 65534
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
           readOnlyRootFilesystem: true
         resources:
           limits:
@@ -93,7 +95,9 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
-          runAsUser: 65534
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
           readOnlyRootFilesystem: true
         resources:
           limits:
@@ -107,5 +111,5 @@ spec:
         capability/general-purpose: 'yes'
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
+        runAsGroup: 65532
       serviceAccountName: kube-state-metrics

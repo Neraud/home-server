@@ -20,8 +20,6 @@ spec:
       containers:
       - args:
         - --kubelet-service=kube-system/kubelet
-        - --logtostderr=true
-        - --config-reloader-image=jimmidyson/configmap-reload:v0.4.0
         - --config-reloader-cpu={{ prometheus_operator.container.config_reloader_cpu }}
         - --config-reloader-memory={{ prometheus_operator.container.config_reloader_memory }}
         - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:{{ prometheus_operator.base_image.tag }}
@@ -58,8 +56,17 @@ spec:
         ports:
         - containerPort: 8443
           name: https
+        resources:
+          limits:
+            cpu: {{ prometheus_operator_rbac_proxy.container.limits_cpu }}
+            memory: {{ prometheus_operator_rbac_proxy.container.limits_memory }}
+          requests:
+            cpu: {{ prometheus_operator_rbac_proxy.container.requests_cpu }}
+            memory: {{ prometheus_operator_rbac_proxy.container.requests_memory }}
         securityContext:
-          runAsUser: 65534
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
       nodeSelector:
         beta.kubernetes.io/os: linux
         capability/general-purpose: 'yes'

@@ -32,7 +32,7 @@ _kube_state_metrics_rbac_proxy_var_loader:
   base_image:
     repo: quay.io
     name: "brancz/kube-rbac-proxy"
-    tag: "v0.6.0"
+    tag: "v0.8.0"
 
 kube_state_metrics_rbac_proxy:
   base_image: "{{ _kube_state_metrics_rbac_proxy_var_loader.base_image }}"

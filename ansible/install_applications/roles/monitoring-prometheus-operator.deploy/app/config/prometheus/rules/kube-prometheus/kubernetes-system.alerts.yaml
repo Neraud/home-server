@@ -4,7 +4,7 @@
     annotations:
       description: There are {{ $value }} different semantic versions of Kubernetes
         components running.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeversionmismatch
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeversionmismatch
       summary: Different semantic versions of Kubernetes components running.
     expr: |
       count(count by (gitVersion) (label_replace(kubernetes_build_info{job!~"kube-dns|coredns"},"gitVersion","$1","gitVersion","(v[0-9]*.[0-9]*).*"))) > 1
@@ -15,7 +15,7 @@
     annotations:
       description: Kubernetes API server client '{{ $labels.job }}/{{ $labels.instance
         }}' is experiencing {{ $value | humanizePercentage }} errors.'
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclienterrors
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeclienterrors
       summary: Kubernetes API server client is experiencing errors.
     expr: |
       (sum(rate(rest_client_requests_total{code=~"5.."}[5m])) by (instance, job)

@@ -4,7 +4,7 @@
     annotations:
       description: A client certificate used to authenticate to the apiserver is expiring
         in less than 7.0 days.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclientcertificateexpiration
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeclientcertificateexpiration
       summary: Client certificate is about to expire.
     expr: |
       apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and on(job) histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 604800
@@ -14,7 +14,7 @@
     annotations:
       description: A client certificate used to authenticate to the apiserver is expiring
         in less than 24.0 hours.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeclientcertificateexpiration
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeclientcertificateexpiration
       summary: Client certificate is about to expire.
     expr: |
       apiserver_client_certificate_expiration_seconds_count{job="apiserver"} > 0 and on(job) histogram_quantile(0.01, sum by (job, le) (rate(apiserver_client_certificate_expiration_seconds_bucket{job="apiserver"}[5m]))) < 86400
@@ -26,7 +26,7 @@
         reported errors. The number of errors have increased for it in the past five
         minutes. High values indicate that the availability of the service changes
         too often.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-aggregatedapierrors
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/aggregatedapierrors
       summary: An aggregated API has reported errors.
     expr: |
       sum by(name, namespace)(increase(aggregator_unavailable_apiservice_count[5m])) > 2
@@ -36,7 +36,7 @@
     annotations:
       description: An aggregated API {{ $labels.name }}/{{ $labels.namespace }} has
         been only {{ $value | humanize }}% available over the last 10m.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-aggregatedapidown
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/aggregatedapidown
       summary: An aggregated API is down.
     expr: |
       (1 - max by(name, namespace)(avg_over_time(aggregator_unavailable_apiservice[10m]))) * 100 < 85
@@ -46,7 +46,7 @@
   - alert: KubeAPIDown
     annotations:
       description: KubeAPI has disappeared from Prometheus target discovery.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapidown
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeapidown
       summary: Target disappeared from Prometheus target discovery.
     expr: |
       absent(up{job="apiserver"} == 1)
