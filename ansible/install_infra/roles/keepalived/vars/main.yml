@@ -11,5 +11,5 @@ keepalived:
     rule: allow
 
   exporter:
-    version: 1.0.3
+    version: 1.1.0
     path: /opt/keepalived-exporter
