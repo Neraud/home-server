@@ -119,26 +119,21 @@
     label: "{{ item.id }}"
 
 - name: Set LDAP users attributes
-  ldap_attr:
+  ldap_attrs:
     server_uri: "{{ openldap_internal_uri }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     start_tls: yes
     validate_certs: no
-    dn: "cn={{ item.0.id }},{{ openldap.ldap.structure_users_ou_dn }}"
-    name: "{{ item.1.name }}"
-    values: "{{ item.0[item.1.key] }}"
+    dn: "cn={{ item.id }},{{ openldap.ldap.structure_users_ou_dn }}"
+    attributes:
+      displayName: "{{ item.displayName }}"
+      uid: "{{ item.id }}"
+      mail: "{{ item.email }}"
     state: exact
-  with_nested:
-     - "{{ openldap.ldap.users | default([]) }}"
-     - - name: displayName
-         key: displayName
-       - name: uid
-         key: id
-       - name: mail
-         key: email
+  loop: "{{ openldap.ldap.users | default([]) }}"
   loop_control:
-    label: "{{ item.0.id }} : {{ item.1.name }} = {{ item.0[item.1.key] }}"
+    label: "{{ item.id }}"
 
 - name: Set LDAP users password
   ldap_passwd:
@@ -168,35 +163,32 @@
   with_items: "{{ openldap.ldap.groups | default([]) }}"
 
 - name: Set LDAP groups attributes
-  ldap_attr:
-    server_uri: "{{ openldap_internal_uri }}"
-    bind_dn: "{{ openldap.ldap.admin_dn }}"
-    bind_pw: "{{ openldap.ldap.admin_password }}"
-    start_tls: yes
-    validate_certs: no
-    dn: "cn={{ item.0.id }},{{ openldap.ldap.structure_groups_ou_dns[item.0.ou] }}"
-    name: "{{ item.1.name }}"
-    values: "{{ item.0[item.1.key] }}"
-    state: exact
-  with_nested:
-     - "{{ openldap.ldap.groups | default([]) }}"
-     - - name: description
-         key: description
-  loop_control:
-    label: "{{ item.0.id }} : {{ item.1.name }} = {{ item.0[item.1.key] }}"
-
-- name: Set LDAP groups members
-  ldap_attr:
+  ldap_attrs:
     server_uri: "{{ openldap_internal_uri }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap.ldap.structure_groups_ou_dns[item.ou] }}"
-    name: "uniqueMember"
-    values: "{{ item.members | map('regex_replace', '^(.*)$', 'cn=\\1,' + openldap.ldap.structure_users_ou_dn) | list }}"
+    attributes:
+      description: "{{ item.description }}"
     state: exact
-  with_items: "{{ openldap.ldap.groups | default([]) }}"
+  loop: "{{ openldap.ldap.groups | default([]) }}"
+  loop_control:
+    label: "{{ item.id }}"
+
+- name: Set LDAP groups members
+  ldap_attrs:
+    server_uri: "{{ openldap_internal_uri }}"
+    bind_dn: "{{ openldap.ldap.admin_dn }}"
+    bind_pw: "{{ openldap.ldap.admin_password }}"
+    start_tls: yes
+    validate_certs: no
+    dn: "cn={{ item.id }},{{ openldap.ldap.structure_groups_ou_dns[item.ou] }}"
+    attributes:
+      uniqueMember: "{{ item.members | map('regex_replace', '^(.*)$', 'cn=\\1,' + openldap.ldap.structure_users_ou_dn) | list }}"
+    state: exact
+  loop: "{{ openldap.ldap.groups | default([]) }}"
   when: item.members | default([]) | length > 0
   loop_control:
     label: "{{ item.id }} : {{ item.members | default([]) }}"
