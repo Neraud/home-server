@@ -4,7 +4,7 @@
 _kibana_var_loader:
   base_image:
     name: "amazon/opendistro-for-elasticsearch-kibana"
-    tag: "1.10.1"
+    tag: "1.11.0"
 
 kibana:
   enabled: "{{ kibana_enabled | default(True) }}"
@@ -31,10 +31,10 @@ kibana:
     requests_cpu: "{{ kibana_optimize_requests_cpu | default('250m') }}"
     requests_memory: "{{ kibana_optimize_requests_memory | default('3072Mi') }}"
     limits_cpu: "{{ kibana_optimize_limits_cpu | default('2000m') }}"
-    limits_memory: "{{ kibana_optimize_limits_memory | default('4096Mi') }}"
+    limits_memory: "{{ kibana_optimize_limits_memory | default('6144Mi') }}"
     # kibana --optimize runs 5 node processes, so we can't increase each max memory too much
     # But it still needs more memory for the optimization process to work
-    nodejs_max_memory: "{{ kibana_optimize_nodejs_max_memory | default('768') }}"
+    nodejs_max_memory: "{{ kibana_optimize_nodejs_max_memory | default('1024') }}"
 
   context_path: "{{ kibana_context_path | default('/kibana') }}"
   
