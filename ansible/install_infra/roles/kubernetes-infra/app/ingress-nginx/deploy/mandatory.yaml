@@ -534,7 +534,8 @@ spec:
       containers:
         - name: patch
           image: jettech/kube-webhook-certgen:v1.2.0
-          imagePullPolicy: Always
+          # TODO : Reduce pulls from dockerhub
+          imagePullPolicy: IfNotPresent
           args:
             - patch
             - --webhook-name=ingress-nginx-admission
