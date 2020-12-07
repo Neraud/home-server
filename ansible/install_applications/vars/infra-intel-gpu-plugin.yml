@@ -4,7 +4,7 @@
 _intel_gpu_plugin_var_loader:
   base_image:
     name: "intel/intel-gpu-plugin"
-    tag: "0.18.1"
+    tag: "0.19.0"
 
 intel_gpu_plugin:
   enabled: "{{ intel_gpu_plugin_enabled | default(True) }}"
