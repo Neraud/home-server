@@ -3,7 +3,7 @@
   - alert: KubeControllerManagerDown
     annotations:
       description: KubeControllerManager has disappeared from Prometheus target discovery.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubecontrollermanagerdown
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubecontrollermanagerdown
       summary: Target disappeared from Prometheus target discovery.
     expr: |
       absent(up{job="kube-controller-manager"} == 1)

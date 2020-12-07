@@ -5,7 +5,7 @@ _prometheus_operator_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus-operator/prometheus-operator"
-    tag: "v0.42.1"
+    tag: "v0.44.0"
 
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
@@ -30,13 +30,30 @@ prometheus_operator:
     config_reloader_cpu: "{{ prometheus_operator_container_config_reloader_cpu | default('50m') }}"
     config_reloader_memory: "{{ prometheus_operator_container_config_reloader_cpu | default('25Mi') }}"
 
+  
+# To avoid loops prometheus_operator_rbac_proxy prometheus_operator
+_prometheus_operator_rbac_proxy_var_loader:
+  base_image:
+    repo: quay.io
+    name: "brancz/kube-rbac-proxy"
+    tag: "v0.8.0"
+
+prometheus_operator_rbac_proxy:
+  base_image: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image }}"
+  container:
+    image: "{{ docker_registry.url }}/{{ _prometheus_operator_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_rbac_proxy_var_loader.base_image.tag }}"
+    requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('10m') }}"
+    requests_memory: "{{ prometheus_operator_container_requests_memory | default('20Mi') }}"
+    limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('20m') }}"
+    limits_memory: "{{ prometheus_operator_container_limits_memory | default('40Mi') }}"
+
 
 # To avoid loops inside prometheus
 _prometheus_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/prometheus"
-    tag: "v2.20.0"
+    tag: "v2.22.1"
   namespace: "monitoring-prometheus"
 
 prometheus:

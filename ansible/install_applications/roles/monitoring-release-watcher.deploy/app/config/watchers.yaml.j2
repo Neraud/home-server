@@ -5,11 +5,11 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 2.9.14
+    version: 2.10.4
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
-      - .*2\.[0-8]\..*$
+      - .*2\.[0-9]\..*$
 
 
   #################################
@@ -25,7 +25,7 @@ watchers:
     commit: 3ebaacc2c690223f77fc93f5f237ab5065138660
   - type: github_release
     repo: cafebazaar/keepalived-exporter
-    release: v1.0.3
+    release: v1.1.0
   
 
   ########
@@ -47,12 +47,12 @@ watchers:
   #########
   - type: github_release
     repo: coreos/flannel
-    release: v0.12.0
+    release: v0.13.0
     excludes:
       - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
-    release: v3.16.3
+    release: v3.17.0
     excludes:
       - v3\.1[0-5]\..*
   - type: github_release
@@ -165,7 +165,7 @@ watchers:
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - ^3.[0-7]\..*
+      - ^3.[0-8]\..*
       - .*-alpine3\.[0-9]$
       - .*-alpine3\.1[0-1]
   - type: github_tag
@@ -290,7 +290,7 @@ watchers:
     image: {{ pihole.base_image.name }}
     tag: {{ pihole.base_image.tag }}
     includes:
-      - "v[0-9]+\\.[0-9]+-amd64"
+      - "v[0-9]+\\.[0-9]+-amd64-buster"
     excludes:
       - v[1-4]\..*
   - type: docker_registry
@@ -314,9 +314,9 @@ watchers:
       - 3\.1[0-1]\..*
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-0.33.0
+    release: controller-v0.41.2
     includes:
-      - controller-[0-9]+\.[0-9]+\.[0-9]+.*
+      - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
   #- type: docker_registry
   #  repo: quay.io
@@ -437,6 +437,7 @@ watchers:
     excludes:
       - .*debug.*
       - .*rc.*
+      - .*dev.*
       - ^0\.
       - 1\.[0-5]\..*
   - type: docker_registry
@@ -499,7 +500,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: master
-    commit: 980e95de011319b88a3b9c0787a81dcdf338a898
+    commit: 0cfe5bba454df5f632e43bfd96e98eee62797c67
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master

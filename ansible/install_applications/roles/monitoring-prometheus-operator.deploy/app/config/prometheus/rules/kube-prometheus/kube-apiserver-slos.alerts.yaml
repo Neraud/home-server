@@ -3,7 +3,7 @@
   - alert: KubeAPIErrorBudgetBurn
     annotations:
       description: The API server is burning too much error budget.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorbudgetburn
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeapierrorbudgetburn
       summary: The API server is burning too much error budget.
     expr: |
       sum(apiserver_request:burnrate1h) > (14.40 * 0.01000)
@@ -17,7 +17,7 @@
   - alert: KubeAPIErrorBudgetBurn
     annotations:
       description: The API server is burning too much error budget.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorbudgetburn
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeapierrorbudgetburn
       summary: The API server is burning too much error budget.
     expr: |
       sum(apiserver_request:burnrate6h) > (6.00 * 0.01000)
@@ -31,7 +31,7 @@
   - alert: KubeAPIErrorBudgetBurn
     annotations:
       description: The API server is burning too much error budget.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorbudgetburn
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeapierrorbudgetburn
       summary: The API server is burning too much error budget.
     expr: |
       sum(apiserver_request:burnrate1d) > (3.00 * 0.01000)
@@ -45,7 +45,7 @@
   - alert: KubeAPIErrorBudgetBurn
     annotations:
       description: The API server is burning too much error budget.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeapierrorbudgetburn
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeapierrorbudgetburn
       summary: The API server is burning too much error budget.
     expr: |
       sum(apiserver_request:burnrate3d) > (1.00 * 0.01000)

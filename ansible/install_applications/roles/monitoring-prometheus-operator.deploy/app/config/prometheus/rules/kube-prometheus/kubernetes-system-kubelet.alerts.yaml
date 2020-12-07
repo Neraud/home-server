@@ -3,7 +3,7 @@
   - alert: KubeNodeNotReady
     annotations:
       description: '{{ $labels.node }} has been unready for more than 15 minutes.'
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodenotready
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubenodenotready
       summary: Node is not ready.
     expr: |
       kube_node_status_condition{job="kube-state-metrics",condition="Ready",status="true"} == 0
@@ -13,7 +13,7 @@
   - alert: KubeNodeUnreachable
     annotations:
       description: '{{ $labels.node }} is unreachable and some workloads may be rescheduled.'
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodeunreachable
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubenodeunreachable
       summary: Node is unreachable.
     expr: |
       (kube_node_spec_taint{job="kube-state-metrics",key="node.kubernetes.io/unreachable",effect="NoSchedule"} unless ignoring(key,value) kube_node_spec_taint{job="kube-state-metrics",key=~"ToBeDeletedByClusterAutoscaler|cloud.google.com/impending-node-termination|aws-node-termination-handler/spot-itn"}) == 1
@@ -24,7 +24,7 @@
     annotations:
       description: Kubelet '{{ $labels.node }}' is running at {{ $value | humanizePercentage
         }} of its Pod capacity.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubelettoomanypods
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubelettoomanypods
       summary: Kubelet is running at capacity.
     expr: |
       count by(node) (
@@ -41,7 +41,7 @@
     annotations:
       description: The readiness status of node {{ $labels.node }} has changed {{
         $value }} times in the last 15 minutes.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubenodereadinessflapping
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubenodereadinessflapping
       summary: Node readiness status is flapping.
     expr: |
       sum(changes(kube_node_status_condition{status="true",condition="Ready"}[15m])) by (node) > 2
@@ -52,7 +52,7 @@
     annotations:
       description: The Kubelet Pod Lifecycle Event Generator has a 99th percentile
         duration of {{ $value }} seconds on node {{ $labels.node }}.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletplegdurationhigh
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletplegdurationhigh
       summary: Kubelet Pod Lifecycle Event Generator is taking too long to relist.
     expr: |
       node_quantile:kubelet_pleg_relist_duration_seconds:histogram_quantile{quantile="0.99"} >= 10
@@ -63,7 +63,7 @@
     annotations:
       description: Kubelet Pod startup 99th percentile latency is {{ $value }} seconds
         on node {{ $labels.node }}.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletpodstartuplatencyhigh
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletpodstartuplatencyhigh
       summary: Kubelet Pod startup latency is too high.
     expr: |
       histogram_quantile(0.99, sum(rate(kubelet_pod_worker_duration_seconds_bucket{job="kubelet", metrics_path="/metrics"}[5m])) by (instance, le)) * on(instance) group_left(node) kubelet_node_name{job="kubelet", metrics_path="/metrics"} > 60
@@ -74,7 +74,7 @@
     annotations:
       description: Client certificate for Kubelet on node {{ $labels.node }} expires
         in {{ $value | humanizeDuration }}.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletclientcertificateexpiration
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletclientcertificateexpiration
       summary: Kubelet client certificate is about to expire.
     expr: |
       kubelet_certificate_manager_client_ttl_seconds < 604800
@@ -84,7 +84,7 @@
     annotations:
       description: Client certificate for Kubelet on node {{ $labels.node }} expires
         in {{ $value | humanizeDuration }}.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletclientcertificateexpiration
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletclientcertificateexpiration
       summary: Kubelet client certificate is about to expire.
     expr: |
       kubelet_certificate_manager_client_ttl_seconds < 86400
@@ -94,7 +94,7 @@
     annotations:
       description: Server certificate for Kubelet on node {{ $labels.node }} expires
         in {{ $value | humanizeDuration }}.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletservercertificateexpiration
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletservercertificateexpiration
       summary: Kubelet server certificate is about to expire.
     expr: |
       kubelet_certificate_manager_server_ttl_seconds < 604800
@@ -104,7 +104,7 @@
     annotations:
       description: Server certificate for Kubelet on node {{ $labels.node }} expires
         in {{ $value | humanizeDuration }}.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletservercertificateexpiration
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletservercertificateexpiration
       summary: Kubelet server certificate is about to expire.
     expr: |
       kubelet_certificate_manager_server_ttl_seconds < 86400
@@ -114,7 +114,7 @@
     annotations:
       description: Kubelet on node {{ $labels.node }} has failed to renew its client
         certificate ({{ $value | humanize }} errors in the last 5 minutes).
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletclientcertificaterenewalerrors
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletclientcertificaterenewalerrors
       summary: Kubelet has failed to renew its client certificate.
     expr: |
       increase(kubelet_certificate_manager_client_expiration_renew_errors[5m]) > 0
@@ -125,7 +125,7 @@
     annotations:
       description: Kubelet on node {{ $labels.node }} has failed to renew its server
         certificate ({{ $value | humanize }} errors in the last 5 minutes).
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletservercertificaterenewalerrors
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletservercertificaterenewalerrors
       summary: Kubelet has failed to renew its server certificate.
     expr: |
       increase(kubelet_server_expiration_renew_errors[5m]) > 0
@@ -135,7 +135,7 @@
   - alert: KubeletDown
     annotations:
       description: Kubelet has disappeared from Prometheus target discovery.
-      runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubeletdown
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeletdown
       summary: Target disappeared from Prometheus target discovery.
     expr: |
       absent(up{job="kubelet", metrics_path="/metrics"} == 1)

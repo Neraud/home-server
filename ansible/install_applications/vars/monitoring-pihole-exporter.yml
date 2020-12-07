@@ -4,7 +4,7 @@
 _pihole_exporter_var_loader:
   base_image:
     name: "ekofr/pihole-exporter"
-    tag: "0.0.9"
+    tag: "0.0.10"
 
 pihole_exporter:
   enabled: "{{ pihole_exporter_enabled | default(True) }}"

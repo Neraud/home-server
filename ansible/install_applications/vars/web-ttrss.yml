@@ -4,9 +4,9 @@
 _ttrss_var_loader:
   base_image:
     name: "php"
-    tag: "7.4.11-apache-buster"
-  commit: 0aa579665f
-  full_commit: 0aa579665f678e491daa4718eccaa5fe6d65cf29
+    tag: "7.4.13-apache-buster"
+  commit: 0e4e0e624e
+  full_commit: 0e4e0e624e7e46ba066fdd9a7dbb83409cfa3d44
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -71,7 +71,7 @@ ttrss:
 _ttrss_pgsql_var_loader:
   base_image:
     name: "postgres"
-    tag: "12.4-alpine"
+    tag: "12.5-alpine"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"
