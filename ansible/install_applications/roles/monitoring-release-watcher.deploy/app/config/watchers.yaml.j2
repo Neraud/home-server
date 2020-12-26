@@ -52,7 +52,7 @@ watchers:
       - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
-    release: v3.17.0
+    release: v3.17.1
     excludes:
       - v3\.1[0-5]\..*
   - type: github_release
@@ -106,7 +106,7 @@ watchers:
       - .*-rc[0-9]+.*
       - ^[1-9]\.
       - ^1[0-2]\.
-      - ^13\.[0-3]\.
+      - ^13\.[0-6]\.
   
   ###################
   # Apps : Download #
@@ -180,11 +180,8 @@ watchers:
     image: {{ homeassistant.base_image.name }}
     tag: {{ homeassistant.base_image.tag }}
     includes:
-      - ^[0-9]+\.[0-9]+\.[0-9]+.*
+      - ^[0-9][0-9][0-9][0-9]\.[0-9][0-9]\.[0-9]+.*
     excludes:
-      - 0\.[0-9][0-9]\..*
-      - 0\.10[0-9]\..*
-      - 0\.11[0-5]\..*
       - .*dev
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
@@ -212,9 +209,7 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*-openssl"
     excludes:
       - latest
-      - ^1\.[0-5]\.
-      - ^1\.6\.[0-9].*$
-      - ^1\.6\.1[0-1].*$
+      - ^1\.
   - type: docker_registry
     repo: {{ nodered.base_image.repo | default('registry-1.docker.io') }}
     image: {{ nodered.base_image.name }}
@@ -290,7 +285,7 @@ watchers:
     image: {{ pihole.base_image.name }}
     tag: {{ pihole.base_image.tag }}
     includes:
-      - "v[0-9]+\\.[0-9]+-amd64-buster"
+      - "v[0-9]+\\.[0-9]+\\.[0-9]+-amd64-buster"
     excludes:
       - v[1-4]\..*
   - type: docker_registry
@@ -314,7 +309,7 @@ watchers:
       - 3\.1[0-1]\..*
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v0.41.2
+    release: controller-v0.42.0
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
@@ -500,7 +495,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: master
-    commit: 0cfe5bba454df5f632e43bfd96e98eee62797c67
+    commit: 09ca49fce0353a90b63e172ce76435d2f85eccbb
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
