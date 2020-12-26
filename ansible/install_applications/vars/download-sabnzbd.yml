@@ -5,7 +5,7 @@ _sabnzbd_var_loader:
   base_image:
     name: "python"
     # We can't update to 3.9.x yet, waiting for a 3.1.x
-    tag: "3.8.6-alpine3.12"
+    tag: "3.8.7-alpine3.12"
   repo:
     name: sabnzbd/sabnzbd
     version: 3.1.1
@@ -33,7 +33,7 @@ sabnzbd:
   nzbToMedia:
     repo:
       name: clinton-hall/nzbToMedia
-      version: 12.1.07
+      version: 12.1.08
 
   container:
     image: "{{ docker_registry.url }}/sabnzbd:{{ _sabnzbd_var_loader.repo.version }}_{{ _sabnzbd_var_loader.base_image.name }}{{ _sabnzbd_var_loader.base_image.tag }}"
