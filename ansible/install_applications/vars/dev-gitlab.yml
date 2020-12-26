@@ -6,7 +6,7 @@ _gitlab_var_loader:
 
   base_image:
     name: "gitlab/gitlab-ce"
-    tag: "13.6.1-ce.0"
+    tag: "13.7.1-ce.0"
 
 gitlab:
   enabled: "{{ openldap_enabled | default(True) }}"
