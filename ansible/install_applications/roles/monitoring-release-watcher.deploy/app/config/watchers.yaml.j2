@@ -180,11 +180,8 @@ watchers:
     image: {{ homeassistant.base_image.name }}
     tag: {{ homeassistant.base_image.tag }}
     includes:
-      - ^[0-9]+\.[0-9]+\.[0-9]+.*
+      - ^[0-9][0-9][0-9][0-9]\.[0-9][0-9]\.[0-9]+.*
     excludes:
-      - 0\.[0-9][0-9]\..*
-      - 0\.10[0-9]\..*
-      - 0\.11[0-5]\..*
       - .*dev
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
