@@ -4,7 +4,7 @@
 _pihole_var_loader:
   base_image:
     name: "pihole/pihole"
-    tag: "v5.2.1-amd64-buster"
+    tag: "v5.2.2-amd64-buster"
   namespace: "infra-pihole"
 
 pihole:
