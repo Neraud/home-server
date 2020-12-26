@@ -13,6 +13,13 @@ echo "=================================================="
 
 export DEBIAN_FRONTEND=noninteractive
 
+echo " - fix grub config"
+# In the base image, grub is installed on /dev/vda (see : debconf-show grub-pc | grep install_devices)
+# When upgrading grub2 in interactive mode, it prompts to select a new disk. Selecting /dev/sda works.
+# When upgrading grub2 in non interactive mode, grub2 will be left in a broken state, and the VM won't reboot.
+# (error: symbol `grub_calloc' not found.)
+echo "grub-pc grub-pc/install_devices multiselect /dev/sda" | debconf-set-selections
+
 echo " - update"
 apt-get -y update
 
