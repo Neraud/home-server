@@ -297,6 +297,7 @@ watchers:
     excludes:
       - 1\..*
       - ^2\.0\.[0-9]$
+      - ^2\.0\.1[0-9]$
   - type: docker_registry
     name: Gandi LiveDNS Base image
     repo: {{ _gandi_livedns_var_loader.base_image.repo | default('registry-1.docker.io') }}
