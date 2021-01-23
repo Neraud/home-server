@@ -4,7 +4,7 @@
 _zonemta_var_loader:
   base_image:
     name: "node"
-    tag: "12.20.0-alpine3.12"
+    tag: "12.20.1-alpine3.12"
   version: 2.3.3
   namespace: "infra-zonemta"
 
@@ -27,7 +27,7 @@ zonemta:
     app.kubernetes.io/part-of: zonemta
 
   container:
-    image: "{{ docker_registry.url }}/zonemta:{{ _zonemta_var_loader.version }}-custom"
+    image: "{{ docker_registry.url }}/zonemta:node-{{ _zonemta_var_loader.base_image.tag }}-{{ _zonemta_var_loader.version }}-custom"
     requests_cpu: "{{ zonemta_container_requests_cpu | default('25m') }}"
     # ZoneMTA runs multiple node processes, be sure to have at least 5 times 'max-old-space-size' (set in nodejs_max_memory), and more if you use more processes
     requests_memory: "{{ zonemta_container_requests_memory | default('160Mi') }}"
@@ -55,7 +55,7 @@ zonemta:
 _zonemta_mongo_var_loader:
   base_image:
     name: "mongo"
-    tag: "4.4.2-bionic"
+    tag: "4.4.3-bionic"
 
 zonemta_mongo:
   base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
@@ -86,7 +86,7 @@ zonemta_mongo:
 _zonemta_redis_var_loader:
   base_image:
     name: "redis"
-    tag: "6.0.9-alpine3.12"
+    tag: "6.0.10-alpine3.12"
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"
