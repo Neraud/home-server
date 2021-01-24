@@ -664,7 +664,7 @@ watchers:
     id: {{ ttrss.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"
-    id_selector: "[class~=sha]"
+    id_selector: "[class~=shortsha]"
     id_attribute: ""
     date_selector: "[class~=time-since]"
     date_attribute: "title"
@@ -674,7 +674,7 @@ watchers:
     id: {{ ttrss.plugins.data_migration.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"
-    id_selector: "[class~=sha]"
+    id_selector: "[class~=shortsha]"
     id_attribute: ""
     date_selector: "[class~=time-since]"
     date_attribute: "title"
@@ -689,7 +689,7 @@ watchers:
     id: {{ ttrss.plugins.mailer_smtp.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"
-    id_selector: "[class~=sha]"
+    id_selector: "[class~=shortsha]"
     id_attribute: ""
     date_selector: "[class~=time-since]"
     date_attribute: "title"
@@ -700,4 +700,3 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^12\.[0-9]+(\.[0-9]+)?-alpine
-
