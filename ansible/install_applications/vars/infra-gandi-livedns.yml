@@ -5,7 +5,7 @@ _gandi_livedns_var_loader:
   version: 1.0.0
   base_image:
     name: alpine
-    tag: "3.13.0"
+    tag: "3.13.2"
   
 gandi_livedns:
   enabled: "{{ gandi_livedns_enabled | default(True) }}"
