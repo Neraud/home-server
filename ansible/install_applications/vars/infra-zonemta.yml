@@ -4,7 +4,8 @@
 _zonemta_var_loader:
   base_image:
     name: "node"
-    tag: "12.20.1-alpine3.12"
+    tag: "12.21.0-alpine3.12"
+  # With 2.4.2, zonemta crashes with TypeError [ERR_INVALID_ARG_TYPE]: The "chunk" argument must be of type string or an instance of Buffer. Received an instance of Promise
   version: 2.3.3
   namespace: "infra-zonemta"
 
@@ -55,7 +56,7 @@ zonemta:
 _zonemta_mongo_var_loader:
   base_image:
     name: "mongo"
-    tag: "4.4.3-bionic"
+    tag: "4.4.4-bionic"
 
 zonemta_mongo:
   base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
@@ -86,7 +87,7 @@ zonemta_mongo:
 _zonemta_redis_var_loader:
   base_image:
     name: "redis"
-    tag: "6.0.10-alpine3.12"
+    tag: "6.0.11-alpine3.13"
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"
