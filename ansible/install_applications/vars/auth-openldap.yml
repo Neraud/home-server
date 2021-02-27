@@ -4,7 +4,7 @@
 _openldap_var_loader:
   base_image:
     name: "osixia/openldap"
-    tag: "1.4.0-amd64"
+    tag: "1.5.0-amd64"
   namespace: "auth-openldap"
   
   basedn: "{{ openldap_ldap_basedn | default('dc=example,dc=org') }}"

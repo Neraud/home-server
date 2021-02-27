@@ -5,7 +5,7 @@ ARG sickchill_version
 
 # Install requirements
 RUN apk add --update --no-cache git mediainfo nodejs unrar tzdata libffi openssl && \
-    apk add --no-cache --virtual .build-deps gcc libffi-dev openssl-dev musl-dev && \
+    apk add --no-cache --virtual .build-deps gcc libffi-dev openssl-dev musl-dev cargo && \
     pip install pyopenssl && \
     apk del .build-deps
 

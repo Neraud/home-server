@@ -15,7 +15,7 @@ ingress_nginx:
 _busybox_var_loader:
   base_image:
     name: "busybox"
-    tag: "1.32.0"
+    tag: "1.33.0"
 
 busybox:
   base_image: "{{ _busybox_var_loader.base_image }}"

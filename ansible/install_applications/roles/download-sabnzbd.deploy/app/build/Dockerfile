@@ -48,7 +48,7 @@ RUN mkdir -p /opt/sabnzbd && \
 RUN sed -i 's/^feedparser$/feedparser<6.0.0/' /opt/sabnzbd/requirements.txt
 
 # Install python requirements
-RUN apk add --no-cache --virtual .build_deps build-base python2-dev libffi-dev openssl-dev && \
+RUN apk add --no-cache --virtual .build_deps build-base python2-dev libffi-dev openssl-dev cargo && \
     pip install -r /opt/sabnzbd/requirements.txt && \
     apk del .build_deps
 

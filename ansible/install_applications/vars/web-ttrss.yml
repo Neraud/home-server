@@ -4,9 +4,10 @@
 _ttrss_var_loader:
   base_image:
     name: "php"
-    tag: "7.4.13-apache-buster"
-  commit: 8cc07bc8bd
-  full_commit: 8cc07bc8bda35308a4c784c266ad9227562647d5
+    # TT-RSS floods warnings with php8
+    tag: "7.4.14-apache-buster"
+  commit: 6c546f37ba
+  full_commit: 6c546f37ba5271f0e1af98947bc3e59f8a8de2fc
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"

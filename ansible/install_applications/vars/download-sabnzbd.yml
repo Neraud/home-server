@@ -4,11 +4,10 @@
 _sabnzbd_var_loader:
   base_image:
     name: "python"
-    # We can't update to 3.9.x yet, waiting for a 3.1.x
-    tag: "3.8.7-alpine3.12"
+    tag: "3.9.2-alpine3.13"
   repo:
     name: sabnzbd/sabnzbd
-    version: 3.1.1
+    version: 3.2.0
   namespace: "download-sabnzbd"
 
 sabnzbd:
