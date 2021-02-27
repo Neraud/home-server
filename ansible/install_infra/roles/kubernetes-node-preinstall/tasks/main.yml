@@ -33,6 +33,11 @@
     repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
     state: present
 
+- name: Pin Kubernetes version
+  template:
+    src: apt_kubernetes.j2
+    dest: /etc/apt/preferences.d/kubernetes
+
 - name: Install Kubernetes
   apt:
     pkg:

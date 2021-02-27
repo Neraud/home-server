@@ -232,7 +232,7 @@
 
 - name: List existing ElasticSearch indices
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/*"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/*?expand_wildcards=open,hidden"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"

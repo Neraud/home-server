@@ -55,6 +55,10 @@ spec:
               secretKeyRef:
                 name: fluentd-secret
                 key: fluentd_shared_key
+          - name: FLUENT_REQUEST_TIMEOUT
+            value: "10s"
+          - name: FLUENT_ELASTICSEARCH_BUFFER_FLUSH_THREAD_COUNT
+            value: "2"
         securityContext:
           runAsNonRoot: true
           runAsUser: 999 # fluent
