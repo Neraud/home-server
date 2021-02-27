@@ -24,9 +24,9 @@ fluentd:
   container:
     image: "{{ docker_registry.url }}/{{ _fluentd_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _fluentd_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ fluentd_container_requests_cpu | default('100m') }}"
-    requests_memory: "{{ fluentd_container_requests_memory | default('200Mi') }}"
+    requests_memory: "{{ fluentd_container_requests_memory | default('192Mi') }}"
     limits_cpu: "{{ fluentd_container_limits_cpu | default('500m') }}"
-    limits_memory: "{{ fluentd_container_limits_memory | default('200Mi') }}"
+    limits_memory: "{{ fluentd_container_limits_memory | default('256Mi') }}"
 
   shared_key: "{{ fluentd_shared_key | default('secret') }}"
 
