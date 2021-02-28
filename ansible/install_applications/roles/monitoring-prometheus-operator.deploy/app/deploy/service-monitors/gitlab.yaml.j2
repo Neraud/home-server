@@ -71,25 +71,7 @@ spec:
       replacement: 'gitlab-monitor'
       sourceLabels: [__address__]
     port: gitlab-monitor
-    path: /database
-  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
-    relabelings:
-    - action: replace
-      regex: '.*'
-      targetLabel: job
-      replacement: 'gitlab-monitor'
-      sourceLabels: [__address__]
-    port: gitlab-monitor
-    path: /sidekiq
-  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
-    relabelings:
-    - action: replace
-      regex: '.*'
-      targetLabel: job
-      replacement: 'gitlab-monitor'
-      sourceLabels: [__address__]
-    port: gitlab-monitor
-    path: /process
+    path: /metrics
   - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
     relabelings:
     - action: replace
