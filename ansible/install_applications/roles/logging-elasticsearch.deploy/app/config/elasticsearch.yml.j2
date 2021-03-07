@@ -28,3 +28,10 @@ opendistro_security.restapi.roles_enabled: ["all_access", "security_rest_api_acc
 cluster.routing.allocation.disk.threshold_enabled: false
 node.max_local_storage_nodes: 3
 ######## End OpenDistro for Elasticsearch Security Configuration ########
+
+######## Start OpenDistro for Elasticsearch  ISM Settings ########
+# See https://opendistro.github.io/for-elasticsearch-docs/docs/im/ism/settings/
+# Using the index template doesn't work :/, each .opendistro-ism-managed-index-history-* wants 1 replica
+# To avoid triggering NumberOfUnassignedShards and ElasticClusterYellow alerts, we disable ism history
+opendistro.index_state_management.history.enabled: false
+######## End OpenDistro for Elasticsearch  ISM Settings ########

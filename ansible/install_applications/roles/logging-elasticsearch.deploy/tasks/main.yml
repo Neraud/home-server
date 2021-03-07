@@ -128,7 +128,7 @@
   - name: Filter fields from current {{ elasticsearch.logstash_policy.name }} policy
     set_fact:
       current_ism_policy_filtered: "{{ current_ism_policy_filtered | default({}) | combine({item.key: item.value}) }}"
-    when: item.key not in ['error_notification', 'last_updated_time']
+    when: item.key not in ['error_notification', 'last_updated_time', 'ism_template']
     loop: "{{ current_ism_policy.json.policy | default({}) | dict2items }}"
 
   - name: Update {{ elasticsearch.logstash_policy.name }} policy
@@ -156,6 +156,9 @@
       # If we only have 1 node, this index will remain yellow
       number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
     logstash_wanted_index_settings:
+      # By default, an index is created with 1 replica.
+      # If we only have 1 node, this index will remain yellow
+      number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
       # After 30 seconds without search, an index is flagged idle and not refresh automatically
       # Our prometheus exporter won't see new documents and trigger a ElasticNoNewDocuments alert when this happens
       # To avoid that, we force the scheduled refresh
@@ -166,7 +169,7 @@
 
 - name: Get current default ElasticSearch index template
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_template/default"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/default"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -179,13 +182,14 @@
 
 - name: Configure default ElasticSearch index template
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_template/default"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/default"
     method: POST
     headers:
       Host: "infra.{{ web_base_domain }}"
     body:
-        index_patterns: [ "*" ]
-        order: -1
+      index_patterns: [ "*" ]
+      priority: 0
+      template:
         settings: "{{ default_wanted_index_settings }}"
     body_format: json
     validate_certs: no
@@ -195,11 +199,14 @@
   register: set_default_index_template
   changed_when: True
   failed_when: "not set_default_index_template.json.acknowledged | default (false)"
-  when: not current_default_index_template.json or (current_default_index_template.json.default.settings.index != default_wanted_index_settings)
+  when: >
+    current_default_index_template.status == 404
+    or not current_default_index_template.json
+    or (current_default_index_template.json.index_templates[0].index_template.template.settings.index != default_wanted_index_settings)
 
 - name: Get current logstash ElasticSearch index template
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_template/logstash"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/logstash"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -212,13 +219,14 @@
 
 - name: Configure logstash ElasticSearch index template
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_template/logstash"
+    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/logstash"
     method: POST
     headers:
       Host: "infra.{{ web_base_domain }}"
     body:
-        index_patterns: [ "logstash-*" ]
-        order: 10
+      index_patterns: [ "logstash-*" ]
+      priority: 10
+      template:
         settings: "{{ logstash_wanted_index_settings }}"
     body_format: json
     validate_certs: no
@@ -228,7 +236,10 @@
   register: set_logstash_index_template
   changed_when: True
   failed_when: "not set_logstash_index_template.json.acknowledged | default(false)"
-  when: not current_logstash_index_template.json or (current_logstash_index_template.json.logstash.settings.index != logstash_wanted_index_settings)
+  when: >
+    current_logstash_index_template.status == 404
+    or not current_logstash_index_template.json
+    or (current_logstash_index_template.json.index_templates[0].index_template.template.settings.index != logstash_wanted_index_settings)
 
 - name: List existing ElasticSearch indices
   uri:
@@ -262,7 +273,7 @@
   loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
-  when: 
+  when:
    - not item.key is match("logstash.*")
    - default_wanted_index_settings | dict2items | difference(item.value.settings.index | dict2items)
 
@@ -285,6 +296,6 @@
   loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
-  when: 
+  when:
    - item.key is match("logstash.*")
    - default_wanted_index_settings | combine(logstash_wanted_index_settings) | dict2items | difference(item.value.settings.index | dict2items)

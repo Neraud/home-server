@@ -79,6 +79,8 @@ spec:
         env:
         - name: RUNAS_UID0
           value: "false"
+        - name: JVM_MAX_HEAP_SIZE
+          value: "{{ unifi.max_java_memory }}"
         readinessProbe:
           httpGet:
             scheme: HTTPS
