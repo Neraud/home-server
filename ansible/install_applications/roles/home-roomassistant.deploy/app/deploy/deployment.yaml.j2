@@ -32,6 +32,9 @@ spec:
           runAsNonRoot: true
           runAsUser: 1000 # node
           readOnlyRootFilesystem: true
+          capabilities:
+            add:
+            - NET_ADMIN
         resources:
           requests:
             cpu: "{{ roomassistant.container.requests_cpu }}"
