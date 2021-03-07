@@ -128,7 +128,7 @@
   - name: Filter fields from current {{ elasticsearch.logstash_policy.name }} policy
     set_fact:
       current_ism_policy_filtered: "{{ current_ism_policy_filtered | default({}) | combine({item.key: item.value}) }}"
-    when: item.key not in ['error_notification', 'last_updated_time']
+    when: item.key not in ['error_notification', 'last_updated_time', 'ism_template']
     loop: "{{ current_ism_policy.json.policy | default({}) | dict2items }}"
 
   - name: Update {{ elasticsearch.logstash_policy.name }} policy
