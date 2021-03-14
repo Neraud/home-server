@@ -1,7 +1,7 @@
 ---
 
 - name: Prepare all hosts
-  hosts: all
+  hosts: all_hosts
   roles:
     - common
     - common-apt
@@ -29,7 +29,7 @@
     - dnsmasq
 
 - name: Configure DNS clients
-  hosts: all
+  hosts: all_hosts
   roles:
     - dns-client
 
