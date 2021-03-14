@@ -1,8 +1,9 @@
 ---
 
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
+kubernetes_users:
+  - name: "{{ standard_user.name }}"
+    home: "{{ standard_user.home }}"
+    install_autocomplete: yes
 
 #kubernetes_node_labels:
 #  - name: foo

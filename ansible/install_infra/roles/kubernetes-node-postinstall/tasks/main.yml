@@ -1,26 +1,30 @@
 ---
 
-- name: Create kube configuration folder for standard user
+- name: Create kube configuration folder for kubernetes users
   file:
-    path: "{{ kubernetes_user.home }}/.kube"
+    path: "{{ item.home }}/.kube"
     state: directory
-    owner: "{{ kubernetes_user.name }}"
+    owner: "{{ item.name }}"
+  loop: "{{ kubernetes_users }}"
 
-- name: Configure kube for standard user
+- name: Configure kube for kubernetes users
   copy:
-    dest: "{{ kubernetes_user.home }}/.kube/config"
+    dest: "{{ item.home }}/.kube/config"
     src: /etc/kubernetes/admin.conf
     remote_src: yes
-    owner: "{{ kubernetes_user.name }}"
+    owner: "{{ item.name }}"
     backup: yes
+  loop: "{{ kubernetes_users }}"
 
-- name: Enable k8s autocompletion for standard user
+- name: Enable k8s autocompletion for kubernetes users
   copy:
-    dest: "{{ kubernetes_user.home }}/.bashrc.d/k8s_autocomplete.bashrc"
+    dest: "{{ item.home }}/.bashrc.d/k8s_autocomplete.bashrc"
     content: |
       # kubectl completion
       source <(kubectl completion bash)
-    owner: "{{ kubernetes_user.name }}"
+    owner: "{{ item.name }}"
+  loop: "{{ kubernetes_users }}"
+  when: item.install_autocomplete | default('no') | bool
 
 - name: Get current node info
   command: kubectl get nodes {{ ansible_hostname | lower }} -o yaml
