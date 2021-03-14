@@ -84,6 +84,11 @@
   roles:
     - kubernetes-master-bootstrap
 
+- name: Bootstrap controller
+  hosts: controller
+  roles:
+    - kubernetes-controller-bootstrap
+
 - name: Deploy CNI
   hosts: controller
   roles:

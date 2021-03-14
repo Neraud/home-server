@@ -1,0 +1,14 @@
+---
+
+- name: Create kube configuration folder
+  file:
+    path: "{{ kubeconfig_path | dirname }}"
+    state: directory
+
+- name: Configure kube
+  copy:
+    dest: "{{ kubeconfig_path }}"
+    src: /etc/kubernetes/admin.conf
+    remote_src: yes
+    backup: yes
+  delegate_to: "{{ groups.kubernetes_master_bootstrap | first }}"

@@ -1,0 +1,17 @@
+---
+
+kubeconfig_path: "{{ inventory_dir }}/.kube/config_vagrant"
+
+kubernetes_nfs_storage:
+  nfs-multimedia:
+    nfs_server: "{{ hostvars['master-1'].ansible_host }}"
+    nfs_path: /opt/mock_nas/Multimedia
+    reclaim_policy: Retain
+    labels:
+      detail: multimedia
+  nfs-download:
+    nfs_server: "{{ hostvars['master-1'].ansible_host }}"
+    nfs_path: /opt/mock_nas/Download
+    reclaim_policy: Retain
+    labels:
+      detail: download
