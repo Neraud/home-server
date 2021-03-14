@@ -1,9 +1,5 @@
 ---
 
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 apcups_name: APC UPS
 apcups_cable: usb
 apcups_upstype: usb

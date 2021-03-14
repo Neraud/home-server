@@ -8,6 +8,11 @@
     - firewall
     - usb-serial
 
+- name: Provision APC UPS
+  hosts: apcups
+  roles:
+    - apcups
+
 - name: Provision bluetooth
   hosts: bluetooth
   roles:
@@ -97,8 +102,4 @@
   roles:
     - { role: kubernetes-storage-distributed, tags: kubernetes-storage }
     - kubernetes-infra
-
-- name: Provision APC UPS
-  hosts: apcups
-  roles:
-    - apcups
+    - apcups-kubernetes
