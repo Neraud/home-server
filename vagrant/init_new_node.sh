@@ -38,15 +38,9 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 2
 mkdir -p /root/.ssh
 
 if [ "$mode" == "ansible" ] ; then
-	echo " - install pip3 and virtualenv"
-	apt-get -q -y install python3-pip python3-venv
-
-	echo "Create and activate ansible virtual env"
-	python3 -m venv /root/ansible_venv
+	echo " - install ansible controller"
+	/opt/provision/install_controller_requirements.sh
 	source /root/ansible_venv/bin/activate
-
-	echo "Install python ansible requirements"
-	pip3 install -r /opt/provision/requirements.txt
 
 	echo " - install ansible ssh keys"
 	cp -R /vagrant/ssh/* /root/.ssh/
