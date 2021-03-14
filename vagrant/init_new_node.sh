@@ -55,7 +55,7 @@ if [ "$mode" == "ansible" ] ; then
 	touch /root/.ssh/known_hosts
 	host_ips=$(python - <<'__EOF__'
 import yaml
-config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"))
+config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"), yaml.SafeLoader)
 print(config['controller']['ip'])
 for node_conf in config['nodes']:
   print(node_conf['ip'])
@@ -82,7 +82,7 @@ __EOF__
 
 	network_cidr=$(python - <<'__EOF__'
 import yaml
-config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"))
+config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"), yaml.SafeLoader)
 print(config['common']['network_cidr'])
 __EOF__
 	)
