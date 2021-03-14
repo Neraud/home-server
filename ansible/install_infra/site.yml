@@ -53,7 +53,6 @@
 - name: Prepare Kubernetes members
   hosts: kubernetes_nodes
   roles:
-    - kubernetes-ansible
     - docker
     - kubernetes-node-preinstall
     - kubernetes-master-cni-prepare

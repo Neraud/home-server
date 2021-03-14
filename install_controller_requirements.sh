@@ -10,6 +10,9 @@ echo "Install ansible requirements"
 # rustc for python cryptography module
 apt-get -q -y install rustc libssl-dev
 
+echo "Install ldap requirements"
+apt-get -q -y install libsasl2-dev libldap2-dev libssl-dev
+
 echo "Create and activate ansible virtual env"
 python3 -m venv $ANSIBLE_VENV_PATH
 source $ANSIBLE_VENV_PATH/bin/activate

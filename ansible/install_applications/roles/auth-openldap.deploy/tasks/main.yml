@@ -11,12 +11,6 @@
     base_image: "{{ openldap.base_image }}"
     private_image: "{{ openldap.container.image }}"
 
-- name: Install python dependencies
-  apt:
-    pkg:
-    - python3-ldap
-    state: present
-
 - name: Read certificate files
   slurp:
     src: "{{ item }}"
