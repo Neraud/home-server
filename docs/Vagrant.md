@@ -13,6 +13,8 @@ These settings are configured in `Vagrantconfig.yaml`, feel free to change them 
 
 CPUs are capped at 33% usage (`cpu_execution_cap`) to avoid destroying a poor host machine.
 
+`master-1` is also used as the ansible controller.
+
 ## NAS
 
 To simulate a NAS, NFS Server is installed on `master-1` and exports the content of `/opt/mock_nas` to other hosts as NFS shares.

@@ -55,7 +55,7 @@ for node_conf in config['nodes']:
   print(node_conf['ip'])
 __EOF__
 	)
-	for host_ip in $host_ips; do
+	for host_ip in $host_ips localhost; do
 		echo "    * "$host_ip
 		knownKey=$(ssh-keygen -F $host_ip)
 		if [ "$knownKey" == "" ] ; then
