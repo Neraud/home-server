@@ -1,9 +1,5 @@
 ---
 
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 kubernetes_cni: calico
 kubernetes_pod_network_cidr: 10.244.0.0/16
 

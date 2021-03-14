@@ -4,8 +4,8 @@
   k8s:
     definition: "{{ lookup('template', 'glusterfs-persistent-volume.yaml.j2') }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   loop: "{{ glusterfs_volumes | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"

@@ -53,8 +53,6 @@
   command: kubeadm token create --ttl=5m --description="Token to allow {{ inventory_hostname }} to join" --print-join-command
   register: join_command_result
   delegate_to: "{{ groups['kubernetes_master_bootstrap'][0] }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
   when: not has_already_joined_kubernetes_cluster
 
 - name: Generate master join command

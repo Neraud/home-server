@@ -4,14 +4,14 @@
   k8s:
     definition: "{{ lookup('template', 'multus/multus-daemonset.yml.j2') }}"
     state: present
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
 
 - name: Deploy multus additional interfaces
   k8s:
     definition: "{{ lookup('template', item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "templates/multus/interfaces/*.yml.j2"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"

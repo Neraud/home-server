@@ -14,8 +14,8 @@
   k8s:
     definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/namespace.yaml.j2') }}"
     state: present
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
 
 - name: Read the cluster CA file
   slurp:
@@ -26,8 +26,8 @@
   k8s:
     definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/cluster-ca-secret.yaml.j2') }}"
     state: present
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
 
 # TODO : Try to find a way to avoid injecting the ingress cert and private key in all namespaces
 # See : https://github.com/kubernetes/ingress-nginx/issues/2170 and https://github.com/kubernetes/ingress-nginx/issues/2371 
@@ -45,18 +45,18 @@
   k8s:
     definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/tls-secret.yaml.j2') }}"
     state: present
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
 
 - name: Create GlusterFS endpoint and service
   k8s:
     definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/' + item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_items:
     - glusterfs-endpoint.yaml.j2
     - glusterfs-service.yaml.j2
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 # PVCs are namespaced, and need to be created in each namespace
 # PVs are not namespaced, but can't be used by multiple PVCs
@@ -68,16 +68,16 @@
   k8s:
     definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/nas-nfs-persistent-volume.yaml.j2') }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   loop: "{{ kubernetes_nfs_storage | dict2items | default([]) }}"
   loop_control:
     label: "{{ item.key }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
   when: create_nfs_pvc | default('no') | bool
 
 - name: Create default deny-all-ingress NetworkPolicy
   k8s:
     definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/deny-all-ingress-networkPolicy.yaml.j2') }}"
     state: present
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"

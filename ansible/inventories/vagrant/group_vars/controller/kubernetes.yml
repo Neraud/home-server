@@ -1,6 +1,8 @@
 ---
 
 kubeconfig_path: "{{ inventory_dir }}/.kube/config_vagrant"
+kubeconfig_context: kubernetes-admin@kubernetes_vagrant
+kubectl_params: "--kubeconfig={{ kubeconfig_path }} --context={{ kubeconfig_context }}"
 
 kubernetes_nfs_storage:
   nfs-multimedia:

@@ -7,9 +7,8 @@
 
 # TODO check if that's a proper way to detect if the master has already been installed
 - name: Check if kubeadm has already run
-  command: kubectl cluster-info
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} cluster-info
+  delegate_to: "{{ groups.controller | first }}"
   changed_when: false
   failed_when: false
   register: kubectl_info
@@ -24,17 +23,3 @@
   command: "kubeadm init --config /tmp/kubeadm_config.yaml"
   register: kubeadm_init
   when: kubectl_info.rc != 0
-
-- name: Create kube configuration folder for standard user
-  file:
-    path: "{{ kubernetes_user.home }}/.kube"
-    state: directory
-    owner: "{{ kubernetes_user.name }}"
-
-- name: Configure kube for standard user
-  copy:
-    dest: "{{ kubernetes_user.home }}/.kube/config"
-    src: /etc/kubernetes/admin.conf
-    remote_src: yes
-    owner: "{{ kubernetes_user.name }}"
-    backup: yes

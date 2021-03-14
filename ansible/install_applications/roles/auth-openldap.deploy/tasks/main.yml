@@ -31,10 +31,10 @@
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 - name: Fetch OpenLDAP internal endpoint
   k8s_info:
@@ -42,8 +42,8 @@
     kind: Service
     name: openldap
     namespace: "{{ openldap.namespace }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   register: openldap_service
 
 - name: Set OpenLDAP internal endpoint
@@ -55,9 +55,9 @@
     kind: StatefulSet
     namespace: "{{ openldap.namespace }}"
     name: openldap
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   register: k8s_result
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
   until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
   retries: 30
   delay: 5
@@ -74,9 +74,9 @@
     kind: StatefulSet
     namespace: "{{ openldap.namespace }}"
     name: openldap
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   register: k8s_result
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
   until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
   retries: 30
   delay: 5

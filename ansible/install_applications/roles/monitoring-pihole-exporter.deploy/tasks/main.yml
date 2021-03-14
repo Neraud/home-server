@@ -12,9 +12,10 @@
     private_image: "{{ pihole_exporter.container.image }}"
 
 - name: Fetch API token from pihole
-  command: kubectl --namespace=infra-pihole exec -it pihole-0 -- awk -F= -v key="WEBPASSWORD" '$1==key {print $2}' /etc/pihole/setupVars.conf
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+  command: 
+    kubectl {{ kubectl_params }} \
+      --namespace=infra-pihole exec -it pihole-0 -- \
+      awk -F= -v key="WEBPASSWORD" '$1==key {print $2}' /etc/pihole/setupVars.conf
   register: pihole_api_token
   changed_when: False
 
@@ -22,7 +23,7 @@
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"

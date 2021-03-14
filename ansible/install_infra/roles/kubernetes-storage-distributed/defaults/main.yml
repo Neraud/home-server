@@ -1,9 +1,5 @@
 ---
 
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 kubernetes_glusterfs_endpoint: glusterfs-cluster
 
 kubernetes_glusterfs_available_namespaces:

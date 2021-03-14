@@ -33,19 +33,19 @@
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/operator/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 - name: Deploy Prometheus
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/prometheus/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 - name: List AlertManager config files
   set_fact:
@@ -57,19 +57,19 @@
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/alertmanager/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 - name: Deploy Prometheus ServiceMonitors
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/service-monitors/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 - name: List Prometheus rules files from custom
   set_fact:
@@ -94,16 +94,16 @@
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     namespace: "{{ prometheus.namespace }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/rules/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 - name: Deploy Ingress
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
