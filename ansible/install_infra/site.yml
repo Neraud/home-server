@@ -79,6 +79,10 @@
   hosts: kubernetes_master_bootstrap
   roles:
     - kubernetes-master-bootstrap
+
+- name: Deploy CNI
+  hosts: controller
+  roles:
     - kubernetes-master-cni-deploy
 
 - name: Provision Kubernetes nodes
