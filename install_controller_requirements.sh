@@ -8,7 +8,7 @@ apt-get -q -y install python3-pip python3-venv
 
 echo "Install ansible requirements"
 # rustc for python cryptography module
-apt-get -q -y install rustc libssl-dev
+apt-get -q -y install rustc libssl-dev rsync
 
 echo "Install ldap requirements"
 apt-get -q -y install libsasl2-dev libldap2-dev libssl-dev
