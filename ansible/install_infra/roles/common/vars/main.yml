@@ -6,15 +6,16 @@ common_default_packages:
   - build-essential
   - htop
   - iotop
+  - iftop
   - zip
   - unzip
   - dos2unix
   - debconf-utils
   - curl
-  - iftop
   - sudo
   - man
   - bc
+  - jq
   - moreutils
   - rsync
   - nfs-common
