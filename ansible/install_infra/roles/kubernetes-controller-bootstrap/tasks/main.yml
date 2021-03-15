@@ -12,9 +12,8 @@
     state: directory
 
 - name: Configure kube
-  copy:
+  fetch:
     dest: "{{ kubeconfig_path }}"
     src: /etc/kubernetes/admin.conf
-    remote_src: yes
-    backup: yes
+    flat: yes
   delegate_to: "{{ groups.kubernetes_master_bootstrap | first }}"
