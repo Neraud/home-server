@@ -101,19 +101,23 @@ chmod -R 700 /root/.ssh
 echo " - install LVM"
 apt-get -q -y install lvm2
 
-echo " - preparing docker disk"
-# Create a new partition table with a single 'Linux native' partition
-echo 'type=83' | sfdisk /dev/sdb
-mkfs.ext4 /dev/sdb1
-mkdir -p /var/lib/docker
-echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
-mount -a
+if [ -e /dev/sdb ] ; then
+	echo " - preparing docker disk"
+	# Create a new partition table with a single 'Linux native' partition
+	echo 'type=83' | sfdisk /dev/sdb
+	mkfs.ext4 /dev/sdb1
+	mkdir -p /var/lib/docker
+	echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
+	mount -a
+fi
 
-echo " - preparing data disk for LVM"
-# Create a new partition table with a single LVM partition
-echo 'type=8e' | sfdisk /dev/sdc
-pvcreate /dev/sdc1
-vgcreate data_vg /dev/sdc1
+if [ -e /dev/sdc ] ; then
+	echo " - preparing data disk for LVM"
+	# Create a new partition table with a single LVM partition
+	echo 'type=8e' | sfdisk /dev/sdc
+	pvcreate /dev/sdc1
+	vgcreate data_vg /dev/sdc1
+fi
 
 ## see https://github.com/ansible/ansible/issues/45446#issuecomment-467829815
 ## But the proposed workaround doesn't work if we simply add it in the ansible playbook

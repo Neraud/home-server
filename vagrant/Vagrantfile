@@ -62,18 +62,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			vb.customize ["modifyvm", :id, "--ioapic", "on"]
 			vb.customize ["modifyvm", :id, "--memory", controller_conf['memory']]
 			vb.customize ["modifyvm", :id, "--cpus", controller_conf['cpu']]
-				
-			docker_disk_path = '.vagrant/' + controller_conf['name'] + '_docker.vdi'
-			unless File.exist?(docker_disk_path)
-				vb.customize ['createmedium', '--filename', docker_disk_path, '--size', controller_conf['docker_disk_size']]
+			
+			if controller_conf.key?('docker_disk_size')
+				docker_disk_path = '.vagrant/' + controller_conf['name'] + '_docker.vdi'
+				unless File.exist?(docker_disk_path)
+					vb.customize ['createmedium', '--filename', docker_disk_path, '--size', controller_conf['docker_disk_size']]
+				end
+				vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 1, '--device', 0, '--type', 'hdd', '--medium', docker_disk_path]
 			end
-			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 1, '--device', 0, '--type', 'hdd', '--medium', docker_disk_path]
-
-			data_disk_path = '.vagrant/' + controller_conf['name'] + '_data.vdi'
-			unless File.exist?(data_disk_path)
-				vb.customize ['createmedium', '--filename', data_disk_path, '--size', controller_conf['data_disk_size']]
+			
+			if controller_conf.key?('data_disk_size')
+				data_disk_path = '.vagrant/' + controller_conf['name'] + '_data.vdi'
+				unless File.exist?(data_disk_path)
+					vb.customize ['createmedium', '--filename', data_disk_path, '--size', controller_conf['data_disk_size']]
+				end
+				vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 2, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
 			end
-			vb.customize ['storageattach', :id,  '--storagectl', settings['common']['sata_controller_name'], '--port', 2, '--device', 0, '--type', 'hdd', '--medium', data_disk_path]
 		end
 		
 		controller.vm.network "private_network", ip: controller_conf['ip']
