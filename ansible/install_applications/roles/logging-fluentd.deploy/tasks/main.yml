@@ -23,9 +23,9 @@
     src: "{{ item }}"
   register: fluentd_generated_certificate_files
   with_items:
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/fluentd/server.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/fluentd/server.key"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/fluentd/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/fluentd/server.key"
 
 - name: List included config files
   set_fact:

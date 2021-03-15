@@ -10,9 +10,9 @@
     src: "{{ item }}"
   register: docker_registry_generated_certificate_files
   with_items:
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/docker-registry/server.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/docker-registry/server.key"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/docker-registry/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/docker-registry/server.key"
 
 - name: Deploy Docker registry
   k8s:

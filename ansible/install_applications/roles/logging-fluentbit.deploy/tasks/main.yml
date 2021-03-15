@@ -16,9 +16,9 @@
     src: "{{ item }}"
   register: fluentbit_generated_certificate_files
   with_items:
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/fluentbit/server.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/fluentbit/server.key"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/fluentbit/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/fluentbit/server.key"
 
 - name: List parser files
   set_fact:

@@ -19,7 +19,7 @@
 
 - name: Read the cluster CA file
   slurp:
-    src: "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
   register: cluster_ca_file
 
 - name: Expose the cluster CA
@@ -33,12 +33,12 @@
 # See : https://github.com/kubernetes/ingress-nginx/issues/2170 and https://github.com/kubernetes/ingress-nginx/issues/2371 
 - name: Read the ingress TLS cert
   slurp:
-    src: "{{ custom_ssl_pki_root_dir }}/cluster/ingress/server.crt"
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.crt"
   register: ingress_tls_cert_file
 
 - name: Read the ingress TLS key
   slurp:
-    src: "{{ custom_ssl_pki_root_dir }}/cluster/ingress/server.key"
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.key"
   register: ingress_tls_key_file
 
 - name: Deploy TLS secret

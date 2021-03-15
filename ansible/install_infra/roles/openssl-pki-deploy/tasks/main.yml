@@ -10,8 +10,7 @@
 
 - name: Copy PKI to targets from controller
   synchronize:
-    src: "{{ custom_ssl_pki_root_dir }}/"
+    src: "{{ custom_ssl_pki_generation_root_dir }}/"
     dest: "{{ custom_ssl_pki_root_dir }}/"
     delete: yes
   delegate_to: "{{ groups['controller'][0] }}"
-  when: ansible_hostname != groups['controller'][0]

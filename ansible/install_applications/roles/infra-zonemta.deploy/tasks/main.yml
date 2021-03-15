@@ -37,9 +37,9 @@
     src: "{{ item }}"
   register: zonemta_generated_certificate_files
   with_items:
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/smtp/server.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/smtp/server.key"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/smtp/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/smtp/server.key"
 
 - name: List config files
   set_fact:

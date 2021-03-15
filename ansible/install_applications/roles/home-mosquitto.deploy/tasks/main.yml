@@ -22,9 +22,9 @@
     src: "{{ item }}"
   register: mosquitto_generated_certificate_files
   with_fileglob:
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/mqtt/server.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/mqtt/server.key"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/mqtt/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/mqtt/server.key"
 
 - name: List config files
   set_fact:

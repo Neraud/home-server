@@ -2,31 +2,32 @@
 
 - name: Ensure directory exists for custom PKIs
   file:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}"
     state: directory
   with_items: "{{ openssl_custom_pki }}"
   loop_control:
     label: "{{ item.pki_name }}"
 
+#TODO : openssl_privatekey is always changed when path is on a VirtualBox shared folder (mode is forced to 777, openssl_privatekey tries to chmod it to 600)
 - name: Generate OpenSSL CA private key
   openssl_privatekey:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.pkcs1.key"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.pkcs1.key"
   with_items: "{{ openssl_custom_pki }}"
   loop_control:
     label: "{{ item.pki_name }}"
 
 - name: Convert OpenSSL CA private key to PKCS8
-  command: openssl pkcs8 -topk8 -inform PEM -in {{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.pkcs1.key -out {{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key -nocrypt
+  command: openssl pkcs8 -topk8 -inform PEM -in {{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.pkcs1.key -out {{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.key -nocrypt
   args:
-    creates: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key"
+    creates: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.key"
   with_items: "{{ openssl_custom_pki }}"
   loop_control:
     label: "{{ item.pki_name }}"
 
 - name: Generate an OpenSSL CA CSR
   openssl_csr:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.csr"
-    privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.csr"
+    privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.key"
     common_name: "{{ item.ca_common_name }}"
     basicConstraints:
       - CA:TRUE
@@ -36,9 +37,9 @@
 
 - name: Generate a Self Signed OpenSSL CA certificate
   openssl_certificate:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.crt"
-    privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.key"
-    csr_path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}/ca.csr"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.crt"
+    privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.key"
+    csr_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}/ca.csr"
     provider: selfsigned
   with_items: "{{ openssl_custom_pki }}"
   loop_control:
@@ -46,7 +47,7 @@
 
 - name: Ensure directory exists for each server certificate
   file:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}"
     state: directory
   with_subelements:
     - "{{ openssl_custom_pki }}"
@@ -54,9 +55,10 @@
   loop_control:
     label: "{{ item.0.pki_name }} : {{ item.1.name }}"
 
+#TODO : openssl_privatekey is always changed when path is on a VirtualBox shared folder (mode is forced to 777, openssl_privatekey tries to chmod it to 600)
 - name: Generate an OpenSSL server private key
   openssl_privatekey:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key"
   with_subelements:
     - "{{ openssl_custom_pki }}"
     - certs
@@ -64,9 +66,9 @@
     label: "{{ item.0.pki_name }} : {{ item.1.name }}"
 
 - name: Convert an OpenSSL server private key to PKCS8
-  command: openssl pkcs8 -topk8 -inform PEM -in {{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key -out {{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key -nocrypt
+  command: openssl pkcs8 -topk8 -inform PEM -in {{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key -out {{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key -nocrypt
   args:
-    creates: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    creates: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
   with_subelements:
     - "{{ openssl_custom_pki }}"
     - certs
@@ -75,8 +77,8 @@
 
 - name: Generate an OpenSSL server CSR
   openssl_csr:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
-    privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
+    privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
     common_name: "{{ item.1.common_name }}"
   with_subelements:
     - "{{ openssl_custom_pki }}"
@@ -86,11 +88,11 @@
 
 - name: Generate a CA Signed OpenSSL server certificate
   openssl_certificate:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.crt"
-    privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
-    csr_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
-    ownca_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/ca.crt"
-    ownca_privatekey_path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/ca.key"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.crt"
+    privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    csr_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
+    ownca_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/ca.crt"
+    ownca_privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/ca.key"
     provider: ownca
   with_subelements:
     - "{{ openssl_custom_pki }}"
@@ -100,7 +102,7 @@
 
 - name: Generate DH Parameters
   openssl_dhparam:
-    path: "{{ custom_ssl_pki_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/dhparam.pem"
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/dhparam.pem"
     size: "{{ item.1.generate_dh_param_size | default(2048) }}"
   with_subelements:
     - "{{ openssl_custom_pki }}"

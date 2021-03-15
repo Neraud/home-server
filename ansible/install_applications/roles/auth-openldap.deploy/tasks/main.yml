@@ -16,10 +16,10 @@
     src: "{{ item }}"
   register: openldap_generated_certificate_files
   with_items:
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ldap/server.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ldap/server.key"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ldap/dhparam.pem"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ldap/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ldap/server.key"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ldap/dhparam.pem"
 
 - name: List config files
   set_fact:
