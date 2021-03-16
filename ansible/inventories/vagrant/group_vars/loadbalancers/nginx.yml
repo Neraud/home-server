@@ -89,6 +89,28 @@ nginx_sites:
           access_log /var/log/nginx/auth_lemonldap_auth_failed.log lemonldap-auth if=$upstream_http_lm_auth_failed;
           proxy_hide_header Lm-Auth-Failed;
 
+  - name: registry
+    enabled_name: 050-registry
+    server_name: "registry.{{ web_base_domain }}"
+    default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/registry.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/registry.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        content: |
+          # required to avoid HTTP 411: see Issue #1486 (https://github.com/moby/moby/issues/1486)
+          chunked_transfer_encoding on;
+
   - name: infra
     enabled_name: 100-infra
     server_name: "infra.{{ web_base_domain }}"

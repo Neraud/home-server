@@ -43,7 +43,7 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5443
-          name: docker-registry
+          name: https
         - containerPort: 5001
           name: debug
         securityContext:
@@ -54,7 +54,7 @@ spec:
           httpGet:
             scheme: HTTPS
             path: /
-            port: docker-registry
+            port: https
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
