@@ -1,7 +1,7 @@
 ---
 
-custom_ssl_pki_generation_root_dir: "{{ inventory_dir }}/ssl"
-custom_ssl_pki_root_dir: /etc/ssl/custom
+#custom_ssl_pki_generation_root_dir: "/etc/ssl/custom-generation"
+#custom_ssl_pki_root_dir: /etc/ssl/custom
 
 openssl_custom_pki: []
 #  - pki_name: pki_1

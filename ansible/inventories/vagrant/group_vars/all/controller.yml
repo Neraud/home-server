@@ -1,0 +1,4 @@
+---
+
+controller_working_dir: ~/home-server-provisioning_vagrant
+custom_ssl_pki_generation_root_dir: "{{ controller_working_dir }}/ssl"
