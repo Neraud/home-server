@@ -74,6 +74,15 @@
   loop: "{{ custom_pki_current_files.files | map(attribute='path') | replace(custom_ssl_pki_generation_root_dir + '/', '') }}"
   when: item not in custom_pki_expected_files
 
+- name: Fetch existing files from a current node
+  fetch:
+    src: "{{ custom_ssl_pki_root_dir }}/{{ item }}"
+    dest: "{{ custom_ssl_pki_generation_root_dir }}/{{ item }}"
+    flat: yes
+    fail_on_missing: no
+  delegate_to: "{{ groups.loadbalancers | first }}"
+  loop: "{{ custom_pki_expected_files }}"
+
 #TODO : openssl_privatekey is always changed when path is on a VirtualBox shared folder (mode is forced to 777, openssl_privatekey tries to chmod it to 600)
 - name: Generate OpenSSL CA private key
   openssl_privatekey:
