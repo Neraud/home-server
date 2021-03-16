@@ -8,6 +8,72 @@
   loop_control:
     label: "{{ item.pki_name }}"
 
+- name: Ensure directory exists for each server certificate
+  file:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}"
+    state: directory
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
+
+- name: Prepare list of expected CA files
+  set_fact:
+    custom_pki_expected_files: "{{ custom_pki_expected_files | default([]) + expected_files }}"
+  with_items: "{{ openssl_custom_pki }}"
+  loop_control:
+    label: "{{ item.pki_name }}"
+  vars:
+    expected_files:
+    - "{{ item.pki_name }}/ca.pkcs1.key"
+    - "{{ item.pki_name }}/ca.key"
+    - "{{ item.pki_name }}/ca.csr"
+    - "{{ item.pki_name }}/ca.crt"
+
+- name: Prepare list of expected certs files
+  set_fact:
+    custom_pki_expected_files: "{{ custom_pki_expected_files | default([]) + expected_files }}"
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
+  vars:
+    expected_files:
+    - "{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key"
+    - "{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    - "{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
+    - "{{ item.0.pki_name }}/{{ item.1.name }}/server.crt"
+
+- name: Prepare list of DH Parameters
+  set_fact:
+    custom_pki_expected_files: "{{ custom_pki_expected_files | default([]) + expected_files }}"
+  with_subelements:
+    - "{{ openssl_custom_pki }}"
+    - certs
+  when: item.1.generate_dh_param_enabled | default(false)
+  loop_control:
+    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
+  vars:
+    expected_files:
+    - "{{ item.0.pki_name }}/{{ item.1.name }}/dhparam.pem"
+
+- name: List existing files on the controller
+  find:
+    paths:
+    - "{{ custom_ssl_pki_generation_root_dir }}"
+    file_type: file
+    recurse: yes
+  register: custom_pki_current_files
+
+- name: Delete obsolete files from controller
+  file:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item }}"
+    state: absent
+  loop: "{{ custom_pki_current_files.files | map(attribute='path') | replace(custom_ssl_pki_generation_root_dir + '/', '') }}"
+  when: item not in custom_pki_expected_files
+
 #TODO : openssl_privatekey is always changed when path is on a VirtualBox shared folder (mode is forced to 777, openssl_privatekey tries to chmod it to 600)
 - name: Generate OpenSSL CA private key
   openssl_privatekey:
@@ -44,16 +110,6 @@
   with_items: "{{ openssl_custom_pki }}"
   loop_control:
     label: "{{ item.pki_name }}"
-
-- name: Ensure directory exists for each server certificate
-  file:
-    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}"
-    state: directory
-  with_subelements:
-    - "{{ openssl_custom_pki }}"
-    - certs
-  loop_control:
-    label: "{{ item.0.pki_name }} : {{ item.1.name }}"
 
 #TODO : openssl_privatekey is always changed when path is on a VirtualBox shared folder (mode is forced to 777, openssl_privatekey tries to chmod it to 600)
 - name: Generate an OpenSSL server private key
