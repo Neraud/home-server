@@ -87,6 +87,8 @@
 - name: Bootstrap controller
   hosts: controller
   roles:
+    - dns-client
+    - docker
     - kubernetes-controller-bootstrap
 
 - name: Deploy CNI
