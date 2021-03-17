@@ -14,7 +14,7 @@ echo "Install ldap requirements"
 apt-get -q -y install libsasl2-dev libldap2-dev libssl-dev
 
 echo "Create and activate ansible virtual env"
-python3 -m venv $ANSIBLE_VENV_PATH
+python3 -m venv --system-site-packages $ANSIBLE_VENV_PATH
 source $ANSIBLE_VENV_PATH/bin/activate
 
 echo "Install python ansible requirements"
