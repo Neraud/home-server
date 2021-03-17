@@ -26,6 +26,23 @@
     dest: /etc/systemd/system/docker.service.d/override.conf
   notify: Restart docker daemon
 
+- name: Prepare Docker daemon certs.d directory
+  file:
+    path: /etc/docker/certs.d
+    state: directory
+
+- name: Prepare trusted registries directories
+  file:
+    path: "/etc/docker/certs.d/{{ item.url }}"
+    state: directory
+  loop: "{{ docker_trusted_registries | default([]) }}"
+
+- name: Trust self signed registries
+  copy:
+    src: "{{ item.ca_path }}"
+    dest: /etc/docker/certs.d/{{ item.url }}/ca.crt
+  loop: "{{ docker_trusted_registries | default([]) }}"
+
 - name: Ensure standard user is in docker group
   user:
       name: "{{ standard_user.name }}"
