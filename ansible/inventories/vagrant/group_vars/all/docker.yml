@@ -1,0 +1,5 @@
+---
+
+docker_trusted_registries:
+  - url: "registry.{{ web_base_domain }}"
+    ca_path: "{{ custom_ssl_pki_generation_root_dir }}/web/ca.crt"
