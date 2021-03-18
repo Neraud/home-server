@@ -26,7 +26,7 @@
 
 - name: Fetch Gotify token
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}/gotify/application"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}/gotify/application"
     method: GET
     headers:
       Host: "web.{{ web_base_domain }}"

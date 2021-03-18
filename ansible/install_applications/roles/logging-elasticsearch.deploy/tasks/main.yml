@@ -95,7 +95,7 @@
 
 - name: Get current logstash {{ elasticsearch.logstash_policy.name }} policy
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -108,7 +108,7 @@
 
 - name: Create logstash {{ elasticsearch.logstash_policy.name }} policy
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
     method: PUT
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -133,7 +133,7 @@
 
   - name: Update {{ elasticsearch.logstash_policy.name }} policy
     uri:
-      url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}?if_seq_no={{ current_ism_policy.json._seq_no }}&if_primary_term={{ current_ism_policy.json._primary_term }}"
+      url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}?if_seq_no={{ current_ism_policy.json._seq_no }}&if_primary_term={{ current_ism_policy.json._primary_term }}"
       method: PUT
       headers:
         Host: "infra.{{ web_base_domain }}"
@@ -169,7 +169,7 @@
 
 - name: Get current default ElasticSearch index template
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/default"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/default"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -182,7 +182,7 @@
 
 - name: Configure default ElasticSearch index template
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/default"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/default"
     method: POST
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -206,7 +206,7 @@
 
 - name: Get current logstash ElasticSearch index template
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/logstash"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/logstash"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -219,7 +219,7 @@
 
 - name: Configure logstash ElasticSearch index template
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/logstash"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/_index_template/logstash"
     method: POST
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -243,7 +243,7 @@
 
 - name: List existing ElasticSearch indices
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/*?expand_wildcards=open,hidden"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/*?expand_wildcards=open,hidden"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -256,7 +256,7 @@
 
 - name: Update existing ElasticSearch default indices
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/{{ item.key }}/_settings"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/{{ item.key }}/_settings"
     method: PUT
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -279,7 +279,7 @@
 
 - name: Update existing ElasticSearch logstash indices
   uri:
-    url: "https://127.0.0.1:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/{{ item.key }}/_settings"
+    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_path }}/{{ item.key }}/_settings"
     method: PUT
     headers:
       Host: "infra.{{ web_base_domain }}"
