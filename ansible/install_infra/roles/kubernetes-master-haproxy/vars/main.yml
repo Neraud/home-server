@@ -8,7 +8,7 @@ haproxy_ufw_applications:
   - name: haproxy_kubernetes_api_server
     title: Kubernetes API server (behind HAproxy)
     description: Kubernetes API server (behind HAproxy)
-    ports: "{{ haproxy_apiserver_port }}/tcp"
+    ports: "{{ kubernetes_apiserver_port }},{{ haproxy_apiserver_port }}/tcp"
     rule: allow
 
 haproxy_keepalived_instance: 
