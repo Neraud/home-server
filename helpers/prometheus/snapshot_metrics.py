@@ -44,7 +44,7 @@ def fetchBearerToken():
 
 
 def listTargets():
-    headers = {'Content-Type': 'application/json', 'Host': 'infra.k8stest.com'}
+    headers = {'Content-Type': 'application/json', 'Host': 'infra.k8s.test'}
     apiUrl = '%s/api/v1/targets' % prometheusUrl
 
     response = requests.get(apiUrl, headers=headers, verify=False)
