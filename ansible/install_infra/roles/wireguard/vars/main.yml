@@ -9,6 +9,7 @@ wireguard_ufw_applications:
 
 wireguard:
   config_dir: /etc/wireguard
+  generation_dir: "{{ wireguard_generation_dir }}"
   cidr_prefix: "{{ wireguard_cidr_prefix | mandatory }}"
 
   server:

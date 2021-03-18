@@ -59,14 +59,50 @@
     creates: "public.key"
   loop: "{{ wireguard.clients | dict2items }}"
 
+- name: Read generated Wireguard server private key
+  slurp:
+    src: "{{ wireguard.server.keys_dir }}/private.key"
+  register: wireguard_generated_server_private_key
+
+- name: Read generated Wireguard server public key
+  slurp:
+    src: "{{ wireguard.server.keys_dir }}/public.key"
+  register: wireguard_generated_server_public_key
+
+- name: Read generated Wireguard clients private keys
+  slurp:
+    src: "{{ wireguard.server.clients_dir }}/{{ item.key }}/private.key"
+  loop: "{{ wireguard.clients | dict2items }}"
+  register: wireguard_generated_clients_private_keys
+
+- name: Read generated Wireguard clients public keys
+  slurp:
+    src: "{{ wireguard.server.clients_dir }}/{{ item.key }}/public.key"
+  loop: "{{ wireguard.clients | dict2items }}"
+  register: wireguard_generated_clients_public_keys
+
+- name: Prepare Wireguard client configurations
+  set_fact:
+    wireguard_generated_clients: "{{ (wireguard_generated_clients | default([])) + [ wireguard_generated_client ] }}"
+  loop: "{{ (wireguard.clients | dict2items) | zip(wireguard_generated_clients_private_keys.results, wireguard_generated_clients_public_keys.results) }}"
+  vars:
+    wireguard_generated_client:
+      name: "{{ item.0.key }}"
+      config: "{{ item.0.value }}"
+      private_key: "{{ item.1.content | b64decode }}"
+      public_key: "{{ item.2.content | b64decode }}"
+
 - name: Generate Wireguard client configurations
   template:
     src: client.conf.j2
-    dest: "{{ wireguard.server.clients_dir }}/{{ item.key }}/client.conf"
+    dest: "{{ wireguard.server.clients_dir }}/{{ item.name }}/client.conf"
     owner: root
     group: root
     mode: 0600
-  loop: "{{ wireguard.clients | dict2items }}"
+  loop: "{{ wireguard_generated_clients }}"
+  vars:
+    wireguard_server_private_key: "{{ wireguard_generated_server_private_key.content | b64decode }}"
+    wireguard_server_public_key: "{{ wireguard_generated_server_public_key.content | b64decode }}"
 
 - name: Configure Wireguard
   template:
@@ -75,4 +111,24 @@
     owner: root
     group: root
     mode: 0600
+  vars:
+    wireguard_server_private_key: "{{ wireguard_generated_server_private_key.content | b64decode }}"
+    wireguard_server_public_key: "{{ wireguard_generated_server_public_key.content | b64decode }}"
   notify: Restart Wireguard
+
+- name: Create generation dir on controller
+  file:
+    path: "{{ wireguard.generation_dir }}"
+    state: directory
+  delegate_to: "{{ groups['controller'][0] }}"
+  run_once: yes
+ 
+- name: Fetch generated configurations
+  synchronize:
+    src: "{{ wireguard.config_dir }}/"
+    dest: "{{ wireguard.generation_dir }}/"
+    recursive: yes
+    delete: yes
+    mode: pull
+  delegate_to: "{{ groups['controller'][0] }}"
+  run_once: yes

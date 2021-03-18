@@ -35,11 +35,10 @@
 
 - name: Synchronize Wireguard configuration
   synchronize:
-    src: "{{ wireguard.config_dir }}/"
+    src: "{{ wireguard.generation_dir }}/"
     dest: "{{ wireguard.config_dir }}/"
     recursive: yes
     delete: yes
-  delegate_to: "{{ groups['wireguard_servers'][0] }}"
   notify: Restart Wireguard
   when: ansible_hostname != groups['wireguard_servers'][0]
 
