@@ -23,3 +23,25 @@
   command: "kubeadm init --config /tmp/kubeadm_config.yaml"
   register: kubeadm_init
   when: kubectl_info.rc != 0
+
+- name: Ensure directories exist for Fetch Kubernetes PKI
+  file:
+    path: "{{ kubernetes_pki_fetch_dir }}/etcd"
+    state: directory
+  delegate_to: "{{ groups['controller'][0] }}"
+
+- name: Fetch Kubernetes PKI from master bootstrap
+  synchronize:
+    src: "/etc/kubernetes/pki/{{ item }}"
+    dest: "{{ kubernetes_pki_fetch_dir }}/{{ item }}"
+    mode: pull
+  delegate_to: "{{ groups['controller'][0] }}"
+  with_items:
+    - ca.crt
+    - ca.key
+    - sa.key
+    - sa.pub
+    - front-proxy-ca.crt
+    - front-proxy-ca.key
+    - etcd/ca.crt
+    - etcd/ca.key
