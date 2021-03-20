@@ -99,7 +99,7 @@
     owner: root
     group: root
     mode: 0600
-  loop: "{{ wireguard_generated_clients }}"
+  loop: "{{ wireguard_generated_clients | default([]) }}"
   vars:
     wireguard_server_private_key: "{{ wireguard_generated_server_private_key.content | b64decode }}"
     wireguard_server_public_key: "{{ wireguard_generated_server_public_key.content | b64decode }}"

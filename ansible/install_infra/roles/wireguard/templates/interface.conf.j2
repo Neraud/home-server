@@ -8,7 +8,7 @@ ListenPort = {{ wireguard.server.listen_port }}
 PostUp   = iptables -A FORWARD -i {{ wireguard.server.interface }} -j ACCEPT; iptables -A FORWARD -o {{ wireguard.server.interface }} -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ wireguard.server.lan_interface }} -j MASQUERADE
 PostDown = iptables -D FORWARD -i {{ wireguard.server.interface }} -j ACCEPT; iptables -D FORWARD -o {{ wireguard.server.interface }} -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ wireguard.server.lan_interface }} -j MASQUERADE
 
-{% for client in wireguard_generated_clients %}
+{% for client in wireguard_generated_clients | default([]) %}
 # Client "{{ client.name }}"
 [Peer]
 PublicKey = {{ client.public_key }}
