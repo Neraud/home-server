@@ -20,21 +20,12 @@ kibana:
     app.kubernetes.io/version: "{{ _kibana_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _kibana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kibana_var_loader.base_image.tag }}-custom"
+    image: "{{ docker_registry.url }}/{{ _kibana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kibana_var_loader.base_image.tag }}"
     requests_cpu: "{{ kibana_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ kibana_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ kibana_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ kibana_container_limits_memory | default('256Mi') }}"
   nodejs_max_memory: "{{ kibana_nodejs_max_memory | default('192') }}"
-
-  optimize:
-    requests_cpu: "{{ kibana_optimize_requests_cpu | default('250m') }}"
-    requests_memory: "{{ kibana_optimize_requests_memory | default('3072Mi') }}"
-    limits_cpu: "{{ kibana_optimize_limits_cpu | default('2000m') }}"
-    limits_memory: "{{ kibana_optimize_limits_memory | default('6144Mi') }}"
-    # kibana --optimize runs 5 node processes, so we can't increase each max memory too much
-    # But it still needs more memory for the optimization process to work
-    nodejs_max_memory: "{{ kibana_optimize_nodejs_max_memory | default('1024') }}"
 
   context_path: "{{ kibana_context_path | default('/kibana') }}"
   
