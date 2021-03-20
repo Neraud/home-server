@@ -7,6 +7,9 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 data:
+{% if kubernetes_nginx_ingress_openldap_port | default(false) and kubernetes_nginx_ingress_openldap_target is defined %}
+  636: "{{ kubernetes_nginx_ingress_openldap_target }}"
+{% endif %}
 {% if kubernetes_nginx_ingress_mqtt_port | default(false) and kubernetes_nginx_ingress_mqtt_target is defined %}
   1883: "{{ kubernetes_nginx_ingress_mqtt_target }}"
 {% endif %}

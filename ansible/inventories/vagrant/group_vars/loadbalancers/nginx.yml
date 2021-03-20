@@ -22,6 +22,11 @@ nginx_upstreams:
       - master-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
       - master-2:{{ kubernetes_ingress_lemonLdap_handler_port }}
       - master-3:{{ kubernetes_ingress_lemonLdap_handler_port }}
+  - name: kubernetes-openldap-ingress
+    servers:
+      - master-1:{{ kubernetes_ingress_openldap_port }}
+      - master-2:{{ kubernetes_ingress_openldap_port }}
+      - master-3:{{ kubernetes_ingress_openldap_port }}
   - name: kubernetes-mqtt-ingress
     servers:
       - master-1:{{ kubernetes_ingress_mqtt_port }}
@@ -275,6 +280,13 @@ nginx_sites:
         lemonLdap_protected: True
 
 nginx_streams:
+  - name: auth_openldap
+    enabled_name: 075-auth_openldap
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    tcp_port: 636
+    # TODO : TCP 636 and let openldap handle the cert ?
+    # Or SSL with cert on nginx ?
+    proxy_pass: kubernetes-openldap-ingress
   - name: home_mqtt
     enabled_name: 100-home_mqtt
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
@@ -306,6 +318,11 @@ nginx_ufw_applications:
     title: Nginx Web Server Status
     description: Small, but very powerful and efficient web server
     ports: 81/tcp
+    rule: allow
+  - name: openldap
+    title: OpenLDAP
+    description: OpenLDAP is a free, open-source implementation of the Lightweight Directory Access Protocol developed by the OpenLDAP Project
+    ports: 636/tcp
     rule: allow
   - name: mosquitto
     title: Mosquitto
