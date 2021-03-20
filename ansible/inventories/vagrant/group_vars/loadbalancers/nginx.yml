@@ -112,6 +112,7 @@ nginx_sites:
           client_max_body_size 0;
           # required to avoid HTTP 411: see Issue #1486 (https://github.com/moby/moby/issues/1486)
           chunked_transfer_encoding on;
+          proxy_read_timeout 900;
 
   - name: infra
     enabled_name: 100-infra
