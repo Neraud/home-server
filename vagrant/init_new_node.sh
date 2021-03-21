@@ -127,4 +127,6 @@ __EOF__
 /opt/mock_nas/Download $network_cidr(rw)
 EOF
 	systemctl restart nfs-kernel-server
+
+	ufw allow NFS
 fi
