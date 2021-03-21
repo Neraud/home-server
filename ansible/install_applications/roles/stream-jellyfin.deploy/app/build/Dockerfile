@@ -13,6 +13,16 @@ RUN echo "Create render group" && \
     groupadd -g 107 render && \
     usermod -a -G render jellyfin
 
+# TODO : remove once we upgrade to 10.7
+# See : https://jellyfin.org/posts/jellyfin-apt-key/
+RUN echo "Fix jellyfin repo key" && \
+    # Ignore errors on update, we know it will fail on jellyfin repo, but we need it to install wget and gnupg2
+    apt-get update ; \
+    apt-get install -y wget gnupg2 && \
+    wget -qO- https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add - && \
+    apt-get remove -y wget gnupg2 && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN echo "Install plugins requirements" && \
     apt-get update && \
     apt-get install -y zip curl && \
