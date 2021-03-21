@@ -2,7 +2,7 @@
 
 mode=$1
 
-if [ "$mode" != "ansible" ] ; then
+if [ "$mode" != "controller" ] ; then
 	mode="node"
 fi
 
@@ -37,13 +37,53 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 2
 
 mkdir -p /root/.ssh
 
-if [ "$mode" == "ansible" ] ; then
+echo " - add ansible key to authorized keys"
+touch /root/.ssh/authorized_keys
+searchLocalKey=$(grep -c "$(cat /vagrant/ssh/id_rsa.pub)" /root/.ssh/authorized_keys)
+if [ $searchLocalKey -eq 0 ] ; then
+	cat /vagrant/ssh/id_rsa.pub >>/root/.ssh/authorized_keys
+fi
+
+chmod -R 700 /root/.ssh
+
+echo " - install LVM"
+apt-get -q -y install lvm2
+
+if [ -e /dev/sdb ] ; then
+	echo " - preparing docker disk"
+	# Create a new partition table with a single 'Linux native' partition
+	echo 'type=83' | sfdisk /dev/sdb
+	mkfs.ext4 /dev/sdb1
+	mkdir -p /var/lib/docker
+	echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
+	mount -a
+fi
+
+if [ -e /dev/sdc ] ; then
+	echo " - preparing data disk for LVM"
+	# Create a new partition table with a single LVM partition
+	echo 'type=8e' | sfdisk /dev/sdc
+	pvcreate /dev/sdc1
+	vgcreate data_vg /dev/sdc1
+fi
+
+## see https://github.com/ansible/ansible/issues/45446#issuecomment-467829815
+## But the proposed workaround doesn't work if we simply add it in the ansible playbook
+echo " - install and enable ufw (workaround to avoid hanging)"
+update-alternatives --set iptables /usr/sbin/iptables-legacy
+apt-get -q -y install ufw
+ufw allow OpenSSH
+yes | sudo ufw enable
+
+
+if [ "$mode" == "controller" ] ; then
 	echo " - install ansible controller"
 	/opt/provision/install_controller_requirements.sh
 	source /root/ansible_venv/bin/activate
 
 	echo " - install ansible ssh keys"
 	cp -R /vagrant/ssh/* /root/.ssh/
+	chmod -R 700 /root/.ssh
 
 	echo " - add hosts to known hosts"
 	touch /root/.ssh/known_hosts
@@ -88,41 +128,3 @@ __EOF__
 EOF
 	systemctl restart nfs-kernel-server
 fi
-
-echo " - add ansible key to authorized keys"
-touch /root/.ssh/authorized_keys
-searchLocalKey=$(grep -c "$(cat /vagrant/ssh/id_rsa.pub)" /root/.ssh/authorized_keys)
-if [ $searchLocalKey -eq 0 ] ; then
-	cat /vagrant/ssh/id_rsa.pub >>/root/.ssh/authorized_keys
-fi
-
-chmod -R 700 /root/.ssh
-
-echo " - install LVM"
-apt-get -q -y install lvm2
-
-if [ -e /dev/sdb ] ; then
-	echo " - preparing docker disk"
-	# Create a new partition table with a single 'Linux native' partition
-	echo 'type=83' | sfdisk /dev/sdb
-	mkfs.ext4 /dev/sdb1
-	mkdir -p /var/lib/docker
-	echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
-	mount -a
-fi
-
-if [ -e /dev/sdc ] ; then
-	echo " - preparing data disk for LVM"
-	# Create a new partition table with a single LVM partition
-	echo 'type=8e' | sfdisk /dev/sdc
-	pvcreate /dev/sdc1
-	vgcreate data_vg /dev/sdc1
-fi
-
-## see https://github.com/ansible/ansible/issues/45446#issuecomment-467829815
-## But the proposed workaround doesn't work if we simply add it in the ansible playbook
-echo " - install and enable ufw (workaround to avoid hanging)"
-update-alternatives --set iptables /usr/sbin/iptables-legacy
-apt-get -q -y install ufw
-ufw allow OpenSSH
-yes | sudo ufw enable
