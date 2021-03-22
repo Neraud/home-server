@@ -3,3 +3,12 @@
 docker_trusted_registries:
   - url: "registry.{{ web_base_domain }}"
     ca_path: "{{ custom_ssl_pki_generation_root_dir }}/web/ca.crt"
+
+
+private_registry_username: docker
+private_registry_password: Passw0rd
+
+docker_auth_repositories:
+  - url: registry.{{ web_base_domain }}
+    username: "{{ private_registry_username }}"
+    password: "{{ private_registry_password }}"

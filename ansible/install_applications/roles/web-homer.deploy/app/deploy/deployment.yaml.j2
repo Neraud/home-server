@@ -65,5 +65,7 @@ spec:
       - name: homer-config
         configMap:
           name: homer-config
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'

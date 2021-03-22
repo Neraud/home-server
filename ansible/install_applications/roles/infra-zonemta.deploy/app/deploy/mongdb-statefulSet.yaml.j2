@@ -96,6 +96,8 @@ spec:
       - name: zonemta-mongo-init
         secret:
           secretName: zonemta-mongo-init
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

@@ -84,6 +84,8 @@ spec:
       - name: certs-volume
         secret:
           secretName: mosquitto-certs
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

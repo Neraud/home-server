@@ -29,6 +29,8 @@ spec:
       namespace: {{ prometheus.namespace }}
       port: web
   image: "{{ prometheus.container.image }}"
+  imagePullSecrets:
+  - name: docker-config
   podMetadata:
     labels:
       {{ prometheus.labels_def | to_nice_yaml() | indent(6) }}

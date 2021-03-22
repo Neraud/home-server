@@ -2,6 +2,10 @@
 
 docker_registry_enabled: true
 
+#docker_registry_users:
+#  - name: user
+#    password: password
+
 docker_registry_notification_endpoints:
   - name: docker-registry-ui
     url: http://docker-registry-ui.infra-docker-registry-ui.svc.cluster.local:8000/docker-regitry-ui/api/events

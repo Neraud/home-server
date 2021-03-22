@@ -32,3 +32,4 @@ docker_registry:
   port: "{{ _docker_registry_var_loader.port }}"
   url: "registry.{{ web_base_domain }}"
   notification_endpoints: "{{ docker_registry_notification_endpoints | default([]) }}"
+  users: "{{ docker_registry_users | default([]) }}"

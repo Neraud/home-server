@@ -119,6 +119,8 @@ spec:
         emptyDir: {}
       - name: tmp-transcodes-volume
         emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

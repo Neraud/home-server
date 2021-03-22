@@ -57,6 +57,8 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/loadbalancer: 'yes'
       tolerations:

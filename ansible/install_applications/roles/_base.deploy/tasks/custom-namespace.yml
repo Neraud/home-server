@@ -17,6 +17,13 @@
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
 
+- name: Deploy docker config
+  k8s:
+    definition: "{{ lookup('template', role_path + '/../_base.deploy/templates/namespace/registry-secret.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
 - name: Read the cluster CA file
   slurp:
     src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"

@@ -22,3 +22,5 @@ busybox:
 
 docker_private_registry:
   url: "{{ docker_registry.url }}"
+  username: "{{ docker_registry_kube_registry_username }}"
+  password: "{{ docker_registry_kube_registry_password }}"

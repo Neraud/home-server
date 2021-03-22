@@ -82,6 +82,8 @@ spec:
       - name: gotify-config
         configMap:
           name: gotify-config
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

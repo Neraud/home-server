@@ -35,3 +35,7 @@ spec:
             cpu: "{{ reloader.container.limits_cpu }}"
             memory: "{{ reloader.container.limits_memory }}"
       serviceAccountName: reloader
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

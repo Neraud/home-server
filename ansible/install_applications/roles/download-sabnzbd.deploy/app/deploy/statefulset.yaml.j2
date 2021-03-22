@@ -79,6 +79,8 @@ spec:
       - name: sabnzbd-download
         persistentVolumeClaim:
           claimName: nfs-download
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

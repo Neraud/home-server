@@ -92,6 +92,8 @@ spec:
       - name: pihole-config
         configMap:
           name: pihole-config
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

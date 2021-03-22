@@ -96,6 +96,8 @@ spec:
           readOnlyRootFilesystem: true
       hostNetwork: true
       hostPID: true
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         kubernetes.io/os: linux
       securityContext:

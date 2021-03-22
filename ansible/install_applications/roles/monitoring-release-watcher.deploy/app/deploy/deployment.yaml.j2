@@ -62,5 +62,7 @@ spec:
       - name: release-watcher-config
         configMap:
           name: release-watcher-config
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'

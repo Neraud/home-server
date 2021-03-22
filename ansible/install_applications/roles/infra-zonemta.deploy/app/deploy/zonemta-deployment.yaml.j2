@@ -67,5 +67,7 @@ spec:
       - name: zonemta-certificates
         secret:
           secretName: zonemta-certificates
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'

@@ -106,6 +106,8 @@ spec:
           requests:
             cpu: {{ kube_state_metrics_rbac_proxy.container.requests_cpu }}
             memory: {{ kube_state_metrics_rbac_proxy.container.requests_memory }}
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         kubernetes.io/os: linux
         capability/general-purpose: 'yes'

@@ -70,5 +70,7 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
