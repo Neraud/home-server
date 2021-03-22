@@ -32,5 +32,5 @@
     context: "{{ kubeconfig_context }}"
   register: k8s_result
   until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
-  retries: 10
+  retries: 20
   delay: 3
