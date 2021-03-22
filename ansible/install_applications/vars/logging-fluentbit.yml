@@ -20,7 +20,7 @@ fluentbit:
     app.kubernetes.io/version: "{{ _fluentbit_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _fluentbit_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _fluentbit_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _fluentbit_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _fluentbit_var_loader.base_image.tag }}"
     requests_cpu: "{{ fluentbit_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ fluentbit_container_requests_memory | default('16Mi') }}"
     limits_cpu: "{{ fluentbit_container_limits_cpu | default('500m') }}"

@@ -22,7 +22,7 @@ mosquitto:
     app.kubernetes.io/version: "{{ _mosquitto_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _mosquitto_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _mosquitto_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _mosquitto_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _mosquitto_var_loader.base_image.tag }}"
     requests_cpu: "{{ mosquitto_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ mosquitto_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ mosquitto_container_limits_cpu | default('100m') }}"

@@ -24,7 +24,7 @@ openldap:
     app.kubernetes.io/version: "{{ _openldap_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _openldap_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _openldap_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _openldap_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _openldap_var_loader.base_image.tag }}"
     requests_cpu: "{{ openldap_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ openldap_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ openldap_container_limits_cpu | default('150m') }}"

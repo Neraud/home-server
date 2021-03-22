@@ -21,7 +21,7 @@ kubernetes_dashboard:
     app.kubernetes.io/part-of: kubernetes-dashboard
 
   container:
-    image: "{{ docker_registry.url }}/{{ _kubernetes_dashboard_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _kubernetes_dashboard_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_var_loader.base_image.tag }}"
     requests_cpu: "{{ kubernetes_dashboard_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ kubernetes_dashboard_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ kubernetes_dashboard_container_limits_cpu | default('500m') }}"
@@ -46,7 +46,7 @@ kubernetes_dashboard_metrics_scraper:
     app.kubernetes.io/part-of: kubernetes-dashboard
 
   container:
-    image: "{{ docker_registry.url }}/{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.tag }}"
     requests_cpu: "{{ kubernetes_dashboard_metrics_scraper_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ kubernetes_dashboard_metrics_scraper_container_requests_memory | default('16Mi') }}"
     limits_cpu: "{{ kubernetes_dashboard_metrics_scraper_container_limits_cpu | default('250m') }}"
