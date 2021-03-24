@@ -9,6 +9,7 @@ jb init
 jb install github.com/coreos/kube-prometheus/jsonnet/kube-prometheus@main
 
 mkdir -p /out/kube-prometheus
+mkdir -p /out/kube-prometheus/setup
 echo " - generating kube-prometheus ..."
 jsonnet -J vendor -m /out/kube-prometheus config.jsonnet | xargs -I{} sh -c 'cat {} | gojsontoyaml > {}.yaml; rm -f {}' -- {}
 
