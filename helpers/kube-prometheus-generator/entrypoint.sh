@@ -6,7 +6,7 @@ cd /opt/kube-prometheus
 
 echo " - installing requirements ..."
 jb init
-jb install github.com/coreos/kube-prometheus/jsonnet/kube-prometheus
+jb install github.com/coreos/kube-prometheus/jsonnet/kube-prometheus@main
 
 mkdir -p /out/kube-prometheus
 echo " - generating kube-prometheus ..."
