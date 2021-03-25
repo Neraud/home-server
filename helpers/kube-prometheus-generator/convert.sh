@@ -11,19 +11,19 @@ fi
 echo "Converting Operator"
 OPERATOR_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/operator
 mkdir -p $OPERATOR_ROOT
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0alertmanagerConfigCustomResourceDefinition.yaml $OPERATOR_ROOT/alertmanagerConfigCustomResourceDefinition.yaml
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0alertmanagerCustomResourceDefinition.yaml $OPERATOR_ROOT/alertmanagerCustomResourceDefinition.yaml
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0podmonitorCustomResourceDefinition.yaml $OPERATOR_ROOT/podmonitorCustomResourceDefinition.yaml
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0probeCustomResourceDefinition.yaml $OPERATOR_ROOT/probeCustomResourceDefinition.yaml
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0prometheusCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusCustomResourceDefinition.yaml
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0prometheusruleCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusruleCustomResourceDefinition.yaml
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0servicemonitorCustomResourceDefinition.yaml $OPERATOR_ROOT/servicemonitorCustomResourceDefinition.yaml
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-0thanosrulerCustomResourceDefinition.yaml $OPERATOR_ROOT/thanosrulerCustomResourceDefinition.yaml
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-clusterRoleBinding.yaml $OPERATOR_ROOT/clusterRoleBinding.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-clusterRole.yaml $OPERATOR_ROOT/clusterRole.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-deployment.yaml $OPERATOR_ROOT/deployment.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-serviceAccount.yaml $OPERATOR_ROOT/serviceAccount.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-service.yaml $OPERATOR_ROOT/service.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0alertmanagerConfigCustomResourceDefinition.yaml $OPERATOR_ROOT/alertmanagerConfigCustomResourceDefinition.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0alertmanagerCustomResourceDefinition.yaml $OPERATOR_ROOT/alertmanagerCustomResourceDefinition.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0podmonitorCustomResourceDefinition.yaml $OPERATOR_ROOT/podmonitorCustomResourceDefinition.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0probeCustomResourceDefinition.yaml $OPERATOR_ROOT/probeCustomResourceDefinition.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0prometheusCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusCustomResourceDefinition.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0prometheusruleCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusruleCustomResourceDefinition.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0servicemonitorCustomResourceDefinition.yaml $OPERATOR_ROOT/servicemonitorCustomResourceDefinition.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0thanosrulerCustomResourceDefinition.yaml $OPERATOR_ROOT/thanosrulerCustomResourceDefinition.yaml
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-clusterRoleBinding.yaml $OPERATOR_ROOT/clusterRoleBinding.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-clusterRole.yaml $OPERATOR_ROOT/clusterRole.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-deployment.yaml $OPERATOR_ROOT/deployment.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-serviceAccount.yaml $OPERATOR_ROOT/serviceAccount.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-service.yaml $OPERATOR_ROOT/service.yaml.j2
 
 echo "Converting AlertManager"
 ALERTMANAGER_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/alertmanager
@@ -85,15 +85,21 @@ cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/node-exporter-serviceMonitor.yaml $SERVIC
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-state-metrics-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/kube-state-metrics.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/grafana-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/grafana.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/alertmanager-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/alertmanager.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/0prometheus-operator-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus-operator.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-serviceMonitorApiserver.yaml $SERVICE_MONITOR_ROOT/apiserver.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-serviceMonitorCoreDNS.yaml $SERVICE_MONITOR_ROOT/coreDNS.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-serviceMonitorKubeControllerManager.yaml $SERVICE_MONITOR_ROOT/kubeControllerManager.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-serviceMonitorKubelet.yaml $SERVICE_MONITOR_ROOT/kubelet.yaml.j2
-cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-serviceMonitorKubeScheduler.yaml $SERVICE_MONITOR_ROOT/kubeScheduler.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-operator-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus-operator.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kubernetes-serviceMonitorApiserver.yaml $SERVICE_MONITOR_ROOT/apiserver.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kubernetes-serviceMonitorCoreDNS.yaml $SERVICE_MONITOR_ROOT/coreDNS.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kubernetes-serviceMonitorKubeControllerManager.yaml $SERVICE_MONITOR_ROOT/kubeControllerManager.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kubernetes-serviceMonitorKubelet.yaml $SERVICE_MONITOR_ROOT/kubelet.yaml.j2
+cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kubernetes-serviceMonitorKubeScheduler.yaml $SERVICE_MONITOR_ROOT/kubeScheduler.yaml.j2
 cp $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus.yaml.j2
 
 echo "Convert PrometheusRules"
 PROMEHTEUS_RULES_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/config/prometheus/rules/kube-prometheus
 mkdir -p $PROMEHTEUS_RULES_ROOT
-python3 extract_rules.py $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-rules.yaml $PROMEHTEUS_RULES_ROOT
+python3 extract_rules.py $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/alertmanager-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
+python3 extract_rules.py $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-prometheus-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
+python3 extract_rules.py $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kube-state-metrics-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
+python3 extract_rules.py $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/kubernetes-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
+python3 extract_rules.py $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/node-exporter-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
+python3 extract_rules.py $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-operator-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
+python3 extract_rules.py $OUT_GENERATED_KUBE_PROMETHEUS_ROOT/prometheus-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
