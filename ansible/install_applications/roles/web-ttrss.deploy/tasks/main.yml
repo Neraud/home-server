@@ -19,9 +19,9 @@
     build: yes
     build_args:
       ttrss_commit: "{{ ttrss.commit }}"
-      ttrss_plugin_data_migration_commit: "{{ ttrss.plugins.data_migration.commit }}"
-      ttrss_plugin_auth_ldap_commit: "{{ ttrss.plugins.auth_ldap.commit }}"
-      ttrss_plugin_mailer_smtp_commit: "{{ ttrss.plugins.mailer_smtp.commit }}"
+      ttrss_plugin_data_migration_url: "{{ ttrss.plugins.data_migration.repo_url }}/archive/{{ ttrss.plugins.data_migration.commit }}.tar.gz"
+      ttrss_plugin_auth_ldap_url: "https://github.com/{{ ttrss.plugins.auth_ldap.github_repo }}/archive/{{ ttrss.plugins.auth_ldap.commit }}.tar.gz"
+      ttrss_plugin_mailer_smtp_url: "{{ ttrss.plugins.mailer_smtp.repo_url }}/archive/{{ ttrss.plugins.mailer_smtp.commit }}.tar.gz"
 
 - name: Ensure TT-RSS PGSQL image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
