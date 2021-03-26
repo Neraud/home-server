@@ -22,7 +22,7 @@ gitlab:
     app.kubernetes.io/version: "{{ _gitlab_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _gitlab_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _gitlab_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _gitlab_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _gitlab_var_loader.base_image.tag }}"
     requests_cpu: "{{ gitlab_container_requests_cpu | default('500m') }}"
     requests_memory: "{{ gitlab_container_requests_memory | default('3072Mi') }}"
     limits_cpu: "{{ gitlab_container_limits_cpu | default('2000m') }}"

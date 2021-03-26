@@ -11,21 +11,15 @@
     base_image: "{{ openldap.base_image }}"
     private_image: "{{ openldap.container.image }}"
 
-- name: Install python dependencies
-  apt:
-    pkg:
-    - python3-ldap
-    state: present
-
 - name: Read certificate files
   slurp:
     src: "{{ item }}"
   register: openldap_generated_certificate_files
   with_items:
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ldap/server.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ldap/server.key"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ldap/dhparam.pem"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ldap/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ldap/server.key"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ldap/dhparam.pem"
 
 - name: List config files
   set_fact:
@@ -37,33 +31,19 @@
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-
-- name: Fetch OpenLDAP internal endpoint
-  k8s_info:
-    api_version: v1
-    kind: Service
-    name: openldap
-    namespace: "{{ openldap.namespace }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
-  register: openldap_service
-
-- name: Set OpenLDAP internal endpoint
-  set_fact:
-    openldap_internal_uri: "ldap://{{ openldap_service.resources[0].spec.clusterIP }}"
 
 - name: Wait for OpenLDAP to be available
   k8s_info:
     kind: StatefulSet
     namespace: "{{ openldap.namespace }}"
     name: openldap
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   register: k8s_result
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
   until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
   retries: 30
   delay: 5
@@ -80,9 +60,9 @@
     kind: StatefulSet
     namespace: "{{ openldap.namespace }}"
     name: openldap
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   register: k8s_result
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
   until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
   retries: 30
   delay: 5
@@ -90,10 +70,9 @@
 
 - name: Create LDAP base OUs
   ldap_entry:
-    server_uri: "{{ openldap_internal_uri }}"
+    server_uri: "ldaps://{{ nginx_keepalived_instance_internal_virtual_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
-    start_tls: yes
     validate_certs: no
     dn: "{{ item }}"
     objectClass: organizationalUnit
@@ -104,10 +83,9 @@
 
 - name: Create LDAP users
   ldap_entry:
-    server_uri: "{{ openldap_internal_uri }}"
+    server_uri: "ldaps://{{ nginx_keepalived_instance_internal_virtual_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
-    start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap.ldap.structure_users_ou_dn }}"
     objectClass: inetOrgPerson
@@ -120,10 +98,9 @@
 
 - name: Set LDAP users attributes
   ldap_attrs:
-    server_uri: "{{ openldap_internal_uri }}"
+    server_uri: "ldaps://{{ nginx_keepalived_instance_internal_virtual_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
-    start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap.ldap.structure_users_ou_dn }}"
     attributes:
@@ -137,10 +114,9 @@
 
 - name: Set LDAP users password
   ldap_passwd:
-    server_uri: "{{ openldap_internal_uri }}"
+    server_uri: "ldaps://{{ nginx_keepalived_instance_internal_virtual_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
-    start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap.ldap.structure_users_ou_dn }}"
     passwd: "{{ item.password }}"
@@ -150,10 +126,9 @@
 
 - name: Create LDAP groups
   ldap_entry:
-    server_uri: "{{ openldap_internal_uri }}"
+    server_uri: "ldaps://{{ nginx_keepalived_instance_internal_virtual_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
-    start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap.ldap.structure_groups_ou_dns[item.ou] }}"
     objectClass: GroupOfUniqueNames
@@ -164,10 +139,9 @@
 
 - name: Set LDAP groups attributes
   ldap_attrs:
-    server_uri: "{{ openldap_internal_uri }}"
+    server_uri: "ldaps://{{ nginx_keepalived_instance_internal_virtual_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
-    start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap.ldap.structure_groups_ou_dns[item.ou] }}"
     attributes:
@@ -179,10 +153,9 @@
 
 - name: Set LDAP groups members
   ldap_attrs:
-    server_uri: "{{ openldap_internal_uri }}"
+    server_uri: "ldaps://{{ nginx_keepalived_instance_internal_virtual_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
-    start_tls: yes
     validate_certs: no
     dn: "cn={{ item.id }},{{ openldap.ldap.structure_groups_ou_dns[item.ou] }}"
     attributes:

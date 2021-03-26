@@ -3,7 +3,7 @@
 openldap_ldap_servername: openldap.auth-openldap.svc.cluster.local
 openldap_ldap_organisation: "{{ domain_name }}"
 openldap_ldap_domain: "{{ web_base_domain }}"
-openldap_ldap_basedn: "dc=k8stest,dc=com"
+openldap_ldap_basedn: "dc=k8s,dc=test"
 openldap_ldap_admin_password: Passw0rd
 openldap_ldap_config_password: Passw0rd
 openldap_ldap_readonly_user_password: Passw0rd

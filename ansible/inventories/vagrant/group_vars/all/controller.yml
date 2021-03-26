@@ -1,0 +1,6 @@
+---
+
+controller_working_dir: ~/home-server-provisioning_vagrant
+custom_ssl_pki_generation_root_dir: "{{ controller_working_dir }}/ssl"
+wireguard_generation_dir: "{{ controller_working_dir }}/wireguard"
+kubernetes_pki_fetch_dir: "{{ controller_working_dir }}/kubernetes-pki"

@@ -66,6 +66,8 @@ spec:
       - name: nginx-log-exporter-config
         configMap:
           name: nginx-log-exporter-config
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/loadbalancer: 'yes'
       tolerations:

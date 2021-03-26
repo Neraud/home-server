@@ -14,7 +14,7 @@ openldap_ldap_users:
     displayName: User
 ```
 
-You can use [phpLDAPAdmin](https://infra.k8stest.com/phpldapadmin/) to manually create and edit them.
+You can use [phpLDAPAdmin](https://infra.k8s.test/phpldapadmin/) to manually create and edit them.
 
 ## User groups
 
@@ -86,7 +86,7 @@ A TOTP can be added to increase security.
 
 To add one for an existing user :
 
-* Go to the [LemonLDAP portal](https://auth.k8stest.com/)
+* Go to the [LemonLDAP portal](https://auth.k8s.test/)
 * Log in
 * Expand the `connected as [user]` section in the top menu
 * Select `2ndFA Manager`

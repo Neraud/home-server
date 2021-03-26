@@ -26,12 +26,53 @@
     dest: /etc/systemd/system/docker.service.d/override.conf
   notify: Restart docker daemon
 
+- name: Prepare Docker daemon certs.d directory
+  file:
+    path: /etc/docker/certs.d
+    state: directory
+
+- name: Prepare trusted registries directories
+  file:
+    path: "/etc/docker/certs.d/{{ item.url }}"
+    state: directory
+  loop: "{{ docker_trusted_registries | default([]) }}"
+
+- name: Trust self signed registries
+  copy:
+    src: "{{ item.ca_path }}"
+    dest: /etc/docker/certs.d/{{ item.url }}/ca.crt
+  loop: "{{ docker_trusted_registries | default([]) }}"
+
+- name: Ensure docker config dir exists for root
+  file:
+    path: /root/.docker
+    state: directory
+
+- name: Configure docker for root
+  template:
+    src: config.json.j2
+    dest: /root/.docker/config.json
+
 - name: Ensure standard user is in docker group
   user:
       name: "{{ standard_user.name }}"
       groups: docker
       append: yes
   when: docker_add_standard_user_to_group
+
+- name: Ensure docker config dir exists for standard user
+  file:
+    path: "{{ standard_user.home }}/.docker"
+    owner: "{{ standard_user.name }}"
+    group: "{{ standard_user.name }}"
+    state: directory
+
+- name: Configure docker for standard user
+  template:
+    src: config.json.j2
+    dest: "{{ standard_user.home }}/.docker/config.json"
+    owner: "{{ standard_user.name }}"
+    group: "{{ standard_user.name }}"
 
 - import_tasks: docker-gc.yml
 - import_tasks: docker-avahi.yml

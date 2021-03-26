@@ -57,5 +57,7 @@ spec:
           name: roomassistant-config
       # Host network required for bluetooth
       hostNetwork: true
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/home: 'yes'

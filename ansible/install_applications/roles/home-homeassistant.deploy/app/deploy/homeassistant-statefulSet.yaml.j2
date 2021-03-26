@@ -108,6 +108,8 @@ spec:
           secretName: cluster-ca
       - name: run-volume
         emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

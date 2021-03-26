@@ -58,6 +58,8 @@ spec:
         volumeMounts:
         - name: tmp-dir
           mountPath: /tmp
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         beta.kubernetes.io/os: linux
         capability/general-purpose: 'yes'

@@ -1,9 +1,5 @@
 ---
 
-kubernetes_user:
-  name: "{{ standard_user.name }}"
-  home: "{{ standard_user.home }}"
-
 local_storage_vg: data_vg
 local_lv_prefix: local_
 

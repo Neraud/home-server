@@ -4,12 +4,12 @@
   k8s:
     definition: "{{ lookup('template', 'kubernetes/storage/' + item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_items:
     - local-lvm-storage-class.yaml.j2
     - glusterfs-storage-class.yaml.j2
     - nas-nfs-storage-class.yaml.j2
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 - name: Deploy Nginx Ingress namespace
   k8s:
@@ -17,14 +17,14 @@
     kind: Namespace
     name: ingress-nginx
     state: present
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
 
 - name: Deploy Nginx Ingress
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/ingress-nginx/deploy/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"

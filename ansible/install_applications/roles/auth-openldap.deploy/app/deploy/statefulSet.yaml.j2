@@ -73,6 +73,8 @@ spec:
       - name: certs-volume
         secret:
           secretName: openldap-certs
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

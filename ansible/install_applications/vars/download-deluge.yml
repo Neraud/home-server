@@ -29,7 +29,7 @@ deluge:
 _deluge_base_var_loader:
   base_image: "{{ _deluge_var_loader.base_image }}"
   image: 
-    repo: "{{ docker_registry.url }}"
+    repo: "{{ docker_private_registry.url }}"
     name: "deluge-base"
     tag: "{{ _deluge_var_loader.version }}-{{ _deluge_var_loader.base_image.name | regex_replace('.*/', '') }}-{{ _deluge_var_loader.base_image.tag }}"
 
@@ -49,7 +49,7 @@ deluge_daemon:
   labels_desc: "{{ deluge.labels_desc }}"
 
   container:
-    image: "{{ docker_registry.url }}/deluge-daemon:{{ _deluge_base_var_loader.image.tag }}"
+    image: "{{ docker_private_registry.url }}/deluge-daemon:{{ _deluge_base_var_loader.image.tag }}"
     requests_cpu: "{{ deluge_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ deluge_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ deluge_container_limits_cpu | default('500m') }}"
@@ -68,7 +68,7 @@ deluge_web:
   labels_desc: "{{ deluge.labels_desc }}"
 
   container:
-    image: "{{ docker_registry.url }}/deluge-web:{{ _deluge_base_var_loader.image.tag }}"
+    image: "{{ docker_private_registry.url }}/deluge-web:{{ _deluge_base_var_loader.image.tag }}"
     requests_cpu: "{{ deluge_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ deluge_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ deluge_container_limits_cpu | default('250m') }}"

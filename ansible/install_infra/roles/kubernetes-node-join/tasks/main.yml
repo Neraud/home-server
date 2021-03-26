@@ -33,28 +33,26 @@
     - /etc/kubernetes/pki/etcd
   when: "'kubernetes_master_others' in group_names"
 
-- name: Fetch Kubernetes PKI from master bootstrap
+- name: Deploy Kubernetes PKI from controller
   synchronize:
-    src: "{{ item }}"
-    dest: "{{ item }}"
-  delegate_to: "{{ groups['kubernetes_master_bootstrap'][0] }}"
-  with_items:
-    - /etc/kubernetes/pki/ca.crt
-    - /etc/kubernetes/pki/ca.key
-    - /etc/kubernetes/pki/sa.key
-    - /etc/kubernetes/pki/sa.pub
-    - /etc/kubernetes/pki/front-proxy-ca.crt
-    - /etc/kubernetes/pki/front-proxy-ca.key
-    - /etc/kubernetes/pki/etcd/ca.crt
-    - /etc/kubernetes/pki/etcd/ca.key
+    src: "{{ kubernetes_pki_fetch_dir }}/{{ item }}"
+    dest: "/etc/kubernetes/pki/{{ item }}"
+  delegate_to: "{{ groups['controller'][0] }}"
+  loop:
+    - ca.crt
+    - ca.key
+    - sa.key
+    - sa.pub
+    - front-proxy-ca.crt
+    - front-proxy-ca.key
+    - etcd/ca.crt
+    - etcd/ca.key
   when: "'kubernetes_master_others' in group_names"
 
 - name: Generate token to join on master bootstrap
   command: kubeadm token create --ttl=5m --description="Token to allow {{ inventory_hostname }} to join" --print-join-command
   register: join_command_result
   delegate_to: "{{ groups['kubernetes_master_bootstrap'][0] }}"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
   when: not has_already_joined_kubernetes_cluster
 
 - name: Generate master join command
@@ -84,6 +82,6 @@
 
 - name: Configure kubectl
   synchronize:
-    src: /etc/kubernetes/admin.conf
+    src: "{{ hostvars[groups.controller | first].kubeconfig_path }}"
     dest: /etc/kubernetes/admin.conf
-  delegate_to: "{{ groups['kubernetes_master_bootstrap'][0] }}"
+  delegate_to: "{{ groups['controller'][0] }}"

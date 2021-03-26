@@ -29,6 +29,7 @@ spec:
         securityContext:
           runAsGroup: 65532
           readOnlyRootFilesystem: true
+          runAsUser: 65532
         #readinessProbe:
         # As we bind to 127.0.0.1, we can't add probes to this container
         resources:
@@ -106,10 +107,13 @@ spec:
           requests:
             cpu: {{ kube_state_metrics_rbac_proxy.container.requests_cpu }}
             memory: {{ kube_state_metrics_rbac_proxy.container.requests_memory }}
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         kubernetes.io/os: linux
         capability/general-purpose: 'yes'
       securityContext:
         runAsNonRoot: true
         runAsGroup: 65532
+        runAsUser: 65532
       serviceAccountName: kube-state-metrics

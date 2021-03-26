@@ -67,6 +67,8 @@ spec:
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         beta.kubernetes.io/os: linux
         capability/general-purpose: 'yes'

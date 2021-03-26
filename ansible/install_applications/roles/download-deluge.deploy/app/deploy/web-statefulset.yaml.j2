@@ -96,5 +96,7 @@ spec:
           secretName: deluge-secret
       - name: tmp-volume
         emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'

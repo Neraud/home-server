@@ -1,33 +1,36 @@
 ---
 
-- name: Create kube configuration folder for standard user
+- name: Create kube configuration folder for kubernetes users
   file:
-    path: "{{ kubernetes_user.home }}/.kube"
+    path: "{{ item.home }}/.kube"
     state: directory
-    owner: "{{ kubernetes_user.name }}"
+    owner: "{{ item.name }}"
+  loop: "{{ kubernetes_users }}"
 
-- name: Configure kube for standard user
+- name: Configure kube for kubernetes users
   copy:
-    dest: "{{ kubernetes_user.home }}/.kube/config"
+    dest: "{{ item.home }}/.kube/config"
     src: /etc/kubernetes/admin.conf
     remote_src: yes
-    owner: "{{ kubernetes_user.name }}"
+    owner: "{{ item.name }}"
     backup: yes
+  loop: "{{ kubernetes_users }}"
 
-- name: Enable k8s autocompletion for standard user
+- name: Enable k8s autocompletion for kubernetes users
   copy:
-    dest: "{{ kubernetes_user.home }}/.bashrc.d/k8s_autocomplete.bashrc"
+    dest: "{{ item.home }}/.bashrc.d/k8s_autocomplete.bashrc"
     content: |
       # kubectl completion
       source <(kubectl completion bash)
-    owner: "{{ kubernetes_user.name }}"
+    owner: "{{ item.name }}"
+  loop: "{{ kubernetes_users }}"
+  when: item.install_autocomplete | default('no') | bool
 
 - name: Get current node info
-  command: kubectl get nodes {{ ansible_hostname | lower }} -o yaml
+  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} get nodes {{ ansible_hostname | lower }} -o yaml
+  delegate_to: "{{ groups.controller | first }}"
   changed_when: false
   register: current_node_tags_results
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
 
 - name: Extract current node tags and taints
   set_fact:
@@ -35,16 +38,14 @@
     current_node_taints: "{{ (current_node_tags_results.stdout | from_yaml).spec.taints | default([]) }}"
 
 - name: Tag node
-  command: kubectl label nodes {{ ansible_hostname | lower }} --overwrite=true {{ item.name }}={{ item.value }}
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} label nodes {{ ansible_hostname | lower }} --overwrite=true {{ item.name }}={{ item.value }}
+  delegate_to: "{{ groups.controller | first }}"
   with_items: "{{ kubernetes_node_labels | default([]) }}"
   when: (item.name not in current_node_tags) or (item.value != current_node_tags[item.name])
 
 - name: Untag node
-  command: kubectl label nodes {{ ansible_hostname | lower }} {{ item }}-
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} label nodes {{ ansible_hostname | lower }} {{ item }}-
+  delegate_to: "{{ groups.controller | first }}"
   with_items: "{{ current_node_tags }}"
   when:
     - "'kubernetes.io' not in item"
@@ -87,17 +88,15 @@
     - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'undefined') | selectattr('effect', 'equalto', item.effect) | list | length > 0
 
 - name: Taint node
-  command: kubectl taint nodes {{ ansible_hostname | lower }} {{ item.key }}={{ item.value }}:{{ item.effect }}
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} taint nodes {{ ansible_hostname | lower }} {{ item.key }}={{ item.value }}:{{ item.effect }}
+  delegate_to: "{{ groups.controller | first }}"
   with_items: "{{ node_taints_to_add | default([]) }}"
   # Without an explicit changed_when, the linter complains with: [301] Commands should not change things if nothing needs doing
   changed_when: True
 
 - name: Untaint node
-  command: kubectl taint nodes {{ ansible_hostname | lower }} {{ item.key }}:{{ item.effect }}-
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"
+  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} taint nodes {{ ansible_hostname | lower }} {{ item.key }}:{{ item.effect }}-
+  delegate_to: "{{ groups.controller | first }}"
   with_items: "{{ node_taints_to_remove | default([]) }}"
   # Without an explicit changed_when, the linter complains with: [301] Commands should not change things if nothing needs doing
   changed_when: True

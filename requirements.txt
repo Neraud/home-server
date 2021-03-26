@@ -3,3 +3,14 @@ ansible==2.10.7
 # Crypto dependencies
 passlib
 bcrypt
+
+# k8s modules dependencies
+openshift==0.11.2
+# With kubernetes >= 12, k8s modules try to call kubernetes on the default localhost:80 server and not the one configured in kubeconfig
+kubernetes<12.0.0
+
+# docker modules dependencies
+docker==4.4.4
+
+# ldap modules dependencies
+python-ldap==3.3.1 

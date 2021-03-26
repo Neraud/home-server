@@ -20,7 +20,7 @@ openzwave:
     app.kubernetes.io/version: "{{ _openzwave_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _openzwave_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _openzwave_var_loader.base_image.tag }}-custom"
+    image: "{{ docker_private_registry.url }}/{{ _openzwave_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _openzwave_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ openzwave_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ openzwave_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ openzwave_container_limits_cpu | default('500m') }}"

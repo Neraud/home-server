@@ -23,7 +23,7 @@ homer:
     app.kubernetes.io/version: "{{ _homer_var_loader.release }}"
 
   container:
-    image: "{{ docker_registry.url }}/homer-{{ _homer_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homer_var_loader.release }}-{{ _homer_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/homer-{{ _homer_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homer_var_loader.release }}-{{ _homer_var_loader.base_image.tag }}"
 
     requests_cpu: "{{ homer_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ homer_container_requests_memory | default('16Mi') }}"

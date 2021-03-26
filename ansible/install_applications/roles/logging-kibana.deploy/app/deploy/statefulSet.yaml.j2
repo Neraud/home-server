@@ -28,67 +28,12 @@ spec:
           - "-c"
           - |
             mkdir -p /kibana-data/data
-            mkdir -p /kibana-data/optimize
             chown -R 1000:1000 /kibana-data/*
         securityContext:
           readOnlyRootFilesystem: true
         volumeMounts:
         - name: kibana-data-pv-claim
           mountPath: /kibana-data
-      - name: copy-optimize
-        image: "{{ kibana.container.image }}"
-        imagePullPolicy: Always
-        command:
-          - "sh"
-          - "-c"
-          - |
-            if [ -z "$(ls -A /usr/share/kibana/optimize-tmp)" ]; then
-              echo "Kibana optimize folder is empty, copying from the image"
-              cp -R /usr/share/kibana/optimize/* /usr/share/kibana/optimize-tmp/
-            else
-              echo "Kibana optimize folder is not empty, skipping copy"
-            fi
-        volumeMounts:
-        - name: kibana-data-pv-claim
-          mountPath: /usr/share/kibana/optimize-tmp
-          subPath: optimize
-      - name: optimize
-        image: "{{ kibana.container.image }}"
-        imagePullPolicy: Always
-        command:
-          - "sh"
-          - "-c"
-          - |
-            /usr/local/bin/kibana-docker --optimize
-        securityContext:
-          runAsNonRoot: true
-          readOnlyRootFilesystem: true
-        resources:
-          requests:
-            cpu: "{{ kibana.optimize.requests_cpu }}"
-            memory: "{{ kibana.optimize.requests_memory }}"
-          limits:
-            cpu: "{{ kibana.optimize.limits_cpu }}"
-            memory: "{{ kibana.optimize.limits_memory }}"
-        env:
-        - name: NODE_OPTIONS
-          value: "--max-old-space-size={{ kibana.optimize.nodejs_max_memory }}"
-        volumeMounts:
-        - name: tz-config
-          mountPath: /etc/localtime
-          readOnly: true
-        - name: kibana-config
-          mountPath: /usr/share/kibana/config/kibana.yml
-          subPath: kibana.yml
-        - name: kibana-data-pv-claim
-          mountPath: /usr/share/kibana/data
-          subPath: data
-        - name: kibana-data-pv-claim
-          mountPath: /usr/share/kibana/optimize
-          subPath: optimize
-        - name: cluster-ca-volume
-          mountPath: /etc/ssl/cluster/ca.crt
-          subPath: ca.crt
       volumes:
       - name: tz-config
         hostPath:
@@ -138,9 +83,6 @@ spec:
         - name: kibana-data-pv-claim
           mountPath: /usr/share/kibana/data
           subPath: data
-        - name: kibana-data-pv-claim
-          mountPath: /usr/share/kibana/optimize
-          subPath: optimize
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
@@ -156,6 +98,8 @@ spec:
           secretName: cluster-ca
       - name: tmp-volume
         emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

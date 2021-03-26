@@ -1,12 +1,17 @@
 ---
 
 - name: Prepare all hosts
-  hosts: all
+  hosts: all_hosts
   roles:
     - common
     - common-apt
     - firewall
     - usb-serial
+
+- name: Provision APC UPS
+  hosts: apcups
+  roles:
+    - apcups
 
 - name: Provision bluetooth
   hosts: bluetooth
@@ -29,7 +34,7 @@
     - dnsmasq
 
 - name: Configure DNS clients
-  hosts: all
+  hosts: all_hosts
   roles:
     - dns-client
 
@@ -48,7 +53,6 @@
 - name: Prepare Kubernetes members
   hosts: kubernetes_nodes
   roles:
-    - kubernetes-ansible
     - docker
     - kubernetes-node-preinstall
     - kubernetes-master-cni-prepare
@@ -79,6 +83,17 @@
   hosts: kubernetes_master_bootstrap
   roles:
     - kubernetes-master-bootstrap
+
+- name: Bootstrap controller
+  hosts: controller
+  roles:
+    - dns-client
+    - docker
+    - kubernetes-controller-bootstrap
+
+- name: Deploy CNI
+  hosts: controller
+  roles:
     - kubernetes-master-cni-deploy
 
 - name: Provision Kubernetes nodes
@@ -93,8 +108,4 @@
   roles:
     - { role: kubernetes-storage-distributed, tags: kubernetes-storage }
     - kubernetes-infra
-
-- name: Provision APC UPS
-  hosts: apcups
-  roles:
-    - apcups
+    - apcups-kubernetes

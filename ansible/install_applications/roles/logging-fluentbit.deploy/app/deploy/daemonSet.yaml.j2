@@ -93,6 +93,8 @@ spec:
         secret:
           secretName: fluent-bit-certs
       serviceAccountName: fluent-bit
+      imagePullSecrets:
+      - name: docker-config
       tolerations:
       - key: node-role.kubernetes.io/master
         operator: Exists

@@ -6,7 +6,7 @@ import os
 import shutil
 from base64 import b64encode
 
-kibana_root_url = "http://127.0.0.1:{{ kubernetes_ingress_http_port }}{{ kibana.context_path }}"
+kibana_root_url = "http://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_http_port }}{{ kibana.context_path }}"
 output_dir = "{{ kibana.export_saved.output_dir }}"
 
 headers = {

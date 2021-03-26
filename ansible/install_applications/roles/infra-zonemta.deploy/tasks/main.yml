@@ -37,9 +37,9 @@
     src: "{{ item }}"
   register: zonemta_generated_certificate_files
   with_items:
-    - "{{ custom_ssl_pki_root_dir }}/cluster/ca.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/smtp/server.crt"
-    - "{{ custom_ssl_pki_root_dir }}/cluster/smtp/server.key"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/smtp/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/smtp/server.key"
 
 - name: List config files
   set_fact:
@@ -51,7 +51,7 @@
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/*.yaml*"
-  become: yes
-  become_user: "{{ kubernetes_user.name }}"

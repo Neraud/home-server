@@ -43,7 +43,7 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5443
-          name: docker-registry
+          name: https
         - containerPort: 5001
           name: debug
         securityContext:
@@ -54,7 +54,7 @@ spec:
           httpGet:
             scheme: HTTPS
             path: /
-            port: docker-registry
+            port: https
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
@@ -73,6 +73,9 @@ spec:
         - name: docker-registry-config
           mountPath: /etc/docker/registry/config.yml
           subPath: config.yml
+        - name: docker-registry-auth
+          mountPath: /etc/docker/registry/htpasswd
+          subPath: htpasswd
         - name: certs-volume
           mountPath: /certs
       volumes:
@@ -82,6 +85,9 @@ spec:
       - name: docker-registry-config
         configMap:
           name: docker-registry-config
+      - name: docker-registry-auth
+        secret:
+          secretName: docker-registry-auth
       - name: certs-volume
         secret:
           secretName: docker-registry-certs

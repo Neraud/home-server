@@ -21,7 +21,7 @@ prometheus_operator:
     app.kubernetes.io/part-of: prometheus
 
   container:
-    image: "{{ docker_registry.url }}/{{ _prometheus_operator_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _prometheus_operator_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('50m') }}"
@@ -41,7 +41,7 @@ _prometheus_operator_rbac_proxy_var_loader:
 prometheus_operator_rbac_proxy:
   base_image: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image }}"
   container:
-    image: "{{ docker_registry.url }}/{{ _prometheus_operator_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_rbac_proxy_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _prometheus_operator_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_rbac_proxy_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('10m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('20Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('20m') }}"
@@ -72,7 +72,7 @@ prometheus:
     app.kubernetes.io/part-of: prometheus
 
   container:
-    image: "{{ docker_registry.url }}/{{ _prometheus_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _prometheus_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ prometheus_container_requests_memory | default('768Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('400m') }}"
@@ -101,7 +101,7 @@ alertmanager:
     app.kubernetes.io/part-of: prometheus
 
   container:
-    image: "{{ docker_registry.url }}/{{ _alertmanager_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _alertmanager_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _alertmanager_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _alertmanager_var_loader.base_image.tag }}"
     requests_cpu: "{{ alertmanager_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ alertmanager_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ alertmanager_container_limits_cpu | default('50m') }}"

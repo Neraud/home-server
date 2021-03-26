@@ -3,6 +3,7 @@
 kubernetes_ingress_http_port: 30080
 kubernetes_ingress_https_port: 30443
 kubernetes_ingress_lemonLdap_handler_port: 30081
+kubernetes_ingress_openldap_port: 30636
 kubernetes_ingress_mqtt_port: 31883
 # To avoid issues with having the same NodePort used for both protocols, we use different ports (see https://github.com/kubernetes/kubernetes/issues/85020)
 kubernetes_pihole_tcp_port: 30053

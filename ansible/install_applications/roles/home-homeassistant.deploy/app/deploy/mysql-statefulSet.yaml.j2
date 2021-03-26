@@ -91,6 +91,8 @@ spec:
         emptyDir: {}
       - name: run-volume
         emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:

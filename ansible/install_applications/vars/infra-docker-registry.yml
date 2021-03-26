@@ -30,5 +30,6 @@ docker_registry:
 
   servername: "{{ docker_registry_servername | default('registry.' + _docker_registry_var_loader.namespace + '.svc.cluster.local') }}"
   port: "{{ _docker_registry_var_loader.port }}"
-  url: "{{ docker_registry_url | default('127.0.0.1:' + _docker_registry_var_loader.port) }}"
+  url: "registry.{{ web_base_domain }}"
   notification_endpoints: "{{ docker_registry_notification_endpoints | default([]) }}"
+  users: "{{ docker_registry_users | default([]) }}"

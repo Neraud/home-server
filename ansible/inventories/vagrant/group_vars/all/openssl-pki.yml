@@ -20,6 +20,13 @@ openssl_custom_pki:
         locality_name: Paris
         organization_name: Test
         email_address: user@mail.net
+      - name: "registry.{{ web_base_domain }}"
+        common_name: "registry.{{ web_base_domain }}"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        email_address: user@mail.net
       - name: "infra.{{ web_base_domain }}"
         common_name: "infra.{{ web_base_domain }}"
         country_name: FR

@@ -9,6 +9,12 @@ storage:
     rootdirectory: /var/lib/registry
   delete:
     enabled: true
+{% if docker_registry_users %}
+auth:
+  htpasswd:
+    realm: basic-realm
+    path: /etc/docker/registry/htpasswd
+{% endif %}
 health:
   storagedriver:
     enabled: true

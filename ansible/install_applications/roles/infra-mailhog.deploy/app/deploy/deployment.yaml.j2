@@ -66,5 +66,7 @@ spec:
       - name: mailhog-smtp
         secret:
           secretName: mailhog-smtp
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'

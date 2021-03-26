@@ -1,6 +1,6 @@
 ---
 
-dns_local_domain: k8stest.com
+dns_local_domain: k8s.test
 
 dns_local_hosts: "{{ dns_static_hosts }}"
 

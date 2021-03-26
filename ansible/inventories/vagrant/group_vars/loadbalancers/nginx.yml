@@ -22,6 +22,11 @@ nginx_upstreams:
       - master-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
       - master-2:{{ kubernetes_ingress_lemonLdap_handler_port }}
       - master-3:{{ kubernetes_ingress_lemonLdap_handler_port }}
+  - name: kubernetes-openldap-ingress
+    servers:
+      - master-1:{{ kubernetes_ingress_openldap_port }}
+      - master-2:{{ kubernetes_ingress_openldap_port }}
+      - master-3:{{ kubernetes_ingress_openldap_port }}
   - name: kubernetes-mqtt-ingress
     servers:
       - master-1:{{ kubernetes_ingress_mqtt_port }}
@@ -88,6 +93,31 @@ nginx_sites:
         content: |
           access_log /var/log/nginx/auth_lemonldap_auth_failed.log lemonldap-auth if=$upstream_http_lm_auth_failed;
           proxy_hide_header Lm-Auth-Failed;
+
+  - name: registry
+    enabled_name: 050-registry
+    server_name: "registry.{{ web_base_domain }}"
+    default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/registry.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/registry.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        content: |
+          # disable any limits to avoid HTTP 413 for large image uploads
+          client_max_body_size 0;
+          # required to avoid HTTP 411: see Issue #1486 (https://github.com/moby/moby/issues/1486)
+          chunked_transfer_encoding on;
+          proxy_read_timeout 900;
 
   - name: infra
     enabled_name: 100-infra
@@ -250,6 +280,13 @@ nginx_sites:
         lemonLdap_protected: True
 
 nginx_streams:
+  - name: auth_openldap
+    enabled_name: 075-auth_openldap
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    tcp_port: 636
+    # TODO : TCP 636 and let openldap handle the cert ?
+    # Or SSL with cert on nginx ?
+    proxy_pass: kubernetes-openldap-ingress
   - name: home_mqtt
     enabled_name: 100-home_mqtt
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
@@ -281,6 +318,11 @@ nginx_ufw_applications:
     title: Nginx Web Server Status
     description: Small, but very powerful and efficient web server
     ports: 81/tcp
+    rule: allow
+  - name: openldap
+    title: OpenLDAP
+    description: OpenLDAP is a free, open-source implementation of the Lightweight Directory Access Protocol developed by the OpenLDAP Project
+    ports: 636/tcp
     rule: allow
   - name: mosquitto
     title: Mosquitto

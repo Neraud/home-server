@@ -57,5 +57,7 @@ spec:
       - name: kubeletsockets
         hostPath:
           path: /var/lib/kubelet/device-plugins
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/gpu: 'intel'

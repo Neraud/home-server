@@ -15,6 +15,8 @@ dns_static_hosts:
     ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
   - name: "auth.{{ web_base_domain }}"
     ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+  - name: "registry.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
   - name: "infra.{{ web_base_domain }}"
     ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
   - name: "unifi.{{ web_base_domain }}"

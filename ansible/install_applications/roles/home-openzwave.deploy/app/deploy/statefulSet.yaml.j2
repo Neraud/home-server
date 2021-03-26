@@ -100,6 +100,8 @@ spec:
         configMap:
           name: openzwave-config
           defaultMode: 0777
+      imagePullSecrets:
+      - name: docker-config
       nodeSelector:
         capability/home: 'yes'
   volumeClaimTemplates:

@@ -1,12 +1,21 @@
 ---
 common:
   box_name: debian/contrib-buster64
-  box_version: 10.4.0
+  box_version: 10.20210228.1
   # Name of the storage controller to add the DATA disk.
   # To find the exact name, start the box a first time and look at the storage settings in VirtualBox
   sata_controller_name: "SATA Controller"
   network_cidr: 192.168.100.0/24
 
+# Dedicated controller
+#controller:
+#  name: "controller"
+#  cpu: 1
+#  memory: 1024
+#  ip: 192.168.100.20
+#  docker_disk_size: 32768
+
+# Use master-1 to save resources:
 controller:
   name: "master-1"
   cpu: 3

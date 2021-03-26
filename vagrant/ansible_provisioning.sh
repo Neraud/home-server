@@ -7,7 +7,7 @@ ANSIBLE_PLAYBOOK_ARGS="-i /opt/provision/ansible/inventories/vagrant/inventory.i
 ANSIBLE_PLAYBOOK_ARGS=$ANSIBLE_PLAYBOOK_ARGS" /opt/provision/ansible/site.yml"
 #ANSIBLE_PLAYBOOK_ARGS=$ANSIBLE_PLAYBOOK_ARGS" -v"
 
-if [ $# -ne 1 ] ; then
+if [ $# -ge 1 ] ; then
     ANSIBLE_PLAYBOOK_ARGS=$ANSIBLE_PLAYBOOK_ARGS" $*"
 fi
 

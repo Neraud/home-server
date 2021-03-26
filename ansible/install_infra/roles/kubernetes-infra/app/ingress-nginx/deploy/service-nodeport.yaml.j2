@@ -25,6 +25,13 @@ spec:
       protocol: TCP
       targetPort: https
 {% endif %}
+{% if kubernetes_nginx_ingress_openldap_port | default(false) %}
+    - name: ldaps
+      port: 636
+      nodePort: {{ kubernetes_nginx_ingress_openldap_port }}
+      protocol: TCP
+      targetPort: 636
+{% endif %}
 {% if kubernetes_nginx_ingress_mqtt_port | default(false) %}
     - name: mqtt
       port: 1883

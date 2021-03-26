@@ -1,7 +1,20 @@
 ---
 
-# It's required to refefine this variable even if it's the same value as the default one to have it available for openssl-pki
+# It's required to redefine this variable even if it's the same value as the default one to have it available for openssl-pki
 docker_registry_servername: docker-registry.infra-docker-registry.svc.cluster.local
+
+docker_registry_kube_registry_username: kube
+docker_registry_kube_registry_password: Passw0rd
+docker_registry_ui_registry_username: docker_registry_ui
+docker_registry_ui_registry_password: Passw0rd
+
+docker_registry_users:
+  - name: "{{ private_registry_username }}"
+    password: "{{ private_registry_password }}"
+  - name: "{{ docker_registry_kube_registry_username }}"
+    password: "{{ docker_registry_kube_registry_password }}"
+  - name: "{{ docker_registry_ui_registry_username }}"
+    password: "{{ docker_registry_ui_registry_password }}"
 
 docker_registry_ui_event_api_token: "abcdefghijklmnopqrstuvwxyz123456"
 

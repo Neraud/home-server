@@ -21,7 +21,7 @@ nginx_log_exporter:
     app.kubernetes.io/version: "{{ _nginx_log_exporter_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_registry.url }}/{{ _nginx_log_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nginx_log_exporter_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/{{ _nginx_log_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nginx_log_exporter_var_loader.base_image.tag }}"
     requests_cpu: "{{ nginx_log_exporter_container_requests_cpu | default('20m') }}"
     requests_memory: "{{ nginx_log_exporter_container_requests_memory | default('48Mi') }}"
     limits_cpu: "{{ nginx_log_exporter_container_limits_cpu | default('100m') }}"

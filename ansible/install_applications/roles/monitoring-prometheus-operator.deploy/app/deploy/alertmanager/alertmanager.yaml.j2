@@ -24,6 +24,8 @@ spec:
     - name: alertmanager-k8s-pv-claim
       mountPath: /data
   image: "{{ alertmanager.container.image }}"
+  imagePullSecrets:
+  - name: docker-config
   podMetadata:
     labels:
       {{ alertmanager.labels_def | to_nice_yaml() | indent(6) }}
