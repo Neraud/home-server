@@ -655,10 +655,7 @@ watchers:
     image: {{ ttrss.base_image.name }}
     tag: {{ ttrss.base_image.tag }}
     includes:
-      - '7\.[0-9]+.[0-9]+-apache-buster'
-    excludes:
-      - 7\.[0-3]\..*
-      - 7\.4\.[0-7]-.*
+      - '8\.[0-9]+.[0-9]+-apache-buster'
   - name: TT-RSS
     type: raw_html
     page_url: https://git.tt-rss.org/fox/tt-rss/commits/master

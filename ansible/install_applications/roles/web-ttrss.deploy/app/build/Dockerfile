@@ -47,6 +47,7 @@ RUN mkdir -p /opt/ttrss && \
     chown -R www-data:www-data /var/www
 
 ENV TTRSS_RUN_ROOT_DIR=/opt/ttrss
+ENV TTRSS_PHP_EXECUTABLE=/usr/local/bin/php
 
 # Prepare apache conf for alias if needed
 RUN touch /etc/apache2/conf-enabled/ttrss-context.conf && \
