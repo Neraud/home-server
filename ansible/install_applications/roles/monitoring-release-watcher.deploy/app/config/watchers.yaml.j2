@@ -655,10 +655,7 @@ watchers:
     image: {{ ttrss.base_image.name }}
     tag: {{ ttrss.base_image.tag }}
     includes:
-      - '7\.[0-9]+.[0-9]+-apache-buster'
-    excludes:
-      - 7\.[0-3]\..*
-      - 7\.4\.[0-7]-.*
+      - '8\.[0-9]+.[0-9]+-apache-buster'
   - name: TT-RSS
     type: raw_html
     page_url: https://git.tt-rss.org/fox/tt-rss/commits/master
@@ -671,7 +668,7 @@ watchers:
     date_attribute: "title"
   - name: TT-RSS Data migration
     type: raw_html
-    page_url: https://git.tt-rss.org/fox/ttrss-data-migration/commits/master
+    page_url: {{ ttrss.plugins.data_migration.repo_url }}/commits/{{ ttrss.plugins.data_migration.branch }}
     id: {{ ttrss.plugins.data_migration.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"
@@ -681,12 +678,12 @@ watchers:
     date_attribute: "title"
   - name: TT-RSS Auth LDAP
     type: github_commit
-    repo: hydrian/TTRSS-Auth-LDAP
-    branch: master
+    repo: {{ ttrss.plugins.auth_ldap.github_repo }}
+    branch: {{ ttrss.plugins.auth_ldap.branch }}
     commit: {{ ttrss.plugins.auth_ldap.commit }}
   - name: TT-RSS Mailer SMTP
     type: raw_html
-    page_url: https://git.tt-rss.org/fox/ttrss-mailer-smtp/commits/master
+    page_url: {{ ttrss.plugins.mailer_smtp.repo_url }}/commits/{{ ttrss.plugins.mailer_smtp.branch }}
     id: {{ ttrss.plugins.mailer_smtp.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"

@@ -8,4 +8,5 @@ metadata:
     {{ ttrss_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
 data:
   init-ttrss-schema.sql:  |
-    {{ lookup('file', ttrss_pgsql.schema_path_temp)  | replace('\n', '\n    ') }}
+    {# Without the user-agent, this gets blocked by a 403 #}
+    {{ lookup('url', ttrss_pgsql.schema_url, headers={'User-Agent':'ansible-httpget'})  | replace('\n', '\n    ') }}

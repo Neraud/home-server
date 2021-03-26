@@ -29,6 +29,9 @@ else
     rm -f /tmp/apache2/conf/ttrss-feed-icons.conf
 fi
 
+echo "Updating schema, if necessary"
+docker-php-entrypoint /opt/ttrss/update.php --update-schema=force-yes
+
 if [ "$1" == "job" ]; then
     echo "Stating job"
     docker-php-entrypoint /opt/ttrss/update_daemon2.php
