@@ -102,4 +102,3 @@ ttrss_pgsql:
   database: "{{ ttrss_pgsql_database | default('ttrss') }}"
   password: "{{ ttrss_pgsql_password | default('clear_password') }}"
   schema_url: "https://git.tt-rss.org/fox/tt-rss/raw/{{ _ttrss_var_loader.full_commit }}/schema/ttrss_schema_pgsql.sql"
-  schema_path_temp: /tmp/tt-rss-schema.sql

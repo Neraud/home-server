@@ -29,14 +29,6 @@
     base_image: "{{ ttrss_pgsql.base_image }}"
     private_image: "{{ ttrss_pgsql.container.image }}"
 
-# We can't just use a lookup('url', ttrss_pgsql.schema_url) to inject the schema file directly.
-# This gets blocked by a 403, probably due to a user-agent filter on TT-RSS Gogs.
-- name: Download the TT-RSS schema
-  get_url:
-    dest: "{{ ttrss_pgsql.schema_path_temp }}"
-    url: "{{ ttrss_pgsql.schema_url }}"
-  changed_when: False
-
 - name: Deploy TT-RSS
   k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
@@ -45,9 +37,3 @@
     context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/app/deploy/*.yaml*"
-
-- name: Remove the TT-RSS schema
-  file:
-    path: "{{ ttrss_pgsql.schema_path_temp }}"
-    state: absent
-  changed_when: False
