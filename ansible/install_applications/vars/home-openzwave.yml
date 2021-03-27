@@ -4,7 +4,7 @@
 _openzwave_var_loader:
   base_image:
     name: "openzwave/ozwdaemon"
-    tag: "allinone-amd64-189"
+    tag: "allinone-amd64-193"
 
 openzwave:
   enabled: "{{ openzwave_enabled | default(True) }}"
