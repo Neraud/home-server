@@ -5,7 +5,7 @@ _prometheus_operator_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus-operator/prometheus-operator"
-    tag: "v0.44.1"
+    tag: "v0.46.0"
 
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
@@ -53,7 +53,7 @@ _prometheus_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/prometheus"
-    tag: "v2.22.1"
+    tag: "v2.25.0"
   namespace: "monitoring-prometheus"
 
 prometheus:

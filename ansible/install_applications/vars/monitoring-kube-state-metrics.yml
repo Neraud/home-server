@@ -3,9 +3,9 @@
 # To avoid loops inside kube_state_metrics
 _kube_state_metrics_var_loader:
   base_image:
-    repo: quay.io
-    name: "coreos/kube-state-metrics"
-    tag: "v1.9.7"
+    repo: k8s.gcr.io
+    name: "kube-state-metrics/kube-state-metrics"
+    tag: "v2.0.0-rc.0"
 
 kube_state_metrics:
   enabled: "{{ kube_state_metrics_enabled | default(True) }}"

@@ -123,7 +123,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(kube_pod_container_resource_requests_cpu_cores{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable_cpu_cores{cluster=\"$cluster\"})",
+                            "expr": "sum(namespace:kube_pod_container_resource_requests_cpu_cores:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{resource=\"cpu\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -199,7 +199,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(kube_pod_container_resource_limits_cpu_cores{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable_cpu_cores{cluster=\"$cluster\"})",
+                            "expr": "sum(kube_pod_container_resource_limits{cluster=\"$cluster\", resource=\"cpu\"}) / sum(kube_node_status_allocatable{resource=\"cpu\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -275,7 +275,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "1 - sum(:node_memory_MemAvailable_bytes:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable_memory_bytes{cluster=\"$cluster\"})",
+                            "expr": "1 - sum(:node_memory_MemAvailable_bytes:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{resource=\"memory\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -351,7 +351,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(kube_pod_container_resource_requests_memory_bytes{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable_memory_bytes{cluster=\"$cluster\"})",
+                            "expr": "sum(namespace:kube_pod_container_resource_requests_memory_bytes:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{resource=\"memory\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -427,7 +427,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(kube_pod_container_resource_limits_memory_bytes{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable_memory_bytes{cluster=\"$cluster\"})",
+                            "expr": "sum(kube_pod_container_resource_limits{cluster=\"$cluster\", resource=\"memory\"}) / sum(kube_node_status_allocatable{resource=\"memory\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -768,7 +768,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(kube_pod_container_resource_requests_cpu_cores{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(namespace:kube_pod_container_resource_requests_cpu_cores:sum{cluster=\"$cluster\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -777,7 +777,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{cluster=\"$cluster\"}) by (namespace) / sum(kube_pod_container_resource_requests_cpu_cores{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{cluster=\"$cluster\"}) by (namespace) / sum(kube_pod_container_resource_requests{cluster=\"$cluster\", resource=\"cpu\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -786,7 +786,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(kube_pod_container_resource_limits_cpu_cores{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(kube_pod_container_resource_limits{cluster=\"$cluster\", resource=\"cpu\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -795,7 +795,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{cluster=\"$cluster\"}) by (namespace) / sum(kube_pod_container_resource_limits_cpu_cores{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate{cluster=\"$cluster\"}) by (namespace) / sum(kube_pod_container_resource_limits{cluster=\"$cluster\", resource=\"cpu\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1139,7 +1139,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(kube_pod_container_resource_requests_memory_bytes{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(kube_pod_container_resource_requests{cluster=\"$cluster\", resource=\"memory\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1148,7 +1148,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(container_memory_rss{cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(kube_pod_container_resource_requests_memory_bytes{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(container_memory_rss{cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(kube_pod_container_resource_requests{cluster=\"$cluster\", resource=\"memory\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1157,7 +1157,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(kube_pod_container_resource_limits_memory_bytes{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(kube_pod_container_resource_limits{cluster=\"$cluster\", resource=\"memory\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1166,7 +1166,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(container_memory_rss{cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(kube_pod_container_resource_limits_memory_bytes{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(container_memory_rss{cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(kube_pod_container_resource_limits{cluster=\"$cluster\", resource=\"memory\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1477,7 +1477,7 @@
             "repeatIteration": null,
             "repeatRowId": null,
             "showTitle": true,
-            "title": "Network",
+            "title": "Current Network Usage",
             "titleSize": "h6"
         },
         {
@@ -1511,7 +1511,7 @@
                     "renderer": "flot",
                     "seriesOverrides": [],
                     "spaceLength": 10,
-                    "span": 12,
+                    "span": 6,
                     "stack": true,
                     "steppedLine": false,
                     "targets": [
@@ -1559,19 +1559,7 @@
                             "show": false
                         }
                     ]
-                }
-            ],
-            "repeat": null,
-            "repeatIteration": null,
-            "repeatRowId": null,
-            "showTitle": true,
-            "title": "Network",
-            "titleSize": "h6"
-        },
-        {
-            "collapse": false,
-            "height": "250px",
-            "panels": [
+                },
                 {
                     "aliasColors": {},
                     "bars": false,
@@ -1599,7 +1587,7 @@
                     "renderer": "flot",
                     "seriesOverrides": [],
                     "spaceLength": 10,
-                    "span": 12,
+                    "span": 6,
                     "stack": true,
                     "steppedLine": false,
                     "targets": [
@@ -1653,7 +1641,7 @@
             "repeatIteration": null,
             "repeatRowId": null,
             "showTitle": true,
-            "title": "Network",
+            "title": "Bandwidth",
             "titleSize": "h6"
         },
         {
@@ -1687,7 +1675,7 @@
                     "renderer": "flot",
                     "seriesOverrides": [],
                     "spaceLength": 10,
-                    "span": 12,
+                    "span": 6,
                     "stack": true,
                     "steppedLine": false,
                     "targets": [
@@ -1735,19 +1723,7 @@
                             "show": false
                         }
                     ]
-                }
-            ],
-            "repeat": null,
-            "repeatIteration": null,
-            "repeatRowId": null,
-            "showTitle": true,
-            "title": "Network",
-            "titleSize": "h6"
-        },
-        {
-            "collapse": false,
-            "height": "250px",
-            "panels": [
+                },
                 {
                     "aliasColors": {},
                     "bars": false,
@@ -1775,7 +1751,7 @@
                     "renderer": "flot",
                     "seriesOverrides": [],
                     "spaceLength": 10,
-                    "span": 12,
+                    "span": 6,
                     "stack": true,
                     "steppedLine": false,
                     "targets": [
@@ -1829,7 +1805,7 @@
             "repeatIteration": null,
             "repeatRowId": null,
             "showTitle": true,
-            "title": "Network",
+            "title": "Average Container Bandwidth by Namespace",
             "titleSize": "h6"
         },
         {
@@ -1863,7 +1839,7 @@
                     "renderer": "flot",
                     "seriesOverrides": [],
                     "spaceLength": 10,
-                    "span": 12,
+                    "span": 6,
                     "stack": true,
                     "steppedLine": false,
                     "targets": [
@@ -1911,19 +1887,7 @@
                             "show": false
                         }
                     ]
-                }
-            ],
-            "repeat": null,
-            "repeatIteration": null,
-            "repeatRowId": null,
-            "showTitle": true,
-            "title": "Network",
-            "titleSize": "h6"
-        },
-        {
-            "collapse": false,
-            "height": "250px",
-            "panels": [
+                },
                 {
                     "aliasColors": {},
                     "bars": false,
@@ -1951,7 +1915,7 @@
                     "renderer": "flot",
                     "seriesOverrides": [],
                     "spaceLength": 10,
-                    "span": 12,
+                    "span": 6,
                     "stack": true,
                     "steppedLine": false,
                     "targets": [
@@ -2005,7 +1969,7 @@
             "repeatIteration": null,
             "repeatRowId": null,
             "showTitle": true,
-            "title": "Network",
+            "title": "Rate of Packets",
             "titleSize": "h6"
         },
         {
@@ -2039,7 +2003,7 @@
                     "renderer": "flot",
                     "seriesOverrides": [],
                     "spaceLength": 10,
-                    "span": 12,
+                    "span": 6,
                     "stack": true,
                     "steppedLine": false,
                     "targets": [
@@ -2087,19 +2051,7 @@
                             "show": false
                         }
                     ]
-                }
-            ],
-            "repeat": null,
-            "repeatIteration": null,
-            "repeatRowId": null,
-            "showTitle": true,
-            "title": "Network",
-            "titleSize": "h6"
-        },
-        {
-            "collapse": false,
-            "height": "250px",
-            "panels": [
+                },
                 {
                     "aliasColors": {},
                     "bars": false,
@@ -2127,7 +2079,7 @@
                     "renderer": "flot",
                     "seriesOverrides": [],
                     "spaceLength": 10,
-                    "span": 12,
+                    "span": 6,
                     "stack": true,
                     "steppedLine": false,
                     "targets": [
@@ -2181,7 +2133,7 @@
             "repeatIteration": null,
             "repeatRowId": null,
             "showTitle": true,
-            "title": "Network",
+            "title": "Rate of Packets Dropped",
             "titleSize": "h6"
         }
     ],
