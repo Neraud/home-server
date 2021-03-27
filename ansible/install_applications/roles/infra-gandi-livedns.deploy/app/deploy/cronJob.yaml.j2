@@ -8,6 +8,7 @@ metadata:
     {{ gandi_livedns.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   schedule: "{{ gandi_livedns.cron }}"
+  startingDeadlineSeconds: 600
   jobTemplate:
     spec:
       template:

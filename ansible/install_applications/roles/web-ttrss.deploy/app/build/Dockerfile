@@ -2,9 +2,9 @@ ARG from_image
 FROM $from_image
 
 ARG ttrss_commit
-ARG ttrss_plugin_data_migration_commit
-ARG ttrss_plugin_auth_ldap_commit
-ARG ttrss_plugin_mailer_smtp_commit
+ARG ttrss_plugin_data_migration_url
+ARG ttrss_plugin_auth_ldap_url
+ARG ttrss_plugin_mailer_smtp_url
 
 # Change apache port
 RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
@@ -47,6 +47,7 @@ RUN mkdir -p /opt/ttrss && \
     chown -R www-data:www-data /var/www
 
 ENV TTRSS_RUN_ROOT_DIR=/opt/ttrss
+ENV TTRSS_PHP_EXECUTABLE=/usr/local/bin/php
 
 # Prepare apache conf for alias if needed
 RUN touch /etc/apache2/conf-enabled/ttrss-context.conf && \
@@ -63,18 +64,18 @@ RUN apt-get update && \
     apt-get install -y zlib1g-dev libzip-dev && \
     docker-php-ext-install zip && \
     mkdir /opt/ttrss/plugins.local/data_migration && \
-    curl -sL "https://git.tt-rss.org/fox/ttrss-data-migration/archive/${ttrss_plugin_data_migration_commit}.tar.gz" | tar xz --strip-components=1 -C /opt/ttrss/plugins.local/data_migration && \
+    curl -sL "${ttrss_plugin_data_migration_url}" | tar xz --strip-components=1 -C /opt/ttrss/plugins.local/data_migration && \
     rm -rf /var/lib/apt/lists/*
 
 # Install plugin LDAP Auth
 RUN apt-get update && \
     apt-get install -y libldap2-dev && \
     docker-php-ext-install ldap && \
-    curl -sL "https://github.com/hydrian/TTRSS-Auth-LDAP/archive/${ttrss_plugin_auth_ldap_commit}.tar.gz" | tar xz --strip-components=2 -C /opt/ttrss/plugins.local && \
+    curl -sL "${ttrss_plugin_auth_ldap_url}" | tar xz --strip-components=2 -C /opt/ttrss/plugins.local && \
     rm -rf /var/lib/apt/lists/*
 
 # Install plugin Mailer SMTP
 RUN mkdir /opt/ttrss/plugins.local/mailer_smtp && \
-    curl -sL "https://git.tt-rss.org/fox/ttrss-mailer-smtp/archive/${ttrss_plugin_mailer_smtp_commit}.tar.gz" | tar xz --strip-components=1 -C /opt/ttrss/plugins.local/mailer_smtp
+    curl -sL "${ttrss_plugin_mailer_smtp_url}" | tar xz --strip-components=1 -C /opt/ttrss/plugins.local/mailer_smtp
 
 USER www-data

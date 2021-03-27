@@ -4,7 +4,7 @@
 _nginx_exporter_var_loader:
   base_image:
     name: "nginx/nginx-prometheus-exporter"
-    tag: "0.8.0"
+    tag: "0.9.0"
 
 nginx_exporter:
   enabled: "{{ nginx_exporter_enabled | default(True) }}"

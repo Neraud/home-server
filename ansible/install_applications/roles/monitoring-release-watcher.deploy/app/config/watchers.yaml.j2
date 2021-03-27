@@ -25,7 +25,7 @@ watchers:
     commit: 3ebaacc2c690223f77fc93f5f237ab5065138660
   - type: github_release
     repo: cafebazaar/keepalived-exporter
-    release: v1.1.0
+    release: v1.2.0
   
 
   ########
@@ -52,12 +52,12 @@ watchers:
       - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
-    release: v3.18.0
+    release: v3.18.1
     excludes:
       - v3\.1[0-7]\..*
   - type: github_release
     repo: intel/multus-cni
-    release: v3.6
+    release: v3.7.1
 
 
   ###############
@@ -187,7 +187,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^2020\..*
-      - ^2021\.[1]\..*
+      - ^2021\.[1-2]\..*
   - type: github_commit
     repo: efficiosoft/ldap-auth-sh
     branch: master
@@ -258,7 +258,7 @@ watchers:
       - "allinone-amd64-"
     excludes:
       - "allinone-amd64-[0-9][0-9]$"
-      - "allinone-amd64-1[0-6][0-9]$"
+      - "allinone-amd64-1[0-8][0-9]$"
 
   ################
   # Apps : Infra #
@@ -288,10 +288,10 @@ watchers:
     image: {{ pihole.base_image.name }}
     tag: {{ pihole.base_image.tag }}
     includes:
-      - "v[0-9]+\\.[0-9]+\\.[0-9]+-amd64-buster"
+      - "v[0-9]+\\.[0-9]+(\\.[0-9]+)?-amd64-buster"
     excludes:
       - v[1-4]\..*
-      - v5\.[0-4]\..*
+      - v5\.[0-6][.-].*
   - type: docker_registry
     repo: {{ gotify.base_image.repo | default('registry-1.docker.io') }}
     image: {{ gotify.base_image.name }}
@@ -418,7 +418,8 @@ watchers:
     excludes:
       - latest
       - ^0\..*
-      - ^1\.[0-8]\..*
+      - ^1\.[0-9]\..*
+      - ^1\.1[0-2]\..*
   - type: docker_registry
     repo: {{ elasticsearch_exporter.base_image.repo | default('registry-1.docker.io') }}
     image: {{ elasticsearch_exporter.base_image.name }}
@@ -492,15 +493,16 @@ watchers:
     excludes:
       - latest
       - ^0\..*
-      - ^1\.[0-8]\..*
+      - ^1\.[0-9]\..*
+      - ^1\.1[0-2]\..*
   
   #####################
   # Apps : Monitoring #
   #####################
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
-    branch: master
-    commit: 09ca49fce0353a90b63e172ce76435d2f85eccbb
+    branch: main
+    commit: 003daae4955be351c90484831c49d2fe88760622
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
@@ -612,7 +614,7 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
-      - ^10\.[0-5]\..*
+      - ^10\.[0-6]\..*
   - name: Jellyfin inject conf
     type: docker_registry
     repo: {{ jellyfin.conf_injection_base_image.repo | default('registry-1.docker.io') }}
@@ -621,9 +623,9 @@ watchers:
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - 3\.[0-7]\..*
+      - 3\.[0-8]\..*
       - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[01]
+      - .*-alpine3\.1[02]
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anime
     tag: {{ jellyfin.plugins.anime.version }}
@@ -655,10 +657,7 @@ watchers:
     image: {{ ttrss.base_image.name }}
     tag: {{ ttrss.base_image.tag }}
     includes:
-      - '7\.[0-9]+.[0-9]+-apache-buster'
-    excludes:
-      - 7\.[0-3]\..*
-      - 7\.4\.[0-7]-.*
+      - '8\.[0-9]+.[0-9]+-apache-buster'
   - name: TT-RSS
     type: raw_html
     page_url: https://git.tt-rss.org/fox/tt-rss/commits/master
@@ -671,7 +670,7 @@ watchers:
     date_attribute: "title"
   - name: TT-RSS Data migration
     type: raw_html
-    page_url: https://git.tt-rss.org/fox/ttrss-data-migration/commits/master
+    page_url: {{ ttrss.plugins.data_migration.repo_url }}/commits/{{ ttrss.plugins.data_migration.branch }}
     id: {{ ttrss.plugins.data_migration.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"
@@ -681,12 +680,12 @@ watchers:
     date_attribute: "title"
   - name: TT-RSS Auth LDAP
     type: github_commit
-    repo: hydrian/TTRSS-Auth-LDAP
-    branch: master
+    repo: {{ ttrss.plugins.auth_ldap.github_repo }}
+    branch: {{ ttrss.plugins.auth_ldap.branch }}
     commit: {{ ttrss.plugins.auth_ldap.commit }}
   - name: TT-RSS Mailer SMTP
     type: raw_html
-    page_url: https://git.tt-rss.org/fox/ttrss-mailer-smtp/commits/master
+    page_url: {{ ttrss.plugins.mailer_smtp.repo_url }}/commits/{{ ttrss.plugins.mailer_smtp.branch }}
     id: {{ ttrss.plugins.mailer_smtp.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"

@@ -4,10 +4,9 @@
 _ttrss_var_loader:
   base_image:
     name: "php"
-    # TT-RSS floods warnings with php8
-    tag: "7.4.14-apache-buster"
-  commit: 6c546f37ba
-  full_commit: 6c546f37ba5271f0e1af98947bc3e59f8a8de2fc
+    tag: "8.0.3-apache-buster"
+  commit: f2f2b6d1f4
+  full_commit: f2f2b6d1f42ffd031534a20d24f547984835dd17
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -43,11 +42,21 @@ ttrss:
 
   plugins:
     data_migration:
-      commit: 7ad0075303
+      repo_url: "https://git.tt-rss.org/fox/ttrss-data-migration"
+      branch: master
+      commit: 841bea895d
     auth_ldap:
-      commit: 0cc2a21441f99eef8368cfe0fbdbb78126e28d61
+      #github_repo: "hydrian/TTRSS-Auth-LDAP"
+      #branch: master
+      #commit: 0cc2a21441f99eef8368cfe0fbdbb78126e28d61
+      # Switch to other repo waiting for https://github.com/hydrian/TTRSS-Auth-LDAP/pull/40
+      github_repo: "marcpaulchand/TTRSS-Auth-LDAP"
+      branch: php8_Auth_Base
+      commit: 557811efa15bab3b5044c98416f9e37264f11c9a
     mailer_smtp:
-      commit: 1f9daa1b78
+      repo_url: "https://git.tt-rss.org/fox/ttrss-mailer-smtp"
+      branch: master
+      commit: e5e76d233f
 
   ldap:
     servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
@@ -72,7 +81,7 @@ ttrss:
 _ttrss_pgsql_var_loader:
   base_image:
     name: "postgres"
-    tag: "12.5-alpine"
+    tag: "12.6-alpine"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"
@@ -96,4 +105,3 @@ ttrss_pgsql:
   database: "{{ ttrss_pgsql_database | default('ttrss') }}"
   password: "{{ ttrss_pgsql_password | default('clear_password') }}"
   schema_url: "https://git.tt-rss.org/fox/tt-rss/raw/{{ _ttrss_var_loader.full_commit }}/schema/ttrss_schema_pgsql.sql"
-  schema_path_temp: /tmp/tt-rss-schema.sql

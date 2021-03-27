@@ -4,8 +4,8 @@
 _homer_var_loader:
   base_image:
     name: "nginx"
-    tag: "1.19.7-alpine"
-  release: v20.12.19
+    tag: "1.19.8-alpine"
+  release: v21.03.2
 
 homer:
   enabled: "{{ homer_enabled | default(True) }}"

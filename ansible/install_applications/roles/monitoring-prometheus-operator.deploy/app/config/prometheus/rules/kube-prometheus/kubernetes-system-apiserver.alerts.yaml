@@ -52,3 +52,15 @@
     for: 15m
     labels:
       severity: critical
+  - alert: KubeAPITerminatedRequests
+    annotations:
+      description: The apiserver has terminated {{ $value | humanizePercentage }}
+        of its incoming requests.
+      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeapiterminatedrequests
+      summary: The apiserver has terminated {{ $value | humanizePercentage }} of its
+        incoming requests.
+    expr: |
+      sum(rate(apiserver_request_terminations_total{job="apiserver"}[10m]))  / (  sum(rate(apiserver_request_total{job="apiserver"}[10m])) + sum(rate(apiserver_request_terminations_total{job="apiserver"}[10m])) ) > 0.20
+    for: 5m
+    labels:
+      severity: warning
