@@ -66,7 +66,7 @@ The following services are deployed :
 | ---------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------ |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://infra.k8s.test/kube>                   | Kubernetes dashboard                                   |
 | [Docker Registry](https://docs.docker.com/registry/deploying/)   | -                                                  | Docker Registry                                        |
-| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://infra.k8s.test/docker-regitry-ui/>     | Web UI for Docker Registry                             |
+| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://infra.k8s.test/docker-registry-ui/>     | Web UI for Docker Registry                             |
 | [OpenLDAP](https://www.openldap.org/)                            | -                                                  | Open source Lightweight Directory Access Protocol      |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | <https://infra.k8s.test/lemonldap/manager.html> | Web Single Sign On and Access Management Free Software |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://infra.k8s.test/phpldapadmin/>          | Web-based LDAP browser                                 |
