@@ -88,6 +88,10 @@
   tags: kubernetes-app-monitoring-node-exporter
   when: node_exporter_enabled | bool
 
+- import_playbook: app-monitoring-node-exporter-external.yml
+  tags: kubernetes-app-monitoring-node-exporter-external
+  when: node_exporter_external_enabled | bool
+
 - import_playbook: app-monitoring-nginx-exporter.yml
   tags: kubernetes-app-monitoring-nginx-exporter
   when: nginx_exporter_enabled | bool

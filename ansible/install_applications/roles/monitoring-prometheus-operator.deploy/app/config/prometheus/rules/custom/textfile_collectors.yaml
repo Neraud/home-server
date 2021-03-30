@@ -1,0 +1,16 @@
+- name: textfile_collectors
+  rules:
+    - alert: AptUpdatesWarning
+      annotations:
+        message: "{{ $value }} pending updates on host {{ $labels.instance }}."
+      expr: sum by (instance) (apt_upgrades_pending) > 5
+      for: 3m
+      labels:
+        severity: warning
+    - alert: RebootRequiredWarning
+      annotations:
+        message: "Reboot required to apply updates on host {{ $labels.instance }}."
+      expr: node_reboot_required > 0
+      for: 3m
+      labels:
+        severity: warning

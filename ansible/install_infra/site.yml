@@ -7,6 +7,7 @@
     - common-apt
     - firewall
     - usb-serial
+    - monitoring-textfile-collectors
 
 - name: Provision APC UPS
   hosts: apcups
