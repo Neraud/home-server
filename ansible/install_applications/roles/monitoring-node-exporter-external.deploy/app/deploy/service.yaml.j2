@@ -6,6 +6,8 @@ metadata:
   namespace: {{ node_exporter_external.namespace }}
   labels:
     {{ node_exporter_external.labels_def | to_nice_yaml() | indent(4) }}
+    # this label will be used in relabelings to replace the instance
+    node-exporter-external-name: {{ node.name }}
     prometheus-target: node-exporter-external
 spec:
   ports:
