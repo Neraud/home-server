@@ -26,6 +26,7 @@ spec:
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
         - --collector.netclass.ignored-devices=^(veth.*)$
         - --collector.netdev.device-exclude=^(veth.*)$
+        - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
         image: "{{ node_exporter.container.image }}"
         imagePullPolicy: Always
         name: node-exporter
@@ -53,6 +54,9 @@ spec:
         - mountPath: /host/root
           mountPropagation: HostToContainer
           name: root
+          readOnly: true
+        - mountPath: /var/lib/node_exporter/textfile_collector
+          name: textfile-collector-volume
           readOnly: true
       - args:
         - --logtostderr
@@ -111,6 +115,9 @@ spec:
       - hostPath:
           path: /
         name: root
+      - name: textfile-collector-volume
+        hostPath:
+          path: /var/lib/node_exporter/textfile_collector
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 10%
