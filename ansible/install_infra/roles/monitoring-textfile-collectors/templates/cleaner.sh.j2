@@ -1,0 +1,5 @@
+#!/bin/bash
+# {{ ansible_managed }}
+
+# Delete files older than a day to make sure we don't keep exposing obsolete metrics
+find {{ textfile_collector_directory }} -mtime +0 -delete
