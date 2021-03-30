@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{ node_exporter_external.labels_def | to_nice_yaml() | indent(4) }}
+  name: node-exporter-external
+  namespace: {{ prometheus.namespace }}
+spec:
+  endpoints:
+  - interval: {{ (15 * service_monitors.interval_factor | float) | int }}s
+    port: metrics
+  namespaceSelector:
+    matchNames:
+    - {{ node_exporter_external.namespace }}
+  selector:
+    matchLabels:
+      prometheus-target: node-exporter-external

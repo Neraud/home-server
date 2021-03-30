@@ -1,0 +1,6 @@
+---
+
+- name: Provision monitoring-node-exporter-external
+  hosts: controller
+  roles:
+  - role: monitoring-node-exporter-external.deploy

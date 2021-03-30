@@ -1,0 +1,19 @@
+{% for node in node_exporter_external.nodes %}
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-exporter-external-{{ node.name }}
+  namespace: {{ node_exporter_external.namespace }}
+  labels:
+    {{ node_exporter_external.labels_def | to_nice_yaml() | indent(4) }}
+    prometheus-target: node-exporter-external
+spec:
+  ports:
+  - name: metrics
+    port: 9100
+    targetPort: metrics
+
+{% if not loop.last %}
+---
+{% endif %}
+{% endfor %}

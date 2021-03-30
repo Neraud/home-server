@@ -1,0 +1,17 @@
+{% for node in node_exporter_external.nodes %}
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: node-exporter-external-{{ node.name }}
+  namespace: {{ node_exporter_external.namespace }}
+subsets:
+- addresses:
+  - ip: {{ node.ip }}
+  ports:
+  - name: metrics
+    port: {{ node.port }}
+
+{% if not loop.last %}
+---
+{% endif %}
+{% endfor %}
