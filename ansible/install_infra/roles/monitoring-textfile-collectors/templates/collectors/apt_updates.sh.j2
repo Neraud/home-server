@@ -7,6 +7,8 @@
 # {{ ansible_managed }}
 # Copied from https://raw.githubusercontent.com/prometheus-community/node-exporter-textfile-collector-scripts/master/apt.sh
 
+apt-get -qq update
+
 upgrades="$(/usr/bin/apt-get --just-print dist-upgrade \
   | /usr/bin/awk -F'[()]' \
       '/^Inst/ { sub("^[^ ]+ ", "", $2); gsub(" ","",$2);
