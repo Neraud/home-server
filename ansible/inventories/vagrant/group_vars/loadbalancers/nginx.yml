@@ -14,9 +14,7 @@ nginx_extra_log_formats:
 nginx_upstreams:
   - name: kubernetes-https-ingress
     servers:
-      - master-1:{{ kubernetes_ingress_https_port }}
-      - master-2:{{ kubernetes_ingress_https_port }}
-      - master-3:{{ kubernetes_ingress_https_port }}
+      - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}"
   - name: kubernetes-lemonldap-handler-ingress
     servers:
       - master-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
@@ -24,14 +22,10 @@ nginx_upstreams:
       - master-3:{{ kubernetes_ingress_lemonLdap_handler_port }}
   - name: kubernetes-openldap-ingress
     servers:
-      - master-1:{{ kubernetes_ingress_openldap_port }}
-      - master-2:{{ kubernetes_ingress_openldap_port }}
-      - master-3:{{ kubernetes_ingress_openldap_port }}
+      - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_openldap_port }}"
   - name: kubernetes-mqtt-ingress
     servers:
-      - master-1:{{ kubernetes_ingress_mqtt_port }}
-      - master-2:{{ kubernetes_ingress_mqtt_port }}
-      - master-3:{{ kubernetes_ingress_mqtt_port }}
+      - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_mqtt_port }}"
   - name: kubernetes-pihole-tcp
     servers:
       - master-1:{{ kubernetes_pihole_tcp_port }}

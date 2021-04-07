@@ -6,9 +6,12 @@ metallb_ip_pools:
   addresses: 
   - 192.168.100.20-192.168.100.29
 
+kubernetes_nginx_ingress_lb_ip: 192.168.100.20
+kubernetes_ingress_http_port: 80
+kubernetes_ingress_https_port: 443
 kubernetes_ingress_lemonLdap_handler_port: 30081
-kubernetes_ingress_openldap_port: 30636
-kubernetes_ingress_mqtt_port: 31883
+kubernetes_ingress_openldap_port: 636
+kubernetes_ingress_mqtt_port: 1883
 # To avoid issues with having the same NodePort used for both protocols, we use different ports (see https://github.com/kubernetes/kubernetes/issues/85020)
 kubernetes_pihole_tcp_port: 30053
 kubernetes_pihole_udp_port: 30054

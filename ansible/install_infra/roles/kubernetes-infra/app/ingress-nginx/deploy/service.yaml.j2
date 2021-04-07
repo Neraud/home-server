@@ -9,33 +9,31 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerIP: {{ kubernetes_nginx_ingress_lb_ip }}
+  externalTrafficPolicy: Local
   ports:
 {% if kubernetes_nginx_ingress_http_port | default(false) %}
     - name: http
-      port: 80
-      nodePort: {{ kubernetes_nginx_ingress_http_port }}
+      port: {{ kubernetes_nginx_ingress_http_port }}
       protocol: TCP
       targetPort: http
 {% endif %}
 {% if kubernetes_nginx_ingress_https_port | default(false) %}
     - name: https
-      port: 443
-      nodePort: {{ kubernetes_nginx_ingress_https_port }}
+      port: {{ kubernetes_nginx_ingress_https_port }}
       protocol: TCP
       targetPort: https
 {% endif %}
 {% if kubernetes_nginx_ingress_openldap_port | default(false) %}
     - name: ldaps
-      port: 636
-      nodePort: {{ kubernetes_nginx_ingress_openldap_port }}
+      port: {{ kubernetes_nginx_ingress_openldap_port }}
       protocol: TCP
       targetPort: 636
 {% endif %}
 {% if kubernetes_nginx_ingress_mqtt_port | default(false) %}
     - name: mqtt
-      port: 1883
-      nodePort: {{ kubernetes_nginx_ingress_mqtt_port }}
+      port: {{ kubernetes_nginx_ingress_mqtt_port }}
       protocol: TCP
       targetPort: 1883
 {% endif %}
