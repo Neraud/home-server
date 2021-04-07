@@ -1,7 +1,11 @@
 ---
 
-kubernetes_ingress_http_port: 30080
-kubernetes_ingress_https_port: 30443
+metallb_memberlist_secret: abcdefghijklmnopqrstuvwxyz
+metallb_ip_pools:
+- name: pool1
+  addresses: 
+  - 192.168.100.20-192.168.100.29
+
 kubernetes_ingress_lemonLdap_handler_port: 30081
 kubernetes_ingress_openldap_port: 30636
 kubernetes_ingress_mqtt_port: 31883

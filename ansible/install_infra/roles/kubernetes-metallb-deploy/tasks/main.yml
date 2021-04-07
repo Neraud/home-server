@@ -1,0 +1,19 @@
+---
+
+- name: Deploy MetalLB namespace
+  k8s:
+    api_version: v1
+    kind: Namespace
+    name: metallb-system
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+- name: Deploy MetalLB
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/templates/*.yaml*"
