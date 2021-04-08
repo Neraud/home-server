@@ -18,9 +18,6 @@ nginx_upstreams:
   - name: kubernetes-lemonldap-handler-ingress
     servers:
       - "{{ kubernetes_ingress_lemonLdap_handler_lb_ip }}:{{ kubernetes_ingress_lemonLdap_handler_port }}"
-  - name: kubernetes-openldap-ingress
-    servers:
-      - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_openldap_port }}"
   - name: kubernetes-mqtt-ingress
     servers:
       - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_mqtt_port }}"
@@ -272,13 +269,6 @@ nginx_sites:
         lemonLdap_protected: True
 
 nginx_streams:
-  - name: auth_openldap
-    enabled_name: 075-auth_openldap
-    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
-    tcp_port: 636
-    # TODO : TCP 636 and let openldap handle the cert ?
-    # Or SSL with cert on nginx ?
-    proxy_pass: kubernetes-openldap-ingress
   - name: home_mqtt
     enabled_name: 100-home_mqtt
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
