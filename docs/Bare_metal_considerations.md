@@ -23,7 +23,7 @@ This NGinx RP is used for :
 
 It also provides error logs parsed by [Fail2Ban](https://www.fail2ban.org/wiki/index.php/Fail2Ban).
 
-The NGinx Ingress is exposed as a NodePort in Kubernetes and the RP merely forwards requests to this port.
+The NGinx Ingress is exposed on a dedicated IP provided by MetalLB and the RP merely forwards requests to this port.
 
 ![Architecture - Incoming web traffic - Zoom on ReverseProxy](diagrams/Architecture_Incoming_web_traffic_-_Zoom_on_ReverseProxy.png "Architecture - Incoming web traffic - Zoom on ReverseProxy")
 

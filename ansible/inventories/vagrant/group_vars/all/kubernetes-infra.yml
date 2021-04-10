@@ -1,13 +1,22 @@
 ---
 
-kubernetes_ingress_http_port: 30080
-kubernetes_ingress_https_port: 30443
-kubernetes_ingress_lemonLdap_handler_port: 30081
-kubernetes_ingress_openldap_port: 30636
-kubernetes_ingress_mqtt_port: 31883
-# To avoid issues with having the same NodePort used for both protocols, we use different ports (see https://github.com/kubernetes/kubernetes/issues/85020)
-kubernetes_pihole_tcp_port: 30053
-kubernetes_pihole_udp_port: 30054
+metallb_memberlist_secret: abcdefghijklmnopqrstuvwxyz
+metallb_ip_pools:
+- name: pool1
+  addresses: 
+  - 192.168.100.20-192.168.100.29
+
+kubernetes_nginx_ingress_lb_ip: 192.168.100.20
+kubernetes_ingress_lemonLdap_handler_lb_ip: 192.168.100.21
+kubernetes_ingress_openldap_lb_ip: 192.168.100.22
+kubernetes_ingress_pihole_lb_ip: 192.168.100.23
+kubernetes_ingress_http_port: 80
+kubernetes_ingress_https_port: 443
+kubernetes_ingress_lemonLdap_handler_port: 9000
+kubernetes_ingress_openldap_port: 636
+kubernetes_ingress_mqtt_port: 1883
+kubernetes_pihole_tcp_port: 53
+kubernetes_pihole_udp_port: 53
 
 kubernetes_local_lvm_storage_class_name: local-lvm
 kubernetes_glusterfs_storage_class_name: glusterfs

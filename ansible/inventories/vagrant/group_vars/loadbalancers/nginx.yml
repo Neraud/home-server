@@ -14,34 +14,13 @@ nginx_extra_log_formats:
 nginx_upstreams:
   - name: kubernetes-https-ingress
     servers:
-      - master-1:{{ kubernetes_ingress_https_port }}
-      - master-2:{{ kubernetes_ingress_https_port }}
-      - master-3:{{ kubernetes_ingress_https_port }}
+      - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}"
   - name: kubernetes-lemonldap-handler-ingress
     servers:
-      - master-1:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - master-2:{{ kubernetes_ingress_lemonLdap_handler_port }}
-      - master-3:{{ kubernetes_ingress_lemonLdap_handler_port }}
-  - name: kubernetes-openldap-ingress
-    servers:
-      - master-1:{{ kubernetes_ingress_openldap_port }}
-      - master-2:{{ kubernetes_ingress_openldap_port }}
-      - master-3:{{ kubernetes_ingress_openldap_port }}
+      - "{{ kubernetes_ingress_lemonLdap_handler_lb_ip }}:{{ kubernetes_ingress_lemonLdap_handler_port }}"
   - name: kubernetes-mqtt-ingress
     servers:
-      - master-1:{{ kubernetes_ingress_mqtt_port }}
-      - master-2:{{ kubernetes_ingress_mqtt_port }}
-      - master-3:{{ kubernetes_ingress_mqtt_port }}
-  - name: kubernetes-pihole-tcp
-    servers:
-      - master-1:{{ kubernetes_pihole_tcp_port }}
-      - master-2:{{ kubernetes_pihole_tcp_port }}
-      - master-3:{{ kubernetes_pihole_tcp_port }}
-  - name: kubernetes-pihole-udp
-    servers:
-      - master-1:{{ kubernetes_pihole_udp_port }}
-      - master-2:{{ kubernetes_pihole_udp_port }}
-      - master-3:{{ kubernetes_pihole_udp_port }}
+      - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_mqtt_port }}"
 
 nginx_sites:
   - name: default-site
@@ -280,13 +259,6 @@ nginx_sites:
         lemonLdap_protected: True
 
 nginx_streams:
-  - name: auth_openldap
-    enabled_name: 075-auth_openldap
-    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
-    tcp_port: 636
-    # TODO : TCP 636 and let openldap handle the cert ?
-    # Or SSL with cert on nginx ?
-    proxy_pass: kubernetes-openldap-ingress
   - name: home_mqtt
     enabled_name: 100-home_mqtt
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
@@ -297,16 +269,6 @@ nginx_streams:
       cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.crt"
       cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.{{ web_base_domain }}/server.key"
     proxy_pass: kubernetes-mqtt-ingress
-  - name: infra_pihole_tcp
-    enabled_name: 050-infra_pihole_tcp
-    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
-    tcp_port: 53
-    proxy_pass: kubernetes-pihole-tcp
-  - name: infra_pihole_udp
-    enabled_name: 050-infra_pihole_udp
-    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
-    udp_port: 53
-    proxy_pass: kubernetes-pihole-udp
 
 nginx_ufw_applications:
   - name: custom_nginx

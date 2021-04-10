@@ -103,10 +103,12 @@
     - kubernetes-node-join
     - kubernetes-node-postinstall
     - { role: kubernetes-storage-local, tags: kubernetes-storage }
+    - kubernetes-metallb-prepare
 
 - name: Provision Kubernetes infra applications
   hosts: controller
   roles:
     - { role: kubernetes-storage-distributed, tags: kubernetes-storage }
+    - kubernetes-metallb-deploy
     - kubernetes-infra
     - apcups-kubernetes
