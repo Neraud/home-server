@@ -103,7 +103,7 @@ spec:
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
-        capability/home: 'yes'
+        capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
       name: openzwave-pv-claim
