@@ -4,5 +4,5 @@ metallb_ufw_applications:
   - name: metallb
     title: MetalLB
     description: MetalLB
-    ports: 7946
+    ports: "7472,7946/tcp|7946/udp"
     rule: allow

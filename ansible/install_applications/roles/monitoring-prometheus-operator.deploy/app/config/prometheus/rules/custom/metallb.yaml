@@ -1,0 +1,16 @@
+- name: metallb.rules
+  rules:
+  - alert: MetalLBStaleConfig
+    expr: metallb_k8s_client_config_stale_bool == 1
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      message: "MetalLB {{ $labels.container_name }} on {{ $labels.instance }} has a stale config for > 1 minute"
+  - alert: MetalLBConfigNotLoaded
+    expr: metallb_k8s_client_config_loaded_bool == 0
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      message: "MetalLB {{ $labels.container_name }} on {{ $labels.instance }} has not loaded for > 1 minute"
