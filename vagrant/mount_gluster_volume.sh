@@ -11,4 +11,4 @@ fi
 
 echo "Mounting volume ${gluster_volmume}"
 mkdir -p /data/volumes/${gluster_volmume}
-mount -t glusterfs master-1:/${gluster_volmume} /data/volumes/${gluster_volmume}
+mount -t glusterfs master-test-1:/${gluster_volmume} /data/volumes/${gluster_volmume}

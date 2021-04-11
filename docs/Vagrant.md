@@ -2,22 +2,22 @@
 
 The Vagrantfile creates 4 *similar* guests :
 
-| Type      | Cores |  RAM  | Storage |
-| --------- | :---: | :---: | :-----: |
-| master-1  |   3   |  6G   |    -    |
-| master-2  |   6   |  6G   |   96G   |
-| master-3  |   6   |  6G   |   96G   |
-| node-home |   2   |  1G   |   16G   |
+| Type           | Cores |  RAM  | Storage |
+| -------------- | :---: | :---: | :-----: |
+| master-test-1  |   3   |  6G   |    -    |
+| master-test-2  |   6   |  6G   |   96G   |
+| master-test-3  |   6   |  6G   |   96G   |
+| node-test-home |   2   |  1G   |   16G   |
 
 These settings are configured in `Vagrantconfig.yaml`, feel free to change them or add mode nodes.
 
 CPUs are capped at 33% usage (`cpu_execution_cap`) to avoid destroying a poor host machine.
 
-`master-1` is also used as the ansible controller.
+`master-test-1` is also used as the ansible controller.
 
 ## NAS
 
-To simulate a NAS, NFS Server is installed on `master-1` and exports the content of `/opt/mock_nas` to other hosts as NFS shares.
+To simulate a NAS, NFS Server is installed on `master-test-1` and exports the content of `/opt/mock_nas` to other hosts as NFS shares.
 
 ## Test hosts
 

@@ -15,9 +15,9 @@ echo "Mount OpenLDAP volumes"
 mkdir -p /data/volumes/openldap-config
 mkdir -p /data/volumes/openldap-data
 mkdir -p /data/volumes/openldap-run
-mount -t glusterfs master-1:/openldap-config /data/volumes/openldap-config
-mount -t glusterfs master-1:/openldap-data /data/volumes/openldap-data
-mount -t glusterfs master-1:/openldap-run /data/volumes/openldap-run
+mount -t glusterfs master-test-1:/openldap-config /data/volumes/openldap-config
+mount -t glusterfs master-test-1:/openldap-data /data/volumes/openldap-data
+mount -t glusterfs master-test-1:/openldap-run /data/volumes/openldap-run
 
 echo ""
 echo "Wait to be sure OpenLDAP is stopped"
