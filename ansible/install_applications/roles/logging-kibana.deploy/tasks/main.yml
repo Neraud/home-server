@@ -66,7 +66,7 @@
 
 - name: Check if objects already exist
   uri:
-    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: GET
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -87,7 +87,7 @@
 
 - name: Create missing objects
   uri:
-    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: POST
     headers:
       Host: "infra.{{ web_base_domain }}"
@@ -110,7 +110,7 @@
 
 - name: Updating changed objects
   uri:
-    url: "https://{{ groups['kubernetes_nodes'][0] }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: PUT
     headers:
       Host: "infra.{{ web_base_domain }}"
