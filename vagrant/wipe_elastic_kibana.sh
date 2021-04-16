@@ -17,7 +17,7 @@ ssh 192.168.100.12 "mount /dev/data_vg/local_elasticsearch-k8s-data /data/volume
 
 echo "Mount Kibana volume"
 mkdir -p /data/volumes/kibana-data
-mount -t glusterfs master-1:/kibana-data /data/volumes/kibana-data
+mount -t glusterfs master-test-1:/kibana-data /data/volumes/kibana-data
 
 echo ""
 echo "Wait to be sure Elasticsearch is stopped"

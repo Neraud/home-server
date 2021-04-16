@@ -1,13 +1,13 @@
 ---
 
 dns_static_hosts:
-  - name: master-1
+  - name: master-test-1
     ip: 192.168.100.11
-  - name: master-2
+  - name: master-test-2
     ip: 192.168.100.12
-  - name: master-3
+  - name: master-test-3
     ip: 192.168.100.13
-  - name: node-home
+  - name: node-test-home
     ip: 192.168.100.14
 
   # Add our web domains to the list, so that we can go to the vip directly

@@ -75,6 +75,9 @@ ttrss:
     from: "{{ ttrss_smtp_from | default('noreply@' + web_base_domain) }}"
     displayName: "{{ ttrss_smtp_displayName | default('Tiny Tiny RSS') }}"
 
+  daemon:
+    # Limit number of jobs to avoid throttling when using a low resources limit. Defaults to 2 in TT-RSS.
+    max_jobs: "{{ ttrss_daemon_max_jobs | default('1') }}"
 
 
 # To avoid loops inside ttrss_pgsql

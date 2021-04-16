@@ -20,7 +20,7 @@ su user -c "kubectl patch pv prometheus-k8s -p '{\"spec\":{\"claimRef\": null}}'
 echo ""
 echo "Mount Prometheus volumes"
 mkdir -p /data/volumes/prometheus-k8s
-mount -t glusterfs master-1:/prometheus-k8s /data/volumes/prometheus-k8s
+mount -t glusterfs master-test-1:/prometheus-k8s /data/volumes/prometheus-k8s
 
 echo ""
 echo "Wait to be sure Prometheus is stopped"

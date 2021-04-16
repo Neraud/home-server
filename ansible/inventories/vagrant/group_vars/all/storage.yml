@@ -5,8 +5,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 10G
     arbiterCapacity: 64M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: docker-registry
@@ -15,8 +15,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: gotify
@@ -25,8 +25,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 128M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: zonemta
@@ -35,8 +35,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: zonemta
@@ -45,8 +45,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 128M
     arbiterCapacity: 32M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: pihole
@@ -55,8 +55,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 32M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: unifi
@@ -65,8 +65,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: openldap
@@ -76,8 +76,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 16M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: openldap
@@ -87,8 +87,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: openldap
@@ -98,8 +98,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: lemonldap
@@ -109,8 +109,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 4G
     arbiterCapacity: 64M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: prometheus
@@ -120,8 +120,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 16M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: alertmanager
@@ -131,8 +131,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 128M
     arbiterCapacity: 128M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: grafana
@@ -141,8 +141,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: ttrss
@@ -151,8 +151,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 128M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: ttrss
@@ -161,8 +161,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: homeassistant
@@ -171,8 +171,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 2G
     arbiterCapacity: 32M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: homeassistant
@@ -181,8 +181,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 128M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: nodered
@@ -191,8 +191,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 128M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: mosquitto
@@ -202,8 +202,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 64M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: openzwave
@@ -212,8 +212,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: airsonic
@@ -223,8 +223,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: airsonic
@@ -234,8 +234,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: jellyfin
@@ -244,8 +244,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 16M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: gitlab
@@ -255,8 +255,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 64M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: gitlab
@@ -266,8 +266,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 64M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: kibana
@@ -277,8 +277,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 256M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: deluge
@@ -287,8 +287,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: pyload
@@ -297,8 +297,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 16M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: sabnzbd
@@ -307,8 +307,8 @@ glusterfs_volumes:
     replicas: 2
     capacity: 1G
     arbiterCapacity: 32M
-    nodes: [master-2, master-3]
-    arbiters: [master-1]
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
       app.kubernetes.io/name: sickchill
