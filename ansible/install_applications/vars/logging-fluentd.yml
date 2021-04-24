@@ -4,7 +4,7 @@
 _fluentd_var_loader:
   base_image:
     name: "fluent/fluentd"
-    tag: "v1.12.1-debian-1.0"
+    tag: "v1.12.2-debian-1.1"
   namespace: "logging-fluentd"
 
 fluentd:
@@ -32,9 +32,9 @@ fluentd:
 
   plugins:
     elasticsearch:
-      version: "5.0.2"
+      version: "5.0.3"
     prometheus:
-      version: "2.0.0"
+      version: "2.0.1"
     ua_parser:
       version: "1.2.0"
     uap_core:
