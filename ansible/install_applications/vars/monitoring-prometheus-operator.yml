@@ -5,7 +5,7 @@ _prometheus_operator_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus-operator/prometheus-operator"
-    tag: "v0.46.0"
+    tag: "v0.47.0"
 
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
@@ -53,7 +53,7 @@ _prometheus_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/prometheus"
-    tag: "v2.25.0"
+    tag: "v2.26.0"
   namespace: "monitoring-prometheus"
 
 prometheus:
@@ -92,7 +92,7 @@ alertmanager:
   base_image: "{{ _alertmanager_var_loader.base_image }}"
   
   labels_def:
-    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/name: alertmanager
     app.kubernetes.io/component: alertmanager
     app.kubernetes.io/instance: k8s
 

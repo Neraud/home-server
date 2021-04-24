@@ -230,7 +230,7 @@
         <
       kube_hpa_spec_max_replicas{job="kube-state-metrics"})
         and
-      changes(kube_hpa_status_current_replicas[15m]) == 0
+      changes(kube_hpa_status_current_replicas{job="kube-state-metrics"}[15m]) == 0
     for: 15m
     labels:
       severity: warning
