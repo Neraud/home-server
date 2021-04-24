@@ -106,7 +106,8 @@ watchers:
       - .*-rc[0-9]+.*
       - ^[1-9]\.
       - ^1[0-2]\.
-      - ^13\.[0-8]\.
+      - ^13\.[0-9]\.
+      - ^13\.1[0]\.
   
   ###################
   # Apps : Download #
@@ -317,7 +318,7 @@ watchers:
     release: v0.9.6
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v0.44.0
+    release: controller-v0.45.0
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
@@ -505,7 +506,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: 003daae4955be351c90484831c49d2fe88760622
+    commit: 9d69c4c318cebecf982db3a77c172c251f5c2172
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master

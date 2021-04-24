@@ -4,10 +4,10 @@
 _sabnzbd_var_loader:
   base_image:
     name: "python"
-    tag: "3.9.2-alpine3.13"
+    tag: "3.9.4-alpine3.13"
   repo:
     name: sabnzbd/sabnzbd
-    version: 3.2.0
+    version: 3.2.1
   namespace: "download-sabnzbd"
 
 sabnzbd:

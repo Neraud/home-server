@@ -4,10 +4,10 @@
 _sickchill_var_loader:
   base_image:
     name: "python"
-    tag: "3.9.2-alpine3.13"
-  version: "v2021.03.18-1"
+    tag: "3.9.4-alpine3.13"
+  version: "v2021.04.10-1"
   #commit_sha is required for the updater to report the proper number of commits ahead
-  commit_sha: a16038636bfa9fe747f9ef50c785b3b223213122
+  commit_sha: d76229cd404a162a707d189302990d8911ffe77e
   namespace: "download-sickchill"
 
 sickchill:

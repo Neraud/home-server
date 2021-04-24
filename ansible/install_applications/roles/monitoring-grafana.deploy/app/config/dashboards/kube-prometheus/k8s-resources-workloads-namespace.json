@@ -730,7 +730,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(\n  kube_pod_container_resource_requests{cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n",
+                            "expr": "sum(\n  kube_pod_container_resource_requests{cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -739,7 +739,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"$cluster\", namespace=\"$namespace\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n/sum(\n  kube_pod_container_resource_requests{cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n",
+                            "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"$cluster\", namespace=\"$namespace\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n/sum(\n  kube_pod_container_resource_requests{cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -748,7 +748,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(\n  kube_pod_container_resource_limits{cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n",
+                            "expr": "sum(\n  kube_pod_container_resource_limits{cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -757,7 +757,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"$cluster\", namespace=\"$namespace\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n/sum(\n  kube_pod_container_resource_limits{cluster=\"$cluster\", namespace=\"$namespace\", resource=\"cpu\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n",
+                            "expr": "sum(\n    container_memory_working_set_bytes{cluster=\"$cluster\", namespace=\"$namespace\", container!=\"\", image!=\"\"}\n  * on(namespace,pod)\n    group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n/sum(\n  kube_pod_container_resource_limits{cluster=\"$cluster\", namespace=\"$namespace\", resource=\"memory\"}\n* on(namespace,pod)\n  group_left(workload, workload_type) namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=\"$namespace\", workload_type=\"$type\"}\n) by (workload, workload_type)\n",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1779,7 +1779,7 @@
                 "name": "cluster",
                 "options": [],
                 "query": "label_values(kube_pod_info, cluster)",
-                "refresh": 1,
+                "refresh": 2,
                 "regex": "",
                 "sort": 1,
                 "tagValuesQuery": "",
@@ -1806,7 +1806,7 @@
                 "name": "type",
                 "options": [],
                 "query": "label_values(namespace_workload_pod:kube_pod_owner:relabel{cluster=\"$cluster\", namespace=~\"$namespace\", workload=~\".+\"}, workload_type)",
-                "refresh": 1,
+                "refresh": 2,
                 "regex": "",
                 "skipUrlSync": false,
                 "sort": 0,
@@ -1830,7 +1830,7 @@
                 "name": "namespace",
                 "options": [],
                 "query": "label_values(kube_pod_info{cluster=\"$cluster\"}, namespace)",
-                "refresh": 1,
+                "refresh": 2,
                 "regex": "",
                 "sort": 1,
                 "tagValuesQuery": "",
