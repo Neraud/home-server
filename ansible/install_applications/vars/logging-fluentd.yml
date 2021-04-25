@@ -4,7 +4,12 @@
 _fluentd_var_loader:
   base_image:
     name: "fluent/fluentd"
-    tag: "v1.12.2-debian-1.1"
+    # TODO : with version v1.12.2-debian-1.1, fluentd stops working after 2 hours
+    # It doesn't crash immediatly, it justs stops writing data to ES, and then crashes when the buffers are full
+    # To monitor that on Prometheus : 
+    # rate(elasticsearch_indices_docs{es_data_node="true"}[2m]) -> should go to 0
+    # fluentd_output_status_buffer_queue_length -> shouldn't increase
+    tag: "v1.12.1-debian-1.0"
   namespace: "logging-fluentd"
 
 fluentd:
