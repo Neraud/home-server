@@ -163,9 +163,6 @@
       # Our prometheus exporter won't see new documents and trigger a ElasticNoNewDocuments alert when this happens
       # To avoid that, we force the scheduled refresh
       refresh_interval: "10s"
-      opendistro:
-        index_state_management:
-          policy_id: "{{ elasticsearch.logstash_policy.name }}"
 
 - name: Get current default ElasticSearch index template
   uri:
