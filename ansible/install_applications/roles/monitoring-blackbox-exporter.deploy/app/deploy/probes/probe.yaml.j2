@@ -1,0 +1,16 @@
+kind: Probe
+apiVersion: monitoring.coreos.com/v1
+metadata:
+  name: {{ item.name }}
+  namespace: {{ blackbox_exporter.namespace }}
+spec:
+  module: {{ item.module }}
+  interval: {{ item.interval }}
+  prober:
+    url: {{ blackbox_exporter.prober_url }}
+  targets:
+    staticConfig:
+      static:
+{% for target in item.targets %}
+      - {{ target }}
+{% endfor %} 

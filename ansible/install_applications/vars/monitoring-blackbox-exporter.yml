@@ -27,6 +27,9 @@ blackbox_exporter:
     limits_cpu: "{{ blackbox_exporter_container_limits_cpu | default('20m') }}"
     limits_memory: "{{ blackbox_exporter_container_limits_memory | default('40Mi') }}"
 
+  prober_url: blackbox-exporter.monitoring-blackbox-exporter.svc.cluster.local:19115
+
+  probes: "{{ blackbox_exporter_probes | default([]) }}"
 
 # To avoid loops blackbox_exporter_configmap_reload blackbox_exporter
 _blackbox_exporter_configmap_reload_var_loader:
