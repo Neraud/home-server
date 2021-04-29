@@ -1,0 +1,66 @@
+---
+
+- name: Ensure blackbox exporter namespace exists
+  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ blackbox_exporter.namespace }}"
+
+- name: Ensure blackbox exporter image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ blackbox_exporter.base_image }}"
+    private_image: "{{ blackbox_exporter.container.image }}"
+
+- name: Ensure blackbox exporter configmap_reload image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ blackbox_exporter_configmap_reload.base_image }}"
+    private_image: "{{ blackbox_exporter_configmap_reload.container.image }}"
+
+- name: Ensure blackbox exporter rbac_proxy image is up-to-date in the private registry
+  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ blackbox_exporter_rbac_proxy.base_image }}"
+    private_image: "{{ blackbox_exporter_rbac_proxy.container.image }}"
+
+- name: Deploy blackbox exporter
+  k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"
+
+- name: List existing probes
+  k8s_info:
+    api_version: v1
+    kind: Probe
+    namespace: "{{ blackbox_exporter.namespace }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: blackbox_exporter_existing_probes
+
+- name: Prepare lists
+  set_fact:
+    blackbox_exporter_existing_probe_names: "{{ blackbox_exporter_existing_probes.resources | map(attribute='metadata.name') }}"
+    blackbox_exporter_configured_names: "{{ blackbox_exporter.probes | map(attribute='name') }}"
+
+- name: Delete obsolete probes
+  k8s:
+    api_version: v1
+    kind: Probe
+    state: absent
+    namespace: "{{ blackbox_exporter.namespace }}"
+    name: "{{ item }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  loop: "{{ blackbox_exporter_existing_probe_names | difference(blackbox_exporter_configured_names) }}"
+
+- name: Deploy blackbox exporter probes
+  k8s:
+    definition: "{{ lookup('template', role_path + '/app/deploy/probes/probe.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  loop: "{{ blackbox_exporter.probes }}"

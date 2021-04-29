@@ -42,6 +42,17 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-serviceAccount.yaml $ALERTMANAGER_
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-service.yaml $ALERTMANAGER_ROOT/service.yaml.j2
 
 echo "===================================================================================================="
+echo "Converting Blackbox Exporter"
+BLACKBOX_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring-blackbox-exporter.deploy/app/deploy
+mkdir -p $BLACKBOX_EXPORTER_ROOT
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRole.yaml $BLACKBOX_EXPORTER_ROOT/clusterRole.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRoleBinding.yaml $BLACKBOX_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-configuration.yaml $BLACKBOX_EXPORTER_ROOT/configuration.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-deployment.yaml $BLACKBOX_EXPORTER_ROOT/deployment.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-service.yaml $BLACKBOX_EXPORTER_ROOT/service.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-serviceAccount.yaml $BLACKBOX_EXPORTER_ROOT/serviceAccount.yaml.j2
+
+echo "===================================================================================================="
 echo "Converting Grafana"
 GRAFANA_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/deploy
 GRAFANA_DASHBOARDS_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards/kube-prometheus
@@ -99,6 +110,7 @@ mkdir -p $SERVICE_MONITOR_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/node-exporter.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/kube-state-metrics.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/grafana.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/blackbox-exporter.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/alertmanager.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-operator-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/prometheus-operator.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kubernetes-serviceMonitorApiserver.yaml $SERVICE_MONITOR_ROOT/apiserver.yaml.j2

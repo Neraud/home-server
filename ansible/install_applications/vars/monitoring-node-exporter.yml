@@ -39,7 +39,7 @@ node_exporter_rbac_proxy:
   base_image: "{{ _node_exporter_rbac_proxy_var_loader.base_image }}"
   container:
     image: "{{ docker_private_registry.url }}/{{ _node_exporter_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _node_exporter_rbac_proxy_var_loader.base_image.tag }}"
-    requests_cpu: "{{ node_exporter_container_requests_cpu | default('10m') }}"
-    requests_memory: "{{ node_exporter_container_requests_memory | default('20Mi') }}"
-    limits_cpu: "{{ node_exporter_container_limits_cpu | default('20m') }}"
-    limits_memory: "{{ node_exporter_container_limits_memory | default('40Mi') }}"
+    requests_cpu: "{{ node_exporter_rbac_proxy_container_requests_cpu | default('10m') }}"
+    requests_memory: "{{ node_exporter_rbac_proxy_container_requests_memory | default('20Mi') }}"
+    limits_cpu: "{{ node_exporter_rbac_proxy_container_limits_cpu | default('20m') }}"
+    limits_memory: "{{ node_exporter_rbac_proxy_container_limits_memory | default('40Mi') }}"

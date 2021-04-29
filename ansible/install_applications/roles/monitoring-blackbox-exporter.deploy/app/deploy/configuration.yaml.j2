@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blackbox-exporter-configuration
+  namespace: {{ blackbox_exporter.namespace }}
+  labels:
+    {{ blackbox_exporter.labels_def | to_nice_yaml() | indent(4) }}
+    {{ blackbox_exporter.labels_desc | to_nice_yaml() | indent(4) }}
+data:
+  config.yml: |
+    {{ lookup('template', role_path + '/app/config/config.yml.j2') | replace('\n', '\n    ') }}
