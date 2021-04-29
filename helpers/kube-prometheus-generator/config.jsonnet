@@ -37,6 +37,11 @@ local kp =
         mixin+: $.values.common_mixin,
       },
 
+      blackboxExporter+:: {
+        # Required to use icmp prober
+        privileged: true,
+      },
+
       kubeStateMetrics+:: {
         mixin+: $.values.common_mixin,
       },

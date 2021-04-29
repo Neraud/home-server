@@ -37,3 +37,9 @@ modules:
     prober: "tcp"
     tcp:
       preferred_ip_protocol: "ip4"
+{% if blackbox_exporter.enable_icmp_module %}
+  icmp_ip4:
+    prober: "icmp"
+    icmp:
+      preferred_ip_protocol: "ip4"
+{% endif %}

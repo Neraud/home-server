@@ -26,7 +26,9 @@ blackbox_exporter:
     requests_memory: "{{ blackbox_exporter_container_requests_memory | default('20Mi') }}"
     limits_cpu: "{{ blackbox_exporter_container_limits_cpu | default('20m') }}"
     limits_memory: "{{ blackbox_exporter_container_limits_memory | default('40Mi') }}"
-
+  
+  # Using the icmp prober requires running the container as root (with restricted capabilities)
+  enable_icmp_module: "{{ blackbox_exporter_enable_icmp_module | default(True) }}"
   prober_url: blackbox-exporter.monitoring-blackbox-exporter.svc.cluster.local:19115
 
   probes: "{{ blackbox_exporter_probes | default([]) }}"

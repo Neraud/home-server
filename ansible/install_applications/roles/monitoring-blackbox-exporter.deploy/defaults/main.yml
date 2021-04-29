@@ -9,3 +9,8 @@ blackbox_exporter_enabled: true
 #    targets:
 #      - http://example.com
 #      - https://example.com
+#  - name: example-icmp
+#    module: icmp_ip4
+#    interval: 60s
+#    targets:
+#      - example.com

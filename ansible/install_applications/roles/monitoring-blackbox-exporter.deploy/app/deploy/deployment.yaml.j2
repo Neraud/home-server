@@ -43,8 +43,17 @@ spec:
             cpu: {{ blackbox_exporter.container.requests_cpu }}
             memory: {{ blackbox_exporter.container.requests_memory }}
         securityContext:
+{% if blackbox_exporter.enable_icmp_module %}
+          capabilities:
+            add:
+            - NET_RAW
+            drop:
+            - ALL
+          runAsNonRoot: false
+{% else %}
           runAsNonRoot: true
           runAsUser: 65534
+{% endif %}
           readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /etc/blackbox_exporter/
