@@ -251,6 +251,7 @@ watchers:
       - .*beta.*
       - ^[0-1]\..*
       - ^2\.[0-9]\..*
+      - ^2\.1[0-5]\..*
   - type: docker_registry
     repo: {{ openzwave.base_image.repo | default('registry-1.docker.io') }}
     image: {{ openzwave.base_image.name }}
