@@ -4,9 +4,9 @@
 _ttrss_var_loader:
   base_image:
     name: "php"
-    tag: "8.0.3-apache-buster"
-  commit: e8f78181f1
-  full_commit: e8f78181f1d5a78fcfb58f0a43fb162504fa8e60
+    tag: "8.0.6-apache-buster"
+  commit: 92c78beb90
+  full_commit: 92c78beb909d8955657564127c2e953ca25113e3
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -56,7 +56,7 @@ ttrss:
     mailer_smtp:
       repo_url: "https://git.tt-rss.org/fox/ttrss-mailer-smtp"
       branch: master
-      commit: e5e76d233f
+      commit: 89f07409b1
 
   ldap:
     servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
@@ -84,7 +84,7 @@ ttrss:
 _ttrss_pgsql_var_loader:
   base_image:
     name: "postgres"
-    tag: "12.6-alpine"
+    tag: "12.7-alpine"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"

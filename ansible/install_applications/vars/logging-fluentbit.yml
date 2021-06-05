@@ -4,7 +4,7 @@
 _fluentbit_var_loader:
   base_image:
     name: "fluent/fluent-bit"
-    tag: "1.7.4"
+    tag: "1.7.8"
 
 fluentbit:
   enabled: "{{ fluentbit_enabled | default(True) }}"

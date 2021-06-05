@@ -4,7 +4,7 @@
 _reloader_var_loader:
   base_image:
     name: "stakater/reloader"
-    tag: "v0.0.87"
+    tag: "v0.0.90"
 
 reloader:
   enabled: "{{ reloader_enabled | default(True) }}"

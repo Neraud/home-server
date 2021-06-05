@@ -47,14 +47,14 @@ watchers:
   #########
   - type: github_release
     repo: coreos/flannel
-    release: v0.13.0
+    release: v0.14.0
     excludes:
       - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
-    release: v3.18.1
+    release: v3.19.1
     excludes:
-      - v3\.1[0-7]\..*
+      - v3\.1[0-8]\..*
   - type: github_release
     repo: intel/multus-cni
     release: v3.7.1
@@ -107,7 +107,7 @@ watchers:
       - ^[1-9]\.
       - ^1[0-2]\.
       - ^13\.[0-9]\.
-      - ^13\.1[0]\.
+      - ^13\.1[0-1]\.
   
   ###################
   # Apps : Download #
@@ -188,7 +188,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^2020\..*
-      - ^2021\.[1-2]\..*
+      - ^2021\.[1-5]\..*
   - type: github_commit
     repo: efficiosoft/ldap-auth-sh
     branch: master
@@ -251,6 +251,7 @@ watchers:
       - .*beta.*
       - ^[0-1]\..*
       - ^2\.[0-9]\..*
+      - ^2\.1[0-5]\..*
   - type: docker_registry
     repo: {{ openzwave.base_image.repo | default('registry-1.docker.io') }}
     image: {{ openzwave.base_image.name }}
@@ -259,7 +260,7 @@ watchers:
       - "allinone-amd64-"
     excludes:
       - "allinone-amd64-[0-9][0-9]$"
-      - "allinone-amd64-1[0-8][0-9]$"
+      - "allinone-amd64-1[0-9][0-9]$"
 
   ################
   # Apps : Infra #
@@ -318,7 +319,7 @@ watchers:
     release: v0.9.6
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v0.45.0
+    release: controller-v0.46.0
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
@@ -358,7 +359,7 @@ watchers:
       - .*SNAPSHOT.*
       - ^PR-.*
       - dev
-      - v0\.0\.[0-6]?[0-9]$
+      - v0\.0\.[0-8]?[0-9]$
   - type: docker_registry
     repo: {{ unifi.base_image.repo | default('registry-1.docker.io') }}
     image: {{ unifi.base_image.name }}
@@ -366,7 +367,8 @@ watchers:
     includes:
       - "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     excludes:
-      - 5\..*
+      - ^[0-5]\.
+      - ^6\.[0-1]\.
   - name: ZoneMTA
     type: github_tag
     repo: {{ zonemta.repo.name }}
@@ -374,7 +376,7 @@ watchers:
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
-      - ^v1\.1[0-7]\.
+      - ^v[1-2]\.
   - name: "ZoneMTA Redis"
     type: docker_registry
     repo: {{ zonemta_redis.base_image.repo | default('registry-1.docker.io') }}
@@ -382,6 +384,8 @@ watchers:
     tag: {{ zonemta_redis.base_image.tag }}
     includes:
       - "[6-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
+    excludes:
+      - ^6\.[0-1]\.
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: {{ zonemta_mongo.base_image.repo | default('registry-1.docker.io') }}
@@ -506,7 +510,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: 9d69c4c318cebecf982db3a77c172c251f5c2172
+    commit: 4d8104817d6c6bb3f095bb2a17ad86737d2d2e33
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master

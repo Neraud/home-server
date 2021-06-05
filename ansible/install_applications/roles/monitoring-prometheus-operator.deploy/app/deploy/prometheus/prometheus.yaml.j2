@@ -28,6 +28,7 @@ spec:
     - name: alertmanager-k8s
       namespace: {{ prometheus.namespace }}
       port: web
+  enableFeatures: []
   image: "{{ prometheus.container.image }}"
   imagePullSecrets:
   - name: docker-config
@@ -51,6 +52,7 @@ spec:
     limits:
       cpu: "{{ prometheus.container.limits_cpu }}"
       memory: "{{ prometheus.container.limits_memory }}"
+  ruleNamespaceSelector: {}
   ruleSelector:
     matchLabels:
       {{ prometheus.labels_def | to_nice_yaml() | indent(6) }}

@@ -9,7 +9,7 @@ _fluentd_var_loader:
     # To monitor that on Prometheus : 
     # rate(elasticsearch_indices_docs{es_data_node="true"}[2m]) -> should go to 0
     # fluentd_output_status_buffer_queue_length -> shouldn't increase
-    tag: "v1.12.1-debian-1.0"
+    tag: "v1.12.4-debian-1.0"
   namespace: "logging-fluentd"
 
 fluentd:

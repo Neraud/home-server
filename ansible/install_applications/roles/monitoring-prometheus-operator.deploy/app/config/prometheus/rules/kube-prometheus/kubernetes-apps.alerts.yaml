@@ -7,7 +7,7 @@
       runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubepodcrashlooping
       summary: Pod is crash looping.
     expr: |
-      rate(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[10m]) * 60 * 5 > 0
+      increase(kube_pod_container_status_restarts_total{job="kube-state-metrics"}[10m]) > 0
     for: 15m
     labels:
       severity: warning
