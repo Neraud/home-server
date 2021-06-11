@@ -1,0 +1,50 @@
+---
+
+- name: Install Restic
+  apt:
+    pkg: restic
+    state: present
+
+- name: Generate temp Restic Bash completion
+  command: restic generate --bash-completion /tmp/bash_completion_restic
+  changed_when: False
+
+- name: Deploy restic Bash completion
+  copy:
+    src: /tmp/bash_completion_restic
+    dest: /etc/bash_completion.d/restic
+    remote_src: True
+
+- name: Clean temp Restic Bash completion
+  file:
+    path: /tmp/bash_completion_restic
+    state: absent
+  changed_when: False
+
+- name: Ensure Restic backup scripts directories exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0700
+  loop:
+    - "{{ restic_backup_scripts_dir }}"
+
+- name: Deploy backup scripts
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ restic_backup_scripts_dir }}/{{ item }}"
+    mode: 0700
+  loop:
+    - backup_host.sh
+
+- name: Schedule host backup
+  cron:
+    name: "restic_host_backup"
+    cron_file: "restic"
+    user: root
+    job: "{{ restic_backup_scripts_dir }}/backup_host.sh"
+    minute: "0"
+    hour: "2"
+    day: "*"
+    weekday: "*"
+    month: "*"

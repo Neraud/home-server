@@ -1,0 +1,14 @@
+---
+
+restic_host_backup_repository:
+  name: host_backup
+  enabled: True
+  repository: /tmp/host_backup
+  password: Passw0rd
+  paths:
+    - /etc
+    - /home
+    - /root
+
+restic_repositories:
+  - "{{ restic_host_backup_repository }}"

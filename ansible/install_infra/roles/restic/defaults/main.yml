@@ -1,0 +1,23 @@
+---
+
+restic_backup_scripts_dir: /opt/backup
+restic_backup_apps_scripts_dir: "{{ restic_backup_scripts_dir }}/apps.d"
+
+restic_host_backup_repository:
+  name: host_backup
+  enabled: False
+#  repository: /tmp/host_backup
+#  password: Passw0rd
+#  paths:
+#    - /etc
+#    - /home
+#    - /root
+
+#restic_repositories:
+#  - "{{ restic_host_backup_repository }}"
+#  - name: other_repo
+#    enabled: True
+#    repository: /path/to/other_repo
+#    #repository: sftp:user:@host:/path/to/other_repo
+#    #repository: rest:https://user:pass@host:8000/other_repo/
+#    password: Passw0rd
