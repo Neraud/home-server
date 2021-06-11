@@ -28,6 +28,7 @@
     mode: 0700
   loop:
     - "{{ restic_backup_scripts_dir }}"
+    - "{{ restic_backup_apps_scripts_dir }}"
 
 - name: Deploy backup scripts
   template:
@@ -36,6 +37,7 @@
     mode: 0700
   loop:
     - backup_host.sh
+    - backup_apps.sh
     - repo_maintenance.sh
 
 - name: Schedule host backup
@@ -46,6 +48,18 @@
     job: "{{ restic_backup_scripts_dir }}/backup_host.sh"
     minute: "0"
     hour: "2"
+    day: "*"
+    weekday: "*"
+    month: "*"
+
+- name: Schedule apps backup
+  cron:
+    name: "restic_apps_backup"
+    cron_file: "restic"
+    user: root
+    job: "{{ restic_backup_scripts_dir }}/backup_apps.sh"
+    minute: "0"
+    hour: "3"
     day: "*"
     weekday: "*"
     month: "*"

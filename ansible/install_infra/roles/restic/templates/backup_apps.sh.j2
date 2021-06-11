@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+set -euo pipefail
+shopt -s nullglob
+
+for script in {{ restic_backup_apps_scripts_dir }}/*.sh ; do
+    echo " - $script"
+    set +e
+    ($script)
+    set -e
+done
+
+shopt -u nullglob
