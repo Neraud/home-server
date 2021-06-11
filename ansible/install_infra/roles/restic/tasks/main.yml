@@ -36,6 +36,7 @@
     mode: 0700
   loop:
     - backup_host.sh
+    - repo_maintenance.sh
 
 - name: Schedule host backup
   cron:
@@ -47,4 +48,16 @@
     hour: "2"
     day: "*"
     weekday: "*"
+    month: "*"
+
+- name: Schedule repositories maintenance
+  cron:
+    name: "restic_repo_maintenance"
+    cron_file: "restic"
+    user: root
+    job: "{{ restic_backup_scripts_dir }}/repo_maintenance.sh"
+    minute: "0"
+    hour: "8"
+    day: "*"
+    weekday: "1"
     month: "*"

@@ -12,6 +12,12 @@ restic_host_backup_repository:
 #    - /etc
 #    - /home
 #    - /root
+#  retention:
+#    keep_hourly: 24
+#    keep_daily: 7
+#    keep_weekly: 4
+#    keep_monthly: 12
+#    keep_yearly: 2
 
 #restic_repositories:
 #  - "{{ restic_host_backup_repository }}"
@@ -21,3 +27,14 @@ restic_host_backup_repository:
 #    #repository: sftp:user:@host:/path/to/other_repo
 #    #repository: rest:https://user:pass@host:8000/other_repo/
 #    password: Passw0rd
+#    retention:
+#      keep_last: 4
+#      keep_hourly: 24
+#      keep_daily: 7
+#      keep_weekly: 4
+#      keep_monthly: 12
+#      keep_yearly: 2
+#      keep_tags: []
+#      keep_within: 2y5m7d3h # will keep all snapshots made in the two years, five months, seven days, and three hours before the latest snapshot
+
+restic_repositories_maintenance_enabled: False
