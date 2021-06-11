@@ -14,7 +14,7 @@ git pull
 docker build -t release-watcher-helper .
 
 cd ..
-source /root/ansible_venv/bin/activate
+source /opt/ansible_venv/bin/activate
 # The vagrant inventory is only used to avoid "AnsibleUndefinedVariable" errors.
 # It's not really used, as the only variables we need are set in ansible/install_applications/vars/*.yml
 ansible-playbook -i ../../ansible/inventories/vagrant/inventory.ini ./generate-watchers-config.yml

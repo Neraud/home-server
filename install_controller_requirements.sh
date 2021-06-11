@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ANSIBLE_VENV_PATH=${1:-/root/ansible_venv}
+ANSIBLE_VENV_PATH=${1:-/opt/ansible_venv}
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 echo "Install pip3 and virtualenv"

@@ -11,7 +11,7 @@ if [ $# -ge 1 ] ; then
     ANSIBLE_PLAYBOOK_ARGS=$ANSIBLE_PLAYBOOK_ARGS" $*"
 fi
 
-source /root/ansible_venv/bin/activate
+source /opt/ansible_venv/bin/activate
 
 ansible-playbook $ANSIBLE_PLAYBOOK_ARGS
 
