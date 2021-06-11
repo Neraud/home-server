@@ -14,6 +14,18 @@ mosquitto:
   base_image: "{{ _mosquitto_var_loader.base_image }}"
   servername: "mosquitto.{{ _mosquitto_var_loader.namespace }}.svc.cluster.local"
 
+  app_backup:
+    name: home-mosquitto
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: mosquitto
+      namespace: "{{ _mosquitto_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - mosquitto-data
+
+
   labels_def:
     app.kubernetes.io/name: mosquitto
     app.kubernetes.io/component: mosquitto

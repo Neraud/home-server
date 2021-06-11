@@ -2,6 +2,7 @@
 
 # To avoid loops inside airsonic
 _airsonic_var_loader:
+  namespace: "stream-airsonic"
   base_image:
     name: "airsonic/airsonic"
     tag: "10.6.2-RELEASE"
@@ -9,8 +10,20 @@ _airsonic_var_loader:
 airsonic:
   enabled: "{{ airsonic_enabled | default(True) }}"
 
-  namespace: "stream-airsonic"
+  namespace: "{{ _airsonic_var_loader.namespace }}"
   base_image: "{{ _airsonic_var_loader.base_image }}"
+
+  app_backup:
+    name: stream-airsonic
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: airsonic
+      namespace: "{{ _airsonic_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - airsonic-data
+    - airsonic-playlists
 
   labels_def:
     app.kubernetes.io/name: airsonic

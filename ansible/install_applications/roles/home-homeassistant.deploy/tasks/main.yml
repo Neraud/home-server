@@ -5,6 +5,18 @@
   vars:
     application_namespace: "{{ homeassistant.namespace }}"
 
+- name: Deploy Home Assistant backup script
+  import_tasks: ../../_base.deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ homeassistant.app_backup }}"
+  tags: backup
+
+- name: Deploy Home Assistant MySQL backup script
+  import_tasks: ../../_base.deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ homeassistant_mysql.app_backup }}"
+  tags: backup
+
 - name: Ensure BusyBox image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:

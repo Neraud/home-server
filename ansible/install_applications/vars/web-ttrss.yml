@@ -2,6 +2,7 @@
 
 # To avoid loops inside ttrss
 _ttrss_var_loader:
+  namespace: "web-ttrss"
   base_image:
     name: "php"
     tag: "8.0.6-apache-buster"
@@ -11,9 +12,24 @@ _ttrss_var_loader:
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
 
-  namespace: "web-ttrss"
+  namespace: "{{ _ttrss_var_loader.namespace }}"
   base_image: "{{ _ttrss_var_loader.base_image }}"
   commit: "{{ _ttrss_var_loader.commit }}"
+
+  app_backup:
+    name: web-ttrss
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: ttrss-web
+      namespace: "{{ _ttrss_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    - name: ttrss-job
+      namespace: "{{ _ttrss_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - ttrss-data
   
   labels_def:
     app.kubernetes.io/name: ttrss
@@ -88,6 +104,17 @@ _ttrss_pgsql_var_loader:
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"
+
+  app_backup:
+    name: web-ttrss_pgsql
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: ttrss-pgsql
+      namespace: "{{ _ttrss_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - ttrss-pgsql
   
   labels_def:
     app.kubernetes.io/name: ttrss

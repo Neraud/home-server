@@ -5,6 +5,12 @@
   vars:
     application_namespace: "{{ openldap.namespace }}"
 
+- name: Deploy OpenLDAP backup script
+  import_tasks: ../../_base.deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ openldap.app_backup }}"
+  tags: backup
+
 - name: Ensure OpenLDAP image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:

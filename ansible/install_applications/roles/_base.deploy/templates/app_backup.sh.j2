@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+set -euo pipefail
+
+{% if app_backup.repository.enabled %}
+export RESTIC_REPOSITORY="{{ app_backup.repository.repository }}"
+export RESTIC_PASSWORD="{{ app_backup.repository.password }}"
+
+echo ""
+echo "Testing if the repository already exists"
+
+set +e
+restic stats
+restic_repo_status=$?
+set -e
+
+if [ $restic_repo_status -eq 0 ] ; then
+    echo ""
+    echo "Ok, repo already exists, continuing"
+else
+    echo ""
+    echo "Repository doesn't exists, creating"
+    restic init
+fi
+
+echo ""
+{% if app_backup.apps_to_stop %}
+echo "Stopping applications"
+    {% for app in app_backup.apps_to_stop %}
+echo " - {{ app.name }}"
+kubectl {{ kubectl_params }} --namespace={{ app.namespace }} scale {{ app.type }} {{ app.name }} --replicas=0
+    {% endfor %}
+echo "Waiting for applications to stop"
+    {% for app in app_backup.apps_to_stop %}
+echo " - {{ app.name }}"
+timeout 1m bash -c 'until test $(kubectl {{ kubectl_params }}  --namespace={{ app.namespace }} get {{ app.type }} {{ app.name }} -o json | jq -r ".status.replicas") -eq 0 ; do sleep 5 ; done'
+    {% endfor %}
+{% else %}
+echo "No application to stop, continuing"
+{% endif %}
+
+
+echo ""
+echo "Mounting application volumes"
+{% for vol in app_backup.gluster_volumes %}
+echo " - {{ vol }}"
+mkdir -p /data/volumes/{{ vol }}
+set +e ; umount -q /data/volumes/{{ vol }} ; set -e
+mount -t glusterfs {{ groups['glusterfs_servers'][0] }}:/{{ vol }} /data/volumes/{{ vol }}
+restic backup --host="{{ app_backup.name }}" /data/volumes/{{ vol }}
+umount /data/volumes/{{ vol }}
+rm -R /data/volumes/{{ vol }}
+{% endfor %}
+
+
+echo ""
+{% if app_backup.apps_to_stop %}
+echo "Restarting applications"
+    {% for app in app_backup.apps_to_stop %}
+echo " - {{ app.name }}"
+kubectl {{ kubectl_params }} --namespace={{ app.namespace }} scale {{ app.type }} {{ app.name }} --replicas={{ app.replicas }}
+    {% endfor %}
+{% else %}
+echo "No application to restart, continuing"
+{% endif %}
+
+{% else %}
+echo "Appps backup disabled"
+{% endif %}

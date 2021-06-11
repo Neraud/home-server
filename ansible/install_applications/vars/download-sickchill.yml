@@ -18,6 +18,17 @@ sickchill:
   version: "{{ _sickchill_var_loader.version }}"
   commit_sha: "{{ _sickchill_var_loader.commit_sha }}"
   servername: "sickchill.{{ _sickchill_var_loader.namespace }}.svc.cluster.local"
+
+  app_backup:
+    name: download-sickchill
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: sickchill
+      namespace: "{{ _sickchill_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - sickchill-data
   
   labels_def:
     app.kubernetes.io/name: sickchill

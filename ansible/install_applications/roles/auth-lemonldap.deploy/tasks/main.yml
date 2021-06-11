@@ -5,6 +5,12 @@
   vars:
     application_namespace: "{{ lemonldap.namespace }}"
 
+- name: Deploy LemonLDAP backup script
+  import_tasks: ../../_base.deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ lemonldap.app_backup }}"
+  tags: backup
+
 - name: Ensure BusyBox image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:

@@ -2,6 +2,7 @@
 
 # To avoid loops inside gitlab
 _gitlab_var_loader:
+  namespace: "dev-gitlab"
   context_path: "{{ gitlab_context_path | default('/gitlab') }}"
 
   base_image:
@@ -11,8 +12,20 @@ _gitlab_var_loader:
 gitlab:
   enabled: "{{ openldap_enabled | default(True) }}"
 
-  namespace: "dev-gitlab"
+  namespace: "{{ _gitlab_var_loader.namespace }}"
   base_image: "{{ _gitlab_var_loader.base_image }}"
+
+  app_backup:
+    name: dev-gitlab
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: gitlab
+      namespace: "{{ _gitlab_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - gitlab-config
+    - gitlab-data
 
   labels_def:
     app.kubernetes.io/name: gitlab

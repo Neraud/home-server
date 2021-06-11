@@ -12,6 +12,17 @@ pihole:
 
   namespace: "{{ _pihole_var_loader.namespace }}"
   base_image: "{{ _pihole_var_loader.base_image }}"
+
+  app_backup:
+    name: infra-pihole
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: pihole
+      namespace: "{{ _pihole_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - pihole-data
   
   labels_def:
     app.kubernetes.io/name: pihole
