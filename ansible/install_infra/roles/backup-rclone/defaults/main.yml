@@ -1,0 +1,19 @@
+---
+
+rclone_version: "1.55.1"
+backup_scripts_dir: /opt/backups
+rclone_backup_scripts_dir: "{{ backup_scripts_dir }}"
+
+rclone_configurations: {}
+#  conf-name:
+#    type: sftp
+#    host: target_host
+#    user: target_user
+#    key_file: /path/to/.ssh/id_rsa
+
+rclone_backups: []
+#  - repo_name: repo
+#    target: conf-name:/path/to/root
+#    tasks:
+#    - source: /path/to/source/dir
+#      target: dir
