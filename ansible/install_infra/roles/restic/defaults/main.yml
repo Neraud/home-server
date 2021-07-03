@@ -1,7 +1,9 @@
 ---
 
+restic_version: "0.12.0"
 restic_backup_scripts_dir: /opt/backup
 restic_backup_apps_scripts_dir: "{{ restic_backup_scripts_dir }}/apps.d"
+restic_bash_completion_enabled: True
 
 restic_host_backup_repository:
   name: host_backup

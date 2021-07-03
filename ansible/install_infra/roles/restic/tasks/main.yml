@@ -1,25 +1,15 @@
 ---
 
-- name: Install Restic
-  apt:
-    pkg: restic
-    state: present
-
-- name: Generate temp Restic Bash completion
-  command: restic generate --bash-completion /tmp/bash_completion_restic
+- name: Check current restic installation
+  command: /usr/local/bin/restic version
+  failed_when: False
   changed_when: False
+  register: restic_current_version
 
-- name: Deploy restic Bash completion
-  copy:
-    src: /tmp/bash_completion_restic
-    dest: /etc/bash_completion.d/restic
-    remote_src: True
-
-- name: Clean temp Restic Bash completion
-  file:
-    path: /tmp/bash_completion_restic
-    state: absent
-  changed_when: False
+- name: Install restic v{{ restic_version }}
+  block:
+  - include_tasks: install.yml
+  when: restic_current_version.rc != 0 or 'restic '+ restic_version not in restic_current_version.stdout
 
 - name: Ensure Restic backup scripts directories exists
   file:
