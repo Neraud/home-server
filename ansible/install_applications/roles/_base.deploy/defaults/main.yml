@@ -4,7 +4,7 @@ custom_ssl_pki_generation_root_dir: /etc/ssl/custom
 kubernetes_glusterfs_endpoint: glusterfs-cluster
 kubernetes_nas_nfs_storage_class_name: nas-nfs
 
-restic_backup_scripts_dir: /opt/backup
+restic_backup_scripts_dir: /opt/backups
 restic_backup_apps_scripts_dir: "{{ restic_backup_scripts_dir }}/apps.d"
 
 restic_apps_backup_repository:
