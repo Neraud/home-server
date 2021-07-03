@@ -15,6 +15,7 @@
     src: /tmp/rclone-v{{ rclone_version }}-linux-amd64.zip
     dest: /tmp
     remote_src: yes
+  when: not unarchive_use_7z
 
 - name: Deploy rclone
   copy:
@@ -23,6 +24,12 @@
     mode: 755
     remote_src: yes
   become: yes
+  when: not unarchive_use_7z
+  
+- name: Unarchive and rclone release using 7z
+  command: 7z e /tmp/rclone-v{{ rclone_version }}-linux-amd64.zip */rclone -o/usr/local/bin/
+  become: True
+  when: unarchive_use_7z
 
 - name: Remove tmp file
   file:
