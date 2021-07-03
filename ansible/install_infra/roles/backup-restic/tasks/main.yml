@@ -17,6 +17,12 @@
     state: directory
     mode: 0700
 
+- name: Deploy core restic backup script
+  template:
+    src: "_restic.sh.j2"
+    dest: "{{ restic_backup_scripts_dir }}/_restic.sh"
+    mode: 0700
+
 - include_tasks: host.yml
 - include_tasks: apps.yml
 - include_tasks: maintenance.yml

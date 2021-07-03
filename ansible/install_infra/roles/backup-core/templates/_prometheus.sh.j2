@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+PROMETHEUS_OUTPUT_DIR="{{ textfile_collector_directory }}"
+PROMETHEUS_COMMON_LABELS=""
+
+function add_prom_metric() {
+    metric_name="$1"
+    additional_labels="$2"
+    metric_value="$3"
+
+    if [ -z "$additional_labels" ] ; then
+        metric_labels="${PROMETHEUS_COMMON_LABELS}"
+    else
+        metric_labels="${PROMETHEUS_COMMON_LABELS},${additional_labels}"
+    fi
+
+    echo "${metric_name}{${metric_labels}} ${metric_value}" >> ${PROMETHEUS_OUTPUT_FILE_TMP}
+}
+
+function init_backup_prom_file() {
+    if [ -f ${PROMETHEUS_OUTPUT_FILE_TMP} ] ; then
+        echo "Old ${PROMETHEUS_OUTPUT_FILE_TMP} file exists ?!,Removing"
+        rm ${PROMETHEUS_OUTPUT_FILE_TMP}
+    fi
+
+    cat <<EOF > ${PROMETHEUS_OUTPUT_FILE_TMP}
+# HELP backup_job_start The start time of the backup job.
+# TYPE backup_job_start gauge
+# HELP backup_job_duration The total duration of the backup job.
+# TYPE backup_job_duration gauge
+# HELP backup_job_status The status of the backup job.
+# TYPE backup_job_status gauge
+
+# HELP backup_task_start The start time of the backup task.
+# TYPE backup_task_start gauge
+# HELP backup_task_duration The total duration of the backup task.
+# TYPE backup_task_duration gauge
+# HELP backup_task_status The status of the backup task.
+# TYPE backup_task_status gauge
+# HELP backup_task_added_bytes The number of bytes added by the backup task.
+# TYPE backup_task_added_bytes gauge
+# HELP backup_task_total_bytes The total number of bytes handled by the backup task.
+# TYPE backup_task_total_bytes gauge
+# HELP backup_task_files The total number of files handled by the backup task.
+# TYPE backup_task_files gauge
+# HELP backup_task_dirs The total number of directories handled by the backup task.
+# TYPE backup_task_dirs gauge
+EOF
+}
+
+function init_maintenance_prom_file() {
+    if [ -f ${PROMETHEUS_OUTPUT_FILE_TMP} ] ; then
+        echo "Old ${PROMETHEUS_OUTPUT_FILE_TMP} file exists ?!,Removing"
+        rm ${PROMETHEUS_OUTPUT_FILE_TMP}
+    fi
+
+    cat <<EOF > ${PROMETHEUS_OUTPUT_FILE_TMP}
+# HELP backup_maintenance_start The start time of the backup maintenance job.
+# TYPE backup_maintenance_start gauge
+# HELP backup_maintenance_duration The total duration of the backup maintenance job.
+# TYPE backup_maintenance_duration gauge
+# HELP backup_maintenance_status The status of the backup maintenance job.
+# TYPE backup_maintenance_status gauge
+EOF
+}
+
+function finish_prom_file() {
+    mv ${PROMETHEUS_OUTPUT_FILE_TMP} ${PROMETHEUS_OUTPUT_FILE}
+}
+
+function clean_old_prom_files() {
+    pattern="$1"
+    older_than=$2
+    find ${PROMETHEUS_OUTPUT_DIR} -type f -name "${pattern}" -mtime +${older_than} -exec rm {} \;
+}

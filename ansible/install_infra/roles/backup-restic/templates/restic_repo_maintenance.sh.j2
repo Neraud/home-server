@@ -2,23 +2,113 @@
 
 # {{ ansible_managed }}
 
-set -euo pipefail
+set -uo pipefail
+BACKUP_SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-{% if restic_repositories_maintenance_enabled %}
-echo "Running maintenance on repositories"
+{% if not restic_repositories_maintenance_enabled %}echo "Repositories maintenance disabled" && exit 0{% endif %}
 
-    {% for repo in restic_repositories %}
-echo "===================================================================================================="
-echo " - {{ repo.name }}"
+source ${BACKUP_SCRIPTS_DIR}/_prometheus.sh
+PROMETHEUS_OUTPUT_FILE="${PROMETHEUS_OUTPUT_DIR}/backup_restic_repo_maintenance.prom"
+PROMETHEUS_OUTPUT_FILE_TMP=${PROMETHEUS_OUTPUT_FILE}.new
+PROMETHEUS_LABEL_TYPE="restic"
+PROMETHEUS_COMMON_LABELS="type=\"${PROMETHEUS_LABEL_TYPE}\""
 
-        {% if repo.enabled and repo.retention %}
-export RESTIC_REPOSITORY="{{ repo.repository }}"
-export RESTIC_PASSWORD="{{ repo.password }}"
+job_status=0
 
-echo ""
-echo "Checking data ..."
-restic check --read-data
+function handle_repo() {
+    echo "===================================================================================================="
+    repo_name="$1"
+    export RESTIC_REPOSITORY="$2"
+    export RESTIC_PASSWORD="$3"
+    repo_forget_settings="$4"
 
+    _check_repo "$@"
+    _forget_repo "$@"
+    _prune_repo "$@"
+}
+
+function _check_repo() {
+    repo_name="$1"
+    RESTIC_REPOSITORY="$2"
+    RESTIC_PASSWORD="$3"
+    echo "----------------------------------------------------------------------------------------------------"
+    echo "[${repo_name}] checking data ..."
+
+    task_start=$(date +%s)
+    task_status=0
+    task_labels="repo=\"${repo_name}\",operation=\"check\""
+    
+    restic check --read-data
+
+    task_status=$?
+    task_end=$(date +%s)
+    task_duration=$((task_end-task_start))
+    if [ ${task_status} -ne 0 ] ; then
+        job_status=1
+    fi
+
+    add_prom_metric "backup_maintenance_start" "${task_labels}" ${task_start}
+    add_prom_metric "backup_maintenance_duration" "${task_labels}" ${task_duration}
+    add_prom_metric "backup_maintenance_status" "${task_labels}" ${task_status}
+}
+
+function _forget_repo() {
+    repo_name="$1"
+    RESTIC_REPOSITORY="$2"
+    RESTIC_PASSWORD="$3"
+    repo_forget_settings="$4"
+    
+    echo "----------------------------------------------------------------------------------------------------"
+    echo "[${repo_name}] forgetting data ${repo_forget_settings}"
+
+    task_start=$(date +%s)
+    task_status=0
+    task_labels="repo=\"${repo_name}\",operation=\"forget\""
+        
+    restic forget ${repo_forget_settings}
+
+    task_status=$?
+    task_end=$(date +%s)
+    task_duration=$((task_end-task_start))
+    if [ ${task_status} -ne 0 ] ; then
+        job_status=1
+    fi
+
+    add_prom_metric "backup_maintenance_start" "${task_labels}" ${task_start}
+    add_prom_metric "backup_maintenance_duration" "${task_labels}" ${task_duration}
+    add_prom_metric "backup_maintenance_status" "${task_labels}" ${task_status}
+}
+
+function _prune_repo() {
+    repo_name="$1"
+    RESTIC_REPOSITORY="$2"
+    RESTIC_PASSWORD="$3"
+    repo_forget_settings="$4"
+    echo "----------------------------------------------------------------------------------------------------"
+    echo "[${repo_name}] pruning"
+
+    task_start=$(date +%s)
+    task_status=0
+    task_labels="repo=\"${repo_name}\",operation=\"prune\""
+
+    restic prune
+
+    task_status=$?
+    task_end=$(date +%s)
+    task_duration=$((task_end-task_start))
+    if [ ${task_status} -ne 0 ] ; then
+        job_status=1
+    fi
+
+    add_prom_metric "backup_maintenance_start" "${task_labels}" ${task_start}
+    add_prom_metric "backup_maintenance_duration" "${task_labels}" ${task_duration}
+    add_prom_metric "backup_maintenance_status" "${task_labels}" ${task_status}
+}
+
+init_maintenance_prom_file
+
+{% for repo in restic_repositories %}
+    {% if repo.enabled and repo.retention %}
 {% set keep_configs = [] %}
 {% if 'keep_last' in repo.retention and repo.retention.keep_last > 0 %}{{ keep_configs.append("--keep-last " ~ repo.retention.keep_last) }}{% endif %}
 {% if 'keep_hourly' in repo.retention and repo.retention.keep_hourly > 0 %}{{ keep_configs.append("--keep-hourly " ~ repo.retention.keep_hourly) }}{% endif %}
@@ -29,20 +119,14 @@ restic check --read-data
 {% if 'keep_tags' in repo.retention %}{% for tag in repo.retention.keep_tags %}{{ keep_configs.append("--keep-tag " ~ tag) }}{% endfor %}{% endif %}
 {% if 'keep_within' in repo.retention and repo.retention.keep_within != "" %}{{ keep_configs.append("--keep-within " ~ repo.retention.keep_within) }}{% endif %}
 
-echo ""
-echo "Forgetting old snapshot with settings : {{ " ".join(keep_configs) }}"
-restic forget {{ " ".join(keep_configs) }}
-
-echo ""
-echo "Pruning"
-restic prune
-        {% elif not repo.enabled %}
+handle_repo "{{ repo.name }}" "{{ repo.repository }}" "{{ repo.password }}" "{{ " ".join(keep_configs) }}"
+    {% elif not repo.enabled %}
 echo "Repisory is disabled, nothing to do ..."
-        {% else %}
+    {% else %}
 echo "Retention not configured, nothing to do ..."
-        {% endif %}
-    {% endfor %}
+    {% endif %}
+{% endfor %}
 
-{% else %}
-echo "Repositories maintenance disabled"
-{% endif %}
+finish_prom_file
+
+exit ${job_status}
