@@ -2,8 +2,8 @@
 
 - name: Deploy Apps backup scripts
   template:
-    src: "backup_apps.sh.j2"
-    dest: "{{ restic_backup_scripts_dir }}/backup_apps.sh"
+    src: "restic_backup_apps.sh.j2"
+    dest: "{{ restic_backup_scripts_dir }}/restic_backup_apps.sh"
     mode: 0700
   when: restic_backup_apps_enabled
 
@@ -16,7 +16,7 @@
 
 - name: Ensure Host backup scripts are absent
   file:
-    path: "{{ restic_backup_scripts_dir }}/backup_apps.sh"
+    path: "{{ restic_backup_scripts_dir }}/restic_backup_apps.sh"
     state: absent
   when: not restic_backup_apps_enabled
 
@@ -25,7 +25,7 @@
     name: "restic_apps_backup"
     cron_file: "restic"
     user: root
-    job: "{{ restic_backup_scripts_dir }}/backup_apps.sh"
+    job: "{{ restic_backup_scripts_dir }}/restic_backup_apps.sh"
     minute: "{{ restic_backup_apps_cron.minute }}"
     hour: "{{ restic_backup_apps_cron.hour }}"
     day: "{{ restic_backup_apps_cron.day }}"

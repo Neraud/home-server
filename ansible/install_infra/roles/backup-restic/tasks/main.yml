@@ -16,7 +16,6 @@
     path: "{{ restic_backup_scripts_dir }}"
     state: directory
     mode: 0700
-  loop:
 
 - include_tasks: host.yml
 - include_tasks: apps.yml

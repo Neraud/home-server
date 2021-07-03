@@ -1,0 +1,7 @@
+---
+
+- name: Ensure backups scripts directory exists
+  file:
+    path: "{{ backup_scripts_dir }}"
+    state: directory
+    mode: 0700

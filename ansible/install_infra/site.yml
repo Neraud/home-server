@@ -8,7 +8,8 @@
     - firewall
     - usb-serial
     - monitoring-textfile-collectors
-    - { role: restic, tags: backup }
+    - { role: backup-core, tags: backup }
+    - { role: backup-restic, tags: backup }
 
 - name: Provision APC UPS
   hosts: apcups

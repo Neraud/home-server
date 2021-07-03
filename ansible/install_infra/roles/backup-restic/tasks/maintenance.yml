@@ -2,14 +2,14 @@
 
 - name: Deploy repo maintenance scripts
   template:
-    src: "repo_maintenance.sh.j2"
-    dest: "{{ restic_backup_scripts_dir }}/repo_maintenance.sh"
+    src: "restic_repo_maintenance.sh.j2"
+    dest: "{{ restic_backup_scripts_dir }}/restic_repo_maintenance.sh"
     mode: 0700
   when: restic_backup_maintenance_enabled
 
 - name: Ensure repo maintenance scripts are absent
   file:
-    path: "{{ restic_backup_scripts_dir }}/repo_maintenance.sh"
+    path: "{{ restic_backup_scripts_dir }}/restic_repo_maintenance.sh"
     state: absent
   when: not restic_backup_maintenance_enabled
 
@@ -18,7 +18,7 @@
     name: "restic_repo_maintenance"
     cron_file: "restic"
     user: root
-    job: "{{ restic_backup_scripts_dir }}/repo_maintenance.sh"
+    job: "{{ restic_backup_scripts_dir }}/restic_repo_maintenance.sh"
     minute: "{{ restic_backup_maintenance_cron.minute }}"
     hour: "{{ restic_backup_maintenance_cron.hour }}"
     day: "{{ restic_backup_maintenance_cron.day }}"
