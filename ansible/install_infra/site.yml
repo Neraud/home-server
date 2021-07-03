@@ -8,6 +8,10 @@
     - firewall
     - usb-serial
     - monitoring-textfile-collectors
+
+- name: Configure backups
+  hosts: backups
+  roles:
     - { role: backup-core, tags: backup }
     - { role: backup-restic, tags: backup }
 
