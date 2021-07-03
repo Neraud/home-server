@@ -11,57 +11,13 @@
   - include_tasks: install.yml
   when: restic_current_version.rc != 0 or 'restic '+ restic_version not in restic_current_version.stdout
 
-- name: Ensure Restic backup scripts directories exists
+- name: Ensure Restic backup scripts directory exists
   file:
-    path: "{{ item }}"
+    path: "{{ restic_backup_scripts_dir }}"
     state: directory
     mode: 0700
   loop:
-    - "{{ restic_backup_scripts_dir }}"
-    - "{{ restic_backup_apps_scripts_dir }}"
 
-- name: Deploy backup scripts
-  template:
-    src: "{{ item }}.j2"
-    dest: "{{ restic_backup_scripts_dir }}/{{ item }}"
-    mode: 0700
-  loop:
-    - backup_host.sh
-    - backup_apps.sh
-    - repo_maintenance.sh
-
-- name: Schedule host backup
-  cron:
-    name: "restic_host_backup"
-    cron_file: "restic"
-    user: root
-    job: "{{ restic_backup_scripts_dir }}/backup_host.sh"
-    minute: "0"
-    hour: "2"
-    day: "*"
-    weekday: "*"
-    month: "*"
-
-- name: Schedule apps backup
-  cron:
-    name: "restic_apps_backup"
-    cron_file: "restic"
-    user: root
-    job: "{{ restic_backup_scripts_dir }}/backup_apps.sh"
-    minute: "0"
-    hour: "3"
-    day: "*"
-    weekday: "*"
-    month: "*"
-
-- name: Schedule repositories maintenance
-  cron:
-    name: "restic_repo_maintenance"
-    cron_file: "restic"
-    user: root
-    job: "{{ restic_backup_scripts_dir }}/repo_maintenance.sh"
-    minute: "0"
-    hour: "8"
-    day: "*"
-    weekday: "1"
-    month: "*"
+- include_tasks: host.yml
+- include_tasks: apps.yml
+- include_tasks: maintenance.yml

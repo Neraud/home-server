@@ -1,0 +1,38 @@
+---
+
+- name: Deploy Host backup scripts
+  template:
+    src: "backup_host.sh.j2"
+    dest: "{{ restic_backup_scripts_dir }}/backup_host.sh"
+    mode: 0700
+  when: restic_backup_host_enabled
+
+- name: Ensure Host backup scripts are absent
+  file:
+    path: "{{ restic_backup_scripts_dir }}/backup_host.sh"
+    state: absent
+  when: not restic_backup_host_enabled
+
+- name: Schedule host backup
+  cron:
+    name: "restic_host_backup"
+    cron_file: "restic"
+    user: root
+    job: "{{ restic_backup_scripts_dir }}/backup_host.sh"
+    minute: "{{ restic_backup_hosts_cron.minute }}"
+    hour: "{{ restic_backup_hosts_cron.hour }}"
+    day: "{{ restic_backup_hosts_cron.day }}"
+    weekday: "{{ restic_backup_hosts_cron.weekday }}"
+    month: "{{ restic_backup_hosts_cron.month }}"
+  when: 
+    - schedule_with_cron
+    - restic_backup_host_enabled and restic_backup_hosts_cron
+
+- name: Ensure host backup is not scheduled
+  cron:
+    name: "restic_host_backup"
+    cron_file: "restic"
+    state: absent
+  when: 
+    - schedule_with_cron
+    - not restic_backup_host_enabled or not restic_backup_hosts_cron
