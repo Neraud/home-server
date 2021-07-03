@@ -14,6 +14,7 @@
   roles:
     - { role: backup-core, tags: backup }
     - { role: backup-restic, tags: backup }
+    - { role: backup-rsync, tags: backup }
 
 - name: Provision APC UPS
   hosts: apcups

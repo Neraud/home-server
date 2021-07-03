@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+BACKUP_SCRIPTS_DIR="${SCRIPT_DIR}"
+
+RSYNC_OPTIONS="-a"
+#RSYNC_OPTIONS=${RSYNC_OPTIONS}" -v"
+RSYNC_OPTIONS=${RSYNC_OPTIONS}" --delete"
+#RSYNC_OPTIONS=${RSYNC_OPTIONS}" --dry-run"
+
+RSYNC_USER="{{ item.user }}"
+RSYNC_TARGET="{{ item.target }}"
+
+source ${BACKUP_SCRIPTS_DIR}/_prometheus.sh
+PROMETHEUS_OUTPUT_FILE="${PROMETHEUS_OUTPUT_DIR}/backup_rsync.prom"
+PROMETHEUS_OUTPUT_FILE_TMP=${PROMETHEUS_OUTPUT_FILE}.new
+PROMETHEUS_LABEL_HOST=$(hostname)
+PROMETHEUS_LABEL_TYPE="rsync"
+PROMETHEUS_LABEL_REPO="{{ item.repo_name }}"
+PROMETHEUS_COMMON_LABELS="host=\"${PROMETHEUS_LABEL_HOST}\",type=\"${PROMETHEUS_LABEL_TYPE}\",repo=\"${PROMETHEUS_LABEL_REPO}\""
+
+job_start=$(date +%s)
+job_status=0
+
+init_backup_prom_file
+
+
+function rsync_folder() {
+    source="$1"
+    target="$2"
+
+    echo "===================================================================================================="
+    echo " - ${source}"
+    
+    task_start=$(date +%s)
+    task_status=0
+    task_common_labels="path=\"${source}\""
+    tmp_output=$(mktemp)
+
+    if [ "${RSYNC_USER}" != "" ] ; then
+        su ${RSYNC_USER} -c "rsync ${RSYNC_OPTIONS} --stats ${source}/ ${RSYNC_TARGET}/${target}/" > ${tmp_output}
+        task_status=$?
+    else
+        rsync ${RSYNC_OPTIONS} --stats ${source}/ ${RSYNC_TARGET}/${target}/ > ${tmp_output}
+        task_status=$?
+    fi
+    
+    task_end=$(date +%s)
+    task_duration=$((task_end-task_start))
+    if [ ${task_status} -ne 0 ] ; then
+        job_status=1
+    fi
+
+    echo "Finished with status ${task_status}"
+    cat ${tmp_output}
+    add_prom_metric "backup_task_start" "${task_common_labels}" ${task_start}
+    add_prom_metric "backup_task_duration" "${task_common_labels}" ${task_duration}
+    add_prom_metric "backup_task_status" "${task_common_labels}" ${task_status}
+
+    if [ ${task_status} -eq 0 ] ; then
+        # Remove comma separator in numbers
+        cat ${tmp_output} | sed -E 's/([0-9]),([0-9])/\1\2/g' > ${tmp_output}.cleaned
+        mv ${tmp_output}.cleaned ${tmp_output}
+        files_total=$(grep "Number of files:" ${tmp_output} | grep -Po '(?<=reg: )\d+' || echo 0)
+        dirs_total=$(grep "Number of files:" ${tmp_output} | grep -Po '(?<=dir: )\d+' || echo 0)
+        files_new=$(grep "Number of created files:" ${tmp_output} | grep -Po '(?<=reg: )\d+' || echo 0)
+        dirs_new=$(grep "Number of created files:" ${tmp_output} | grep -Po '(?<=dir: )\d+' || echo 0)
+        files_deleted=$(grep "Number of deleted files:" ${tmp_output} | grep -Po '(?<=reg: )\d+' || echo 0)
+        dirs_deleted=$(grep "Number of deleted files:" ${tmp_output} | grep -Po '(?<=dir: )\d+' || echo 0)
+        files_transfered=$(grep -Po '(?<=Number of regular files transferred: )\d+' ${tmp_output} || echo 0)
+        bytes_added=$(grep -Po '(?<=Literal data: )[\d,]+' ${tmp_output} | sed 's/,//g' || echo 0)
+        bytes_total=$(grep -Po '(?<=Total file size: )[\d,]+' ${tmp_output} | sed 's/,//g' || echo 0)
+        files_modified=$((files_transfered+files_deleted-files_new))
+        files_unchanged=$((files_total-files_transfered-files_deleted))
+        dirs_modified=${files_deleted}
+        dirs_unchanged=$((dirs_total-dirs_new-dirs_deleted))
+
+        add_prom_metric "backup_task_added_bytes" "${task_common_labels}" ${bytes_added}
+        add_prom_metric "backup_task_total_bytes" "${task_common_labels}" ${bytes_total}
+        add_prom_metric "backup_task_files" "${task_common_labels},state=\"new\"" ${files_new}
+        add_prom_metric "backup_task_files" "${task_common_labels},state=\"modified\"" ${files_modified}
+        add_prom_metric "backup_task_files" "${task_common_labels},state=\"unchanged\"" ${files_unchanged}
+        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"new\"" ${dirs_new}
+        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"modified\"" ${dirs_modified}
+        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"unchanged\"" ${dirs_unchanged}
+    fi
+
+    rm ${tmp_output}
+}
+
+echo "RSYNC_OPTIONS : ${RSYNC_OPTIONS}"
+
+{% for task in item.tasks %}
+rsync_folder "{{ task.source }}" "{{ task.target }}"
+{% endfor %}
+
+job_end=$(date +%s)
+job_duration=$((job_end-job_start))
+
+add_prom_metric "backup_job_start" "" ${job_start}
+add_prom_metric "backup_job_duration" "" ${job_duration}
+add_prom_metric "backup_job_status" "" ${job_status}
+
+finish_prom_file
+
+exit ${job_status}
