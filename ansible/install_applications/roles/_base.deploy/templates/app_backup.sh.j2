@@ -59,7 +59,7 @@ function backup_volume() {
     
     echo " - backing up"
     # TODO tag app ?
-    restic backup --host="${FAKE_HOST_NAME}" ${VOLUME_MOUNT_ROOT}/${volume_name} --json > ${tmp_output}
+    {{ restic_bin_path }} backup --host="${FAKE_HOST_NAME}" ${VOLUME_MOUNT_ROOT}/${volume_name} --json > ${tmp_output}
     task_status=$?
     
     echo " - unmounting"

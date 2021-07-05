@@ -32,7 +32,7 @@ function backup_path() {
     task_common_labels="path=\"${path}\""
     tmp_output=$(mktemp)
     
-    restic backup $path --json > ${tmp_output}
+    {{ restic_bin_path }} backup $path --json > ${tmp_output}
     task_status=$?
     task_end=$(date +%s)
     task_duration=$((task_end-task_start))

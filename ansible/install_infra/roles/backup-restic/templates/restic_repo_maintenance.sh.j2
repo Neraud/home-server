@@ -38,7 +38,7 @@ function _check_repo() {
     task_status=0
     task_labels="repo=\"${repo_name}\",operation=\"check\""
     
-    restic check --read-data
+    {{ restic_bin_path }} check --read-data
 
     task_status=$?
     task_end=$(date +%s)
@@ -64,8 +64,8 @@ function _forget_repo() {
     task_start=$(date +%s)
     task_status=0
     task_labels="repo=\"${repo_name}\",operation=\"forget\""
-        
-    restic forget ${repo_forget_settings}
+
+    {{ restic_bin_path }} forget ${repo_forget_settings}
 
     task_status=$?
     task_end=$(date +%s)
@@ -91,7 +91,7 @@ function _prune_repo() {
     task_status=0
     task_labels="repo=\"${repo_name}\",operation=\"prune\""
 
-    restic prune
+    {{ restic_bin_path }} prune
 
     task_status=$?
     task_end=$(date +%s)

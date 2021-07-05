@@ -1,6 +1,7 @@
 ---
 
 restic_version: "0.12.0"
+restic_bin_path: /usr/local/bin/restic
 backup_scripts_dir: /opt/backups
 restic_backup_scripts_dir: "{{ backup_scripts_dir }}"
 restic_backup_apps_scripts_dir: "{{ restic_backup_scripts_dir }}/apps.d"

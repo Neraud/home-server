@@ -1,7 +1,7 @@
 ---
 
 - name: Check current restic installation
-  command: /usr/local/bin/restic version
+  command: "{{ restic_bin_path }} version"
   failed_when: False
   changed_when: False
   register: restic_current_version
