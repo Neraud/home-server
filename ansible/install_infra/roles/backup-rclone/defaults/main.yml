@@ -13,6 +13,15 @@ rclone_configurations: {}
 #    user: target_user
 #    key_file: /path/to/.ssh/id_rsa
 
+rclone_configuration_files: {}
+# used for example to inject GCP credentials :
+#  project-uuid.json: |
+#    {
+#      "type": "service_account",
+#      "project_id": "project",
+#       ...
+#    }
+
 rclone_backups: []
 #  - repo_name: repo
 #    target: conf-name:/path/to/root

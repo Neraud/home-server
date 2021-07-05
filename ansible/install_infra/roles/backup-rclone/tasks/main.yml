@@ -26,6 +26,15 @@
     dest: "{{ rclone_configurations_dir }}/rclone.conf"
     mode: 0600
 
+- name: Deploy rclone additional configuration files
+  copy:
+    dest: "{{ rclone_configurations_dir }}/{{ item.key }}"
+    content: "{{ item.value }}"
+    mode: 0600
+  loop: "{{ rclone_configuration_files | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+
 - name: Search for existing rclone backup scripts
   find:
     paths: "{{ rclone_backup_scripts_dir }}"
