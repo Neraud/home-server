@@ -4,6 +4,7 @@ rclone_version: "1.55.1"
 unarchive_use_7z: False
 backup_scripts_dir: /opt/backups
 rclone_backup_scripts_dir: "{{ backup_scripts_dir }}"
+rclone_configurations_dir: "{{ rclone_backup_scripts_dir }}/rclone"
 
 rclone_configurations: {}
 #  conf-name:

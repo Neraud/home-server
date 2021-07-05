@@ -3,6 +3,7 @@
 set -uo pipefail
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 BACKUP_SCRIPTS_DIR="${SCRIPT_DIR}"
+CONFIGS_DIR="${SCRIPT_DIR}/rclone"
 
 RCLONE_TARGET="{{ item.target }}"
 
@@ -32,7 +33,7 @@ function clone_folder() {
     task_common_labels="path=\"${source}\""
     tmp_output=$(mktemp)
 
-    rclone --config=${SCRIPT_DIR}/rclone.conf --links -v --stats 24h --stats-one-line --log-file ${tmp_output} sync ${source}/ ${RCLONE_TARGET}/${target}/
+    rclone --config=${CONFIGS_DIR}/rclone.conf --links -v --stats 24h --stats-one-line --log-file ${tmp_output} sync ${source}/ ${RCLONE_TARGET}/${target}/
 
     task_status=$?
     task_end=$(date +%s)
