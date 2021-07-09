@@ -24,15 +24,16 @@ job_status=0
 
 function backup_path() {
     path="$1"
+    params="$2"
     echo "===================================================================================================="
-    echo " - ${path}"
+    echo " - ${path} (${params})"
     
     task_start=$(date +%s)
     task_status=0
     task_common_labels="path=\"${path}\""
     tmp_output=$(mktemp)
     
-    {{ restic_bin_path }} backup $path --json > ${tmp_output}
+    {{ restic_bin_path }} backup ${path} ${params} --json > ${tmp_output}
     task_status=$?
     task_end=$(date +%s)
     task_duration=$((task_end-task_start))
@@ -76,8 +77,10 @@ init_repo_if_necessary
 
 echo ""
 echo "Backing up paths"
-{% for path in restic_host_backup_repository.paths %}
-backup_path {{ path }}
+{% for p in restic_host_backup_repository.paths %}
+{% set params = [] %}
+{% for e in p.excludes | default([]) %}{{ params.append("--exclude " ~ e) }}{% endfor %}
+backup_path {{ p.path }} "{{ ' '.join(params) }}"
 {% endfor %}
 
 job_end=$(date +%s)

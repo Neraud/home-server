@@ -22,9 +22,17 @@ restic_host_backup_repository:
 #  repository: /tmp/host_backup
 #  password: Passw0rd
 #  paths:
-#    - /etc
-#    - /home
-#    - /root
+#    - path: /etc
+#    - path: /home
+#      excludes:
+#        - /home/*/.ansible
+#        - /home/*/.cache
+#        - /home/*/.kube/cache
+#    - path: /root
+#      excludes:
+#        - /root/.ansible
+#        - /root/.cache
+#        - /root/.kube/cache
 #  retention:
 #    keep_hourly: 24
 #    keep_daily: 7
