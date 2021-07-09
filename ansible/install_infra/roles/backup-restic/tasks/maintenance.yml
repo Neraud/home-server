@@ -5,35 +5,43 @@
     src: "restic_repo_maintenance.sh.j2"
     dest: "{{ restic_backup_scripts_dir }}/restic_repo_maintenance.sh"
     mode: 0700
-  when: restic_backup_maintenance_enabled
+  when: restic_repo_maintenance_enabled
 
 - name: Ensure repo maintenance scripts are absent
   file:
     path: "{{ restic_backup_scripts_dir }}/restic_repo_maintenance.sh"
     state: absent
-  when: not restic_backup_maintenance_enabled
+  when: not restic_repo_maintenance_enabled
 
-- name: Schedule repositories maintenance
-  cron:
-    name: "restic_repo_maintenance"
-    cron_file: "restic"
-    user: root
-    job: "{{ restic_backup_scripts_dir }}/restic_repo_maintenance.sh"
-    minute: "{{ restic_backup_maintenance_cron.minute }}"
-    hour: "{{ restic_backup_maintenance_cron.hour }}"
-    day: "{{ restic_backup_maintenance_cron.day }}"
-    weekday: "{{ restic_backup_maintenance_cron.weekday }}"
-    month: "{{ restic_backup_maintenance_cron.month }}"
-  when: 
-    - schedule_with_cron
-    - restic_backup_maintenance_enabled and restic_backup_maintenance_cron
+- name: Deploy repo maintenance systemd unit and timer
+  template:
+    src: "systemd/{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    mode: 0700
+  loop:
+    - restic_repo_maintenance.service
+    - restic_repo_maintenance.timer
+  notify: Reload systemd daemon
+  when:
+    - schedule_with_systemd
+    - restic_repo_maintenance_enabled and restic_repo_maintenance_timer
 
-- name: Ensure repo maintenance is not scheduled
-  cron:
-    name: "restic_repo_maintenance"
-    cron_file: "restic"
+- name: Enable repo maintenance systemd timer
+  systemd:
+    name: restic_repo_maintenance.timer
+    state: started
+    enabled: yes
+  when:
+    - schedule_with_systemd
+    - restic_repo_maintenance_enabled and restic_repo_maintenance_timer
+
+- name: Ensure repo maintenance systemd unit and timer are not deployed
+  file:
+    path: "/etc/systemd/system/{{ item }}"
     state: absent
-  when: 
-    - schedule_with_cron
-    - not restic_backup_maintenance_enabled or not restic_backup_maintenance_cron
-  
+  loop:
+    - restic_repo_maintenance.service
+    - restic_repo_maintenance.timer
+  when:
+    - schedule_with_systemd
+    - not restic_repo_maintenance_enabled or not restic_repo_maintenance_timer

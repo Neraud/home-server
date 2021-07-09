@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Backup host data with restic
+Requires=restic_backup_host.service
+
+[Timer]
+Unit=restic_backup_host.service
+OnCalendar={{ restic_backup_hosts_timer }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -9,30 +9,12 @@ restic_bash_completion_enabled: True
 
 restic_backup_host_enabled: True
 restic_backup_apps_enabled: False
-restic_backup_maintenance_enabled: False
-schedule_with_cron: True
+restic_repo_maintenance_enabled: False
+schedule_with_systemd: True
 
-restic_backup_hosts_cron:
-  minute: "0"
-  hour: "2"
-  day: "*"
-  weekday: "*"
-  month: "*"
-
-restic_backup_apps_cron:
-  minute: "0"
-  hour: "3"
-  day: "*"
-  weekday: "*"
-  month: "*"
-
-restic_backup_maintenance_cron:
-  minute: "0"
-  hour: "8"
-  day: "*"
-  weekday: "1"
-  month: "*"
-
+restic_backup_hosts_timer: "*-*-* 3:00:00"
+restic_backup_apps_timer: "*-*-* 3:30:00"
+restic_repo_maintenance_timer: "Mon *-*-* 6:00:00"
 
 restic_host_backup_repository:
   name: host_backup

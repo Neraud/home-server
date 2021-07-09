@@ -13,26 +13,35 @@
     state: absent
   when: not restic_backup_host_enabled
 
-- name: Schedule host backup
-  cron:
-    name: "restic_host_backup"
-    cron_file: "restic"
-    user: root
-    job: "{{ restic_backup_scripts_dir }}/restic_backup_host.sh"
-    minute: "{{ restic_backup_hosts_cron.minute }}"
-    hour: "{{ restic_backup_hosts_cron.hour }}"
-    day: "{{ restic_backup_hosts_cron.day }}"
-    weekday: "{{ restic_backup_hosts_cron.weekday }}"
-    month: "{{ restic_backup_hosts_cron.month }}"
-  when: 
-    - schedule_with_cron
-    - restic_backup_host_enabled and restic_backup_hosts_cron
+- name: Deploy Host backup systemd unit and timer
+  template:
+    src: "systemd/{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    mode: 0700
+  loop:
+    - restic_backup_host.service
+    - restic_backup_host.timer
+  notify: Reload systemd daemon
+  when:
+    - schedule_with_systemd
+    - restic_backup_host_enabled and restic_backup_hosts_timer
 
-- name: Ensure host backup is not scheduled
-  cron:
-    name: "restic_host_backup"
-    cron_file: "restic"
+- name: Enable Host backup systemd timer
+  systemd:
+    name: restic_backup_host.timer
+    state: started
+    enabled: yes
+  when:
+    - schedule_with_systemd
+    - restic_backup_host_enabled and restic_backup_hosts_timer
+
+- name: Ensure Host backup systemd unit and timer are not deployed
+  file:
+    path: "/etc/systemd/system/{{ item }}"
     state: absent
-  when: 
-    - schedule_with_cron
-    - not restic_backup_host_enabled or not restic_backup_hosts_cron
+  loop:
+    - restic_backup_host.service
+    - restic_backup_host.timer
+  when:
+    - schedule_with_systemd
+    - not restic_backup_host_enabled or not restic_backup_hosts_timer

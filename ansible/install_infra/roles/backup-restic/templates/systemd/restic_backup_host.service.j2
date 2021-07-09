@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Backup host data with restic
+
+[Service]
+Type=oneshot
+Nice=10
+ExecStart={{ restic_backup_scripts_dir }}/restic_backup_host.sh
+# $HOME or $XDG_CACHE_HOME must be set for restic to find /root/.cache/restic/
+Environment="HOME=/root"
