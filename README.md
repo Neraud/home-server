@@ -76,3 +76,8 @@ The following services are deployed :
 | [Deluge](https://deluge-torrent.org/)                            | Torrent client                                         |
 | [pyload](https://pyload.net/)                                    | HTTP download manager                                  |
 | [SABnzbd](https://sabnzbd.org/)                                  | Binary newsreader                                      |
+
+## Backups
+
+Different tools are deployed to handle [backing the cluster up](docs/Backups.md).
+Mainly, [restic](https://restic.net/) backs up critical data (host, app, nas), and then [Rclone](https://rclone.org/) copies the restic repositories off site (second Nas and GCS)
