@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+{% for config_name in rclone_configurations %}
+[{{ config_name }}]
+{% for key in rclone_configurations[config_name] %}
+{{ key }} = {{ rclone_configurations[config_name][key] }}
+{% endfor %}
+
+{% endfor %}

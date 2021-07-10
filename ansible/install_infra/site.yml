@@ -9,6 +9,14 @@
     - usb-serial
     - monitoring-textfile-collectors
 
+- name: Configure backups
+  hosts: backups
+  roles:
+    - { role: backup-core, tags: backup }
+    - { role: backup-restic, tags: backup }
+    - { role: backup-rsync, tags: backup }
+    - { role: backup-rclone, tags: backup }
+
 - name: Provision APC UPS
   hosts: apcups
   roles:

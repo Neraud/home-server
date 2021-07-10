@@ -1,0 +1,43 @@
+---
+
+restic_host_backup_repository:
+  name: host_backup
+  enabled: True
+  repository: /tmp/host_backup
+  password: Passw0rd
+  paths:
+    - path: /etc
+    - path: /home
+      excludes:
+        - /home/*/.ansible
+        - /home/*/.cache
+        - /home/*/.kube/cache
+    - path: /root
+      excludes:
+        - /root/.ansible
+        - /root/.cache
+        - /root/.kube/cache
+  retention:
+    keep_hourly: 24
+    keep_daily: 7
+    keep_weekly: 4
+    keep_monthly: 12
+    keep_yearly: 2
+
+restic_apps_backup_repository:
+  name: apps_backup
+  enabled: True
+  repository: /tmp/apps_backup
+  password: Passw0rd
+  retention:
+    keep_hourly: 24
+    keep_daily: 7
+    keep_weekly: 4
+    keep_monthly: 12
+    keep_yearly: 2
+
+restic_repositories:
+  - "{{ restic_host_backup_repository }}"
+  - "{{ restic_apps_backup_repository }}"
+
+restic_repositories_maintenance_enabled: True

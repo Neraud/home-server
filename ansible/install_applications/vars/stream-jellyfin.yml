@@ -2,6 +2,7 @@
 
 # To avoid loops inside jellyfin
 _jellyfin_var_loader:
+  namespace: "stream-jellyfin"
   base_image:
     name: "jellyfin/jellyfin"
     tag: "10.7.5-amd64"
@@ -12,9 +13,20 @@ _jellyfin_var_loader:
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"
 
-  namespace: "stream-jellyfin"
+  namespace: "{{ _jellyfin_var_loader.namespace }}"
   base_image: "{{ _jellyfin_var_loader.base_image }}"
   conf_injection_base_image: "{{ _jellyfin_var_loader.conf_injection_base_image }}"
+
+  app_backup:
+    name: stream-jellyfin
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: jellyfin
+      namespace: "{{ _jellyfin_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - jellyfin-data
 
   labels_def:
     app.kubernetes.io/name: jellyfin

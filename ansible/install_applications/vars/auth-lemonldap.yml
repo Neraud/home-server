@@ -2,6 +2,7 @@
 
 # To avoid loops inside lemonldap
 _lemonldap_var_loader:
+  namespace: "auth-lemonldap"
   base_image:
     name: "coudot/lemonldap-ng"
     tag: "2.0.11"
@@ -9,8 +10,19 @@ _lemonldap_var_loader:
 lemonldap:
   enabled: "{{ lemonldap_enabled | default(True) }}"
 
-  namespace: "auth-lemonldap"
+  namespace: "{{ _lemonldap_var_loader.namespace }}"
   base_image: "{{ _lemonldap_var_loader.base_image }}"
+  
+  app_backup:
+    name: auth-lemonldap
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: lemonldap
+      namespace: "{{ _lemonldap_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - lemonldap-data
   
   labels_def:
     app.kubernetes.io/name: lemonldap

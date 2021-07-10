@@ -2,6 +2,7 @@
 
 # To avoid loops inside openzwave
 _openzwave_var_loader:
+  namespace: "home-openzwave"
   base_image:
     name: "openzwave/ozwdaemon"
     tag: "allinone-amd64-203"
@@ -9,8 +10,19 @@ _openzwave_var_loader:
 openzwave:
   enabled: "{{ openzwave_enabled | default(True) }}"
 
-  namespace: "home-openzwave"
+  namespace: "{{ _openzwave_var_loader.namespace }}"
   base_image: "{{ _openzwave_var_loader.base_image }}"
+
+  app_backup:
+    name: home-openzwave
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: openzwave
+      namespace: "{{ _openzwave_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - openzwave-config
 
   labels_def:
     app.kubernetes.io/name: openzwave

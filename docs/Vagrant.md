@@ -493,3 +493,9 @@ The mock NAS storage is used as media storage.
 A default `sabnzbd` / `Passw0rd` user is created.
 
 [nzbToMedia](https://github.com/clinton-hall/nzbToMedia) is added and configured to notify Sickchill of finished downloads.
+
+## Backups
+
+The backup tools are deployed and configured on the Vagrant guests.
+
+However, to keep it simple, each host uses a local restic repository saved `/tmp`.

@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+BACKUP_SCRIPTS_DIR="${SCRIPT_DIR}"
+CONFIGS_DIR="${SCRIPT_DIR}/rclone"
+
+RCLONE_TARGET="{{ item.target }}"
+
+source ${BACKUP_SCRIPTS_DIR}/_prometheus.sh
+PROMETHEUS_OUTPUT_FILE="${PROMETHEUS_OUTPUT_DIR}/backup_rclone.prom"
+PROMETHEUS_OUTPUT_FILE_TMP=${PROMETHEUS_OUTPUT_FILE}.new
+PROMETHEUS_LABEL_HOST=$(hostname)
+PROMETHEUS_LABEL_TYPE="rclone"
+PROMETHEUS_LABEL_REPO="{{ item.repo_name }}"
+PROMETHEUS_COMMON_LABELS="host=\"${PROMETHEUS_LABEL_HOST}\",type=\"${PROMETHEUS_LABEL_TYPE}\",repo=\"${PROMETHEUS_LABEL_REPO}\""
+
+job_start=$(date +%s)
+job_status=0
+
+init_backup_prom_file
+
+
+function clone_folder() {
+    source="$1"
+    target="$2"
+
+    echo "===================================================================================================="
+    echo " - ${source}"
+    
+    task_start=$(date +%s)
+    task_status=0
+    task_common_labels="path=\"${source}\""
+    tmp_output=$(mktemp)
+
+    rclone --config=${CONFIGS_DIR}/rclone.conf --links -v --stats 24h --stats-one-line --log-file ${tmp_output} sync ${source}/ ${RCLONE_TARGET}/${target}/
+
+    task_status=$?
+    task_end=$(date +%s)
+    task_duration=$((task_end-task_start))
+    if [ ${task_status} -ne 0 ] ; then
+        job_status=1
+    fi
+
+    echo "Finished with status ${task_status}"
+    cat ${tmp_output}
+    add_prom_metric "backup_task_start" "${task_common_labels}" ${task_start}
+    add_prom_metric "backup_task_duration" "${task_common_labels}" ${task_duration}
+    add_prom_metric "backup_task_status" "${task_common_labels}" ${task_status}
+
+    if [ ${task_status} -eq 0 ] ; then
+        files_new=$(grep -c ": Copied (new)" ${tmp_output})
+        files_modified=$(grep -c ": Copied (replaced existing)" ${tmp_output})
+        files_deleted=$(grep -c ": Deleted" ${tmp_output})
+
+        echo "files_new : ${files_new}"
+        echo "files_modified : ${files_modified}"
+        echo "files_deleted : ${files_deleted}"
+
+        bytes_added_value=$(tail -1 ${tmp_output} | awk -F" " '{print $7}')
+        bytes_added_unit=$(tail -1 ${tmp_output} | awk -F" " '{ print substr($8,1,1)}')
+
+        echo "bytes_added_value : ${bytes_added_value}"
+        echo "bytes_added_unit : ${bytes_added_unit}"
+
+        # We need to multiply a float, and bash/ash can't do it
+        # bc can, but is not available on Synology
+        # So python it is ...
+        case ${bytes_added_unit} in
+        "K") bytes_added=$(python -c "print(round(${bytes_added_value} * 1024))") ;;
+        "M") bytes_added=$(python -c "print(round(${bytes_added_value} * 1024**2))") ;;
+        "G") bytes_added=$(python -c "print(round(${bytes_added_value} * 1024**3))") ;;
+        "T") bytes_added=$(python -c "print(round(${bytes_added_value} * 1024**4))") ;;
+        *)   bytes_added=$bytes_added_value ;;
+        esac
+
+        add_prom_metric "backup_task_added_bytes" "${task_common_labels}" ${bytes_added}
+        # add_prom_metric "backup_task_total_bytes" "${task_common_labels}" ${bytes_total}
+        add_prom_metric "backup_task_files" "${task_common_labels},state=\"new\"" ${files_new}
+        add_prom_metric "backup_task_files" "${task_common_labels},state=\"modified\"" ${files_modified}
+        # add_prom_metric "backup_task_files" "${task_common_labels},state=\"unchanged\"" ${files_unchanged}
+        # add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"new\"" ${dirs_new}
+        # add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"modified\"" ${dirs_modified}
+        # add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"unchanged\"" ${dirs_unchanged}
+    fi
+
+    rm ${tmp_output}
+}
+
+{% for task in item.tasks %}
+clone_folder "{{ task.source }}" "{{ task.target }}"
+{% endfor %}
+
+job_end=$(date +%s)
+job_duration=$((job_end-job_start))
+
+add_prom_metric "backup_job_start" "" ${job_start}
+add_prom_metric "backup_job_duration" "" ${job_duration}
+add_prom_metric "backup_job_status" "" ${job_status}
+
+finish_prom_file
+
+exit ${job_status}

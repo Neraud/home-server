@@ -2,6 +2,7 @@
 
 # To avoid loops inside nodered
 _nodered_var_loader:
+  namespace: "home-nodered"
   base_image:
     name: "nodered/node-red"
     tag: "1.3.5-12-minimal-amd64"
@@ -10,8 +11,19 @@ nodered:
   enabled: "{{ nodered_enabled | default(True) }}"
   context_root: "{{ nodered_context_root | default('/') }}"
 
-  namespace: "home-nodered"
+  namespace: "{{ _nodered_var_loader.namespace }}"
   base_image: "{{ _nodered_var_loader.base_image }}"
+
+  app_backup:
+    name: home-nodered
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: nodered
+      namespace: "{{ _nodered_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - nodered-data
 
   labels_def:
     app.kubernetes.io/name: nodered

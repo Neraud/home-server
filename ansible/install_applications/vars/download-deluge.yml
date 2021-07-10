@@ -2,6 +2,7 @@
 
 # To avoid loops inside deluge
 _deluge_var_loader:
+  namespace: "download-deluge"
   base_image:
     name: "emmercm/libtorrent"
     # v1.2.12+ and v2+ don't provide python2 bindings
@@ -11,8 +12,23 @@ _deluge_var_loader:
 deluge:
   enabled: "{{ deluge_enabled | default(True) }}"
 
-  namespace: "download-deluge"
+  namespace: "{{ _deluge_var_loader.namespace }}"
   version: "{{ _deluge_var_loader.version }}"
+
+  app_backup:
+    name: download-deluge
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: deluge-daemon
+      namespace: "{{ _deluge_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    - name: deluge-web
+      namespace: "{{ _deluge_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - deluge-data
 
   labels_def:
     app.kubernetes.io/name: deluge

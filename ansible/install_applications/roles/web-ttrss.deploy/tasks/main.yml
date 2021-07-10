@@ -5,6 +5,18 @@
   vars:
     application_namespace: "{{ ttrss.namespace }}"
 
+- name: Deploy TT-RSS backup script
+  import_tasks: ../../_base.deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ ttrss.app_backup }}"
+  tags: backup
+
+- name: Deploy TT-RSS PGSQL backup script
+  import_tasks: ../../_base.deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ ttrss_pgsql.app_backup }}"
+  tags: backup
+
 - name: Ensure BusyBox image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:

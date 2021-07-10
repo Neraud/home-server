@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+function init_repo_if_necessary() {
+    echo ""
+    echo "Testing if the repository already exists : ${RESTIC_REPOSITORY}"
+
+    {{ restic_bin_path }} snapshots --last
+    restic_repo_status=$?
+
+    if [ $restic_repo_status -eq 0 ] ; then
+        echo ""
+        echo "Ok, repo already exists, continuing"
+    else
+        echo ""
+        echo "Repository doesn't exists, creating"
+        {{ restic_bin_path }} init
+    fi
+}

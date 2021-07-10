@@ -2,15 +2,27 @@
 
 # To avoid loops inside unifi
 _unifi_var_loader:
-   base_image:
+  namespace: "infra-unifi"
+  base_image:
     name: "jacobalberty/unifi"
     tag: "6.2.25"
 
 unifi:
   enabled: "{{ unifi_enabled | default(True) }}"
 
-  namespace: "infra-unifi"
+  namespace: "{{ _unifi_var_loader.namespace }}"
   base_image: "{{ _unifi_var_loader.base_image }}"
+  
+  app_backup:
+    name: infra-unifi
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: unifi
+      namespace: "{{ _unifi_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - unifi-data
   
   labels_def:
     app.kubernetes.io/name: unifi

@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+set -uo pipefail
+
+BACKUP_SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+APP_BACKUP_SCRIPTS_DIR="{{ restic_backup_apps_scripts_dir }}"
+FAKE_HOST_NAME=kubernetes
+
+source ${BACKUP_SCRIPTS_DIR}/_prometheus.sh
+PROMETHEUS_OUTPUT_FILE="${PROMETHEUS_OUTPUT_DIR}/backup_apps.prom"
+PROMETHEUS_OUTPUT_FILE_TMP=${PROMETHEUS_OUTPUT_FILE}.new
+PROMETHEUS_LABEL_TYPE="restic"
+PROMETHEUS_LABEL_REPO="{{ restic_apps_backup_repository.name }}"
+PROMETHEUS_COMMON_LABELS="host=\"${FAKE_HOST_NAME}\",type=\"${PROMETHEUS_LABEL_TYPE}\",repo=\"${PROMETHEUS_LABEL_REPO}\""
+
+job_start=$(date +%s)
+job_status=0
+
+init_backup_prom_file
+
+shopt -s nullglob
+for script in ${APP_BACKUP_SCRIPTS_DIR}/*.sh ; do
+    echo "=================================================="
+    echo " - ${script}"
+    (${script})
+    app_status=$?
+    if [ ${app_status} -ne 0 ] ; then
+        job_status=1
+    fi
+    echo "App finished with status ${app_status}"
+done
+shopt -u nullglob
+
+job_end=$(date +%s)
+job_duration=$((job_end-job_start))
+
+add_prom_metric "backup_job_start" "" ${job_start}
+add_prom_metric "backup_job_duration" "" ${job_duration}
+add_prom_metric "backup_job_status" "" ${job_status}
+
+finish_prom_file
+
+clean_old_prom_files "backup_app_*.prom" 1
+
+exit ${job_status}

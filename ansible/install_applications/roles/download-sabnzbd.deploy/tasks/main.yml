@@ -6,6 +6,12 @@
     application_namespace: "{{ sabnzbd.namespace }}"
     create_nfs_pvc: yes
 
+- name: Deploy sabnzbd backup script
+  import_tasks: ../../_base.deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ sabnzbd.app_backup }}"
+  tags: backup
+
 - name: Ensure BusyBox image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:

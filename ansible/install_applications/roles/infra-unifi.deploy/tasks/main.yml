@@ -5,6 +5,12 @@
   vars:
     application_namespace: "{{ unifi.namespace }}"
 
+- name: Deploy Unifi backup script
+  import_tasks: ../../_base.deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ unifi.app_backup }}"
+  tags: backup
+
 - name: Ensure BusyBox image is up-to-date in the private registry
   import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
