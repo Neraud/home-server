@@ -24,8 +24,8 @@ gotify:
       replicas: 1
     gluster_volumes:
     - gotify-data
-    
-    labels_def:
+
+  labels_def:
     app.kubernetes.io/name: gotify
     app.kubernetes.io/component: gotify
 
