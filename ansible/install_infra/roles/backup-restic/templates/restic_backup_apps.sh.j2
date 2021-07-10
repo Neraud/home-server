@@ -6,13 +6,14 @@ set -uo pipefail
 
 BACKUP_SCRIPTS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 APP_BACKUP_SCRIPTS_DIR="{{ restic_backup_apps_scripts_dir }}"
+FAKE_HOST_NAME=kubernetes
 
 source ${BACKUP_SCRIPTS_DIR}/_prometheus.sh
 PROMETHEUS_OUTPUT_FILE="${PROMETHEUS_OUTPUT_DIR}/backup_apps.prom"
 PROMETHEUS_OUTPUT_FILE_TMP=${PROMETHEUS_OUTPUT_FILE}.new
 PROMETHEUS_LABEL_TYPE="restic"
 PROMETHEUS_LABEL_REPO="apps"
-PROMETHEUS_COMMON_LABELS="type=\"${PROMETHEUS_LABEL_TYPE}\",repo=\"${PROMETHEUS_LABEL_REPO}\""
+PROMETHEUS_COMMON_LABELS="host=\"${FAKE_HOST_NAME}\",type=\"${PROMETHEUS_LABEL_TYPE}\",repo=\"${PROMETHEUS_LABEL_REPO}\""
 
 job_start=$(date +%s)
 job_status=0
