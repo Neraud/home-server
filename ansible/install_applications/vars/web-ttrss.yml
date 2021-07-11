@@ -5,9 +5,9 @@ _ttrss_var_loader:
   namespace: "web-ttrss"
   base_image:
     name: "php"
-    tag: "8.0.6-apache-buster"
-  commit: 92c78beb90
-  full_commit: 92c78beb909d8955657564127c2e953ca25113e3
+    tag: "8.0.8-apache-buster"
+  commit: 9669bb94de
+  full_commit: 9669bb94ded6aec423cf307473ade88f4fe71ab7
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"

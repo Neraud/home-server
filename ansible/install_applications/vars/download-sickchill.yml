@@ -4,7 +4,8 @@
 _sickchill_var_loader:
   base_image:
     name: "python"
-    tag: "3.9.5-alpine3.13"
+    tag: "3.9.6-alpine3.14"
+  # v2021.06.16-1 doesn't start : https://github.com/SickChill/SickChill/issues/7177
   version: "v2021.04.10-1"
   #commit_sha is required for the updater to report the proper number of commits ahead
   commit_sha: d76229cd404a162a707d189302990d8911ffe77e

@@ -4,14 +4,14 @@
 _intel_gpu_plugin_var_loader:
   base_image:
     name: "intel/intel-gpu-plugin"
-    tag: "0.20.0"
+    tag: "0.21.0"
 
 intel_gpu_plugin:
   enabled: "{{ intel_gpu_plugin_enabled | default(True) }}"
 
   namespace: "infra-intel-gpu-plugin"
   base_image: "{{ _intel_gpu_plugin_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: intel-gpu-plugin
     app.kubernetes.io/component: intel-gpu-plugin

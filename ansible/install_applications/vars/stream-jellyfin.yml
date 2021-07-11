@@ -5,10 +5,10 @@ _jellyfin_var_loader:
   namespace: "stream-jellyfin"
   base_image:
     name: "jellyfin/jellyfin"
-    tag: "10.7.5-amd64"
+    tag: "10.7.6-amd64"
   conf_injection_base_image:
     name: "python"
-    tag: "3.9.5-alpine3.13"
+    tag: "3.9.6-alpine3.14"
 
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"
@@ -49,9 +49,15 @@ jellyfin:
   context_path: "{{ jellyfin_context_path | default('/jellyfin') }}"
 
   plugins:
-    anime: 
-      url: https://repo.jellyfin.org/releases/plugin/anime/anime_10.0.0.0.zip
-      version: v10
+    anidb:
+      url: https://repo.jellyfin.org/releases/plugin/anidb/anidb_3.0.0.0.zip
+      version: v3
+    anilist:
+      url: https://repo.jellyfin.org/releases/plugin/anilist/anilist_2.0.0.0.zip
+      version: v2
+    anisearch:
+      url: https://repo.jellyfin.org/releases/plugin/anisearch/anisearch_2.0.0.0.zip
+      version: v2
     ldapauth:
       url: https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_11.0.0.0.zip
       version: v11

@@ -15,7 +15,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: controller
   name: ingress-nginx
   namespace: ingress-nginx
@@ -28,7 +28,7 @@ automountServiceAccountToken: true
 #  labels:
 #    app.kubernetes.io/name: ingress-nginx
 #    app.kubernetes.io/instance: ingress-nginx
-#    app.kubernetes.io/version: 0.46.0
+#    app.kubernetes.io/version: 0.47.0
 #    app.kubernetes.io/component: controller
 #  name: ingress-nginx-controller
 #  namespace: ingress-nginx
@@ -41,12 +41,11 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
   name: ingress-nginx
-  namespace: ingress-nginx
 rules:
   - apiGroups:
-      - ''
+      - ""
     resources:
       - configmaps
       - endpoints
@@ -57,13 +56,13 @@ rules:
       - list
       - watch
   - apiGroups:
-      - ''
+      - ""
     resources:
       - nodes
     verbs:
       - get
   - apiGroups:
-      - ''
+      - ""
     resources:
       - services
     verbs:
@@ -72,7 +71,7 @@ rules:
       - watch
   - apiGroups:
       - extensions
-      - networking.k8s.io   # k8s 1.14+
+      - networking.k8s.io # k8s 1.14+
     resources:
       - ingresses
     verbs:
@@ -80,7 +79,7 @@ rules:
       - list
       - watch
   - apiGroups:
-      - ''
+      - ""
     resources:
       - events
     verbs:
@@ -88,13 +87,13 @@ rules:
       - patch
   - apiGroups:
       - extensions
-      - networking.k8s.io   # k8s 1.14+
+      - networking.k8s.io # k8s 1.14+
     resources:
       - ingresses/status
     verbs:
       - update
   - apiGroups:
-      - networking.k8s.io   # k8s 1.14+
+      - networking.k8s.io # k8s 1.14+
     resources:
       - ingressclasses
     verbs:
@@ -109,7 +108,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
   name: ingress-nginx
   namespace: ingress-nginx
 roleRef:
@@ -128,19 +127,19 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: controller
   name: ingress-nginx
   namespace: ingress-nginx
 rules:
   - apiGroups:
-      - ''
+      - ""
     resources:
       - namespaces
     verbs:
       - get
   - apiGroups:
-      - ''
+      - ""
     resources:
       - configmaps
       - pods
@@ -151,7 +150,7 @@ rules:
       - list
       - watch
   - apiGroups:
-      - ''
+      - ""
     resources:
       - services
     verbs:
@@ -160,7 +159,7 @@ rules:
       - watch
   - apiGroups:
       - extensions
-      - networking.k8s.io   # k8s 1.14+
+      - networking.k8s.io # k8s 1.14+
     resources:
       - ingresses
     verbs:
@@ -169,13 +168,13 @@ rules:
       - watch
   - apiGroups:
       - extensions
-      - networking.k8s.io   # k8s 1.14+
+      - networking.k8s.io # k8s 1.14+
     resources:
       - ingresses/status
     verbs:
       - update
   - apiGroups:
-      - networking.k8s.io   # k8s 1.14+
+      - networking.k8s.io # k8s 1.14+
     resources:
       - ingressclasses
     verbs:
@@ -183,7 +182,7 @@ rules:
       - list
       - watch
   - apiGroups:
-      - ''
+      - ""
     resources:
       - configmaps
     resourceNames:
@@ -192,13 +191,13 @@ rules:
       - get
       - update
   - apiGroups:
-      - ''
+      - ""
     resources:
       - configmaps
     verbs:
       - create
   - apiGroups:
-      - ''
+      - ""
     resources:
       - events
     verbs:
@@ -212,7 +211,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: controller
   name: ingress-nginx
   namespace: ingress-nginx
@@ -232,7 +231,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: controller
   name: ingress-nginx-controller-admission
   namespace: ingress-nginx
@@ -255,7 +254,7 @@ spec:
 #  labels:
 #    app.kubernetes.io/name: ingress-nginx
 #    app.kubernetes.io/instance: ingress-nginx
-#    app.kubernetes.io/version: 0.46.0
+#    app.kubernetes.io/version: 0.47.0
 #    app.kubernetes.io/component: controller
 #  name: ingress-nginx-controller
 #  namespace: ingress-nginx
@@ -282,7 +281,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: controller
   name: ingress-nginx-controller
   namespace: ingress-nginx
@@ -341,25 +340,25 @@ spec:
             - name: LD_PRELOAD
               value: /usr/local/lib/libmimalloc.so
           livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 10254
-              scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            timeoutSeconds: 1
-            successThreshold: 1
             failureThreshold: 5
-          readinessProbe:
             httpGet:
               path: /healthz
               port: 10254
               scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 10
-            timeoutSeconds: 1
             successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
             failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
           ports:
             - name: http
               containerPort: 80
@@ -396,7 +395,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: admission-webhook
   name: ingress-nginx-admission
 webhooks:
@@ -434,7 +433,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: admission-webhook
   namespace: ingress-nginx
 ---
@@ -449,7 +448,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: admission-webhook
   namespace: ingress-nginx
 rules:
@@ -472,7 +471,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: admission-webhook
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -494,12 +493,12 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: admission-webhook
   namespace: ingress-nginx
 rules:
   - apiGroups:
-      - ''
+      - ""
     resources:
       - secrets
     verbs:
@@ -517,7 +516,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: admission-webhook
   namespace: ingress-nginx
 roleRef:
@@ -540,7 +539,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: admission-webhook
   namespace: ingress-nginx
 spec:
@@ -550,7 +549,7 @@ spec:
       labels:
         app.kubernetes.io/name: ingress-nginx
         app.kubernetes.io/instance: ingress-nginx
-        app.kubernetes.io/version: 0.46.0
+        app.kubernetes.io/version: 0.47.0
         app.kubernetes.io/component: admission-webhook
     spec:
       containers:
@@ -584,7 +583,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 0.46.0
+    app.kubernetes.io/version: 0.47.0
     app.kubernetes.io/component: admission-webhook
   namespace: ingress-nginx
 spec:
@@ -594,7 +593,7 @@ spec:
       labels:
         app.kubernetes.io/name: ingress-nginx
         app.kubernetes.io/instance: ingress-nginx
-        app.kubernetes.io/version: 0.46.0
+        app.kubernetes.io/version: 0.47.0
         app.kubernetes.io/component: admission-webhook
     spec:
       containers:

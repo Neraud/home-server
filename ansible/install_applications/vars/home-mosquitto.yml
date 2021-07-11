@@ -4,7 +4,7 @@
 _mosquitto_var_loader:
   base_image:
     name: "eclipse-mosquitto"
-    tag: "2.0.10-openssl"
+    tag: "2.0.11-openssl"
   namespace: "home-mosquitto"
 
 mosquitto:

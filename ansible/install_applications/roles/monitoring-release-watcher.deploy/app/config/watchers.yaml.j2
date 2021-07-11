@@ -57,7 +57,7 @@ watchers:
       - v3\.1[0-8]\..*
   - type: github_release
     repo: intel/multus-cni
-    release: v3.7.1
+    release: v3.7.2
 
 
   ###############
@@ -105,9 +105,7 @@ watchers:
       - rc
       - .*-rc[0-9]+.*
       - ^[1-9]\.
-      - ^1[0-2]\.
-      - ^13\.[0-9]\.
-      - ^13\.1[0-1]\.
+      - ^1[0-3]\.
   
   ###################
   # Apps : Download #
@@ -188,7 +186,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^2020\..*
-      - ^2021\.[1-5]\..*
+      - ^2021\.[1-6]\..*
   - type: github_commit
     repo: efficiosoft/ldap-auth-sh
     branch: master
@@ -267,7 +265,7 @@ watchers:
   ################
 
   - type: github_release
-    repo: kubernetes-incubator/metrics-server
+    repo: kubernetesui/metrics-server
     release: {{ kubernetes_metrics_server.base_image.tag }}
     excludes:
       - .*beta.*
@@ -316,10 +314,10 @@ watchers:
       - 3\.1[0-2]\..*
   - type: github_release
     repo: metallb/metallb
-    release: v0.9.6
+    release: v0.10.2
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v0.46.0
+    release: controller-v0.47.0
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
@@ -448,7 +446,7 @@ watchers:
       - .*rc.*
       - .*dev.*
       - ^0\.
-      - 1\.[0-5]\..*
+      - 1\.[0-7]\..*
   - type: docker_registry
     repo: {{ fluentd.base_image.repo | default('registry-1.docker.io') }}
     image: {{ fluentd.base_image.name }}
@@ -458,7 +456,7 @@ watchers:
     excludes:
       - .*(armhf|arm64).*
       - v1\.[0-9]\..*
-      - v1\.1[0-1]\..*
+      - v1\.1[0-2]\..*
   - type: github_tag
     repo: uken/fluent-plugin-elasticsearch
     tag: v{{ fluentd.plugins.elasticsearch.version }}
@@ -510,7 +508,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: 4d8104817d6c6bb3f095bb2a17ad86737d2d2e33
+    commit: 3a44309177bb9290a967eebc12f14498e3ca4be1
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
@@ -635,8 +633,14 @@ watchers:
       - .*-alpine3\.[0-9]$
       - .*-alpine3\.1[02]
   - type: github_tag
-    repo: jellyfin/jellyfin-plugin-anime
-    tag: {{ jellyfin.plugins.anime.version }}
+    repo: jellyfin/jellyfin-plugin-anidb
+    tag: {{ jellyfin.plugins.anidb.version }}
+  - type: github_tag
+    repo: jellyfin/jellyfin-plugin-anilist
+    tag: {{ jellyfin.plugins.anilist.version }}
+  - type: github_tag
+    repo: jellyfin/jellyfin-plugin-anisearch
+    tag: {{ jellyfin.plugins.anisearch.version }}
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-ldapauth
     tag: {{ jellyfin.plugins.ldapauth.version }}
