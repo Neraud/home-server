@@ -61,6 +61,9 @@ jellyfin:
     ldapauth:
       url: https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_11.0.0.0.zip
       version: v11
+    thetvdb:
+      url: https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_5.0.0.0.zip
+      version: v5
 
   ldap:
     servername: "{{ jellyfin_ldap_servername | default(openldap.ldap.servername) }}"
