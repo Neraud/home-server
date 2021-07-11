@@ -30,7 +30,8 @@ spec:
           - |
             mkdir -p /jellyfin/config
             mkdir -p /jellyfin/cache
-            chown -R 1000:1000 /jellyfin
+            chown 1000:1000 /jellyfin/config
+            chown 1000:1000 /jellyfin/cache
         volumeMounts:
         - name: jellyfin-pv-claim
           mountPath: /jellyfin
