@@ -5,7 +5,7 @@ _prometheus_operator_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus-operator/prometheus-operator"
-    tag: "v0.47.0"
+    tag: "v0.48.1"
 
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
@@ -36,7 +36,7 @@ _prometheus_operator_rbac_proxy_var_loader:
   base_image:
     repo: quay.io
     name: "brancz/kube-rbac-proxy"
-    tag: "v0.8.0"
+    tag: "v0.10.0"
 
 prometheus_operator_rbac_proxy:
   base_image: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image }}"
@@ -53,7 +53,7 @@ _prometheus_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/prometheus"
-    tag: "v2.26.0"
+    tag: "v2.28.0"
   namespace: "monitoring-prometheus"
 
 prometheus:
@@ -86,7 +86,7 @@ _alertmanager_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/alertmanager"
-    tag: "v0.21.0"
+    tag: "v0.22.2"
 
 alertmanager:
   base_image: "{{ _alertmanager_var_loader.base_image }}"
