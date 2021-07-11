@@ -1,7 +1,9 @@
 ARG from_image
 FROM $from_image
 
-ARG jellyfin_plugins_anime_url
+ARG jellyfin_plugins_anidb_url
+ARG jellyfin_plugins_anilist_url
+ARG jellyfin_plugins_anisearch_url
 ARG jellyfin_plugins_ldapauth_url
 
 RUN echo "Create jellyfin user" && \
@@ -13,26 +15,28 @@ RUN echo "Create render group" && \
     groupadd -g 107 render && \
     usermod -a -G render jellyfin
 
-# TODO : remove once we upgrade to 10.7
-# See : https://jellyfin.org/posts/jellyfin-apt-key/
-RUN echo "Fix jellyfin repo key" && \
-    # Ignore errors on update, we know it will fail on jellyfin repo, but we need it to install wget and gnupg2
-    apt-get update ; \
-    apt-get install -y wget gnupg2 && \
-    wget -qO- https://repo.jellyfin.org/jellyfin_team.gpg.key | apt-key add - && \
-    apt-get remove -y wget gnupg2 && \
-    rm -rf /var/lib/apt/lists/*
-
 RUN echo "Install plugins requirements" && \
     apt-get update && \
     apt-get install -y zip curl && \
     rm -rf /var/lib/apt/lists/*
 
-RUN echo "Install jellyfin-plugin-anime" && \
-    mkdir -p "/opt/jellyfin/plugins/Anime" && \
-    curl -L $jellyfin_plugins_anime_url -o /opt/jellyfin/plugins/jellyfin-plugin-anime.zip && \
-    unzip /opt/jellyfin/plugins/jellyfin-plugin-anime.zip -d "/opt/jellyfin/plugins/Anime" && \
-    rm /opt/jellyfin/plugins/jellyfin-plugin-anime.zip
+RUN echo "Install jellyfin-plugin-anidb" && \
+    mkdir -p "/opt/jellyfin/plugins/AniDB" && \
+    curl -L $jellyfin_plugins_anidb_url -o /opt/jellyfin/plugins/jellyfin-plugin-anidb.zip && \
+    unzip /opt/jellyfin/plugins/jellyfin-plugin-anidb.zip -d "/opt/jellyfin/plugins/AniDB" && \
+    rm /opt/jellyfin/plugins/jellyfin-plugin-anidb.zip
+
+RUN echo "Install jellyfin-plugin-anilist" && \
+    mkdir -p "/opt/jellyfin/plugins/AniList" && \
+    curl -L $jellyfin_plugins_anilist_url -o /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip && \
+    unzip /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip -d "/opt/jellyfin/plugins/AniList" && \
+    rm /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip
+
+RUN echo "Install jellyfin-plugin-anisearch" && \
+    mkdir -p "/opt/jellyfin/plugins/AniSearch" && \
+    curl -L $jellyfin_plugins_anisearch_url -o /opt/jellyfin/plugins/jellyfin-plugin-anisearch.zip && \
+    unzip /opt/jellyfin/plugins/jellyfin-plugin-anisearch.zip -d "/opt/jellyfin/plugins/AniSearch" && \
+    rm /opt/jellyfin/plugins/jellyfin-plugin-anisearch.zip
 
 RUN echo "Install jellyfin-plugin-ldapauth" && \
     mkdir -p "/opt/jellyfin/plugins/LDAP Authentication" && \

@@ -33,7 +33,9 @@
     private_image: "{{ jellyfin.container.image }}"
     build: yes
     build_args:
-      jellyfin_plugins_anime_url: "{{ jellyfin.plugins.anime.url }}"
+      jellyfin_plugins_anidb_url: "{{ jellyfin.plugins.anidb.url }}"
+      jellyfin_plugins_anilist_url: "{{ jellyfin.plugins.anilist.url }}"
+      jellyfin_plugins_anisearch_url: "{{ jellyfin.plugins.anisearch.url }}"
       jellyfin_plugins_ldapauth_url: "{{ jellyfin.plugins.ldapauth.url }}"
 
 - name: List config files

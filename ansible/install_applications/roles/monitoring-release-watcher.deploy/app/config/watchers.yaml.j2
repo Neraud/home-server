@@ -633,8 +633,14 @@ watchers:
       - .*-alpine3\.[0-9]$
       - .*-alpine3\.1[02]
   - type: github_tag
-    repo: jellyfin/jellyfin-plugin-anime
-    tag: {{ jellyfin.plugins.anime.version }}
+    repo: jellyfin/jellyfin-plugin-anidb
+    tag: {{ jellyfin.plugins.anidb.version }}
+  - type: github_tag
+    repo: jellyfin/jellyfin-plugin-anilist
+    tag: {{ jellyfin.plugins.anilist.version }}
+  - type: github_tag
+    repo: jellyfin/jellyfin-plugin-anisearch
+    tag: {{ jellyfin.plugins.anisearch.version }}
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-ldapauth
     tag: {{ jellyfin.plugins.ldapauth.version }}
