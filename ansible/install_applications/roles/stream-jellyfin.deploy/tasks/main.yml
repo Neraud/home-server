@@ -37,6 +37,7 @@
       jellyfin_plugins_anilist_url: "{{ jellyfin.plugins.anilist.url }}"
       jellyfin_plugins_anisearch_url: "{{ jellyfin.plugins.anisearch.url }}"
       jellyfin_plugins_ldapauth_url: "{{ jellyfin.plugins.ldapauth.url }}"
+      jellyfin_plugins_thetvdb_url: "{{ jellyfin.plugins.thetvdb.url }}"
 
 - name: List config files
   set_fact:

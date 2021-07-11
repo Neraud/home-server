@@ -5,6 +5,7 @@ ARG jellyfin_plugins_anidb_url
 ARG jellyfin_plugins_anilist_url
 ARG jellyfin_plugins_anisearch_url
 ARG jellyfin_plugins_ldapauth_url
+ARG jellyfin_plugins_thetvdb_url
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \
@@ -43,6 +44,12 @@ RUN echo "Install jellyfin-plugin-ldapauth" && \
     curl -L $jellyfin_plugins_ldapauth_url -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip -d "/opt/jellyfin/plugins/LDAP Authentication" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip
+
+RUN echo "Install jellyfin-plugin-thetvdb" && \
+    mkdir -p "/opt/jellyfin/plugins/TheTVDB" && \
+    curl -L $jellyfin_plugins_thetvdb_url -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
+    unzip /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip -d "/opt/jellyfin/plugins/TheTVDB" && \
+    rm /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip
 
 ADD --chown=jellyfin:jellyfin entrypoint.sh /opt/jellyfin/entrypoint.sh
 RUN chmod +x /opt/jellyfin/entrypoint.sh
