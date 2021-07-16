@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: phpldapadmin
@@ -18,6 +18,9 @@ spec:
     http:
       paths:
       - path: /phpldapadmin/?(.*)
+        pathType: Prefix
         backend:
-          serviceName: phpldapadmin
-          servicePort: http
+          service:
+            name: phpldapadmin
+            port:
+              name: http

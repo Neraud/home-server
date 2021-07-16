@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: unifi
@@ -17,7 +17,10 @@ spec:
   - host: unifi.{{ web_base_domain }}
     http:
       paths:
-        - path: /
-          backend:
-            serviceName: unifi-frontend
-            servicePort: https-crtl
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: unifi-frontend
+            port:
+              name: https-crtl

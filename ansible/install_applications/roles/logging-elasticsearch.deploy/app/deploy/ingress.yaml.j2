@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: elasticsearch
@@ -18,7 +18,10 @@ spec:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ elasticsearch.context_path }}/?(.*)
-          backend:
-            serviceName: elasticsearch
-            servicePort: web
+      - path: {{ elasticsearch.context_path }}/?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: elasticsearch
+            port:
+              name: web

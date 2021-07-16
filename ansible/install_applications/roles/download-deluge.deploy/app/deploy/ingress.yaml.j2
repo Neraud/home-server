@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: deluge
@@ -16,6 +16,9 @@ spec:
     http:
       paths:
       - path: {{ deluge_web.context_root }}
+        pathType: Prefix
         backend:
-          serviceName: deluge-web
-          servicePort: webui
+          service:
+            name: deluge-web
+            port:
+              name: webui

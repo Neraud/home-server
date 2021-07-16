@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ttrss
@@ -15,7 +15,10 @@ spec:
   - host: web.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ ttrss.context_root }}
-          backend:
-            serviceName: ttrss
-            servicePort: ttrss
+      - path: {{ ttrss.context_root }}
+        pathType: Prefix
+        backend:
+          service:
+            name: ttrss
+            port:
+              name: ttrss

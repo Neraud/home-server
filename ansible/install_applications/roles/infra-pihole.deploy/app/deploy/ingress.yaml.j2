@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: pihole
@@ -19,7 +19,10 @@ spec:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ pihole.context_root }}/?(.*)
-          backend:
-            serviceName: pihole
-            servicePort: http
+      - path: {{ pihole.context_root }}/?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: pihole
+            port:
+              name: http

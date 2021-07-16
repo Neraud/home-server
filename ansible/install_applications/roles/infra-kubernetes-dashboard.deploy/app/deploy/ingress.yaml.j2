@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: dashboard
@@ -21,6 +21,9 @@ spec:
     http:
       paths:
       - path: /kube/?(.*)
+        pathType: Prefix
         backend:
-          serviceName: kubernetes-dashboard
-          servicePort: https
+          service:
+            name: kubernetes-dashboard
+            port:
+              name: https

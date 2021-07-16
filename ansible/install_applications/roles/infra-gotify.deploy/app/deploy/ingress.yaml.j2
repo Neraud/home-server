@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: gotify
@@ -19,7 +19,10 @@ spec:
   - host: web.{{ web_base_domain }}
     http:
       paths:
-        - path: /gotify/?(.*)
-          backend:
-            serviceName: gotify
-            servicePort: http
+      - path: /gotify/?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: gotify
+            port:
+              name: http

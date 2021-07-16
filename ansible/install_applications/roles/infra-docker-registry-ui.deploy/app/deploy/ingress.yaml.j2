@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: docker-registry-ui
@@ -15,7 +15,10 @@ spec:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ docker_registry_ui.context_root }}
-          backend:
-            serviceName: docker-registry-ui
-            servicePort: http
+      - path: {{ docker_registry_ui.context_root }}
+        pathType: Prefix
+        backend:
+          service:
+            name: docker-registry-ui
+            port:
+              name: http

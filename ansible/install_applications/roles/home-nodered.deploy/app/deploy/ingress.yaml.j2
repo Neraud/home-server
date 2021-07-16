@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nodered
@@ -15,7 +15,10 @@ spec:
   - host: home.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ nodered.context_root }}
-          backend:
-            serviceName: nodered
-            servicePort: 80
+      - path: {{ nodered.context_root }}
+        pathType: Prefix
+        backend:
+          service:
+            name: nodered
+            port:
+              number: 80

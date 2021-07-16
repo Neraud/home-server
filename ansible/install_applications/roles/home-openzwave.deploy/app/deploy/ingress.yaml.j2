@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: openzwave
@@ -17,11 +17,17 @@ spec:
   - host: home.{{ web_base_domain }}
     http:
       paths:
-        - path: /openzwave/?(.*)
-          backend:
-            serviceName: openzwave
-            servicePort: web
-        - path: /websockify/?(.*)
-          backend:
-            serviceName: openzwave
-            servicePort: web
+      - path: /openzwave/?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: openzwave
+            port:
+              name: web
+      - path: /websockify/?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: openzwave
+            port:
+              name: web
