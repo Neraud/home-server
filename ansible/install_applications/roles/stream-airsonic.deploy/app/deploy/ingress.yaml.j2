@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: airsonic
@@ -15,7 +15,10 @@ spec:
   - host: stream.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ airsonic.context_path }}
-          backend:
-            serviceName: airsonic
-            servicePort: 80
+      - path: {{ airsonic.context_path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: airsonic
+            port:
+              number: 80

@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: prometheus
@@ -13,11 +13,17 @@ spec:
   - host: infra.{{ web_base_domain }}
     http:
       paths:
-        - path: /prometheus/?(.*)
-          backend:
-            serviceName: prometheus-k8s
-            servicePort: 9090
-        - path: /alertmanager/?(.*)
-          backend:
-            serviceName: alertmanager-k8s
-            servicePort: 9093
+      - path: /prometheus/?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus-k8s
+            port:
+              number: 9090
+      - path: /alertmanager/?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: alertmanager-k8s
+            port:
+              number: 9093

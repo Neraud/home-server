@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: lemonldap-reloader
@@ -15,6 +15,9 @@ spec:
     http:
       paths:
       - path: /lemonldap/reloader/?(.*)
+        pathType: Prefix
         backend:
-          serviceName: lemonldap
-          servicePort: http
+          service:
+            name: lemonldap
+            port:
+              name: http

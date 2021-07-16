@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: homer
@@ -18,7 +18,10 @@ spec:
   - host: web.{{ web_base_domain }}
     http:
       paths:
-        - path: {{ homer.context_root }}
-          backend:
-            serviceName: homer
-            servicePort: http
+      - path: {{ homer.context_root }}
+        pathType: Prefix
+        backend:
+          service:
+            name: homer
+            port:
+              name: http
