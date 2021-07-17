@@ -7,7 +7,7 @@ Requires=restic_backup_apps.service
 [Timer]
 Unit=restic_backup_apps.service
 OnCalendar={{ restic_backup_apps_timer }}
-Persistent=true
+Persistent=false
 
 [Install]
 WantedBy=timers.target
