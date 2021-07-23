@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zwavejs2mqtt
+  namespace: {{ zwavejs2mqtt.namespace }}
+  labels:
+    {{ zwavejs2mqtt.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zwavejs2mqtt.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ zwavejs2mqtt.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ zwavejs2mqtt.labels_def | to_nice_yaml() | indent(8) }}
+        {{ zwavejs2mqtt.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/zwavejs2mqtt/store
+            chown 1000:1000 /opt/zwavejs2mqtt/store
+        volumeMounts:
+        - name: zwavejs2mqtt-pv-claim
+          mountPath: /opt/zwavejs2mqtt
+      containers:
+      - name: zwavejs2mqtt
+        image: "{{ zwavejs2mqtt.container.image }}"
+        imagePullPolicy: Always
+        env:
+        - name: SESSION_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: zwavejs2mqtt-secret
+              key: session-secret
+        ports:
+        - name: http
+          containerPort: 8091
+        - name: ws
+          containerPort: 3000
+        readinessProbe:
+          failureThreshold: 12
+          httpGet:
+            httpHeaders:
+              - name: Accept
+                value: text/plain
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        resources:
+          requests:
+            cpu: "{{ zwavejs2mqtt.container.requests_cpu }}"
+            memory: "{{ zwavejs2mqtt.container.requests_memory }}"
+          limits:
+            cpu: "{{ zwavejs2mqtt.container.limits_cpu }}"
+            memory: "{{ zwavejs2mqtt.container.limits_memory }}"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # node
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: zwavejs2mqtt-pv-claim
+          mountPath: /usr/src/app/store
+          subPath: store
+        - name: config-volume
+          mountPath: /usr/src/app/store/settings.json
+          subPath: settings.json
+        - name: config-volume
+          mountPath: /usr/src/app/store/users.json
+          subPath: users.json
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: config-volume
+        secret:
+          secretName: zwavejs2mqtt-secret
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: zwavejs2mqtt-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          {{ zwavejs2mqtt.labels_def | to_nice_yaml() | indent(10) }}
