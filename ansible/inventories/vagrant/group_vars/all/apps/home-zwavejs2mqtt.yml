@@ -1,0 +1,7 @@
+---
+
+# define mandatory variables to avoid issues with helpers/release-watcher
+zwavejs2mqtt_serial_device: ""
+zwavejs2mqtt_zwave_network_key: ""
+zwavejs2mqtt_session_secret: "DEFAULT_SESSION_SECRET_CHANGE_ME"
+zwavejs2mqtt_authentication_enabled: True

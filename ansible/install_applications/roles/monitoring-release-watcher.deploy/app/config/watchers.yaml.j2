@@ -259,6 +259,15 @@ watchers:
     excludes:
       - "allinone-amd64-[0-9][0-9]$"
       - "allinone-amd64-1[0-9][0-9]$"
+  - type: docker_registry
+    repo: {{ zwavejs2mqtt.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ zwavejs2mqtt.base_image.name }}
+    tag: {{ zwavejs2mqtt.base_image.tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+.*$
+    excludes:
+      - ^[1-4]\..*
+      - ^5\.[0-3]\..*
 
   ################
   # Apps : Infra #
