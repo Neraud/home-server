@@ -54,6 +54,8 @@ homer_images_to_download:
     source: https://nodered.org/about/resources/media/node-red-icon-2.svg
   - name: openzwave.png
     source: https://avatars0.githubusercontent.com/u/7971916
+  - name: zwavejs2mqtt.png
+    source: https://raw.githubusercontent.com/zwave-js/zwavejs2mqtt/master/static/logo.png
 
   - name: gitlab.svg
     source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/gitlab.svg
@@ -173,6 +175,11 @@ homer_config_services:
         logo: "assets/download/openzwave.png"
         url: "https://home.{{ web_base_domain }}/openzwave/vnc.html"
         subtitle: " QT5 Wrapper for OpenZWave"
+        target: "_blank"
+      - name: "Zwavejs2Mqtt"
+        logo: "assets/download/zwavejs2mqtt.png"
+        url: "https://home.{{ web_base_domain }}/zwave/"
+        subtitle: "Fully configurable Zwave to MQTT Gateway and Control Panel"
         target: "_blank"
   - name: "Dev"
     icon: "fab fa-dev"
