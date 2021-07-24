@@ -4,12 +4,12 @@
 _homeassistant_var_loader:
   base_image:
     name: homeassistant/home-assistant
-    tag: "2021.7.1"
+    tag: "2021.7.4"
   namespace: "home-homeassistant"
 
 homeassistant:
   enabled: "{{ homeassistant_enabled | default(True) }}"
-  
+
   namespace: "{{ _homeassistant_var_loader.namespace }}"
   base_image: "{{ _homeassistant_var_loader.base_image }}"
   servername: "homeassistant.{{ _homeassistant_var_loader.namespace }}.svc.cluster.local"
@@ -24,7 +24,7 @@ homeassistant:
       replicas: 1
     gluster_volumes:
     - homeassistant-config
-  
+
   labels_def:
     app.kubernetes.io/name: homeassistant
     app.kubernetes.io/component: homeassistant
@@ -74,7 +74,7 @@ homeassistant:
 _homeassistant_mysql_var_loader:
   base_image:
     name: "mysql"
-    tag: "5.7.34"
+    tag: "5.7.35"
 
 homeassistant_mysql:
   base_image: "{{ _homeassistant_mysql_var_loader.base_image }}"
@@ -89,7 +89,7 @@ homeassistant_mysql:
       replicas: 1
     gluster_volumes:
     - homeassistant-mysql
-  
+
   labels_def:
     app.kubernetes.io/name: homeassistant
     app.kubernetes.io/component: mysql
@@ -97,7 +97,7 @@ homeassistant_mysql:
   labels_desc:
     app.kubernetes.io/version: "{{ _homeassistant_mysql_var_loader.base_image.tag }}"
     app.kubernetes.io/part-of: homeassistant
-  
+
   container:
     image: "{{ docker_private_registry.url }}/home-assistant-{{ _homeassistant_mysql_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homeassistant_mysql_var_loader.base_image.tag }}"
     requests_cpu: "{{ homeassistant_mysql_container_requests_cpu | default('100m') }}"
