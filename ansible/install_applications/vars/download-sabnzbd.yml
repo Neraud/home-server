@@ -28,14 +28,14 @@ sabnzbd:
       replicas: 1
     gluster_volumes:
     - sabnzbd-config
-  
+
   labels_def:
     app.kubernetes.io/name: sabnzbd
     app.kubernetes.io/component: sabnzbd
 
   labels_desc:
     app.kubernetes.io/version: "{{ _sabnzbd_var_loader.base_image.tag }}"
-  
+
   par2cmdline:
     repo:
       name: Parchive/par2cmdline
@@ -43,7 +43,7 @@ sabnzbd:
   nzbToMedia:
     repo:
       name: clinton-hall/nzbToMedia
-      version: 12.1.08
+      version: 12.1.09
 
   container:
     image: "{{ docker_private_registry.url }}/sabnzbd:{{ _sabnzbd_var_loader.repo.version }}_{{ _sabnzbd_var_loader.base_image.name }}{{ _sabnzbd_var_loader.base_image.tag }}"
