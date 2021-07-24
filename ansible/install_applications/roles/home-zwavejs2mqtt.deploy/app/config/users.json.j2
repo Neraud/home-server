@@ -1,0 +1,8 @@
+[
+{% for user in zwavejs2mqtt.users %}
+{
+    "username": "{{ user.username }}",
+    "passwordHash": "{{ user.passwordHash }}"
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+]

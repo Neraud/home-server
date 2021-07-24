@@ -7,7 +7,7 @@ Requires=restic_repo_maintenance.service
 [Timer]
 Unit=restic_repo_maintenance.service
 OnCalendar={{ restic_repo_maintenance_timer }}
-Persistent=true
+Persistent=false
 
 [Install]
 WantedBy=timers.target

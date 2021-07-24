@@ -83,6 +83,7 @@ The following services are deployed :
 | [Kibana](https://www.elastic.co/products/kibana)                 | <https://infra.k8s.test/kibana/>                | Visualize your Elasticsearch data                      |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | <https://unifi.k8s.test/>                       | Controller for Unifi devices                           |
 | [HomeAssistant](https://www.home-assistant.io/)                  | <https://home.k8s.test/>                        | Home automation                                        |
+| [Zwavejs2Mqtt](https://zwave-js.github.io/zwavejs2mqtt/)         | <https://home.k8s.test/zwave/>                  | Fully configurable Zwave Gateway and Control Panel     |
 | [Node-RED](https://nodered.org/)                                 | <https://home.k8s.test/node-red/>               | Flow-based programming for the IoT                     |
 | [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                         | MQTT broker                                            |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                  | Presence tracking                                      |
@@ -340,6 +341,14 @@ When setting the controller up, the inform URL setting will need to be changed t
 HomeAssistant will prompt for the 1st user creation.
 
 The deployment also prepares and configures a MySQL database to use for HomeAssistant [recorder](https://www.home-assistant.io/components/recorder/).
+
+### Zwavejs2Mqtt
+
+Zwavejs2Mqtt is not automatically installed for Vagrant. It requires access to a ZWave serial device (most probably exposed on a TCP port via ser2net).
+
+If configured and deployed, it can be accessed using `user` / `Passw0rd` on teh web ui.
+
+It can be added as an integration in Home Assistant using the following URL : `ws://zwavejs2mqtt.home-zwavejs2mqtt.svc.cluster.local:3000`.
 
 ### Mosquitto
 

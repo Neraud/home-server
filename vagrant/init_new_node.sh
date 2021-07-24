@@ -51,11 +51,22 @@ apt-get -q -y install lvm2
 
 if [ -e /dev/sdb ] ; then
 	echo " - preparing docker disk"
-	# Create a new partition table with a single 'Linux native' partition
-	echo 'type=83' | sfdisk /dev/sdb
-	mkfs.ext4 /dev/sdb1
+	# Create a new partition table with a single LVM partition
+	echo 'type=8e' | sfdisk /dev/sdb
+	pvcreate /dev/sdb1
+	vgcreate vg /dev/sdb1
+
+	lvcreate -L 1G -n lv_kubelet vg
+	mkfs.ext4 /dev/mapper/vg-lv_kubelet
+	mkdir -p /var/lib/kubelet
+
+	lvcreate -l 100%FREE -n lv_docker vg
+	mkfs.ext4 /dev/mapper/vg-lv_docker
 	mkdir -p /var/lib/docker
-	echo "/dev/sdb1 /var/lib/docker ext4" >> /etc/fstab
+
+	echo "/dev/vg/lv_docker /var/lib/docker ext4" >>/etc/fstab
+	echo "/dev/vg/lv_kubelet /var/lib/kubelet ext4" >>/etc/fstab
+
 	mount -a
 fi
 

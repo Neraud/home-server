@@ -1,0 +1,47 @@
+{
+    "mqtt": {
+        "name": "zwavejs2mqtt",
+        "host": "",
+        "port": 1883,
+        "qos": 1,
+        "prefix": "zwave",
+        "reconnectPeriod": 3000,
+        "retain": true,
+        "clean": true,
+        "auth": true,
+        "username": "user",
+        "password": "password",
+        "_ca": "",
+        "ca": "",
+        "_cert": "",
+        "cert": "",
+        "_key": "",
+        "key": "",
+        "disabled": true
+    },
+    "gateway": {
+        "type": 0,
+        "plugins": [],
+        "authEnabled": true,
+        "payloadType": 0,
+        "nodeNames": true,
+        "hassDiscovery": false,
+        "discoveryPrefix": "homeassistant",
+        "logEnabled": true,
+        "logLevel": "warn",
+        "logToFile": false,
+        "values": []
+    },
+    "zwave": {
+        "port": "{{ zwavejs2mqtt.serial_device }}",
+        "commandsTimeout": 30,
+        "networkKey": "{{ zwavejs2mqtt.zwave_network_key }}",
+        "logLevel": "warn",
+        "logToFile": false,
+        "serverEnabled": true,
+        "enableStatistics": true,
+        "serverPort": 3000,
+        "disclaimerVersion": 1,
+        "logEnabled": true
+    }
+}

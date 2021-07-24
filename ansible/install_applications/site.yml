@@ -148,9 +148,9 @@
   tags: kubernetes-app-home-roomassistant
   when: roomassistant_enabled | bool
 
-- import_playbook: app-home-openzwave.yml
-  tags: kubernetes-app-home-openzwave
-  when: openzwave_enabled | bool
+- import_playbook: app-home-zwavejs2mqtt.yml
+  tags: kubernetes-app-home-zwavejs2mqtt
+  when: zwavejs2mqtt_enabled | bool
 
 - import_playbook: app-home-homeassistant.yml
   tags: kubernetes-app-home-homeassistant

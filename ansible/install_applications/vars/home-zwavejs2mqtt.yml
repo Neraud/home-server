@@ -1,0 +1,46 @@
+---
+
+# To avoid loops inside zwavejs2mqtt
+_zwavejs2mqtt_var_loader:
+  namespace: "home-zwavejs2mqtt"
+  base_image:
+    name: "zwavejs/zwavejs2mqtt"
+    tag: "5.4.2"
+
+zwavejs2mqtt:
+  enabled: "{{ zwavejs2mqtt_enabled | default(True) }}"
+
+  namespace: "{{ _zwavejs2mqtt_var_loader.namespace }}"
+  base_image: "{{ _zwavejs2mqtt_var_loader.base_image }}"
+
+  app_backup:
+    name: home-zwavejs2mqtt
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+      - name: zwavejs2mqtt
+        namespace: "{{ _zwavejs2mqtt_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+    gluster_volumes:
+      - zwavejs2mqtt-data
+
+  labels_def:
+    app.kubernetes.io/name: zwavejs2mqtt
+    app.kubernetes.io/component: zwavejs2mqtt
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _zwavejs2mqtt_var_loader.base_image.tag }}"
+
+  container:
+    image: "{{ docker_private_registry.url }}/{{ _zwavejs2mqtt_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _zwavejs2mqtt_var_loader.base_image.tag }}-custom"
+    requests_cpu: "{{ zwavejs2mqtt_container_requests_cpu | default('50m') }}"
+    requests_memory: "{{ zwavejs2mqtt_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ zwavejs2mqtt_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ zwavejs2mqtt_container_limits_memory | default('128Mi') }}"
+
+  serial_device: "{{ zwavejs2mqtt_serial_device | mandatory }}"
+  zwave_network_key: "{{ zwavejs2mqtt_zwave_network_key | mandatory }}"
+
+  session_secret: "{{ zwavejs2mqtt_session_secret | mandatory }}"
+  authentication_enabled: "{{ zwavejs2mqtt_authentication_enabled }}"
+  users: "{{ zwavejs2mqtt_users | default([]) }}"

@@ -1,0 +1,6 @@
+---
+
+- name: Provision home-zwavejs2mqtt
+  hosts: controller
+  roles:
+    - role: home-zwavejs2mqtt.deploy
