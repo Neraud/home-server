@@ -4,8 +4,8 @@
 _homer_var_loader:
   base_image:
     name: "nginx"
-    tag: "1.21.0-alpine"
-  release: v21.03.2
+    tag: "1.21.1-alpine"
+  release: v21.07.1
 
 homer:
   enabled: "{{ homer_enabled | default(True) }}"
@@ -14,7 +14,7 @@ homer:
   base_image: "{{ _homer_var_loader.base_image }}"
   release: "{{ _homer_var_loader.release }}"
   context_root: "/homer"
-  
+
   labels_def:
     app.kubernetes.io/name: homer
     app.kubernetes.io/component: homer

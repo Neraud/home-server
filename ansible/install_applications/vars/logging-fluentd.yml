@@ -4,7 +4,7 @@
 _fluentd_var_loader:
   base_image:
     name: "fluent/fluentd"
-    tag: "v1.13.1-debian-1.0"
+    tag: "v1.13.2-debian-1.0"
   namespace: "logging-fluentd"
 
 fluentd:
@@ -13,7 +13,7 @@ fluentd:
   namespace: "{{ _fluentd_var_loader.namespace }}"
   base_image: "{{ _fluentd_var_loader.base_image }}"
   servername: "fluentd.{{ _fluentd_var_loader.namespace }}.svc.cluster.local"
-  
+
   labels_def:
     app.kubernetes.io/name: fluent
     app.kubernetes.io/component: fluent

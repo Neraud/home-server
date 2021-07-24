@@ -4,14 +4,14 @@
 _fluentbit_var_loader:
   base_image:
     name: "fluent/fluent-bit"
-    tag: "1.8.1"
+    tag: "1.8.2"
 
 fluentbit:
   enabled: "{{ fluentbit_enabled | default(True) }}"
 
   namespace: "logging-fluentbit"
   base_image: "{{ _fluentbit_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: fluent-bit
     app.kubernetes.io/component: fluent-bit

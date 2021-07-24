@@ -5,13 +5,13 @@ _prometheus_operator_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus-operator/prometheus-operator"
-    tag: "v0.48.1"
+    tag: "v0.49.0"
 
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
 
   base_image: "{{ _prometheus_operator_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: prometheus-operator
     app.kubernetes.io/component: controller
@@ -30,7 +30,7 @@ prometheus_operator:
     config_reloader_cpu: "{{ prometheus_operator_container_config_reloader_cpu | default('50m') }}"
     config_reloader_memory: "{{ prometheus_operator_container_config_reloader_cpu | default('25Mi') }}"
 
-  
+
 # To avoid loops prometheus_operator_rbac_proxy prometheus_operator
 _prometheus_operator_rbac_proxy_var_loader:
   base_image:
@@ -53,7 +53,7 @@ _prometheus_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/prometheus"
-    tag: "v2.28.0"
+    tag: "v2.28.1"
   namespace: "monitoring-prometheus"
 
 prometheus:
@@ -61,7 +61,7 @@ prometheus:
 
   namespace: "{{ _prometheus_var_loader.namespace }}"
   base_image: "{{ _prometheus_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: prometheus
     app.kubernetes.io/component: prometheus
@@ -77,9 +77,9 @@ prometheus:
     requests_memory: "{{ prometheus_container_requests_memory | default('768Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('400m') }}"
     limits_memory: "{{ prometheus_container_limits_memory | default('768Mi') }}"
-  
+
   servername: "prometheus-k8s.{{ _prometheus_var_loader.namespace }}.svc.cluster.local"
-  
+
 
 # To avoid loops inside alertmanager
 _alertmanager_var_loader:
@@ -90,7 +90,7 @@ _alertmanager_var_loader:
 
 alertmanager:
   base_image: "{{ _alertmanager_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: alertmanager
     app.kubernetes.io/component: alertmanager

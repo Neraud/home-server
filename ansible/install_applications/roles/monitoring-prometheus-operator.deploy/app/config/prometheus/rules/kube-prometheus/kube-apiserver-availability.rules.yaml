@@ -27,14 +27,14 @@
           -
           (
             (
-              sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{verb=~"LIST|GET",scope=~"resource|",le="0.1"}[30d]))
+              sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{verb=~"LIST|GET",scope=~"resource|",le="1"}[30d]))
               or
               vector(0)
             )
             +
-            sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{verb=~"LIST|GET",scope="namespace",le="0.5"}[30d]))
+            sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{verb=~"LIST|GET",scope="namespace",le="5"}[30d]))
             +
-            sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{verb=~"LIST|GET",scope="cluster",le="5"}[30d]))
+            sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{verb=~"LIST|GET",scope="cluster",le="40"}[30d]))
           )
         ) +
         # errors
@@ -52,14 +52,14 @@
         (
           # too slow
           (
-            sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",scope=~"resource|",le="0.1"}[30d]))
+            sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",scope=~"resource|",le="1"}[30d]))
             or
             vector(0)
           )
           +
-          sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",scope="namespace",le="0.5"}[30d]))
+          sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",scope="namespace",le="5"}[30d]))
           +
-          sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",scope="cluster",le="5"}[30d]))
+          sum by (cluster) (increase(apiserver_request_duration_seconds_bucket{job="apiserver",verb=~"LIST|GET",scope="cluster",le="40"}[30d]))
         )
         +
         # errors

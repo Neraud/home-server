@@ -5,8 +5,8 @@ _gandi_livedns_var_loader:
   version: 1.0.0
   base_image:
     name: alpine
-    tag: "3.13.5"
-  
+    tag: "3.14.0"
+
 gandi_livedns:
   enabled: "{{ gandi_livedns_enabled | default(True) }}"
 
@@ -30,5 +30,5 @@ gandi_livedns:
   cron: "{{ gandi_livedns_cron | default('*/10 * * * *') }}"
 
   api_key: "{{ gandi_livedns_api_key | mandatory }}"
-  domain: "{{ gandi_livedns_domain | mandatory }}" 
-  records: "{{ gandi_livedns_records | default(['@']) }}" 
+  domain: "{{ gandi_livedns_domain | mandatory }}"
+  records: "{{ gandi_livedns_records | default(['@']) }}"

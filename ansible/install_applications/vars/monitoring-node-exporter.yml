@@ -5,14 +5,14 @@ _node_exporter_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/node-exporter"
-    tag: "v1.1.2"
+    tag: "v1.2.0"
 
 node_exporter:
   enabled: "{{ node_exporter_enabled | default(True) }}"
 
   namespace: "monitoring-node-exporter"
   base_image: "{{ _node_exporter_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: node-exporter
     app.kubernetes.io/component: node-exporter
@@ -26,7 +26,6 @@ node_exporter:
     requests_memory: "{{ node_exporter_container_requests_memory | default('180Mi') }}"
     limits_cpu: "{{ node_exporter_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ node_exporter_container_limits_memory | default('180Mi') }}"
-
 
 # To avoid loops node_exporter_rbac_proxy node_exporter
 _node_exporter_rbac_proxy_var_loader:

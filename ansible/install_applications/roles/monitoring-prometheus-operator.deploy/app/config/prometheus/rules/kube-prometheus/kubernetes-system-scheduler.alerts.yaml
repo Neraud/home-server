@@ -3,7 +3,7 @@
   - alert: KubeSchedulerDown
     annotations:
       description: KubeScheduler has disappeared from Prometheus target discovery.
-      runbook_url: https://github.com/prometheus-operator/kube-prometheus/wiki/kubeschedulerdown
+      runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubeschedulerdown
       summary: Target disappeared from Prometheus target discovery.
     expr: |
       absent(up{job="kube-scheduler"} == 1)

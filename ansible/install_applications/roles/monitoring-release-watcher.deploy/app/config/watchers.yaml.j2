@@ -142,7 +142,7 @@ watchers:
     excludes:
       - ^3.[0-8]\..*
       - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[0-2]
+      - .*-alpine3\.1[0-3]
   - name: SABnzbd
     type: github_release
     repo: {{ sabnzbd.repo.name }}
@@ -265,7 +265,7 @@ watchers:
   ################
 
   - type: github_release
-    repo: kubernetesui/metrics-server
+    repo: kubernetes-sigs/metrics-server
     release: {{ kubernetes_metrics_server.base_image.tag }}
     excludes:
       - .*beta.*
@@ -315,9 +315,11 @@ watchers:
   - type: github_release
     repo: metallb/metallb
     release: v0.10.2
+    excludes:
+      - metallb-chart-.*     
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v0.47.0
+    release: controller-v0.48.1
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
   # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
@@ -401,7 +403,7 @@ watchers:
     includes:
       - 12\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - .*-alpine3.1[01]
+      - .*-alpine3.1[0-3]
       - 12\.[0-9]\..*
       - 12\.1[0-7]\..*
   - type: docker_registry
@@ -508,7 +510,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: 3a44309177bb9290a967eebc12f14498e3ca4be1
+    commit: 93d6101baea128388d8abb753793feefd3a0e4c6
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
