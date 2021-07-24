@@ -52,6 +52,8 @@ spec:
           value: "{{ lemonldap.fastcgi_port }}"
         - name: MANAGER_HOSTNAME
           value: "infra.{{ web_base_domain }}"
+        - name: LOGLEVEL
+          value: "info"
         securityContext:
           # lemnldap requires root and a writable root filesystem
           #runAsNonRoot: true

@@ -5,6 +5,7 @@ _lemonldap_var_loader:
   namespace: "auth-lemonldap"
   base_image:
     name: "coudot/lemonldap-ng"
+    # 2.0.12 fails with error : [error] No configuration available
     tag: "2.0.11"
 
 lemonldap:
@@ -12,7 +13,7 @@ lemonldap:
 
   namespace: "{{ _lemonldap_var_loader.namespace }}"
   base_image: "{{ _lemonldap_var_loader.base_image }}"
-  
+
   app_backup:
     name: auth-lemonldap
     repository: "{{ restic_apps_backup_repository }}"
@@ -23,7 +24,7 @@ lemonldap:
       replicas: 1
     gluster_volumes:
     - lemonldap-data
-  
+
   labels_def:
     app.kubernetes.io/name: lemonldap
     app.kubernetes.io/component: lemonldap
@@ -41,7 +42,7 @@ lemonldap:
   fastcgi_port: "{{ lemonldap_fastcgi_port | default(9000) }}"
   persistent_volume_path: "{{ lemonldap_persistent_volume_path | default('/var/lib/lemonldap-ng-pv') }}"
 
-  ldap: 
+  ldap:
     servername: "{{ lemonldap_ldap_servername | default(openldap.ldap.servername) }}"
     base: "{{ lemonldap_ldap_base | default(openldap.ldap.basedn) }}"
     manager_dn: "{{ lemonldap_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
@@ -62,11 +63,11 @@ lemonldap:
 lemonldap_location_rules_default:
   - domain: "infra.{{ web_base_domain }}"
     default_rule: accept
-#    requiredAuthnLevel: 1
-#    rules:
-#      - name: New Rule
-#        uri: ^new
-#        rule: accept
+    #requiredAuthnLevel: 1
+    #rules:
+    #  - name: New Rule
+    #    uri: ^new
+    #    rule: accept
     exportedHeaders:
       name: value
   - domain: "web.{{ web_base_domain }}"
