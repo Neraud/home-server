@@ -2,11 +2,11 @@
 
 - name: Add Gluster repo key
   apt_key:
-    url: https://download.gluster.org/pub/gluster/glusterfs/6/rsa.pub
+    url: https://download.gluster.org/pub/gluster/glusterfs/9/rsa.pub
     state: present
 
 - name: Add Gluster repo
   apt_repository:
     filename: "gluster"
-    repo: "deb https://download.gluster.org/pub/gluster/glusterfs/6/6.2/Debian/{{ ansible_lsb.codename }}/amd64/apt {{ ansible_lsb.codename }} main"
+    repo: "deb https://download.gluster.org/pub/gluster/glusterfs/9/9.2/Debian/{{ ansible_lsb.codename }}/amd64/apt {{ ansible_lsb.codename }} main"
     state: present
