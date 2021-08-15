@@ -4,18 +4,22 @@
   apt:
     pkg:
       - golang-go
-      - go-dep
     state: present
 
 - name: Install build requirements
-  command: go get github.com/alecthomas/gometalinter
+  command: "{{ item }}"
   environment:
     GOPATH: "{{ gluster_prometheus_exporter_go_path }}"
+  loop:
+    - "go get -u github.com/golang/dep/cmd/dep"
+    - "go get github.com/alecthomas/gometalinter"
   register: build_dependencies_result
   changed_when: "build_dependencies_result.stdout_lines | length > 0"
 
 - name: Install gometalinter
   command: "{{ gluster_prometheus_exporter_go_path }}/bin/gometalinter --install --update"
+  environment:
+    GOPATH: "{{ gluster_prometheus_exporter_go_path }}"
   when: build_dependencies_result.changed
   tags:
     # ansible-lint warns : [503] Tasks that run when changed should likely be handlers
