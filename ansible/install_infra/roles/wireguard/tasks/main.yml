@@ -20,10 +20,6 @@
   vars:
     keepalived_instance: "{{ wireguard.keepalived_instance }}"
 
-- name: Install Linux kernel headers
-  apt:
-    name: "linux-headers-{{ ansible_kernel }}"
-
 - name: Install Wireguard
   apt:
     pkg:
