@@ -16,8 +16,10 @@ systemctl stop docker
 On one node :
 
 ```bash
-gluster volume list | while read vol ; do gluster volume stop $vol ; done
+gluster volume list | while read vol ; do echo gluster volume stop $vol ; done
 ```
+
+Execute all stop commands.
 
 ### Stop daemon
 

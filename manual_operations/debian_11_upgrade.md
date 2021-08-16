@@ -16,7 +16,7 @@ EOF
 rm /etc/apt/sources.list.d/debian.list
 rm /etc/apt/sources.list.d/gluster.list
 
-apt update
+apt-get update
 
 systemctl stop kubelet
 systemctl stop docker
@@ -38,12 +38,11 @@ Some configurations have changed in upgraded packages.
 * /etc/default/dnsmasq
 * /etc/sysctl.conf
 * /etc/avahi/avahi-daemon.conf
-* /etc/ssh/sshd_config
+* (/etc/ssh/sshd_config for vagrant hosts)
 
 ```bash
 sed -i 's/cgroupDriver: cgroupfs/cgroupDriver: systemd/g' /var/lib/kubelet/config.yaml
-
-mv /etc/ssh/sshd_config.ucf-dist /etc/ssh/sshd_config
+sed -i 's/--cgroup-driver=cgroupfs/--cgroup-driver=systemd/g' /var/lib/kubelet/kubeadm-flags.env
 
 mv /etc/avahi/avahi-daemon.conf.dpkg-dist /etc/avahi/avahi-daemon.conf
 sed -i 's/#enable-reflector=no/enable-reflector=yes/' /etc/avahi/avahi-daemon.conf
