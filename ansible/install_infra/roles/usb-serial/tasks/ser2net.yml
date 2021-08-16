@@ -19,8 +19,8 @@
 
 - name: Configure ser2net
   template:
-    dest: /etc/ser2net.conf
-    src: ser2net.conf.j2
+    dest: /etc/ser2net.yaml
+    src: ser2net.yaml.j2
   notify: Restart ser2net
 
 - name: Auto-start ser2net

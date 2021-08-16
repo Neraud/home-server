@@ -74,9 +74,9 @@ prometheus:
   container:
     image: "{{ docker_private_registry.url }}/{{ _prometheus_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('100m') }}"
-    requests_memory: "{{ prometheus_container_requests_memory | default('768Mi') }}"
+    requests_memory: "{{ prometheus_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('400m') }}"
-    limits_memory: "{{ prometheus_container_limits_memory | default('768Mi') }}"
+    limits_memory: "{{ prometheus_container_limits_memory | default('1024Mi') }}"
 
   servername: "prometheus-k8s.{{ _prometheus_var_loader.namespace }}.svc.cluster.local"
 

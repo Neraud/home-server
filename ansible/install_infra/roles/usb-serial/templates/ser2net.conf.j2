@@ -1,5 +1,0 @@
-# {{ ansible_managed }}
-
-{% for exposed_device in serial_exposed_devices %}
-{{ exposed_device.port }}:{{ exposed_device.state }}:{{ exposed_device.timeout | default(0) }}:{{ exposed_device.device }}:{{ exposed_device.options | default([]) | join(' ') }}
-{% endfor %}

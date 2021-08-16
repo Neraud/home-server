@@ -5,7 +5,7 @@ _zwavejs2mqtt_var_loader:
   namespace: "home-zwavejs2mqtt"
   base_image:
     name: "zwavejs/zwavejs2mqtt"
-    tag: "5.4.2"
+    tag: "5.4.5"
 
 zwavejs2mqtt:
   enabled: "{{ zwavejs2mqtt_enabled | default(True) }}"

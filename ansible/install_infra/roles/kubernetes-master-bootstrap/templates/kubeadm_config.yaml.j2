@@ -27,6 +27,7 @@ localAPIEndpoint:
 
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
+cgroupDriver: systemd
 # TODO : Fix kubelet serving certificate
 # Enabling serverTLSBootstrap allows Kubelet to have proper serving certificates
 # However, it requires to manually accept them (`kubectl get csr`, `kubectl certificate approve`

@@ -10,15 +10,14 @@
 # cf https://blog.paul-steele.com/tech/2018/12/25/homeassistant-kubernetes-zwave-oh-my.html
 
 #serial_exposed_devices:
-#  - device: /dev/tty0
+#  - name: test_tty
+#    device: /dev/tty0
 #    port: 3333
-#    state: raw
-#    timeout: 0
 #    options:
-#     - 115200
-#     - 8DATABITS
-#     - NONE
-#     - 1STOPBIT
+#      kickolduser: true
+#      test: true
+#    connector_options:
+#      - 115200n81
 
 #serial_remote_devices:
 #  test_tty0:
