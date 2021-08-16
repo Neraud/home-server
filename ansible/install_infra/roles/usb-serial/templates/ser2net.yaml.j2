@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+{% for exposed_device in serial_exposed_devices %}
+connection: &{{ exposed_device.name }}
+    accepter: tcp,{{ exposed_device.port }}
+    enable: on
+    connector: serialdev,{{ exposed_device.device }},{{ exposed_device.connector_options | default([]) | join(',') }}
+{% if exposed_device.options | default({}) %}
+    options:
+      {{ exposed_device.options | to_nice_yaml() | indent(6) }}
+{% endif %}
+{% endfor %}
