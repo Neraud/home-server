@@ -54,6 +54,16 @@ This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/pr
 
 This box runs an [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-) CPU, with 2 GB of DDR3 RAM and 32GB of onboard flash storage.
 
+### Kubernetes Node-1
+
+| Part     | Model                                                                                                                          | Price    |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| Barebone | [ASRock DeskMini X300](https://www.amazon.de/gp/product/B08NWHGTQQ)                                                            | 136,67 € |
+| CPU      | [AMD Ryzen 7 5700G](https://www.rueducommerce.fr/p-ryzen-7-5700g-3846-ghz-amd-3276970-18381.html)                              | 399.90 € |
+| Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.fr/gp/product/B075SG1T3X)                                                               | 44,90  € |
+| RAM      | 2*16 GB DDR4 3200 CL 16 ([Crucial Ballistix BL2K16G32C16S4B](https://www.amazon.fr/gp/product/B083W5ZRJ1))                     | 157,19 € |
+| Storage  | 1 To [WD Blue SN550 NVMe](https://www.rueducommerce.fr/produit/western-digital-wd-blue-sn550-1-to-m-2-pcie-gen3-nvme-98427536) | 109.99 € |
+
 ## NAS
 
 Media and backups are stored on a Synology NAS DS415+
