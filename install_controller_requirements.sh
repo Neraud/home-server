@@ -4,7 +4,7 @@ ANSIBLE_VENV_PATH=${1:-/opt/ansible_venv}
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 echo "Install pip3 and virtualenv"
-apt-get -q -y install python3-pip python3-venv
+apt-get -q -y install python3-pip python3-venv python3-dev
 
 echo "Install ansible requirements"
 # rustc for python cryptography module
