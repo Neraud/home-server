@@ -11,11 +11,17 @@
     state: present
     filename: "debian"
   with_items:
-    - "deb https://deb.debian.org/debian/ {{ ansible_lsb.codename }} main contrib non-free"
-    - "deb-src https://deb.debian.org/debian/ {{ ansible_lsb.codename }} main contrib non-free"
-    - "deb https://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates main contrib non-free"
-    - "deb-src https://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates main contrib non-free"
-    - "deb https://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security main contrib non-free"
-    - "deb-src https://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security main contrib non-free"
+    # debian main is already in default sources.list
+    - "deb https://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
+    - "deb-src https://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
+
+    # debian-security main is already in default sources.list
+    - "deb https://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
+    - "deb-src https://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
+
+    # debian-security main is already in default sources.list
+    - "deb https://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
+    - "deb-src https://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
+
     - "deb https://deb.debian.org/debian {{ ansible_lsb.codename }}-backports main contrib non-free"
   when: ansible_distribution == 'Debian'
