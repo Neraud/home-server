@@ -17,7 +17,7 @@ nginx_upstreams:
       - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}"
   - name: kubernetes-lemonldap-handler-ingress
     servers:
-      - "{{ kubernetes_ingress_lemonLdap_handler_lb_ip }}:{{ kubernetes_ingress_lemonLdap_handler_port }}"
+      - "{{ kubernetes_lemonLdap_handler_lb_ip }}:{{ kubernetes_lemonLdap_handler_port }}"
   - name: kubernetes-mqtt-ingress
     servers:
       - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_mqtt_port }}"
