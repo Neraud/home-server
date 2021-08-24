@@ -39,4 +39,4 @@ unifi:
     limits_memory: "{{ unifi_container_limits_memory | default('1024Mi') }}"
   
   max_java_memory: "{{ unifi_max_java_memory | default('512M') }}"
-  private_ip: "{{ unifi_private_ip | default('') }}"
+  private_ip: "{{ unifi_private_ip }}"

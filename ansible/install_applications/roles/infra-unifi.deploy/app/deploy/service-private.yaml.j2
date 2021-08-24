@@ -2,22 +2,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-private
+  name: unifi-private-tcp
   namespace: {{ unifi.namespace }}
   labels:
     {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
     {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    metallb.universe.tf/allow-shared-ip: unifi-private
 spec:
-{% if unifi.private_ip is defined %}
-  externalIPs:
-  - {{ unifi.private_ip }}
-{% endif %}
+  type: LoadBalancer
+  loadBalancerIP: {{ unifi.private_ip }}
+  externalTrafficPolicy: Local
   ports:
-  # Port used for STUN.
-  - name: stun
-    port: 3478
-    targetPort: stun
-    protocol: UDP
   # Port used for device and controller communication.
   - name: http-crtl
     port: 8080
@@ -42,6 +38,35 @@ spec:
     port: 6789
     targetPort: speed-test
     protocol: TCP
+  selector:
+    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-private-udp
+  namespace: {{ unifi.namespace }}
+  labels:
+    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    metallb.universe.tf/allow-shared-ip: unifi-private
+spec:
+  type: LoadBalancer
+  loadBalancerIP: {{ unifi.private_ip }}
+  externalTrafficPolicy: Local
+  ports:
+  # Port used for STUN.
+  - name: stun
+    port: 3478
+    targetPort: stun
+    protocol: UDP
   # Port used for AP discovery
+  - name: ap-discovery
+    port: 10001
+    targetPort: ap-discovery
+    protocol: UDP
   selector:
     {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
