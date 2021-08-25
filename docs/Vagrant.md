@@ -329,10 +329,7 @@ The Unifi Controller is installed.
 
 The Web GUI will be available using the standard ReverseProxy + Ingress chain.
 
-However, the controller requires a few other non-http ports, which 2 impacts on the settings :
-
-* these ports are exposed on a `unifi-private` service on the loadbalancer virtual IP
-* these ports are allowed in the loadbalancers' firewall
+The controller requires a few other non-http ports, and must be available from outside the cluster. It is exposed using a MetalLB loadbalancer (`unifi-private-(tcp|udp)` services).
 
 When setting the controller up, the inform URL setting will need to be changed to : `http://[unifi_private_ip]:8080/inform`
 

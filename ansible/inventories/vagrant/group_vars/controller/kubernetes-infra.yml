@@ -2,7 +2,7 @@
 
 kubernetes_nginx_ingress_http_port: "{{ kubernetes_ingress_http_port }}"
 kubernetes_nginx_ingress_https_port: "{{ kubernetes_ingress_https_port }}"
-kubernetes_nginx_ingress_openldap_port: "{{ kubernetes_ingress_openldap_port }}"
+kubernetes_nginx_ingress_openldap_port: "{{ kubernetes_openldap_port }}"
 kubernetes_nginx_ingress_openldap_target: "auth-openldap/openldap:636"
 kubernetes_nginx_ingress_mqtt_port: "{{ kubernetes_ingress_mqtt_port }}"
 kubernetes_nginx_ingress_mqtt_target: "home-mosquitto/mosquitto:1883"

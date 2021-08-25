@@ -17,7 +17,7 @@ nginx_upstreams:
       - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}"
   - name: kubernetes-lemonldap-handler-ingress
     servers:
-      - "{{ kubernetes_ingress_lemonLdap_handler_lb_ip }}:{{ kubernetes_ingress_lemonLdap_handler_port }}"
+      - "{{ kubernetes_lemonLdap_handler_lb_ip }}:{{ kubernetes_lemonLdap_handler_port }}"
   - name: kubernetes-mqtt-ingress
     servers:
       - "{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_mqtt_port }}"
@@ -290,16 +290,4 @@ nginx_ufw_applications:
     title: Mosquitto
     description: Mosquitto is an open source message broker that implements the MQTT (MQ Telemetry Transport) protocol v3.1.
     ports: 1883,8883/tcp
-    rule: allow
-
-  # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
-  - name: unifi-controller
-    title: Unifi Controller
-    description: Unifi Controller
-    ports: "8080,8443,6789/tcp|3478,10001/udp"
-    rule: allow
-  - name: unifi-controller-guest-portal
-    title: Unifi Controller Guest Portal
-    description: Unifi Controller Guest Portal
-    ports: "8880,8843/tcp"
     rule: allow

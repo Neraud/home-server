@@ -76,7 +76,7 @@
 
 - name: Create LDAP base OUs
   ldap_entry:
-    server_uri: "ldaps://{{ kubernetes_ingress_openldap_lb_ip }}"
+    server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     validate_certs: no
@@ -89,7 +89,7 @@
 
 - name: Create LDAP users
   ldap_entry:
-    server_uri: "ldaps://{{ kubernetes_ingress_openldap_lb_ip }}"
+    server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     validate_certs: no
@@ -104,7 +104,7 @@
 
 - name: Set LDAP users attributes
   ldap_attrs:
-    server_uri: "ldaps://{{ kubernetes_ingress_openldap_lb_ip }}"
+    server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     validate_certs: no
@@ -120,7 +120,7 @@
 
 - name: Set LDAP users password
   ldap_passwd:
-    server_uri: "ldaps://{{ kubernetes_ingress_openldap_lb_ip }}"
+    server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     validate_certs: no
@@ -132,7 +132,7 @@
 
 - name: Create LDAP groups
   ldap_entry:
-    server_uri: "ldaps://{{ kubernetes_ingress_openldap_lb_ip }}"
+    server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     validate_certs: no
@@ -145,7 +145,7 @@
 
 - name: Set LDAP groups attributes
   ldap_attrs:
-    server_uri: "ldaps://{{ kubernetes_ingress_openldap_lb_ip }}"
+    server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     validate_certs: no
@@ -159,7 +159,7 @@
 
 - name: Set LDAP groups members
   ldap_attrs:
-    server_uri: "ldaps://{{ kubernetes_ingress_openldap_lb_ip }}"
+    server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
     validate_certs: no

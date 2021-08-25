@@ -8,7 +8,7 @@ metadata:
     {{ lemonldap.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   type: LoadBalancer
-  loadBalancerIP: {{ kubernetes_ingress_lemonLdap_handler_lb_ip }}
+  loadBalancerIP: {{ kubernetes_lemonLdap_handler_lb_ip }}
   externalTrafficPolicy: Local
   ports:
     - port: {{ lemonldap.fastcgi_port }}
