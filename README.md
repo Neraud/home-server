@@ -63,6 +63,7 @@ The following services are deployed :
 | [Kibana](https://www.elastic.co/products/kibana)                 | Visualize your Elasticsearch data                      |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | Controller for Unifi devices                           |
 | [HomeAssistant](https://www.home-assistant.io/)                  | Home automation                                        |
+| [ESPHome](https://esphome.io/index.html)                         | System to control your ESP8266/ESP32                   |
 | [Zwavejs2Mqtt](https://zwave-js.github.io/zwavejs2mqtt/)         | Fully configurable Zwave Gateway and Control Panel     |
 | [Node-RED](https://nodered.org/)                                 | Flow-based programming for the IoT                     |
 | [Mosquitto](https://mosquitto.org/)                              | MQTT broker                                            |

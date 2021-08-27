@@ -198,6 +198,16 @@ glusterfs_volumes:
       app.kubernetes.io/name: mosquitto
       app.kubernetes.io/component: mosquitto
       storage: data
+  esphome-config:
+    replicas: 2
+    capacity: 128M
+    arbiterCapacity: 16M
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: esphome
+      app.kubernetes.io/component: esphome
   zwavejs2mqtt-data:
     replicas: 2
     capacity: 32M

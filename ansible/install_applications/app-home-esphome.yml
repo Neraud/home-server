@@ -1,0 +1,6 @@
+---
+
+- name: Provision home-esphome
+  hosts: controller
+  roles:
+  - role: home-esphome.deploy
