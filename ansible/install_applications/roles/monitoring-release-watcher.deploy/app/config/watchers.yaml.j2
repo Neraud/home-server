@@ -251,6 +251,16 @@ watchers:
       - ^2\.[0-9]\..*
       - ^2\.1[0-5]\..*
   - type: docker_registry
+    repo: {{ esphome.base_image.repo | default('registry-1.docker.io') }}
+    image: {{ esphome.base_image.name }}
+    tag: {{ esphome.base_image.tag }}
+    includes:
+      - ^20[0-9]+\.[0-9]+\.[0-9]+.*$
+    excludes:
+      - .*-(dev|beta).*
+      - ^2020.*
+      - ^2021\.0[1-7]\..*
+  - type: docker_registry
     repo: {{ zwavejs2mqtt.base_image.repo | default('registry-1.docker.io') }}
     image: {{ zwavejs2mqtt.base_image.name }}
     tag: {{ zwavejs2mqtt.base_image.tag }}
