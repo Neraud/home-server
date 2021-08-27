@@ -13,6 +13,17 @@ esphome:
   namespace: "{{ _esphome_var_loader.namespace }}"
   base_image: "{{ _esphome_var_loader.base_image }}"
 
+  app_backup:
+    name: home-esphome
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+    - name: esphome
+      namespace: "{{ _esphome_var_loader.namespace }}"
+      type: statefulset
+      replicas: 1
+    gluster_volumes:
+    - esphome-config
+
   labels_def:
     app.kubernetes.io/name: esphome
     app.kubernetes.io/component: esphome
