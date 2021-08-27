@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+{% for chrony_server_allow in chrony_server_allows | default([]) %}
+allow {{ chrony_server_allow }}
+{% endfor%}

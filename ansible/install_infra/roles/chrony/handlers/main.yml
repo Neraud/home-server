@@ -1,0 +1,11 @@
+---
+
+- name: Restart Chrony
+  service:
+    name: chrony
+    state: restarted
+
+- name: Reload Chrony sources
+  command: chronyc reload sources
+  register: chrony_sources_reload
+  failed_when: "'200 OK' not in chrony_sources_reload.stdout"

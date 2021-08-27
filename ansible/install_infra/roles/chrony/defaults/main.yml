@@ -1,0 +1,12 @@
+---
+
+# Chrony sources, directly in the chrony.conf format
+chrony_sources:
+  - pool 2.debian.pool.ntp.org iburst
+
+chrony_server_enabled: False
+
+#chrony_server_allows:
+#  - all
+#  - 1.2.3.4/24
+#  - 1.2.3.4

@@ -1,0 +1,6 @@
+---
+
+chrony_sources:
+  - server 192.168.100.11 iburst # master-test-1
+  - server 192.168.100.12 iburst # master-test-2
+  - server 192.168.100.13 iburst # master-test-3

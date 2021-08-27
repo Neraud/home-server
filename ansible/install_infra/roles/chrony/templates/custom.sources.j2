@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+{% for source_line in chrony_sources %}
+{{ source_line }}
+{% endfor %}

@@ -14,17 +14,6 @@
   timezone:
     name: "{{ time_zone }}"
 
-- name: Install NTP
-  apt:
-    pkg: ntp
-    state: present
-
-- name: Auto-start NTP
-  service:
-    name: ntp
-    state: started
-    enabled: yes
-
 - name: Install standard tools
   apt:
     pkg: "{{ common_default_packages }}"
@@ -79,7 +68,7 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK : source bashrc includes"
     state: present
     insertafter: EOF
-    block:  |
+    block: |
       for file in ~/{{ bashrc_include_dir }}/*.bashrc; do
         source "$file"
       done
