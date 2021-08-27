@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: esphome
+  namespace: {{ esphome.namespace }}
+  labels:
+    {{ esphome.labels_def | to_nice_yaml() | indent(4) }}
+    {{ esphome.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ esphome.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ esphome.labels_def | to_nice_yaml() | indent(8) }}
+        {{ esphome.labels_desc | to_nice_yaml() | indent(8) }}
+      annotations:
+        k8s.v1.cni.cncf.io/networks: {{ k8s_bridge_fullname }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /esphome/config
+            chown -R 1000:1000 /esphome/config
+        volumeMounts:
+        - name: esphome-config-pv-claim
+          mountPath: /esphome
+      containers:
+      - name: esphome
+        image: "{{ esphome.container.image }}"
+        imagePullPolicy: Always        
+        ports:
+        - containerPort: 6052
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # esp
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+        resources:
+          requests:
+            cpu: "{{ esphome.container.requests_cpu }}"
+            memory: "{{ esphome.container.requests_memory }}"
+          limits:
+            cpu: "{{ esphome.container.limits_cpu }}"
+            memory: "{{ esphome.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: esphome-config-pv-claim
+          mountPath: /config
+          subPath: config
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: esphome-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M
+      selector:
+        matchLabels:
+          {{ esphome.labels_def | to_nice_yaml() | indent(10) }}
