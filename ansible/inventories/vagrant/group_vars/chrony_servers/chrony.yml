@@ -1,0 +1,9 @@
+---
+
+chrony_server_enabled: True
+chrony_server_allows: [all]
+chrony_sources:
+  - server 0.fr.pool.ntp.org iburst
+  - server 1.fr.pool.ntp.org iburst
+  - server 2.fr.pool.ntp.org iburst
+  - server 3.fr.pool.ntp.org iburst

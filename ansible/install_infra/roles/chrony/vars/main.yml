@@ -1,0 +1,8 @@
+---
+
+chrony_server_ufw_applications:
+  - name: chrony_server
+    title: Chrony server
+    description: Chrony server
+    ports: 123/udp
+    rule: allow
