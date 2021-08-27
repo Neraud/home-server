@@ -20,3 +20,7 @@ common_default_packages:
   - rsync
   - nfs-common
   - git-core
+  # support mDNS
+  - avahi-daemon
+  - avahi-discover
+  - libnss-mdns
