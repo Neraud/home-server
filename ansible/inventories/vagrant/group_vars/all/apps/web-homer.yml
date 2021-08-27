@@ -52,6 +52,8 @@ homer_images_to_download:
     source: https://www.home-assistant.io/images/home-assistant-logo.svg
   - name: node-red.svg
     source: https://nodered.org/about/resources/media/node-red-icon-2.svg
+  - name: esphome.svg
+    source: https://esphome.io/_images/logo.svg
   - name: zwavejs2mqtt.png
     source: https://raw.githubusercontent.com/zwave-js/zwavejs2mqtt/master/static/logo.png
 
@@ -168,6 +170,11 @@ homer_config_services:
         logo: "assets/download/node-red.svg"
         url: "https://home.{{ web_base_domain }}/node-red/"
         subtitle: "Flow-based programming for the IoT"
+        target: "_blank"
+      - name: "ESPHome"
+        logo: "assets/download/esphome.svg"
+        url: "https://home.{{ web_base_domain }}/esphome/"
+        subtitle: "Control your ESP8266/ESP32"
         target: "_blank"
       - name: "Zwavejs2Mqtt"
         logo: "assets/download/zwavejs2mqtt.png"
