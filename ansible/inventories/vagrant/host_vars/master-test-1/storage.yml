@@ -5,3 +5,5 @@ glusterfs_volume_mounts:
     mount_path: /data/volumes/homeassistant-config
   nodered-data:
     mount_path: /data/volumes/nodered-data
+  esphome-config:
+    mount_path: /data/volumes/esphome-config
