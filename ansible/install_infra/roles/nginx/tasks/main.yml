@@ -97,15 +97,9 @@
 - name: List certificates to generate
   set_fact:
     nginx_selfsigned_sites: "{{ nginx_sites | selectattr('https_cert', 'defined') | selectattr('https_cert.mode', 'equalto', 'selfsigned') | list }}"
-    nginx_letsencrypt_sites: "{{ nginx_sites | selectattr('https_cert', 'defined') | selectattr('https_cert.mode', 'equalto', 'letsencrypt') | list }}"
 
 - import_tasks: ssl_certs_selfsigned.yml
   when: nginx_selfsigned_sites | length > 0
-
-- import_tasks: ssl_certs_letsencrypt.yml
-  when:
-   - nginx_ssl_certbot_enabled | default(false)
-   - nginx_letsencrypt_sites | length > 0
 
 - name: Configure site upstreams
   template:
@@ -158,3 +152,23 @@
     name: nginx
     state: started
     enabled: yes
+
+- name: Generate letsencrypt pre_hook script
+  copy:
+    dest: "{{ letsencrypt_hooks_pre_include_dir }}/nginx_pre_hook.sh"
+    content: |
+      #!/usr/bin/env bash
+      # Ansible managed
+      echo "Stop nginx"
+      systemctl stop nginx
+    mode: 0755
+
+- name: Generate letsencrypt post_hook script
+  copy:
+    dest: "{{ letsencrypt_hooks_post_include_dir }}/nginx_post_hook.sh"
+    content: |
+      #!/usr/bin/env bash
+      # Ansible managed
+      echo "Start nginx"
+      systemctl start nginx
+    mode: 0755

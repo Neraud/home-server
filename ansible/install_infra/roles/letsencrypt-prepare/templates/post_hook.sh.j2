@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+for hook in {{ letsencrypt_hooks_post_include_dir }}/*.sh ; do
+    [ -e "$hook" ] || continue
+    echo " - $(basename $hook)"
+    $hook
+done

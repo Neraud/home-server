@@ -1,0 +1,84 @@
+---
+
+- name: Install Certbot
+  apt:
+    pkg: certbot
+    state: present
+
+- name: Ensures letsencrypt folders exist
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ letsencrypt_dir }}"
+    - "{{ letsencrypt_hooks_dir }}"
+    - "{{ letsencrypt_hooks_pre_include_dir }}"
+    - "{{ letsencrypt_hooks_post_include_dir }}"
+
+- name: Generate cluster hook scripts
+  template:
+    dest: "{{ letsencrypt_dir }}/{{ item }}"
+    src: "{{ item }}.j2"
+    mode: 0755
+  loop:
+    - cluster_pre_hook.sh
+    - cluster_post_hook.sh
+
+- name: Generate keepalived pre_hook script
+  template:
+    dest: "{{ letsencrypt_hooks_pre_include_dir }}/keepalived_pre_hook.sh"
+    src: "keepalived_pre_hook.sh.j2"
+    mode: 0755
+
+- name: Generate keepalive post_hook script
+  template:
+    dest: "{{ letsencrypt_hooks_post_include_dir }}/keepalived_post_hook.sh"
+    src: "keepalived_post_hook.sh.j2"
+    mode: 0755
+
+- name: Configure Keepalived VirtualIP
+  include_role:
+    name: keepalived
+    tasks_from: add-virtual-ip
+  vars:
+    keepalived_instance: "{{ letsencrypt_keepalived_instance }}"
+    keepalived_instance_enabled: false
+
+- name: Check letsencrypt mode
+  fail:
+    msg: "Mode {{ item.mode }} for {{ item.domain }} isn't supported !"
+  loop: "{{ letsencrypt_certificates }}"
+  loop_control:
+    label: "{{ item.domain }} : {{ item.domain }}"
+  when:
+    - item.mode not in ['standalone']
+
+- name: Create letsencrypt certificates
+  command: >
+    certbot certonly -n
+    {% if item.mode == "standalone" %}--standalone --http-01-address={{ nginx_keepalived_instance_public_virtual_ip }}{% endif %}
+    -m {{ item.email }}
+    {% if not item.live %}--staging{% endif %}
+    --agree-tos
+    -d {{ item.domain }}
+    --config-dir {{ letsencrypt_config_dir }}
+    --pre-hook "{{ letsencrypt_dir }}/cluster_pre_hook.sh"
+    --post-hook "{{ letsencrypt_dir }}/cluster_post_hook.sh"
+  args:
+    creates: "{{ letsencrypt_config_dir }}/live/{{ item.domain }}"
+  loop: "{{ letsencrypt_certificates }}"
+  loop_control:
+    label: "{{ item.domain }} : {{ item.domain }}"
+
+- name: Delete default certbot cronjob
+  file:
+    path: /etc/cron.d/certbot
+    state: absent
+
+- name: Create renew cronjob
+  cron:
+    name: "Renew letsencrypt certs"
+    cron_file: letsencrypt_renew
+    user: root
+    special_time: daily
+    job: "certbot renew --config-dir {{ letsencrypt_config_dir }}"

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+function handleHost() {
+    remoteHost="$1"
+    echo "===================================================================================================="
+    echo "Remote : $remoteHost : "
+    ssh $remoteHost "[ ! -x {{ letsencrypt_hooks_dir }}/pre_hook.sh ] && exit 0 ; {{ letsencrypt_hooks_dir }}/pre_hook.sh"
+    echo "===================================================================================================="
+}
+
+{% for host in groups['letsencrypt_clients'] | default([]) %}
+handleHost {{ host }}
+{% endfor %}

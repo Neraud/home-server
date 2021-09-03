@@ -5,8 +5,6 @@ nginx_default_index_html_path: /var/www/html/index.nginx-debian.html
 nginx_streams_conf_dir: /etc/nginx/streams_conf.d
 nginx_streams_available_dir: /etc/nginx/streams-available
 nginx_streams_enabled_dir: /etc/nginx/streams-enabled
-nginx_letsencrypt_dir: /opt/letsencrypt
-nginx_letsencrypt_docroot: /var/www/letsencrypt
 
 nginx_keepalived_instance:
     name: nginx
@@ -18,6 +16,11 @@ nginx_keepalived_instance:
     check_script:
       script: systemctl is-active --quiet nginx
       interval: 5
-    virtual_ips: 
+    virtual_ips:
       - "{{ nginx_keepalived_instance_public_virtual_ip }}"
       - "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+
+letsencrypt_dir: /opt/letsencrypt
+letsencrypt_hooks_dir: "{{ letsencrypt_dir }}/hooks"
+letsencrypt_hooks_pre_include_dir: "{{ letsencrypt_hooks_dir }}/pre.d"
+letsencrypt_hooks_post_include_dir: "{{ letsencrypt_hooks_dir }}/post.d"
