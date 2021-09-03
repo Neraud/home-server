@@ -84,15 +84,13 @@
   loop_control:
     label: "{{ item.domain }} : {{ item.domain }}"
 
-- name: Delete default certbot cronjob
+- name: Prepare certbot renew service systemd configuration directory
   file:
-    path: /etc/cron.d/certbot
-    state: absent
+    path: /etc/systemd/system/certbot.service.d
+    state: directory
 
-- name: Create renew cronjob
-  cron:
-    name: "Renew letsencrypt certs"
-    cron_file: letsencrypt_renew
-    user: root
-    special_time: daily
-    job: "certbot renew --config-dir {{ letsencrypt_config_dir }}"
+- name: Configure certbot renew service
+  template:
+    src: systemd_override.conf.j2
+    dest: /etc/systemd/system/certbot.service.d/override.conf
+  notify: Reload systemd daemon
