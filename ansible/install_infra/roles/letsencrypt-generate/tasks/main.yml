@@ -1,9 +1,12 @@
 ---
 
-- name: Install Certbot
+- name: Install Certbot and plugins
   apt:
-    pkg: certbot
+    pkg: "{{ item }}"
     state: present
+  loop:
+    - certbot
+    - python3-certbot-dns-gandi
 
 - name: Ensures letsencrypt folders exist
   file:
@@ -51,12 +54,23 @@
   loop_control:
     label: "{{ item.domain }} : {{ item.domain }}"
   when:
-    - item.mode not in ['standalone']
+    - item.mode not in ['standalone', 'dns']
+
+- name: Configure Gandi DNS
+  copy:
+    dest: "{{ letsencrypt_dir }}/gandi.ini"
+    content: |
+      # live dns v5 api key
+      dns_api_key={{ letsencrypt_gandi_api_key }}
+    mode: 0600
+  when: letsencrypt_gandi_api_key is defined
 
 - name: Create letsencrypt certificates
   command: >
     certbot certonly -n
-    {% if item.mode == "standalone" %}--standalone --http-01-address={{ nginx_keepalived_instance_public_virtual_ip }}{% endif %}
+    {% if item.mode == "standalone" %}--standalone --http-01-address={{ nginx_keepalived_instance_public_virtual_ip }}
+    {% elif item.mode == "dns" %}--authenticator dns --dns-credentials {{ letsencrypt_dir }}/gandi.ini
+    {% endif %}
     -m {{ item.email }}
     {% if not item.live %}--staging{% endif %}
     --agree-tos
