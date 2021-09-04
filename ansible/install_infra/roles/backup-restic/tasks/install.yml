@@ -17,7 +17,7 @@
   copy:
     src: "/tmp/restic_{{ restic_version }}_linux_amd64"
     dest: "{{ restic_bin_path }}"
-    mode: 755
+    mode: 0755
     remote_src: yes
   become: yes
 

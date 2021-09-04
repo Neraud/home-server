@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+function handleHost() {
+    remoteHost="$1"
+    echo "===================================================================================================="
+    echo "Remote : $remoteHost : "
+    echo " - wipe remote letsencrypt folder"
+    ssh "$remoteHost" "rm -Rf /etc/letsencrypt"
+    echo " - deploy letsencrypt folder"
+    scp -qr {{ letsencrypt_config_dir }} $remoteHost:/etc/letsencrypt
+    echo " - run hooks"
+    ssh $remoteHost "[ ! -x {{ letsencrypt_hooks_dir }}/post_hook.sh ] && exit 0 ; {{ letsencrypt_hooks_dir }}/post_hook.sh"
+    echo "===================================================================================================="
+}
+
+{% for host in groups['letsencrypt_clients'] | default([]) %}
+handleHost {{ host }}
+{% endfor %}

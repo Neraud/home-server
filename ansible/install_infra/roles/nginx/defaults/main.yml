@@ -41,14 +41,6 @@ nginx_extra_log_formats: []
 #      cert_path: /path/to/server.cert
 #      cert_key_path: /path/to/server.key
 #
-#   OR
-#
-#    https_cert:
-#      mode: letsencrypt
-#      email: whatever@example.com
-#      # Should certbot use the live or staging letsencrypt url
-#      live: False
-#      docroot: /opt/letsencrypt/rp-to-something
 
 #    force_http_to_https: True
 #    disable_robots: True

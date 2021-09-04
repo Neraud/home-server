@@ -21,7 +21,7 @@
   copy:
     src: "/tmp/rclone-v{{ rclone_version }}-linux-amd64/rclone"
     dest: /usr/local/bin/rclone
-    mode: 755
+    mode: 0755
     remote_src: yes
   become: yes
   when: not unarchive_use_7z

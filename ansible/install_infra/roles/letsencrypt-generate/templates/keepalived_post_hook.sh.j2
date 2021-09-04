@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+echo "Swapping keepalived virtual ip from certbot to nginx"
+if [ -f /etc/keepalived/includes/nginx.conf.disabled ] ; then
+    mv /etc/keepalived/includes/nginx.conf.disabled /etc/keepalived/includes/nginx.conf
+fi
+mv /etc/keepalived/includes/letsencrypt.conf /etc/keepalived/includes/letsencrypt.conf.disabled
+systemctl restart keepalived

@@ -48,6 +48,16 @@
   roles:
     - dns-client
 
+- name: Prepare letsencrypt
+  hosts: letsencrypt_clients
+  roles:
+    - { role: letsencrypt-prepare, tags: letsencrypt }
+
+- name: Provision letsencrypt
+  hosts: letsencrypt_master
+  roles:
+    - { role: letsencrypt-generate, tags: letsencrypt }
+
 - name: Provision Reverse Proxies
   hosts: loadbalancers
   roles:

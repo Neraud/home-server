@@ -1,0 +1,19 @@
+---
+
+- name: Ensures letsencrypt folders exist
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ letsencrypt_hooks_dir }}"
+    - "{{ letsencrypt_hooks_pre_include_dir }}"
+    - "{{ letsencrypt_hooks_post_include_dir }}"
+
+- name: Generate hook scripts
+  template:
+    dest: "{{ letsencrypt_hooks_dir }}/{{ item }}"
+    src: "{{ item }}.j2"
+    mode: 0755
+  loop:
+    - pre_hook.sh
+    - post_hook.sh
