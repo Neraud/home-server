@@ -8,3 +8,7 @@ addn-hosts=/etc/dnsmasq_hosts
 
 # Resolve Kubernetes services
 server=/cluster.local/10.96.0.10
+
+{% for domain in dns_static_domains %}
+address=/{{ domain.name }}/{{ domain.ip }}
+{% endfor %}

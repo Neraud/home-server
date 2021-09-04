@@ -3,6 +3,7 @@
 dns_local_domain: k8s.test
 
 dns_local_hosts: "{{ dns_static_hosts }}"
+dns_local_domains: "{{ dns_static_domains }}"
 
 dnsmasq_upstreams:
   # use Cloudflare DNS while running in VirtualBox
