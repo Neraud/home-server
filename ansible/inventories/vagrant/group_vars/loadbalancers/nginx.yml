@@ -300,11 +300,6 @@ nginx_ufw_applications:
     description: Small, but very powerful and efficient web server
     ports: 81/tcp
     rule: allow
-  - name: openldap
-    title: OpenLDAP
-    description: OpenLDAP is a free, open-source implementation of the Lightweight Directory Access Protocol developed by the OpenLDAP Project
-    ports: 636/tcp
-    rule: allow
   - name: mosquitto
     title: Mosquitto
     description: Mosquitto is an open source message broker that implements the MQTT (MQ Telemetry Transport) protocol v3.1.
