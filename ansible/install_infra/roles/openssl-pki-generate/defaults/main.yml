@@ -13,6 +13,7 @@ openssl_custom_pki: []
 #        locality_name: Locality
 #        organization_name: Organization
 #        common_name: cn1.test1.com
+#        san: ["san1.cn1.test1.com", "san2.cn1.test1.com"]
 #        email_address: user@mail.net
 #        generate_dh_param_enabled: true
 #        generate_dh_param_size: 4096
