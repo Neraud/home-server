@@ -52,7 +52,7 @@
     msg: "Mode {{ item.mode }} for {{ item.domain }} isn't supported !"
   loop: "{{ letsencrypt_certificates }}"
   loop_control:
-    label: "{{ item.domain }} : {{ item.domain }}"
+    label: "{{ item.domain }} : {{ item.mode }}"
   when:
     - item.mode not in ['standalone', 'dns']
 
@@ -82,7 +82,7 @@
     creates: "{{ letsencrypt_config_dir }}/live/{{ item.domain }}"
   loop: "{{ letsencrypt_certificates }}"
   loop_control:
-    label: "{{ item.domain }} : {{ item.domain }}"
+    label: "{{ item.domain }} : {{ item.mode }}"
 
 - name: Prepare certbot renew service systemd configuration directory
   file:
