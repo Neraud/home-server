@@ -2,6 +2,7 @@
 
 letsencrypt_certificates: []
   #- domain: k8stest.com
+  #san: ["*.k8stest.com"]
   #email: email@k8stest.com
   #mode: standalone
   #live: true

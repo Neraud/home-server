@@ -74,7 +74,9 @@
     -m {{ item.email }}
     {% if not item.live %}--staging{% endif %}
     --agree-tos
+    --cert-name {{ item.domain }}
     -d {{ item.domain }}
+    {% for domain in item.san | default([]) %}-d "{{ domain }}" {% endfor %}
     --config-dir {{ letsencrypt_config_dir }}
     --pre-hook "{{ letsencrypt_dir }}/cluster_pre_hook.sh"
     --post-hook "{{ letsencrypt_dir }}/cluster_post_hook.sh"
