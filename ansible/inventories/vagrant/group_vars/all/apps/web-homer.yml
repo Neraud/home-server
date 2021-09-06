@@ -155,7 +155,7 @@ homer_config_services:
         target: "_blank"
       - name: "Homer"
         logo: "logo.png"
-        url: "https://web.{{ web_base_domain }}/homer/"
+        url: "https://homer.web.{{ web_base_domain }}{{ _homer_var_loader.context_root }}"
         subtitle: "A very simple static homepage for your server"
         target: "_blank"
   - name: "Home"
