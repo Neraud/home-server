@@ -107,6 +107,18 @@ openssl_custom_pki:
         email_address: user@mail.net
       - name: "ingress"
         common_name: "*.{{ web_base_domain }}"
+        san:
+          - "*.{{ web_base_domain }}"
+          - "*.intra.{{ web_base_domain }}"
+          - "*.auth.{{ web_base_domain }}"
+          - "*.auth.intra.{{ web_base_domain }}"
+          - "*.infra.intra.{{ web_base_domain }}"
+          - "*.web.{{ web_base_domain }}"
+          - "*.home.{{ web_base_domain }}"
+          - "*.home.intra.{{ web_base_domain }}"
+          - "*.stream.intra.{{ web_base_domain }}"
+          - "*.dev.intra.{{ web_base_domain }}"
+          - "*.dl.intra.{{ web_base_domain }}"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris
