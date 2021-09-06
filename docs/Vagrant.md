@@ -30,6 +30,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 phpldapadmin.auth.intra.k8s.test
 192.168.100.101 kube.infra.intra.k8s.test
 192.168.100.101 mailhog.infra.intra.k8s.test
+192.168.100.101 docker-registry-ui.infra.intra.k8s.test
 192.168.100.100 homer.web.k8s.test
 192.168.100.101 infra.k8s.test
 192.168.100.100 auth.k8s.test
@@ -72,7 +73,7 @@ The following services are deployed :
 | ---------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://kube.infra.intra.k8s.test/>                 | Kubernetes dashboard                                   |
 | [Docker Registry](https://docs.docker.com/registry/deploying/)   | -                                                    | Docker Registry                                        |
-| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://infra.k8s.test/docker-registry-ui/>         | Web UI for Docker Registry                             |
+| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://docker-registry-ui.infra.intra.k8s.test>    | Web UI for Docker Registry                             |
 | [OpenLDAP](https://www.openldap.org/)                            | -                                                    | Open source Lightweight Directory Access Protocol      |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | <https://lemonldap.auth.intra.k8s.test/manager.html> | Web Single Sign On and Access Management Free Software |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://phpldapadmin.auth.intra.k8s.test/>          | Web-based LDAP browser                                 |

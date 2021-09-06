@@ -86,7 +86,7 @@ homer_config_services:
         target: "_blank"
       - name: "Docker Registry UI"
         logo: "assets/download/docker-registry.svg"
-        url: "https://infra.{{ web_base_domain }}/docker-registry-ui"
+        url: "https://docker-registry-ui.infra.intra.{{ web_base_domain }}{{ docker_registry_ui.context_root }}"
         subtitle: "Web UI for Docker Registry"
         target: "_blank"
       - name: "PiHole"

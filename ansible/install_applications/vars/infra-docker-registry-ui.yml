@@ -5,7 +5,7 @@ _docker_registry_ui_var_loader:
   base_image:
     name: quiq/docker-registry-ui
     tag: "0.9.3"
-  
+
   event_api_token: "{{ docker_registry_ui_event_api_token | default('token') }}"
 
 docker_registry_ui:
@@ -28,7 +28,7 @@ docker_registry_ui:
     limits_cpu: "{{ docker_registry_ui_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ docker_registry_ui_container_limits_memory | default('32Mi') }}"
 
-  context_root: /docker-registry-ui
+  context_root: "{{ docker_registry_context_root | default('') }}"
   registry:
     username: "{{ docker_registry_ui_registry_username }}"
     password: "{{ docker_registry_ui_registry_password }}"
