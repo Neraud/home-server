@@ -137,7 +137,7 @@ homer_config_services:
     items:
       - name: "LemonLDAP"
         logo: "assets/download/lemon-ldap.svg"
-        url: "https://infra.{{ web_base_domain }}/lemonldap/manager.html"
+        url: "https://lemonldap.auth.intra.{{ web_base_domain }}/manager.html"
         subtitle: "Web Single Sign On and Access Management"
         target: "_blank"
       - name: "Php LDAP Admin"

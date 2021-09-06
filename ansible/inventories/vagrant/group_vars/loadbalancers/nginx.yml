@@ -87,8 +87,12 @@ nginx_sites:
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
     locations:
       - path: /
+        lemonLdap_protected: True
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
