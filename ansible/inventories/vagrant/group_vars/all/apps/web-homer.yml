@@ -82,7 +82,7 @@ homer_config_services:
     items:
       - name: "Dashboard Kubernetes"
         logo: "assets/download/kubernetes.svg"
-        url: "https://infra.{{ web_base_domain }}/kube"
+        url: "https://kube.infra.intra.{{ web_base_domain }}{{ kubernetes_dashboard.context_root }}"
         target: "_blank"
       - name: "Docker Registry UI"
         logo: "assets/download/docker-registry.svg"

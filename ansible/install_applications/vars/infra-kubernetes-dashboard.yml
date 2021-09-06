@@ -27,13 +27,14 @@ kubernetes_dashboard:
     limits_cpu: "{{ kubernetes_dashboard_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ kubernetes_dashboard_container_limits_memory | default('256Mi') }}"
 
+  context_root: "{{ kubernetes_dashboard_context_root | default('') }}"
 
 # To avoid loops inside kubernetes_dashboard_metrics_scraper
 _kubernetes_dashboard_metrics_scraper_var_loader:
   base_image:
     name: "kubernetesui/metrics-scraper"
     tag: "v1.0.6"
-  
+
 kubernetes_dashboard_metrics_scraper:
   base_image: "{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image }}"
 

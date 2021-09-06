@@ -28,6 +28,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.100 lemonldap.auth.k8s.test
 192.168.100.101 lemonldap.auth.intra.k8s.test
 192.168.100.101 phpldapadmin.auth.intra.k8s.test
+192.168.100.101 kube.infra.intra.k8s.test
 192.168.100.100 homer.web.k8s.test
 192.168.100.101 infra.k8s.test
 192.168.100.100 auth.k8s.test
@@ -68,7 +69,7 @@ The following services are deployed :
 
 | Service                                                          | Test URL                                             | Description                                            |
 | ---------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
-| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://infra.k8s.test/kube>                        | Kubernetes dashboard                                   |
+| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://kube.infra.intra.k8s.test/>                 | Kubernetes dashboard                                   |
 | [Docker Registry](https://docs.docker.com/registry/deploying/)   | -                                                    | Docker Registry                                        |
 | [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://infra.k8s.test/docker-registry-ui/>         | Web UI for Docker Registry                             |
 | [OpenLDAP](https://www.openldap.org/)                            | -                                                    | Open source Lightweight Directory Access Protocol      |
