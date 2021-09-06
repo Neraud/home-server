@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - infra.{{ web_base_domain }}
+      - mailhog.infra.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: infra.{{ web_base_domain }}
+  - host: mailhog.infra.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: /mailhog/?(.*)
+      - path: {{ '/' if mailhog.context_root == '' else mailhog.context_root }}
         pathType: Prefix
         backend:
           service:

@@ -28,7 +28,8 @@ mailhog:
     limits_cpu: "{{ mailhog_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ mailhog_container_limits_memory | default('64Mi') }}"
 
-  servername: "{{ mailhog_exposed_smtp | default('mailhog.' + _mailhog_var_loader.namespace + '.svc.cluster.local') }}"
+  servername: "{{ mailhog_servername | default('mailhog.' + _mailhog_var_loader.namespace + '.svc.cluster.local') }}"
+  context_root: "{{ mailhog_context_root | default('') }}"
   
   forward_smtp:
     enabled: "{{ mailhog_forward_smtp_enabled | default('false') }}"

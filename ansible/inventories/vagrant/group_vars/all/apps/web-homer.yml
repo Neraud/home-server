@@ -101,7 +101,7 @@ homer_config_services:
         target: "_blank"
       - name: "MailHog"
         logo: "assets/download/mailhog.png"
-        url: "https://infra.{{ web_base_domain }}/mailhog/"
+        url: "https://mailhog.infra.intra.{{ web_base_domain }}{{ mailhog.context_root }}"
         subtitle: "MailHog is an email testing tool for developers"
         target: "_blank"
       - name: "UniFi"
