@@ -12,8 +12,6 @@ dns_static_hosts:
 
 dns_static_domains:
   # Add our web domains to the list, so that we can go to the vip directly
-  - name: "{{ web_base_domain }}"
-    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
   - name: "auth.{{ web_base_domain }}"
     ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
   - name: "auth.intra.{{ web_base_domain }}"
