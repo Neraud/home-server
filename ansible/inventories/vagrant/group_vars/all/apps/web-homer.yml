@@ -142,7 +142,7 @@ homer_config_services:
         target: "_blank"
       - name: "Php LDAP Admin"
         logo: "assets/download/phpldapadmin.png"
-        url: "https://infra.{{ web_base_domain }}/phpldapadmin/"
+        url: "https://phpldapadmin.auth.intra.{{ web_base_domain }}{{ phpldapadmin.context_root }}"
         subtitle: "Web-based LDAP browser"
         target: "_blank"
   - name: "Web"
