@@ -15,6 +15,11 @@ lemonldap_location_rules:
   - domain: "*.auth.intra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'infra')
 
+  - domain: "*.log.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
+  - domain: "*.monitoring.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
+
   - domain: "*.dev.intra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'dev')
   # Skip gitlab to enable https clone

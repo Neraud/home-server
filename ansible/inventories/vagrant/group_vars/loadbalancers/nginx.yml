@@ -147,6 +147,52 @@ nginx_sites:
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
+  - name: logging-internal
+    enabled_name: 140-logging-internal
+    server_name: "log.intra.{{ web_base_domain }} *.log.intra.{{ web_base_domain }}"
+    default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/log.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/log.intra.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
+  - name: monitoring-internal
+    enabled_name: 160-monitoring-internal
+    server_name: "monitoring.intra.{{ web_base_domain }} *.monitoring.intra.{{ web_base_domain }}"
+    default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/monitoring.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/monitoring.intra.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
   - name: web-public
     enabled_name: 200-web-public
     server_name: "web.{{ web_base_domain }} *.web.{{ web_base_domain }}"
