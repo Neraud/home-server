@@ -106,7 +106,7 @@ homer_config_services:
         target: "_blank"
       - name: "UniFi"
         logo: "assets/download/unifi.svg"
-        url: "https://unifi.{{ web_base_domain }}/"
+        url: "https://unifi.infra.intra.{{ web_base_domain }}"
         subtitle: "Controller for Unifi devices"
         target: "_blank"
   - name: "Monitoring"

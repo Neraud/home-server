@@ -29,11 +29,6 @@ openldap_ldap_groups:
     ou: sso_groups
     members:
       - user
-  - id: unifi
-    description: Unifi
-    ou: sso_groups
-    members:
-      - user
   - id: web
     description: Web
     ou: sso_groups
