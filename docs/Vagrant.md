@@ -32,6 +32,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 mailhog.infra.intra.k8s.test
 192.168.100.101 docker-registry-ui.infra.intra.k8s.test
 192.168.100.101 pihole.infra.intra.k8s.test
+192.168.100.101 elasticsearch.log.intra.k8s.test
 192.168.100.100 homer.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
 192.168.100.101 infra.k8s.test
@@ -88,7 +89,7 @@ The following services are deployed :
 | [Grafana](https://grafana.com/)                                  | <https://infra.k8s.test/grafana/>                    | Platform for beautiful analytics and monitoring        |
 | [Fluent Bit](https://fluentbit.io/)                              | -                                                    | Lightweight log Processor and Forwarder                |
 | [FluentD](https://www.fluentd.org/)                              | -                                                    | Log Processor and Forwarder                            |
-| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | <https://infra.k8s.test/elastic>                     | Distributed, RESTful search and analytics engine       |
+| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | <https://elasticsearch.log.intra.k8s.test>           | Distributed, RESTful search and analytics engine       |
 | [Kibana](https://www.elastic.co/products/kibana)                 | <https://infra.k8s.test/kibana/>                     | Visualize your Elasticsearch data                      |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | <https://unifi.k8s.test/>                            | Controller for Unifi devices                           |
 | [HomeAssistant](https://www.home-assistant.io/)                  | <https://home.k8s.test/>                             | Home automation                                        |
@@ -314,7 +315,7 @@ Fluent Bit is deployed on all nodes to capture logs and forward them to ElasticS
 
 The [OpenDistro](https://opendistro.github.io/for-elasticsearch/) variant of ElasticSearch is deployed.
 
-You can test the 'E' part of the EFK stack by calling : <https://infra.k8s.test/elasticsearch/_cluster/state?pretty>
+You can test the 'E' part of the EFK stack by calling : <https://elasticsearch.log.intra.k8s.test/_cluster/state?pretty>
 
 You can use the exporter's user to test : `exporter` / `password`
 

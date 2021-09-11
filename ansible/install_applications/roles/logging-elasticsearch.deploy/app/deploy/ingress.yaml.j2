@@ -7,18 +7,20 @@ metadata:
     {{ elasticsearch.labels_def | to_nice_yaml() | indent(4) }}
     {{ elasticsearch.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+{% if elasticsearch.context_root != "" %}
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+{% endif %}
 spec:
   tls:
     - hosts:
-      - infra.{{ web_base_domain }}
+      - elasticsearch.log.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: infra.{{ web_base_domain }}
+  - host: elasticsearch.log.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ elasticsearch.context_path }}/?(.*)
+      - path: {{ '/' if elasticsearch.context_root == '' else elasticsearch.context_root + '/?(.*)' }}
         pathType: Prefix
         backend:
           service:
