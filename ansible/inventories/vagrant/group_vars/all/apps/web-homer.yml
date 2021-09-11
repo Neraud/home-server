@@ -96,7 +96,7 @@ homer_config_services:
         target: "_blank"
       - name: "Gotify"
         logo: "assets/download/gotify.png"
-        url: "https://web.{{ web_base_domain }}/gotify"
+        url: "https://gotify.web.{{ web_base_domain }}{{ gotify.context_root }}"
         subtitle: "Server for sending and receiving messages"
         target: "_blank"
       - name: "MailHog"

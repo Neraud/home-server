@@ -46,10 +46,10 @@
 
 - name: List existing users
   uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}/gotify/user"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/user"
     method: GET
     headers:
-      Host: "web.{{ web_base_domain }}"
+      Host: "gotify.web.{{ web_base_domain }}"
     return_content: yes
     validate_certs: no
     force_basic_auth: yes
@@ -59,10 +59,10 @@
 
 - name: Create missing users
   uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}/gotify/user"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/user"
     method: POST
     headers:
-      Host: "web.{{ web_base_domain }}"
+      Host: "gotify.web.{{ web_base_domain }}"
     body:
       name: "{{ item.name }}"
       pass: "{{ item.password }}"
@@ -79,10 +79,10 @@
 
 - name: List existing applications
   uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}/gotify/application"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/application"
     method: GET
     headers:
-      Host: "web.{{ web_base_domain }}"
+      Host: "gotify.web.{{ web_base_domain }}"
     return_content: yes
     validate_certs: no
     force_basic_auth: yes
@@ -98,10 +98,10 @@
 
 - name: Create missing applications
   uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}/gotify/application"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/application"
     method: POST
     headers:
-      Host: "web.{{ web_base_domain }}"
+      Host: "gotify.web.{{ web_base_domain }}"
     body:
       name: "{{ item.1.name }}"
       description: "{{ item.1.desc }}"
