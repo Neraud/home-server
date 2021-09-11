@@ -91,7 +91,7 @@ homer_config_services:
         target: "_blank"
       - name: "PiHole"
         logo: "assets/download/pihole.png"
-        url: "https://infra.{{ web_base_domain }}/pihole/admin"
+        url: "https://pihole.infra.intra.{{ web_base_domain }}{{ pihole.context_root }}/admin/"
         subtitle: "A black hole for Internet advertisements"
         target: "_blank"
       - name: "Gotify"

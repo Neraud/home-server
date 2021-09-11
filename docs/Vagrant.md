@@ -31,6 +31,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 kube.infra.intra.k8s.test
 192.168.100.101 mailhog.infra.intra.k8s.test
 192.168.100.101 docker-registry-ui.infra.intra.k8s.test
+192.168.100.101 pihole.infra.intra.k8s.test
 192.168.100.100 homer.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
 192.168.100.101 infra.k8s.test
@@ -80,7 +81,7 @@ The following services are deployed :
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://phpldapadmin.auth.intra.k8s.test/>          | Web-based LDAP browser                                 |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                    | Modern outbound SMTP relay                             |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://mailhog.infra.intra.k8s.test/>              | MailHog is an email testing tool for developers        |
-| [PiHole](https://pi-hole.net/)                                   | <https://infra.k8s.test/pihole/admin/>               | A black hole for Internet advertisements               |
+| [PiHole](https://pi-hole.net/)                                   | <https://pihole.infra.intra.k8s.test/admin/>         | A black hole for Internet advertisements               |
 | [Gotify](https://gotify.net/)                                    | <https://gotify.web.k8s.test>                        | A simple server for sending and receiving messages     |
 | [Prometheus](https://prometheus.io/)                             | <https://infra.k8s.test/prometheus/>                 | Monitoring solution                                    |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | <https://infra.k8s.test/alertmanager/>               | Alert manager for Prometheus                           |
