@@ -37,7 +37,7 @@ spec:
         name: grafana
         env:
         - name: GF_SERVER_ROOT_URL
-          value: https://infra.{{ web_base_domain }}/grafana/
+          value: https://grafana.monitoring.intra.{{ web_base_domain }}{{ grafana.context_root }}
         - name: GF_INSTALL_PLUGINS
           value: {{ grafana.plugins | join(',') }}
         ports:

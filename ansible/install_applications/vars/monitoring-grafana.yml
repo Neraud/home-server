@@ -11,7 +11,7 @@ grafana:
 
   namespace: "monitoring-grafana"
   base_image: "{{ _grafana_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: grafana
     app.kubernetes.io/component: grafana
@@ -26,10 +26,11 @@ grafana:
     limits_cpu: "{{ grafana_container_limits_cpu | default('400m') }}"
     limits_memory: "{{ grafana_container_limits_memory | default('200Mi') }}"
 
+  context_root: "{{ grafana_context_root | default('') }}"
   admin:
     user: "{{ grafana_admin_user | default('admin') }}"
     password: "{{ grafana_admin_password | default('clear_password') }}"
-  
+
   ldap:
     servername: "{{ grafana_ldap_servername | default(openldap.ldap.servername) }}"
     base: "{{ grafana_ldap_base | default(openldap.ldap.basedn) }}"

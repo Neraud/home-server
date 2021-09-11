@@ -124,7 +124,7 @@ homer_config_services:
         target: "_blank"
       - name: "Grafana"
         logo: "assets/download/grafana.svg"
-        url: "https://infra.{{ web_base_domain }}/grafana/"
+        url: "https://grafana.monitoring.intra.{{ web_base_domain }}/{{ grafana.context_root }}"
         subtitle: "Platform for beautiful analytics and monitoring"
         target: "_blank"
       - name: "Kibana"

@@ -36,6 +36,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 kibana.log.intra.k8s.test
 192.168.100.101 prometheus.monitoring.intra.k8s.test
 192.168.100.101 alertmanager.monitoring.intra.k8s.test
+192.168.100.101 grafana.monitoring.intra.k8s.test
 192.168.100.100 homer.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
 192.168.100.101 infra.k8s.test
@@ -89,7 +90,7 @@ The following services are deployed :
 | [Gotify](https://gotify.net/)                                    | <https://gotify.web.k8s.test>                        | A simple server for sending and receiving messages     |
 | [Prometheus](https://prometheus.io/)                             | <https://prometheus.monitoring.intra.k8s.test>       | Monitoring solution                                    |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | <https://alertmanager.monitoring.intra.k8s.test>     | Alert manager for Prometheus                           |
-| [Grafana](https://grafana.com/)                                  | <https://infra.k8s.test/grafana/>                    | Platform for beautiful analytics and monitoring        |
+| [Grafana](https://grafana.com/)                                  | <https://grafana.monitoring.intra.k8s.test>          | Platform for beautiful analytics and monitoring        |
 | [Fluent Bit](https://fluentbit.io/)                              | -                                                    | Lightweight log Processor and Forwarder                |
 | [FluentD](https://www.fluentd.org/)                              | -                                                    | Log Processor and Forwarder                            |
 | [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | <https://elasticsearch.log.intra.k8s.test>           | Distributed, RESTful search and analytics engine       |
