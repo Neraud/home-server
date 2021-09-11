@@ -66,10 +66,10 @@
 
 - name: Check if objects already exist
   uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_root }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: GET
     headers:
-      Host: "infra.{{ web_base_domain }}"
+      Host: "kibana.log.intra.{{ web_base_domain }}"
     return_content: yes
     status_code:
       - 200
@@ -87,10 +87,10 @@
 
 - name: Create missing objects
   uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_root }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: POST
     headers:
-      Host: "infra.{{ web_base_domain }}"
+      Host: "kibana.log.intra.{{ web_base_domain }}"
       kbn-xsrf: kbn-xsrf
     body:
       attributes: "{{ item.1.attributes }}"
@@ -110,10 +110,10 @@
 
 - name: Updating changed objects
   uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_path }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_root }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: PUT
     headers:
-      Host: "infra.{{ web_base_domain }}"
+      Host: "kibana.log.intra.{{ web_base_domain }}"
       kbn-xsrf: kbn-xsrf
     body:
       attributes: "{{ item.1.attributes }}"

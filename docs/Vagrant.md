@@ -33,6 +33,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 docker-registry-ui.infra.intra.k8s.test
 192.168.100.101 pihole.infra.intra.k8s.test
 192.168.100.101 elasticsearch.log.intra.k8s.test
+192.168.100.101 kibana.log.intra.k8s.test
 192.168.100.100 homer.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
 192.168.100.101 infra.k8s.test
@@ -90,7 +91,7 @@ The following services are deployed :
 | [Fluent Bit](https://fluentbit.io/)                              | -                                                    | Lightweight log Processor and Forwarder                |
 | [FluentD](https://www.fluentd.org/)                              | -                                                    | Log Processor and Forwarder                            |
 | [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | <https://elasticsearch.log.intra.k8s.test>           | Distributed, RESTful search and analytics engine       |
-| [Kibana](https://www.elastic.co/products/kibana)                 | <https://infra.k8s.test/kibana/>                     | Visualize your Elasticsearch data                      |
+| [Kibana](https://www.elastic.co/products/kibana)                 | <https://kibana.log.intra.k8s.test>                  | Visualize your Elasticsearch data                      |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | <https://unifi.k8s.test/>                            | Controller for Unifi devices                           |
 | [HomeAssistant](https://www.home-assistant.io/)                  | <https://home.k8s.test/>                             | Home automation                                        |
 | [ESPHome](https://esphome.io/index.html)                         | <https://home.k8s.test/esphome/>                     | System to control your ESP8266/ESP32                   |

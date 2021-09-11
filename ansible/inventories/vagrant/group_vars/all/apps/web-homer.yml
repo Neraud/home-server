@@ -129,7 +129,7 @@ homer_config_services:
         target: "_blank"
       - name: "Kibana"
         logo: "assets/download/kibana.svg"
-        url: "https://infra.{{ web_base_domain }}/kibana/"
+        url: "https://kibana.log.intra.{{ web_base_domain }}/{{ kibana.context_root }}"
         subtitle: "Visualize your Elasticsearch data"
         target: "_blank"
   - name: "Auth"

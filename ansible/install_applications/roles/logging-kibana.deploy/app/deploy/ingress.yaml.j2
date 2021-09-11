@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - infra.{{ web_base_domain }}
+      - kibana.log.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: infra.{{ web_base_domain }}
+  - host:  kibana.log.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ kibana.context_path }}
+      - path: {{ '/' if kibana.context_root == '' else kibana.context_root + '/?(.*)' }}
         pathType: Prefix
         backend:
           service:

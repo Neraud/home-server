@@ -6,11 +6,11 @@ import os
 import shutil
 from base64 import b64encode
 
-kibana_root_url = "http://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_http_port }}{{ kibana.context_path }}"
+kibana_root_url = "http://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_http_port }}{{ kibana.context_root }}"
 output_dir = "{{ kibana.export_saved.output_dir }}"
 
 headers = {
-    "Host": "infra.{{ web_base_domain }}",
+    "Host": "kibana.log.intra.{{ web_base_domain }}",
     "Authorization": "Basic %s" % b64encode(b"{{ kibana.elasticsearch.user }}:{{ kibana.elasticsearch.password }}").decode("ascii")
 }
 
