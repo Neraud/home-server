@@ -54,7 +54,7 @@ ttrss:
     limits_cpu: "{{ ttrss_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ ttrss_container_limits_memory | default('64Mi') }}"
 
-  context_root: "{{ ttrss_context_root | default('/') }}"
+  context_root: "{{ ttrss_context_root | default('') }}"
 
   plugins:
     data_migration:

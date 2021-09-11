@@ -44,7 +44,7 @@ spec:
         args: ["job"]
         env:
         - name: TTRSS_CONTEXT_ROOT
-          value: {{ ttrss.context_root }}
+          value: {{ '/' if ttrss.context_root == '' else ttrss.context_root }}
         - name: TTRSS_RUN_ROOT_DIR
           value: /opt/ttrss-data
         - name: TTRSS_DB_TYPE
@@ -60,7 +60,7 @@ spec:
         - name: TTRSS_DB_PORT
           value: "5432"
         - name: TTRSS_SELF_URL_PATH
-          value: "https://web.{{ web_base_domain }}{{ ttrss.context_root }}/"
+          value: "https://ttrss.web.{{ web_base_domain }}{{ ttrss.context_root }}/"
         - name: TTRSS_LOCK_DIRECTORY
           value: /opt/ttrss-data/lock
         - name: TTRSS_CACHE_DIR

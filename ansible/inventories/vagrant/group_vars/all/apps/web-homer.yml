@@ -150,7 +150,7 @@ homer_config_services:
     items:
       - name: "TT-RSS"
         logo: "assets/download/ttrss.png"
-        url: "https://web.{{ web_base_domain }}/tt-rss/"
+        url: "https://ttrss.web.{{ web_base_domain }}{{ ttrss.context_root }}"
         subtitle: "News feed (RSS/Atom) reader and aggregator"
         target: "_blank"
       - name: "Homer"
