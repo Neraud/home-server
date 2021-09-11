@@ -44,7 +44,7 @@ spec:
   probeNamespaceSelector: {}
   probeSelector: {}
   replicas: 1
-  externalUrl: https://infra.{{ web_base_domain }}/prometheus/
+  externalUrl: https://prometheus.monitoring.intra.{{ web_base_domain }}/{{ prometheus.context_root }}
   resources:
     requests:
       cpu: "{{ prometheus.container.requests_cpu }}"

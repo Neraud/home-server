@@ -78,6 +78,7 @@ prometheus:
     limits_cpu: "{{ prometheus_container_limits_cpu | default('400m') }}"
     limits_memory: "{{ prometheus_container_limits_memory | default('1024Mi') }}"
 
+  context_root: "{{ prometheus_context_root | default('') }}"
   servername: "prometheus-k8s.{{ _prometheus_var_loader.namespace }}.svc.cluster.local"
 
 
@@ -115,6 +116,7 @@ alertmanager:
     auth_username: "{{ alertmanager_smtp_auth_username | default(zonemta.feeder.authentication_username) }}"
     auth_password: "{{ alertmanager_smtp_auth_password | default(zonemta.feeder.authentication_password) }}"
 
+  context_root: "{{ alertmanager_context_root | default('') }}"
   default_receiver: "{{ alertmanager_default_receiver | default('default') }}"
   receivers: "{{ alertmanager_receivers | default([]) }}"
 
