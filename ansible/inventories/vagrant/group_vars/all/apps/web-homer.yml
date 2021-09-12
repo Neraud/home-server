@@ -163,7 +163,7 @@ homer_config_services:
     items:
       - name: "HomeAssistant"
         logo: "assets/download/homeassistant.svg"
-        url: "https://home.{{ web_base_domain }}/"
+        url: "https://homeassistant.home.{{ web_base_domain }}"
         subtitle: "Home automation"
         target: "_blank"
       - name: "NodeRED"

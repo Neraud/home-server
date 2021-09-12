@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - home.{{ web_base_domain }}
+      - homeassistant.home.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: home.{{ web_base_domain }}
+  - host: homeassistant.home.{{ web_base_domain }}
     http:
       paths:
       - path: /
