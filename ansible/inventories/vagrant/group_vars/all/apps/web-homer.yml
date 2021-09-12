@@ -173,7 +173,7 @@ homer_config_services:
         target: "_blank"
       - name: "ESPHome"
         logo: "assets/download/esphome.svg"
-        url: "https://home.{{ web_base_domain }}/esphome/"
+        url: "https://esphome.home.intra.{{ web_base_domain }}{{ esphome.context_root }}"
         subtitle: "Control your ESP8266/ESP32"
         target: "_blank"
       - name: "Zwavejs2Mqtt"

@@ -38,6 +38,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 prometheus.monitoring.intra.k8s.test
 192.168.100.101 alertmanager.monitoring.intra.k8s.test
 192.168.100.101 grafana.monitoring.intra.k8s.test
+192.168.100.101 esphome.home.intra.k8s.test
 192.168.100.100 homer.web.k8s.test
 192.168.100.100 ttrss.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
@@ -98,7 +99,7 @@ The following services are deployed :
 | [Kibana](https://www.elastic.co/products/kibana)                 | <https://kibana.log.intra.k8s.test>                  | Visualize your Elasticsearch data                      |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | <https://unifi.infra.intra>                          | Controller for Unifi devices                           |
 | [HomeAssistant](https://www.home-assistant.io/)                  | <https://home.k8s.test/>                             | Home automation                                        |
-| [ESPHome](https://esphome.io/index.html)                         | <https://home.k8s.test/esphome/>                     | System to control your ESP8266/ESP32                   |
+| [ESPHome](https://esphome.io/index.html)                         | <https://esphome.home.intra>                         | System to control your ESP8266/ESP32                   |
 | [Zwavejs2Mqtt](https://zwave-js.github.io/zwavejs2mqtt/)         | <https://home.k8s.test/zwave/>                       | Fully configurable Zwave Gateway and Control Panel     |
 | [Node-RED](https://nodered.org/)                                 | <https://home.k8s.test/node-red/>                    | Flow-based programming for the IoT                     |
 | [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                              | MQTT broker                                            |
