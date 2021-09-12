@@ -178,7 +178,7 @@ homer_config_services:
         target: "_blank"
       - name: "Zwavejs2Mqtt"
         logo: "assets/download/zwavejs2mqtt.png"
-        url: "https://home.{{ web_base_domain }}/zwave/"
+        url: "https://zwavejs2mqtt.home.intra.{{ web_base_domain }}{{ zwavejs2mqtt.context_root }}"
         subtitle: "Fully configurable Zwave to MQTT Gateway and Control Panel"
         target: "_blank"
   - name: "Dev"
