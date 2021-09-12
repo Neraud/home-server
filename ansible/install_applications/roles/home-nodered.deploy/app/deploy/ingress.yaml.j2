@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - home.{{ web_base_domain }}
+      - nodered.home.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: home.{{ web_base_domain }}
+  - host: nodered.home.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ nodered.context_root }}
+      - path: {{ '/' if nodered.context_root == '' else nodered.context_root }}
         pathType: Prefix
         backend:
           service:

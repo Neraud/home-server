@@ -9,7 +9,6 @@ _nodered_var_loader:
 
 nodered:
   enabled: "{{ nodered_enabled | default(True) }}"
-  context_root: "{{ nodered_context_root | default('/') }}"
 
   namespace: "{{ _nodered_var_loader.namespace }}"
   base_image: "{{ _nodered_var_loader.base_image }}"
@@ -38,6 +37,8 @@ nodered:
     requests_memory: "{{ nodered_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ nodered_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ nodered_container_limits_memory | default('256Mi') }}"
+
+  context_root: "{{ nodered_context_root | default('') }}"
 
   ldap:
     servername: "{{ nodered_ldap_servername | default(openldap.ldap.servername) }}"

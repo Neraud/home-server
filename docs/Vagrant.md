@@ -41,6 +41,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.100 homeassistant.home.k8s.test
 192.168.100.101 esphome.home.intra.k8s.test
 192.168.100.101 zwavejs2mqtt.home.intra.k8s.test
+192.168.100.101 nodered.home.intra.k8s.test
 192.168.100.100 homer.web.k8s.test
 192.168.100.100 ttrss.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
@@ -103,7 +104,7 @@ The following services are deployed :
 | [HomeAssistant](https://www.home-assistant.io/)                  | <https://homeassistant.home.k8s.test>                | Home automation                                        |
 | [ESPHome](https://esphome.io/index.html)                         | <https://esphome.home.intra>                         | System to control your ESP8266/ESP32                   |
 | [Zwavejs2Mqtt](https://zwave-js.github.io/zwavejs2mqtt/)         | <https://zwavejs2mqtt.home.intra.k8s.test>           | Fully configurable Zwave Gateway and Control Panel     |
-| [Node-RED](https://nodered.org/)                                 | <https://home.k8s.test/node-red/>                    | Flow-based programming for the IoT                     |
+| [Node-RED](https://nodered.org/)                                 | <https://nodered.home.intra.k8s.test>                | Flow-based programming for the IoT                     |
 | [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                              | MQTT broker                                            |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                    | Presence tracking                                      |
 | [TT-RSS](https://tt-rss.org/)                                    | <https://ttrss.web.k8s.test>                         | News feed (RSS/Atom) reader and aggregator             |

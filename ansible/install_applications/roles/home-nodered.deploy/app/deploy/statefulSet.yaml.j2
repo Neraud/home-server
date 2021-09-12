@@ -62,7 +62,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: "{{ nodered.context_root }}"
+            path: "{{ '/' if nodered.context_root == '' else nodered.context_root }}"
             port: nodered
           initialDelaySeconds: 3
           periodSeconds: 5

@@ -168,7 +168,7 @@ homer_config_services:
         target: "_blank"
       - name: "NodeRED"
         logo: "assets/download/node-red.svg"
-        url: "https://home.{{ web_base_domain }}/node-red/"
+        url: "https://nodered.home.intra.{{ web_base_domain }}{{ nodered.context_root }}"
         subtitle: "Flow-based programming for the IoT"
         target: "_blank"
       - name: "ESPHome"
