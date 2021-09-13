@@ -217,7 +217,7 @@ homer_config_services:
     items:
       - name: "Airsonic"
         logo: "assets/download/airsonic.png"
-        url: "https://stream.{{ web_base_domain }}/airsonic/"
+        url: "https://airsonic.stream.intra.{{ web_base_domain }}{{ airsonic.context_root }}"
         subtitle: "Music streaming"
         target: "_blank"
       - name: "Jellyfin"

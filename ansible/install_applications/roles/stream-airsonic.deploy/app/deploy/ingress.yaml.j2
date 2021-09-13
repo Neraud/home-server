@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - stream.{{ web_base_domain }}
+      - airsonic.stream.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: stream.{{ web_base_domain }}
+  - host: airsonic.stream.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ airsonic.context_path }}
+      - path: {{ '/' if airsonic.context_root == '' else airsonic.context_root }}
         pathType: Prefix
         backend:
           service:
