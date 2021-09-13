@@ -186,7 +186,7 @@ homer_config_services:
     items:
       - name: "Gitlab"
         logo: "assets/download/gitlab.svg"
-        url: "https://dev.{{ web_base_domain }}/gitlab/"
+        url: "https://gitlab.dev.intra.{{ web_base_domain }}{{ gitlab.context_root }}"
         subtitle: "Source code management and CI/CD"
         target: "_blank"
   - name: "Download"

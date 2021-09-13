@@ -4,7 +4,7 @@
 # To test gilab, either create a larger cluster, or shut some other services down.
 gitlab_enabled: false
 
-gitlab_context_path: /gitlab
-gitlab_external_url: "https://dev.{{ web_base_domain }}{{ gitlab_context_path }}"
+gitlab_context_root: ""
+gitlab_external_url: "https://gitlab.dev.intra.{{ web_base_domain }}{{ gitlab_context_root }}"
 
 gitlab_ldap_group: "cn=gitlab,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"

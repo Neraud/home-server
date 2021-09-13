@@ -25,10 +25,6 @@ lemonldap_location_rules:
   # Skip gitlab to enable https clone
   - domain: "gitlab.dev.intra.{{ web_base_domain }}"
     default_rule: skip
-    rules:
-      - name: 00-Gitlab
-        uri: ^/gitlab
-        rule: skip
 
   - domain: "*.dl.intra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'dl')

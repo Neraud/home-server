@@ -53,7 +53,7 @@ spec:
       replacement: 'gitlab-rails'
       sourceLabels: [__address__]
     port: gitlab
-    path: {{ gitlab.context_path }}/-/metrics
+    path: {{ gitlab.context_root }}/-/metrics
   - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
     relabelings:
     - action: replace
