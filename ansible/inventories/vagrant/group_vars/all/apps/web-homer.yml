@@ -222,6 +222,6 @@ homer_config_services:
         target: "_blank"
       - name: "Jellyfin"
         logo: "assets/download/jellyfin.svg"
-        url: "https://stream.{{ web_base_domain }}/jellyfin/"
+        url: "https://jellyfin.stream.intra.{{ web_base_domain }}{{ jellyfin.context_root }}"
         subtitle: "Media streaming"
         target: "_blank"

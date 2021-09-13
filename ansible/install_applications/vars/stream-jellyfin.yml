@@ -46,7 +46,7 @@ jellyfin:
     limits_memory: "{{ jellyfin_container_limits_memory | default('512Mi') }}"
     limits_gpu: "{{ jellyfin_container_limits_gpu | default({}) }}"
 
-  context_path: "{{ jellyfin_context_path | default('/jellyfin') }}"
+  context_root: "{{ jellyfin_context_root | default('') }}"
 
   plugins:
     anidb:

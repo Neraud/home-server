@@ -72,7 +72,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ jellyfin.context_path }}
+            path: {{ '/' if jellyfin.context_root == '' else jellyfin.context_root }}
             port: jellyfin
           initialDelaySeconds: 3
           periodSeconds: 5
