@@ -48,7 +48,7 @@ spec:
         - name: "DELUGE_CONF_WEB_HTTPS"
           value: "false"
         - name: "DELUGE_CONF_WEB_BASE"
-          value: "{{ deluge_web.context_root }}"
+          value: "{{ '/' if deluge_web.context_root == '' else deluge_web.context_root }}"
         - name: "DELUGE_WEB_PASSWORD"
           value: "{{ deluge_web.password }}"
         securityContext:
@@ -58,7 +58,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ deluge_web.context_root }}
+            path: {{ '/' if deluge_web.context_root == '' else deluge_web.context_root }}
             port: webui
           initialDelaySeconds: 3
           periodSeconds: 10

@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - dl.{{ web_base_domain }}
+      - deluge.dl.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: dl.{{ web_base_domain }}
+  - host: deluge.dl.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ deluge_web.context_root }}
+      - path: {{ '/' if deluge_web.context_root == '' else deluge_web.context_root }}
         pathType: Prefix
         backend:
           service:
