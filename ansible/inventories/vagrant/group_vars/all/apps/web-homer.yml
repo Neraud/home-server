@@ -204,7 +204,7 @@ homer_config_services:
         target: "_blank"
       - name: "PyLoad"
         logo: "assets/download/pyload.png"
-        url: "https://dl.{{ web_base_domain }}/pyload/"
+        url: "https://pyload.dl.intra.{{ web_base_domain }}{{ pyload.context_root }}"
         subtitle: "HTTP download manager"
         target: "_blank"
       - name: "SABnzbd"
