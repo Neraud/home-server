@@ -25,40 +25,42 @@ To test the deployed services, you will have to add the following domains to you
 
 ```ini
 192.168.100.100 k8s.test
+
 192.168.100.100 lemonldap.auth.k8s.test
 192.168.100.101 lemonldap.auth.intra.k8s.test
 192.168.100.101 phpldapadmin.auth.intra.k8s.test
+
 192.168.100.101 kube.infra.intra.k8s.test
 192.168.100.101 mailhog.infra.intra.k8s.test
 192.168.100.101 docker-registry-ui.infra.intra.k8s.test
 192.168.100.101 pihole.infra.intra.k8s.test
 192.168.100.101 unifi.infra.intra.k8s.test
+
 192.168.100.101 elasticsearch.log.intra.k8s.test
 192.168.100.101 kibana.log.intra.k8s.test
+
 192.168.100.101 prometheus.monitoring.intra.k8s.test
 192.168.100.101 alertmanager.monitoring.intra.k8s.test
 192.168.100.101 grafana.monitoring.intra.k8s.test
+
 192.168.100.100 homeassistant.home.k8s.test
 192.168.100.101 esphome.home.intra.k8s.test
 192.168.100.101 zwavejs2mqtt.home.intra.k8s.test
 192.168.100.101 nodered.home.intra.k8s.test
+
 192.168.100.100 homer.web.k8s.test
 192.168.100.100 ttrss.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
+
 192.168.100.101 airsonic.stream.intra.k8s.test
 192.168.100.101 jellyfin.stream.intra.k8s.test
+
 192.168.100.101 gitlab.dev.intra.k8s.test
+
 192.168.100.101 sickchill.dl.intra.k8s.test
 192.168.100.101 deluge.dl.intra.k8s.test
 192.168.100.101 pyload.dl.intra.k8s.test
 192.168.100.101 sabnzbd.dl.intra.k8s.test
-192.168.100.101 infra.k8s.test
-192.168.100.100 auth.k8s.test
-192.168.100.100 home.k8s.test
-192.168.100.100 web.k8s.test
-192.168.100.101 dev.k8s.test
-192.168.100.101 stream.k8s.test
-192.168.100.101 dl.k8s.test
 ```
 
 ## User
