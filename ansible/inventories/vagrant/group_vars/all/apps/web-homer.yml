@@ -209,7 +209,7 @@ homer_config_services:
         target: "_blank"
       - name: "SABnzbd"
         logo: "assets/download/sabnzbd.svg"
-        url: "https://dl.{{ web_base_domain }}/sabnzbd/"
+        url: "https://sabnzbd.dl.intra.{{ web_base_domain }}{{ sabnzbd.context_root }}"
         subtitle: "Binary newsreader"
         target: "_blank"
   - name: "Stream"

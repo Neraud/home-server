@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - dl.{{ web_base_domain }}
+      - sabnzbd.dl.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: dl.{{ web_base_domain }}
+  - host: sabnzbd.dl.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ sabnzbd.context_root }}
+      - path: {{ '/' if sabnzbd.context_root == '' else sabnzbd.context_root }}
         pathType: Prefix
         backend:
           service:

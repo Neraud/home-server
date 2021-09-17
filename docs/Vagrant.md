@@ -51,6 +51,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 sickchill.dl.intra.k8s.test
 192.168.100.101 deluge.dl.intra.k8s.test
 192.168.100.101 pyload.dl.intra.k8s.test
+192.168.100.101 sabnzbd.dl.intra.k8s.test
 192.168.100.101 infra.k8s.test
 192.168.100.100 auth.k8s.test
 192.168.100.100 home.k8s.test
@@ -121,7 +122,7 @@ The following services are deployed :
 | [Sickchill](https://sickchill.github.io/)                        | <https://sickchill.dl.intra.k8s.test>                | Automatic Video Library Manager for TV Shows.          |
 | [Deluge](https://deluge-torrent.org/)                            | <https://deluge.dl.intra.k8s.test>                   | Torrent client                                         |
 | [pyload](https://pyload.net/)                                    | <https://pyload.dl.intra.k8s.test>                   | HTTP download manager                                  |
-| [SABnzbd](https://sabnzbd.org/)                                  | <https://dl.k8s.test/sabnzbd/>                       | Binary newsreader                                      |
+| [SABnzbd](https://sabnzbd.org/)                                  | <https:/sabnzbd.dl.intra.k8s.test>                   | Binary newsreader                                      |
 
 Once the Vagrant environment is started, you can easily list all the service URLs on the [Homer dashboard](https://web.k8s.test/homer/).
 
