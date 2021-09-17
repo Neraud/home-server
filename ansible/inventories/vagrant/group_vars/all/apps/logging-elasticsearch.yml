@@ -29,7 +29,6 @@ elasticsearch_internal_users:
 elasticsearch_admin_user_user: admin
 elasticsearch_admin_user_password: password
 
-elasticsearch_context_path: /elasticsearch
 elasticsearch_ldap_group: "cn=elasticsearch,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
 elasticsearch_ldap_roles_dn: "{{ openldap.ldap.structure_groups_ou_dns['elasticsearch_roles'] }}"
 
