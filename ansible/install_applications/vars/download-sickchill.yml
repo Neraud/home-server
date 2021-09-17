@@ -30,7 +30,7 @@ sickchill:
       replicas: 1
     gluster_volumes:
     - sickchill-data
-  
+
   labels_def:
     app.kubernetes.io/name: sickchill
     app.kubernetes.io/component: sickchill
@@ -45,7 +45,7 @@ sickchill:
     limits_cpu: "{{ sickchill_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ sickchill_container_limits_memory | default('256Mi') }}"
 
-  context_root: "{{ sickchill_context_root | default('/') }}"
+  context_root: "{{ sickchill_context_root | default('') }}"
   api_key: "{{ sickchill_api_key | default('abcdefghijklmnopqrstuvwxyz123456') }}"
 
   web_username: "{{ sickchill_web_username | default('') }}"

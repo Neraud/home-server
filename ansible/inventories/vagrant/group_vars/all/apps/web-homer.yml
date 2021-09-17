@@ -194,7 +194,7 @@ homer_config_services:
     items:
       - name: "SickChill"
         logo: "assets/download/sickchill.png"
-        url: "https://dl.{{ web_base_domain }}/sickchill/"
+        url: "https://sickchill.dl.intra.{{ web_base_domain }}{{ sickchill.context_root }}"
         subtitle: "Automatic Video Library Manager for TV Shows"
         target: "_blank"
       - name: "Deluge"

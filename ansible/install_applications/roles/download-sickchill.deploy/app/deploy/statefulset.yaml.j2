@@ -56,7 +56,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ sickchill.context_root }}
+            path: {{ '/' if sickchill.context_root == '' else sickchill.context_root }}
             port: sickchill
           initialDelaySeconds: 3
           periodSeconds: 5

@@ -4,7 +4,7 @@
 [General]
     web_host = 0.0.0.0
     web_port = 8081
-    web_root = {{ sickchill.context_root }}
+    web_root = {{ '/' if sickchill.context_root == '' else sickchill.context_root }}
     # Do not encrypt password, TODO enable it, see https://github.com/SickChill/SickChill/blob/master/sickbeard/helpers.py#L969
     encryption_version = 0
     web_password = {{ sickchill.web_password }}

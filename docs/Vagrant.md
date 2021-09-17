@@ -48,6 +48,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 airsonic.stream.intra.k8s.test
 192.168.100.101 jellyfin.stream.intra.k8s.test
 192.168.100.101 gitlab.dev.intra.k8s.test
+192.168.100.101 sickchill.dl.intra.k8s.test
 192.168.100.101 infra.k8s.test
 192.168.100.100 auth.k8s.test
 192.168.100.100 home.k8s.test
@@ -115,7 +116,7 @@ The following services are deployed :
 | [Gitlab](https://about.gitlab.com/)                              | <https://gitlab.dev.intra.k8s.test>                  | Source code management and CI/CD                       |
 | [Jellyfin](https://jellyfin.org/)                                | <https://jellyfin.stream.intra.k8s.test>             | Video streaming                                        |
 | [Airsonic](https://airsonic.github.io/)                          | <https://airsonic.stream.intra>                      | Music streaming                                        |
-| [Sickchill](https://sickchill.github.io/)                        | <https://dl.k8s.test/sickchill/>                     | Automatic Video Library Manager for TV Shows.          |
+| [Sickchill](https://sickchill.github.io/)                        | <https://sickchill.dl.intra.k8s.test>                | Automatic Video Library Manager for TV Shows.          |
 | [Deluge](https://deluge-torrent.org/)                            | <https://dl.k8s.test/deluge/>                        | Torrent client                                         |
 | [pyload](https://pyload.net/)                                    | <https://dl.k8s.test/pyload/>                        | HTTP download manager                                  |
 | [SABnzbd](https://sabnzbd.org/)                                  | <https://dl.k8s.test/sabnzbd/>                       | Binary newsreader                                      |
