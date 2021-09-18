@@ -52,7 +52,7 @@ sabnzbd:
     limits_cpu: "{{ sabnzbd_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ sabnzbd_container_limits_memory | default('256Mi') }}"
 
-  context_root: "{{ sabnzbd_context_root | default('/') }}"
+  context_root: "{{ sabnzbd_context_root | default('') }}"
   user: "{{ sabnzbd_user | default('sabnzbd') }}"
   password: "{{ sabnzbd_password | default('clear_password') }}"
   api_key: "{{ sabnzbd_api_key | default('abcdefghijklmnopqrstuvwxyz123456') }}"

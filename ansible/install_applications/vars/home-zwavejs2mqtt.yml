@@ -38,6 +38,8 @@ zwavejs2mqtt:
     limits_cpu: "{{ zwavejs2mqtt_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ zwavejs2mqtt_container_limits_memory | default('128Mi') }}"
 
+  context_root: "{{ zwavejs2mqtt_context_root | default('') }}"
+
   serial_device: "{{ zwavejs2mqtt_serial_device | mandatory }}"
   zwave_network_key: "{{ zwavejs2mqtt_zwave_network_key | mandatory }}"
 

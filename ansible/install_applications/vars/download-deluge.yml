@@ -32,7 +32,7 @@ deluge:
 
   labels_def:
     app.kubernetes.io/name: deluge
-  
+
   labels_desc:
     app.kubernetes.io/version: "{{ _deluge_var_loader.version }}"
 
@@ -44,7 +44,7 @@ deluge:
 # To avoid loops inside deluge_base
 _deluge_base_var_loader:
   base_image: "{{ _deluge_var_loader.base_image }}"
-  image: 
+  image:
     repo: "{{ docker_private_registry.url }}"
     name: "deluge-base"
     tag: "{{ _deluge_var_loader.version }}-{{ _deluge_var_loader.base_image.name | regex_replace('.*/', '') }}-{{ _deluge_var_loader.base_image.tag }}"
@@ -90,7 +90,7 @@ deluge_web:
     limits_cpu: "{{ deluge_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ deluge_container_limits_memory | default('128Mi') }}"
 
-  context_root: "{{ deluge_web_context_root | default('/') }}"
+  context_root: "{{ deluge_web_context_root | default('') }}"
 
   password: "{{ deluge_web_password | default('clear_password') }}"
 

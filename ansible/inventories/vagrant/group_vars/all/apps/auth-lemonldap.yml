@@ -3,29 +3,37 @@
 lemonldap_ldap_group_base: "{{ openldap.ldap.structure_groups_ou_dns['sso_groups'] }}"
 
 lemonldap_location_rules:
-  - domain: "infra.{{ web_base_domain }}"
-    # To require TOTP, set the level to >= 4
-    #requiredAuthnLevel: 4
+  #- domain: "*.[something].{{ web_base_domain }}"
+  #  default_rule: groupMatch($hGroups, 'cn', 'group_name')
+  #  # To require TOTP, set the level to >= 4
+  #  #requiredAuthnLevel: 4
+
+  - domain: "*.infra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'infra')
-    rules:
-      # Disable Auth for ElasticSearch
-      - name: 00-ElasticSearch
-        uri: ^/elasticsearch/
-        rule: skip
-    exportedHeaders:
-      Auth-User: "$uid"
-  - domain: "unifi.{{ web_base_domain }}"
-    default_rule: groupMatch($hGroups, 'cn', 'unifi')
-    # To require TOTP, set the level to >= 4
-    #requiredAuthnLevel: 4
-  - domain: "web.{{ web_base_domain }}"
-    default_rule: groupMatch($hGroups, 'cn', 'web')
-    rules:
-      # Disable Auth for Gotify
-      - name: 00-Gotify
-        uri: ^/gotify/
-        rule: skip
-  - domain: "home.{{ web_base_domain }}"
+  - domain: "*.infra.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
+  - domain: "*.auth.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
+
+  - domain: "*.log.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
+  - domain: "*.monitoring.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'infra')
+
+  - domain: "*.dev.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'dev')
+  # Skip gitlab to enable https clone
+  - domain: "gitlab.dev.intra.{{ web_base_domain }}"
+    default_rule: skip
+
+  - domain: "*.dl.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'dl')
+
+  - domain: "*.home.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'home')
+  - domain: "*.home.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'home')
+  - domain: "homeassistant.home.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'home')
     rules:
       # Disable Auth for HomeAssistant API
@@ -36,19 +44,15 @@ lemonldap_location_rules:
       - name: 00-HomeAssistant_OAuth
         uri: ^/auth/token
         rule: skip
-  - domain: "stream.{{ web_base_domain }}"
+
+  - domain: "*.stream.intra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'stream')
-    rules:
-      # Skip jellyfin to enable streming in the LAN
-      - name: 00-Jellyfin
-        uri: ^/jellyfin
-        rule: skip
-  - domain: "dev.{{ web_base_domain }}"
-    default_rule: groupMatch($hGroups, 'cn', 'dev')
-    rules:
-      # Skip gitlab to enable https clone
-      - name: 00-Gitlab
-        uri: ^/gitlab
-        rule: skip
-  - domain: "dl.{{ web_base_domain }}"
-    default_rule: groupMatch($hGroups, 'cn', 'dl')
+  # Skip jellyfin to enable streming in the LAN
+  - domain: "jellyfin.stream.intra.{{ web_base_domain }}"
+    default_rule: skip
+
+  - domain: "*.web.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'web')
+  # Disable Auth for Gotify
+  - domain: "gotify.web.{{ web_base_domain }}"
+    default_rule: skip

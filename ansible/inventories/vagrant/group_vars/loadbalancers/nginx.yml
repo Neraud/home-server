@@ -51,9 +51,9 @@ nginx_sites:
     http_port: 81
     disable_robots: True
 
-  - name: auth
-    enabled_name: 010-auth
-    server_name: "auth.{{ web_base_domain }}"
+  - name: auth-public
+    enabled_name: 010-auth-public
+    server_name: "auth.{{ web_base_domain }} *.auth.{{ web_base_domain }}"
     default: False
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
@@ -73,17 +73,40 @@ nginx_sites:
           access_log /var/log/nginx/auth_lemonldap_auth_failed.log lemonldap-auth if=$upstream_http_lm_auth_failed;
           proxy_hide_header Lm-Auth-Failed;
 
-  - name: registry
-    enabled_name: 050-registry
-    server_name: "registry.{{ web_base_domain }}"
+  - name: auth-internal
+    enabled_name: 010-auth-internal
+    server_name: "auth.intra.{{ web_base_domain }} *.auth.intra.{{ web_base_domain }}"
     default: False
     listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
       mode: file
-      cert_path: "{{ custom_ssl_pki_root_dir }}/web/registry.{{ web_base_domain }}/server.crt"
-      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/registry.{{ web_base_domain }}/server.key"
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/auth.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/auth.intra.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
+  - name: registry-internal
+    enabled_name: 050-registry-internal
+    server_name: "registry.intra.{{ web_base_domain }}"
+    default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/intra.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
@@ -98,17 +121,17 @@ nginx_sites:
           chunked_transfer_encoding on;
           proxy_read_timeout 900;
 
-  - name: infra
-    enabled_name: 100-infra
-    server_name: "infra.{{ web_base_domain }}"
+  - name: infra-internal
+    enabled_name: 100-infra-internal
+    server_name: "infra.intra.{{ web_base_domain }} *.infra.intra.{{ web_base_domain }}"
     default: False
     listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
       mode: file
-      cert_path: "{{ custom_ssl_pki_root_dir }}/web/infra.{{ web_base_domain }}/server.crt"
-      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/infra.{{ web_base_domain }}/server.key"
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/infra.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/infra.intra.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
@@ -124,17 +147,17 @@ nginx_sites:
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
-  - name: infra-unifi
-    enabled_name: 110-infra-unifi
-    server_name: "unifi.{{ web_base_domain }}"
+  - name: logging-internal
+    enabled_name: 140-logging-internal
+    server_name: "log.intra.{{ web_base_domain }} *.log.intra.{{ web_base_domain }}"
     default: False
     listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
       mode: file
-      cert_path: "{{ custom_ssl_pki_root_dir }}/web/unifi.{{ web_base_domain }}/server.crt"
-      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/unifi.{{ web_base_domain }}/server.key"
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/log.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/log.intra.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     root: /var/www/html
     disable_robots: True
@@ -147,9 +170,32 @@ nginx_sites:
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
-  - name: web
-    enabled_name: 200-web
-    server_name: "web.{{ web_base_domain }}"
+  - name: monitoring-internal
+    enabled_name: 160-monitoring-internal
+    server_name: "monitoring.intra.{{ web_base_domain }} *.monitoring.intra.{{ web_base_domain }}"
+    default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/monitoring.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/monitoring.intra.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
+  - name: web-public
+    enabled_name: 200-web-public
+    server_name: "web.{{ web_base_domain }} *.web.{{ web_base_domain }}"
     default: False
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
@@ -170,9 +216,9 @@ nginx_sites:
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
-  - name: home
-    enabled_name: 300-home
-    server_name: "home.{{ web_base_domain }}"
+  - name: home-public
+    enabled_name: 300-home-public
+    server_name: "home.{{ web_base_domain }} *.home.{{ web_base_domain }}"
     default: False
     listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
     http_port: 80
@@ -193,16 +239,39 @@ nginx_sites:
         proxy_enable_websocket: True
         lemonLdap_protected: True
 
-  - name: stream
-    enabled_name: 400-stream
-    server_name: "stream.{{ web_base_domain }}"
+  - name: home-internal
+    enabled_name: 300-home-internal
+    server_name: "home.intra.{{ web_base_domain }} *.home.intra.{{ web_base_domain }}"
+    default: False
     listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
       mode: file
-      cert_path: "{{ custom_ssl_pki_root_dir }}/web/stream.{{ web_base_domain }}/server.crt"
-      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/stream.{{ web_base_domain }}/server.key"
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/home.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/home.intra.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        lemonLdap_protected: True
+
+  - name: stream-internal
+    enabled_name: 400-stream-internal
+    server_name: "stream.intra.{{ web_base_domain }} *.stream.intra.{{ web_base_domain }}"
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/stream.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/stream.intra.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     disable_robots: True
     lemonLdap:
@@ -214,16 +283,16 @@ nginx_sites:
         proxy_enable_websocket: True
         lemonLdap_protected: True
 
-  - name: dev
-    enabled_name: 500-dev
-    server_name: "dev.{{ web_base_domain }}"
+  - name: dev-internal
+    enabled_name: 500-dev-internal
+    server_name: "dev.intra.{{ web_base_domain }} *.dev.intra.{{ web_base_domain }}"
     listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
       mode: file
-      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dev.{{ web_base_domain }}/server.crt"
-      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dev.{{ web_base_domain }}/server.key"
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dev.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dev.intra.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     disable_robots: True
     lemonLdap:
@@ -237,16 +306,16 @@ nginx_sites:
         content: |
           client_max_body_size 250m;
 
-  - name: download
-    enabled_name: 600-download
-    server_name: "dl.{{ web_base_domain }}"
+  - name: download-internal
+    enabled_name: 600-download-internal
+    server_name: "dl.intra.{{ web_base_domain }} *.dl.intra.{{ web_base_domain }}"
     listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
     http_port: 80
     https_port: 443
     https_cert:
       mode: file
-      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dl.{{ web_base_domain }}/server.crt"
-      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dl.{{ web_base_domain }}/server.key"
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/dl.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/dl.intra.{{ web_base_domain }}/server.key"
     force_http_to_https: True
     disable_robots: True
     lemonLdap:
@@ -280,11 +349,6 @@ nginx_ufw_applications:
     title: Nginx Web Server Status
     description: Small, but very powerful and efficient web server
     ports: 81/tcp
-    rule: allow
-  - name: openldap
-    title: OpenLDAP
-    description: OpenLDAP is a free, open-source implementation of the Lightweight Directory Access Protocol developed by the OpenLDAP Project
-    ports: 636/tcp
     rule: allow
   - name: mosquitto
     title: Mosquitto

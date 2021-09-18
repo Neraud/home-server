@@ -3,7 +3,7 @@
 # To avoid loops inside gitlab
 _gitlab_var_loader:
   namespace: "dev-gitlab"
-  context_path: "{{ gitlab_context_path | default('/gitlab') }}"
+  context_root: "{{ gitlab_context_root | default('') }}"
 
   base_image:
     name: "gitlab/gitlab-ce"
@@ -41,8 +41,8 @@ gitlab:
     limits_cpu: "{{ gitlab_container_limits_cpu | default('2000m') }}"
     limits_memory: "{{ gitlab_container_limits_memory | default('3072Mi') }}"
 
-  context_path: "{{ _gitlab_var_loader.context_path }}"
-  external_url: "{{ gitlab_external_url | default('https://gitlab.domain' + _gitlab_var_loader.context_path) }}"
+  context_root: "{{ _gitlab_var_loader.context_root }}"
+  external_url: "{{ gitlab_external_url | default('https://gitlab.domain' + _gitlab_var_loader.context_root) }}"
   time_zone: "{{ gitlab_time_zone | default(time_zone) }}"
   backup_keep_time: "{{ gitlab_backup_keep_time | default('604800') }}"
 

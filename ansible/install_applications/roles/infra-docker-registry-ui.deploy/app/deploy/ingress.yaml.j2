@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - infra.{{ web_base_domain }}
+      - docker-registry-ui.infra.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: infra.{{ web_base_domain }}
+  - host: docker-registry-ui.infra.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ docker_registry_ui.context_root }}
+      - path: {{ '/' if docker_registry_ui.context_root == '' else docker_registry_ui.context_root }}
         pathType: Prefix
         backend:
           service:

@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - dl.{{ web_base_domain }}
+      - sickchill.dl.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: dl.{{ web_base_domain }}
+  - host: sickchill.dl.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ sickchill.context_root }}
+      - path: {{ '/' if sickchill.context_root == '' else sickchill.context_root }}
         pathType: Prefix
         backend:
           service:

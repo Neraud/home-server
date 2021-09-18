@@ -72,7 +72,7 @@ spec:
         - name: AIRSONIC_PORT
           value: "4040"
         - name: CONTEXT_PATH
-          value: "{{ airsonic.context_path | default ('/') }}"
+          value: "{{ '/' if airsonic.context_root == '' else airsonic.context_root }}"
 {% if airsonic.extra_java_opts | default([]) | length > 0 %}
         - name: JAVA_OPTS
           value: "{{ airsonic.extra_java_opts | join(' ') }}"
@@ -84,7 +84,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ airsonic.context_path }}/rest/ping
+            path: {{ airsonic.context_root }}/rest/ping
             port: airsonic
           initialDelaySeconds: 3
           periodSeconds: 5

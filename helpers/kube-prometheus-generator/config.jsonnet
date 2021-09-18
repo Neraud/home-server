@@ -76,7 +76,7 @@ local kp =
               'capability/general-purpose': 'yes',
             },
             // An e.g. of the purpose of this is so the "Source" links on http://<alert-manager>/#/alerts are valid.
-            externalUrl: 'https://infra.{{ web_base_domain }}/prometheus/',
+            externalUrl: 'https://prometheus.monitoring.intra.{{ web_base_domain }}/{{ prometheus.context_root }}',
         },
       },
     },
@@ -88,7 +88,7 @@ local kp =
           nodeSelector+: {
             'capability/general-purpose': 'yes',
           },
-          externalUrl: 'https://infra.{{ web_base_domain }}/alertmanager/',
+          externalUrl: 'https://alertmanager.monitoring.intra.{{ web_base_domain }}/{{ alertmanager.context_root }}',
           secrets: [ 'cluster-ca' ],
         },
       },

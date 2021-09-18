@@ -9,7 +9,7 @@
   <IsPortAuthorized>true</IsPortAuthorized>
   <AutoRunWebApp>true</AutoRunWebApp>
   <EnableRemoteAccess>true</EnableRemoteAccess>
-  <BaseUrl>{{ jellyfin.context_path }}</BaseUrl>
+  <BaseUrl>{{ '/' if jellyfin.context_root == '' else jellyfin.context_root }}</BaseUrl>
   <RequireHttps>false</RequireHttps>
   <IsBehindProxy>true</IsBehindProxy>
 </ServerConfiguration>

@@ -25,7 +25,8 @@ spec:
         imagePullPolicy: Always
         env:
           - name: MH_UI_WEB_PATH
-            value: mailhog
+            # Context root without leading or trainling /
+            value: "{{ ('/' if mailhog.context_root == '' else mailhog.context_root) | regex_replace('^/|/$', '') }}"
 {% if mailhog.forward_smtp.enabled | bool %}
           - name: MH_OUTGOING_SMTP
             value: /etc/mailhog/smtp.json

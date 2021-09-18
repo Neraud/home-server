@@ -47,7 +47,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ sabnzbd.context_root }}
+            path: {{ '/' if sabnzbd.context_root == '' else sabnzbd.context_root }}
             port: http
           initialDelaySeconds: 3
           periodSeconds: 5

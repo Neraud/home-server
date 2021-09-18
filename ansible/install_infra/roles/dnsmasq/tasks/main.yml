@@ -36,6 +36,15 @@
       {% endfor %}
   notify: Restart dnsmasq
 
+- name: Fill dnsmasq local domains
+  copy:
+    dest: /etc/dnsmasq.d/local_domains.conf
+    content: |
+      {% for dns_local_domain in dns_local_domains %}
+      address=/{{ dns_local_domain.name }}/{{ dns_local_domain.ip }}
+      {% endfor %}
+  notify: Restart dnsmasq
+
 - name: Set dnsmasq upstreams
   copy:
     dest: /etc/dnsmasq_upstreams

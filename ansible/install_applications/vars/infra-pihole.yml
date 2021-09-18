@@ -38,7 +38,7 @@ pihole:
     limits_cpu: "{{ pihole_container_limits_cpu | default('250m') }}" # Web UI requires more CPU, but is rarely used
     limits_memory: "{{ pihole_container_limits_memory | default('192Mi') }}"
 
-  context_root: '/pihole'
+  context_root: "{{ pihole_context_root | default('') }}"
   web_password: "{{ pihole_web_password | default('clear_password') }}"
   dns_1:  "{{ pihole_dns_1 | default('1.1.1.1') }}"
   dns_2:  "{{ pihole_dns_2 | default('1.0.0.1') }}"

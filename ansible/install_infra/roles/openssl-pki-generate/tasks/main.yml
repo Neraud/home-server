@@ -145,9 +145,12 @@
     path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
     privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
     common_name: "{{ item.1.common_name }}"
+    subject_alt_name: "{{ complete_san_domains | map('regex_replace', '^', 'DNS:') | list }}"
   with_subelements:
     - "{{ openssl_custom_pki }}"
     - certs
+  vars:
+    complete_san_domains: "{{ [ item.1.common_name ] + (item.1.san | default([])) }}"
   loop_control:
     label: "{{ item.0.pki_name }} : {{ item.1.name }}"
 

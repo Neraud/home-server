@@ -50,8 +50,10 @@ spec:
           value: "{{ web_base_domain }}"
         - name: FASTCGI_LISTEN_PORT
           value: "{{ lemonldap.fastcgi_port }}"
+        - name: PORTAL_HOSTNAME
+          value: "lemonldap.auth.{{ web_base_domain }}"
         - name: MANAGER_HOSTNAME
-          value: "infra.{{ web_base_domain }}"
+          value: "lemonldap.auth.intra.{{ web_base_domain }}"
         - name: LOGLEVEL
           value: "info"
         securityContext:

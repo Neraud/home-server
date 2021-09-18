@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - dl.{{ web_base_domain }}
+      - pyload.dl.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: dl.{{ web_base_domain }}
+  - host: pyload.dl.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ pyload.context_root }}
+      - path: {{ '/' if pyload.context_root == '' else pyload.context_root }}
         pathType: Prefix
         backend:
           service:

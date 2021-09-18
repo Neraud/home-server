@@ -7,19 +7,21 @@ metadata:
     {{ pihole.labels_def | to_nice_yaml() | indent(4) }}
     {{ pihole.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
+{% if pihole.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^(/pihole/admin)$ $1/ permanent;
+      rewrite ^({{ pihole.context_root }}/admin)$ $1/ permanent;
+{% endif %}
 spec:
   tls:
     - hosts:
-      - infra.{{ web_base_domain }}
+      - pihole.infra.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: infra.{{ web_base_domain }}
+  - host: pihole.infra.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ pihole.context_root }}/?(.*)
+      - path: {{ '/' if pihole.context_root == '' else pihole.context_root + '/?(.*)' }}
         pathType: Prefix
         backend:
           service:

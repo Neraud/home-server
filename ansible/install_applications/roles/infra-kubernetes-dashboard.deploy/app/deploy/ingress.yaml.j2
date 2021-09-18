@@ -8,19 +8,21 @@ metadata:
     {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+{% if kubernetes_dashboard.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^(/kube)$ $1/ permanent;
+      rewrite ^({{ kubernetes_dashboard.context_root }})$ $1/ permanent;
+{% endif %}
 spec:
   tls:
     - hosts:
-      - infra.{{ web_base_domain }}
+      - kube.infra.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: infra.{{ web_base_domain }}
+  - host: kube.infra.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: /kube/?(.*)
+      - path: {{ '/' if kubernetes_dashboard.context_root == '' else kubernetes_dashboard.context_root + '/?(.*)' }}
         pathType: Prefix
         backend:
           service:

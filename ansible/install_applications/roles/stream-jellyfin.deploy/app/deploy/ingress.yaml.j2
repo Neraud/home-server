@@ -9,13 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - stream.{{ web_base_domain }}
+      - jellyfin.stream.intra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: stream.{{ web_base_domain }}
+  - host: jellyfin.stream.intra.{{ web_base_domain }}
     http:
       paths:
-      - path: {{ jellyfin.context_path }}
+      - path: {{ '/' if jellyfin.context_root == '' else jellyfin.context_root }}
         pathType: Prefix
         backend:
           service:

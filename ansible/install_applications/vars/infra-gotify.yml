@@ -39,6 +39,7 @@ gotify:
     limits_cpu: "{{ gotify_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ gotify_container_limits_memory | default('64Mi') }}"
 
+  context_root: "{{ gotify_context_root | default('') }}"
   default_admin_user: "{{ gotify_default_admin_user | default('admin') }}"
   default_admin_password: "{{ gotify_default_admin_password | default('clear_password') }}"
   users: "{{ gotify_users | default([]) }}"

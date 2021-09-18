@@ -25,14 +25,42 @@ To test the deployed services, you will have to add the following domains to you
 
 ```ini
 192.168.100.100 k8s.test
-192.168.100.101 infra.k8s.test
-192.168.100.100 auth.k8s.test
-192.168.100.101 unifi.k8s.test
-192.168.100.100 home.k8s.test
-192.168.100.100 web.k8s.test
-192.168.100.101 dev.k8s.test
-192.168.100.101 stream.k8s.test
-192.168.100.101 dl.k8s.test
+
+192.168.100.100 lemonldap.auth.k8s.test
+192.168.100.101 lemonldap.auth.intra.k8s.test
+192.168.100.101 phpldapadmin.auth.intra.k8s.test
+
+192.168.100.101 kube.infra.intra.k8s.test
+192.168.100.101 mailhog.infra.intra.k8s.test
+192.168.100.101 docker-registry-ui.infra.intra.k8s.test
+192.168.100.101 pihole.infra.intra.k8s.test
+192.168.100.101 unifi.infra.intra.k8s.test
+
+192.168.100.101 elasticsearch.log.intra.k8s.test
+192.168.100.101 kibana.log.intra.k8s.test
+
+192.168.100.101 prometheus.monitoring.intra.k8s.test
+192.168.100.101 alertmanager.monitoring.intra.k8s.test
+192.168.100.101 grafana.monitoring.intra.k8s.test
+
+192.168.100.100 homeassistant.home.k8s.test
+192.168.100.101 esphome.home.intra.k8s.test
+192.168.100.101 zwavejs2mqtt.home.intra.k8s.test
+192.168.100.101 nodered.home.intra.k8s.test
+
+192.168.100.100 homer.web.k8s.test
+192.168.100.100 ttrss.web.k8s.test
+192.168.100.100 gotify.web.k8s.test
+
+192.168.100.101 airsonic.stream.intra.k8s.test
+192.168.100.101 jellyfin.stream.intra.k8s.test
+
+192.168.100.101 gitlab.dev.intra.k8s.test
+
+192.168.100.101 sickchill.dl.intra.k8s.test
+192.168.100.101 deluge.dl.intra.k8s.test
+192.168.100.101 pyload.dl.intra.k8s.test
+192.168.100.101 sabnzbd.dl.intra.k8s.test
 ```
 
 ## User
@@ -62,41 +90,41 @@ For more information, take a look at the [authentication and authorization page]
 
 The following services are deployed :
 
-| Service                                                          | Test URL                                        | Description                                            |
-| ---------------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------ |
-| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://infra.k8s.test/kube>                   | Kubernetes dashboard                                   |
-| [Docker Registry](https://docs.docker.com/registry/deploying/)   | -                                               | Docker Registry                                        |
-| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://infra.k8s.test/docker-registry-ui/>    | Web UI for Docker Registry                             |
-| [OpenLDAP](https://www.openldap.org/)                            | -                                               | Open source Lightweight Directory Access Protocol      |
-| [LemonDAP](https://lemonldap-ng.org/welcome/)                    | <https://infra.k8s.test/lemonldap/manager.html> | Web Single Sign On and Access Management Free Software |
-| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://infra.k8s.test/phpldapadmin/>          | Web-based LDAP browser                                 |
-| [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                               | Modern outbound SMTP relay                             |
-| [MailHog](https://github.com/mailhog/MailHog)                    | <https://infra.k8s.test/mailhog/>               | MailHog is an email testing tool for developers        |
-| [PiHole](https://pi-hole.net/)                                   | <https://infra.k8s.test/pihole/admin/>          | A black hole for Internet advertisements               |
-| [Gotify](https://gotify.net/)                                    | <https://web.k8s.test/gotify/>                  | A simple server for sending and receiving messages     |
-| [Prometheus](https://prometheus.io/)                             | <https://infra.k8s.test/prometheus/>            | Monitoring solution                                    |
-| [AlertManager](https://github.com/prometheus/alertmanager)       | <https://infra.k8s.test/alertmanager/>          | Alert manager for Prometheus                           |
-| [Grafana](https://grafana.com/)                                  | <https://infra.k8s.test/grafana/>               | Platform for beautiful analytics and monitoring        |
-| [Fluent Bit](https://fluentbit.io/)                              | -                                               | Lightweight log Processor and Forwarder                |
-| [FluentD](https://www.fluentd.org/)                              | -                                               | Log Processor and Forwarder                            |
-| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | <https://infra.k8s.test/elastic>                | Distributed, RESTful search and analytics engine       |
-| [Kibana](https://www.elastic.co/products/kibana)                 | <https://infra.k8s.test/kibana/>                | Visualize your Elasticsearch data                      |
-| [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | <https://unifi.k8s.test/>                       | Controller for Unifi devices                           |
-| [HomeAssistant](https://www.home-assistant.io/)                  | <https://home.k8s.test/>                        | Home automation                                        |
-| [ESPHome](https://esphome.io/index.html)                         | <https://home.k8s.test/esphome/>                | System to control your ESP8266/ESP32                   |
-| [Zwavejs2Mqtt](https://zwave-js.github.io/zwavejs2mqtt/)         | <https://home.k8s.test/zwave/>                  | Fully configurable Zwave Gateway and Control Panel     |
-| [Node-RED](https://nodered.org/)                                 | <https://home.k8s.test/node-red/>               | Flow-based programming for the IoT                     |
-| [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                         | MQTT broker                                            |
-| [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                               | Presence tracking                                      |
-| [TT-RSS](https://tt-rss.org/)                                    | <https://web.k8s.test/tt-rss/>                  | News feed (RSS/Atom) reader and aggregator             |
-| [Homer](https://github.com/bastienwirtz/homer)                   | <https://web.k8s.test/homer/>                   | A very simple static homepage for your server          |
-| [Gitlab](https://about.gitlab.com/)                              | <https://dev.k8s.test/gitlab/>                  | Source code management and CI/CD                       |
-| [Jellyfin](https://jellyfin.org/)                                | <https://stream.k8s.test/jellyfin/>             | Video streaming                                        |
-| [Airsonic](https://airsonic.github.io/)                          | <https://stream.k8s.test/airsonic/>             | Music streaming                                        |
-| [Sickchill](https://sickchill.github.io/)                        | <https://dl.k8s.test/sickchill/>                | Automatic Video Library Manager for TV Shows.          |
-| [Deluge](https://deluge-torrent.org/)                            | <https://dl.k8s.test/deluge/>                   | Torrent client                                         |
-| [pyload](https://pyload.net/)                                    | <https://dl.k8s.test/pyload/>                   | HTTP download manager                                  |
-| [SABnzbd](https://sabnzbd.org/)                                  | <https://dl.k8s.test/sabnzbd/>                  | Binary newsreader                                      |
+| Service                                                          | Test URL                                             | Description                                            |
+| ---------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
+| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://kube.infra.intra.k8s.test/>                 | Kubernetes dashboard                                   |
+| [Docker Registry](https://docs.docker.com/registry/deploying/)   | -                                                    | Docker Registry                                        |
+| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://docker-registry-ui.infra.intra.k8s.test>    | Web UI for Docker Registry                             |
+| [OpenLDAP](https://www.openldap.org/)                            | -                                                    | Open source Lightweight Directory Access Protocol      |
+| [LemonDAP](https://lemonldap-ng.org/welcome/)                    | <https://lemonldap.auth.intra.k8s.test/manager.html> | Web Single Sign On and Access Management Free Software |
+| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://phpldapadmin.auth.intra.k8s.test/>          | Web-based LDAP browser                                 |
+| [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                    | Modern outbound SMTP relay                             |
+| [MailHog](https://github.com/mailhog/MailHog)                    | <https://mailhog.infra.intra.k8s.test/>              | MailHog is an email testing tool for developers        |
+| [PiHole](https://pi-hole.net/)                                   | <https://pihole.infra.intra.k8s.test/admin/>         | A black hole for Internet advertisements               |
+| [Gotify](https://gotify.net/)                                    | <https://gotify.web.k8s.test>                        | A simple server for sending and receiving messages     |
+| [Prometheus](https://prometheus.io/)                             | <https://prometheus.monitoring.intra.k8s.test>       | Monitoring solution                                    |
+| [AlertManager](https://github.com/prometheus/alertmanager)       | <https://alertmanager.monitoring.intra.k8s.test>     | Alert manager for Prometheus                           |
+| [Grafana](https://grafana.com/)                                  | <https://grafana.monitoring.intra.k8s.test>          | Platform for beautiful analytics and monitoring        |
+| [Fluent Bit](https://fluentbit.io/)                              | -                                                    | Lightweight log Processor and Forwarder                |
+| [FluentD](https://www.fluentd.org/)                              | -                                                    | Log Processor and Forwarder                            |
+| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | <https://elasticsearch.log.intra.k8s.test>           | Distributed, RESTful search and analytics engine       |
+| [Kibana](https://www.elastic.co/products/kibana)                 | <https://kibana.log.intra.k8s.test>                  | Visualize your Elasticsearch data                      |
+| [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | <https://unifi.infra.intra>                          | Controller for Unifi devices                           |
+| [HomeAssistant](https://www.home-assistant.io/)                  | <https://homeassistant.home.k8s.test>                | Home automation                                        |
+| [ESPHome](https://esphome.io/index.html)                         | <https://esphome.home.intra>                         | System to control your ESP8266/ESP32                   |
+| [Zwavejs2Mqtt](https://zwave-js.github.io/zwavejs2mqtt/)         | <https://zwavejs2mqtt.home.intra.k8s.test>           | Fully configurable Zwave Gateway and Control Panel     |
+| [Node-RED](https://nodered.org/)                                 | <https://nodered.home.intra.k8s.test>                | Flow-based programming for the IoT                     |
+| [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                              | MQTT broker                                            |
+| [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                    | Presence tracking                                      |
+| [TT-RSS](https://tt-rss.org/)                                    | <https://ttrss.web.k8s.test>                         | News feed (RSS/Atom) reader and aggregator             |
+| [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.web.k8s.test>                         | A very simple static homepage for your server          |
+| [Gitlab](https://about.gitlab.com/)                              | <https://gitlab.dev.intra.k8s.test>                  | Source code management and CI/CD                       |
+| [Jellyfin](https://jellyfin.org/)                                | <https://jellyfin.stream.intra.k8s.test>             | Video streaming                                        |
+| [Airsonic](https://airsonic.github.io/)                          | <https://airsonic.stream.intra>                      | Music streaming                                        |
+| [Sickchill](https://sickchill.github.io/)                        | <https://sickchill.dl.intra.k8s.test>                | Automatic Video Library Manager for TV Shows.          |
+| [Deluge](https://deluge-torrent.org/)                            | <https://deluge.dl.intra.k8s.test>                   | Torrent client                                         |
+| [pyload](https://pyload.net/)                                    | <https://pyload.dl.intra.k8s.test>                   | HTTP download manager                                  |
+| [SABnzbd](https://sabnzbd.org/)                                  | <https:/sabnzbd.dl.intra.k8s.test>                   | Binary newsreader                                      |
 
 Once the Vagrant environment is started, you can easily list all the service URLs on the [Homer dashboard](https://web.k8s.test/homer/).
 
@@ -276,11 +304,8 @@ Gotify can be used to send notifications.
 `user` also has a `sample` application, and you can send a test message via the command line :
 
 ```shell
-[root@master$] apt-get -q -y install jq
-
-[user@master$] token=$(curl -s -k -H "Host: web.k8s.test" -u user:Passw0rd https://127.0.0.1:30443/gotify/application | jq -r '.[] | select(.name=="sample") | .token')
-
-[user@master$] curl -X POST -s -k -H "Host: web.k8s.test" -H "X-Gotify-Key: $token" https://127.0.0.1:30443/gotify/message -F "title=Sample title" -F "message=Sample message"
+[user@master$] token=$(curl -s -k -H "Host: gotify.web.k8s.test" -u user:Passw0rd https://192.168.100.100/application | jq -r '.[] | select(.name=="sample") | .token')
+[user@master$] curl -X POST -s -k -H "Host: gotify.web.k8s.test" -H "X-Gotify-Key: $token" https://192.168.100.100/message -F "title=Sample title" -F "message=Sample message"
 ```
 
 ### Prometheus & AlertManager
@@ -308,7 +333,7 @@ Fluent Bit is deployed on all nodes to capture logs and forward them to ElasticS
 
 The [OpenDistro](https://opendistro.github.io/for-elasticsearch/) variant of ElasticSearch is deployed.
 
-You can test the 'E' part of the EFK stack by calling : <https://infra.k8s.test/elasticsearch/_cluster/state?pretty>
+You can test the 'E' part of the EFK stack by calling : <https://elasticsearch.log.intra.k8s.test/_cluster/state?pretty>
 
 You can use the exporter's user to test : `exporter` / `password`
 

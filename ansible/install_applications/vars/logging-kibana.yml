@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside kibana
 _kibana_var_loader:
   base_image:
@@ -11,7 +10,7 @@ kibana:
 
   namespace: "logging-kibana"
   base_image: "{{ _kibana_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: kibana
     app.kubernetes.io/component: kibana
@@ -27,8 +26,8 @@ kibana:
     limits_memory: "{{ kibana_container_limits_memory | default('256Mi') }}"
   nodejs_max_memory: "{{ kibana_nodejs_max_memory | default('192') }}"
 
-  context_path: "{{ kibana_context_path | default('/kibana') }}"
-  
+  context_root: "{{ kibana_context_root | default('') }}"
+
   elasticsearch:
     user: "{{ kibana_elasticsearch_user | default('kibana') }}"
     password: "{{ kibana_elasticsearch_password | default('password') }}"

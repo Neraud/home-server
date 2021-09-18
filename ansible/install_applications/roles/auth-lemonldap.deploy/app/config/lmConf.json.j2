@@ -5,7 +5,7 @@
    "cfgLog": "{{ ansible_managed }}",
 
 {# generalParameters > portalParams #}
-   "portal" : "https://auth.{{ web_base_domain }}/",
+   "portal" : "https://lemonldap.auth.{{ web_base_domain }}/",
 
 {# generalParameters > portalParams > portalMenu #}
    "applicationList" : {
@@ -17,7 +17,7 @@
                "display" : "auto",
                "logo" : "configure.png",
                "name" : "WebSSO Manager",
-               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/manager.html"
+               "uri" : "https://lemonldap.auth.intra.{{ web_base_domain }}/manager.html"
             },
             "type" : "application"
          },
@@ -27,7 +27,7 @@
                "display" : "auto",
                "logo" : "database.png",
                "name" : "Notifications explorer",
-               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/notifications.html"
+               "uri" : "https://lemonldap.auth.intra.{{ web_base_domain }}/notifications.html"
             },
             "type" : "application"
          },
@@ -37,7 +37,7 @@
                "display" : "auto",
                "logo" : "database.png",
                "name" : "Sessions explorer",
-               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/sessions.html"
+               "uri" : "https://lemonldap.auth.intra.{{ web_base_domain }}/sessions.html"
             },
             "type" : "application"
          },
@@ -51,7 +51,7 @@
                "display" : "on",
                "logo" : "help.png",
                "name" : "Local documentation",
-               "uri" : "https://infra.{{ web_base_domain }}/lemonldap/manager/doc/"
+               "uri" : "https://lemonldap.auth.intra.{{ web_base_domain }}/manager/doc/"
             },
             "type" : "application"
          },
@@ -194,7 +194,7 @@
    },
 {# generalParameters > reloadParams #}
    "reloadUrls" : {
-      "localhost" : "https://infra.{{ web_base_domain }}/reload"
+      "localhost" : "https://lemonldap.auth.intra.{{ web_base_domain }}/reload"
    },
    "reloadTimeout": 5,
 
@@ -230,11 +230,11 @@
    "mailConfirmSubject": "",
    "mailConfirmBody": "",
 {# generalParameters > plugins > passwordManagement > mailOther #}
-   "mailUrl" : "https://auth.{{ web_base_domain }}/resetpwd",
+   "mailUrl" : "https://lemonldap.auth.{{ web_base_domain }}/resetpwd",
    "mailTimeout": 0,
    "randomPasswordRegexp": "[A-Z]{3}[a-z]{5}.\\d{2}",
 {# generalParameters > plugins > register #}
-   "registerUrl" : "https://auth.{{ web_base_domain }}/register",
+   "registerUrl" : "https://lemonldap.auth.{{ web_base_domain }}/register",
    "registerTimeout": 0,
    "registerConfirmSubject": "",
    "registerDoneSubject": "",

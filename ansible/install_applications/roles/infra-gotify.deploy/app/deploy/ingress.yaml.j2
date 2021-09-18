@@ -7,19 +7,21 @@ metadata:
     {{ gotify.labels_def | to_nice_yaml() | indent(4) }}
     {{ gotify.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
+{% if gotify.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^(/gotify)$ $1/ permanent;
+      rewrite ^({{ gotify.context_root }})$ $1/ permanent;
+{% endif %}
 spec:
   tls:
     - hosts:
-      - web.{{ web_base_domain }}
+      - gotify.web.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: web.{{ web_base_domain }}
+  - host: gotify.web.{{ web_base_domain }}
     http:
       paths:
-      - path: /gotify/?(.*)
+      - path: {{ '/' if gotify.context_root == '' else gotify.context_root + '/?(.*)' }}
         pathType: Prefix
         backend:
           service:
