@@ -5,7 +5,7 @@ _homer_var_loader:
   base_image:
     name: "nginx"
     tag: "1.21.1-alpine"
-  release: v21.07.1
+  release: v21.09.2
   context_root: "{{ homer_context_root | default('') }}"
 
 homer:
