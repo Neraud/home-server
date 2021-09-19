@@ -18,12 +18,14 @@ spec:
       port: {{ kubernetes_nginx_ingress_http_port }}
       protocol: TCP
       targetPort: http
+      appProtocol: http
 {% endif %}
 {% if kubernetes_nginx_ingress_https_port | default(false) %}
     - name: https
       port: {{ kubernetes_nginx_ingress_https_port }}
       protocol: TCP
       targetPort: https
+      appProtocol: http
 {% endif %}
 {% if kubernetes_nginx_ingress_openldap_port | default(false) %}
     - name: ldaps

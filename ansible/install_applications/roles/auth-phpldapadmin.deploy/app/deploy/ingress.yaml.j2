@@ -11,6 +11,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 {% endif %}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - phpldapadmin.auth.intra.{{ web_base_domain }}

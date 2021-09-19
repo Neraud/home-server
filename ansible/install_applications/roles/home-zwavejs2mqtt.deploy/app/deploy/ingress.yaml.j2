@@ -13,6 +13,7 @@ metadata:
       proxy_set_header X-External-Path /zwave;
 {% endif %}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - zwavejs2mqtt.home.intra.{{ web_base_domain }}

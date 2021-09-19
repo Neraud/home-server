@@ -9,6 +9,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - unifi.infra.intra.{{ web_base_domain }}

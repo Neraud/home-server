@@ -9,6 +9,7 @@ metadata:
   annotations:
     #nginx.ingress.kubernetes.io/upstream-vhost: lemonldap.auth.intra.{{ web_base_domain }}
 spec:
+  ingressClassName: nginx
   rules:
   - host: lemonldap.auth.intra.{{ web_base_domain }}
     http:
