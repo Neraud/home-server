@@ -5,7 +5,7 @@ _kube_state_metrics_var_loader:
   base_image:
     repo: k8s.gcr.io
     name: "kube-state-metrics/kube-state-metrics"
-    tag: "v2.1.0"
+    tag: "v2.2.0"
 
 kube_state_metrics:
   enabled: "{{ kube_state_metrics_enabled | default(True) }}"
@@ -32,7 +32,7 @@ _kube_state_metrics_rbac_proxy_var_loader:
   base_image:
     repo: quay.io
     name: "brancz/kube-rbac-proxy"
-    tag: "v0.10.0"
+    tag: "v0.11.0"
 
 kube_state_metrics_rbac_proxy:
   base_image: "{{ _kube_state_metrics_rbac_proxy_var_loader.base_image }}"

@@ -441,6 +441,28 @@ spec:
                         apiVersion:
                           description: Version of the Alertmanager API that Prometheus uses to send alerts. It can be "v1" or "v2".
                           type: string
+                        authorization:
+                          description: Authorization section for this alertmanager endpoint
+                          properties:
+                            credentials:
+                              description: The secret's key that contains the credentials of the request
+                              properties:
+                                key:
+                                  description: The key of the secret to select from.  Must be a valid secret key.
+                                  type: string
+                                name:
+                                  description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?'
+                                  type: string
+                                optional:
+                                  description: Specify whether the Secret or its key must be defined
+                                  type: boolean
+                              required:
+                              - key
+                              type: object
+                            type:
+                              description: Set the authentication type. Defaults to Bearer, Basic will cause an error
+                              type: string
+                          type: object
                         bearerTokenFile:
                           description: BearerTokenFile to read from filesystem to use when authenticating to Alertmanager.
                           type: string
@@ -582,6 +604,31 @@ spec:
               apiserverConfig:
                 description: APIServerConfig allows specifying a host and auth methods to access apiserver. If left empty, Prometheus is assumed to run inside of the cluster and will discover API servers automatically and use the pod's CA certificate and bearer token file at /var/run/secrets/kubernetes.io/serviceaccount/.
                 properties:
+                  authorization:
+                    description: Authorization section for accessing apiserver
+                    properties:
+                      credentials:
+                        description: The secret's key that contains the credentials of the request
+                        properties:
+                          key:
+                            description: The key of the secret to select from.  Must be a valid secret key.
+                            type: string
+                          name:
+                            description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?'
+                            type: string
+                          optional:
+                            description: Specify whether the Secret or its key must be defined
+                            type: boolean
+                        required:
+                        - key
+                        type: object
+                      credentialsFile:
+                        description: File to read a secret from, mutually exclusive with Credentials (from SafeAuthorization)
+                        type: string
+                      type:
+                        description: Set the authentication type. Defaults to Bearer, Basic will cause an error
+                        type: string
+                    type: object
                   basicAuth:
                     description: BasicAuth allow an endpoint to authenticate over basic authentication
                     properties:
@@ -1469,6 +1516,18 @@ spec:
                 items:
                   type: string
                 type: array
+              enforcedLabelLimit:
+                description: Per-scrape limit on number of labels that will be accepted for a sample. If more than this number of labels are present post metric-relabeling, the entire scrape will be treated as failed. 0 means no limit. Only valid in Prometheus versions 2.27.0 and newer.
+                format: int64
+                type: integer
+              enforcedLabelNameLengthLimit:
+                description: Per-scrape limit on length of labels name that will be accepted for a sample. If a label name is longer than this number post metric-relabeling, the entire scrape will be treated as failed. 0 means no limit. Only valid in Prometheus versions 2.27.0 and newer.
+                format: int64
+                type: integer
+              enforcedLabelValueLengthLimit:
+                description: Per-scrape limit on length of labels value that will be accepted for a sample. If a label value is longer than this number post metric-relabeling, the entire scrape will be treated as failed. 0 means no limit. Only valid in Prometheus versions 2.27.0 and newer.
+                format: int64
+                type: integer
               enforcedNamespaceLabel:
                 description: "EnforcedNamespaceLabel If set, a label will be added to \n 1. all user-metrics (created by `ServiceMonitor`, `PodMonitor` and `ProbeConfig` object) and 2. in all `PrometheusRule` objects (except the ones excluded in `prometheusRulesExcludedFromEnforce`) to    * alerting & recording rules and    * the metrics used in their expressions (`expr`). \n Label name is this field's value. Label value is the namespace of the created object (mentioned above)."
                 type: string
@@ -2230,6 +2289,10 @@ spec:
               logLevel:
                 description: Log level for Prometheus to be configured with.
                 type: string
+              minReadySeconds:
+                description: Minimum number of seconds for which a newly created pod should be ready without any of its container crashing for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) This is an alpha field and requires enabling StatefulSetMinReadySeconds feature gate.
+                format: int32
+                type: integer
               nodeSelector:
                 additionalProperties:
                   type: string
@@ -2432,6 +2495,31 @@ spec:
                 items:
                   description: RemoteReadSpec defines the remote_read configuration for prometheus.
                   properties:
+                    authorization:
+                      description: Authorization section for remote read
+                      properties:
+                        credentials:
+                          description: The secret's key that contains the credentials of the request
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
+                        credentialsFile:
+                          description: File to read a secret from, mutually exclusive with Credentials (from SafeAuthorization)
+                          type: string
+                        type:
+                          description: Set the authentication type. Defaults to Bearer, Basic will cause an error
+                          type: string
+                      type: object
                     basicAuth:
                       description: BasicAuth for the URL.
                       properties:
@@ -2674,6 +2762,31 @@ spec:
                 items:
                   description: RemoteWriteSpec defines the remote_write configuration for prometheus.
                   properties:
+                    authorization:
+                      description: Authorization section for remote write
+                      properties:
+                        credentials:
+                          description: The secret's key that contains the credentials of the request
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names TODO: Add other useful fields. apiVersion, kind, uid?'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must be defined
+                              type: boolean
+                          required:
+                          - key
+                          type: object
+                        credentialsFile:
+                          description: File to read a secret from, mutually exclusive with Credentials (from SafeAuthorization)
+                          type: string
+                        type:
+                          description: Set the authentication type. Defaults to Bearer, Basic will cause an error
+                          type: string
+                      type: object
                     basicAuth:
                       description: BasicAuth for the URL.
                       properties:
@@ -2837,6 +2950,9 @@ spec:
                     remoteTimeout:
                       description: Timeout for requests to the remote write endpoint.
                       type: string
+                    sendExemplars:
+                      description: Enables sending of exemplars over remote write. Note that exemplar-storage itself must be enabled using the enableFeature option for exemplars to be scraped in the first place.  Only valid in Prometheus versions 2.27.0 and newer.
+                      type: boolean
                     tlsConfig:
                       description: TLS Config to use for remote write.
                       properties:
@@ -3626,6 +3742,34 @@ spec:
                   version:
                     description: Version describes the version of Thanos to use.
                     type: string
+                  volumeMounts:
+                    description: VolumeMounts allows configuration of additional VolumeMounts on the output StatefulSet definition. VolumeMounts specified will be appended to other VolumeMounts in the thanos-sidecar container.
+                    items:
+                      description: VolumeMount describes a mounting of a Volume within a container.
+                      properties:
+                        mountPath:
+                          description: Path within the container at which the volume should be mounted.  Must not contain ':'.
+                          type: string
+                        mountPropagation:
+                          description: mountPropagation determines how mounts are propagated from the host to container and the other way around. When not set, MountPropagationNone is used. This field is beta in 1.10.
+                          type: string
+                        name:
+                          description: This must match the Name of a Volume.
+                          type: string
+                        readOnly:
+                          description: Mounted read-only if true, read-write otherwise (false or unspecified). Defaults to false.
+                          type: boolean
+                        subPath:
+                          description: Path within the volume from which the container's volume should be mounted. Defaults to "" (volume's root).
+                          type: string
+                        subPathExpr:
+                          description: Expanded path within the volume from which the container's volume should be mounted. Behaves similarly to SubPath but environment variable references $(VAR_NAME) are expanded using the container's environment. Defaults to "" (volume's root). SubPathExpr and SubPath are mutually exclusive.
+                          type: string
+                      required:
+                      - mountPath
+                      - name
+                      type: object
+                    type: array
                 type: object
               tolerations:
                 description: If specified, the pod's tolerations.

@@ -5,7 +5,7 @@ _prometheus_operator_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus-operator/prometheus-operator"
-    tag: "v0.49.0"
+    tag: "v0.50.0"
 
 prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
@@ -26,9 +26,10 @@ prometheus_operator:
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('50m') }}"
     limits_memory: "{{ prometheus_operator_container_limits_memory | default('200Mi') }}"
-
-    config_reloader_cpu: "{{ prometheus_operator_container_config_reloader_cpu | default('50m') }}"
-    config_reloader_memory: "{{ prometheus_operator_container_config_reloader_cpu | default('25Mi') }}"
+    config_reloader_requests_cpu: "{{ prometheus_operator_container_config_reloader_requests_cpu | default('25m') }}"
+    config_reloader_requests_memory: "{{ prometheus_operator_container_config_reloader_requests_memory | default('25Mi') }}"
+    config_reloader_limits_cpu: "{{ prometheus_operator_container_config_reloader_limits_cpu | default('50m') }}"
+    config_reloader_limits_memory: "{{ prometheus_operator_container_config_reloader_limits_memory | default('25Mi') }}"
 
 
 # To avoid loops prometheus_operator_rbac_proxy prometheus_operator
@@ -36,7 +37,7 @@ _prometheus_operator_rbac_proxy_var_loader:
   base_image:
     repo: quay.io
     name: "brancz/kube-rbac-proxy"
-    tag: "v0.10.0"
+    tag: "v0.11.0"
 
 prometheus_operator_rbac_proxy:
   base_image: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image }}"
@@ -53,7 +54,7 @@ _prometheus_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/prometheus"
-    tag: "v2.28.1"
+    tag: "v2.29.2"
   namespace: "monitoring-prometheus"
 
 prometheus:
@@ -87,7 +88,7 @@ _alertmanager_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/alertmanager"
-    tag: "v0.22.2"
+    tag: "v0.23.0"
 
 alertmanager:
   base_image: "{{ _alertmanager_var_loader.base_image }}"

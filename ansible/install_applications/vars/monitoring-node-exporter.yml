@@ -5,7 +5,7 @@ _node_exporter_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/node-exporter"
-    tag: "v1.2.0"
+    tag: "v1.2.2"
 
 node_exporter:
   enabled: "{{ node_exporter_enabled | default(True) }}"
@@ -32,7 +32,7 @@ _node_exporter_rbac_proxy_var_loader:
   base_image:
     repo: quay.io
     name: "brancz/kube-rbac-proxy"
-    tag: "v0.10.0"
+    tag: "v0.11.0"
 
 node_exporter_rbac_proxy:
   base_image: "{{ _node_exporter_rbac_proxy_var_loader.base_image }}"
