@@ -259,7 +259,9 @@ watchers:
     excludes:
       - .*-(dev|beta).*
       - ^2020.*
-      - ^2021\.0[1-7]\..*
+      - ^2021\.0[1-8]\..*
+      - ^2021\.0[1-8]\..*
+      - b[0-9]+$
   - type: docker_registry
     repo: {{ zwavejs2mqtt.base_image.repo | default('registry-1.docker.io') }}
     image: {{ zwavejs2mqtt.base_image.name }}
