@@ -3,35 +3,30 @@ FROM $from_image
 
 ARG sickchill_version
 
-# Install requirements
-RUN apk add --update --no-cache git mediainfo nodejs unrar tzdata libffi openssl && \
-    apk add --no-cache --virtual .build-deps gcc libffi-dev openssl-dev musl-dev cargo && \
-    pip install pyopenssl && \
-    apk del .build-deps
-
 RUN echo "Creating sickchill user" && \
-    addgroup -g 1000 sickchill && \
-    adduser -u 1000 -G sickchill -s /bin/sh -D sickchill
+    groupadd --gid 1000 sickchill && \
+    useradd --create-home --gid sickchill --uid 1000 sickchill
 
-VOLUME [ "/opt/sickchill-data" ]
-RUN mkdir -p /opt/sickchill && \
-    chown -R sickchill:sickchill /opt/sickchill && \
-    mkdir -p /opt/sickchill-data && \
-    chown -R sickchill:sickchill /opt/sickchill-data
+RUN echo "Prepare folders" && \
+    mkdir /data /app && \
+    chown sickchill:sickchill /data /app
 
 USER sickchill
 
-# Install sickchill
-RUN mkdir -p /opt/sickchill && \
-    cd /opt/sickchill && \
-    wget -qO- https://github.com/SickChill/SickChill/archive/${sickchill_version}.tar.gz | tar xz --strip-components=1
+RUN echo "Install sickchill" && \
+    python3 -m venv /app/sickchill && \
+    /app/sickchill/bin/pip3 install sickchill==${sickchill_version}
 
 # Make sure cache is linked to the data dir : See https://github.com/SickChill/SickChill/issues/6010
-RUN ln -s /opt/sickchill-data/cache /opt/sickchill/sickchill/gui/slick/cache
+#RUN ln -s /data/cache /app/sickchill/lib/python3.9/site-packages/sickchill/gui/slick/cache
 
-ADD --chown=sickchill:sickchill entrypoint.sh /opt/entrypoint.sh
-RUN chmod +x /opt/entrypoint.sh
+ADD --chown=sickchill:sickchill inject_conf.py /app/inject_conf.py
+ADD --chown=sickchill:sickchill entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+ENTRYPOINT [ "/app/entrypoint.sh" ]
 
 EXPOSE 8081
 
-ENTRYPOINT [ "/opt/entrypoint.sh" ]
+HEALTHCHECK --interval=5m --timeout=3s \
+    CMD curl -f http://localhost:8081/ || curl -f https://localhost:8081/ || exit 1

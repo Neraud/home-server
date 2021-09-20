@@ -9,5 +9,3 @@ metadata:
 data:
   config_delta.ini: |
     {{ lookup('template', role_path + '/app/config/config_delta.ini.j2') | replace('\n', '\n    ') }}
-  mergeConf.py: |
-    {{ lookup('file', role_path + '/app/config/mergeConf.py') | replace('\n', '\n    ') }}

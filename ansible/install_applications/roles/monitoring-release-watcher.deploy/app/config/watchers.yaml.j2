@@ -163,14 +163,13 @@ watchers:
     image: {{ sickchill.base_image.name }}
     tag: {{ sickchill.base_image.tag }}
     includes:
-      - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
+      - 3\.[0-9]+\.[0-9]+-slim-bullseye
     excludes:
       - ^3.[0-8]\..*
-      - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[0-2]
-  - type: github_tag
-    repo: SickChill/SickChill
-    tag: {{ sickchill.version }}
+  - type: pypi
+    package: sickchill
+    version: {{ sickchill.version }}
+
   
   ###############
   # Apps : Home #
