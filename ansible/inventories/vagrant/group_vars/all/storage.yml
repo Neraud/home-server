@@ -3,7 +3,7 @@
 glusterfs_volumes:
   docker-registry-data:
     replicas: 2
-    capacity: 10G
+    capacity: 15G
     arbiterCapacity: 64M
     nodes: [master-test-2, master-test-3]
     arbiters: [master-test-1]

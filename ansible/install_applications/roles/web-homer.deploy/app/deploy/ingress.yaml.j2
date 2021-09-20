@@ -12,6 +12,7 @@ metadata:
       rewrite ^({{ homer.context_root }})$ $1/ permanent;
 {% endif %}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - homer.web.{{ web_base_domain }}

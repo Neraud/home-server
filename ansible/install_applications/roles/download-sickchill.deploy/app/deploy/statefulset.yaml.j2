@@ -28,20 +28,11 @@ spec:
           - "sh"
           - "-c"
           - |
-            mkdir -p /opt/sickchill/data
-            chown -R 1000:1000 /opt/sickchill/data
+            mkdir -p /data/sickchill/data
+            chown -R 1000:1000 /data/sickchill/data
         volumeMounts:
         - name: sickchill-data-pv-claim
-          mountPath: /opt/sickchill
-      - name: inject-config
-        image: {{ sickchill.container.image }}
-        command: [ "python", "/tmp/config/mergeConf.py" ]
-        volumeMounts:
-        - name: sickchill-data-pv-claim
-          mountPath: /opt/sickchill-data
-          subPath: data
-        - name: sickchill-config
-          mountPath: /tmp/config
+          mountPath: /data/sickchill
       containers:
       - name: sickchill
         image: "{{ sickchill.container.image }}"
@@ -72,16 +63,15 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: sickchill-data-pv-claim
-          mountPath: /opt/sickchill-data
+          mountPath: /data
           subPath: data
         - name: sickchill-download
           mountPath: /mnt/download
         - name: sickchill-multimedia
           mountPath: /mnt/multimedia
-        # sickchill-config is not used by the container directly
-        # But mounting it enables the use of the reloader
         - name: sickchill-config
-          mountPath: /tmp/config
+          mountPath: /app/config_delta.ini
+          subPath: config_delta.ini
         - name: tmp-volume
           mountPath: /tmp
       volumes:

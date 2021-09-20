@@ -13,6 +13,7 @@ metadata:
       rewrite ^({{ pihole.context_root }}/admin)$ $1/ permanent;
 {% endif %}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - pihole.infra.intra.{{ web_base_domain }}

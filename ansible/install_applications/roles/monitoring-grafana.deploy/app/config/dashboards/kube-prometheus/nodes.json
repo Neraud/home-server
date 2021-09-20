@@ -6,11 +6,11 @@
     },
     "editable": false,
     "gnetId": null,
-    "graphTooltip": 0,
+    "graphTooltip": 1,
     "hideControls": false,
     "id": null,
     "links": [],
-    "refresh": "",
+    "refresh": "30s",
     "rows": [
         {
             "collapse": false,
@@ -794,7 +794,7 @@
     "style": "dark",
     "tags": [
         "infra",
-        "nodes"
+        "node-exporter-mixin"
     ],
     "templating": {
         "list": [
@@ -863,7 +863,7 @@
             "30d"
         ]
     },
-    "timezone": "browser",
-    "title": "Nodes",
+    "timezone": "utc",
+    "title": "Node Exporter / Nodes",
     "version": 0
 }

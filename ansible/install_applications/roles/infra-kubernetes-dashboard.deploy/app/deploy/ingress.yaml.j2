@@ -14,6 +14,7 @@ metadata:
       rewrite ^({{ kubernetes_dashboard.context_root }})$ $1/ permanent;
 {% endif %}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - kube.infra.intra.{{ web_base_domain }}

@@ -5,9 +5,9 @@ _ttrss_var_loader:
   namespace: "web-ttrss"
   base_image:
     name: "php"
-    tag: "8.0.8-apache-buster"
-  commit: 9669bb94de
-  full_commit: 9669bb94ded6aec423cf307473ade88f4fe71ab7
+    tag: "8.0.10-apache-buster"
+  commit: 8ed927dbd2
+  full_commit: 8ed927dbd2b54aaabe6be75f9fcf4145e2c3249a
   
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -100,7 +100,7 @@ ttrss:
 _ttrss_pgsql_var_loader:
   base_image:
     name: "postgres"
-    tag: "12.7-alpine"
+    tag: "12.8-alpine"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"

@@ -7,6 +7,7 @@ metadata:
     {{ sabnzbd.labels_def | to_nice_yaml() | indent(4) }}
     {{ sabnzbd.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - sabnzbd.dl.intra.{{ web_base_domain }}

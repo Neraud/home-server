@@ -7,6 +7,7 @@ metadata:
     {{ mailhog.labels_def | to_nice_yaml() | indent(4) }}
     {{ mailhog.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - mailhog.infra.intra.{{ web_base_domain }}

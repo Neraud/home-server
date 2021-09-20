@@ -31,7 +31,12 @@ spec:
           - |
             mkdir -p /opt/zwavejs2mqtt/store
             chown 1000:1000 /opt/zwavejs2mqtt/store
+            cp /opt/zwavejs2mqtt/store/settings_bootstrap.json /opt/zwavejs2mqtt/store/settings.json
+            chown 1000:1000 /opt/zwavejs2mqtt/store/settings.json
         volumeMounts:
+        - name: config-volume
+          mountPath: /opt/zwavejs2mqtt/store/settings_bootstrap.json
+          subPath: settings.json
         - name: zwavejs2mqtt-pv-claim
           mountPath: /opt/zwavejs2mqtt
       containers:
@@ -79,9 +84,6 @@ spec:
         - name: zwavejs2mqtt-pv-claim
           mountPath: /usr/src/app/store
           subPath: store
-        - name: config-volume
-          mountPath: /usr/src/app/store/settings.json
-          subPath: settings.json
         - name: config-volume
           mountPath: /usr/src/app/store/users.json
           subPath: users.json

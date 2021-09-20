@@ -7,6 +7,7 @@ metadata:
     {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
     {{ homeassistant.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - homeassistant.home.{{ web_base_domain }}

@@ -163,14 +163,13 @@ watchers:
     image: {{ sickchill.base_image.name }}
     tag: {{ sickchill.base_image.tag }}
     includes:
-      - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
+      - 3\.[0-9]+\.[0-9]+-slim-bullseye
     excludes:
       - ^3.[0-8]\..*
-      - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[0-2]
-  - type: github_tag
-    repo: SickChill/SickChill
-    tag: {{ sickchill.version }}
+  - type: pypi
+    package: sickchill
+    version: {{ sickchill.version }}
+
   
   ###############
   # Apps : Home #
@@ -186,7 +185,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^2020\..*
-      - ^2021\.[1-6]\..*
+      - ^2021\.[1-8]\..*
   - type: github_commit
     repo: efficiosoft/ldap-auth-sh
     branch: master
@@ -259,7 +258,9 @@ watchers:
     excludes:
       - .*-(dev|beta).*
       - ^2020.*
-      - ^2021\.0[1-7]\..*
+      - ^2021\.0[1-8]\..*
+      - ^2021\.0[1-8]\..*
+      - b[0-9]+$
   - type: docker_registry
     repo: {{ zwavejs2mqtt.base_image.repo | default('registry-1.docker.io') }}
     image: {{ zwavejs2mqtt.base_image.name }}
@@ -268,7 +269,7 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*$
     excludes:
       - ^[1-4]\..*
-      - ^5\.[0-3]\..*
+      - ^5\.[0-5]\..*
 
   ################
   # Apps : Infra #
@@ -321,7 +322,7 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - 3\.[0-9]\..*
-      - 3\.1[0-2]\..*
+      - 3\.1[0-3]\..*
   - type: github_release
     repo: metallb/metallb
     release: v0.10.2
@@ -329,20 +330,12 @@ watchers:
       - metallb-chart-.*     
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v0.48.1
+    release: controller-v1.0.0
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
-  # nginx-ingress-controller is deployed using manifests generated from kubernetes/ingress-nginx
-  #- type: docker_registry
-  #  repo: quay.io
-  #  image: kubernetes-ingress-controller/nginx-ingress-controller
-  #  tag: 0.30.0
-  #  excludes:
-  #    - .*(alpha|beta).*
-  #    - 0\.[0-9]\.
-  #    - 0\.1[0-9]\.
-  #  includes:
-  #    - "[0-9]+\\.[0-9]+\\.[0-9]+"
+    excludes:
+      - controller-v?0\.[0-9]+\.[0-9]+.*
+      - beta
   - type: docker_registry
     repo: {{ mailhog.base_image.repo | default('registry-1.docker.io') }}
     image: {{ mailhog.base_image.name }}
@@ -520,7 +513,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: 93d6101baea128388d8abb753793feefd3a0e4c6
+    commit: 43f726885366a74322abccc1f8de6203826d447e
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master

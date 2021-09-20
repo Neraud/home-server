@@ -12,6 +12,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 {% endif %}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - elasticsearch.log.intra.{{ web_base_domain }}

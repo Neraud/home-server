@@ -13,6 +13,7 @@ metadata:
       rewrite ^({{ gotify.context_root }})$ $1/ permanent;
 {% endif %}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - gotify.web.{{ web_base_domain }}

@@ -22,8 +22,10 @@ spec:
       containers:
       - args:
         - --kubelet-service=kube-system/kubelet
-        - --config-reloader-cpu={{ prometheus_operator.container.config_reloader_cpu }}
-        - --config-reloader-memory={{ prometheus_operator.container.config_reloader_memory }}
+        - --config-reloader-cpu-request={{ prometheus_operator.container.config_reloader_requests_cpu }}
+        - --config-reloader-memory-request={{ prometheus_operator.container.config_reloader_requests_memory }}
+        - --config-reloader-cpu-limit={{ prometheus_operator.container.config_reloader_limits_cpu }}
+        - --config-reloader-memory-limit={{ prometheus_operator.container.config_reloader_limits_memory }}
         - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:{{ prometheus_operator.base_image.tag }}
         image: "{{ prometheus_operator.container.image }}"
         imagePullPolicy: Always

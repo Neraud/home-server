@@ -7,6 +7,7 @@ metadata:
     {{ deluge.labels_def | to_nice_yaml() | indent(4) }}
     {{ deluge.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - deluge.dl.intra.{{ web_base_domain }}
