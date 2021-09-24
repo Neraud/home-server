@@ -74,6 +74,9 @@ spec:
           limits:
             cpu: "{{ frigate.container.limits_cpu }}"
             memory: "{{ frigate.container.limits_memory }}"
+{% if frigate.container.limits_gpu %}
+            {{ frigate.container.limits_gpu | to_nice_yaml() | indent(12) }}
+{% endif %}
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
