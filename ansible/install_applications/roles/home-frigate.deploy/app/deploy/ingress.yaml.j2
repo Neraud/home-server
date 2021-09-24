@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frigate
+  namespace: {{ frigate.namespace }}
+  labels:
+    {{ frigate.labels_def | to_nice_yaml() | indent(4) }}
+    {{ frigate.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+{% if frigate.context_root != "" %}
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/frigate)$ $1/ permanent;
+      proxy_set_header Accept-Encoding "";
+      sub_filter_types text/html text/css application/javascript;
+      sub_filter_once off;
+      ## See : https://github.com/blakeblackshear/frigate/blob/master/nginx/nginx.conf#L133
+      proxy_set_header X-Ingress-Path /frigate;
+      # Some rules are already there ...
+      sub_filter 'href="/' 'href="/frigate/';
+      sub_filter 'url(/' 'url(/frigate/';
+      sub_filter '"/dist/' '"/frigate/dist/';
+      sub_filter '"/js/' '"/frigate/js/';
+      sub_filter '<body>' '<body><script>window.baseUrl="/frigate";</script>';
+      # But a few are missing for js files...
+      sub_filter 'href:"/' 'href:"/frigate/';
+      sub_filter 'href:`/' 'href:`/frigate/';
+      sub_filter 'path:"/' 'path:"/frigate/';
+      sub_filter 'p=`/' 'p=`/frigate/';   
+{% endif %}   
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - frigate.home.intra.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: frigate.home.intra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: {{ '/' if frigate.context_root == '' else frigate.context_root + '/?(.*)' }}
+        pathType: Prefix
+        backend:
+          service:
+            name: frigate
+            port:
+              name: http

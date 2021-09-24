@@ -1,0 +1,52 @@
+---
+
+# To avoid loops inside frigate
+_frigate_var_loader:
+  namespace: "home-frigate"
+  base_image:
+    name: "blakeblackshear/frigate"
+    tag: "0.8.4-amd64"
+
+frigate:
+  enabled: "{{ frigate_enabled | default(True) }}"
+
+  namespace: "{{ _frigate_var_loader.namespace }}"
+  base_image: "{{ _frigate_var_loader.base_image }}"
+
+  app_backup:
+    name: home-frigate
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+      - name: frigate
+        namespace: "{{ _frigate_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+    gluster_volumes:
+      - frigate-config
+
+  labels_def:
+    app.kubernetes.io/name: frigate
+    app.kubernetes.io/component: frigate
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _frigate_var_loader.base_image.tag }}-custom"
+
+  container:
+    image: "{{ docker_private_registry.url }}/{{ _frigate_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _frigate_var_loader.base_image.tag }}-custom"
+    requests_cpu: "{{ frigate_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ frigate_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ frigate_container_limits_cpu | default('250m') }}"
+    limits_memory: "{{ frigate_container_limits_memory | default('256Mi') }}"
+    limits_gpu: "{{ frigate_container_limits_gpu | default({}) }}"
+    # (width * height * 1.5 * 7 + 270480)/1048576 = <shm size in mb>
+    shm_size: "{{ frigate_container_shm_size | default('64Mi') }}"
+    mount_usb: "{{ frigate_container_mount_usb | default(False) }}"
+    node_selectors: "{{ frigate_container_node_selectors | default({}) }}"
+
+  context_root: "{{ frigate_context_root | default('') }}"
+
+  mqtt:
+    servername: "{{ mosquitto.servername }}"
+    port: 1883
+    user: "{{ frigate_mqtt_user | default('frigate') }}"
+    password: "{{ frigate_mqtt_password | default('clear_password') }}"

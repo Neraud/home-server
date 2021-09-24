@@ -9,3 +9,5 @@ kubernetes_node_labels:
     value: 'yes'
   - name: capability/gpu
     value: "no"
+  - name: capability/tpu
+    value: "no"
