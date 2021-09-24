@@ -11,6 +11,8 @@ kubernetes_node_labels:
     value: 'yes'
   - name: capability/gpu
     value: "no"
+  - name: capability/tpu
+    value: "no"
 
 kubernetes_node_taints:
   - key: node-role.kubernetes.io/master

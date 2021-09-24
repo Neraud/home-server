@@ -64,6 +64,16 @@ This box runs an [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Inte
 | RAM      | 2*16 GB DDR4 3200 CL 16 ([Crucial Ballistix BL2K16G32C16S4B](https://www.amazon.fr/gp/product/B083W5ZRJ1))                     | 157,19 € |
 | Storage  | 1 To [WD Blue SN550 NVMe](https://www.rueducommerce.fr/produit/western-digital-wd-blue-sn550-1-to-m-2-pcie-gen3-nvme-98427536) | 109.99 € |
 
+## Accessories
+
+### Coral TPU
+
+| Part | Model                                                                                        | Price   |
+| ---- | -------------------------------------------------------------------------------------------- | ------- |
+| TPU  | [Google Coral USB Accelerator Edge TPU AI](https://www.amazon.de/-/en/gp/product/B07S214S5Y) | 96,82 € |
+
+(ordered 2021-08)
+
 ## NAS
 
 Media and backups are stored on a Synology NAS DS415+

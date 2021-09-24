@@ -40,6 +40,8 @@ frigate:
     limits_gpu: "{{ frigate_container_limits_gpu | default({}) }}"
     # (width * height * 1.5 * 7 + 270480)/1048576 = <shm size in mb>
     shm_size: "{{ frigate_container_shm_size | default('64Mi') }}"
+    mount_usb: "{{ frigate_container_mount_usb | default(False) }}"
+    node_selectors: "{{ frigate_container_node_selectors | default({}) }}"
 
   context_root: "{{ frigate_context_root | default('') }}"
 

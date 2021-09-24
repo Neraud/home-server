@@ -62,6 +62,9 @@ spec:
           #runAsNonRoot: true
           #runAsUser: 1000
           readOnlyRootFilesystem: true
+{% if frigate.container.mount_usb %}
+          privileged: true
+{% endif %}
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -88,6 +91,10 @@ spec:
           mountPath: /media
         - name: tmp-volume
           mountPath: /tmp
+{% if frigate.container.mount_usb %}
+        - mountPath: /dev/bus/usb
+          name: usb
+{% endif %}
         - name: dshm
           mountPath: /dev/shm
       volumes:
@@ -102,6 +109,11 @@ spec:
           claimName: nfs-nvr
       - name: tmp-volume
         emptyDir: {}
+{% if frigate.container.mount_usb %}
+      - name: usb
+        hostPath:
+          path: /dev/bus/usb
+{% endif %}
       - name: dshm
         emptyDir:
           medium: Memory
@@ -110,6 +122,9 @@ spec:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
+{% if frigate.container.node_selectors %}
+        {{ frigate.container.node_selectors | to_nice_yaml() | indent(8) }}
+{% endif %}
   volumeClaimTemplates:
   - metadata:
       name: frigate-config-pv-claim
