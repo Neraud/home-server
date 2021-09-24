@@ -9,8 +9,10 @@ RUN echo "Installing ldap requirements" && \
 ADD ldap-auth /opt/ldap-auth
 RUN chmod +x /opt/ldap-auth/ldap-auth.sh
 
+# Install supervision via pip to avoid bug : https://github.com/docker-library/python/issues/624
 RUN echo "Installing socat and requirements" && \
-        apk add --no-cache supervisor socat
+        apk add --no-cache socat && \
+        pip install supervisor==4.2.2
 
 RUN mkdir -p /etc/supervisor/conf.d/
 ADD supervisord.conf /etc/supervisor/
