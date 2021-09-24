@@ -7,3 +7,5 @@ glusterfs_volume_mounts:
     mount_path: /data/volumes/nodered-data
   esphome-config:
     mount_path: /data/volumes/esphome-config
+  frigate-config:
+    mount_path: /data/volumes/frigate-config

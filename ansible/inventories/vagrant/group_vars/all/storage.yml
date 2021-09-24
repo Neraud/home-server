@@ -218,6 +218,16 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: zwavejs2mqtt
       app.kubernetes.io/component: zwavejs2mqtt
+  frigate-config:
+    replicas: 2
+    capacity: 32M
+    arbiterCapacity: 16M
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: frigate
+      app.kubernetes.io/component: frigate
   airsonic-data:
     replicas: 2
     capacity: 256M

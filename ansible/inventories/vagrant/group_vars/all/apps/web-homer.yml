@@ -56,6 +56,8 @@ homer_images_to_download:
     source: https://esphome.io/_images/logo.svg
   - name: zwavejs2mqtt.png
     source: https://raw.githubusercontent.com/zwave-js/zwavejs2mqtt/master/static/logo.png
+  - name: frigate.svg
+    source: https://blakeblackshear.github.io/frigate/img/logo.svg
 
   - name: gitlab.svg
     source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/gitlab.svg
@@ -180,6 +182,11 @@ homer_config_services:
         logo: "assets/download/zwavejs2mqtt.png"
         url: "https://zwavejs2mqtt.home.intra.{{ web_base_domain }}{{ zwavejs2mqtt.context_root }}"
         subtitle: "Fully configurable Zwave to MQTT Gateway and Control Panel"
+        target: "_blank"
+      - name: "Frigate"
+        logo: "assets/download/frigate.svg"
+        url: "https://frigate.home.intra.{{ web_base_domain }}{{ frigate.context_root }}"
+        subtitle: "Complete and local NVR designed for Home Assistant with AI object detection"
         target: "_blank"
   - name: "Dev"
     icon: "fab fa-dev"

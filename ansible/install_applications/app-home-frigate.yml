@@ -1,0 +1,6 @@
+---
+
+- name: Provision home-frigate
+  hosts: controller
+  roles:
+    - role: home-frigate.deploy

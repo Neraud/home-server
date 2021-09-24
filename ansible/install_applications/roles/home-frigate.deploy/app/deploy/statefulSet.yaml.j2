@@ -1,0 +1,121 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: frigate
+  namespace: {{ frigate.namespace }}
+  labels:
+    {{ frigate.labels_def | to_nice_yaml() | indent(4) }}
+    {{ frigate.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ frigate.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ frigate.labels_def | to_nice_yaml() | indent(8) }}
+        {{ frigate.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.container.image }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /frigate-config/config
+            cp /config/config_base.yml /frigate-config/config/config_base.yml
+            if [ -f /frigate-config/config/config.yml ] ; then
+              echo "Config already exists, not overwritting, it may be obsolete !"
+            else
+              echo "Init config from base"
+              cp /frigate-config/config/config_base.yml /frigate-config/config/config.yml
+            fi
+        volumeMounts:
+        - name: frigate-config-pv-claim
+          mountPath: /frigate-config
+        - name: frigate-config
+          mountPath: /config/config_base.yml
+          subPath: config_base.yml
+      containers:
+      - name: frigate
+        image: "{{ frigate.container.image }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+        - containerPort: 1935
+          name: rtmp
+        env:
+        - name: FRIGATE_MQTT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: frigate
+              key: mqtt_password
+        # Frigate needs to run as root
+        securityContext:
+          #runAsNonRoot: true
+          #runAsUser: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+        resources:
+          requests:
+            cpu: "{{ frigate.container.requests_cpu }}"
+            memory: "{{ frigate.container.requests_memory }}"
+          limits:
+            cpu: "{{ frigate.container.limits_cpu }}"
+            memory: "{{ frigate.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: frigate-config-pv-claim
+          mountPath: /config
+          subPath: config
+        - name: frigate-media
+          mountPath: /media
+        - name: tmp-volume
+          mountPath: /tmp
+        - name: dshm
+          mountPath: /dev/shm
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: frigate-config
+        configMap:
+          name: frigate-config
+      - name: frigate-media
+        persistentVolumeClaim:
+          claimName: nfs-nvr
+      - name: tmp-volume
+        emptyDir: {}
+      - name: dshm
+        emptyDir:
+          medium: Memory
+          sizeLimit: {{ frigate.container.shm_size }}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: frigate-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          {{ frigate.labels_def | to_nice_yaml() | indent(10) }}
