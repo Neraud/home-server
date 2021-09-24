@@ -129,6 +129,8 @@ openssl_custom_pki:
           - "*.auth.{{ web_base_domain }}"
           - "*.auth.intra.{{ web_base_domain }}"
           - "*.infra.intra.{{ web_base_domain }}"
+          - "*.log.intra.{{ web_base_domain }}"
+          - "*.monitoring.intra.{{ web_base_domain }}"
           - "*.web.{{ web_base_domain }}"
           - "*.home.{{ web_base_domain }}"
           - "*.home.intra.{{ web_base_domain }}"
