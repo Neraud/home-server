@@ -37,8 +37,12 @@ spec:
               mkdir -p /homeassistant-config/config
               cp -RL /homeassistant-config-bootstrap/* /homeassistant-config/config/
             fi
+            mkdir -p /homeassistant-config/.cache
+            mkdir -p /homeassistant-config/.config
             mkdir -p /homeassistant-config/.local
             chown -R 1000:1000 /homeassistant-config/config
+            chown -R 1000:1000 /homeassistant-config/.cache
+            chown -R 1000:1000 /homeassistant-config/.config
             chown -R 1000:1000 /homeassistant-config/.local
         volumeMounts:
         - name: homeassistant-pv-claim
@@ -59,6 +63,12 @@ spec:
         - name: homeassistant-pv-claim
           mountPath: /config
           subPath: config
+        - name: homeassistant-pv-claim
+          mountPath: /home/homeassistant/.cache
+          subPath: .cache
+        - name: homeassistant-pv-claim
+          mountPath: /home/homeassistant/.config
+          subPath: .config
         - name: homeassistant-pv-claim
           mountPath: /home/homeassistant/.local
           subPath: .local
