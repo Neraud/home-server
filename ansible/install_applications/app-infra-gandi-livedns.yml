@@ -1,6 +1,5 @@
 ---
-
 - name: Provision infra-gandi-livedns
   hosts: controller
   roles:
-  - role: infra-gandi-livedns.deploy
+    - role: infra-gandi-livedns.deploy

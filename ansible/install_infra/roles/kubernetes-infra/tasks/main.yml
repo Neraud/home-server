@@ -1,5 +1,4 @@
 ---
-
 - name: Create storage classes
   k8s:
     definition: "{{ lookup('template', 'kubernetes/storage/' + item) }}"

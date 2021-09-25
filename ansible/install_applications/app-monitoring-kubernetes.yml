@@ -1,6 +1,5 @@
 ---
-
 - name: Provision monitoring-kubernetes
   hosts: controller
   roles:
-  - role: monitoring-kubernetes.deploy
+    - role: monitoring-kubernetes.deploy

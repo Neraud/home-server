@@ -1,6 +1,5 @@
 ---
-
 - name: Provision logging-kibana
   hosts: controller
   roles:
-  - role: logging-kibana.deploy
+    - role: logging-kibana.deploy

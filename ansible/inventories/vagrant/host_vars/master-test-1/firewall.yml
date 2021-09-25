@@ -1,5 +1,4 @@
 ---
-
 custom_ufw_applications:
   # Only used to allow the mock NAS share on Vagrant
   - name: nfs_custom

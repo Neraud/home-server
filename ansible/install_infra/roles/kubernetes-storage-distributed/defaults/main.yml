@@ -1,5 +1,4 @@
 ---
-
 kubernetes_glusterfs_endpoint: glusterfs-cluster
 
 kubernetes_glusterfs_available_namespaces:
@@ -7,7 +6,6 @@ kubernetes_glusterfs_available_namespaces:
   - ingress-nginx
   - monitoring
   - logging
-
 #glusterfs_volumes:
 #  appname-componentName-storageDetail:
 #    mount_path: /path/on/kubernetes/node (optional)

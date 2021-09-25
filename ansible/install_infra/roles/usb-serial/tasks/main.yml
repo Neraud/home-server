@@ -1,5 +1,4 @@
 ---
-
 - name: Configure udev rules
   template:
     src: udev.rules.j2

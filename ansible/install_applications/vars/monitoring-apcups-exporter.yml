@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside apcups_exporter
 _apcups_exporter_var_loader:
   base_image_build:
@@ -18,7 +17,7 @@ apcups_exporter:
   namespace: "monitoring-apcups-exporter"
   base_image: "{{ _apcups_exporter_var_loader.base_image }}"
   base_image_build: "{{ _apcups_exporter_var_loader.base_image_build }}"
-  
+
   labels_def:
     app.kubernetes.io/name: apcups-exporter
     app.kubernetes.io/component: apcups-exporter
@@ -34,4 +33,3 @@ apcups_exporter:
     limits_memory: "{{ apcups_exporter_container_limits_memory | default('32Mi') }}"
 
   repo: "{{ _apcups_exporter_var_loader.repo }}"
-    

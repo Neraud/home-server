@@ -1,16 +1,15 @@
 ---
-
 - name: Configure UFW for ser2net
   include_role:
     name: firewall
     tasks_from: add-applications
   vars:
     ufw_applications:
-    - name: ser2net
-      title: ser2net
-      description: ser2net
-      ports: "{{ serial_exposed_devices | map(attribute='port') | join(',') }}/tcp"
-      rule: allow
+      - name: ser2net
+        title: ser2net
+        description: ser2net
+        ports: "{{ serial_exposed_devices | map(attribute='port') | join(',') }}/tcp"
+        rule: allow
 
 - name: Install ser2net
   apt:

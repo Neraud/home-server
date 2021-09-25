@@ -1,5 +1,4 @@
 ---
-
 - name: Configure UFW for Keepalived
   include_role:
     name: firewall

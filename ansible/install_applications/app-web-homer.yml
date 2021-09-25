@@ -1,6 +1,5 @@
 ---
-
 - name: Provision web-homer
   hosts: controller
   roles:
-  - role: web-homer.deploy
+    - role: web-homer.deploy

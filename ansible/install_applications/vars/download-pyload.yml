@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside pyload
 _pyload_var_loader:
   namespace: "download-pyload"
@@ -22,12 +21,12 @@ pyload:
     name: download-pyload
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: pyload
-      namespace: "{{ _pyload_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: pyload
+        namespace: "{{ _pyload_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - pyload-config
+      - pyload-config
 
   labels_def:
     app.kubernetes.io/name: pyload

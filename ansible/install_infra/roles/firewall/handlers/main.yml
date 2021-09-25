@@ -1,5 +1,4 @@
 ---
-
 - name: Reload ufw
   ufw:
     state: reloaded

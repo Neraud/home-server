@@ -1,5 +1,4 @@
 ---
-
 mosquitto_enabled: true
 
 # First listener is used as default
@@ -7,7 +6,6 @@ mosquitto_listeners:
   - port: 1883
     secure: False
     websocket: False
-
 #  - port: 8883
 #    secure: True
 #    websocket: False

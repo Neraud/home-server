@@ -39,25 +39,25 @@ for param in os.environ.keys():
             propertyValue = False
 
         logging.debug("Read property for index %s : %s = %s" % (confIndex, propertyName, propertyValue))
-        if not confIndex in envWatchDirs: 
+        if not confIndex in envWatchDirs:
             envWatchDirs[confIndex] = {}
         envWatchDirs[confIndex][propertyName] = propertyValue
 
 if envWatchDirs:
     for confIndex in envWatchDirs.keys():
         logging.debug("Injecting watchdir id = %s" % confIndex)
-        
+
         if 'path' in envWatchDirs[confIndex] and not 'abspath' in envWatchDirs[confIndex]:
             envWatchDirs[confIndex]['abspath'] = os.path.abspath(envWatchDirs[confIndex]['path'])
-        
+
         if not confIndex in config['watchdirs']:
             config['watchdirs'][confIndex] = {}
-        
+
         for propertyName in envWatchDirs[confIndex].keys():
             propertyValue = envWatchDirs[confIndex][propertyName]
             logging.debug(" - %s = %s" % (propertyName, propertyValue))
             config['watchdirs'][confIndex][propertyName] = propertyValue
-        
+
         if not 'enabled' in config['watchdirs'][confIndex]:
             logging.debug(" - %s = %s" % ('enabled', True))
             config['watchdirs'][confIndex]['enabled'] = True

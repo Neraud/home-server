@@ -1,6 +1,5 @@
 ---
-
 - name: Provision download-pyload
   hosts: controller
   roles:
-  - role: download-pyload.deploy
+    - role: download-pyload.deploy

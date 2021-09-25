@@ -1,5 +1,4 @@
 ---
-
 - name: Configure UFW for gluster
   include_role:
     name: firewall
@@ -10,7 +9,7 @@
 - name: Install GlusterFS server
   apt:
     pkg:
-    - glusterfs-server
+      - glusterfs-server
     state: present
 
 - name: Auto-start glusterd

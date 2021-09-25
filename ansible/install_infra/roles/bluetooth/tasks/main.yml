@@ -1,5 +1,4 @@
 ---
-
 - name: Install bluetooth
   apt:
     pkg: bluez

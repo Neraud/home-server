@@ -1,6 +1,5 @@
 ---
-
 - name: Provision monitoring-prometheus-operator
   hosts: controller
   roles:
-  - role: monitoring-prometheus-operator.deploy
+    - role: monitoring-prometheus-operator.deploy

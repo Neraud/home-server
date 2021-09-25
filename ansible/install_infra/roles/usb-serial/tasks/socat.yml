@@ -1,5 +1,4 @@
 ---
-
 - name: Install socat
   apt:
     pkg: socat
@@ -8,7 +7,7 @@
 - name: List existing socat systemd services
   find:
     paths: /etc/default/
-    patterns: 'socat-serial@*'
+    patterns: "socat-serial@*"
   register: existing_socat_services
 
 - name: List existing socat systemd services to remove

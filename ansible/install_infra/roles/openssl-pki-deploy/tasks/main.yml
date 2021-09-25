@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure directory exists for custom PKIs
   file:
     path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}"

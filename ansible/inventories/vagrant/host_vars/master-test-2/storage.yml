@@ -1,6 +1,5 @@
 ---
-
-local_lvm_storage: 
+local_lvm_storage:
   elasticsearch-k8s-data:
     capacity: 4G
     filesystem: ext4

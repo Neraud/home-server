@@ -1,5 +1,4 @@
 ---
-
 wireguard_ufw_applications:
   - name: wireguard
     title: Wireguard server
@@ -19,7 +18,7 @@ wireguard:
     endpoint: "{{ wireguard_server_endpoint }}"
     keys_dir: /etc/wireguard
     clients_dir: /etc/wireguard/clients
-  
+
   clients: "{{ wireguard_clients | default({}) }}"
 
   clients_dns: "{{ wireguard_clients_dns | default(groups['dns_servers'] | map('extract', hostvars, ['ansible_host']) | list) }}"
@@ -34,4 +33,4 @@ wireguard:
     check_script:
       script: "/usr/bin/wg show {{ wireguard_server_interface }}"
       interval: 5
-    virtual_ips: [ "{{ wireguard_keepalived_instance_virtual_ip }}" ]
+    virtual_ips: ["{{ wireguard_keepalived_instance_virtual_ip }}"]

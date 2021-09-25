@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside mailhog
 _mailhog_var_loader:
   base_image:
@@ -12,7 +11,7 @@ mailhog:
 
   namespace: "{{ _mailhog_var_loader.namespace }}"
   base_image: "{{ _mailhog_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: zonemta
     app.kubernetes.io/component: server
@@ -30,7 +29,7 @@ mailhog:
 
   servername: "{{ mailhog_servername | default('mailhog.' + _mailhog_var_loader.namespace + '.svc.cluster.local') }}"
   context_root: "{{ mailhog_context_root | default('') }}"
-  
+
   forward_smtp:
     enabled: "{{ mailhog_forward_smtp_enabled | default('false') }}"
     name: "{{ mailhog_forward_smtp_name | default('') }}"

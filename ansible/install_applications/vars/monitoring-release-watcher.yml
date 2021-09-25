@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside release_watcher
 _release_watcher_var_loader:
   repo:
@@ -10,7 +9,7 @@ release_watcher:
   enabled: "{{ release_watcher_enabled | default(True) }}"
 
   namespace: "monitoring-release-watcher"
-  
+
   labels_def:
     app.kubernetes.io/name: release-watcher
     app.kubernetes.io/component: release-watcher
@@ -26,7 +25,7 @@ release_watcher:
     limits_memory: "{{ release_watcher_container_limits_memory | default('64Mi') }}"
 
   repo: "{{ _release_watcher_var_loader.repo }}"
-  
+
   path: "{{ release_watcher_path | default('/opt/release-watcher') }}"
 
   github:

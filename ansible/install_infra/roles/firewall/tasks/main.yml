@@ -1,5 +1,4 @@
 ---
-
 - name: Search for iptables-legacy
   stat:
     path: /usr/sbin/iptables-legacy

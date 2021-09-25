@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure pihole exporter namespace exists
   import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
@@ -12,10 +11,9 @@
     private_image: "{{ pihole_exporter.container.image }}"
 
 - name: Fetch API token from pihole
-  command: 
-    kubectl {{ kubectl_params }} \
-      --namespace=infra-pihole exec -it pihole-0 -- \
-      awk -F= -v key="WEBPASSWORD" '$1==key {print $2}' /etc/pihole/setupVars.conf
+  command: kubectl {{ kubectl_params }} \
+    --namespace=infra-pihole exec -it pihole-0 -- \
+    awk -F= -v key="WEBPASSWORD" '$1==key {print $2}' /etc/pihole/setupVars.conf
   register: pihole_api_token
   changed_when: False
 

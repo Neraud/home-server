@@ -1,10 +1,9 @@
 ---
-
 - name: Download kubectl
   get_url:
     url: "https://dl.k8s.io/release/v{{ kubectl_version }}/bin/linux/amd64/kubectl"
     dest: /usr/local/bin/kubectl
-    mode: '0770'
+    mode: "0770"
 
 - name: Create kube configuration folder
   file:

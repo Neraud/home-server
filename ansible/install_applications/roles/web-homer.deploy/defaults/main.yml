@@ -1,5 +1,4 @@
 ---
-
 homer_enabled: true
 
 homer_config_title: "Demo homepage"
@@ -13,7 +12,7 @@ homer_config_message:
   content: "This is a dummy homepage demo. Find more information on github.com/bastienwirtz/homer"
   #url: "https://lol"
   style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
-  title: "Demo !" 
+  title: "Demo !"
 
 # Optional navbar
 homer_config_links:
@@ -36,7 +35,7 @@ homer_config_services:
         subtitle: "Continuous integration server"
         tag: "CI"
         url: "https://jenkins.io/"
-        target: '_blank' # optionnal html a tag target attribute
+        target: "_blank" # optionnal html a tag target attribute
       - name: "RabbitMQ Management"
         logo: "assets/tools/rabbitmq.png"
         subtitle: "Manage & monitor RabbitMQ server"
@@ -45,7 +44,7 @@ homer_config_services:
         # Same styling options as the optional message.
         tagstyle: "is-success"
         url: "https://www.rabbitmq.com/"
-  
+
   - name: "Monitoring"
     icon: "fas fa-heartbeat"
     items:

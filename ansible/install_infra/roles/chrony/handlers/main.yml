@@ -1,5 +1,4 @@
 ---
-
 - name: Restart Chrony
   service:
     name: chrony

@@ -1,5 +1,4 @@
 ---
-
 - name: Allow non local ip bind
   sysctl:
     name: "net.ipv4.ip_nonlocal_bind"

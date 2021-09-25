@@ -2,9 +2,9 @@
 
 gluster_volmume=$1
 
-gluster volume info ${gluster_volmume} > /dev/null 2>/dev/null
+gluster volume info ${gluster_volmume} >/dev/null 2>/dev/null
 
-if [ $? -ne 0 ] ; then
+if [ $? -ne 0 ]; then
     echo "Volume ${gluster_volmume} doesn't exist !"
     exit 1
 fi

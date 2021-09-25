@@ -1,6 +1,5 @@
 ---
-
 - name: Provision home-mosquitto
   hosts: controller
   roles:
-  - role: home-mosquitto.deploy
+    - role: home-mosquitto.deploy

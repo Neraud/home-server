@@ -1,12 +1,11 @@
 ---
-
 galaxy_info:
   author: "Neraud"
   license: MIT
   description: "Configures USB serial devices"
   min_ansible_version: 2.7
   platforms:
-  - name: Debian
-    versions:
-    - stretch
-    - buster
+    - name: Debian
+      versions:
+        - stretch
+        - buster

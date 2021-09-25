@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside nginx_exporter
 _nginx_exporter_var_loader:
   base_image:
@@ -11,7 +10,7 @@ nginx_exporter:
 
   namespace: "monitoring-nginx-exporter"
   base_image: "{{ _nginx_exporter_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: nginx-exporter
     app.kubernetes.io/component: nginx-exporter

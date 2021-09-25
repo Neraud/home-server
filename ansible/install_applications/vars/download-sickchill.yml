@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside sickchill
 _sickchill_var_loader:
   base_image:
@@ -20,12 +19,12 @@ sickchill:
     name: download-sickchill
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: sickchill
-      namespace: "{{ _sickchill_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: sickchill
+        namespace: "{{ _sickchill_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - sickchill-data
+      - sickchill-data
 
   labels_def:
     app.kubernetes.io/name: sickchill

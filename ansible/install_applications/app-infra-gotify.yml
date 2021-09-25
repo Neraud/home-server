@@ -1,6 +1,5 @@
 ---
-
 - name: Provision infra-gotify
   hosts: controller
   roles:
-  - role: infra-gotify.deploy
+    - role: infra-gotify.deploy

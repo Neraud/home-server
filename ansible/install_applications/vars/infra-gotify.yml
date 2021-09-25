@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside gotify
 _gotify_var_loader:
   base_image:
@@ -18,12 +17,12 @@ gotify:
     name: infra-gotify
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: gotify
-      namespace: "{{ _gotify_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: gotify
+        namespace: "{{ _gotify_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - gotify-data
+      - gotify-data
 
   labels_def:
     app.kubernetes.io/name: gotify

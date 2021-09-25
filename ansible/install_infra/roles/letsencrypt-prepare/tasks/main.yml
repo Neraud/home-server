@@ -1,5 +1,4 @@
 ---
-
 - name: Ensures letsencrypt folders exist
   file:
     path: "{{ item }}"

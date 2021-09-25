@@ -1,5 +1,4 @@
 ---
-
 - name: Set server name
   hostname:
     name: "{{ machine_name }}"

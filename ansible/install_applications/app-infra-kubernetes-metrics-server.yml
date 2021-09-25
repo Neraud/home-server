@@ -1,5 +1,4 @@
 ---
-
 - name: Provision infra-kubernetes-metrics-server
   hosts: controller
   roles:

@@ -1,5 +1,4 @@
 ---
-
 - name: Restart NGinx
   service:
     name: nginx

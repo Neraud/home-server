@@ -1,5 +1,4 @@
 ---
-
 - name: Deploy Apps backup scripts
   template:
     src: "restic_backup_apps.sh.j2"

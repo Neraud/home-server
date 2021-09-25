@@ -1,5 +1,4 @@
 ---
-
 - name: Install avahi-daemon
   apt:
     pkg: avahi-daemon

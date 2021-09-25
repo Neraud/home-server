@@ -1,5 +1,4 @@
 ---
-
 - name: Check current restic installation
   command: "{{ restic_bin_path }} version"
   failed_when: False
@@ -8,7 +7,7 @@
 
 - name: Install restic v{{ restic_version }}
   block:
-  - include_tasks: install.yml
+    - include_tasks: install.yml
   when: restic_current_version.rc != 0 or 'restic '+ restic_version not in restic_current_version.stdout
 
 - name: Ensure Restic backup scripts directory exists

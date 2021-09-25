@@ -1,5 +1,4 @@
 ---
-
 # https://kubernetes.io/docs/setup/independent/install-kubeadm/
 # https://github.com/kubernetes-sigs/kubespray/
 # https://cyril.deguet.com/fr/2018/02/12/kubernetes-debian-vps/
@@ -41,8 +40,8 @@
 - name: Install Kubernetes
   apt:
     pkg:
-    - kubelet
-    - kubeadm
+      - kubelet
+      - kubeadm
     state: present
 
 - name: Configure kubelet

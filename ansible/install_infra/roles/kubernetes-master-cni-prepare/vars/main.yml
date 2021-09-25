@@ -1,5 +1,4 @@
 ---
-
 kubernetes_cni_flannel_ufw_applications:
   - name: kubernetes_flannel_vxlan
     title: Kubernetes Flannel vxlan
@@ -11,7 +10,6 @@ kubernetes_cni_flannel_ufw_applications:
 #    description: Kubernetes Flannel udp
 #    ports: 8285/udp
 #    rule: allow
-
 
 # See https://docs.projectcalico.org/v3.9/getting-started/kubernetes/requirements
 kubernetes_cni_calico_ufw_applications:

@@ -1,5 +1,4 @@
 ---
-
 - name: Disable APT recommended packages
   template:
     src: recommends.j2

@@ -1,5 +1,4 @@
 ---
-
 - name: Ensures the SSL Certs key folders exist
   file:
     path: "{{ item.https_cert.cert_key_path | dirname }}"

@@ -1,5 +1,4 @@
 ---
-
 - name: Deploy MetalLB namespace
   k8s:
     api_version: v1

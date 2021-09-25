@@ -1,9 +1,8 @@
 ---
-
 # This set of tasks is meant to be imported in each [app].deploy role
 # It ensures the application namespace is properly created, and populates with the default ConfigMap / Secrets.
 
-# Usage : 
+# Usage :
 #- name: Ensure app_name namespace exists
 #  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
 #  vars:
@@ -37,7 +36,7 @@
     context: "{{ kubeconfig_context }}"
 
 # TODO : Try to find a way to avoid injecting the ingress cert and private key in all namespaces
-# See : https://github.com/kubernetes/ingress-nginx/issues/2170 and https://github.com/kubernetes/ingress-nginx/issues/2371 
+# See : https://github.com/kubernetes/ingress-nginx/issues/2170 and https://github.com/kubernetes/ingress-nginx/issues/2371
 - name: Read the ingress TLS cert
   slurp:
     src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.crt"

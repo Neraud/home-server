@@ -1,5 +1,4 @@
 ---
-
 # See https://kubernetes.io/docs/setup/independent/install-kubeadm/
 kubernetes_master_ufw_applications:
   - name: kubernetes_api_server

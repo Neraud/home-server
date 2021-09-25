@@ -1,5 +1,4 @@
 ---
-
 - name: Deploy Host backup scripts
   template:
     src: "restic_backup_host.sh.j2"

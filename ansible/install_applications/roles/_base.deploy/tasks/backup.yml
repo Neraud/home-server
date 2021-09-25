@@ -1,5 +1,4 @@
 ---
-
 - name: Generate application backup script
   template:
     src: "{{ role_path }}/../_base.deploy/templates/app_backup.sh.j2"

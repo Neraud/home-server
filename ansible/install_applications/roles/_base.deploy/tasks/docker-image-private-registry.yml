@@ -1,12 +1,11 @@
 ---
-
 # This set of tasks is meant to be imported in each [app].deploy role
 # It ensures the target docker image is pushed in the private repository.
 
 # For custom images, it builds the image, and pushes it to the private repo
 # For standard images, it pulls the image, and pushes it to the private repo
 
-# Usage : 
+# Usage :
 #- name: Ensure app_name image is up-to-date in the private registry
 #  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
 #  vars:

@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside ttrss
 _ttrss_var_loader:
   namespace: "web-ttrss"
@@ -8,7 +7,7 @@ _ttrss_var_loader:
     tag: "8.0.10-apache-buster"
   commit: 8ed927dbd2
   full_commit: 8ed927dbd2b54aaabe6be75f9fcf4145e2c3249a
-  
+
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
 
@@ -20,25 +19,25 @@ ttrss:
     name: web-ttrss
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: ttrss-web
-      namespace: "{{ _ttrss_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
-    - name: ttrss-job
-      namespace: "{{ _ttrss_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: ttrss-web
+        namespace: "{{ _ttrss_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+      - name: ttrss-job
+        namespace: "{{ _ttrss_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - ttrss-data
-  
+      - ttrss-data
+
   labels_def:
     app.kubernetes.io/name: ttrss
     app.kubernetes.io/component: ttrss
-  
+
   labels_web_def:
     app.kubernetes.io/name: ttrss
     app.kubernetes.io/component: web
-  
+
   labels_job_def:
     app.kubernetes.io/name: ttrss
     app.kubernetes.io/component: job
@@ -80,7 +79,7 @@ ttrss:
     manager_dn: "{{ ttrss_ldap_manager_dn | default(openldap.ldap.readonly_user_dn) }}"
     manager_password: "{{ ttrss_ldap_manager_password | default(openldap.ldap.readonly_user_password) }}"
     group: "{{ ttrss_ldap_group }}"
-  
+
   smtp:
     host: "{{ ttrss_smtp_host | default(zonemta.smtp_servername) }}"
     port: "{{ ttrss_smtp_port | default(587) }}"
@@ -95,7 +94,6 @@ ttrss:
     # Limit number of jobs to avoid throttling when using a low resources limit. Defaults to 2 in TT-RSS.
     max_jobs: "{{ ttrss_daemon_max_jobs | default('1') }}"
 
-
 # To avoid loops inside ttrss_pgsql
 _ttrss_pgsql_var_loader:
   base_image:
@@ -109,13 +107,13 @@ ttrss_pgsql:
     name: web-ttrss_pgsql
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: ttrss-pgsql
-      namespace: "{{ _ttrss_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: ttrss-pgsql
+        namespace: "{{ _ttrss_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - ttrss-pgsql
-  
+      - ttrss-pgsql
+
   labels_def:
     app.kubernetes.io/name: ttrss
     app.kubernetes.io/component: pgsql

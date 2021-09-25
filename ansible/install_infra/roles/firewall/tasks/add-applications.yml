@@ -1,5 +1,4 @@
 ---
-
 - name: Declare ufw applications
   template:
     src: "{{ playbook_dir }}/roles/firewall/templates/application.j2"

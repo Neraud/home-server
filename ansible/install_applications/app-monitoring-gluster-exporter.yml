@@ -1,6 +1,5 @@
 ---
-
 - name: Provision monitoring-gluster-exporter
   hosts: controller
   roles:
-  - role: monitoring-gluster-exporter.deploy
+    - role: monitoring-gluster-exporter.deploy

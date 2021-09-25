@@ -1,7 +1,5 @@
 ---
-
 prometheus_operator_enabled: true
-
 #alertmanager_default_receiver: default
 #alertmanager_receivers:
 # - name: "{{ alertmanager_default_receiver }}"

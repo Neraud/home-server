@@ -1,5 +1,4 @@
 ---
-
 haproxy_kubernetes_keepalived_instance_interface: "{{ default_network_interface }}"
 haproxy_kubernetes_keepalived_instance_auth_pass: Passw0rd
 haproxy_kubernetes_keepalived_instance_virtual_ip: 192.168.100.102

@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure rsync backup scripts directory exists
   file:
     path: "{{ rsync_backup_scripts_dir }}"

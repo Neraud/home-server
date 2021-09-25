@@ -55,9 +55,9 @@
 
 - name: Ensure standard user is in docker group
   user:
-      name: "{{ standard_user.name }}"
-      groups: docker
-      append: yes
+    name: "{{ standard_user.name }}"
+    groups: docker
+    append: yes
   when: docker_add_standard_user_to_group
 
 - name: Ensure docker config dir exists for standard user

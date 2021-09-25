@@ -1,5 +1,4 @@
 ---
-
 - name: Create a trusted storage pool
   gluster_peer:
     state: present

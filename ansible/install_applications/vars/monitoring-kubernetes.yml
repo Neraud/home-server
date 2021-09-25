@@ -1,4 +1,3 @@
 ---
-
 kubernetes_monitoring:
   enabled: "{{ kubernetes_monitoring_enabled | default(True) }}"

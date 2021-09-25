@@ -1,5 +1,4 @@
 ---
-
 - name: Create kube configuration folder for kubernetes users
   file:
     path: "{{ item.home }}/.kube"

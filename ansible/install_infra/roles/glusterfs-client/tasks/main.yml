@@ -1,9 +1,8 @@
 ---
-
 - name: Install GlusterFS client
   apt:
     pkg:
-    - glusterfs-client
+      - glusterfs-client
     state: present
 
 - name: Mount volumes

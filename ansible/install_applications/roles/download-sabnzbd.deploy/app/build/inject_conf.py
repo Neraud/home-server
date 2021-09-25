@@ -29,7 +29,7 @@ config_nzbtomedia_delta_path = '/tmp/config/autoProcessMedia_delta.cfg'
 if path.exists(config_nzbtomedia_path):
     print("Reading autoProcessMedia config file from existing file")
 else:
-    print("Reading autoProcessMedia config file from default file")    
+    print("Reading autoProcessMedia config file from default file")
     copyfile('/opt/nzbToMedia/autoProcessMedia.cfg.spec', config_nzbtomedia_path)
 config = configobj.ConfigObj(config_nzbtomedia_path)
 

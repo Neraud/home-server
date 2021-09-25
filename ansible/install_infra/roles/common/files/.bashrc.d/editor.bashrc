@@ -1,4 +1,3 @@
-
 # default editor
 EDITOR=vi
 VISUAL=$EDITOR

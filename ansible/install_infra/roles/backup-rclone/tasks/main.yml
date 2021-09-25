@@ -1,5 +1,4 @@
 ---
-
 - name: Check current rclone installation
   command: /usr/local/bin/rclone version
   failed_when: False
@@ -8,7 +7,7 @@
 
 - name: Install rclone v{{ rclone_version }}
   block:
-  - include_tasks: install.yml
+    - include_tasks: install.yml
   when: rclone_current_version.rc != 0 or 'rclone v'+ rclone_version not in rclone_current_version.stdout
 
 - name: Ensure rclone backup scripts directory exists

@@ -1,6 +1,5 @@
 ---
-
 - name: Provision  monitoring-node-exporter
   hosts: controller
   roles:
-  - role: monitoring-node-exporter.deploy
+    - role: monitoring-node-exporter.deploy

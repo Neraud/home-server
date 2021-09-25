@@ -1,5 +1,4 @@
 ---
-
 - name: Configure UFW for dnsmasq
   include_role:
     name: firewall
@@ -10,7 +9,7 @@
 - name: Install dnsmasq
   apt:
     pkg:
-    - dnsmasq
+      - dnsmasq
     state: present
 
 - name: Configure dnsmasq

@@ -1,5 +1,4 @@
 ---
-
 - name: Creates Wireguard keys dir
   file:
     path: "{{ wireguard.server.keys_dir }}"
@@ -122,7 +121,7 @@
     state: directory
   delegate_to: "{{ groups['controller'][0] }}"
   run_once: yes
- 
+
 - name: Fetch generated configurations
   synchronize:
     src: "{{ wireguard.config_dir }}/"

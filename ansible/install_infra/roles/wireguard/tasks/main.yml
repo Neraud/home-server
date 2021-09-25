@@ -1,5 +1,4 @@
 ---
-
 - name: Enable IPv4 forwarding
   sysctl:
     name: net.ipv4.ip_forward
@@ -23,7 +22,7 @@
 - name: Install Wireguard
   apt:
     pkg:
-    - wireguard
+      - wireguard
     state: present
 
 - include_tasks: configure_first.yml

@@ -1,5 +1,4 @@
 ---
-
 - name: Create Kubernetes namespace
   k8s:
     api_version: v1

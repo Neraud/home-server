@@ -1,6 +1,5 @@
 ---
-
 - name: Provision auth-openldap
   hosts: controller
   roles:
-  - role: auth-openldap.deploy
+    - role: auth-openldap.deploy

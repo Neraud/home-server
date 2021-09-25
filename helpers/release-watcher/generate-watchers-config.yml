@@ -1,12 +1,11 @@
 ---
-
 - name: Generate watchers config
   hosts: localhost
   tasks:
     - name: Include applications var files
       include_vars:
         dir: "../../ansible/install_applications/vars"
-    
+
     - name: Generate watchers.yaml
       template:
         src: "../../ansible/install_applications/roles/monitoring-release-watcher.deploy/app/config/watchers.yaml.j2"

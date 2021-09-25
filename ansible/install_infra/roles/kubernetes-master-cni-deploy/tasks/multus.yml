@@ -1,5 +1,4 @@
 ---
-
 - name: Install multus pod network add-on
   k8s:
     definition: "{{ lookup('template', 'multus/multus-daemonset.yml.j2') }}"

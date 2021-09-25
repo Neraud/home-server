@@ -1,10 +1,9 @@
 ---
-
 node_exporter_external:
   enabled: "{{ node_exporter_external_enabled | default(True) }}"
 
   namespace: "monitoring-node-exporter-external"
-  
+
   labels_def:
     app.kubernetes.io/name: node-exporter-external
     app.kubernetes.io/component: node-exporter-external

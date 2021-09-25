@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure directory exists for custom PKIs
   file:
     path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.pki_name }}"
@@ -26,10 +25,10 @@
     label: "{{ item.pki_name }}"
   vars:
     expected_files:
-    - "{{ item.pki_name }}/ca.pkcs1.key"
-    - "{{ item.pki_name }}/ca.key"
-    - "{{ item.pki_name }}/ca.csr"
-    - "{{ item.pki_name }}/ca.crt"
+      - "{{ item.pki_name }}/ca.pkcs1.key"
+      - "{{ item.pki_name }}/ca.key"
+      - "{{ item.pki_name }}/ca.csr"
+      - "{{ item.pki_name }}/ca.crt"
 
 - name: Prepare list of expected certs files
   set_fact:
@@ -41,10 +40,10 @@
     label: "{{ item.0.pki_name }} : {{ item.1.name }}"
   vars:
     expected_files:
-    - "{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key"
-    - "{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
-    - "{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
-    - "{{ item.0.pki_name }}/{{ item.1.name }}/server.crt"
+      - "{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key"
+      - "{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+      - "{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
+      - "{{ item.0.pki_name }}/{{ item.1.name }}/server.crt"
 
 - name: Prepare list of DH Parameters
   set_fact:
@@ -57,12 +56,12 @@
     label: "{{ item.0.pki_name }} : {{ item.1.name }}"
   vars:
     expected_files:
-    - "{{ item.0.pki_name }}/{{ item.1.name }}/dhparam.pem"
+      - "{{ item.0.pki_name }}/{{ item.1.name }}/dhparam.pem"
 
 - name: List existing files on the controller
   find:
     paths:
-    - "{{ custom_ssl_pki_generation_root_dir }}"
+      - "{{ custom_ssl_pki_generation_root_dir }}"
     file_type: file
     recurse: yes
   register: custom_pki_current_files

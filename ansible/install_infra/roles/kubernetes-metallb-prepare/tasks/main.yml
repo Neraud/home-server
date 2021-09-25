@@ -1,5 +1,4 @@
 ---
-
 - name: Configure UFW for MetalLB
   include_role:
     name: firewall

@@ -1,5 +1,4 @@
 ---
-
 - name: Prepare all hosts
   hosts: all_hosts
   roles:

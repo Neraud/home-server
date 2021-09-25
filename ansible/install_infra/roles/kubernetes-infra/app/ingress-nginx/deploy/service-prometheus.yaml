@@ -8,9 +8,9 @@ metadata:
     prometheus-target: ingress-nginx
 spec:
   ports:
-  - port: 10254
-    name: metrics
-    targetPort: 10254
+    - port: 10254
+      name: metrics
+      targetPort: 10254
   selector:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx

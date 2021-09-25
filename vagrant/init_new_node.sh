@@ -2,7 +2,7 @@
 
 mode=$1
 
-if [ "$mode" != "controller" ] ; then
+if [ "$mode" != "controller" ]; then
 	mode="node"
 fi
 
@@ -35,7 +35,7 @@ mkdir -p /root/.ssh
 echo " - add ansible key to authorized keys"
 touch /root/.ssh/authorized_keys
 searchLocalKey=$(grep -c "$(cat /vagrant/ssh/id_rsa.pub)" /root/.ssh/authorized_keys)
-if [ $searchLocalKey -eq 0 ] ; then
+if [ $searchLocalKey -eq 0 ]; then
 	cat /vagrant/ssh/id_rsa.pub >>/root/.ssh/authorized_keys
 fi
 
@@ -44,7 +44,7 @@ chmod -R 700 /root/.ssh
 echo " - install LVM"
 apt-get -q -y install lvm2
 
-if [ -e /dev/sdb ] ; then
+if [ -e /dev/sdb ]; then
 	echo " - preparing docker disk"
 	# Create a new partition table with a single LVM partition
 	echo 'type=8e' | sfdisk /dev/sdb
@@ -65,7 +65,7 @@ if [ -e /dev/sdb ] ; then
 	mount -a
 fi
 
-if [ -e /dev/sdc ] ; then
+if [ -e /dev/sdc ]; then
 	echo " - preparing data disk for LVM"
 	# Create a new partition table with a single LVM partition
 	echo 'type=8e' | sfdisk /dev/sdc
@@ -81,8 +81,7 @@ apt-get -q -y install ufw
 ufw allow OpenSSH
 yes | sudo ufw enable
 
-
-if [ "$mode" == "controller" ] ; then
+if [ "$mode" == "controller" ]; then
 	echo " - install ansible controller"
 	/opt/provision/install_controller_requirements.sh
 	source /opt/ansible_venv/bin/activate
@@ -93,7 +92,8 @@ if [ "$mode" == "controller" ] ; then
 
 	echo " - add hosts to known hosts"
 	touch /root/.ssh/known_hosts
-	host_ips=$(python - <<'__EOF__'
+	host_ips=$(
+		python - <<'__EOF__'
 import yaml
 config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"), yaml.SafeLoader)
 print(config['controller']['ip'])
@@ -104,8 +104,8 @@ __EOF__
 	for host_ip in $host_ips localhost; do
 		echo "    * "$host_ip
 		knownKey=$(ssh-keygen -F $host_ip)
-		if [ "$knownKey" == "" ] ; then
-			ssh-keyscan -H -T 10 $host_ip >> /root/.ssh/known_hosts 2>/dev/null
+		if [ "$knownKey" == "" ]; then
+			ssh-keyscan -H -T 10 $host_ip >>/root/.ssh/known_hosts 2>/dev/null
 		fi
 	done
 
@@ -121,7 +121,8 @@ __EOF__
 	echo " - install NFS Server"
 	apt-get -q -y install nfs-kernel-server
 
-	network_cidr=$(python - <<'__EOF__'
+	network_cidr=$(
+		python - <<'__EOF__'
 import yaml
 config = yaml.load(open("/opt/provision/vagrant/Vagrantconfig.yaml", "r"), yaml.SafeLoader)
 print(config['common']['network_cidr'])
@@ -129,7 +130,7 @@ __EOF__
 	)
 	echo "    * Allowing "$network_cidr
 
-	cat << EOF > /etc/exports
+	cat <<EOF >/etc/exports
 /opt/mock_nas/Multimedia $network_cidr(rw)
 /opt/mock_nas/Download $network_cidr(rw)
 /opt/mock_nas/NVR $network_cidr(rw)

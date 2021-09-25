@@ -1,5 +1,4 @@
 ---
-
 - name: Provision infrastructure
   import_playbook: install_infra/site.yml
 

@@ -1,5 +1,4 @@
 ---
-
 - name: Create local-lvm persistent volumes
   k8s:
     definition: "{{ lookup('template', 'local-persistent-volume.yaml.j2') }}"

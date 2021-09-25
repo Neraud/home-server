@@ -1,5 +1,4 @@
 ---
-
 - name: Generate DNS configuration
   template:
     src: resolv.conf.j2

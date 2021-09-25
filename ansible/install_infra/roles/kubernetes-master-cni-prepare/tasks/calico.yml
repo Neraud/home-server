@@ -1,5 +1,4 @@
 ---
-
 - name: Configure UFW for Kubernetes CNI
   include_role:
     name: firewall

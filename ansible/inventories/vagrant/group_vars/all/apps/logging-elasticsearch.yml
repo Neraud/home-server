@@ -1,5 +1,4 @@
 ---
-
 # FIXME : using a longer name (like elasticsearch.logging) breaks the workaround in place to update security
 # The server cert is improperly used in ansible/install_applications/roles/logging-elasticsearch.deploy/handlers/main.yml
 elasticsearch_servername: elasticsearch.logging-elasticsearch.svc.cluster.local

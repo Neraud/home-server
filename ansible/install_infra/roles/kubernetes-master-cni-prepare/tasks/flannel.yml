@@ -1,5 +1,4 @@
 ---
-
 - name: Pass bridged IPv4 traffic to iptables’ chains
   sysctl:
     name: net.bridge.bridge-nf-call-iptables

@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside homeassistant
 _homeassistant_var_loader:
   base_image:
@@ -18,12 +17,12 @@ homeassistant:
     name: home-homeassistant
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: homeassistant
-      namespace: "{{ _homeassistant_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: homeassistant
+        namespace: "{{ _homeassistant_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - homeassistant-config
+      - homeassistant-config
 
   labels_def:
     app.kubernetes.io/name: homeassistant
@@ -69,7 +68,6 @@ homeassistant:
 
   serial_remote_devices: "{{ homeassistant_serial_remote_devices | default({}) }}"
 
-
 # To avoid loops inside homeassistant_mysql
 _homeassistant_mysql_var_loader:
   base_image:
@@ -83,12 +81,12 @@ homeassistant_mysql:
     name: home-homeassistant_mysql
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: homeassistant-mysql
-      namespace: "{{ _homeassistant_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: homeassistant-mysql
+        namespace: "{{ _homeassistant_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - homeassistant-mysql
+      - homeassistant-mysql
 
   labels_def:
     app.kubernetes.io/name: homeassistant

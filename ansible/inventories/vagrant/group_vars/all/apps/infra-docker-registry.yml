@@ -1,5 +1,4 @@
 ---
-
 # It's required to redefine this variable even if it's the same value as the default one to have it available for openssl-pki
 docker_registry_servername: docker-registry.infra-docker-registry.svc.cluster.local
 

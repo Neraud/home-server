@@ -1,5 +1,4 @@
 ---
-
 machine_name: MyMachine
 domain_name: MyDomain
 
@@ -17,7 +16,6 @@ bashrc_include_dir: .bashrc.d
 #  ssh_authorized_keys:
 #    - "ssh-rsa XXXXXXXXX user@machine"
 
-
 sysctl_properties:
   # Check source (UDP spoofing)
   - name: net.ipv4.conf.default.rp_filter
@@ -33,7 +31,6 @@ sysctl_properties:
   # Disable source routing
   - name: net.ipv4.conf.default.accept_source_route
     value: 0
-
 #cron_jobs:
 #  - name: Awesome job
 #    cron_file: awesome_job

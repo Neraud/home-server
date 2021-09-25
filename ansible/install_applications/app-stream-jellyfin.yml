@@ -1,6 +1,5 @@
 ---
-
 - name: Provision stream-jellyfin
   hosts: controller
   roles:
-  - role: stream-jellyfin.deploy
+    - role: stream-jellyfin.deploy

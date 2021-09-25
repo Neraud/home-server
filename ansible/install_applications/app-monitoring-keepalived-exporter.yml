@@ -1,6 +1,5 @@
 ---
-
 - name: Provision monitoring-keepalived-exporter
   hosts: controller
   roles:
-  - role: monitoring-keepalived-exporter.deploy
+    - role: monitoring-keepalived-exporter.deploy

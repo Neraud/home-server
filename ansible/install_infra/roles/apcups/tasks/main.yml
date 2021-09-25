@@ -1,5 +1,4 @@
 ---
-
 - name: Configure UFW for APC Daemon
   include_role:
     name: firewall

@@ -1,5 +1,4 @@
 ---
-
 - name: Install flannel pod network add-on
   k8s:
     definition: "{{ lookup('template', 'flannel/kube-flannel.yaml.j2') }}"

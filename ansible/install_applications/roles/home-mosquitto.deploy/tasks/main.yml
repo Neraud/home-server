@@ -1,5 +1,4 @@
 ---
-
 - name: Ensure Mosquitto namespace exists
   import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:

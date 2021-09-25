@@ -1,5 +1,4 @@
 ---
-
 - name: Create storage LVs
   lvol:
     vg: "{{ local_storage_vg }}"

@@ -1,5 +1,4 @@
 ---
-
 letsencrypt_dir: /opt/letsencrypt
 letsencrypt_hooks_dir: "{{ letsencrypt_dir }}/hooks"
 letsencrypt_hooks_pre_include_dir: "{{ letsencrypt_hooks_dir }}/pre.d"

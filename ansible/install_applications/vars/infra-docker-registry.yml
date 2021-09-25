@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside docker_registry
 _docker_registry_var_loader:
   port: "{{ docker_registry_port | default(30500) }}"

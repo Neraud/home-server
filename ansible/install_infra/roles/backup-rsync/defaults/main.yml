@@ -1,5 +1,4 @@
 ---
-
 backup_scripts_dir: /opt/backups
 rsync_backup_scripts_dir: "{{ backup_scripts_dir }}"
 

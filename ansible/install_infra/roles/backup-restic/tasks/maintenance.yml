@@ -1,5 +1,4 @@
 ---
-
 - name: Deploy repo maintenance scripts
   template:
     src: "restic_repo_maintenance.sh.j2"

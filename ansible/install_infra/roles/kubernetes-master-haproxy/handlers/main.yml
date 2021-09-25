@@ -1,5 +1,4 @@
 ---
-
 - name: Restart HAproxy
   service:
     name: haproxy

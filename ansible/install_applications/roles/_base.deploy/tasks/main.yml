@@ -1,5 +1,4 @@
 ---
-
 - name: Include applications var files
   include_vars:
     dir: "{{ role_path }}/../../vars"

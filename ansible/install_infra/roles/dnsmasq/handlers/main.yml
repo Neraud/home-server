@@ -1,5 +1,4 @@
 ---
-
 - name: Restart dnsmasq
   systemd:
     name: dnsmasq
