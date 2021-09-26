@@ -1,6 +1,6 @@
 ---
 - name: Ensure directory exists for custom PKIs
-  file:
+  ansible.builtin.file:
     path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}"
     state: directory
   with_items: "{{ openssl_custom_pki }}"
@@ -8,7 +8,7 @@
     label: "{{ item.pki_name }}"
 
 - name: Copy PKI to targets from controller
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ custom_ssl_pki_generation_root_dir }}/"
     dest: "{{ custom_ssl_pki_root_dir }}/"
     delete: yes

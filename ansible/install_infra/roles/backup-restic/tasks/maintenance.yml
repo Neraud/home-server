@@ -1,19 +1,19 @@
 ---
 - name: Deploy repo maintenance scripts
-  template:
+  ansible.builtin.template:
     src: "restic_repo_maintenance.sh.j2"
     dest: "{{ restic_backup_scripts_dir }}/restic_repo_maintenance.sh"
     mode: 0700
   when: restic_repo_maintenance_enabled
 
 - name: Ensure repo maintenance scripts are absent
-  file:
+  ansible.builtin.file:
     path: "{{ restic_backup_scripts_dir }}/restic_repo_maintenance.sh"
     state: absent
   when: not restic_repo_maintenance_enabled
 
 - name: Deploy repo maintenance systemd unit and timer
-  template:
+  ansible.builtin.template:
     src: "systemd/{{ item }}.j2"
     dest: "/etc/systemd/system/{{ item }}"
     mode: 0700
@@ -26,7 +26,7 @@
     - restic_repo_maintenance_enabled and restic_repo_maintenance_timer
 
 - name: Enable repo maintenance systemd timer
-  systemd:
+  ansible.builtin.systemd:
     name: restic_repo_maintenance.timer
     state: started
     enabled: yes
@@ -35,7 +35,7 @@
     - restic_repo_maintenance_enabled and restic_repo_maintenance_timer
 
 - name: Ensure repo maintenance systemd unit and timer are not deployed
-  file:
+  ansible.builtin.file:
     path: "/etc/systemd/system/{{ item }}"
     state: absent
   loop:

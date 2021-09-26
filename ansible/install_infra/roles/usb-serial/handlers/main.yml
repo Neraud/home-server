@@ -1,15 +1,15 @@
 ---
 - name: Reload udev rules
-  shell: udevadm control --reload ; udevadm trigger
+  ansible.builtin.shell: udevadm control --reload ; udevadm trigger
 
 - name: Restart ser2net
-  systemd:
+  ansible.builtin.systemd:
     name: ser2net
     state: restarted
     daemon_reload: yes
 
 - name: Restart socat
-  systemd:
+  ansible.builtin.systemd:
     name: socat-serial@{{ item.key }}
     state: restarted
     daemon_reload: yes

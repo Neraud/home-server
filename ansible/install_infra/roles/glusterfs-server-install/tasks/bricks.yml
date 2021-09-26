@@ -1,12 +1,12 @@
 ---
 
 - name: Init brick lists
-  set_fact:
+  ansible.builtin.set_fact:
     glusterfs_brick_node_lvs: []
     glusterfs_brick_arbiter_lvs: []
 
 - name: Read data bricks to create
-  set_fact:
+  ansible.builtin.set_fact:
     glusterfs_brick_node_lvs: "{{ glusterfs_brick_node_lvs + [ {
         'name': item.0.key,
         'capacity': item.0.value.capacity
@@ -15,7 +15,7 @@
   when: ansible_hostname == item.1
 
 - name: Read arbiter bricks to create
-  set_fact:
+  ansible.builtin.set_fact:
     glusterfs_brick_arbiter_lvs: "{{ glusterfs_brick_arbiter_lvs + [ {
         'name': item.0.key,
         'capacity': item.0.value.arbiterCapacity
@@ -24,14 +24,14 @@
   when: ansible_hostname == item.1
 
 - name: Install XFS
-  apt:
+  ansible.builtin.apt:
     pkg:
     - xfsprogs
     state: present
   when: glusterfs_brick_filesystem == 'xfs'
 
 - name: Create bricks LVs
-  lvol:
+  community.general.lvol:
     vg: "{{ glusterfs_storage_vg }}"
     lv: "{{ glusterfs_lv_prefix }}{{ item.name }}"
     resizefs: yes
@@ -41,27 +41,27 @@
   loop: "{{ glusterfs_brick_node_lvs + glusterfs_brick_arbiter_lvs }}"
 
 - name: Create node bricks filesystems
-  filesystem:
+  community.general.filesystem:
     fstype: "{{ glusterfs_brick_filesystem }}"
     dev: "/dev/{{ glusterfs_storage_vg }}/{{ glusterfs_lv_prefix }}{{ item.name }}"
     opts: "{{ glusterfs_brick_filesystem_node_options }}"
   loop: "{{ glusterfs_brick_node_lvs }}"
 
 - name: Create arbiter bricks filesystems
-  filesystem:
+  community.general.filesystem:
     fstype: "{{ glusterfs_brick_filesystem }}"
     dev: "/dev/{{ glusterfs_storage_vg }}/{{ glusterfs_lv_prefix }}{{ item.name }}"
     opts: "{{ glusterfs_brick_filesystem_arbiter_options }}"
   loop: "{{ glusterfs_brick_arbiter_lvs }}"
 
 - name: Create bricks mount point
-  file:
+  ansible.builtin.file:
     path: "{{ glusterfs_brick_root }}/{{ item.name }}/brick1"
     state: directory
   loop: "{{ glusterfs_brick_node_lvs + glusterfs_brick_arbiter_lvs }}"
 
 - name: Mount bricks
-  mount:
+  ansible.posix.mount:
     state: mounted
     path: "{{ glusterfs_brick_root }}/{{ item.name }}/brick1"
     src: "/dev/{{ glusterfs_storage_vg }}/{{ glusterfs_lv_prefix }}{{ item.name }}"

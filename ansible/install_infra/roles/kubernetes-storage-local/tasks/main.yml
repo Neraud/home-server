@@ -1,6 +1,6 @@
 ---
 - name: Create local-lvm persistent volumes
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'local-persistent-volume.yaml.j2') }}"
     state: present
     kubeconfig: "{{ hostvars[groups.controller | first].kubeconfig_path }}"

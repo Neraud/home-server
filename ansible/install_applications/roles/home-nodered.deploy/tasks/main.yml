@@ -1,23 +1,23 @@
 ---
 - name: Ensure Node-RED namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ nodered.namespace }}"
 
 - name: Deploy Node-RED backup script
-  import_tasks: ../../_base.deploy/tasks/backup.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/backup.yml
   vars:
     app_backup: "{{ nodered.app_backup }}"
   tags: backup
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure Node-RED image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ nodered.base_image }}"
     private_image: "{{ nodered.container.image }}"
@@ -29,7 +29,7 @@
       nodered_additional_modules_node_red_contrib_stoptimer_version: "{{ nodered.additional_modules.node_red_contrib_stoptimer.version }}"
 
 - name: Deploy Node-RED
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

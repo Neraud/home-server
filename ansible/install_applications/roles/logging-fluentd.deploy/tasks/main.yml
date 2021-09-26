@@ -1,11 +1,11 @@
 ---
 - name: Ensure Fluentd namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ fluentd.namespace }}"
 
 - name: Ensure Fluentd image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ fluentd.base_image }}"
     private_image: "{{ fluentd.container.image }}"
@@ -18,7 +18,7 @@
       fluent_plugin_geoip_version: "{{ fluentd.plugins.geoip.version }}"
 
 - name: Read certificate files
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ item }}"
   register: fluentd_generated_certificate_files
   with_items:
@@ -27,13 +27,13 @@
     - "{{ custom_ssl_pki_generation_root_dir }}/cluster/fluentd/server.key"
 
 - name: List included config files
-  set_fact:
+  ansible.builtin.set_fact:
     fluentd_included_config_files: "{{ fluentd_included_config_files | default([]) + [ item ] }}"
   with_fileglob:
     - "{{ role_path }}/app/config/includes/*.conf"
 
 - name: Deploy Fluentd
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

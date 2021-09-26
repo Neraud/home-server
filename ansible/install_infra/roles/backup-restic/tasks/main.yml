@@ -1,6 +1,6 @@
 ---
 - name: Check current restic installation
-  command: "{{ restic_bin_path }} version"
+  ansible.builtin.command: "{{ restic_bin_path }} version"
   failed_when: False
   changed_when: False
   register: restic_current_version
@@ -11,13 +11,13 @@
   when: restic_current_version.rc != 0 or 'restic '+ restic_version not in restic_current_version.stdout
 
 - name: Ensure Restic backup scripts directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ restic_backup_scripts_dir }}"
     state: directory
     mode: 0700
 
 - name: Deploy core restic backup script
-  template:
+  ansible.builtin.template:
     src: "_restic.sh.j2"
     dest: "{{ restic_backup_scripts_dir }}/_restic.sh"
     mode: 0700

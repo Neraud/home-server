@@ -1,33 +1,33 @@
 ---
 - name: Configure UFW for dnsmasq
-  include_role:
+  ansible.builtin.include_role:
     name: firewall
     tasks_from: add-applications
   vars:
     ufw_applications: "{{ dnsmasq_ufw_applications }}"
 
 - name: Install dnsmasq
-  apt:
+  ansible.builtin.apt:
     pkg:
       - dnsmasq
     state: present
 
 - name: Configure dnsmasq
-  template:
+  ansible.builtin.template:
     src: dnsmasq.conf.j2
     dest: /etc/dnsmasq.conf
     backup: yes
   notify: Restart dnsmasq
 
 - name: Configure dnsmasq default
-  template:
+  ansible.builtin.template:
     src: dnsmasq_default.j2
     dest: /etc/default/dnsmasq
     backup: yes
   notify: Restart dnsmasq
 
 - name: Fill dnsmasq hosts with local machines
-  copy:
+  ansible.builtin.copy:
     dest: /etc/dnsmasq_hosts
     content: |
       {% for dns_local_host in dns_local_hosts %}
@@ -36,7 +36,7 @@
   notify: Restart dnsmasq
 
 - name: Fill dnsmasq local domains
-  copy:
+  ansible.builtin.copy:
     dest: /etc/dnsmasq.d/local_domains.conf
     content: |
       {% for dns_local_domain in dns_local_domains %}
@@ -45,7 +45,7 @@
   notify: Restart dnsmasq
 
 - name: Set dnsmasq upstreams
-  copy:
+  ansible.builtin.copy:
     dest: /etc/dnsmasq_upstreams
     content: |
       {% for dnsmasq_upstream in dnsmasq_upstreams %}
@@ -54,7 +54,7 @@
   notify: Restart dnsmasq
 
 - name: Auto-start dnsmasq
-  service:
+  ansible.builtin.service:
     name: dnsmasq
     state: started
     enabled: yes

@@ -1,6 +1,6 @@
 ---
 - name: Restart Gluster Prometheus Exporter
-  systemd:
+  ansible.builtin.systemd:
     name: gluster-exporter.service
     state: restarted
     daemon_reload: yes

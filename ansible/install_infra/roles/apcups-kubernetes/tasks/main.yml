@@ -1,6 +1,6 @@
 ---
 - name: Create Kubernetes namespace
-  k8s:
+  kubernetes.core.k8s:
     api_version: v1
     kind: Namespace
     name: monitoring-apcups-exporter
@@ -9,7 +9,7 @@
     context: "{{ kubeconfig_context }}"
 
 - name: Create Kubernetes service
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

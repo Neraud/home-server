@@ -1,6 +1,6 @@
 ---
 - name: Configure UFW for APC Daemon
-  include_role:
+  ansible.builtin.include_role:
     name: firewall
     tasks_from: add-applications
   vars:
@@ -8,19 +8,19 @@
   when: apcups.netserver.enabled
 
 - name: Install APC Daemon
-  apt:
+  ansible.builtin.apt:
     pkg: apcupsd
     state: present
 
 - name: Configure APC Daemon
-  template:
+  ansible.builtin.template:
     src: apcupsd.conf.j2
     dest: /etc/apcupsd/apcupsd.conf
     backup: yes
   notify: Restart APC Daemon
 
 - name: Auto-start APC Daemon
-  service:
+  ansible.builtin.service:
     name: apcupsd.service
     state: started
     enabled: yes

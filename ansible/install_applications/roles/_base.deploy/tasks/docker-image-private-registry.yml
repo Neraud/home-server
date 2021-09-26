@@ -7,7 +7,7 @@
 
 # Usage :
 #- name: Ensure app_name image is up-to-date in the private registry
-#  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+#  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
 #  vars:
 #    base_image:
 #      repo: repo
@@ -19,7 +19,7 @@
 #    build_args: {}
 
 - name: Generate public_image full name
-  set_fact:
+  ansible.builtin.set_fact:
     public_image: "{% if base_image.repo is defined %}{{ base_image.repo }}/{% endif %}{{ base_image.name }}:{{ base_image.tag }}"
   when: base_image is defined
 
@@ -27,14 +27,14 @@
 # To avoid unnecessary builds/pulls from the internet, it first tries to pull the image from the private repo.
 # (ignoring failures to support 1st time builds, and without being flagged as changed)
 - name: Pull from private registry
-  docker_image:
+  community.docker.docker_image:
     name: "{{ private_image }}"
     source: pull
   changed_when: False
   failed_when: False
 
 - name: Pull from public registry and push to private registry
-  docker_image:
+  community.docker.docker_image:
     name: "{{ public_image }}"
     repository: "{{ private_image }}"
     source: pull
@@ -44,14 +44,14 @@
     - public_image is defined
 
 - name: Complet build args
-  set_fact:
+  ansible.builtin.set_fact:
     build_args_completed: "{{ build_args | default({}) | combine ({'from_image':  public_image }) }}"
   when:
     - build | default('no') | bool
     - public_image is defined
 
 - name: Build and push docker image
-  docker_image:
+  community.docker.docker_image:
     name: "{{ private_image }}"
     source: build
     force_source: yes
@@ -63,5 +63,5 @@
   when: build | default('no') | bool
 
 - name: Reset build args
-  set_fact:
+  ansible.builtin.set_fact:
     build_args_completed: {}

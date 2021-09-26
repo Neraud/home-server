@@ -1,5 +1,5 @@
 ---
 - name: Install bluetooth
-  apt:
+  ansible.builtin.apt:
     pkg: bluez
     state: present

@@ -1,12 +1,12 @@
 ---
 - name: Pass bridged IPv4 traffic to iptables’ chains
-  sysctl:
+  ansible.posix.sysctl:
     name: net.bridge.bridge-nf-call-iptables
     value: "1"
     state: present
 
 - name: Allow forwarded/routed traffic for the CNI
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /etc/ufw/before.rules
     insertbefore: "# don't delete the 'COMMIT' line or these rules won't be processed"
     backup: yes
@@ -18,7 +18,7 @@
   notify: Reload ufw
 
 - name: Configure UFW for Kubernetes CNI
-  include_role:
+  ansible.builtin.include_role:
     name: firewall
     tasks_from: add-applications
   vars:

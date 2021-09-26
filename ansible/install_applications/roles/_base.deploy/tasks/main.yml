@@ -1,5 +1,5 @@
 ---
 - name: Include applications var files
-  include_vars:
+  ansible.builtin.include_vars:
     dir: "{{ role_path }}/../../vars"
   tags: always

@@ -1,11 +1,11 @@
 ---
 - name: Ensure node exporter external namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ node_exporter_external.namespace }}"
 
 - name: Deploy node exporter external
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
@@ -14,7 +14,7 @@
     - "{{ role_path }}/app/deploy/*.yaml*"
 
 - name: Get a list existing services
-  k8s_info:
+  kubernetes.core.k8s_info:
     api_version: v1
     kind: Service
     namespace: "{{ node_exporter_external.namespace }}"
@@ -23,12 +23,12 @@
   register: node_exporter_external_existing_services
 
 - name: Prepare lists
-  set_fact:
+  ansible.builtin.set_fact:
     node_exporter_external_existing_service_names: "{{ node_exporter_external_existing_services.resources | map(attribute='metadata.name') | select('match', '^node-exporter-external-.*') }}"
     node_exporter_external_configured_names: "{{ node_exporter_external.nodes | map(attribute='name') | map('regex_replace', '^(.*)$', 'node-exporter-external-\\1') }}"
 
 - name: Delete obsolete services
-  k8s:
+  kubernetes.core.k8s:
     api_version: v1
     kind: Service
     state: absent

@@ -1,6 +1,6 @@
 ---
 - name: Deploy Kubernetes monitoring
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

@@ -1,6 +1,6 @@
 ---
 - name: Install flannel pod network add-on
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'flannel/kube-flannel.yaml.j2') }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

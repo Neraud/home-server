@@ -1,6 +1,6 @@
 ---
 - name: Install Certbot and plugins
-  apt:
+  ansible.builtin.apt:
     pkg: "{{ item }}"
     state: present
   loop:
@@ -8,7 +8,7 @@
     - python3-certbot-dns-gandi
 
 - name: Ensures letsencrypt folders exist
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
   loop:
@@ -18,7 +18,7 @@
     - "{{ letsencrypt_hooks_post_include_dir }}"
 
 - name: Generate cluster hook scripts
-  template:
+  ansible.builtin.template:
     dest: "{{ letsencrypt_dir }}/{{ item }}"
     src: "{{ item }}.j2"
     mode: 0755
@@ -27,19 +27,19 @@
     - cluster_post_hook.sh
 
 - name: Generate keepalived pre_hook script
-  template:
+  ansible.builtin.template:
     dest: "{{ letsencrypt_hooks_pre_include_dir }}/keepalived_pre_hook.sh"
     src: "keepalived_pre_hook.sh.j2"
     mode: 0755
 
 - name: Generate keepalive post_hook script
-  template:
+  ansible.builtin.template:
     dest: "{{ letsencrypt_hooks_post_include_dir }}/keepalived_post_hook.sh"
     src: "keepalived_post_hook.sh.j2"
     mode: 0755
 
 - name: Configure Keepalived VirtualIP
-  include_role:
+  ansible.builtin.include_role:
     name: keepalived
     tasks_from: add-virtual-ip
   vars:
@@ -47,7 +47,7 @@
     keepalived_instance_enabled: false
 
 - name: Check letsencrypt mode
-  fail:
+  ansible.builtin.fail:
     msg: "Mode {{ item.mode }} for {{ item.domain }} isn't supported !"
   loop: "{{ letsencrypt_certificates }}"
   loop_control:
@@ -56,7 +56,7 @@
     - item.mode not in ['standalone', 'dns']
 
 - name: Configure Gandi DNS
-  copy:
+  ansible.builtin.copy:
     dest: "{{ letsencrypt_dir }}/gandi.ini"
     content: |
       # live dns v5 api key
@@ -65,7 +65,7 @@
   when: letsencrypt_gandi_api_key is defined
 
 - name: Create letsencrypt certificates
-  command: >
+  ansible.builtin.command: >
     certbot certonly -n
     {% if item.mode == "standalone" %}--standalone --http-01-address={{ nginx_keepalived_instance_public_virtual_ip }}
     {% elif item.mode == "dns" %}--authenticator dns --dns-credentials {{ letsencrypt_dir }}/gandi.ini
@@ -86,12 +86,12 @@
     label: "{{ item.domain }} : {{ item.mode }}"
 
 - name: Prepare certbot renew service systemd configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/certbot.service.d
     state: directory
 
 - name: Configure certbot renew service
-  template:
+  ansible.builtin.template:
     src: systemd_override.conf.j2
     dest: /etc/systemd/system/certbot.service.d/override.conf
   notify: Reload systemd daemon

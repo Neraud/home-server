@@ -1,23 +1,23 @@
 ---
 - name: Ensure Kibana namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ kibana.namespace }}"
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure Kibana image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ kibana.base_image }}"
     private_image: "{{ kibana.container.image }}"
 
 - name: Deploy Kibana
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
@@ -26,14 +26,14 @@
     - "{{ role_path }}/app/deploy/*.yaml*"
 
 - name: Create Kibana saved objects exporter dir
-  file:
+  ansible.builtin.file:
     path: "{{ kibana.export_saved.script_path | dirname }}"
     state: directory
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
 
 - name: Generate Kibana saved objects exporter
-  template:
+  ansible.builtin.template:
     src: "{{ role_path }}/app/kibana_save_objects.py.j2"
     dest: "{{ kibana.export_saved.script_path }}"
     owner: "{{ standard_user.name }}"
@@ -41,7 +41,7 @@
     mode: 0755
 
 - name: Wait for Kibana to be available
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ kibana.namespace }}"
     name: kibana
@@ -53,18 +53,18 @@
   delay: 10
 
 - name: List Kibana saved objects
-  set_fact:
+  ansible.builtin.set_fact:
     kibana_config_saved_objects_files: "{{ kibana_config_saved_objects_files | default([]) + [ item ] }}"
   with_fileglob:
     - "{{ role_path }}/app/config/saved_objects/*.json*"
 
 - name: Read Kibana saved objects
-  set_fact:
+  ansible.builtin.set_fact:
     kibana_config_contents: "{{ kibana_config_contents | default([]) + [ (lookup(item | regex_search('.j2$') | ternary('template','file'), item) | from_json) ] }}"
   with_items: "{{ kibana_config_saved_objects_files }}"
 
 - name: Check if objects already exist
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_root }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: GET
     headers:
@@ -85,7 +85,7 @@
     label: "{{ item.0 }} -> {{ item.1.id }}"
 
 - name: Create missing objects
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_root }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: POST
     headers:
@@ -108,7 +108,7 @@
   when: item.2.status == 404
 
 - name: Updating changed objects
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ kibana.context_root }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
     method: PUT
     headers:

@@ -1,13 +1,13 @@
 ---
 - name: Install multus pod network add-on
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'multus/multus-daemonset.yml.j2') }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
 
 - name: Deploy multus additional interfaces
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

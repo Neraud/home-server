@@ -1,17 +1,17 @@
 ---
 - name: Ensure nginx log exporter namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ nginx_log_exporter.namespace }}"
 
 - name: Ensure nginx log exporter image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ nginx_log_exporter.base_image }}"
     private_image: "{{ nginx_log_exporter.container.image }}"
 
 - name: Deploy nginx log exporter
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

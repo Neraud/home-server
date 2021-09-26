@@ -1,6 +1,6 @@
 ---
 - name: Create storage classes
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'kubernetes/storage/' + item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
@@ -11,7 +11,7 @@
     - nas-nfs-storage-class.yaml.j2
 
 - name: Deploy Nginx Ingress namespace
-  k8s:
+  kubernetes.core.k8s:
     api_version: v1
     kind: Namespace
     name: ingress-nginx
@@ -20,7 +20,7 @@
     context: "{{ kubeconfig_context }}"
 
 - name: Deploy Nginx Ingress
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

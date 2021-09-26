@@ -1,23 +1,23 @@
 ---
 - name: Download rclone release {{ rclone_version }}
-  get_url:
+  ansible.builtin.get_url:
     url: "https://downloads.rclone.org/v{{ rclone_version }}/rclone-v{{ rclone_version }}-linux-amd64.zip"
     dest: "/tmp/rclone-v{{ rclone_version }}-linux-amd64.zip"
 
 - name: Ensure tmp file doesn't exist
-  file:
+  ansible.builtin.file:
     path: "/tmp/rclone-v{{ rclone_version }}-linux-amd64"
     state: absent
 
 - name: Unarchive rclone release
-  unarchive:
+  ansible.builtin.unarchive:
     src: /tmp/rclone-v{{ rclone_version }}-linux-amd64.zip
     dest: /tmp
     remote_src: yes
   when: not unarchive_use_7z
 
 - name: Deploy rclone
-  copy:
+  ansible.builtin.copy:
     src: "/tmp/rclone-v{{ rclone_version }}-linux-amd64/rclone"
     dest: /usr/local/bin/rclone
     mode: 0755
@@ -26,16 +26,16 @@
   when: not unarchive_use_7z
 
 - name: Unarchive and rclone release using 7z
-  command: 7z e /tmp/rclone-v{{ rclone_version }}-linux-amd64.zip */rclone -o/usr/local/bin/
+  ansible.builtin.command: 7z e /tmp/rclone-v{{ rclone_version }}-linux-amd64.zip */rclone -o/usr/local/bin/
   become: True
   when: unarchive_use_7z
 
 - name: Remove tmp file
-  file:
+  ansible.builtin.file:
     path: "/tmp/rclone-v{{ rclone_version }}-linux-amd64.zip"
     state: absent
 
 - name: Remove tmp dir
-  file:
+  ansible.builtin.file:
     path: "/tmp/rclone-v{{ rclone_version }}-linux-amd64"
     state: absent

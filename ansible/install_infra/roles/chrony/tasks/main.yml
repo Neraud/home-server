@@ -1,6 +1,6 @@
 ---
 - name: Configure UFW for chrony server
-  include_role:
+  ansible.builtin.include_role:
     name: firewall
     tasks_from: add-applications
   when: chrony_server_enabled
@@ -8,33 +8,33 @@
     ufw_applications: "{{ chrony_server_ufw_applications }}"
 
 - name: Install Chrony
-  apt:
+  ansible.builtin.apt:
     pkg: chrony
     state: present
 
 - name: Disable default sources
-  replace:
+  ansible.builtin.replace:
     dest: /etc/chrony/chrony.conf
     regexp: "^(peer|pool|server) (.*)"
     replace: '#\1 \2'
   notify: Restart Chrony
 
 - name: Configure server
-  template:
+  ansible.builtin.template:
     src: "server.conf.j2"
     dest: /etc/chrony/conf.d/server.conf
   when: chrony_server_enabled
   notify: Restart Chrony
 
 - name: Disable server
-  file:
+  ansible.builtin.file:
     path: /etc/chrony/conf.d/server.conf
     state: absent
   when: not chrony_server_enabled
   notify: Restart Chrony
 
 - name: Configure sources
-  template:
+  ansible.builtin.template:
     src: "custom.sources.j2"
     dest: /etc/chrony/sources.d/custom.sources
   notify: Reload Chrony sources

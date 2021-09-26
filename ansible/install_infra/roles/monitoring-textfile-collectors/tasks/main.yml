@@ -1,35 +1,35 @@
 ---
 # moreutils is required for sponge
 - name: Ensure moreutils is installed
-  apt:
+  ansible.builtin.apt:
     pkg: moreutils
     state: present
 
 - name: Ensure textfile collector directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ textfile_collector_directory }}"
     state: directory
 
 - name: Ensure textfile collector script directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ textfile_collector_scripts_directory }}"
     state: directory
 
 - name: Deploy cleaner
-  template:
+  ansible.builtin.template:
     src: "cleaner.sh.j2"
     dest: "{{ textfile_collector_scripts_directory }}/cleaner.sh"
     mode: 0755
 
 - name: Deploy collectors
-  template:
+  ansible.builtin.template:
     src: "collectors/{{ item.script }}.j2"
     dest: "{{ textfile_collector_scripts_directory }}/{{ item.script }}"
     mode: 0755
   loop: "{{ textfile_collectors | default([]) }}"
 
 - name: Create cleaner cron job
-  cron:
+  ansible.builtin.cron:
     name: "cleaner"
     cron_file: "textfile_collectors"
     user: root
@@ -41,7 +41,7 @@
     month: "*"
 
 - name: Create collectors cron jobs
-  cron:
+  ansible.builtin.cron:
     name: "{{ item.name }}"
     cron_file: "textfile_collectors"
     user: "{{ item.user | default('root') }}"

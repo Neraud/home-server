@@ -1,12 +1,12 @@
 ---
 - name: Install GO requirements
-  apt:
+  ansible.builtin.apt:
     pkg:
       - golang-go
     state: present
 
 - name: Install build requirements
-  command: "{{ item }}"
+  ansible.builtin.command: "{{ item }}"
   environment:
     GOPATH: "{{ gluster_prometheus_exporter_go_path }}"
   loop:
@@ -16,7 +16,7 @@
   changed_when: "build_dependencies_result.stdout_lines | length > 0"
 
 - name: Install gometalinter
-  command: "{{ gluster_prometheus_exporter_go_path }}/bin/gometalinter --install --update"
+  ansible.builtin.command: "{{ gluster_prometheus_exporter_go_path }}/bin/gometalinter --install --update"
   environment:
     GOPATH: "{{ gluster_prometheus_exporter_go_path }}"
   when: build_dependencies_result.changed
@@ -26,14 +26,14 @@
     - skip_ansible_lint
 
 - name: Clone Gluster Prometheus Exporter repo
-  git:
+  ansible.builtin.git:
     repo: https://github.com/gluster/gluster-prometheus.git
     dest: "{{ gluster_prometheus_exporter_go_path }}/src/github.com/gluster/gluster-prometheus"
     version: c6f2211963df5e5cd613c7bfdfb8319fdce922c4
   register: clone_gluster_prometheus_result
 
 - name: Make Gluster Prometheus Exporter
-  make:
+  community.general.make:
     chdir: "{{ gluster_prometheus_exporter_go_path }}/src/github.com/gluster/gluster-prometheus"
     params:
       PREFIX: /usr
@@ -48,7 +48,7 @@
     - skip_ansible_lint
 
 - name: Install Gluster Prometheus Exporter
-  make:
+  community.general.make:
     chdir: "{{ gluster_prometheus_exporter_go_path }}/src/github.com/gluster/gluster-prometheus"
     target: install
     params:
@@ -65,24 +65,24 @@
     - skip_ansible_lint
 
 - name: Configure Gluster Prometheus Exporter
-  template:
+  ansible.builtin.template:
     src: gluster-exporter.toml.j2
     dest: /etc/gluster-exporter/gluster-exporter.toml
   notify: Restart Gluster Prometheus Exporter
 
 - name: Prepare Gluster Prometheus Exporter service override
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/gluster-exporter.service.d
     state: directory
 
 - name: Configure Gluster Prometheus Exporter service
-  template:
+  ansible.builtin.template:
     src: gluster-exporter_override.service.j2
     dest: /etc/systemd/system/gluster-exporter.service.d/override.conf
   notify: Restart Gluster Prometheus Exporter
 
 - name: Auto-start gluster-exporter
-  service:
+  ansible.builtin.service:
     name: gluster-exporter.service
     state: started
     enabled: yes

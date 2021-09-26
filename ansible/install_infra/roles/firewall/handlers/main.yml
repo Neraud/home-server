@@ -1,4 +1,4 @@
 ---
 - name: Reload ufw
-  ufw:
+  community.general.ufw:
     state: reloaded

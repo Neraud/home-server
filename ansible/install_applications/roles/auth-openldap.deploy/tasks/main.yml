@@ -1,23 +1,23 @@
 ---
 - name: Ensure OpenLDAP namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ openldap.namespace }}"
 
 - name: Deploy OpenLDAP backup script
-  import_tasks: ../../_base.deploy/tasks/backup.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/backup.yml
   vars:
     app_backup: "{{ openldap.app_backup }}"
   tags: backup
 
 - name: Ensure OpenLDAP image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ openldap.base_image }}"
     private_image: "{{ openldap.container.image }}"
 
 - name: Read certificate files
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ item }}"
   register: openldap_generated_certificate_files
   with_items:
@@ -27,13 +27,13 @@
     - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ldap/dhparam.pem"
 
 - name: List config files
-  set_fact:
+  ansible.builtin.set_fact:
     openldap_config_files: "{{ openldap_config_files | default([]) + [ item ] }}"
   with_fileglob:
     - "{{ role_path }}/app/config/*.yaml*"
 
 - name: Deploy OpenLDAP
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
@@ -42,7 +42,7 @@
     - "{{ role_path }}/app/deploy/*.yaml*"
 
 - name: Wait for OpenLDAP to be available
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ openldap.namespace }}"
     name: openldap
@@ -56,12 +56,12 @@
 # On first start, OpenLdap restarts to run its setup process
 # So if the first wait task has waited, we make sure it's really still up a few seconds later
 - name: Wait a bit ...
-  pause:
+  ansible.builtin.pause:
     seconds: 10
   when: k8s_result.attempts > 1
 
 - name: Wait for OpenLDAP to be available
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ openldap.namespace }}"
     name: openldap
@@ -74,7 +74,7 @@
   when: k8s_result.attempts > 1
 
 - name: Create LDAP base OUs
-  ldap_entry:
+  community.general.ldap_entry:
     server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
@@ -87,7 +87,7 @@
     - "{{ openldap.ldap.structure_groups_ou_dns | dict2items | map(attribute='value') | list }}"
 
 - name: Create LDAP users
-  ldap_entry:
+  community.general.ldap_entry:
     server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
@@ -102,7 +102,7 @@
     label: "{{ item.id }}"
 
 - name: Set LDAP users attributes
-  ldap_attrs:
+  community.general.ldap_attrs:
     server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
@@ -118,7 +118,7 @@
     label: "{{ item.id }}"
 
 - name: Set LDAP users password
-  ldap_passwd:
+  community.general.ldap_passwd:
     server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
@@ -130,7 +130,7 @@
     label: "{{ item.id }}"
 
 - name: Create LDAP groups
-  ldap_entry:
+  community.general.ldap_entry:
     server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
@@ -143,7 +143,7 @@
   with_items: "{{ openldap.ldap.groups | default([]) }}"
 
 - name: Set LDAP groups attributes
-  ldap_attrs:
+  community.general.ldap_attrs:
     server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"
@@ -157,7 +157,7 @@
     label: "{{ item.id }}"
 
 - name: Set LDAP groups members
-  ldap_attrs:
+  community.general.ldap_attrs:
     server_uri: "ldaps://{{ kubernetes_openldap_lb_ip }}"
     bind_dn: "{{ openldap.ldap.admin_dn }}"
     bind_pw: "{{ openldap.ldap.admin_password }}"

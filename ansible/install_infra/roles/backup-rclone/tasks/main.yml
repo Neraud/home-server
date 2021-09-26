@@ -1,6 +1,6 @@
 ---
 - name: Check current rclone installation
-  command: /usr/local/bin/rclone version
+  ansible.builtin.command: /usr/local/bin/rclone version
   failed_when: False
   changed_when: False
   register: rclone_current_version
@@ -11,7 +11,7 @@
   when: rclone_current_version.rc != 0 or 'rclone v'+ rclone_version not in rclone_current_version.stdout
 
 - name: Ensure rclone backup scripts directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: 0700
@@ -20,13 +20,13 @@
     - "{{ rclone_configurations_dir }}"
 
 - name: Deploy rclone configuration
-  template:
+  ansible.builtin.template:
     src: rclone.conf.j2
     dest: "{{ rclone_configurations_dir }}/rclone.conf"
     mode: 0600
 
 - name: Deploy rclone additional configuration files
-  copy:
+  ansible.builtin.copy:
     dest: "{{ rclone_configurations_dir }}/{{ item.key }}"
     content: "{{ item.value }}"
     mode: 0600
@@ -35,13 +35,13 @@
     label: "{{ item.key }}"
 
 - name: Search for existing rclone backup scripts
-  find:
+  ansible.builtin.find:
     paths: "{{ rclone_backup_scripts_dir }}"
     patterns: "rclone_backup_to_*.sh"
   register: existing_rclone_scripts
 
 - name: Deploy rclone backup scripts
-  template:
+  ansible.builtin.template:
     src: "rclone_backup.sh.j2"
     dest: "{{ rclone_backup_scripts_dir }}/rclone_backup_to_{{ item.repo_name }}.sh"
     mode: 0700
@@ -50,7 +50,7 @@
     label: "{{ item.repo_name }}"
 
 - name: List rclone backup scripts to remove
-  set_fact:
+  ansible.builtin.set_fact:
     existing_rclone_scripts_to_remove: "{{ existing_rclone_scripts_to_remove | default([]) + [ item.path ] }}"
   loop: "{{ existing_rclone_scripts.files }}"
   loop_control:
@@ -58,7 +58,7 @@
   when: (item.path | basename | regex_replace('^rclone_backup_to_(.*).sh', '\\1')) not in (rclone_backups | map(attribute='repo_name') | list)
 
 - name: Remove rclone backup scripts to remove
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   loop: "{{ existing_rclone_scripts_to_remove | default([]) }}"

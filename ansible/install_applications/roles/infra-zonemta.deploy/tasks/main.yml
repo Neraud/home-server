@@ -1,17 +1,17 @@
 ---
 - name: Ensure ZoneMTA namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ zonemta.namespace }}"
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure ZoneMTA image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ zonemta.base_image }}"
     private_image: "{{ zonemta.container.image }}"
@@ -20,19 +20,19 @@
       ZONE_MTA_VERSION: "{{ zonemta.version }}"
 
 - name: Ensure ZoneMTA Mongo image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ zonemta_mongo.base_image }}"
     private_image: "{{ zonemta_mongo.container.image }}"
 
 - name: Ensure ZoneMTA Redis image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ zonemta_redis.base_image }}"
     private_image: "{{ zonemta_redis.container.image }}"
 
 - name: Read generated files
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ item }}"
   register: zonemta_generated_certificate_files
   with_items:
@@ -41,13 +41,13 @@
     - "{{ custom_ssl_pki_generation_root_dir }}/cluster/smtp/server.key"
 
 - name: List config files
-  set_fact:
+  ansible.builtin.set_fact:
     zonemta_config_files: "{{ zonemta_config_files | default([]) + [ item ] }}"
   with_fileglob:
     - "{{ role_path }}/app/config/zone-mta/*.toml*"
 
 - name: Deploy ZoneMTA
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

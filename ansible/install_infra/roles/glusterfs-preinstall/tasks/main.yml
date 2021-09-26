@@ -4,12 +4,12 @@
 # (we might want to enable custom repo again in the future, but for now it's not needed)
 
 #- name: Add Gluster repo key
-#  apt_key:
+#  ansible.builtin.apt_key
 #    url: https://download.gluster.org/pub/gluster/glusterfs/9/rsa.pub
 #    state: present
 #
 #- name: Add Gluster repo
-#  apt_repository:
+#  ansible.builtin.apt_repository:
 #    filename: "gluster"
 #    repo: "deb https://download.gluster.org/pub/gluster/glusterfs/9/9.2/Debian/{{ ansible_lsb.codename }}/amd64/apt {{ ansible_lsb.codename }} main"
 #    state: present

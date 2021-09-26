@@ -1,61 +1,61 @@
 ---
 - name: Allow non local ip bind
-  sysctl:
+  ansible.posix.sysctl:
     name: "net.ipv4.ip_nonlocal_bind"
     value: "1"
     state: present
 
 - name: Configure UFW for NGinx
-  include_role:
+  ansible.builtin.include_role:
     name: firewall
     tasks_from: add-applications
   vars:
     ufw_applications: "{{ nginx_ufw_applications }}"
 
 - name: Configure Keepalived VirtualIP
-  include_role:
+  ansible.builtin.include_role:
     name: keepalived
     tasks_from: add-virtual-ip
   vars:
     keepalived_instance: "{{ nginx_keepalived_instance }}"
 
 - name: Install NGinx
-  apt:
+  ansible.builtin.apt:
     pkg: nginx
     state: present
 
 - name: Disable standard default VH
-  file:
+  ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
     state: absent
   notify: Restart NGinx
 
 - name: Prepare default disabled_robots.txt
-  template:
+  ansible.builtin.template:
     src: robots_disallow_all.txt.j2
     dest: "{{ nginx_default_disabled_robots_path }}"
 
 - name: Prepare default index.html
-  template:
+  ansible.builtin.template:
     src: index.nginx-debian.html.j2
     dest: "{{ nginx_default_index_html_path }}"
 
 - name: Create htpasswd dir
-  file:
+  ansible.builtin.file:
     path: "{{ item.path | dirname }}"
     state: directory
   with_items: "{{ nginx_htpasswd | default([]) }}"
   when: item.path is defined
 
 - name: Create htpasswd files
-  template:
+  ansible.builtin.template:
     src: htpasswd.j2
     dest: "{{ item.path }}"
   with_items: "{{ nginx_htpasswd | default([]) }}"
   when: item.path is defined
 
 - name: Configure NGinx
-  template:
+  ansible.builtin.template:
     src: "{{ item }}.conf.j2"
     dest: "/etc/nginx/conf.d/{{ item }}.conf"
   with_items:
@@ -65,20 +65,20 @@
   notify: Restart NGinx
 
 - name: Configure NGinx custom proxy params
-  template:
+  ansible.builtin.template:
     src: "custom_proxy_params.j2"
     dest: "/etc/nginx/custom_proxy_params"
   notify: Restart NGinx
 
 - name: Configure NGinx for streams
-  template:
+  ansible.builtin.template:
     src: streams_include.conf.j2
     dest: /etc/nginx/modules-enabled/99-streams_include.conf
   when: nginx_streams | default([]) | length  > 0
   notify: Restart NGinx
 
 - name: Check streams include dir
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
   with_items:
@@ -88,27 +88,27 @@
   when: nginx_streams | default([]) | length  > 0
 
 - name: Generate Diffie-Hellman group
-  command: openssl dhparam -out {{ nginx_ssl_dhparam_path }} {{ nginx_ssl_dhparam_size }}
+  ansible.builtin.command: openssl dhparam -out {{ nginx_ssl_dhparam_path }} {{ nginx_ssl_dhparam_size }}
   args:
     creates: "{{ nginx_ssl_dhparam_path }}"
   when: nginx_ssl_dhparam_generate
 
 - name: List certificates to generate
-  set_fact:
+  ansible.builtin.set_fact:
     nginx_selfsigned_sites: "{{ nginx_sites | selectattr('https_cert', 'defined') | selectattr('https_cert.mode', 'equalto', 'selfsigned') | list }}"
 
 - import_tasks: ssl_certs_selfsigned.yml
   when: nginx_selfsigned_sites | length > 0
 
 - name: Configure site upstreams
-  template:
+  ansible.builtin.template:
     src: upstreams.j2
     dest: /etc/nginx/conf.d/upstreams.conf
     backup: true
   notify: Restart NGinx
 
 - name: Configure sites
-  template:
+  ansible.builtin.template:
     src: sites.j2
     dest: "/etc/nginx/sites-available/{{ item.name }}"
     backup: true
@@ -116,14 +116,14 @@
   notify: Restart NGinx
 
 - name: Configure stream upstreams
-  template:
+  ansible.builtin.template:
     src: upstreams.j2
     dest: "{{ nginx_streams_conf_dir }}/upstreams.conf"
     backup: true
   notify: Restart NGinx
 
 - name: Configure streams
-  template:
+  ansible.builtin.template:
     src: streams.j2
     dest: "{{ nginx_streams_available_dir }}/{{ item.name }}"
     backup: true
@@ -131,7 +131,7 @@
   notify: Restart NGinx
 
 - name: Enable sites
-  file:
+  ansible.builtin.file:
     src: "/etc/nginx/sites-available/{{ item.name }}"
     dest: "/etc/nginx/sites-enabled/{{ item.enabled_name }}"
     state: link
@@ -139,7 +139,7 @@
   notify: Restart NGinx
 
 - name: Enable streams
-  file:
+  ansible.builtin.file:
     src: "{{ nginx_streams_available_dir }}/{{ item.name }}"
     dest: "{{ nginx_streams_enabled_dir }}/{{ item.enabled_name }}"
     state: link
@@ -147,13 +147,13 @@
   notify: Restart NGinx
 
 - name: Auto-start NGinx
-  service:
+  ansible.builtin.service:
     name: nginx
     state: started
     enabled: yes
 
 - name: Generate letsencrypt pre_hook script
-  copy:
+  ansible.builtin.copy:
     dest: "{{ letsencrypt_hooks_pre_include_dir }}/nginx_pre_hook.sh"
     content: |
       #!/usr/bin/env bash
@@ -163,7 +163,7 @@
     mode: 0755
 
 - name: Generate letsencrypt post_hook script
-  copy:
+  ansible.builtin.copy:
     dest: "{{ letsencrypt_hooks_post_include_dir }}/nginx_post_hook.sh"
     content: |
       #!/usr/bin/env bash

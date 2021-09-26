@@ -1,29 +1,29 @@
 ---
 - name: Ensure ElasticSearch namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ elasticsearch.namespace }}"
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure ElasticSearch image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ elasticsearch.base_image }}"
     private_image: "{{ elasticsearch.container.image }}"
 
 - name: Ensure ElasticSearch Exporter image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ elasticsearch_exporter.base_image }}"
     private_image: "{{ elasticsearch_exporter.container.image }}"
 
 - name: Read generated files
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ item }}"
   register: elasticsearch_generated_certificate_files
   with_items:
@@ -32,13 +32,13 @@
     - "{{ custom_ssl_pki_generation_root_dir }}/cluster/elasticsearch/server.key"
 
 - name: List included security config files
-  set_fact:
+  ansible.builtin.set_fact:
     elasticsearch_security_config_files: "{{ elasticsearch_security_config_files | default([]) + [ item ] }}"
   with_fileglob:
     - "{{ role_path }}/app/config/security/*.yml*"
 
 - name: Deploy ElasticSearch
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
@@ -49,7 +49,7 @@
   notify: "Reconfigure Elasticsearch security"
 
 - name: Deploy ElasticSearch Exporter
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
@@ -58,7 +58,7 @@
     - "{{ role_path }}/app/deploy/prometheus_exporter/*.yaml*"
 
 - name: Wait for ElasticSearch to be available
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ elasticsearch.namespace }}"
     name: elasticsearch
@@ -72,12 +72,12 @@
 # On first start, ElasticSearch restarts to run its setup process
 # So if the first wait task has waited, we make sure it's really still up a few seconds later
 - name: Wait a bit ...
-  pause:
+  ansible.builtin.pause:
     seconds: 10
   when: k8s_result.attempts > 1
 
 - name: Wait for ElasticSearch to be available
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ elasticsearch.namespace }}"
     name: elasticsearch
@@ -89,11 +89,11 @@
   delay: 3
 
 - name: Load {{ elasticsearch.logstash_policy.name }} policy
-  set_fact:
+  ansible.builtin.set_fact:
     logstash_policy_content: "{{ lookup('template', 'logstash_policy.json.j2') }}"
 
 - name: Get current logstash {{ elasticsearch.logstash_policy.name }} policy
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
     method: GET
     headers:
@@ -106,7 +106,7 @@
   register: current_ism_policy
 
 - name: Create logstash {{ elasticsearch.logstash_policy.name }} policy
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
     method: PUT
     headers:
@@ -125,13 +125,13 @@
 - name: Update {{ elasticsearch.logstash_policy.name }} policy if necessary
   block:
     - name: Filter fields from current {{ elasticsearch.logstash_policy.name }} policy
-      set_fact:
+      ansible.builtin.set_fact:
         current_ism_policy_filtered: "{{ current_ism_policy_filtered | default({}) | combine({item.key: item.value}) }}"
       when: item.key not in ['error_notification', 'last_updated_time', 'ism_template']
       loop: "{{ current_ism_policy.json.policy | default({}) | dict2items }}"
 
     - name: Update {{ elasticsearch.logstash_policy.name }} policy
-      uri:
+      ansible.builtin.uri:
         url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}?if_seq_no={{ current_ism_policy.json._seq_no }}&if_primary_term={{ current_ism_policy.json._primary_term }}"
         method: PUT
         headers:
@@ -149,7 +149,7 @@
   when: current_ism_policy.status != 404
 
 - name: Prepare wanted index settings
-  set_fact:
+  ansible.builtin.set_fact:
     default_wanted_index_settings:
       # By default, an index is created with 1 replica.
       # If we only have 1 node, this index will remain yellow
@@ -164,7 +164,7 @@
       refresh_interval: "10s"
 
 - name: Get current default ElasticSearch index template
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/default"
     method: GET
     headers:
@@ -177,7 +177,7 @@
   register: current_default_index_template
 
 - name: Configure default ElasticSearch index template
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/default"
     method: POST
     headers:
@@ -201,7 +201,7 @@
     or (current_default_index_template.json.index_templates[0].index_template.template.settings.index != default_wanted_index_settings)
 
 - name: Get current logstash ElasticSearch index template
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/logstash"
     method: GET
     headers:
@@ -214,7 +214,7 @@
   register: current_logstash_index_template
 
 - name: Configure logstash ElasticSearch index template
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/logstash"
     method: POST
     headers:
@@ -238,7 +238,7 @@
     or (current_logstash_index_template.json.index_templates[0].index_template.template.settings.index != logstash_wanted_index_settings)
 
 - name: List existing ElasticSearch indices
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/*?expand_wildcards=open,hidden"
     method: GET
     headers:
@@ -251,7 +251,7 @@
   register: elasticsearch_existing_indices
 
 - name: Update existing ElasticSearch default indices
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/{{ item.key }}/_settings"
     method: PUT
     headers:
@@ -274,7 +274,7 @@
     - default_wanted_index_settings | dict2items | difference(item.value.settings.index | dict2items)
 
 - name: Update existing ElasticSearch logstash indices
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/{{ item.key }}/_settings"
     method: PUT
     headers:

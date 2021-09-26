@@ -1,6 +1,6 @@
 ---
 - name: Create a trusted storage pool
-  gluster_peer:
+  gluster.gluster.gluster_peer:
     state: present
     nodes:
       - "{{ item }}"
@@ -10,7 +10,7 @@
   when: item != groups['glusterfs_servers'][0]
 
 - name: Create volumes
-  gluster_volume:
+  gluster.gluster.gluster_volume:
     name: "{{ item.key }}"
     bricks: "{{ glusterfs_brick_root }}/{{ item.key }}/brick1/brick"
     replicas: "{{ item.value.replicas }}"
@@ -22,7 +22,7 @@
   loop: "{{ glusterfs_volumes | default({}) | dict2items }}"
 
 - name: Start volumes
-  gluster_volume:
+  gluster.gluster.gluster_volume:
     name: "{{ item.key }}"
     state: started
   run_once: true

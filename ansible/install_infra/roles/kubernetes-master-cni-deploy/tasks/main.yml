@@ -1,11 +1,11 @@
 ---
 - name: Deploy Flannel CNI
-  import_tasks: flannel.yml
+  ansible.builtin.import_tasks: flannel.yml
   when: kubernetes_cni == 'flannel'
 
 - name: Deploy Calico CNI
-  import_tasks: calico.yml
+  ansible.builtin.import_tasks: calico.yml
   when: kubernetes_cni == 'calico'
 
 - name: Deploy Multus CNI
-  import_tasks: multus.yml
+  ansible.builtin.import_tasks: multus.yml

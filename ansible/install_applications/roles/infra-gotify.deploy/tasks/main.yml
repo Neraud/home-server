@@ -1,29 +1,29 @@
 ---
 - name: Ensure Gotify namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ gotify.namespace }}"
 
 - name: Deploy Gotify backup script
-  import_tasks: ../../_base.deploy/tasks/backup.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/backup.yml
   vars:
     app_backup: "{{ gotify.app_backup }}"
   tags: backup
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure Gotify image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ gotify.base_image }}"
     private_image: "{{ gotify.container.image }}"
 
 - name: Deploy Gotify
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
@@ -32,7 +32,7 @@
     - "{{ role_path }}/app/deploy/*.yaml*"
 
 - name: Wait for Gotify to be available
-  k8s_info:
+  kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ gotify.namespace }}"
     name: gotify
@@ -44,7 +44,7 @@
   delay: 3
 
 - name: List existing users
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/user"
     method: GET
     headers:
@@ -57,7 +57,7 @@
   register: gotify_existing_users
 
 - name: Create missing users
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/user"
     method: POST
     headers:
@@ -77,7 +77,7 @@
   when: item.name not in (gotify_existing_users.json | map(attribute='name'))
 
 - name: List existing applications
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/application"
     method: GET
     headers:
@@ -91,12 +91,12 @@
   register: gotify_existing_applications
 
 - name: Clean existing application list
-  set_fact:
+  ansible.builtin.set_fact:
     gotify_existing_applications_cleaned: "{{ gotify_existing_applications_cleaned | default({}) | combine( { item.item.name: item.json } ) }}"
   with_items: "{{ gotify_existing_applications.results }}"
 
 - name: Create missing applications
-  uri:
+  ansible.builtin.uri:
     url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/application"
     method: POST
     headers:

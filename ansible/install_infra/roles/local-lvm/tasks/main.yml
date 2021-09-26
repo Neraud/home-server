@@ -1,6 +1,6 @@
 ---
 - name: Create storage LVs
-  lvol:
+  community.general.lvol:
     vg: "{{ local_storage_vg }}"
     lv: "{{ local_lv_prefix }}{{ item.key }}"
     resizefs: yes
@@ -12,7 +12,7 @@
     label: "{{ item.key }}"
 
 - name: Create storage filesystems
-  filesystem:
+  community.general.filesystem:
     fstype: "{{ item.value.filesystem }}"
     dev: "/dev/{{ local_storage_vg }}/{{ local_lv_prefix }}{{ item.key }}"
   loop: "{{ local_lvm_storage | default({}) | dict2items }}"
@@ -21,7 +21,7 @@
   when: item.value.filesystem is defined
 
 - name: Mount storage
-  mount:
+  ansible.posix.mount:
     state: mounted
     path: "{{ item.value.mount_path }}"
     src: "/dev/{{ local_storage_vg }}/{{ local_lv_prefix }}{{ item.key }}"

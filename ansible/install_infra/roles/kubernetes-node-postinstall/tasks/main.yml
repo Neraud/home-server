@@ -1,13 +1,13 @@
 ---
 - name: Create kube configuration folder for kubernetes users
-  file:
+  ansible.builtin.file:
     path: "{{ item.home }}/.kube"
     state: directory
     owner: "{{ item.name }}"
   loop: "{{ kubernetes_users }}"
 
 - name: Configure kube for kubernetes users
-  copy:
+  ansible.builtin.copy:
     dest: "{{ item.home }}/.kube/config"
     src: /etc/kubernetes/admin.conf
     remote_src: yes
@@ -16,7 +16,7 @@
   loop: "{{ kubernetes_users }}"
 
 - name: Enable k8s autocompletion for kubernetes users
-  copy:
+  ansible.builtin.copy:
     dest: "{{ item.home }}/.bashrc.d/k8s_autocomplete.bashrc"
     content: |
       # kubectl completion
@@ -26,24 +26,24 @@
   when: item.install_autocomplete | default('no') | bool
 
 - name: Get current node info
-  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} get nodes {{ ansible_hostname | lower }} -o yaml
+  ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} get nodes {{ ansible_hostname | lower }} -o yaml
   delegate_to: "{{ groups.controller | first }}"
   changed_when: false
   register: current_node_tags_results
 
 - name: Extract current node tags and taints
-  set_fact:
+  ansible.builtin.set_fact:
     current_node_tags: "{{ (current_node_tags_results.stdout | from_yaml).metadata.labels }}"
     current_node_taints: "{{ (current_node_tags_results.stdout | from_yaml).spec.taints | default([]) }}"
 
 - name: Tag node
-  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} label nodes {{ ansible_hostname | lower }} --overwrite=true {{ item.name }}={{ item.value }}
+  ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} label nodes {{ ansible_hostname | lower }} --overwrite=true {{ item.name }}={{ item.value }}
   delegate_to: "{{ groups.controller | first }}"
   with_items: "{{ kubernetes_node_labels | default([]) }}"
   when: (item.name not in current_node_tags) or (item.value != current_node_tags[item.name])
 
 - name: Untag node
-  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} label nodes {{ ansible_hostname | lower }} {{ item }}-
+  ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} label nodes {{ ansible_hostname | lower }} {{ item }}-
   delegate_to: "{{ groups.controller | first }}"
   with_items: "{{ current_node_tags }}"
   when:
@@ -51,7 +51,7 @@
     - item not in (kubernetes_node_labels | default([]) | map(attribute='name'))
 
 - name: Look for taints to add (with value)
-  set_fact:
+  ansible.builtin.set_fact:
     node_taints_to_add: "{{ node_taints_to_add | default([]) + [ item ] }}"
   with_items: "{{ kubernetes_node_taints | default([]) }}"
   when:
@@ -60,7 +60,7 @@
     - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'defined') | selectattr('value', 'equalto', item.value | default('')) | selectattr('effect', 'equalto', item.effect) | list | length == 0
 
 - name: Look for taints to add (without value)
-  set_fact:
+  ansible.builtin.set_fact:
     node_taints_to_add: "{{ node_taints_to_add | default([]) + [ item ] }}"
   with_items: "{{ kubernetes_node_taints | default([]) }}"
   when:
@@ -69,7 +69,7 @@
     - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'undefined') | selectattr('effect', 'equalto', item.effect) | list | length == 0
 
 - name: Look for taints to remove (with value)
-  set_fact:
+  ansible.builtin.set_fact:
     node_taints_to_remove: "{{ node_taints_to_remove | default([]) + [ item ] }}"
   with_items: "{{ kubernetes_node_taints | default([]) }}"
   when:
@@ -78,7 +78,7 @@
     - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'defined') | selectattr('value', 'equalto', item.value | default('')) | selectattr('effect', 'equalto', item.effect) | list | length > 0
 
 - name: Look for taints to remove (without value)
-  set_fact:
+  ansible.builtin.set_fact:
     node_taints_to_remove: "{{ node_taints_to_remove | default([]) + [ item ] }}"
   with_items: "{{ kubernetes_node_taints | default([]) }}"
   when:
@@ -87,14 +87,14 @@
     - current_node_taints | selectattr('key', 'equalto', item.key) | selectattr('value', 'undefined') | selectattr('effect', 'equalto', item.effect) | list | length > 0
 
 - name: Taint node
-  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} taint nodes {{ ansible_hostname | lower }} {{ item.key }}={{ item.value }}:{{ item.effect }}
+  ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} taint nodes {{ ansible_hostname | lower }} {{ item.key }}={{ item.value }}:{{ item.effect }}
   delegate_to: "{{ groups.controller | first }}"
   with_items: "{{ node_taints_to_add | default([]) }}"
   # Without an explicit changed_when, the linter complains with: [301] Commands should not change things if nothing needs doing
   changed_when: True
 
 - name: Untaint node
-  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} taint nodes {{ ansible_hostname | lower }} {{ item.key }}:{{ item.effect }}-
+  ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} taint nodes {{ ansible_hostname | lower }} {{ item.key }}:{{ item.effect }}-
   delegate_to: "{{ groups.controller | first }}"
   with_items: "{{ node_taints_to_remove | default([]) }}"
   # Without an explicit changed_when, the linter complains with: [301] Commands should not change things if nothing needs doing

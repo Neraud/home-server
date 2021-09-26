@@ -1,11 +1,11 @@
 ---
 - name: Create Keepalived Prometheus Exporter dir
-  file:
+  ansible.builtin.file:
     path: "{{ keepalived.exporter.path }}"
     state: directory
 
 - name: Download Keepalived Prometheus Exporter
-  unarchive:
+  ansible.builtin.unarchive:
     src: https://github.com/cafebazaar/keepalived-exporter/releases/download/v{{ keepalived.exporter.version }}/keepalived-exporter-{{ keepalived.exporter.version }}.linux-amd64.tar.gz
     dest: "{{ keepalived.exporter.path }}"
     remote_src: yes
@@ -13,13 +13,13 @@
   notify: Restart Keepalived Exporter
 
 - name: Create systemd service
-  template:
+  ansible.builtin.template:
     src: keepalived-exporter.service.j2
     dest: /etc/systemd/system/keepalived-exporter.service
   notify: Restart Keepalived Exporter
 
 - name: Auto-start keepalived-exporter
-  service:
+  ansible.builtin.service:
     name: keepalived-exporter.service
     state: started
     enabled: yes

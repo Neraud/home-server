@@ -1,26 +1,26 @@
 ---
 - name: Enable IPv4 forwarding
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: "1"
     reload: yes
 
 - name: Configure UFW for Wireguard
-  include_role:
+  ansible.builtin.include_role:
     name: firewall
     tasks_from: add-applications
   vars:
     ufw_applications: "{{ wireguard_ufw_applications }}"
 
 - name: Configure Keepalived VirtualIP
-  include_role:
+  ansible.builtin.include_role:
     name: keepalived
     tasks_from: add-virtual-ip
   vars:
     keepalived_instance: "{{ wireguard.keepalived_instance }}"
 
 - name: Install Wireguard
-  apt:
+  ansible.builtin.apt:
     pkg:
       - wireguard
     state: present
@@ -29,7 +29,7 @@
   when: ansible_hostname == groups['wireguard_servers'][0]
 
 - name: Synchronize Wireguard configuration
-  synchronize:
+  ansible.posix.synchronize:
     src: "{{ wireguard.generation_dir }}/"
     dest: "{{ wireguard.config_dir }}/"
     recursive: yes
@@ -38,7 +38,7 @@
   when: ansible_hostname != groups['wireguard_servers'][0]
 
 - name: Auto-start Wireguard
-  service:
+  ansible.builtin.service:
     name: wg-quick@{{ wireguard.server.interface }}
     state: started
     enabled: yes

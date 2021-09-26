@@ -1,12 +1,12 @@
 ---
 - name: Install GlusterFS client
-  apt:
+  ansible.builtin.apt:
     pkg:
       - glusterfs-client
     state: present
 
 - name: Mount volumes
-  mount:
+  ansible.posix.mount:
     state: mounted
     path: "{{ item.value.mount_path }}"
     src: "{{ groups['glusterfs_servers'][0] }}:/{{ item.key }}"

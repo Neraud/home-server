@@ -1,49 +1,49 @@
 ---
 - name: Install socat
-  apt:
+  ansible.builtin.apt:
     pkg: socat
     state: present
 
 - name: List existing socat systemd services
-  find:
+  ansible.builtin.find:
     paths: /etc/default/
     patterns: "socat-serial@*"
   register: existing_socat_services
 
 - name: List existing socat systemd services to remove
-  set_fact:
+  ansible.builtin.set_fact:
     existing_socat_services_to_remove: "{{ existing_socat_services_to_remove | default([]) + [ item.path | regex_replace('^.*@', '') ] }}"
   with_items: "{{ existing_socat_services.files }}"
   when: item.path | regex_replace('^.*@', '') not in serial_remote_devices
 
 - name: Stop socat systemd services to remove
-  service:
+  ansible.builtin.service:
     name: "socat-serial@{{ item }}"
     enabled: no
     state: stopped
   with_items: "{{ existing_socat_services_to_remove | default([]) }}"
 
 - name: Remove socat systemd defaults to remove
-  file:
+  ansible.builtin.file:
     path: "/etc/default/socat-serial@{{ item }}"
     state: absent
   with_items: "{{ existing_socat_services_to_remove | default([]) }}"
 
 - name: Generate socat systemd services
-  template:
+  ansible.builtin.template:
     dest: /etc/systemd/system/socat-serial@.service
     src: socat-serial@.service.j2
   notify: Restart socat
 
 - name: Generate socat systemd defaults
-  template:
+  ansible.builtin.template:
     dest: /etc/default/socat-serial@{{ item.key }}
     src: socat-serial.default.j2
   with_dict: "{{ serial_remote_devices }}"
   notify: Restart socat
 
 - name: Auto-start socat
-  service:
+  ansible.builtin.service:
     name: socat-serial@{{ item.key }}
     state: started
     enabled: yes

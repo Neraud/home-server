@@ -1,29 +1,29 @@
 ---
 - name: Ensure TT-RSS namespace exists
-  import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ ttrss.namespace }}"
 
 - name: Deploy TT-RSS backup script
-  import_tasks: ../../_base.deploy/tasks/backup.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/backup.yml
   vars:
     app_backup: "{{ ttrss.app_backup }}"
   tags: backup
 
 - name: Deploy TT-RSS PGSQL backup script
-  import_tasks: ../../_base.deploy/tasks/backup.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/backup.yml
   vars:
     app_backup: "{{ ttrss_pgsql.app_backup }}"
   tags: backup
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure TT-RSS image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ ttrss.base_image }}"
     private_image: "{{ ttrss.container.image }}"
@@ -35,13 +35,13 @@
       ttrss_plugin_mailer_smtp_url: "{{ ttrss.plugins.mailer_smtp.repo_url }}/archive/{{ ttrss.plugins.mailer_smtp.commit }}.tar.gz"
 
 - name: Ensure TT-RSS PGSQL image is up-to-date in the private registry
-  import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../_base.deploy/tasks/docker-image-private-registry.yml
   vars:
     base_image: "{{ ttrss_pgsql.base_image }}"
     private_image: "{{ ttrss_pgsql.container.image }}"
 
 - name: Deploy TT-RSS
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

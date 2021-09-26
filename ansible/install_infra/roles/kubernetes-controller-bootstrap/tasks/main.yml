@@ -1,17 +1,17 @@
 ---
 - name: Download kubectl
-  get_url:
+  ansible.builtin.get_url:
     url: "https://dl.k8s.io/release/v{{ kubectl_version }}/bin/linux/amd64/kubectl"
     dest: /usr/local/bin/kubectl
     mode: "0770"
 
 - name: Create kube configuration folder
-  file:
+  ansible.builtin.file:
     path: "{{ kubeconfig_path | dirname }}"
     state: directory
 
 - name: Configure kube
-  fetch:
+  ansible.builtin.fetch:
     dest: "{{ kubeconfig_path }}"
     src: /etc/kubernetes/admin.conf
     flat: yes

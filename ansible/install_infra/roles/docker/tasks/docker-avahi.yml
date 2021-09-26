@@ -1,11 +1,11 @@
 ---
 - name: Install avahi-daemon
-  apt:
+  ansible.builtin.apt:
     pkg: avahi-daemon
     state: present
 
 - name: Enable avahi reflector
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/avahi/avahi-daemon.conf
     state: present
     regexp: "#?enable-reflector=.*"

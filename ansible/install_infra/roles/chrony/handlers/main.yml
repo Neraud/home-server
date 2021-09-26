@@ -1,10 +1,10 @@
 ---
 - name: Restart Chrony
-  service:
+  ansible.builtin.service:
     name: chrony
     state: restarted
 
 - name: Reload Chrony sources
-  command: chronyc reload sources
+  ansible.builtin.command: chronyc reload sources
   register: chrony_sources_reload
   failed_when: "'200 OK' not in chrony_sources_reload.stdout"

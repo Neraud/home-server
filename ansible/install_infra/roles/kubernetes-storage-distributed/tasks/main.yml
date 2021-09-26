@@ -1,6 +1,6 @@
 ---
 - name: Create GlusterFS persistent volumes
-  k8s:
+  kubernetes.core.k8s:
     definition: "{{ lookup('template', 'glusterfs-persistent-volume.yaml.j2') }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"

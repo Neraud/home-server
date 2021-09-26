@@ -1,36 +1,36 @@
 ---
 - name: Install kubectl
-  apt:
+  ansible.builtin.apt:
     pkg: kubectl
     state: present
 
 # TODO check if that's a proper way to detect if the master has already been installed
 - name: Check if kubeadm has already run
-  command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} cluster-info
+  ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} cluster-info
   delegate_to: "{{ groups.controller | first }}"
   changed_when: false
   failed_when: false
   register: kubectl_info
 
 - name: Generate kubeadm config file
-  template:
+  ansible.builtin.template:
     dest: /tmp/kubeadm_config.yaml
     src: kubeadm_config.yaml.j2
   when: kubectl_info.rc != 0
 
 - name: Initialize first master
-  command: "kubeadm init --config /tmp/kubeadm_config.yaml"
+  ansible.builtin.command: "kubeadm init --config /tmp/kubeadm_config.yaml"
   register: kubeadm_init
   when: kubectl_info.rc != 0
 
 - name: Ensure directories exist for Fetch Kubernetes PKI
-  file:
+  ansible.builtin.file:
     path: "{{ kubernetes_pki_fetch_dir }}/etcd"
     state: directory
   delegate_to: "{{ groups['controller'][0] }}"
 
 - name: Fetch Kubernetes PKI from master bootstrap
-  synchronize:
+  ansible.posix.synchronize:
     src: "/etc/kubernetes/pki/{{ item }}"
     dest: "{{ kubernetes_pki_fetch_dir }}/{{ item }}"
     mode: pull

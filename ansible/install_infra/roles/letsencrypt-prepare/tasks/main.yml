@@ -1,6 +1,6 @@
 ---
 - name: Ensures letsencrypt folders exist
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
   loop:
@@ -9,7 +9,7 @@
     - "{{ letsencrypt_hooks_post_include_dir }}"
 
 - name: Generate hook scripts
-  template:
+  ansible.builtin.template:
     dest: "{{ letsencrypt_hooks_dir }}/{{ item }}"
     src: "{{ item }}.j2"
     mode: 0755
