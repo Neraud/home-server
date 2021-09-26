@@ -10,7 +10,7 @@
     state: absent
 
 - name: Unarchive restic release
-  ansible.builtin.command: "bzip2 -d /tmp/restic_{{ restic_version }}_linux_amd64.bz2"
+  ansible.builtin.command: "bzip2 -d /tmp/restic_{{ restic_version }}_linux_amd64.bz2" # noqa no-changed-when
 
 - name: Deploy restic
   ansible.builtin.copy:
