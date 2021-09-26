@@ -1,0 +1,38 @@
+---
+- name: Ensure sabnzbd namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ sabnzbd.namespace }}"
+    create_nfs_pvc: yes
+
+- name: Deploy sabnzbd backup script
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ sabnzbd.app_backup }}"
+  tags: backup
+
+- name: Ensure BusyBox image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ busybox.base_image }}"
+    private_image: "{{ busybox.container.image }}"
+
+- name: Ensure sabnzbd image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ sabnzbd.base_image }}"
+    private_image: "{{ sabnzbd.container.image }}"
+    build: yes
+    build_args:
+      sabnzbd_version: "{{ sabnzbd.repo.version }}"
+      par2cmdline_version: "{{ sabnzbd.par2cmdline.repo.version }}"
+      nzbToMedia_version: "{{ sabnzbd.nzbToMedia.repo.version }}"
+
+- name: Deploy sabnzbd
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"

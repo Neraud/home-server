@@ -2,4 +2,4 @@
 - name: Provision infra-docker-registry
   hosts: controller
   roles:
-    - role: infra-docker-registry.deploy
+    - role: infra_docker_registry_deploy

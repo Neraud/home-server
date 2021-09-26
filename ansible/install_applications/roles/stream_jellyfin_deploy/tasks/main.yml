@@ -1,0 +1,54 @@
+---
+- name: Ensure Jellyfin namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ jellyfin.namespace }}"
+    create_nfs_pvc: yes
+
+- name: Deploy Jellyfin backup script
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ jellyfin.app_backup }}"
+  tags: backup
+
+- name: Ensure BusyBox image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ busybox.base_image }}"
+    private_image: "{{ busybox.container.image }}"
+
+- name: Ensure Jellyfin conf injection image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ jellyfin.conf_injection_base_image }}"
+    private_image: "{{ jellyfin.conf_injection_container.image }}"
+    build: yes
+    build_path: "{{ role_path }}/app/build/conf_injection"
+
+- name: Ensure Jellyfin image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ jellyfin.base_image }}"
+    private_image: "{{ jellyfin.container.image }}"
+    build: yes
+    build_args:
+      jellyfin_plugins_anidb_url: "{{ jellyfin.plugins.anidb.url }}"
+      jellyfin_plugins_anilist_url: "{{ jellyfin.plugins.anilist.url }}"
+      jellyfin_plugins_anisearch_url: "{{ jellyfin.plugins.anisearch.url }}"
+      jellyfin_plugins_ldapauth_url: "{{ jellyfin.plugins.ldapauth.url }}"
+      jellyfin_plugins_thetvdb_url: "{{ jellyfin.plugins.thetvdb.url }}"
+
+- name: List config files
+  ansible.builtin.set_fact:
+    jellyfin_config_files: "{{ jellyfin_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/*.xml*"
+
+- name: Deploy Jellyfin
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"

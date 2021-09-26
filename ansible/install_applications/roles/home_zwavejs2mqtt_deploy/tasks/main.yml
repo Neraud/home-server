@@ -1,0 +1,32 @@
+---
+- name: Ensure Zwavejs2Mqtt namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ zwavejs2mqtt.namespace }}"
+
+- name: Deploy Zwavejs2Mqtt backup script
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ zwavejs2mqtt.app_backup }}"
+  tags: backup
+
+- name: Ensure BusyBox image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ busybox.base_image }}"
+    private_image: "{{ busybox.container.image }}"
+
+- name: Ensure Zwavejs2Mqtt image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ zwavejs2mqtt.base_image }}"
+    private_image: "{{ zwavejs2mqtt.container.image }}"
+
+- name: Deploy Zwavejs2Mqtt
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"

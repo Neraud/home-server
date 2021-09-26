@@ -2,4 +2,4 @@
 - name: Provision stream-airsonic
   hosts: controller
   roles:
-    - role: stream-airsonic.deploy
+    - role: stream_airsonic_deploy

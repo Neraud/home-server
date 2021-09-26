@@ -2,4 +2,4 @@
 - name: Provision infra-dashboard
   hosts: controller
   roles:
-    - role: infra-kubernetes-dashboard.deploy
+    - role: infra_kubernetes_dashboard_deploy

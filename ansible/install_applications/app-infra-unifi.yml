@@ -2,4 +2,4 @@
 - name: Provision infra-unifi
   hosts: controller
   roles:
-    - role: infra-unifi.deploy
+    - role: infra_unifi_deploy

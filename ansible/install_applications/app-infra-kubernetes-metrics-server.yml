@@ -2,4 +2,4 @@
 - name: Provision infra-kubernetes-metrics-server
   hosts: controller
   roles:
-    - role: infra-kubernetes-metrics-server.deploy
+    - role: infra_kubernetes_metrics_server_deploy

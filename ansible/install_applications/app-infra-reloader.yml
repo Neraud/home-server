@@ -2,4 +2,4 @@
 - name: Provision infra-reloader
   hosts: controller
   roles:
-    - role: infra-reloader.deploy
+    - role: infra_reloader_deploy

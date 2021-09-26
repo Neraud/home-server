@@ -2,4 +2,4 @@
 - name: Provision monitoring-blackbox-exporter
   hosts: controller
   roles:
-    - role: monitoring-blackbox-exporter.deploy
+    - role: monitoring_blackbox_exporter_deploy

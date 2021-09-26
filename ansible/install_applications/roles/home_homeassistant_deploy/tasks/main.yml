@@ -1,0 +1,72 @@
+---
+- name: Ensure Home Assistant namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ homeassistant.namespace }}"
+
+- name: Deploy Home Assistant backup script
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ homeassistant.app_backup }}"
+  tags: backup
+
+- name: Deploy Home Assistant MySQL backup script
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ homeassistant_mysql.app_backup }}"
+  tags: backup
+
+- name: Ensure BusyBox image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ busybox.base_image }}"
+    private_image: "{{ busybox.container.image }}"
+
+- name: Ensure Home Assistant image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ homeassistant.base_image }}"
+    private_image: "{{ homeassistant.container.image }}"
+    build: yes
+
+- name: Ensure Home Assistant MySQL image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ homeassistant_mysql.base_image }}"
+    private_image: "{{ homeassistant_mysql.container.image }}"
+
+- name: Fetch Gotify token
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/application"
+    method: GET
+    headers:
+      Host: "gotify.web.{{ web_base_domain }}"
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ homeassistant.gotify.username }}"
+    password: "{{ homeassistant.gotify.password }}"
+  register: homeassistant_gotify_applications
+  when:
+    - homeassistant.gotify.enabled | bool
+
+- name: Extract Gotify application token
+  ansible.builtin.set_fact:
+    homeassistant_gotify_application_token: "{{ homeassistant_gotify_applications.json | selectattr('name', 'match', homeassistant.gotify.application_name) | map(attribute='token') | first  }}"
+  when:
+    - homeassistant.gotify.enabled | bool
+
+- name: List bootstrap config files
+  ansible.builtin.set_fact:
+    homeassistant_bootstrap_config_files: "{{ homeassistant_bootstrap_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/bootstrap/*.yaml*"
+
+- name: Deploy Home Assistant
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"

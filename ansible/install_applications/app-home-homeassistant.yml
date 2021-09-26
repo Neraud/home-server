@@ -2,4 +2,4 @@
 - name: Provision home-homeassistant
   hosts: controller
   roles:
-    - role: home-homeassistant.deploy
+    - role: home_homeassistant_deploy

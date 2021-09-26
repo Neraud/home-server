@@ -2,4 +2,4 @@
 - name: Provision home-frigate
   hosts: controller
   roles:
-    - role: home-frigate.deploy
+    - role: home_frigate_deploy

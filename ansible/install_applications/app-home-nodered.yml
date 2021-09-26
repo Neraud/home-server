@@ -2,4 +2,4 @@
 - name: Provision home-nodered
   hosts: controller
   roles:
-    - role: home-nodered.deploy
+    - role: home_nodered_deploy

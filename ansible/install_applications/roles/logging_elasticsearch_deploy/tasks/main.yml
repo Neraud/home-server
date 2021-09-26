@@ -1,0 +1,297 @@
+---
+- name: Ensure ElasticSearch namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ elasticsearch.namespace }}"
+
+- name: Ensure BusyBox image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ busybox.base_image }}"
+    private_image: "{{ busybox.container.image }}"
+
+- name: Ensure ElasticSearch image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ elasticsearch.base_image }}"
+    private_image: "{{ elasticsearch.container.image }}"
+
+- name: Ensure ElasticSearch Exporter image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ elasticsearch_exporter.base_image }}"
+    private_image: "{{ elasticsearch_exporter.container.image }}"
+
+- name: Read generated files
+  ansible.builtin.slurp:
+    src: "{{ item }}"
+  register: elasticsearch_generated_certificate_files
+  with_items:
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/elasticsearch/server.crt"
+    - "{{ custom_ssl_pki_generation_root_dir }}/cluster/elasticsearch/server.key"
+
+- name: List included security config files
+  ansible.builtin.set_fact:
+    elasticsearch_security_config_files: "{{ elasticsearch_security_config_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/security/*.yml*"
+
+- name: Deploy ElasticSearch
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: elasticsearch_deployment
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"
+  notify: "Reconfigure Elasticsearch security"
+
+- name: Deploy ElasticSearch Exporter
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/prometheus_exporter/*.yaml*"
+
+- name: Wait for ElasticSearch to be available
+  kubernetes.core.k8s_info:
+    kind: StatefulSet
+    namespace: "{{ elasticsearch.namespace }}"
+    name: elasticsearch
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_result
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 3
+
+# On first start, ElasticSearch restarts to run its setup process
+# So if the first wait task has waited, we make sure it's really still up a few seconds later
+- name: Wait a bit ...
+  ansible.builtin.pause:
+    seconds: 10
+  when: k8s_result.attempts > 1
+
+- name: Wait for ElasticSearch to be available
+  kubernetes.core.k8s_info:
+    kind: StatefulSet
+    namespace: "{{ elasticsearch.namespace }}"
+    name: elasticsearch
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_result
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 3
+
+- name: Load {{ elasticsearch.logstash_policy.name }} policy
+  ansible.builtin.set_fact:
+    logstash_policy_content: "{{ lookup('template', 'logstash_policy.json.j2') }}"
+
+- name: Get current logstash {{ elasticsearch.logstash_policy.name }} policy
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: current_ism_policy
+
+- name: Create logstash {{ elasticsearch.logstash_policy.name }} policy
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
+    method: PUT
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body: "{{ logstash_policy_content }}"
+    body_format: json
+    validate_certs: no
+    status_code: [201]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_logstash_policy
+  changed_when: True
+  when: current_ism_policy.status == 404
+
+- name: Update {{ elasticsearch.logstash_policy.name }} policy if necessary
+  block:
+    - name: Filter fields from current {{ elasticsearch.logstash_policy.name }} policy
+      ansible.builtin.set_fact:
+        current_ism_policy_filtered: "{{ current_ism_policy_filtered | default({}) | combine({item.key: item.value}) }}"
+      when: item.key not in ['error_notification', 'last_updated_time', 'ism_template']
+      loop: "{{ current_ism_policy.json.policy | default({}) | dict2items }}"
+
+    - name: Update {{ elasticsearch.logstash_policy.name }} policy
+      ansible.builtin.uri:
+        url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}?if_seq_no={{ current_ism_policy.json._seq_no }}&if_primary_term={{ current_ism_policy.json._primary_term }}"
+        method: PUT
+        headers:
+          Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+        body: "{{ logstash_policy_content }}"
+        body_format: json
+        validate_certs: no
+        status_code: [200]
+        force_basic_auth: yes
+        user: "{{ elasticsearch.admin_user.user }}"
+        password: "{{ elasticsearch.admin_user.password }}"
+      register: set_logstash_policy
+      changed_when: True
+      when: current_ism_policy_filtered != logstash_policy_content.policy
+  when: current_ism_policy.status != 404
+
+- name: Prepare wanted index settings
+  ansible.builtin.set_fact:
+    default_wanted_index_settings:
+      # By default, an index is created with 1 replica.
+      # If we only have 1 node, this index will remain yellow
+      number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+    logstash_wanted_index_settings:
+      # By default, an index is created with 1 replica.
+      # If we only have 1 node, this index will remain yellow
+      number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+      # After 30 seconds without search, an index is flagged idle and not refresh automatically
+      # Our prometheus exporter won't see new documents and trigger a ElasticNoNewDocuments alert when this happens
+      # To avoid that, we force the scheduled refresh
+      refresh_interval: "10s"
+
+- name: Get current default ElasticSearch index template
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/default"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: current_default_index_template
+
+- name: Configure default ElasticSearch index template
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/default"
+    method: POST
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body:
+      index_patterns: ["*"]
+      priority: 0
+      template:
+        settings: "{{ default_wanted_index_settings }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_default_index_template
+  changed_when: True
+  failed_when: "not set_default_index_template.json.acknowledged | default (false)"
+  when: >
+    current_default_index_template.status == 404
+    or not current_default_index_template.json
+    or (current_default_index_template.json.index_templates[0].index_template.template.settings.index != default_wanted_index_settings)
+
+- name: Get current logstash ElasticSearch index template
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/logstash"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: current_logstash_index_template
+
+- name: Configure logstash ElasticSearch index template
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/logstash"
+    method: POST
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body:
+      index_patterns: ["logstash-*"]
+      priority: 10
+      template:
+        settings: "{{ logstash_wanted_index_settings }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_logstash_index_template
+  changed_when: True
+  failed_when: "not set_logstash_index_template.json.acknowledged | default(false)"
+  when: >
+    current_logstash_index_template.status == 404
+    or not current_logstash_index_template.json
+    or (current_logstash_index_template.json.index_templates[0].index_template.template.settings.index != logstash_wanted_index_settings)
+
+- name: List existing ElasticSearch indices
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/*?expand_wildcards=open,hidden"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: elasticsearch_existing_indices
+
+- name: Update existing ElasticSearch default indices
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/{{ item.key }}/_settings"
+    method: PUT
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body:
+      index: "{{ default_wanted_index_settings }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_index_settings
+  changed_when: True
+  failed_when: "not set_index_settings.json.acknowledged | default (false)"
+  loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - not item.key is match("logstash.*")
+    - default_wanted_index_settings | dict2items | difference(item.value.settings.index | dict2items)
+
+- name: Update existing ElasticSearch logstash indices
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/{{ item.key }}/_settings"
+    method: PUT
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body:
+      index: "{{ default_wanted_index_settings | combine(logstash_wanted_index_settings) }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_index_settings
+  changed_when: True
+  failed_when: "not set_index_settings.json.acknowledged | default (false)"
+  loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - item.key is match("logstash.*")
+    - default_wanted_index_settings | combine(logstash_wanted_index_settings) | dict2items | difference(item.value.settings.index | dict2items)

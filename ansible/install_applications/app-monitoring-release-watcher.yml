@@ -2,4 +2,4 @@
 - name: Provision monitoring-release-watcher
   hosts: controller
   roles:
-    - role: monitoring-release-watcher.deploy
+    - role: monitoring_release_watcher_deploy

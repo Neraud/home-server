@@ -1,0 +1,23 @@
+---
+- name: Ensure phpLDAPadmin namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ phpldapadmin.namespace }}"
+
+- name: Ensure phpLDAPadmin image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ phpldapadmin.base_image }}"
+    private_image: "{{ phpldapadmin.container.image }}"
+    build: yes
+    build_args:
+      phpldapadmin_version: "{{ phpldapadmin.version }}"
+
+- name: Deploy phpLDAPadmin
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"

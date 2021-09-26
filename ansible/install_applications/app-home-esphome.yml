@@ -2,4 +2,4 @@
 - name: Provision home-esphome
   hosts: controller
   roles:
-    - role: home-esphome.deploy
+    - role: home_esphome_deploy

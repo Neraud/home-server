@@ -2,4 +2,4 @@
 - name: Provision monitoring-node-exporter-external
   hosts: controller
   roles:
-    - role: monitoring-node-exporter-external.deploy
+    - role: monitoring_node_exporter_external_deploy

@@ -2,4 +2,4 @@
 - name: Provision auth-phpldapadmin
   hosts: controller
   roles:
-    - role: auth-phpldapadmin.deploy
+    - role: auth_phpldapadmin_deploy

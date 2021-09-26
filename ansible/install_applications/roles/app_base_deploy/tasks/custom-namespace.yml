@@ -1,0 +1,89 @@
+---
+# This set of tasks is meant to be imported in each [app].deploy role
+# It ensures the application namespace is properly created, and populates with the default ConfigMap / Secrets.
+
+# Usage :
+#- name: Ensure app_name namespace exists
+#  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+#  vars:
+#    application_namespace: namespace_name
+#    create_nfs_pvc: yes|no
+
+- name: Create application namespace {{ application_namespace }}
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/namespace.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+- name: Deploy docker config
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/registry-secret.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+- name: Read the cluster CA file
+  ansible.builtin.slurp:
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+  register: cluster_ca_file
+
+- name: Expose the cluster CA
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/cluster-ca-secret.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+# TODO : Try to find a way to avoid injecting the ingress cert and private key in all namespaces
+# See : https://github.com/kubernetes/ingress-nginx/issues/2170 and https://github.com/kubernetes/ingress-nginx/issues/2371
+- name: Read the ingress TLS cert
+  ansible.builtin.slurp:
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.crt"
+  register: ingress_tls_cert_file
+
+- name: Read the ingress TLS key
+  ansible.builtin.slurp:
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.key"
+  register: ingress_tls_key_file
+
+- name: Deploy TLS secret
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/tls-secret.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+- name: Create GlusterFS endpoint and service
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/' + item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_items:
+    - glusterfs-endpoint.yaml.j2
+    - glusterfs-service.yaml.j2
+
+# PVCs are namespaced, and need to be created in each namespace
+# PVs are not namespaced, but can't be used by multiple PVCs
+# So for each namespace that requires it, we create :
+#  - "[namespace].nfs-[volume_name]" PVs
+#  - "nfs-[volume_name]" PVCs in the namespace
+
+- name: Create NFS persistent volumes & claims
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/nas-nfs-persistent-volume.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  loop: "{{ kubernetes_nfs_storage | dict2items | default([]) }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when: create_nfs_pvc | default('no') | bool
+
+- name: Create default deny-all-ingress NetworkPolicy
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/deny-all-ingress-networkPolicy.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
