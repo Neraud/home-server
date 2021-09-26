@@ -5,7 +5,7 @@
 
 [SickBeard]
     #### autoProcessing for TV Series
-{% for category_name in sabnzbd.nzbToMedia_config_sickbeard %}{% set category_config = sabnzbd.nzbToMedia_config_sickbeard[category_name] %}
+{% for category_name in sabnzbd.nzbtomedia_config_sickbeard %}{% set category_config = sabnzbd.nzbtomedia_config_sickbeard[category_name] %}
     #### {{ category_name }} - category that gets called for post-processing with SB
     [[{{ category_name }}]]
         enabled = {{ category_config.enabled }}

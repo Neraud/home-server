@@ -29,9 +29,9 @@ email_server = "{{ sabnzbd.smtp.host }}:{{ sabnzbd.smtp.port }}"
 email_account = "{{ sabnzbd.smtp.user }}"
 email_pwd = "{{ sabnzbd.smtp.password }}"
 
-{% if sabnzbd.nzbToMedia_config_sickbeard | default([]) | length > 0 %}
+{% if sabnzbd.nzbtomedia_config_sickbeard | default([]) | length > 0 %}
 [categories]
-{% for category_name in sabnzbd.nzbToMedia_config_sickbeard %}
+{% for category_name in sabnzbd.nzbtomedia_config_sickbeard %}
 [[{{ category_name }}]]
 script = nzbToSickBeard.py
 {% endfor %}

@@ -1,7 +1,7 @@
 ---
 sabnzbd_enabled: true
 
-sabnzbd_nzbToMedia_config_sickbeard:
+sabnzbd_nzbtomedia_config_sickbeard:
   tv:
     enabled: 1
     host: "{{ sickchill.servername }}"

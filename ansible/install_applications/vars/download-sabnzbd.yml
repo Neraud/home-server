@@ -62,4 +62,4 @@ sabnzbd:
     user: "{{ sabnzbd_smtp_user | default(zonemta.feeder.authentication_username) }}"
     password: "{{ sabnzbd_smtp_password | default(zonemta.feeder.authentication_password) }}"
 
-  nzbToMedia_config_sickbeard: "{{ sabnzbd_nzbToMedia_config_sickbeard | default({}) }}"
+  nzbtomedia_config_sickbeard: "{{ sabnzbd_nzbtomedia_config_sickbeard | default({}) }}"
