@@ -16,15 +16,13 @@
     version: 1e4dbcf1f683670432914be6701d22a0da82a530
   register: docker_gc_clone_result
 
+  # ansible-lint warns : [no-handler] Tasks that run when changed should likely be handlers
+  # But it's not a handler, we just want to only trigger a new build if docker-gc has been updated
 - name: Build docker-gc
   ansible.builtin.command: debuild -us -uc -b
   args:
     chdir: "{{ docker_gc_path }}/docker-gc"
-  when: docker_gc_clone_result.changed
-  tags:
-    # ansible-lint warns : [503] Tasks that run when changed should likely be handlers
-    # But it's not a handler, we just want to only trigger a new build if docker-gc has been updated
-    - skip_ansible_lint
+  when: docker_gc_clone_result.changed # noqa no-handler
 
 - name: Install docker-gc
   ansible.builtin.apt:
