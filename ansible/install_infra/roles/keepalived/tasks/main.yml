@@ -26,11 +26,13 @@
   ansible.builtin.file:
     path: "{{ keepalived.include_conf_dir }}"
     state: directory
+    mode: 0755
 
 - name: Configure Keepalived
   ansible.builtin.template:
     dest: /etc/keepalived/keepalived.conf
     src: keepalived.conf.j2
+    mode: 0644
   notify: Restart Keepalived
 
 - name: Auto-start Keepalived

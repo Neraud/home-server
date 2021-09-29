@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: "{{ custom_ssl_pki_root_dir }}/{{ item.pki_name }}"
     state: directory
+    mode: 0755
   with_items: "{{ openssl_custom_pki }}"
   loop_control:
     label: "{{ item.pki_name }}"

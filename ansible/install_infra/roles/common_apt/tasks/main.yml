@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: recommends.j2
     dest: /etc/apt/apt.conf.d/60recommends
+    mode: 0644
 
 - name: Update Debian sources list
   ansible.builtin.apt_repository:

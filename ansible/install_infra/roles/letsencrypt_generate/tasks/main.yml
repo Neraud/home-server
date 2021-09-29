@@ -11,6 +11,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0755
   loop:
     - "{{ letsencrypt_dir }}"
     - "{{ letsencrypt_hooks_dir }}"
@@ -89,9 +90,11 @@
   ansible.builtin.file:
     path: /etc/systemd/system/certbot.service.d
     state: directory
+    mode: 0755
 
 - name: Configure certbot renew service
   ansible.builtin.template:
     src: systemd_override.conf.j2
     dest: /etc/systemd/system/certbot.service.d/override.conf
+    mode: 0644
   notify: Reload systemd daemon

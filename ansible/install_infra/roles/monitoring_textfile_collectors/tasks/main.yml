@@ -9,11 +9,13 @@
   ansible.builtin.file:
     path: "{{ textfile_collector_directory }}"
     state: directory
+    mode: 0755
 
 - name: Ensure textfile collector script directory exists
   ansible.builtin.file:
     path: "{{ textfile_collector_scripts_directory }}"
     state: directory
+    mode: 0755
 
 - name: Deploy cleaner
   ansible.builtin.template:

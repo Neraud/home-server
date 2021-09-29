@@ -3,6 +3,7 @@
   ansible.builtin.template:
     dest: "{{ keepalived.include_conf_dir }}/{{ keepalived_instance.name }}.conf"
     src: instance.conf.j2
+    mode: 0644
   when: keepalived_instance_enabled | default(true)
   notify: Restart Keepalived
 
@@ -10,5 +11,6 @@
   ansible.builtin.template:
     dest: "{{ keepalived.include_conf_dir }}/{{ keepalived_instance.name }}.conf.disabled"
     src: instance.conf.j2
+    mode: 0644
   when: not (keepalived_instance_enabled | default(true))
   notify: Restart Keepalived

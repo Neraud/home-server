@@ -35,6 +35,7 @@
     src: /tmp/bash_completion_restic
     dest: /etc/bash_completion.d/restic
     remote_src: True
+    mode: 0644
   when: restic_bash_completion_enabled
 
 - name: Clean temp Restic Bash completion

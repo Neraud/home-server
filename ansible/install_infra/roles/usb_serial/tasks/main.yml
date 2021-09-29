@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: udev.rules.j2
     dest: "/etc/udev/rules.d/{{ item.name }}.rules"
+    mode: 0644
     backup: yes
   with_items: "{{ udev_rules }}"
   when: udev_rules is defined and udev_rules | default([]) | length  > 0

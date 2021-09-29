@@ -7,6 +7,7 @@
   ansible.builtin.template:
     src: hosts.j2
     dest: /etc/hosts
+    mode: 0644
     backup: true
 
 - name: Set timezone
@@ -48,6 +49,7 @@
     state: directory
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
+    mode: 0755
 
 - name: Add bashrc includes for standard user
   ansible.builtin.copy:
@@ -55,6 +57,7 @@
     src: "{{ bashrc_include_dir }}/{{ item }}"
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
+    mode: 0644
   with_items:
     - common-aliases.bashrc
     - editor.bashrc

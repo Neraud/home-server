@@ -31,6 +31,7 @@
     state: directory
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
+    mode: 0755
 
 - name: Generate Kibana saved objects exporter
   ansible.builtin.template:

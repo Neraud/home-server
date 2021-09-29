@@ -17,6 +17,7 @@
     src: dnsmasq.conf.j2
     dest: /etc/dnsmasq.conf
     backup: yes
+    mode: 0644
   notify: Restart dnsmasq
 
 - name: Configure dnsmasq default
@@ -24,6 +25,7 @@
     src: dnsmasq_default.j2
     dest: /etc/default/dnsmasq
     backup: yes
+    mode: 0644
   notify: Restart dnsmasq
 
 - name: Fill dnsmasq hosts with local machines
@@ -33,6 +35,7 @@
       {% for dns_local_host in dns_local_hosts %}
       {{ dns_local_host.ip }} {{ dns_local_host.name }}
       {% endfor %}
+    mode: 0644
   notify: Restart dnsmasq
 
 - name: Fill dnsmasq local domains
@@ -42,6 +45,7 @@
       {% for dns_local_domain in dns_local_domains %}
       address=/{{ dns_local_domain.name }}/{{ dns_local_domain.ip }}
       {% endfor %}
+    mode: 0644
   notify: Restart dnsmasq
 
 - name: Set dnsmasq upstreams
@@ -51,6 +55,7 @@
       {% for dnsmasq_upstream in dnsmasq_upstreams %}
       nameserver {{ dnsmasq_upstream }}
       {% endfor %}
+    mode: 0644
   notify: Restart dnsmasq
 
 - name: Auto-start dnsmasq

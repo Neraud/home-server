@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: "{{ item.https_cert.cert_key_path | dirname }}"
     state: directory
+    mode: 0755
   loop: "{{ nginx_selfsigned_sites }}"
   loop_control:
     label: "{{ item.name }}"
@@ -11,6 +12,7 @@
   ansible.builtin.file:
     path: "{{ item.https_cert.cert_path | dirname }}"
     state: directory
+    mode: 0755
   loop: "{{ nginx_selfsigned_sites }}"
   loop_control:
     label: "{{ item.name }}"

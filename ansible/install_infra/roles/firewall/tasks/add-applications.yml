@@ -3,6 +3,7 @@
   ansible.builtin.template:
     src: "{{ playbook_dir }}/roles/firewall/templates/application.j2"
     dest: /etc/ufw/applications.d/{{ item.name }}
+    mode: 0644
   with_items: "{{ ufw_applications | default([]) }}"
 
 - name: Allow ufw applications

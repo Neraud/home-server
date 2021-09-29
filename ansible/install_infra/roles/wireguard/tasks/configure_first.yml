@@ -3,6 +3,7 @@
   ansible.builtin.file:
     path: "{{ wireguard.server.keys_dir }}"
     state: directory
+    mode: 0755
 
 - name: Generate Wireguard server private key
   ansible.builtin.shell: wg genkey > private.key
@@ -119,6 +120,7 @@
   ansible.builtin.file:
     path: "{{ wireguard.generation_dir }}"
     state: directory
+    mode: 0755
   delegate_to: "{{ groups['controller'][0] }}"
   run_once: yes
 

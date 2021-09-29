@@ -16,6 +16,7 @@
   ansible.builtin.template:
     src: apcupsd.conf.j2
     dest: /etc/apcupsd/apcupsd.conf
+    mode: 0644
     backup: yes
   notify: Restart APC Daemon
 

@@ -36,6 +36,7 @@
   ansible.builtin.template:
     src: apt_kubernetes.j2
     dest: /etc/apt/preferences.d/kubernetes
+    mode: 0644
 
 - name: Install Kubernetes
   ansible.builtin.apt:
@@ -48,5 +49,6 @@
   ansible.builtin.template:
     dest: /etc/default/kubelet
     src: kubelet.j2
+    mode: 0644
     backup: yes
   notify: Restart kubelet

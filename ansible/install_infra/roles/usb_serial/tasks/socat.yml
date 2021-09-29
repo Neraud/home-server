@@ -33,12 +33,14 @@
   ansible.builtin.template:
     dest: /etc/systemd/system/socat-serial@.service
     src: socat-serial@.service.j2
+    mode: 0644
   notify: Restart socat
 
 - name: Generate socat systemd defaults
   ansible.builtin.template:
     dest: /etc/default/socat-serial@{{ item.key }}
     src: socat-serial.default.j2
+    mode: 0644
   with_dict: "{{ serial_remote_devices }}"
   notify: Restart socat
 

@@ -28,6 +28,7 @@
   ansible.builtin.template:
     dest: /etc/haproxy/haproxy.cfg
     src: haproxy.cfg.j2
+    mode: 0644
   notify: Restart HAproxy
 
 - name: Auto-start HAproxy

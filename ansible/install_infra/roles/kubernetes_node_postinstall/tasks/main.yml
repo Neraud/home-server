@@ -4,6 +4,7 @@
     path: "{{ item.home }}/.kube"
     state: directory
     owner: "{{ item.name }}"
+    mode: 0700
   loop: "{{ kubernetes_users }}"
 
 - name: Configure kube for kubernetes users
@@ -12,6 +13,7 @@
     src: /etc/kubernetes/admin.conf
     remote_src: yes
     owner: "{{ item.name }}"
+    mode: 0600
     backup: yes
   loop: "{{ kubernetes_users }}"
 
@@ -22,6 +24,7 @@
       # kubectl completion
       source <(kubectl completion bash)
     owner: "{{ item.name }}"
+    mode: 0644
   loop: "{{ kubernetes_users }}"
   when: item.install_autocomplete | default('no') | bool
 

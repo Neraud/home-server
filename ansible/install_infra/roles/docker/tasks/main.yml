@@ -19,39 +19,46 @@
   ansible.builtin.file:
     path: /etc/systemd/system/docker.service.d/
     state: directory
+    mode: 0755
 
 - name: Configure Docker daemon
   ansible.builtin.template:
     src: override.conf.j2
     dest: /etc/systemd/system/docker.service.d/override.conf
+    mode: 0644
   notify: Restart docker daemon
 
 - name: Prepare Docker daemon certs.d directory
   ansible.builtin.file:
     path: /etc/docker/certs.d
     state: directory
+    mode: 0755
 
 - name: Prepare trusted registries directories
   ansible.builtin.file:
     path: "/etc/docker/certs.d/{{ item.url }}"
     state: directory
+    mode: 0755
   loop: "{{ docker_trusted_registries | default([]) }}"
 
 - name: Trust self signed registries
   ansible.builtin.copy:
     src: "{{ item.ca_path }}"
     dest: /etc/docker/certs.d/{{ item.url }}/ca.crt
+    mode: 0644
   loop: "{{ docker_trusted_registries | default([]) }}"
 
 - name: Ensure docker config dir exists for root
   ansible.builtin.file:
     path: /root/.docker
     state: directory
+    mode: 0755
 
 - name: Configure docker for root
   ansible.builtin.template:
     src: config.json.j2
     dest: /root/.docker/config.json
+    mode: 0644
 
 - name: Ensure standard user is in docker group
   ansible.builtin.user:
@@ -66,6 +73,7 @@
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
     state: directory
+    mode: 0755
 
 - name: Configure docker for standard user
   ansible.builtin.template:
@@ -73,6 +81,7 @@
     dest: "{{ standard_user.home }}/.docker/config.json"
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
+    mode: 0644
 
 - import_tasks: docker-gc.yml
 - import_tasks: docker-avahi.yml

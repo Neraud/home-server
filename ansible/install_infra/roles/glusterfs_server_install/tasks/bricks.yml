@@ -58,6 +58,7 @@
   ansible.builtin.file:
     path: "{{ glusterfs_brick_root }}/{{ item.name }}/brick1"
     state: directory
+    mode: 0755
   loop: "{{ glusterfs_brick_node_lvs + glusterfs_brick_arbiter_lvs }}"
 
 - name: Mount bricks

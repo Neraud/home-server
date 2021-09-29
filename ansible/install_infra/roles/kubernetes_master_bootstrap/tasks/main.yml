@@ -16,6 +16,7 @@
   ansible.builtin.template:
     dest: /tmp/kubeadm_config.yaml
     src: kubeadm_config.yaml.j2
+    mode: 0600
   when: kubectl_info.rc != 0
 
 - name: Initialize first master
@@ -27,6 +28,7 @@
   ansible.builtin.file:
     path: "{{ kubernetes_pki_fetch_dir }}/etcd"
     state: directory
+    mode: 0755
   delegate_to: "{{ groups['controller'][0] }}"
 
 - name: Fetch Kubernetes PKI from master bootstrap

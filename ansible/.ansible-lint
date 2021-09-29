@@ -2,7 +2,3 @@ use_default_rules: true
 
 enable_list:
   - fqcn-builtins
-
-# TODO : fix those, temporarily disabled while working on them
-skip_list:
-  - risky-file-permissions

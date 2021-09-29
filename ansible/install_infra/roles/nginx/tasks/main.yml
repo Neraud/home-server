@@ -34,16 +34,19 @@
   ansible.builtin.template:
     src: robots_disallow_all.txt.j2
     dest: "{{ nginx_default_disabled_robots_path }}"
+    mode: 0644
 
 - name: Prepare default index.html
   ansible.builtin.template:
     src: index.nginx-debian.html.j2
     dest: "{{ nginx_default_index_html_path }}"
+    mode: 0644
 
 - name: Create htpasswd dir
   ansible.builtin.file:
     path: "{{ item.path | dirname }}"
     state: directory
+    mode: 0755
   with_items: "{{ nginx_htpasswd | default([]) }}"
   when: item.path is defined
 
@@ -51,6 +54,7 @@
   ansible.builtin.template:
     src: htpasswd.j2
     dest: "{{ item.path }}"
+    mode: 0644
   with_items: "{{ nginx_htpasswd | default([]) }}"
   when: item.path is defined
 
@@ -58,6 +62,7 @@
   ansible.builtin.template:
     src: "{{ item }}.conf.j2"
     dest: "/etc/nginx/conf.d/{{ item }}.conf"
+    mode: 0644
   with_items:
     - security
     - logs
@@ -68,12 +73,14 @@
   ansible.builtin.template:
     src: "custom_proxy_params.j2"
     dest: "/etc/nginx/custom_proxy_params"
+    mode: 0644
   notify: Restart NGinx
 
 - name: Configure NGinx for streams
   ansible.builtin.template:
     src: streams_include.conf.j2
     dest: /etc/nginx/modules-enabled/99-streams_include.conf
+    mode: 0644
   when: nginx_streams | default([]) | length  > 0
   notify: Restart NGinx
 
@@ -81,6 +88,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: 0755
   with_items:
     - "{{ nginx_streams_conf_dir }}"
     - "{{ nginx_streams_available_dir }}"
@@ -104,6 +112,7 @@
   ansible.builtin.template:
     src: upstreams.j2
     dest: /etc/nginx/conf.d/upstreams.conf
+    mode: 0644
     backup: true
   notify: Restart NGinx
 
@@ -111,6 +120,7 @@
   ansible.builtin.template:
     src: sites.j2
     dest: "/etc/nginx/sites-available/{{ item.name }}"
+    mode: 0644
     backup: true
   with_items: "{{ nginx_sites | default([])  }}"
   notify: Restart NGinx
@@ -119,6 +129,7 @@
   ansible.builtin.template:
     src: upstreams.j2
     dest: "{{ nginx_streams_conf_dir }}/upstreams.conf"
+    mode: 0644
     backup: true
   notify: Restart NGinx
 
@@ -126,6 +137,7 @@
   ansible.builtin.template:
     src: streams.j2
     dest: "{{ nginx_streams_available_dir }}/{{ item.name }}"
+    mode: 0644
     backup: true
   with_items: "{{ nginx_streams | default([]) }}"
   notify: Restart NGinx
