@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: "Neraud"
+  license: MIT
+  description: "Deploy application monitoring-pihole-exporter"
+  min_ansible_version: 2.7
+  platforms:
+    - name: Debian
+      versions:
+        - stretch
+        - buster
+
+dependencies:
+  - { role: app_base_deploy }

@@ -1,14 +1,13 @@
 ---
-
 kubernetes_node_labels:
   - name: capability/glusterfs-server
-    value: 'yes'
+    value: "yes"
   - name: capability/general-purpose
-    value: 'yes'
+    value: "yes"
   - name: capability/home
-    value: 'no'
+    value: "no"
   - name: capability/loadbalancer
-    value: 'yes'
+    value: "yes"
   - name: capability/gpu
     value: "no"
   - name: capability/tpu

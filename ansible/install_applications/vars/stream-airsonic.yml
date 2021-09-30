@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside airsonic
 _airsonic_var_loader:
   namespace: "stream-airsonic"
@@ -17,13 +16,13 @@ airsonic:
     name: stream-airsonic
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: airsonic
-      namespace: "{{ _airsonic_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: airsonic
+        namespace: "{{ _airsonic_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - airsonic-data
-    - airsonic-playlists
+      - airsonic-data
+      - airsonic-playlists
 
   labels_def:
     app.kubernetes.io/name: airsonic

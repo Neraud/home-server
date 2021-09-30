@@ -1,0 +1,45 @@
+---
+- name: Download restic release
+  ansible.builtin.get_url:
+    url: "https://github.com/restic/restic/releases/download/v{{ restic_version }}/restic_{{ restic_version }}_linux_amd64.bz2"
+    dest: "/tmp/restic_{{ restic_version }}_linux_amd64.bz2"
+
+- name: Ensure tmp file doesn't exist
+  ansible.builtin.file:
+    path: "/tmp/restic_{{ restic_version }}_linux_amd64"
+    state: absent
+
+- name: Unarchive restic release
+  ansible.builtin.command: "bzip2 -d /tmp/restic_{{ restic_version }}_linux_amd64.bz2" # noqa no-changed-when
+
+- name: Deploy restic
+  ansible.builtin.copy:
+    src: "/tmp/restic_{{ restic_version }}_linux_amd64"
+    dest: "{{ restic_bin_path }}"
+    mode: 0755
+    remote_src: yes
+  become: yes
+
+- name: Remove tmp file
+  ansible.builtin.file:
+    path: "/tmp/restic_{{ restic_version }}_linux_amd64"
+    state: absent
+
+- name: Generate temp Restic Bash completion
+  ansible.builtin.command: "{{ restic_bin_path }} generate --bash-completion /tmp/bash_completion_restic"
+  changed_when: False
+  when: restic_bash_completion_enabled
+
+- name: Deploy restic Bash completion
+  ansible.builtin.copy:
+    src: /tmp/bash_completion_restic
+    dest: /etc/bash_completion.d/restic
+    remote_src: True
+    mode: 0644
+  when: restic_bash_completion_enabled
+
+- name: Clean temp Restic Bash completion
+  ansible.builtin.file:
+    path: /tmp/bash_completion_restic
+    state: absent
+  changed_when: False

@@ -1,0 +1,28 @@
+---
+- name: Configure UFW for gluster
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ gluster_ufw_applications }}"
+
+- name: Install GlusterFS server
+  ansible.builtin.apt:
+    pkg:
+      - glusterfs-server
+    state: present
+
+- name: Auto-start glusterd
+  ansible.builtin.service:
+    name: glusterd
+    state: started
+    enabled: yes
+
+- name: Add glusterfs bash autocompletion
+  ansible.builtin.get_url:
+    dest: /etc/bash_completion.d/gluster
+    url: https://raw.githubusercontent.com/gluster/glusterfs/master/extras/command-completion/gluster.bash
+
+- import_tasks: bricks.yml
+
+- import_tasks: prometheus-exporter.yml

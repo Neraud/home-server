@@ -1,6 +1,5 @@
 ---
-
 - name: Provision  monitoring-nginx-exporter
   hosts: controller
   roles:
-  - role: monitoring-nginx-exporter.deploy
+    - role: monitoring_nginx_exporter_deploy

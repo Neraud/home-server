@@ -1,0 +1,14 @@
+---
+- name: Ensure backups scripts directory exists
+  ansible.builtin.file:
+    path: "{{ backup_scripts_dir }}"
+    state: directory
+    mode: 0700
+
+- name: Deploy core backup scripts
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ restic_backup_scripts_dir }}/{{ item }}"
+    mode: 0700
+  loop:
+    - "_prometheus.sh"

@@ -1,0 +1,19 @@
+---
+# See https://kubernetes.io/docs/setup/independent/install-kubeadm/
+kubernetes_ufw_applications:
+  - name: kubelet_api
+    title: Kubelet API
+    description: Kubelet API
+    ports: 10250/tcp
+    rule: allow
+  - name: kubernetes_ingress
+    title: Kubelet Ingress
+    description: Kubelet Ingress
+    ports: "{{ kubernetes_ingress_http_port }},{{ kubernetes_ingress_https_port }}/tcp"
+    rule: allow
+    # src: 192.168.100.11
+  - name: prometheus_node_exporter
+    title: Prometheus Node Exporter
+    description: Prometheus Node Exporter
+    ports: 9100/tcp
+    rule: allow

@@ -1,78 +1,87 @@
 ---
 - name: Add Docker repo key
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://download.docker.com/linux/debian/gpg
     state: present
 
 - name: Add Docker repo
-  apt_repository:
+  ansible.builtin.apt_repository:
     filename: "docker"
     repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable"
     state: present
 
 - name: Install DockerCE
-  apt:
+  ansible.builtin.apt:
     pkg: "docker-ce"
     state: present
 
 - name: Prepare Docker daemon systemd configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system/docker.service.d/
     state: directory
+    mode: 0755
 
 - name: Configure Docker daemon
-  template:
+  ansible.builtin.template:
     src: override.conf.j2
     dest: /etc/systemd/system/docker.service.d/override.conf
+    mode: 0644
   notify: Restart docker daemon
 
 - name: Prepare Docker daemon certs.d directory
-  file:
+  ansible.builtin.file:
     path: /etc/docker/certs.d
     state: directory
+    mode: 0755
 
 - name: Prepare trusted registries directories
-  file:
+  ansible.builtin.file:
     path: "/etc/docker/certs.d/{{ item.url }}"
     state: directory
+    mode: 0755
   loop: "{{ docker_trusted_registries | default([]) }}"
 
 - name: Trust self signed registries
-  copy:
+  ansible.builtin.copy:
     src: "{{ item.ca_path }}"
     dest: /etc/docker/certs.d/{{ item.url }}/ca.crt
+    mode: 0644
   loop: "{{ docker_trusted_registries | default([]) }}"
 
 - name: Ensure docker config dir exists for root
-  file:
+  ansible.builtin.file:
     path: /root/.docker
     state: directory
+    mode: 0755
 
 - name: Configure docker for root
-  template:
+  ansible.builtin.template:
     src: config.json.j2
     dest: /root/.docker/config.json
+    mode: 0644
 
 - name: Ensure standard user is in docker group
-  user:
-      name: "{{ standard_user.name }}"
-      groups: docker
-      append: yes
+  ansible.builtin.user:
+    name: "{{ standard_user.name }}"
+    groups: docker
+    append: yes
   when: docker_add_standard_user_to_group
 
 - name: Ensure docker config dir exists for standard user
-  file:
+  ansible.builtin.file:
     path: "{{ standard_user.home }}/.docker"
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
     state: directory
+    mode: 0755
 
 - name: Configure docker for standard user
-  template:
+  ansible.builtin.template:
     src: config.json.j2
     dest: "{{ standard_user.home }}/.docker/config.json"
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
+    mode: 0644
 
 - import_tasks: docker-gc.yml
 - import_tasks: docker-avahi.yml

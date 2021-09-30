@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside unifi
 _unifi_var_loader:
   namespace: "infra-unifi"
@@ -12,18 +11,18 @@ unifi:
 
   namespace: "{{ _unifi_var_loader.namespace }}"
   base_image: "{{ _unifi_var_loader.base_image }}"
-  
+
   app_backup:
     name: infra-unifi
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: unifi
-      namespace: "{{ _unifi_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: unifi
+        namespace: "{{ _unifi_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - unifi-data
-  
+      - unifi-data
+
   labels_def:
     app.kubernetes.io/name: unifi
     app.kubernetes.io/component: unifi
@@ -37,6 +36,6 @@ unifi:
     requests_memory: "{{ unifi_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ unifi_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ unifi_container_limits_memory | default('1024Mi') }}"
-  
+
   max_java_memory: "{{ unifi_max_java_memory | default('512M') }}"
   private_ip: "{{ unifi_private_ip }}"

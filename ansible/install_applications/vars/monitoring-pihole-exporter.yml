@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside pihole_exporter
 _pihole_exporter_var_loader:
   base_image:
@@ -11,7 +10,7 @@ pihole_exporter:
 
   namespace: "monitoring-pihole-exporter"
   base_image: "{{ _pihole_exporter_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: pihole-exporter
     app.kubernetes.io/component: pihole-exporter

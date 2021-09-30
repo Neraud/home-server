@@ -1,8 +1,0 @@
----
-
-- name: Generate application backup script
-  template:
-    src: "{{ role_path }}/../_base.deploy/templates/app_backup.sh.j2"
-    dest: "{{ restic_backup_apps_scripts_dir }}/{{ app_backup.name }}.sh"
-    mode: 0700
-  delegate_to: "{{ groups['apps_backup_controller'][0] }}"

@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside kube_state_metrics
 _kube_state_metrics_var_loader:
   base_image:
@@ -12,7 +11,7 @@ kube_state_metrics:
 
   namespace: "monitoring-kube-state-metrics"
   base_image: "{{ _kube_state_metrics_var_loader.base_image }}"
-  
+
   labels_def:
     app.kubernetes.io/name: kube-state-metrics
     app.kubernetes.io/component: kube-state-metrics

@@ -1,5 +1,4 @@
 ---
-
 nginx_listen_ip: "*"
 nginx_ssl_dhparam_generate: False
 nginx_ssl_dhparam_path: /etc/nginx/dhparams.pem
@@ -75,12 +74,10 @@ nginx_extra_log_formats: []
 #      cert_key_path: /path/to/server.key
 #    proxy_pass: SomeWhere:8080
 
-
 #nginx_htpasswd:
 #  - path: /path/to/htpasswd_something
 #    credentials:
 #      - userName:$apr1$XT1TxDG3$g1A8VB02XE9oCMHYdqd98. #password generated with : openssl passwd -apr1
-
 
 nginx_ufw_applications:
   - name: custom_nginx

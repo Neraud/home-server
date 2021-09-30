@@ -1,0 +1,64 @@
+---
+- name: Check current rclone installation
+  ansible.builtin.command: /usr/local/bin/rclone version
+  failed_when: False
+  changed_when: False
+  register: rclone_current_version
+
+- name: Install rclone v{{ rclone_version }}
+  block:
+    - include_tasks: install.yml
+  when: rclone_current_version.rc != 0 or 'rclone v'+ rclone_version not in rclone_current_version.stdout
+
+- name: Ensure rclone backup scripts directory exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0700
+  loop:
+    - "{{ rclone_backup_scripts_dir }}"
+    - "{{ rclone_configurations_dir }}"
+
+- name: Deploy rclone configuration
+  ansible.builtin.template:
+    src: rclone.conf.j2
+    dest: "{{ rclone_configurations_dir }}/rclone.conf"
+    mode: 0600
+
+- name: Deploy rclone additional configuration files
+  ansible.builtin.copy:
+    dest: "{{ rclone_configurations_dir }}/{{ item.key }}"
+    content: "{{ item.value }}"
+    mode: 0600
+  loop: "{{ rclone_configuration_files | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+
+- name: Search for existing rclone backup scripts
+  ansible.builtin.find:
+    paths: "{{ rclone_backup_scripts_dir }}"
+    patterns: "rclone_backup_to_*.sh"
+  register: existing_rclone_scripts
+
+- name: Deploy rclone backup scripts
+  ansible.builtin.template:
+    src: "rclone_backup.sh.j2"
+    dest: "{{ rclone_backup_scripts_dir }}/rclone_backup_to_{{ item.repo_name }}.sh"
+    mode: 0700
+  loop: "{{ rclone_backups }}"
+  loop_control:
+    label: "{{ item.repo_name }}"
+
+- name: List rclone backup scripts to remove
+  ansible.builtin.set_fact:
+    existing_rclone_scripts_to_remove: "{{ existing_rclone_scripts_to_remove | default([]) + [ item.path ] }}"
+  loop: "{{ existing_rclone_scripts.files }}"
+  loop_control:
+    label: "{{ item.path | basename | regex_replace('^rclone_backup_to_(.*).sh', '\\1') }}"
+  when: (item.path | basename | regex_replace('^rclone_backup_to_(.*).sh', '\\1')) not in (rclone_backups | map(attribute='repo_name') | list)
+
+- name: Remove rclone backup scripts to remove
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ existing_rclone_scripts_to_remove | default([]) }}"

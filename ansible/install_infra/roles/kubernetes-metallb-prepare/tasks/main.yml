@@ -1,8 +1,0 @@
----
-
-- name: Configure UFW for MetalLB
-  include_role:
-    name: firewall
-    tasks_from: add-applications
-  vars:
-    ufw_applications: "{{ metallb_ufw_applications }}"

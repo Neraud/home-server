@@ -1,22 +1,21 @@
 ---
-
 - name: Prepare all hosts
   hosts: all_hosts
   roles:
     - common
-    - common-apt
+    - common_apt
     - firewall
     - chrony
-    - usb-serial
-    - monitoring-textfile-collectors
+    - usb_serial
+    - monitoring_textfile_collectors
 
 - name: Configure backups
   hosts: backups
   roles:
-    - { role: backup-core, tags: backup }
-    - { role: backup-restic, tags: backup }
-    - { role: backup-rsync, tags: backup }
-    - { role: backup-rclone, tags: backup }
+    - { role: backup_core, tags: backup }
+    - { role: backup_restic, tags: backup }
+    - { role: backup_rsync, tags: backup }
+    - { role: backup_rclone, tags: backup }
 
 - name: Provision APC UPS
   hosts: apcups
@@ -36,7 +35,7 @@
 - name: Provision OpenSSL PKI
   hosts: controller
   roles:
-    - { role: openssl-pki-generate, tags: openssl-pki }
+    - { role: openssl_pki_generate, tags: openssl-pki }
 
 - name: Configure DNS server
   hosts: dns_servers
@@ -46,22 +45,22 @@
 - name: Configure DNS clients
   hosts: all_hosts
   roles:
-    - dns-client
+    - dns_client
 
 - name: Prepare letsencrypt
   hosts: letsencrypt_clients
   roles:
-    - { role: letsencrypt-prepare, tags: letsencrypt }
+    - { role: letsencrypt_prepare, tags: letsencrypt }
 
 - name: Provision letsencrypt
   hosts: letsencrypt_master
   roles:
-    - { role: letsencrypt-generate, tags: letsencrypt }
+    - { role: letsencrypt_generate, tags: letsencrypt }
 
 - name: Provision Reverse Proxies
   hosts: loadbalancers
   roles:
-    - { role: openssl-pki-deploy, tags: openssl-pki }
+    - { role: openssl_pki_deploy, tags: openssl-pki }
     - { role: nginx, tags: nginx }
     - fail2ban
 
@@ -74,60 +73,60 @@
   hosts: kubernetes_nodes
   roles:
     - docker
-    - kubernetes-node-preinstall
-    - kubernetes-master-cni-prepare
-    - { role: local-lvm, tags: kubernetes-storage }
+    - kubernetes_node_preinstall
+    - kubernetes_master_cni_prepare
+    - { role: local_lvm, tags: kubernetes-storage }
 
 - name: Prepare GlusterFS hosts
   hosts: glusterfs
   roles:
-    - glusterfs-preinstall
+    - glusterfs_preinstall
 
 - name: Prepare GlusterFS servers
   hosts: glusterfs_servers
   roles:
-    - { role: glusterfs-server-install, tags: kubernetes-storage }
-    - { role: glusterfs-server-configure, tags: kubernetes-storage }
+    - { role: glusterfs_server_install, tags: kubernetes-storage }
+    - { role: glusterfs_server_configure, tags: kubernetes-storage }
 
 - name: Prepare GlusterFS servers
   hosts: glusterfs_clients
   roles:
-    - { role: glusterfs-client, tags: kubernetes-storage }
+    - { role: glusterfs_client, tags: kubernetes-storage }
 
 - name: Prepare Kubernetes masters
   hosts: kubernetes_masters
   roles:
-    - kubernetes-master-haproxy
+    - kubernetes_master_haproxy
 
 - name: Bootstrap Kubernetes masters
   hosts: kubernetes_master_bootstrap
   roles:
-    - kubernetes-master-bootstrap
+    - kubernetes_master_bootstrap
 
 - name: Bootstrap controller
   hosts: controller
   roles:
-    - dns-client
+    - dns_client
     - docker
-    - kubernetes-controller-bootstrap
+    - kubernetes_controller_bootstrap
 
 - name: Deploy CNI
   hosts: controller
   roles:
-    - kubernetes-master-cni-deploy
+    - kubernetes_master_cni_deploy
 
 - name: Provision Kubernetes nodes
   hosts: kubernetes_nodes
   roles:
-    - kubernetes-node-join
-    - kubernetes-node-postinstall
-    - { role: kubernetes-storage-local, tags: kubernetes-storage }
-    - kubernetes-metallb-prepare
+    - kubernetes_node_join
+    - kubernetes_node_postinstall
+    - { role: kubernetes_storage_local, tags: kubernetes-storage }
+    - kubernetes_metallb_prepare
 
 - name: Provision Kubernetes infra applications
   hosts: controller
   roles:
-    - { role: kubernetes-storage-distributed, tags: kubernetes-storage }
-    - kubernetes-metallb-deploy
-    - kubernetes-infra
-    - apcups-kubernetes
+    - { role: kubernetes_storage_distributed, tags: kubernetes-storage }
+    - kubernetes_metallb_deploy
+    - kubernetes_infra
+    - apcups_kubernetes

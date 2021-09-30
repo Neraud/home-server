@@ -1,0 +1,54 @@
+---
+# https://kubernetes.io/docs/setup/independent/install-kubeadm/
+# https://github.com/kubernetes-sigs/kubespray/
+# https://cyril.deguet.com/fr/2018/02/12/kubernetes-debian-vps/
+
+- name: Disable swap at boot
+  ansible.posix.mount:
+    path: none
+    fstype: swap
+    state: absent
+    backup: yes
+
+- name: Disable swap right now
+  ansible.builtin.command: swapoff -a
+  when: ansible_swaptotal_mb > 0
+
+- name: Configure UFW for Kubernetes
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ kubernetes_ufw_applications }}"
+
+- name: Add Kubenetes repo key
+  ansible.builtin.apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add Kubernetes repo
+  ansible.builtin.apt_repository:
+    filename: "kubernetes"
+    repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+    state: present
+
+- name: Pin Kubernetes version
+  ansible.builtin.template:
+    src: apt_kubernetes.j2
+    dest: /etc/apt/preferences.d/kubernetes
+    mode: 0644
+
+- name: Install Kubernetes
+  ansible.builtin.apt:
+    pkg:
+      - kubelet
+      - kubeadm
+    state: present
+
+- name: Configure kubelet
+  ansible.builtin.template:
+    dest: /etc/default/kubelet
+    src: kubelet.j2
+    mode: 0644
+    backup: yes
+  notify: Restart kubelet

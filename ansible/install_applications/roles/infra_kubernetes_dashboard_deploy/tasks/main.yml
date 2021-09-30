@@ -1,0 +1,27 @@
+---
+- name: Ensure Kubernetes dashboard namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ kubernetes_dashboard.namespace }}"
+
+- name: Ensure Kubernetes dashboard image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ kubernetes_dashboard.base_image }}"
+    private_image: "{{ kubernetes_dashboard.container.image }}"
+
+- name: Ensure Kubernetes dashboard metrics scraper image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ kubernetes_dashboard_metrics_scraper.base_image }}"
+    private_image: "{{ kubernetes_dashboard_metrics_scraper.container.image }}"
+
+# TODO : kubernetes-dashboard-csrf is always changed, its resourceVersion is incremented each time we deploy
+- name: Deploy Kubernetes dashboard
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"

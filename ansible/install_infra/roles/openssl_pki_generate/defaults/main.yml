@@ -1,0 +1,42 @@
+---
+#custom_ssl_pki_generation_root_dir: "/etc/ssl/custom-generation"
+#custom_ssl_pki_root_dir: /etc/ssl/custom
+
+openssl_custom_pki: []
+#  - pki_name: pki_1
+#    ca_common_name: test1.com
+#    certs:
+#      - name: cert_1
+#        country_name: US
+#        state_or_province_name: State
+#        locality_name: Locality
+#        organization_name: Organization
+#        common_name: cn1.test1.com
+#        san: ["san1.cn1.test1.com", "san2.cn1.test1.com"]
+#        email_address: user@mail.net
+#        generate_dh_param_enabled: true
+#        generate_dh_param_size: 4096
+#      - name: cert_2
+#        country_name: US
+#        state_or_province_name: State
+#        locality_name: Locality
+#        organization_name: Organization
+#        common_name: cn2.test1.com
+#        email_address: user@mail.net
+#  - pki_name: pki_2
+#    ca_common_name: test2.com
+#    certs:
+#      - name: cert_1
+#        country_name: US
+#        state_or_province_name: State
+#        locality_name: Locality
+#        organization_name: Organization
+#        common_name: cn1.test1.com
+#        email_address: user@mail.net
+#      - name: cert_2
+#        country_name: US
+#        state_or_province_name: State
+#        locality_name: Locality
+#        organization_name: Organization
+#        common_name: cn2.test1.com
+#        email_address: user@mail.net

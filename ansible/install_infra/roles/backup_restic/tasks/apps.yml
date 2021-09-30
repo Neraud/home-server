@@ -1,0 +1,53 @@
+---
+- name: Deploy Apps backup scripts
+  ansible.builtin.template:
+    src: "restic_backup_apps.sh.j2"
+    dest: "{{ restic_backup_scripts_dir }}/restic_backup_apps.sh"
+    mode: 0700
+  when: restic_backup_apps_enabled
+
+- name: Ensure Restic apps backup scripts directory exists
+  ansible.builtin.file:
+    path: "{{ restic_backup_apps_scripts_dir }}"
+    state: directory
+    mode: 0700
+  when: restic_backup_apps_enabled
+
+- name: Ensure Apps backup scripts are absent
+  ansible.builtin.file:
+    path: "{{ restic_backup_scripts_dir }}/restic_backup_apps.sh"
+    state: absent
+  when: not restic_backup_apps_enabled
+
+- name: Deploy Apps backup systemd unit and timer
+  ansible.builtin.template:
+    src: "systemd/{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    mode: 0700
+  loop:
+    - restic_backup_apps.service
+    - restic_backup_apps.timer
+  notify: Reload systemd daemon
+  when:
+    - schedule_with_systemd
+    - restic_backup_apps_enabled and restic_backup_apps_timer
+
+- name: Enable Apps backup systemd timer
+  ansible.builtin.systemd:
+    name: restic_backup_apps.timer
+    state: started
+    enabled: yes
+  when:
+    - schedule_with_systemd
+    - restic_backup_apps_enabled and restic_backup_apps_timer
+
+- name: Ensure Apps backup systemd unit and timer are not deployed
+  ansible.builtin.file:
+    path: "/etc/systemd/system/{{ item }}"
+    state: absent
+  loop:
+    - restic_backup_apps.service
+    - restic_backup_apps.timer
+  when:
+    - schedule_with_systemd
+    - not restic_backup_apps_enabled or not restic_backup_apps_timer

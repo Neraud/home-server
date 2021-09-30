@@ -1,13 +1,13 @@
 ---
-
 - name: Declare ufw applications
-  template:
+  ansible.builtin.template:
     src: "{{ playbook_dir }}/roles/firewall/templates/application.j2"
     dest: /etc/ufw/applications.d/{{ item.name }}
+    mode: 0644
   with_items: "{{ ufw_applications | default([]) }}"
 
 - name: Allow ufw applications
-  ufw:
+  community.general.ufw:
     name: "{{ item.name }}"
     rule: "{{ item.rule }}"
     src: "{{ item.src | default('any') }}"
@@ -21,7 +21,7 @@
 
 # See https://serverfault.com/a/957824
 - name: Allow invalid packets (ipv4)
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /etc/ufw/before.rules
     block: |
       -A ufw-before-input -p {{ item.1.proto }} --dport {{ item.1.ports }} -j ACCEPT
@@ -32,7 +32,7 @@
   notify: Reload ufw
 
 - name: Allow invalid packets (ipv6)
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /etc/ufw/before6.rules
     block: |
       -A ufw6-before-input -p {{ item.1.proto }} --dport {{ item.1.ports }} -j ACCEPT

@@ -1,14 +1,13 @@
 ---
-
 keepalived:
   include_conf_dir: /etc/keepalived/includes
 
   ufw_applications:
-  - name: prometheus_keepalived_exporter
-    title: Prometheus Keepalived Exporter
-    description: Prometheus Keepalived Exporter
-    ports: 9165/tcp
-    rule: allow
+    - name: prometheus_keepalived_exporter
+      title: Prometheus Keepalived Exporter
+      description: Prometheus Keepalived Exporter
+      ports: 9165/tcp
+      rule: allow
 
   exporter:
     version: 1.2.0

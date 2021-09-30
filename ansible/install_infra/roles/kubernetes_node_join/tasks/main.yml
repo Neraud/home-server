@@ -1,0 +1,87 @@
+---
+- name: Configure UFW for Kubernetes masters
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ kubernetes_master_ufw_applications }}"
+  when: "'kubernetes_masters' in group_names"
+
+- name: Configure UFW for Kubernetes workers
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ kubernetes_worker_ufw_applications }}"
+
+- name: Check if the node is already added in the cluster
+  ansible.builtin.stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: kubelet_conf_result
+
+- name: Register if the node is already added in the cluster
+  ansible.builtin.set_fact:
+    has_already_joined_kubernetes_cluster: "{{ kubelet_conf_result.stat.isreg | default(false) | bool }}"
+
+- name: Create Kubernetes PKI folders on masters
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - /etc/kubernetes/pki
+    - /etc/kubernetes/pki/etcd
+  when: "'kubernetes_master_others' in group_names"
+
+- name: Deploy Kubernetes PKI from controller
+  ansible.posix.synchronize:
+    src: "{{ kubernetes_pki_fetch_dir }}/{{ item }}"
+    dest: "/etc/kubernetes/pki/{{ item }}"
+  delegate_to: "{{ groups['controller'][0] }}"
+  loop:
+    - ca.crt
+    - ca.key
+    - sa.key
+    - sa.pub
+    - front-proxy-ca.crt
+    - front-proxy-ca.key
+    - etcd/ca.crt
+    - etcd/ca.key
+  when: "'kubernetes_master_others' in group_names"
+
+- name: Generate token to join on master bootstrap
+  ansible.builtin.command: kubeadm token create --ttl=5m --description="Token to allow {{ inventory_hostname }} to join" --print-join-command
+  register: join_command_result
+  delegate_to: "{{ groups['kubernetes_master_bootstrap'][0] }}"
+  when: not has_already_joined_kubernetes_cluster
+
+- name: Generate master join command
+  ansible.builtin.set_fact:
+    join_command: "{{ join_command_result.stdout_lines[0] }} --control-plane --apiserver-advertise-address {{ kubernetes_apiserver_ip }}"
+  when:
+    - not has_already_joined_kubernetes_cluster
+    - "'kubernetes_masters' in group_names"
+
+- name: Generate worker join command
+  ansible.builtin.set_fact:
+    join_command: "{{ join_command_result.stdout_lines[0] }}"
+  when:
+    - not has_already_joined_kubernetes_cluster
+    - "'kubernetes_masters' not in group_names"
+
+- name: Fail when the join command is not supplied
+  ansible.builtin.fail:
+    msg: "kubeadm token create didn't return a join command"
+  when:
+    - not has_already_joined_kubernetes_cluster
+    - "'kubeadm join' not in join_command"
+
+- name: Join cluster
+  ansible.builtin.command: "{{ join_command }}"
+  when: not has_already_joined_kubernetes_cluster
+
+- name: Configure kubectl
+  ansible.posix.synchronize:
+    src: "{{ hostvars[groups.controller | first].kubeconfig_path }}"
+    dest: /etc/kubernetes/admin.conf
+  delegate_to: "{{ groups['controller'][0] }}"

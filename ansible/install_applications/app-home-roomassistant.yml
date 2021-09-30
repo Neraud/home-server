@@ -1,6 +1,5 @@
 ---
-
 - name: Provision home-roomassistant
   hosts: controller
   roles:
-  - role: home-roomassistant.deploy
+    - role: home_roomassistant_deploy

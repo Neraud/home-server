@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside prometheus_operator
 _prometheus_operator_var_loader:
   base_image:
@@ -31,7 +30,6 @@ prometheus_operator:
     config_reloader_limits_cpu: "{{ prometheus_operator_container_config_reloader_limits_cpu | default('50m') }}"
     config_reloader_limits_memory: "{{ prometheus_operator_container_config_reloader_limits_memory | default('25Mi') }}"
 
-
 # To avoid loops prometheus_operator_rbac_proxy prometheus_operator
 _prometheus_operator_rbac_proxy_var_loader:
   base_image:
@@ -47,7 +45,6 @@ prometheus_operator_rbac_proxy:
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('20Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('20m') }}"
     limits_memory: "{{ prometheus_operator_container_limits_memory | default('40Mi') }}"
-
 
 # To avoid loops inside prometheus
 _prometheus_var_loader:
@@ -81,7 +78,6 @@ prometheus:
 
   context_root: "{{ prometheus_context_root | default('') }}"
   servername: "prometheus-k8s.{{ _prometheus_var_loader.namespace }}.svc.cluster.local"
-
 
 # To avoid loops inside alertmanager
 _alertmanager_var_loader:

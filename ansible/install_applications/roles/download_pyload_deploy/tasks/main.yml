@@ -1,0 +1,36 @@
+---
+- name: Ensure pyLoad namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ pyload.namespace }}"
+    create_nfs_pvc: yes
+
+- name: Deploy pyLoad backup script
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ pyload.app_backup }}"
+  tags: backup
+
+- name: Ensure BusyBox image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ busybox.base_image }}"
+    private_image: "{{ busybox.container.image }}"
+
+- name: Ensure pyLoad image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ pyload.base_image }}"
+    private_image: "{{ pyload.container.image }}"
+    build: yes
+    build_args:
+      pyload_version: "{{ pyload.container.commit }}"
+
+- name: Deploy pyLoad
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"

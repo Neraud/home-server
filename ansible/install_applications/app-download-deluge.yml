@@ -1,6 +1,5 @@
 ---
-
 - name: Provision download-deluge
   hosts: controller
   roles:
-  - role: download-deluge.deploy
+    - role: download_deluge_deploy

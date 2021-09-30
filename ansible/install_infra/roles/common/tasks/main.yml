@@ -1,32 +1,32 @@
 ---
-
 - name: Set server name
-  hostname:
+  ansible.builtin.hostname:
     name: "{{ machine_name }}"
 
 - name: Set hosts
-  template:
+  ansible.builtin.template:
     src: hosts.j2
     dest: /etc/hosts
+    mode: 0644
     backup: true
 
 - name: Set timezone
-  timezone:
+  community.general.timezone:
     name: "{{ time_zone }}"
 
 - name: Install standard tools
-  apt:
+  ansible.builtin.apt:
     pkg: "{{ common_default_packages }}"
     state: present
 
 - name: Install sensors
-  apt:
+  ansible.builtin.apt:
     pkg: "lm-sensors"
     state: present
   when: ansible_virtualization_role != 'guest'
 
 - name: Ensure standard user exists
-  user:
+  ansible.builtin.user:
     name: "{{ standard_user.name }}"
     update_password: always
     home: "{{ standard_user.home }}"
@@ -37,31 +37,33 @@
     ssh_key_bits: 4096
 
 - name: Set standard user authorized keys
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ standard_user.name }}"
     key: "{{ item }}"
     state: present
   with_items: "{{ standard_user.ssh_authorized_keys }}"
 
 - name: Add {{ bashrc_include_dir }} folder for standard user
-  file:
+  ansible.builtin.file:
     path: "{{ standard_user.home }}/{{ bashrc_include_dir }}"
     state: directory
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
+    mode: 0755
 
 - name: Add bashrc includes for standard user
-  copy:
+  ansible.builtin.copy:
     dest: "{{ standard_user.home }}/{{ bashrc_include_dir }}/{{ item }}"
     src: "{{ bashrc_include_dir }}/{{ item }}"
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
+    mode: 0644
   with_items:
     - common-aliases.bashrc
     - editor.bashrc
 
 - name: Add include in standard user's bashrc
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: "{{ standard_user.home }}/.bashrc"
     owner: "{{ standard_user.name }}"
     group: "{{ standard_user.name }}"
@@ -74,14 +76,14 @@
       done
 
 - name: Set default sysctl properties
-  sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
   with_items: "{{ sysctl_properties }}"
 
 - name: Create cron jobs
-  cron:
+  ansible.builtin.cron:
     name: "{{ item.name }}"
     cron_file: "{{ item.cron_file }}"
     user: "{{ item.user }}"

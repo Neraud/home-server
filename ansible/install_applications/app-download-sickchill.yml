@@ -1,6 +1,5 @@
 ---
-
 - name: Provision download-sickchill
   hosts: controller
   roles:
-  - role: download-sickchill.deploy
+    - role: download_sickchill_deploy

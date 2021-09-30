@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside lemonldap
 _lemonldap_var_loader:
   namespace: "auth-lemonldap"
@@ -17,12 +16,12 @@ lemonldap:
     name: auth-lemonldap
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: lemonldap
-      namespace: "{{ _lemonldap_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: lemonldap
+        namespace: "{{ _lemonldap_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - lemonldap-data
+      - lemonldap-data
 
   labels_def:
     app.kubernetes.io/name: lemonldap

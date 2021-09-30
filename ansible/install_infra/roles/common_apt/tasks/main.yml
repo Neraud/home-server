@@ -1,0 +1,27 @@
+---
+- name: Disable APT recommended packages
+  ansible.builtin.template:
+    src: recommends.j2
+    dest: /etc/apt/apt.conf.d/60recommends
+    mode: 0644
+
+- name: Update Debian sources list
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: "debian"
+  with_items:
+    # debian main is already in default sources.list
+    - "deb https://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
+    - "deb-src https://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
+
+    # debian-security main is already in default sources.list
+    - "deb https://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
+    - "deb-src https://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
+
+    # debian-security main is already in default sources.list
+    - "deb https://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
+    - "deb-src https://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
+
+    - "deb https://deb.debian.org/debian {{ ansible_lsb.codename }}-backports main contrib non-free"
+  when: ansible_distribution == 'Debian'

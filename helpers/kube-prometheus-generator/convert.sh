@@ -141,10 +141,9 @@ rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-prometheusRule.yaml
 
 echo "===================================================================================================="
 missedFiles=$(find $OUT_TMP_KUBE_PROMETHEUS_ROOT -type f | wc -l)
-if [ $missedFiles -eq 0 ] ; then
+if [ $missedFiles -eq 0 ]; then
   echo "OK, no remaining files to convert"
 else
   echo "WARN, $missedFiles files were not converted !!"
   find $OUT_TMP_KUBE_PROMETHEUS_ROOT -type f
 fi
- 

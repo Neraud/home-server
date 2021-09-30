@@ -1,12 +1,11 @@
 ---
-
 # To avoid loops inside openldap
 _openldap_var_loader:
   base_image:
     name: "osixia/openldap"
     tag: "1.5.0-amd64"
   namespace: "auth-openldap"
-  
+
   basedn: "{{ openldap_ldap_basedn | default('dc=example,dc=org') }}"
   readonly_user_username: "{{ openldap_ldap_readonly_user_username | default('readonly') }}"
 
@@ -15,19 +14,19 @@ openldap:
 
   namespace: "{{ _openldap_var_loader.namespace }}"
   base_image: "{{ _openldap_var_loader.base_image }}"
-  
+
   app_backup:
     name: auth-openldap
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: openldap
-      namespace: "{{ _openldap_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: openldap
+        namespace: "{{ _openldap_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - openldap-data
-    - openldap-config
-  
+      - openldap-data
+      - openldap-config
+
   labels_def:
     app.kubernetes.io/name: openldap
     app.kubernetes.io/component: openldap
@@ -41,7 +40,7 @@ openldap:
     requests_memory: "{{ openldap_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ openldap_container_limits_cpu | default('150m') }}"
     limits_memory: "{{ openldap_container_limits_memory | default('128Mi') }}"
-  
+
   ldap:
     servername: "{{ openldap_ldap_servername | default('openldap.' + _openldap_var_loader.namespace + '.svc.cluster.local') }}"
     organisation: "{{ openldap_ldap_organisation | default('Example Inc.') }}"

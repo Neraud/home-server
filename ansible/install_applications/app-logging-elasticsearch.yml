@@ -1,6 +1,5 @@
 ---
-
 - name: Provision logging-elasticsearch
   hosts: controller
   roles:
-  - role: logging-elasticsearch.deploy
+    - role: logging_elasticsearch_deploy

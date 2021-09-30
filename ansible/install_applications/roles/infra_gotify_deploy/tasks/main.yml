@@ -1,0 +1,115 @@
+---
+- name: Ensure Gotify namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ gotify.namespace }}"
+
+- name: Deploy Gotify backup script
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/backup.yml
+  vars:
+    app_backup: "{{ gotify.app_backup }}"
+  tags: backup
+
+- name: Ensure BusyBox image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ busybox.base_image }}"
+    private_image: "{{ busybox.container.image }}"
+
+- name: Ensure Gotify image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  vars:
+    base_image: "{{ gotify.base_image }}"
+    private_image: "{{ gotify.container.image }}"
+
+- name: Deploy Gotify
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"
+
+- name: Wait for Gotify to be available
+  kubernetes.core.k8s_info:
+    kind: StatefulSet
+    namespace: "{{ gotify.namespace }}"
+    name: gotify
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_result
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 20
+  delay: 3
+
+- name: List existing users
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/user"
+    method: GET
+    headers:
+      Host: "gotify.web.{{ web_base_domain }}"
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ gotify.default_admin_user }}"
+    password: "{{ gotify.default_admin_password }}"
+  register: gotify_existing_users
+
+- name: Create missing users
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/user"
+    method: POST
+    headers:
+      Host: "gotify.web.{{ web_base_domain }}"
+    body:
+      name: "{{ item.name }}"
+      pass: "{{ item.password }}"
+      admin: "{{ item.admin }}"
+    body_format: json
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ gotify.default_admin_user }}"
+    password: "{{ gotify.default_admin_password }}"
+  changed_when: true
+  with_items: "{{ gotify.users }}"
+  when: item.name not in (gotify_existing_users.json | map(attribute='name'))
+
+- name: List existing applications
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/application"
+    method: GET
+    headers:
+      Host: "gotify.web.{{ web_base_domain }}"
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ item.name }}"
+    password: "{{ item.password }}"
+  with_items: "{{ gotify.users }}"
+  register: gotify_existing_applications
+
+- name: Clean existing application list
+  ansible.builtin.set_fact:
+    gotify_existing_applications_cleaned: "{{ gotify_existing_applications_cleaned | default({}) | combine( { item.item.name: item.json } ) }}"
+  with_items: "{{ gotify_existing_applications.results }}"
+
+- name: Create missing applications
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ gotify.context_root }}/application"
+    method: POST
+    headers:
+      Host: "gotify.web.{{ web_base_domain }}"
+    body:
+      name: "{{ item.1.name }}"
+      description: "{{ item.1.desc }}"
+    body_format: json
+    return_content: yes
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ item.0.name }}"
+    password: "{{ item.0.password }}"
+  changed_when: true
+  loop: "{{ gotify.users | subelements('applications') }}"
+  when: item.1.name not in (gotify_existing_applications_cleaned[item.0.name] | map(attribute='name'))

@@ -1,6 +1,5 @@
 ---
-
 - name: Restart APC Daemon
-  service:
+  ansible.builtin.service:
     name: apcupsd.service
     state: restarted

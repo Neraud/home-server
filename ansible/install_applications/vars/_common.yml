@@ -1,5 +1,4 @@
 ---
-
 ingress_nginx:
   namespace_labels_def:
     app.kubernetes.io/name: ingress-nginx

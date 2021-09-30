@@ -1,0 +1,7 @@
+---
+- name: Configure UFW for Kubernetes CNI
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ kubernetes_cni_calico_ufw_applications }}"

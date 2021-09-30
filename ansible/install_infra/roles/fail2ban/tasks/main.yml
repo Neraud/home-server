@@ -1,26 +1,27 @@
 ---
-
 - name: Install Fail2Ban
-  apt:
+  ansible.builtin.apt:
     pkg: fail2ban
     state: present
 
 - name: Configure filters
-  template:
+  ansible.builtin.template:
     src: filter.conf.j2
     dest: "/etc/fail2ban/filter.d/{{ item.name }}.conf"
+    mode: 0644
   with_items: "{{ fail2ban_filters | default([]) }}"
   notify: Restart Fail2Ban
 
 - name: Configure jails
-  template:
+  ansible.builtin.template:
     src: jail.conf.j2
     dest: "/etc/fail2ban/jail.d/{{ item.name }}.conf"
+    mode: 0644
   with_items: "{{ fail2ban_jails | default([]) }}"
   notify: Restart Fail2Ban
 
 - name: Auto-start Fail2Ban
-  service:
+  ansible.builtin.service:
     name: fail2ban
     state: started
     enabled: yes

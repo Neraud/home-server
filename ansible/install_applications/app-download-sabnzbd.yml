@@ -1,6 +1,5 @@
 ---
-
 - name: Provision download-sabnzbd
   hosts: controller
   roles:
-  - role: download-sabnzbd.deploy
+    - role: download_sabnzbd_deploy

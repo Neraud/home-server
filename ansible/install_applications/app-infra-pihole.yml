@@ -1,6 +1,5 @@
 ---
-
 - name: Provision infra-pihole
   hosts: controller
   roles:
-  - role: infra-pihole.deploy
+    - role: infra_pihole_deploy

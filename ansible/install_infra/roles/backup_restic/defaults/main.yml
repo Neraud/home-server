@@ -1,0 +1,60 @@
+---
+restic_version: "0.12.0"
+restic_bin_path: /usr/local/bin/restic
+backup_scripts_dir: /opt/backups
+restic_backup_scripts_dir: "{{ backup_scripts_dir }}"
+restic_backup_apps_scripts_dir: "{{ restic_backup_scripts_dir }}/apps.d"
+restic_bash_completion_enabled: True
+
+restic_backup_host_enabled: True
+restic_backup_apps_enabled: False
+restic_repo_maintenance_enabled: False
+schedule_with_systemd: True
+
+restic_backup_hosts_timer: "*-*-* 3:00:00"
+restic_backup_apps_timer: "*-*-* 3:30:00"
+restic_repo_maintenance_timer: "Mon *-*-* 6:00:00"
+
+restic_host_backup_repository:
+  name: host_backup
+  enabled: False
+#  repository: /tmp/host_backup
+#  password: Passw0rd
+#  paths:
+#    - path: /etc
+#    - path: /home
+#      excludes:
+#        - /home/*/.ansible
+#        - /home/*/.cache
+#        - /home/*/.kube/cache
+#    - path: /root
+#      excludes:
+#        - /root/.ansible
+#        - /root/.cache
+#        - /root/.kube/cache
+#  retention:
+#    keep_hourly: 24
+#    keep_daily: 7
+#    keep_weekly: 4
+#    keep_monthly: 12
+#    keep_yearly: 2
+
+#restic_repositories:
+#  - "{{ restic_host_backup_repository }}"
+#  - name: other_repo
+#    enabled: True
+#    repository: /path/to/other_repo
+#    #repository: sftp:user:@host:/path/to/other_repo
+#    #repository: rest:https://user:pass@host:8000/other_repo/
+#    password: Passw0rd
+#    retention:
+#      keep_last: 4
+#      keep_hourly: 24
+#      keep_daily: 7
+#      keep_weekly: 4
+#      keep_monthly: 12
+#      keep_yearly: 2
+#      keep_tags: []
+#      keep_within: 2y5m7d3h # will keep all snapshots made in the two years, five months, seven days, and three hours before the latest snapshot
+
+restic_repositories_maintenance_enabled: False

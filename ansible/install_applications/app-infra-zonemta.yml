@@ -1,6 +1,5 @@
 ---
-
 - name: Provision infra-zonemta
   hosts: controller
   roles:
-  - role: infra-zonemta.deploy
+    - role: infra_zonemta_deploy

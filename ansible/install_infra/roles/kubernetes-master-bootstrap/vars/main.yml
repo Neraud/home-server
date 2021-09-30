@@ -1,4 +1,0 @@
----
-
-kubernetes_apiserver_bind_ip: "{{ haproxy_kubernetes_keepalived_instance_virtual_ip }}"
-haproxy_kubernetes_apiserver_port: 6444

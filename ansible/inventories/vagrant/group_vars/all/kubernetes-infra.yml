@@ -1,10 +1,9 @@
 ---
-
 metallb_memberlist_secret: abcdefghijklmnopqrstuvwxyz
 metallb_ip_pools:
-- name: pool1
-  addresses:
-  - 192.168.100.20-192.168.100.29
+  - name: pool1
+    addresses:
+      - 192.168.100.20-192.168.100.29
 
 kubernetes_nginx_ingress_lb_ip: 192.168.100.20
 kubernetes_lemonLdap_handler_lb_ip: 192.168.100.21

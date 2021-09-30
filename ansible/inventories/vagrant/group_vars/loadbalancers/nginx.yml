@@ -1,5 +1,4 @@
 ---
-
 nginx_keepalived_instance_public_interface: "{{ default_network_interface }}"
 nginx_keepalived_instance_public_auth_pass: Passw0rd
 nginx_keepalived_instance_internal_interface: "{{ default_network_interface }}"

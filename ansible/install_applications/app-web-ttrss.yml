@@ -1,6 +1,5 @@
 ---
-
 - name: Provision web-ttrss
   hosts: controller
   roles:
-  - role: web-ttrss.deploy
+    - role: web_ttrss_deploy

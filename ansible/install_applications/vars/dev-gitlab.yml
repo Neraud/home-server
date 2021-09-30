@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside gitlab
 _gitlab_var_loader:
   namespace: "dev-gitlab"
@@ -19,13 +18,13 @@ gitlab:
     name: dev-gitlab
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: gitlab
-      namespace: "{{ _gitlab_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: gitlab
+        namespace: "{{ _gitlab_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - gitlab-config
-    - gitlab-data
+      - gitlab-config
+      - gitlab-data
 
   labels_def:
     app.kubernetes.io/name: gitlab

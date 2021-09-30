@@ -1,13 +1,12 @@
 ---
-
 - name: Search for iptables-legacy
-  stat:
+  ansible.builtin.stat:
     path: /usr/sbin/iptables-legacy
   register: iptables_legacy_stat
 
 # Cf https://github.com/kubernetes/kubernetes/issues/71305#issuecomment-479558920
 - name: Force iptables to legacy mode on Buster
-  alternatives:
+  community.general.alternatives:
     path: /usr/sbin/iptables-legacy
     name: iptables
   when:
@@ -15,21 +14,21 @@
     - iptables_legacy_stat.stat.exists
 
 - name: Install ufw
-  apt:
+  ansible.builtin.apt:
     pkg: ufw
     state: present
 
 - name: Allow ssh
-  ufw:
+  community.general.ufw:
     name: OpenSSH
     rule: allow
 
 - name: Enable ufw
-  ufw:
+  community.general.ufw:
     state: enabled
 
 - name: Set ufw policy to deny all incoming connections
-  ufw:
+  community.general.ufw:
     policy: deny
     direction: incoming
   # UFW sometimes fails with 'Could not load logging rules'
@@ -40,7 +39,7 @@
   until: ufw_deny_incoming_result is succeeded
 
 - name: Set ufw policy to allow all ougoing connections
-  ufw:
+  community.general.ufw:
     policy: allow
     direction: outgoing
   # UFW sometimes fails with 'Could not load logging rules'
@@ -51,6 +50,6 @@
   until: ufw_allow_outgoing_result is succeeded
 
 - name: Configure custom applications
-  import_tasks: add-applications.yml
+  ansible.builtin.import_tasks: add-applications.yml
   vars:
     ufw_applications: "{{ custom_ufw_applications | default([]) }}"

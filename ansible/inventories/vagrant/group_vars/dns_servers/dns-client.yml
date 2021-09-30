@@ -1,5 +1,4 @@
 ---
-
 # dns_servers use their own dnsmasq as server.
 dns_nameservers:
   - "{{ host_ip }}"

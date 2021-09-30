@@ -42,8 +42,8 @@ def update_dashboard(path, value):
         if 'infra' not in value:
             value.insert(0, 'infra')
 
-    ## Workaround https://github.com/kubernetes-monitoring/kubernetes-mixin/issues/372
-    #if path and path[-1] == 'expr' and value and '$interval' in value:
+    # Workaround https://github.com/kubernetes-monitoring/kubernetes-mixin/issues/372
+    # if path and path[-1] == 'expr' and value and '$interval' in value:
     #    value = value.replace('$interval', '$__interval')
 
     return value

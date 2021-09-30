@@ -1,41 +1,42 @@
 ---
-
 - name: Configure UFW for Keepalived
-  include_role:
+  ansible.builtin.include_role:
     name: firewall
     tasks_from: add-applications
   vars:
     ufw_applications: "{{ keepalived.ufw_applications }}"
 
 - name: Allow non local ip bind
-  sysctl:
+  ansible.posix.sysctl:
     name: "net.ipv4.ip_nonlocal_bind"
     value: "1"
     state: present
 
 - name: Allow VRRP multicast
-  ufw:
+  community.general.ufw:
     dest: 224.0.0.18
     rule: allow
 
 - name: Install Keepalived
-  apt:
+  ansible.builtin.apt:
     pkg: keepalived
     state: present
 
 - name: Prepare Keepalived conf folder
-  file:
+  ansible.builtin.file:
     path: "{{ keepalived.include_conf_dir }}"
     state: directory
+    mode: 0755
 
 - name: Configure Keepalived
-  template:
+  ansible.builtin.template:
     dest: /etc/keepalived/keepalived.conf
     src: keepalived.conf.j2
+    mode: 0644
   notify: Restart Keepalived
 
 - name: Auto-start Keepalived
-  service:
+  ansible.builtin.service:
     name: keepalived
     state: started
     enabled: yes

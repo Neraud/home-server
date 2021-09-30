@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside nodered
 _nodered_var_loader:
   namespace: "home-nodered"
@@ -17,12 +16,12 @@ nodered:
     name: home-nodered
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: nodered
-      namespace: "{{ _nodered_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: nodered
+        namespace: "{{ _nodered_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - nodered-data
+      - nodered-data
 
   labels_def:
     app.kubernetes.io/name: nodered

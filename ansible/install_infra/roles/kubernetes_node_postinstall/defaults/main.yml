@@ -1,0 +1,14 @@
+---
+kubernetes_users:
+  - name: "{{ standard_user.name }}"
+    home: "{{ standard_user.home }}"
+    install_autocomplete: yes
+#kubernetes_node_labels:
+#  - name: foo
+#    value: bar
+
+#kubernetes_node_taints:
+#  - key: key
+#    value: value
+#    effect: NoSchedule
+#    state: present|absent

@@ -1,0 +1,30 @@
+---
+- name: Configure UFW for ser2net
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications:
+      - name: ser2net
+        title: ser2net
+        description: ser2net
+        ports: "{{ serial_exposed_devices | map(attribute='port') | join(',') }}/tcp"
+        rule: allow
+
+- name: Install ser2net
+  ansible.builtin.apt:
+    pkg: ser2net
+    state: present
+
+- name: Configure ser2net
+  ansible.builtin.template:
+    dest: /etc/ser2net.yaml
+    src: ser2net.yaml.j2
+    mode: 0644
+  notify: Restart ser2net
+
+- name: Auto-start ser2net
+  ansible.builtin.service:
+    name: ser2net
+    state: started
+    enabled: yes

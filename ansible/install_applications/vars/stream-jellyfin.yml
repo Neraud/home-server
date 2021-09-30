@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside jellyfin
 _jellyfin_var_loader:
   namespace: "stream-jellyfin"
@@ -21,12 +20,12 @@ jellyfin:
     name: stream-jellyfin
     repository: "{{ restic_apps_backup_repository }}"
     apps_to_stop:
-    - name: jellyfin
-      namespace: "{{ _jellyfin_var_loader.namespace }}"
-      type: statefulset
-      replicas: 1
+      - name: jellyfin
+        namespace: "{{ _jellyfin_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
     gluster_volumes:
-    - jellyfin-data
+      - jellyfin-data
 
   labels_def:
     app.kubernetes.io/name: jellyfin

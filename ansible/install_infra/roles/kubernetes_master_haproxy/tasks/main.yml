@@ -1,0 +1,38 @@
+---
+- name: Allow non local ip bind
+  ansible.posix.sysctl:
+    name: "net.ipv4.ip_nonlocal_bind"
+    value: "1"
+    state: present
+
+- name: Configure UFW for HAproxy
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ haproxy_ufw_applications }}"
+
+- name: Configure Keepalived VirtualIP
+  ansible.builtin.include_role:
+    name: keepalived
+    tasks_from: add-virtual-ip
+  vars:
+    keepalived_instance: "{{ haproxy_keepalived_instance }}"
+
+- name: Install HAproxy
+  ansible.builtin.apt:
+    pkg: haproxy
+    state: present
+
+- name: Configure HAproxy
+  ansible.builtin.template:
+    dest: /etc/haproxy/haproxy.cfg
+    src: haproxy.cfg.j2
+    mode: 0644
+  notify: Restart HAproxy
+
+- name: Auto-start HAproxy
+  ansible.builtin.service:
+    name: haproxy
+    state: started
+    enabled: yes

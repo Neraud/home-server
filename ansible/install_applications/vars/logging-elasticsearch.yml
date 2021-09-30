@@ -1,5 +1,4 @@
 ---
-
 # To avoid loops inside elasticsearch
 _elasticsearch_var_loader:
   base_image:
@@ -57,8 +56,6 @@ elasticsearch:
     users_dn: "{{ elasticsearch_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
     group: "{{ elasticsearch_ldap_group }}"
     roles_dn: "{{ elasticsearch_ldap_roles_dn }}"
-
-
 
 # To avoid loops inside elasticsearch_exporter
 _elasticsearch_exporter_var_loader:
