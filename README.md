@@ -29,6 +29,7 @@ The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.m
 | master-2  |  4/8  | [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) |  32G  | SSD 500G  |
 | master-3  |  4/8  | [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) |  32G  | SSD 500G  |
 | node-home |  4/4  | [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-)                       |  2G   | Flash 32G |
+| node-1    | 8/16  | [AMD Ryzen 7 5700G](https://www.amd.com/en/products/apu/amd-ryzen-7-5700g)                                                               |  32G  | SSD 1T    |
 
 ## High availability
 

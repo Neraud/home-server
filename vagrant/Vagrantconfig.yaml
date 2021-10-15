@@ -6,6 +6,8 @@ common:
   # To find the exact name, start the box a first time and look at the storage settings in VirtualBox
   sata_controller_name: "SATA Controller"
   network_cidr: 192.168.100.0/24
+  # Name of the interface to bridge to, to avoid Vagrant prompting to select the interface on computers with multiple NICs
+  bridge_interface_name: ""
 
 # Dedicated controller
 #controller:

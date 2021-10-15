@@ -3,7 +3,11 @@
 
 require 'yaml'
 
-settings = YAML.load_file 'Vagrantconfig.yaml'
+if File.file?('Vagrantconfig.local.yaml')
+	settings = YAML.load_file 'Vagrantconfig.local.yaml'
+else
+	settings = YAML.load_file 'Vagrantconfig.yaml'
+end
 
 VAGRANTFILE_API_VERSION = "2"
 
@@ -45,7 +49,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			
 			node.vm.network "private_network", ip: node_conf['ip']
 			if node_conf['additional_bridge']
-				node.vm.network "public_network"
+				if settings['common']['bridge_interface_name']
+					node.vm.network "public_network", bridge: settings['common']['bridge_interface_name']
+				else
+					node.vm.network "public_network"
+				end
 			end
 			node.vm.provision "shell", path: "init_new_node.sh", args: "node", keep_color: true
 			node.vm.provision "shell", path: "up_node.sh", run: "always", keep_color: true
@@ -82,7 +90,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		
 		controller.vm.network "private_network", ip: controller_conf['ip']
 		if controller_conf['additional_bridge']
-			controller.vm.network "public_network"
+			if settings['common']['bridge_interface_name']
+				controller.vm.network "public_network", bridge: settings['common']['bridge_interface_name']
+			else
+				controller.vm.network "public_network"
+			end
 		end
 		controller.vm.synced_folder "../", "/opt/provision", type: "virtualbox"
 		controller.vm.provision "shell", path: "init_new_node.sh", args: "controller", keep_color: true
