@@ -3,7 +3,11 @@
 
 require 'yaml'
 
-settings = YAML.load_file 'Vagrantconfig.yaml'
+if File.file?('Vagrantconfig.local.yaml')
+	settings = YAML.load_file 'Vagrantconfig.local.yaml'
+else
+	settings = YAML.load_file 'Vagrantconfig.yaml'
+end
 
 VAGRANTFILE_API_VERSION = "2"
 
