@@ -76,17 +76,35 @@ This box runs an [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Inte
 
 ## NAS
 
-Media and backups are stored on a Synology NAS DS415+
-With 4 WD Red 6To (WD60EFRX) in SHR mode.
+Media and backups are stored on a Synology NAS
+
+### NAS-1
+
+| Part   | Model                                                                                             | Price   |
+| ------ | ------------------------------------------------------------------------------------------------- | ------- |
+| NAS    | [DS415+](https://www.synology.com/en-global/products/DS415+)                                      | xx,xx € |
+| Drives | 4*[WD Red 6To](https://shop.westerndigital.com/products/internal-drives/wd-red-sata-hdd#WD60EFAX) | xx,xx € |
+
+### NAS-2
+
+Synology NAS DS1621+, with 4 Seagate Enterprise Exos X16 12T (ST12000NM001G) in SHR mode.
+
+| Part   | Model                                                                                                                                                        | Price    |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| NAS    | [DS1621+](https://www.amazon.de/-/en/gp/product/B08JH22W42)                                                                                                  | 884,36 € |
+| Drives | 4*[Seagate Enterprise Exos X16 12T](https://www.alternate.fr/Seagate/Enterprise-Exos-X16-3-Zoll-12000-Go-S%C3%A9rie-ATA-III-Disque-dur/html/product/1694652) | 4*278 €  |
+
+(ordered 2021-04)
 
 ## Network
 
-| Part              | Model                                                                    | Price   |
-| ----------------- | ------------------------------------------------------------------------ | ------- |
-| Router            | [UniFi Security Gateway 3P](https://www.amazon.fr/gp/product/B00LV8YZLK) | 118,79€ |
-| Switch            | [UniFi Switch 8 POE-60W](https://www.amazon.fr/gp/product/B004BQCKXO)    | 110,72€ |
-| Switches          | a few Netgear G108/[GS108](https://www.amazon.fr/gp/product/B000092RRM)  | 30-40€  |
-| Wifi Access Point | [UniFi AP-AC-LR](https://www.amazon.fr/gp/product/B016K5A06C)            | 96,42€  |
+| Part              | Model                                                                                                         | Price   |
+| ----------------- | ------------------------------------------------------------------------------------------------------------- | ------- |
+| Router            | [UniFi Security Gateway 3P](https://www.amazon.fr/gp/product/B00LV8YZLK)                                      | 118,79€ |
+| Switch            | [UniFi Switch Lite 16 PoE](https://store.ui.com/collections/unifi-network-switching/products/usw-lite-16-poe) | 160€    |
+| Switch            | [UniFi Switch 8 POE-60W](https://www.amazon.fr/gp/product/B004BQCKXO)                                         | 110,72€ |
+| Switches          | a few Netgear G108/[GS108](https://www.amazon.fr/gp/product/B000092RRM)                                       | 30-40€  |
+| Wifi Access Point | [UniFi AP-AC-LR](https://www.amazon.fr/gp/product/B016K5A06C)                                                 | 96,42€  |
 
 ## Graveyard
 
