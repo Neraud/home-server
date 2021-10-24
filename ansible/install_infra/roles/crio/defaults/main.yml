@@ -1,0 +1,8 @@
+---
+crio_apt_repository_os: "Debian_11"
+# See in https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/
+crio_apt_repository_version: "1.21"
+# See in https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.21/Debian_11/
+crio_version: 1.21.3~0
+# See in https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/
+crio_runc_version: 1.0.1

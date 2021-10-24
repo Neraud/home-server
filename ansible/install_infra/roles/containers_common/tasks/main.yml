@@ -1,0 +1,26 @@
+---
+- name: Prepare trusted registries directories
+  ansible.builtin.file:
+    path: "/etc/containers/certs.d/{{ item.url }}"
+    state: directory
+    mode: 0755
+  loop: "{{ containers_trusted_registries | default([]) }}"
+
+- name: Trust self signed registries
+  ansible.builtin.copy:
+    src: "{{ item.ca_path }}"
+    dest: /etc/containers/certs.d/{{ item.url }}/ca.crt
+    mode: 0644
+  loop: "{{ containers_trusted_registries | default([]) }}"
+  
+- name: Ensure docker config dir exists for root
+  ansible.builtin.file:
+    path: /root/.docker
+    state: directory
+    mode: 0755
+
+- name: Configure docker for root
+  ansible.builtin.template:
+    src: config.json.j2
+    dest: /root/.docker/config.json
+    mode: 0644

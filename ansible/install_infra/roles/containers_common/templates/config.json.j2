@@ -1,0 +1,10 @@
+{
+    "auths": {
+{% for auth in containers_auth_repositories %}
+        "{{ auth.url }}": {
+            "auth": "{{ (auth.username +':'+auth. password) | b64encode }}"
+        }{% if not loop.last %},{% endif %}
+
+{% endfor %}
+    }
+}
