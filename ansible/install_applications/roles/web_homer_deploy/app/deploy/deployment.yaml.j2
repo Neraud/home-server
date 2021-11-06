@@ -58,6 +58,8 @@ spec:
         - name: homer-config
           mountPath: /opt/images.csv
           subPath: images.csv
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -65,6 +67,8 @@ spec:
       - name: homer-config
         configMap:
           name: homer-config
+      - name: tmp-volume
+        emptyDir: {}
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
