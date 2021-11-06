@@ -2,6 +2,7 @@
 # To avoid loops inside reloader
 _reloader_var_loader:
   base_image:
+    repo: "docker.io"
     name: "stakater/reloader"
     tag: "v0.0.99"
 

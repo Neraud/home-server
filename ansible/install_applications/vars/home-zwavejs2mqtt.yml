@@ -3,6 +3,7 @@
 _zwavejs2mqtt_var_loader:
   namespace: "home-zwavejs2mqtt"
   base_image:
+    repo: "docker.io"
     name: "zwavejs/zwavejs2mqtt"
     tag: "5.6.0"
 

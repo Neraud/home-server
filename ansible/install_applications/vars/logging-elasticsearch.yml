@@ -2,6 +2,7 @@
 # To avoid loops inside elasticsearch
 _elasticsearch_var_loader:
   base_image:
+    repo: "docker.io"
     name: "amazon/opendistro-for-elasticsearch"
     tag: "1.13.2"
   namespace: "logging-elasticsearch"
@@ -60,6 +61,7 @@ elasticsearch:
 # To avoid loops inside elasticsearch_exporter
 _elasticsearch_exporter_var_loader:
   base_image:
+    repo: "docker.io"
     name: "justwatch/elasticsearch_exporter"
     tag: "1.1.0"
 

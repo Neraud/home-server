@@ -2,6 +2,7 @@
 # To avoid loops inside nginx_exporter
 _nginx_exporter_var_loader:
   base_image:
+    repo: "docker.io"
     name: "nginx/nginx-prometheus-exporter"
     tag: "0.9.0"
 

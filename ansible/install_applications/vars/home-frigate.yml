@@ -3,6 +3,7 @@
 _frigate_var_loader:
   namespace: "home-frigate"
   base_image:
+    repo: "docker.io"
     name: "blakeblackshear/frigate"
     tag: "0.8.4-amd64"
 

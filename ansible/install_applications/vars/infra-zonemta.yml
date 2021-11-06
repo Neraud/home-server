@@ -2,7 +2,8 @@
 # To avoid loops inside zonemta
 _zonemta_var_loader:
   base_image:
-    name: "node"
+    repo: "docker.io"
+    name: "library/node"
     tag: "12.22.6-alpine3.14"
   version: 3.2.2
   namespace: "infra-zonemta"
@@ -52,7 +53,8 @@ zonemta:
 # To avoid loops inside zonemta_mongo
 _zonemta_mongo_var_loader:
   base_image:
-    name: "mongo"
+    repo: "docker.io"
+    name: "library/mongo"
     tag: "4.4.6-bionic"
 
 zonemta_mongo:
@@ -82,7 +84,8 @@ zonemta_mongo:
 # To avoid loops inside zonemta_redis
 _zonemta_redis_var_loader:
   base_image:
-    name: "redis"
+    repo: "docker.io"
+    name: "library/redis"
     tag: "6.2.5-alpine3.14"
 
 zonemta_redis:

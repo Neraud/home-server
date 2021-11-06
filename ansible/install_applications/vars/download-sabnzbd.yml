@@ -2,7 +2,8 @@
 # To avoid loops inside sabnzbd
 _sabnzbd_var_loader:
   base_image:
-    name: "python"
+    repo: "docker.io"
+    name: "library/python"
     tag: "3.9.7-alpine3.14"
   repo:
     name: sabnzbd/sabnzbd

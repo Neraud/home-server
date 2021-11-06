@@ -2,10 +2,12 @@
 # To avoid loops inside apcups_exporter
 _apcups_exporter_var_loader:
   base_image_build:
-    name: golang
+    repo: "docker.io"
+    name: library/golang
     tag: 1.12.7-alpine3.10
   base_image:
-    name: alpine
+    repo: "docker.io"
+    name: library/alpine
     tag: 3.10.1
   repo:
     url: "https://github.com/mdlayher/apcupsd_exporter"

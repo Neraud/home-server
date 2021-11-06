@@ -2,6 +2,7 @@
 # To avoid loops inside homeassistant
 _homeassistant_var_loader:
   base_image:
+    repo: "docker.io"
     name: homeassistant/home-assistant
     tag: "2021.9.7"
   namespace: "home-homeassistant"
@@ -71,7 +72,8 @@ homeassistant:
 # To avoid loops inside homeassistant_mysql
 _homeassistant_mysql_var_loader:
   base_image:
-    name: "mysql"
+    repo: "docker.io"
+    name: "library/mysql"
     tag: "5.7.35"
 
 homeassistant_mysql:

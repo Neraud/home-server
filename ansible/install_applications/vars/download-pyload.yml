@@ -3,7 +3,8 @@
 _pyload_var_loader:
   namespace: "download-pyload"
   base_image:
-    name: "python"
+    repo: "docker.io"
+    name: "library/python"
     tag: "2.7.18-alpine3.11"
   repo:
     name: "pyload/pyload"

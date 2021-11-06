@@ -3,7 +3,8 @@
 _ttrss_var_loader:
   namespace: "web-ttrss"
   base_image:
-    name: "php"
+    repo: "docker.io"
+    name: "library/php"
     tag: "8.0.10-apache-buster"
   commit: 8ed927dbd2
   full_commit: 8ed927dbd2b54aaabe6be75f9fcf4145e2c3249a
@@ -97,7 +98,8 @@ ttrss:
 # To avoid loops inside ttrss_pgsql
 _ttrss_pgsql_var_loader:
   base_image:
-    name: "postgres"
+    repo: "docker.io"
+    name: "library/postgres"
     tag: "12.8-alpine"
 
 ttrss_pgsql:

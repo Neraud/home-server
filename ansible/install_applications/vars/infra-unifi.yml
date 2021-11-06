@@ -3,6 +3,7 @@
 _unifi_var_loader:
   namespace: "infra-unifi"
   base_image:
+    repo: "docker.io"
     name: "jacobalberty/unifi"
     tag: "6.2.25"
 

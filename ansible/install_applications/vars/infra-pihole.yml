@@ -2,6 +2,7 @@
 # To avoid loops inside pihole
 _pihole_var_loader:
   base_image:
+    repo: "docker.io"
     name: "pihole/pihole"
     tag: "v5.8.1-amd64-buster"
   namespace: "infra-pihole"

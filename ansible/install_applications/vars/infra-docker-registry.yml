@@ -3,7 +3,8 @@
 _docker_registry_var_loader:
   port: "{{ docker_registry_port | default(30500) }}"
   base_image:
-    name: "registry"
+    repo: "docker.io"
+    name: "library/registry"
     tag: "2.7.1"
   namespace: "infra-docker-registry"
 

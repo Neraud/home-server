@@ -9,7 +9,8 @@ ingress_nginx:
 # To avoid loops inside busybox_init
 _busybox_var_loader:
   base_image:
-    name: "busybox"
+    repo: "docker.io"
+    name: "library/busybox"
     tag: "1.34.0"
 
 busybox:

@@ -35,6 +35,7 @@ blackbox_exporter:
 # To avoid loops blackbox_exporter_configmap_reload blackbox_exporter
 _blackbox_exporter_configmap_reload_var_loader:
   base_image:
+    repo: "docker.io"
     name: "jimmidyson/configmap-reload"
     tag: "v0.5.0"
 

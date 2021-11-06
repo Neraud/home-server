@@ -2,7 +2,8 @@
 # To avoid loops inside homer
 _homer_var_loader:
   base_image:
-    name: "nginx"
+    repo: "docker.io"
+    name: "library/nginx"
     tag: "1.21.1-alpine"
   release: v21.09.2
   context_root: "{{ homer_context_root | default('') }}"

@@ -3,6 +3,7 @@
 _deluge_var_loader:
   namespace: "download-deluge"
   base_image:
+    repo: "docker.io"
     name: "emmercm/libtorrent"
     # v1.2.12+ and v2+ don't provide python2 bindings
     tag: "1.2.11-alpine"

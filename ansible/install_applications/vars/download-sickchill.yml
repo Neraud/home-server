@@ -2,7 +2,8 @@
 # To avoid loops inside sickchill
 _sickchill_var_loader:
   base_image:
-    name: "python"
+    repo: "docker.io"
+    name: "library/python"
     tag: "3.9.7-slim-bullseye"
   version: "2021.7.23-1"
   namespace: "download-sickchill"

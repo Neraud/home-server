@@ -2,6 +2,7 @@
 # To avoid loops inside kibana
 _kibana_var_loader:
   base_image:
+    repo: "docker.io"
     name: "amazon/opendistro-for-elasticsearch-kibana"
     tag: "1.13.2"
 
