@@ -17,7 +17,7 @@ busybox:
   base_image: "{{ _busybox_var_loader.base_image }}"
   container:
     # Our docker registry statefulset uses busybox for initContainer, it can't pull it from itself
-    public_image: "{{ _busybox_var_loader.base_image.name }}:{{ _busybox_var_loader.base_image.tag }}"
+    public_image: "{{ _busybox_var_loader.base_image.repo }}/{{ _busybox_var_loader.base_image.name }}:{{ _busybox_var_loader.base_image.tag }}"
     image: "{{ docker_private_registry.url }}/{{ _busybox_var_loader.base_image.name }}:{{ _busybox_var_loader.base_image.tag }}"
 
 docker_private_registry:
