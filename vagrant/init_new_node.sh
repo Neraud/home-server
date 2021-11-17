@@ -83,7 +83,7 @@ yes | sudo ufw enable
 
 if [ "$mode" == "controller" ]; then
 	echo " - install ansible controller"
-	/opt/provision/install_controller_requirements.sh
+	bash /opt/provision/install_controller_requirements.sh
 	source /opt/ansible_venv/bin/activate
 
 	echo " - install ansible ssh keys"
