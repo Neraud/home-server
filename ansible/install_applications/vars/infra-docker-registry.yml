@@ -22,7 +22,7 @@ docker_registry:
     app.kubernetes.io/version: "{{ _docker_registry_var_loader.base_image.tag }}"
 
   container:
-    image: "{% if _docker_registry_var_loader.base_image.repo is defined %}{{ _docker_registry_var_loader.base_image.repo }}/{% endif %}{{ _docker_registry_var_loader.base_image.name }}:{{ _docker_registry_var_loader.base_image.tag }}"
+    image: "{{ _docker_registry_var_loader.base_image.repo }}/{{ _docker_registry_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _docker_registry_var_loader.base_image.tag }}"
     requests_cpu: "{{ docker_registry_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ docker_registry_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ docker_registry_container_limits_cpu | default('500m') }}"
