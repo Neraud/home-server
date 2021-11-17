@@ -109,6 +109,8 @@ spec:
           mountPath: /unifi
         - name: tmp-volume
           mountPath: /tmp
+        - name: tmp-run-volume
+          mountPath: /var/run/unifi
       volumes:
       - name: tz-config
         hostPath:
@@ -119,6 +121,8 @@ spec:
       - name: keystore-volume
         emptyDir: {}
       - name: tmp-volume
+        emptyDir: {}
+      - name: tmp-run-volume
         emptyDir: {}
       imagePullSecrets:
       - name: docker-config
