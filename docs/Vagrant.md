@@ -17,6 +17,10 @@ CPUs are capped at 33% usage (`cpu_execution_cap`) to avoid destroying a poor ho
 
 You can use a local configuration `Vagrantconfig.local.yaml` not tracked in git to change those settings without change the `Vagrantconfig.yaml` itself.
 
+Be careful not to allocate more vCPUs than the physical cores available on your host.
+
+At least under Windows, with a 12 vCPUs test VM on a 12c/24t host, the performance greatly decreases and htop shows huge kernel CPU spikes.
+
 ## NAS
 
 To simulate a NAS, NFS Server is installed on `master-test-1` and exports the content of `/opt/mock_nas` to other hosts as NFS shares.
