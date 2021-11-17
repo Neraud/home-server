@@ -65,6 +65,15 @@
     - cri-o
     - cri-o-runc
 
+# If these files stay there, Multus can use 100-crio-bridge.conf instead of calico on some nodes (race condition ?)
+- name: Remove example CNI configs
+  file:
+    path: "/etc/cni/net.d/{{ item }}"
+    state: absent
+  loop:
+    - 100-crio-bridge.conf
+    - 200-loopback.conf
+
 - name: Auto-start CRI-O
   ansible.builtin.service:
     name: crio
