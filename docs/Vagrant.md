@@ -531,7 +531,7 @@ pyLoad is installed.
 
 The mock NAS storage is used as media storage.
 
-A default `pyload` / `Passw0rd` user is created.
+A default `user` / `Passw0rd` user is created.
 
 ### SABnzbd
 
@@ -539,7 +539,7 @@ pyLoad is installed.
 
 The mock NAS storage is used as media storage.
 
-A default `sabnzbd` / `Passw0rd` user is created.
+A default `user` / `Passw0rd` user is created.
 
 [nzbToMedia](https://github.com/clinton-hall/nzbToMedia) is added and configured to notify Sickchill of finished downloads.
 
