@@ -10,8 +10,12 @@ kubernetes_kubelet_extra_parameters:
   - "--authorization-mode=Webhook"
   - "--authentication-token-webhook=true"
   - "--system-reserved=cpu={{ kubernetes_kubelet_system_reserved_cpu }},memory={{ kubernetes_kubelet_system_reserved_memory }}"
-# avoid "Failed to start ContainerManager failed to initialise top level QOS containers" error (ref: https://github.com/kubernetes/kubernetes/issues/43856)
-# avoid "kubelet crashes with: root container [kubepods] doesn't exist" (ref: https://github.com/kubernetes/kubernetes/issues/95488)
-# Also configured in kubeadm_config.yaml
+  # Use CRI-O
+  - "--container-runtime=remote" # Use remote runtime with provided socket.
+  - "--container-runtime-endpoint=unix:///var/run/crio/crio.sock" # Socket for remote runtime (default crio socket localization).
+  - "--runtime-request-timeout=10m" # Optional but useful. Some requests, especially pulling huge images, may take longer than default (2 minutes) and will cause an error.
+  # avoid "Failed to start ContainerManager failed to initialise top level QOS containers" error (ref: https://github.com/kubernetes/kubernetes/issues/43856)
+  # avoid "kubelet crashes with: root container [kubepods] doesn't exist" (ref: https://github.com/kubernetes/kubernetes/issues/95488)
+  # Also configured in kubeadm_config.yaml
   - --cgroups-per-qos=false
   - --enforce-node-allocatable=''
