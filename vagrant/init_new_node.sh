@@ -55,11 +55,11 @@ if [ -e /dev/sdb ]; then
 	mkfs.ext4 /dev/mapper/vg-lv_kubelet
 	mkdir -p /var/lib/kubelet
 
-	lvcreate -l 100%FREE -n lv_docker vg
-	mkfs.ext4 /dev/mapper/vg-lv_docker
-	mkdir -p /var/lib/docker
+	lvcreate -l 100%FREE -n lv_containers vg
+	mkfs.ext4 /dev/mapper/vg-lv_containers
+	mkdir -p /var/lib/containers
 
-	echo "/dev/vg/lv_docker /var/lib/docker ext4" >>/etc/fstab
+	echo "/dev/vg/lv_containers /var/lib/containers ext4" >>/etc/fstab
 	echo "/dev/vg/lv_kubelet /var/lib/kubelet ext4" >>/etc/fstab
 
 	mount -a
