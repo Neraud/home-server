@@ -12,13 +12,13 @@
   tags: backup
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure Deluge base image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ deluge_base.base_image }}"
     private_image: "{{ deluge_base.private_image }}"
@@ -28,7 +28,7 @@
       deluge_version: "{{ deluge.version }}"
 
 - name: Ensure Deluge daemon image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ deluge_daemon.base_image }}"
     private_image: "{{ deluge_daemon.container.image }}"
@@ -36,7 +36,7 @@
     build_path: "{{ role_path }}/app/build/daemon"
 
 - name: Ensure Deluge web image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ deluge_daemon.base_image }}"
     private_image: "{{ deluge_web.container.image }}"

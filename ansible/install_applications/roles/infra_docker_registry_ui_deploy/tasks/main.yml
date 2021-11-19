@@ -5,7 +5,7 @@
     application_namespace: "{{ docker_registry_ui.namespace }}"
 
 - name: Ensure Docker registry UI image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ docker_registry_ui.base_image }}"
     private_image: "{{ docker_registry_ui.container.image }}"

@@ -16,7 +16,7 @@
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
 
-- name: Deploy docker config
+- name: Deploy registry config
   kubernetes.core.k8s:
     definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/registry-secret.yaml.j2') }}"
     state: present

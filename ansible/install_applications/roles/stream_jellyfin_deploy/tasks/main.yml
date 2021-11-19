@@ -12,13 +12,13 @@
   tags: backup
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure Jellyfin conf injection image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ jellyfin.conf_injection_base_image }}"
     private_image: "{{ jellyfin.conf_injection_container.image }}"
@@ -26,7 +26,7 @@
     build_path: "{{ role_path }}/app/build/conf_injection"
 
 - name: Ensure Jellyfin image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ jellyfin.base_image }}"
     private_image: "{{ jellyfin.container.image }}"

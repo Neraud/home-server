@@ -5,7 +5,7 @@
     application_namespace: "{{ intel_gpu_plugin.namespace }}"
 
 - name: Ensure Intel GPU Plugin image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ intel_gpu_plugin.base_image }}"
     private_image: "{{ intel_gpu_plugin.container.image }}"
