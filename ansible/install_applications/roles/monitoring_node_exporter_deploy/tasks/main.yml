@@ -5,13 +5,13 @@
     application_namespace: "{{ node_exporter.namespace }}"
 
 - name: Ensure node exporter image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ node_exporter.base_image }}"
     private_image: "{{ node_exporter.container.image }}"
 
 - name: Ensure node exporter rbac_proxy image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ node_exporter_rbac_proxy.base_image }}"
     private_image: "{{ node_exporter_rbac_proxy.container.image }}"

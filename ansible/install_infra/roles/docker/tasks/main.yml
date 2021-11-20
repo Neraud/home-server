@@ -39,14 +39,14 @@
     path: "/etc/docker/certs.d/{{ item.url }}"
     state: directory
     mode: 0755
-  loop: "{{ docker_trusted_registries | default([]) }}"
+  loop: "{{ containers_trusted_registries | default([]) }}"
 
 - name: Trust self signed registries
   ansible.builtin.copy:
     src: "{{ item.ca_path }}"
     dest: /etc/docker/certs.d/{{ item.url }}/ca.crt
     mode: 0644
-  loop: "{{ docker_trusted_registries | default([]) }}"
+  loop: "{{ containers_trusted_registries | default([]) }}"
 
 - name: Ensure docker config dir exists for root
   ansible.builtin.file:

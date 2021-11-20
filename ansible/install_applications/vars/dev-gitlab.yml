@@ -5,6 +5,7 @@ _gitlab_var_loader:
   context_root: "{{ gitlab_context_root | default('') }}"
 
   base_image:
+    repo: "docker.io"
     name: "gitlab/gitlab-ce"
     tag: "14.2.4-ce.0"
 

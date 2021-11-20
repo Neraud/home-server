@@ -2,7 +2,8 @@
 # To avoid loops inside sabnzbd
 _sabnzbd_var_loader:
   base_image:
-    name: "python"
+    repo: "docker.io"
+    name: "library/python"
     tag: "3.9.7-alpine3.14"
   repo:
     name: sabnzbd/sabnzbd
@@ -45,7 +46,7 @@ sabnzbd:
       version: 12.1.09
 
   container:
-    image: "{{ docker_private_registry.url }}/sabnzbd:{{ _sabnzbd_var_loader.repo.version }}_{{ _sabnzbd_var_loader.base_image.name }}{{ _sabnzbd_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/sabnzbd:{{ _sabnzbd_var_loader.repo.version }}_{{ _sabnzbd_var_loader.base_image.name | regex_replace('.*/', '') }}{{ _sabnzbd_var_loader.base_image.tag }}"
     requests_cpu: "{{ sabnzbd_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ sabnzbd_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ sabnzbd_container_limits_cpu | default('500m') }}"

@@ -17,13 +17,13 @@
   tags: backup
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure TT-RSS image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ ttrss.base_image }}"
     private_image: "{{ ttrss.container.image }}"
@@ -35,7 +35,7 @@
       ttrss_plugin_mailer_smtp_url: "{{ ttrss.plugins.mailer_smtp.repo_url }}/archive/{{ ttrss.plugins.mailer_smtp.commit }}.tar.gz"
 
 - name: Ensure TT-RSS PGSQL image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ ttrss_pgsql.base_image }}"
     private_image: "{{ ttrss_pgsql.container.image }}"

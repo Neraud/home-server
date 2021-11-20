@@ -1,0 +1,94 @@
+---
+# This set of tasks is meant to be imported in each [app].deploy role
+# It ensures the target container image is pushed in the private repository.
+
+# For custom images, it builds the image, and pushes it to the private repo
+# For standard images, it pulls the image, and pushes it to the private repo
+
+# Usage :
+#- name: Ensure app_name image is up-to-date in the private registry
+#  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+#  vars:
+#    base_image:
+#      repo: repo
+#      name: image-name
+#      tag: a.b.c
+#    private_image: 127.0.0.1:30500/image-name:a.b.c-custom
+#    build: yes|no
+#    build_path: "/path"
+#    build_args: {}
+
+- name: Generate public_image full name
+  ansible.builtin.set_fact:
+    public_image: "{{ base_image.repo }}/{{ base_image.name }}:{{ base_image.tag }}"
+  when: base_image is defined
+
+# On the ansible controller host, container image pruning is scheduled, so our previously built/pulled images might have been deleted.
+# To avoid unnecessary builds/pulls from the internet, it first tries to pull the image from the private repo.
+# (ignoring failures to support 1st time builds, and without being flagged as changed)
+- name: Pull from private registry
+  containers.podman.podman_image:
+    name: "{{ private_image }}"
+    pull: yes
+  changed_when: False
+  failed_when: False
+  
+- name: Gather info on private image
+  containers.podman.podman_image_info:
+    name: "{{ private_image }}"
+  register: private_image_info
+
+- name: Pull from public registry and push to private registry
+  block:
+    - name: Pull from public registry
+      containers.podman.podman_image:
+        name: "{{ public_image }}"
+        pull: yes
+  
+    - name: Gather info on public image
+      containers.podman.podman_image_info:
+        name: "{{ public_image }}"
+      register: public_image_info
+
+    - name: Tag to private registry
+      command: "podman tag {{ public_image }} {{ private_image }}"
+      when: not private_image_info.images or private_image_info.images[0].Id != public_image_info.images[0].Id
+    
+    - name: Push to private registry
+      containers.podman.podman_image:
+        name: "{{ private_image }}"
+        push: yes
+      when: not private_image_info.images or private_image_info.images[0].Id != public_image_info.images[0].Id
+  when:
+    - not build | default('no') | bool
+    - public_image is defined
+
+- name: Build custom image
+  block:
+    - name: Complete build args
+      ansible.builtin.set_fact:
+        build_args_completed: "{{ build_args | default({}) | combine ({'from_image':  public_image }) }}"
+      when:
+        - public_image is defined
+
+    - name: Generate podman build extra_args
+      ansible.builtin.set_fact:
+        build_extra_args: "{{ (build_extra_args | default([])) + [ one_arg ] }}"
+      loop: "{{ build_args_completed | dict2items }}"
+      vars:
+          one_arg: "--build-arg={{ item.key }}={{ item.value }}"
+      
+    - name: Build and push container image
+      containers.podman.podman_image:
+        name: "{{ private_image }}"
+        path: "{{ build_path | default(role_path + '/app/build') }}"
+        build:
+          extra_args: "{{ (build_extra_args | default([])) | join(' ') }}"
+        push: yes
+  when:
+    - build | default('no') | bool
+    - not private_image_info.images
+
+- name: Reset build args
+  ansible.builtin.set_fact:
+    build_args_completed: {}

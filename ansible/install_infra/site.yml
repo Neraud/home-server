@@ -72,7 +72,9 @@
 - name: Prepare Kubernetes members
   hosts: kubernetes_nodes
   roles:
-    - docker
+    - containers_common
+    - crio
+    - podman
     - kubernetes_node_preinstall
     - kubernetes_master_cni_prepare
     - { role: local_lvm, tags: kubernetes-storage }
@@ -107,7 +109,7 @@
   hosts: controller
   roles:
     - dns_client
-    - docker
+    - podman
     - kubernetes_controller_bootstrap
 
 - name: Deploy CNI

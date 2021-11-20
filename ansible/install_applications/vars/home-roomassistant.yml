@@ -2,6 +2,7 @@
 # To avoid loops inside roomassistant
 _roomassistant_var_loader:
   base_image:
+    repo: "docker.io"
     name: "mkerix/room-assistant"
     tag: "2.18.4"
 

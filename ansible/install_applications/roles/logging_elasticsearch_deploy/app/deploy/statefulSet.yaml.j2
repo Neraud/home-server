@@ -36,6 +36,8 @@ spec:
           #runAsNonRoot: true
           #runAsUser: 1000
           #readOnlyRootFilesystem: true
+          capabilities:
+            add: ["SYS_CHROOT"]
         readinessProbe:
           tcpSocket:
             port: transport

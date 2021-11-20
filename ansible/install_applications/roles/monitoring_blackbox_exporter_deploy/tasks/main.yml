@@ -5,19 +5,19 @@
     application_namespace: "{{ blackbox_exporter.namespace }}"
 
 - name: Ensure blackbox exporter image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ blackbox_exporter.base_image }}"
     private_image: "{{ blackbox_exporter.container.image }}"
 
 - name: Ensure blackbox exporter configmap_reload image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ blackbox_exporter_configmap_reload.base_image }}"
     private_image: "{{ blackbox_exporter_configmap_reload.container.image }}"
 
 - name: Ensure blackbox exporter rbac_proxy image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ blackbox_exporter_rbac_proxy.base_image }}"
     private_image: "{{ blackbox_exporter_rbac_proxy.container.image }}"

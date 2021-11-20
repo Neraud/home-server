@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+Package: cri-o
+Pin: version {{ crio_version }}
+Pin-Priority: 1000
+
+Package: cri-o-runc
+Pin: version {{ crio_runc_version }}
+Pin-Priority: 1000

@@ -3,6 +3,7 @@
 _airsonic_var_loader:
   namespace: "stream-airsonic"
   base_image:
+    repo: "docker.io"
     name: "airsonic/airsonic"
     tag: "10.6.2-RELEASE"
 

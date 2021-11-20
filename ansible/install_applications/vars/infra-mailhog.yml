@@ -2,6 +2,7 @@
 # To avoid loops inside mailhog
 _mailhog_var_loader:
   base_image:
+    repo: "docker.io"
     name: "mailhog/mailhog"
     tag: "v1.0.1"
   namespace: "infra-mailhog"

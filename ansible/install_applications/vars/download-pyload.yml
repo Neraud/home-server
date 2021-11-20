@@ -3,7 +3,8 @@
 _pyload_var_loader:
   namespace: "download-pyload"
   base_image:
-    name: "python"
+    repo: "docker.io"
+    name: "library/python"
     tag: "2.7.18-alpine3.11"
   repo:
     name: "pyload/pyload"
@@ -36,7 +37,7 @@ pyload:
     app.kubernetes.io/version: "{{ _pyload_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/pyload:{{ _pyload_var_loader.repo.commit }}_{{ _pyload_var_loader.base_image.name }}{{ _pyload_var_loader.base_image.tag }}"
+    image: "{{ docker_private_registry.url }}/pyload:{{ _pyload_var_loader.repo.commit }}_{{ _pyload_var_loader.base_image.name | regex_replace('.*/', '') }}{{ _pyload_var_loader.base_image.tag }}"
     branch: "{{ _pyload_var_loader.repo.branch }}"
     commit: "{{ _pyload_var_loader.repo.commit }}"
     requests_cpu: "{{ pyload_container_requests_cpu | default('200m') }}"

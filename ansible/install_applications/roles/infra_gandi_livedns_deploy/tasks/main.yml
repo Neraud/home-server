@@ -5,7 +5,7 @@
     application_namespace: "{{ gandi_livedns.namespace }}"
 
 - name: Ensure Gandi LiveDNS image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ gandi_livedns.base_image }}"
     private_image: "{{ gandi_livedns.container.image }}"

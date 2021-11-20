@@ -2,6 +2,7 @@
 # To avoid loops inside pihole_exporter
 _pihole_exporter_var_loader:
   base_image:
+    repo: "docker.io"
     name: "ekofr/pihole-exporter"
     tag: "0.0.10"
 

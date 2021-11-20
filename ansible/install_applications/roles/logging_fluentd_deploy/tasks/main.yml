@@ -5,7 +5,7 @@
     application_namespace: "{{ fluentd.namespace }}"
 
 - name: Ensure Fluentd image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ fluentd.base_image }}"
     private_image: "{{ fluentd.container.image }}"

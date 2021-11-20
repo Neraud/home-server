@@ -3,7 +3,8 @@
 _ttrss_var_loader:
   namespace: "web-ttrss"
   base_image:
-    name: "php"
+    repo: "docker.io"
+    name: "library/php"
     tag: "8.0.10-apache-buster"
   commit: 8ed927dbd2
   full_commit: 8ed927dbd2b54aaabe6be75f9fcf4145e2c3249a
@@ -97,7 +98,8 @@ ttrss:
 # To avoid loops inside ttrss_pgsql
 _ttrss_pgsql_var_loader:
   base_image:
-    name: "postgres"
+    repo: "docker.io"
+    name: "library/postgres"
     tag: "12.8-alpine"
 
 ttrss_pgsql:
@@ -132,4 +134,4 @@ ttrss_pgsql:
   user: "{{ ttrss_pgsql_user | default('ttrss') }}"
   database: "{{ ttrss_pgsql_database | default('ttrss') }}"
   password: "{{ ttrss_pgsql_password | default('clear_password') }}"
-  schema_url: "https://git.tt-rss.org/fox/tt-rss/raw/{{ _ttrss_var_loader.full_commit }}/schema/ttrss_schema_pgsql.sql"
+  schema_url: "https://git.tt-rss.org/fox/tt-rss/raw/{{ _ttrss_var_loader.full_commit }}/sql/pgsql/schema.sql"

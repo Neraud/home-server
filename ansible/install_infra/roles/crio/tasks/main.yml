@@ -1,0 +1,81 @@
+---
+- name: Load required kernel modules (at boot)
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/crio.conf
+    content: |
+      overlay
+      br_netfilter
+    mode: 0644
+   
+- name: Load required kernel modules (now)
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - overlay
+    - br_netfilter
+
+- name: Configure sysctl requirements
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-kubernetes-cri.conf
+    state: present
+    reload: yes
+  loop:
+    - { name: "net.bridge.bridge-nf-call-iptables", value: 1 }
+    - { name: "net.ipv4.ip_forward", value: 1 }
+    - { name: "net.bridge.bridge-nf-call-ip6tables", value: 1 }
+
+- name: Add libcontainers repo key
+  ansible.builtin.apt_key:
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_apt_repository_os }}/Release.key"
+    state: present
+    keyring: /usr/share/keyrings/libcontainers-archive-keyring.gpg
+    
+- name: Add libcontainers crio repo key
+  ansible.builtin.apt_key:
+    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_apt_repository_version }}/{{ crio_apt_repository_os }}/Release.key"
+    state: present
+    keyring: /usr/share/keyrings/libcontainers-crio-archive-keyring.gpg
+
+- name: Add libcontainers repo
+  ansible.builtin.apt_repository:
+    filename: "devel:kubic:libcontainers:stable"
+    repo: "deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_apt_repository_os }}/ /"
+    state: present
+
+- name: Add libcontainers crio repo
+  ansible.builtin.apt_repository:
+    filename: "devel:kubic:libcontainers:stable:cri-o:{{ crio_apt_repository_version }}"
+    repo: "deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_apt_repository_version }}/{{ crio_apt_repository_os }}/ /"
+    state: present
+
+- name: Pin CRI-O version
+  ansible.builtin.template:
+    src: apt_cri-o.j2
+    dest: /etc/apt/preferences.d/cri-o
+    mode: 0644
+
+- name: Install CRI-O
+  ansible.builtin.apt:
+    pkg: "{{ item }}"
+    state: present
+  loop:
+    - cri-o
+    - cri-o-runc
+
+# If these files stay there, Multus can use 100-crio-bridge.conf instead of calico on some nodes (race condition ?)
+- name: Remove example CNI configs
+  file:
+    path: "/etc/cni/net.d/{{ item }}"
+    state: absent
+  loop:
+    - 100-crio-bridge.conf
+    - 200-loopback.conf
+
+- name: Auto-start CRI-O
+  ansible.builtin.service:
+    name: crio
+    state: started
+    enabled: yes

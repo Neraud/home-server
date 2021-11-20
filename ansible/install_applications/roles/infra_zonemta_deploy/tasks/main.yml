@@ -5,13 +5,13 @@
     application_namespace: "{{ zonemta.namespace }}"
 
 - name: Ensure BusyBox image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.container.image }}"
 
 - name: Ensure ZoneMTA image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ zonemta.base_image }}"
     private_image: "{{ zonemta.container.image }}"
@@ -20,13 +20,13 @@
       ZONE_MTA_VERSION: "{{ zonemta.version }}"
 
 - name: Ensure ZoneMTA Mongo image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ zonemta_mongo.base_image }}"
     private_image: "{{ zonemta_mongo.container.image }}"
 
 - name: Ensure ZoneMTA Redis image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ zonemta_redis.base_image }}"
     private_image: "{{ zonemta_redis.container.image }}"

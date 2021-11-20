@@ -2,6 +2,7 @@
 # To avoid loops inside docker_registry_ui & docker_registry
 _docker_registry_ui_var_loader:
   base_image:
+    repo: "docker.io"
     name: quiq/docker-registry-ui
     tag: "0.9.3"
 

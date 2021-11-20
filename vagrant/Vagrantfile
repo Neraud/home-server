@@ -70,6 +70,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 			vb.customize ["modifyvm", :id, "--ioapic", "on"]
 			vb.customize ["modifyvm", :id, "--memory", controller_conf['memory']]
 			vb.customize ["modifyvm", :id, "--cpus", controller_conf['cpu']]
+			vb.customize ["modifyvm", :id, "--cpuexecutioncap", controller_conf['cpu_execution_cap']]
 			
 			if controller_conf.key?('docker_disk_size')
 				docker_disk_path = '.vagrant/' + controller_conf['name'] + '_docker.vdi'

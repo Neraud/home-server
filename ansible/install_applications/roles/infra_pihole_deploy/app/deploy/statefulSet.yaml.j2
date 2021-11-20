@@ -44,6 +44,7 @@ spec:
           # pihole requires root and a writable root filesystem
           #runAsNonRoot: true
           #readOnlyRootFilesystem: true
+          privileged: true
         env:
           - name: WEBPASSWORD
             valueFrom:

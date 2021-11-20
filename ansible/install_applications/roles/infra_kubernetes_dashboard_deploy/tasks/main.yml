@@ -5,13 +5,13 @@
     application_namespace: "{{ kubernetes_dashboard.namespace }}"
 
 - name: Ensure Kubernetes dashboard image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ kubernetes_dashboard.base_image }}"
     private_image: "{{ kubernetes_dashboard.container.image }}"
 
 - name: Ensure Kubernetes dashboard metrics scraper image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ kubernetes_dashboard_metrics_scraper.base_image }}"
     private_image: "{{ kubernetes_dashboard_metrics_scraper.container.image }}"

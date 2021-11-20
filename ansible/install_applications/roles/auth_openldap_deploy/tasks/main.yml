@@ -11,7 +11,7 @@
   tags: backup
 
 - name: Ensure OpenLDAP image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/docker-image-private-registry.yml
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ openldap.base_image }}"
     private_image: "{{ openldap.container.image }}"
