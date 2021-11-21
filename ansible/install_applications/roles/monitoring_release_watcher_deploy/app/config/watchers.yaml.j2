@@ -40,7 +40,7 @@ watchers:
       - "^[0-9]+\\.[0-9]+\\.[0-9]$"
     excludes:
       - 1\.[0-2][0-9]\..*
-      - 1\.3[0-2]\..*
+      - 1\.3[0-3]\..*
   
 
   #########
@@ -340,7 +340,7 @@ watchers:
       - metallb-chart-.*     
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v1.0.0
+    release: controller-v1.0.5
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
