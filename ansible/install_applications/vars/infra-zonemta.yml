@@ -5,7 +5,9 @@ _zonemta_var_loader:
     repo: "docker.io"
     name: "library/node"
     tag: "12.22.7-alpine3.14"
-  version: 3.2.4
+  # 3.2.4 has issues with the API
+  # Each API call (prometheus metrics included) returns a 500
+  version: 3.2.3
   namespace: "infra-zonemta"
 
 zonemta:
