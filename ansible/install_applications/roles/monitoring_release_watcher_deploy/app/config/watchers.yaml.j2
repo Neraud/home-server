@@ -406,9 +406,9 @@ watchers:
     image: {{ zonemta_mongo.base_image.name }}
     tag: {{ zonemta_mongo.base_image.tag }}
     includes:
-      - 4\.[0-9]+.[0-9]+-bionic
+      - [0-9]+\.[0-9]+.[0-9]+-.*
     excludes:
-      - 4\.[0-3]\..*
+      - ^4\..*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: {{ zonemta.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
