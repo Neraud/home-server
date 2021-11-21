@@ -11,7 +11,7 @@ mkdir tmp
 
 cd release-watcher
 git pull
-docker build -t release-watcher-helper .
+podman build -t release-watcher-helper .
 
 cd ..
 source /opt/ansible_venv/bin/activate
@@ -22,4 +22,4 @@ ansible-playbook -i ../../ansible/inventories/vagrant/inventory.ini ./generate-w
 # We could also generate the configuration from a running cluster :
 #kubectl --namespace=monitoring get ConfigMap release-watcher-config -o jsonpath='{.data.watchers\.yaml}' >./tmp/watchers.yaml
 
-docker run -v $(pwd):/data release-watcher-helper
+podman run -v $(pwd):/data release-watcher-helper
