@@ -16,6 +16,8 @@ spec:
       sourceLabels:
       - __name_  
     port: web
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    port: reloader-web
   selector:
     matchLabels:
       {{ alertmanager.labels_def | to_nice_yaml() | indent(6) }}

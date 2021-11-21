@@ -12,6 +12,9 @@ spec:
   - name: web
     port: 9090
     targetPort: web
+  - name: reloader-web
+    port: 8080
+    targetPort: reloader-web
   selector:
     {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}
   sessionAffinity: ClientIP

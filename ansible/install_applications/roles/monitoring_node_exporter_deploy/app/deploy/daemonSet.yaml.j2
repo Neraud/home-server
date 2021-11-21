@@ -12,6 +12,8 @@ spec:
       {{ node_exporter.labels_def | to_nice_yaml() | indent(6) }}
   template:
     metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: node-exporter
       labels:
         {{ node_exporter.labels_def | to_nice_yaml() | indent(8) }}
         {{ node_exporter.labels_desc | to_nice_yaml() | indent(8) }}
@@ -23,7 +25,7 @@ spec:
         - --path.rootfs=/host/root
         - --no-collector.wifi
         #- --no-collector.hwmon
-        - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
+        - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
         - --collector.netclass.ignored-devices=^(veth.*|[a-f0-9]{15})$
         - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
         - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector

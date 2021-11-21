@@ -47,7 +47,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "1 - avg(rate(node_cpu_seconds_total{mode=\"idle\", cluster=\"$cluster\"}[$__rate_interval]))",
+                            "expr": "1 - sum(avg by (mode) (rate(node_cpu_seconds_total{job=\"node-exporter\", mode=~\"idle|iowait|steal\", cluster=\"$cluster\"}[$__rate_interval])))",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -60,7 +60,7 @@
                     "title": "CPU Utilisation",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "singlestat",
@@ -123,7 +123,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(namespace_cpu:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{resource=\"cpu\",cluster=\"$cluster\"})",
+                            "expr": "sum(namespace_cpu:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{job=\"kube-state-metrics\",resource=\"cpu\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -136,7 +136,7 @@
                     "title": "CPU Requests Commitment",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "singlestat",
@@ -199,7 +199,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(namespace_cpu:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{resource=\"cpu\",cluster=\"$cluster\"})",
+                            "expr": "sum(namespace_cpu:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{job=\"kube-state-metrics\",resource=\"cpu\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -212,7 +212,7 @@
                     "title": "CPU Limits Commitment",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "singlestat",
@@ -275,7 +275,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "1 - sum(:node_memory_MemAvailable_bytes:sum{cluster=\"$cluster\"}) / sum(node_memory_MemTotal_bytes{cluster=\"$cluster\"})",
+                            "expr": "1 - sum(:node_memory_MemAvailable_bytes:sum{cluster=\"$cluster\"}) / sum(node_memory_MemTotal_bytes{job=\"node-exporter\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -288,7 +288,7 @@
                     "title": "Memory Utilisation",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "singlestat",
@@ -351,7 +351,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(namespace_memory:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{resource=\"memory\",cluster=\"$cluster\"})",
+                            "expr": "sum(namespace_memory:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{job=\"kube-state-metrics\",resource=\"memory\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -364,7 +364,7 @@
                     "title": "Memory Requests Commitment",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "singlestat",
@@ -427,7 +427,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(namespace_memory:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{resource=\"memory\",cluster=\"$cluster\"})",
+                            "expr": "sum(namespace_memory:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) / sum(kube_node_status_allocatable{job=\"kube-state-metrics\",resource=\"memory\",cluster=\"$cluster\"})",
                             "format": "time_series",
                             "instant": true,
                             "intervalFactor": 2,
@@ -440,7 +440,7 @@
                     "title": "Memory Limits Commitment",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "singlestat",
@@ -528,7 +528,7 @@
                     "title": "CPU Usage",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -741,7 +741,7 @@
                     ],
                     "targets": [
                         {
-                            "expr": "sum(kube_pod_owner{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(kube_pod_owner{job=\"kube-state-metrics\", cluster=\"$cluster\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -810,7 +810,7 @@
                     "title": "CPU Quota",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "transform": "table",
@@ -885,7 +885,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(container_memory_rss{cluster=\"$cluster\", container!=\"\"}) by (namespace)",
+                            "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", container!=\"\"}) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -899,7 +899,7 @@
                     "title": "Memory Usage (w/o cache)",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -1112,7 +1112,7 @@
                     ],
                     "targets": [
                         {
-                            "expr": "sum(kube_pod_owner{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(kube_pod_owner{job=\"kube-state-metrics\", cluster=\"$cluster\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1130,7 +1130,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(container_memory_rss{cluster=\"$cluster\", container!=\"\"}) by (namespace)",
+                            "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", container!=\"\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1148,7 +1148,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(container_memory_rss{cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(namespace_memory:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(namespace_memory:kube_pod_container_resource_requests:sum{cluster=\"$cluster\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1166,7 +1166,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(container_memory_rss{cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(namespace_memory:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) by (namespace)",
+                            "expr": "sum(container_memory_rss{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", container!=\"\"}) by (namespace) / sum(namespace_memory:kube_pod_container_resource_limits:sum{cluster=\"$cluster\"}) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1181,7 +1181,7 @@
                     "title": "Requests by Namespace",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "transform": "table",
@@ -1381,7 +1381,7 @@
                     ],
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_receive_bytes_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_receive_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1390,7 +1390,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(irate(container_network_transmit_bytes_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1399,7 +1399,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(irate(container_network_receive_packets_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_receive_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1408,7 +1408,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(irate(container_network_transmit_packets_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_transmit_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1417,7 +1417,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(irate(container_network_receive_packets_dropped_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_receive_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1426,7 +1426,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum(irate(container_network_transmit_packets_dropped_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_transmit_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -1441,7 +1441,7 @@
                     "title": "Current Network Usage",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "transform": "table",
@@ -1516,7 +1516,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_receive_bytes_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_receive_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -1530,7 +1530,7 @@
                     "title": "Receive Bandwidth",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -1592,7 +1592,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_transmit_bytes_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -1606,7 +1606,7 @@
                     "title": "Transmit Bandwidth",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -1680,7 +1680,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "avg(irate(container_network_receive_bytes_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "avg(irate(container_network_receive_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -1694,7 +1694,7 @@
                     "title": "Average Container Bandwidth by Namespace: Received",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -1756,7 +1756,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "avg(irate(container_network_transmit_bytes_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "avg(irate(container_network_transmit_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -1770,7 +1770,7 @@
                     "title": "Average Container Bandwidth by Namespace: Transmitted",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -1844,7 +1844,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_receive_packets_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_receive_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -1858,7 +1858,7 @@
                     "title": "Rate of Received Packets",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -1920,7 +1920,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_transmit_packets_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_transmit_packets_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -1934,7 +1934,7 @@
                     "title": "Rate of Transmitted Packets",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -2008,7 +2008,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_receive_packets_dropped_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_receive_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -2022,7 +2022,7 @@
                     "title": "Rate of Received Packets Dropped",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -2084,7 +2084,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum(irate(container_network_transmit_packets_dropped_total{cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
+                            "expr": "sum(irate(container_network_transmit_packets_dropped_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", cluster=\"$cluster\", namespace=~\".+\"}[$__rate_interval])) by (namespace)",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -2098,7 +2098,7 @@
                     "title": "Rate of Transmitted Packets Dropped",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -2173,7 +2173,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "ceil(sum by(namespace) (rate(container_fs_reads_total{container!=\"\", cluster=\"$cluster\"}[5m]) + rate(container_fs_writes_total{container!=\"\", cluster=\"$cluster\"}[5m])))",
+                            "expr": "ceil(sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval])))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -2187,7 +2187,7 @@
                     "title": "IOPS(Reads+Writes)",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -2249,7 +2249,7 @@
                     "steppedLine": false,
                     "targets": [
                         {
-                            "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{container!=\"\", cluster=\"$cluster\"}[5m]) + rate(container_fs_writes_bytes_total{container!=\"\", cluster=\"$cluster\"}[5m]))",
+                            "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
                             "format": "time_series",
                             "intervalFactor": 2,
                             "legendFormat": "{{namespace}}",
@@ -2263,7 +2263,7 @@
                     "title": "ThroughPut(Read+Write)",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "type": "graph",
@@ -2465,7 +2465,7 @@
                     ],
                     "targets": [
                         {
-                            "expr": "sum by(namespace) (rate(container_fs_reads_total{container!=\"\", cluster=\"$cluster\"}[5m]))",
+                            "expr": "sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -2474,7 +2474,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum by(namespace) (rate(container_fs_writes_total{container!=\"\", cluster=\"$cluster\"}[5m]))",
+                            "expr": "sum by(namespace) (rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -2483,7 +2483,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum by(namespace) (rate(container_fs_reads_total{container!=\"\", cluster=\"$cluster\"}[5m]) + rate(container_fs_writes_total{container!=\"\", cluster=\"$cluster\"}[5m]))",
+                            "expr": "sum by(namespace) (rate(container_fs_reads_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]) + rate(container_fs_writes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -2492,7 +2492,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{container!=\"\", cluster=\"$cluster\"}[5m]))",
+                            "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -2501,7 +2501,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum by(namespace) (rate(container_fs_writes_bytes_total{container!=\"\", cluster=\"$cluster\"}[5m]))",
+                            "expr": "sum by(namespace) (rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -2510,7 +2510,7 @@
                             "step": 10
                         },
                         {
-                            "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{container!=\"\", cluster=\"$cluster\"}[5m]) + rate(container_fs_writes_bytes_total{container!=\"\", cluster=\"$cluster\"}[5m]))",
+                            "expr": "sum by(namespace) (rate(container_fs_reads_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]) + rate(container_fs_writes_bytes_total{job=\"kubelet\", metrics_path=\"/metrics/cadvisor\", container!=\"\", cluster=\"$cluster\"}[$__rate_interval]))",
                             "format": "table",
                             "instant": true,
                             "intervalFactor": 2,
@@ -2525,7 +2525,7 @@
                     "title": "Current Storage IO",
                     "tooltip": {
                         "shared": false,
-                        "sort": 0,
+                        "sort": 2,
                         "value_type": "individual"
                     },
                     "transform": "table",
@@ -2579,7 +2579,7 @@
                     "value": "default"
                 },
                 "hide": 0,
-                "label": null,
+                "label": "Data Source",
                 "name": "datasource",
                 "options": [],
                 "query": "prometheus",

@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.4.1
+    controller-gen.kubebuilder.io/version: v0.6.2
   creationTimestamp: null
   name: alertmanagerconfigs.monitoring.coreos.com
 spec:
@@ -47,12 +47,20 @@ spec:
                       items:
                         description: Matcher defines how to match on alert's labels.
                         properties:
+                          matchType:
+                            description: Match operation available with AlertManager >= v0.22.0 and takes precedence over Regex (deprecated) if non-empty.
+                            enum:
+                            - '!='
+                            - '='
+                            - '=~'
+                            - '!~'
+                            type: string
                           name:
                             description: Label to match.
                             minLength: 1
                             type: string
                           regex:
-                            description: Whether to match on equality (false) or regular-expression (true).
+                            description: Whether to match on equality (false) or regular-expression (true). Deprecated as of AlertManager >= v0.22.0 where a user should use MatchType instead.
                             type: boolean
                           value:
                             description: Label value to match.
@@ -66,12 +74,20 @@ spec:
                       items:
                         description: Matcher defines how to match on alert's labels.
                         properties:
+                          matchType:
+                            description: Match operation available with AlertManager >= v0.22.0 and takes precedence over Regex (deprecated) if non-empty.
+                            enum:
+                            - '!='
+                            - '='
+                            - '=~'
+                            - '!~'
+                            type: string
                           name:
                             description: Label to match.
                             minLength: 1
                             type: string
                           regex:
-                            description: Whether to match on equality (false) or regular-expression (true).
+                            description: Whether to match on equality (false) or regular-expression (true). Deprecated as of AlertManager >= v0.22.0 where a user should use MatchType instead.
                             type: boolean
                           value:
                             description: Label value to match.
@@ -161,7 +177,7 @@ spec:
                             description: Whether or not to notify about resolved alerts.
                             type: boolean
                           smarthost:
-                            description: The SMTP host through which emails are sent.
+                            description: The SMTP host and port through which emails are sent. E.g. example.com:25
                             type: string
                           text:
                             description: The text body of the email notification.
@@ -1965,7 +1981,7 @@ spec:
                     description: Boolean indicating whether an alert should continue matching subsequent sibling nodes. It will always be overridden to true for the first-level route by the Prometheus operator.
                     type: boolean
                   groupBy:
-                    description: List of labels to group by.
+                    description: List of labels to group by. Labels must not be repeated (unique list). Special label "..." (aggregate by all possible labels), if provided, must be the only element in the list.
                     items:
                       type: string
                     type: array
@@ -1980,12 +1996,20 @@ spec:
                     items:
                       description: Matcher defines how to match on alert's labels.
                       properties:
+                        matchType:
+                          description: Match operation available with AlertManager >= v0.22.0 and takes precedence over Regex (deprecated) if non-empty.
+                          enum:
+                          - '!='
+                          - '='
+                          - '=~'
+                          - '!~'
+                          type: string
                         name:
                           description: Label to match.
                           minLength: 1
                           type: string
                         regex:
-                          description: Whether to match on equality (false) or regular-expression (true).
+                          description: Whether to match on equality (false) or regular-expression (true). Deprecated as of AlertManager >= v0.22.0 where a user should use MatchType instead.
                           type: boolean
                         value:
                           description: Label value to match.

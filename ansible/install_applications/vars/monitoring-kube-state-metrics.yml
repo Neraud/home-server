@@ -4,7 +4,7 @@ _kube_state_metrics_var_loader:
   base_image:
     repo: k8s.gcr.io
     name: "kube-state-metrics/kube-state-metrics"
-    tag: "v2.2.0"
+    tag: "v2.2.4"
 
 kube_state_metrics:
   enabled: "{{ kube_state_metrics_enabled | default(True) }}"

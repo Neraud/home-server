@@ -21,8 +21,8 @@ route:
   receiver: "{{ alertmanager.default_receiver | default("null") }}"
   repeat_interval: 12h
   routes:
-  - match:
-      alertname: Watchdog
+  - matchers:
+    - "alertname = Watchdog"
     receiver: "null"
 
 receivers:
