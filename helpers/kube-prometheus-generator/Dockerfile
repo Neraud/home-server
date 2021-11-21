@@ -1,4 +1,4 @@
-FROM golang:1.14.5-alpine3.12
+FROM docker.io/library/golang:1.14.5-alpine3.12
 
 RUN apk add --no-cache git
 
