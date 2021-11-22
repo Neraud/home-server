@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-docker build --tag kube-prometheus-generator .
-docker run --rm -it -v $(pwd)/config.jsonnet:/opt/kube-prometheus/config.jsonnet -v $(pwd)/out:/out kube-prometheus-generator
+podman build --tag kube-prometheus-generator .
+podman run --rm -it -v $(pwd)/config.jsonnet:/opt/kube-prometheus/config.jsonnet -v $(pwd)/out:/out kube-prometheus-generator
 
 # Intall convert requirements
 pip3 install pyyaml ruamel.yaml

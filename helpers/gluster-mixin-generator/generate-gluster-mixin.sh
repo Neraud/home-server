@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-docker build --tag gluster-mixin-generator .
-docker run --rm -it -v $(pwd)/out:/out gluster-mixin-generator
+podman build --tag gluster-mixin-generator .
+podman run --rm -it -v $(pwd)/out:/out gluster-mixin-generator
 
 # Intall convert requirements
 pip3 install ruamel.yaml

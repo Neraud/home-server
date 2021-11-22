@@ -15,7 +15,7 @@ cp -R $OUT_GENERATED_KUBE_PROMETHEUS_ROOT $OUT_TMP_KUBE_PROMETHEUS_ROOT
 
 echo "===================================================================================================="
 echo "Converting Operator"
-OPERATOR_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/operator
+OPERATOR_ROOT=$OUT_CONVERTED_ROOT/monitoring_prometheus_operator_deploy/app/deploy/operator
 mkdir -p $OPERATOR_ROOT
 rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/0namespace-namespace.yaml
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0alertmanagerConfigCustomResourceDefinition.yaml $OPERATOR_ROOT/alertmanagerConfigCustomResourceDefinition.yaml
@@ -34,7 +34,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-service.yaml $OPERATO
 
 echo "===================================================================================================="
 echo "Converting AlertManager"
-ALERTMANAGER_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/alertmanager
+ALERTMANAGER_ROOT=$OUT_CONVERTED_ROOT/monitoring_prometheus_operator_deploy/app/deploy/alertmanager
 mkdir -p $ALERTMANAGER_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-alertmanager.yaml $ALERTMANAGER_ROOT/alertmanager.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-secret.yaml $ALERTMANAGER_ROOT/secret.yaml.j2
@@ -43,7 +43,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-service.yaml $ALERTMANAGER_ROOT/se
 
 echo "===================================================================================================="
 echo "Converting Blackbox Exporter"
-BLACKBOX_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring-blackbox-exporter.deploy/app/deploy
+BLACKBOX_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring_blackbox_exporter_deploy/app/deploy
 mkdir -p $BLACKBOX_EXPORTER_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRole.yaml $BLACKBOX_EXPORTER_ROOT/clusterRole.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRoleBinding.yaml $BLACKBOX_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
@@ -54,8 +54,8 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-serviceAccount.yaml $BLACKBOX
 
 echo "===================================================================================================="
 echo "Converting Grafana"
-GRAFANA_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/deploy
-GRAFANA_DASHBOARDS_ROOT=$OUT_CONVERTED_ROOT/monitoring-grafana.deploy/app/config/dashboards/kube-prometheus
+GRAFANA_ROOT=$OUT_CONVERTED_ROOT/monitoring_grafana_deploy/app/deploy
+GRAFANA_DASHBOARDS_ROOT=$OUT_CONVERTED_ROOT/monitoring_grafana_deploy/app/config/dashboards/kube-prometheus
 mkdir -p $GRAFANA_ROOT
 mkdir -p $GRAFANA_DASHBOARDS_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardDatasources.yaml $GRAFANA_ROOT/datasources-secret.yaml.j2
@@ -69,7 +69,7 @@ python3 extract_dashboards.py $GRAFANA_ROOT/dashboardProviders-configMap.yaml.j2
 
 echo "===================================================================================================="
 echo "Converting Kube state metrics"
-KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/monitoring-kube-state-metrics.deploy/app/deploy
+KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/monitoring_kube_state_metrics_deploy/app/deploy
 mkdir -p $KUBE_STATE_METRICS_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml.j2
@@ -79,7 +79,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_MET
 
 echo "===================================================================================================="
 echo "Converting NodeExporter"
-NODE_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring-node-exporter.deploy/app/deploy
+NODE_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring_node_exporter_deploy/app/deploy
 mkdir -p $NODE_EXPORTER_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/clusterRole.yaml.j2
@@ -89,7 +89,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/
 
 echo "===================================================================================================="
 echo "Converting Prometheus"
-PROMETHEUS_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/prometheus
+PROMETHEUS_ROOT=$OUT_CONVERTED_ROOT/monitoring_prometheus_operator_deploy/app/deploy/prometheus
 mkdir -p $PROMETHEUS_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-clusterRoleBinding.yaml $PROMETHEUS_ROOT/clusterRoleBinding.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-clusterRole.yaml $PROMETHEUS_ROOT/clusterRole.yaml.j2
@@ -105,7 +105,7 @@ rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-roleBindingSpecificNamespaces.yaml
 
 echo "===================================================================================================="
 echo "Converting ServiceMonitors"
-SERVICE_MONITOR_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/deploy/service-monitors
+SERVICE_MONITOR_ROOT=$OUT_CONVERTED_ROOT/monitoring_prometheus_operator_deploy/app/deploy/service-monitors
 mkdir -p $SERVICE_MONITOR_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/node-exporter.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-serviceMonitor.yaml $SERVICE_MONITOR_ROOT/kube-state-metrics.yaml.j2
@@ -122,7 +122,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-serviceMonitor.yaml $SERVICE_MONITOR
 
 echo "===================================================================================================="
 echo "Convert PrometheusRules"
-PROMEHTEUS_RULES_ROOT=$OUT_CONVERTED_ROOT/monitoring-prometheus-operator.deploy/app/config/prometheus/rules/kube-prometheus
+PROMEHTEUS_RULES_ROOT=$OUT_CONVERTED_ROOT/monitoring_prometheus_operator_deploy/app/config/prometheus/rules/kube-prometheus
 mkdir -p $PROMEHTEUS_RULES_ROOT
 python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
 rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-prometheusRule.yaml

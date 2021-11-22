@@ -6,7 +6,7 @@ networking:
   podSubnet: {{ kubernetes_pod_network_cidr }}
 
 # To allow Prometheus to gather metrics from kube controllerManager and scheduler,
-# we need to bind on 0.0.0.0 and not the dedault 127.0.0.1
+# we need to bind on 0.0.0.0 and not the default 127.0.0.1
 controllerManager:
   extraArgs:
     bind-address: 0.0.0.0
@@ -39,3 +39,11 @@ cgroupDriver: systemd
 # Also configured in kubernetes_kubelet_extra_parameters
 cgroupsPerQOS: false
 enforceNodeAllocatable: []
+
+---
+
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+# To allow Prometheus to gather metrics from kube-proxy,
+# we need to bind on 0.0.0.0 and not the default 127.0.0.1
+metricsBindAddress: 0.0.0.0:10249

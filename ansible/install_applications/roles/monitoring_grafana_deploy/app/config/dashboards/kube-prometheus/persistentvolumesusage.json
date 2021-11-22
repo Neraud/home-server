@@ -389,7 +389,7 @@
                     "value": "default"
                 },
                 "hide": 0,
-                "label": null,
+                "label": "Data Source",
                 "name": "datasource",
                 "options": [],
                 "query": "prometheus",
@@ -407,7 +407,7 @@
                 "multi": false,
                 "name": "cluster",
                 "options": [],
-                "query": "label_values(kubelet_volume_stats_capacity_bytes, cluster)",
+                "query": "label_values(kubelet_volume_stats_capacity_bytes{job=\"kubelet\", metrics_path=\"/metrics\"}, cluster)",
                 "refresh": 2,
                 "regex": "",
                 "sort": 1,

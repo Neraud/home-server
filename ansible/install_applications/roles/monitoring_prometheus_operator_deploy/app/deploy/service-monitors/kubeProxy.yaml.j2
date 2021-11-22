@@ -2,22 +2,20 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app.kubernetes.io/name: kube-scheduler
+    app.kubernetes.io/name: kube-proxy
     app.kubernetes.io/part-of: kube-prometheus
-  name: kube-scheduler
+  name: kube-proxy
   namespace: {{ prometheus.namespace }}
 spec:
   endpoints:
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
-    port: https-metrics
-    scheme: https
-    tlsConfig:
-      insecureSkipVerify: true
+    port: http-metrics
+    scheme: http
   jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
     - kube-system
   selector:
     matchLabels:
-      prometheus-target: kube-scheduler
+      prometheus-target: kube-proxy

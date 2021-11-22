@@ -7,4 +7,4 @@ if [ -f /app/config_delta.ini ]; then
 fi
 
 echo "Starting Sickchill"
-/app/sickchill/bin/python3 /app/sickchill/bin/SickChill.py --nolaunch --datadir=/data --port 8081
+/app/sickchill/bin/python3 /app/sickchill/lib/python3.10/site-packages/SickChill.py --nolaunch --datadir=/data --port 8081

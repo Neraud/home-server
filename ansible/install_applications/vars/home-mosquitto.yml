@@ -4,7 +4,7 @@ _mosquitto_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/eclipse-mosquitto"
-    tag: "2.0.12-openssl"
+    tag: "2.0.14-openssl"
   namespace: "home-mosquitto"
 
 mosquitto:

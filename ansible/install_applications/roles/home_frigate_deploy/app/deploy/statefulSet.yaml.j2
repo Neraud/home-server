@@ -61,7 +61,7 @@ spec:
         securityContext:
           #runAsNonRoot: true
           #runAsUser: 1000
-          readOnlyRootFilesystem: true
+          #readOnlyRootFilesystem: true
 {% if frigate.container.mount_usb %}
           privileged: true
 {% endif %}

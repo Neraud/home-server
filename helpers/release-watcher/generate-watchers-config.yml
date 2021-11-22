@@ -8,5 +8,5 @@
 
     - name: Generate watchers.yaml
       template:
-        src: "../../ansible/install_applications/roles/monitoring-release-watcher.deploy/app/config/watchers.yaml.j2"
+        src: "../../ansible/install_applications/roles/monitoring_release_watcher_deploy/app/config/watchers.yaml.j2"
         dest: "tmp/watchers.yaml"

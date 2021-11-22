@@ -3,6 +3,7 @@ kind: ServiceMonitor
 metadata:
   labels:
     app.kubernetes.io/name: kubelet
+    app.kubernetes.io/part-of: kube-prometheus
   name: kubelet
   namespace: {{ prometheus.namespace }}
 spec:
@@ -67,11 +68,16 @@ spec:
       sourceLabels:
       - __name__
     - action: drop
-      regex: (container_fs_.*|container_spec_.*|container_blkio_device_usage_total|container_file_descriptors|container_sockets|container_threads_max|container_threads|container_start_time_seconds|container_last_seen);;
+      regex: (container_spec_.*|container_file_descriptors|container_sockets|container_threads_max|container_threads|container_start_time_seconds|container_last_seen);;
       sourceLabels:
       - __name__
       - pod
       - namespace
+    - action: drop
+      regex: (container_blkio_device_usage_total);.+
+      sourceLabels:
+      - __name__
+      - container
     path: /metrics/cadvisor
     port: https-metrics
     relabelings:
@@ -83,7 +89,7 @@ spec:
       insecureSkipVerify: true
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
     honorLabels: true
-    interval: 30s
+    interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
     path: /metrics/probes
     port: https-metrics
     relabelings:

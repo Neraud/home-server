@@ -11,7 +11,7 @@ _busybox_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/busybox"
-    tag: "1.34.0"
+    tag: "1.34.1"
 
 busybox:
   base_image: "{{ _busybox_var_loader.base_image }}"

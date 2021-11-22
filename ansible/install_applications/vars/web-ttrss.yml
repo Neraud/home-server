@@ -5,9 +5,9 @@ _ttrss_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/php"
-    tag: "8.0.10-apache-buster"
-  commit: 8ed927dbd2
-  full_commit: 8ed927dbd2b54aaabe6be75f9fcf4145e2c3249a
+    tag: "8.0.13-apache-buster"
+  commit: 7cfc30ac25
+  full_commit: 7cfc30ac25f01975ddca25efdb3ca600b030aa3b
 
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -60,19 +60,25 @@ ttrss:
     data_migration:
       repo_url: "https://git.tt-rss.org/fox/ttrss-data-migration"
       branch: master
-      commit: 841bea895d
+      commit: fc5f5e4e50
     auth_ldap:
       #github_repo: "hydrian/TTRSS-Auth-LDAP"
       #branch: master
       #commit: 0cc2a21441f99eef8368cfe0fbdbb78126e28d61
+      
       # Switch to other repo waiting for https://github.com/hydrian/TTRSS-Auth-LDAP/pull/40
-      github_repo: "marcpaulchand/TTRSS-Auth-LDAP"
+      #github_repo: "marcpaulchand/TTRSS-Auth-LDAP"
+      #branch: php8_Auth_Base
+      #commit: 557811efa15bab3b5044c98416f9e37264f11c9a
+
+      # Switch, again, to quickly fix an issue, waiting for https://github.com/marcpaulchand/TTRSS-Auth-LDAP/pull/2
+      github_repo: "Neraud/TTRSS-Auth-LDAP"
       branch: php8_Auth_Base
-      commit: 557811efa15bab3b5044c98416f9e37264f11c9a
+      commit: eee2741a3f6e2e096d2d49c988eaf94540f4078d
     mailer_smtp:
       repo_url: "https://git.tt-rss.org/fox/ttrss-mailer-smtp"
       branch: master
-      commit: 89f07409b1
+      commit: 0719ebc8fa
 
   ldap:
     servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
@@ -100,7 +106,7 @@ _ttrss_pgsql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/postgres"
-    tag: "12.8-alpine"
+    tag: "12.9-alpine"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"

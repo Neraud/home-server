@@ -4,7 +4,7 @@ _gotify_var_loader:
   base_image:
     repo: "docker.io"
     name: "gotify/server"
-    tag: "2.0.23"
+    tag: "2.1.0"
   namespace: "infra-gotify"
 
 gotify:

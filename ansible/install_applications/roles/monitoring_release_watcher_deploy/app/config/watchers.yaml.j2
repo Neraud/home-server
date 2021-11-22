@@ -5,12 +5,12 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 4.6.0
+    version: 4.8.0
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
       - ^[0-3]\..*
-      - ^4\.[0-5]\..*
+      - ^4\.[0-7]\..*
 
 
   #################################
@@ -33,14 +33,14 @@ watchers:
   # Misc #
   ########
   - type: docker_registry
-    repo: {{ busybox.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ busybox.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ busybox.base_image.name }}
     tag: {{ busybox.base_image.tag }}
     includes:
       - "^[0-9]+\\.[0-9]+\\.[0-9]$"
     excludes:
       - 1\.[0-2][0-9]\..*
-      - 1\.3[0-2]\..*
+      - 1\.3[0-3]\..*
   
 
   #########
@@ -48,14 +48,14 @@ watchers:
   #########
   - type: github_release
     repo: coreos/flannel
-    release: v0.14.0
+    release: v0.15.1
     excludes:
       - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
-    release: v3.19.1
+    release: v3.21.0
     excludes:
-      - v3\.1[0-8]\..*
+      - v3\.1[0-9]\..*
   - type: github_release
     repo: intel/multus-cni
     release: v3.7.2
@@ -65,14 +65,14 @@ watchers:
   # Apps : Auth #
   ###############
   - type: docker_registry
-    repo: {{ lemonldap.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ lemonldap.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ lemonldap.base_image.name }}
     tag: {{ lemonldap.base_image.tag }}
     excludes:
       - latest
       - ^1\.
   - type: docker_registry
-    repo: {{ openldap.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ openldap.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ openldap.base_image.name }}
     tag: {{ openldap.base_image.tag }}
     includes:
@@ -81,14 +81,14 @@ watchers:
       - ^1\.[0-4]\.
   - name: phpLDAPadmin-php
     type: docker_registry
-    repo: {{ phpldapadmin.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ phpldapadmin.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ phpldapadmin.base_image.name }}
     tag: {{ phpldapadmin.base_image.tag }}
     includes:
       - "7.3.[0-9]+-apache-buster"
     excludes:
       - "7.3.[0-9]-apache-buster"
-      - "7.3.[01][0-9]-apache-buster"
+      - "7.3.[0-2][0-9]-apache-buster"
   - type: github_tag
     repo: leenooks/phpLDAPadmin
     tag: {{ phpldapadmin.version }}
@@ -97,7 +97,7 @@ watchers:
   # Apps : Dev #
   ##############
   - type: docker_registry
-    repo: {{ gitlab.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ gitlab.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ gitlab.base_image.name }}
     tag: {{ gitlab.base_image.tag }}
     excludes:
@@ -107,13 +107,14 @@ watchers:
       - .*-rc[0-9]+.*
       - ^[1-9]\.
       - ^1[0-3]\.
+      - ^14\.[0-3]\.
   
   ###################
   # Apps : Download #
   ###################
   - name: Deluge Baseimage
     type: docker_registry
-    repo: {{ deluge_base.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ deluge_base.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ deluge_base.base_image.name }}
     tag: {{ deluge_base.base_image.tag }}
     includes:
@@ -135,13 +136,13 @@ watchers:
     commit: {{ pyload.repo.commit }}
   - name: SABnzbd Baseimage
     type: docker_registry
-    repo: {{ sabnzbd.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ sabnzbd.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ sabnzbd.base_image.name }}
     tag: {{ sabnzbd.base_image.tag }}
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - ^3.[0-8]\..*
+      - ^3.[0-9]\..*
       - .*-alpine3\.[0-9]$
       - .*-alpine3\.1[0-3]
   - name: SABnzbd
@@ -160,13 +161,13 @@ watchers:
     release: {{ sabnzbd.nzbToMedia.repo.version }}
   - name: Sickchill Baseimage
     type: docker_registry
-    repo: {{ sickchill.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ sickchill.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ sickchill.base_image.name }}
     tag: {{ sickchill.base_image.tag }}
     includes:
       - 3\.[0-9]+\.[0-9]+-slim-bullseye
     excludes:
-      - ^3.[0-8]\..*
+      - ^3.[0-9]\..*
   - type: pypi
     package: sickchill
     version: {{ sickchill.version }}
@@ -176,7 +177,7 @@ watchers:
   # Apps : Home #
   ###############
   - type: docker_registry
-    repo: {{ homeassistant.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ homeassistant.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ homeassistant.base_image.name }}
     tag: {{ homeassistant.base_image.tag }}
     includes:
@@ -193,7 +194,7 @@ watchers:
     commit: 819f9233116e68b5af5a5f45167bcbb4ed412ed4
   - name: "HomeAssistant MySQL"
     type: docker_registry
-    repo: {{ homeassistant_mysql.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ homeassistant_mysql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ homeassistant_mysql.base_image.name }}
     tag: {{ homeassistant_mysql.base_image.tag }}
     includes:
@@ -204,7 +205,7 @@ watchers:
       - 5\.7\.[0-9]$
       - 5\.7\.[12][0-9]$
   - type: docker_registry
-    repo: {{ mosquitto.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ mosquitto.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ mosquitto.base_image.name }}
     tag: {{ mosquitto.base_image.tag }}
     includes:
@@ -213,13 +214,14 @@ watchers:
       - latest
       - ^1\.
   - type: docker_registry
-    repo: {{ nodered.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ nodered.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ nodered.base_image.name }}
     tag: {{ nodered.base_image.tag }}
     includes:
-      - .*-12-minimal-amd64
+      - '[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-minimal'
     excludes:
-      - 1\.0\..*
+      - ^1\.
+      - ^2\.[0]\.
   - type: github_tag
     repo: vesse/node-ldapauth-fork
     tag: v{{ nodered.additional_modules.ldapauth_fork.version }}
@@ -239,7 +241,7 @@ watchers:
       - '[0-9]+\.[0-9]+\.[0-9]+'
   # TODO : support NPM for nodered.additional_modules.node_red_contrib_stoptimer
   - type: docker_registry
-    repo: {{ roomassistant.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ roomassistant.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ roomassistant.base_image.name }}
     tag: {{ roomassistant.base_image.tag }}
     includes:
@@ -251,7 +253,7 @@ watchers:
       - ^2\.[0-9]\..*
       - ^2\.1[0-5]\..*
   - type: docker_registry
-    repo: {{ esphome.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ esphome.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ esphome.base_image.name }}
     tag: {{ esphome.base_image.tag }}
     includes:
@@ -261,9 +263,9 @@ watchers:
       - ^2020.*
       - ^2021\.0[1-8]\..*
       - ^2021\.0[1-8]\..*
-      - b[0-9]+$
+      - .*b[0-9]+$
   - type: docker_registry
-    repo: {{ zwavejs2mqtt.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ zwavejs2mqtt.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zwavejs2mqtt.base_image.name }}
     tag: {{ zwavejs2mqtt.base_image.tag }}
     includes:
@@ -272,7 +274,7 @@ watchers:
       - ^[1-4]\..*
       - ^5\.[0-5]\..*
   - type: docker_registry
-    repo: {{ frigate.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ frigate.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ frigate.base_image.name }}
     tag: {{ frigate.base_image.tag }}
     includes:
@@ -297,7 +299,7 @@ watchers:
       - .*beta.*
       - .*rc.*
   - type: docker_registry
-    repo: {{ docker_registry_ui.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ docker_registry_ui.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ docker_registry_ui.base_image.name }}
     tag: {{ docker_registry_ui.base_image.tag }}
     includes:
@@ -305,16 +307,15 @@ watchers:
     excludes:
       - 0\.[0-8]\.
   - type: docker_registry
-    repo: {{ pihole.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ pihole.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ pihole.base_image.name }}
     tag: {{ pihole.base_image.tag }}
     includes:
-      - "v[0-9]+\\.[0-9]+(\\.[0-9]+)?-amd64-buster"
+      - '20[0-9]+\.[0-9]+(\.[0-9]+)?'
     excludes:
-      - v[1-4]\..*
-      - v5\.[0-6][.-].*
+      - 2021-09.*
   - type: docker_registry
-    repo: {{ gotify.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ gotify.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ gotify.base_image.name }}
     tag: {{ gotify.base_image.tag }}
     includes:
@@ -325,7 +326,7 @@ watchers:
       - ^2\.0\.1[0-9]$
   - type: docker_registry
     name: Gandi LiveDNS Base image
-    repo: {{ _gandi_livedns_var_loader.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ _gandi_livedns_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ _gandi_livedns_var_loader.base_image.name }}
     tag: {{ _gandi_livedns_var_loader.base_image.tag }}
     includes:
@@ -335,25 +336,25 @@ watchers:
       - 3\.1[0-3]\..*
   - type: github_release
     repo: metallb/metallb
-    release: v0.10.2
+    release: v0.11.0
     excludes:
       - metallb-chart-.*     
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v1.0.0
+    release: controller-v1.0.5
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
       - controller-v?0\.[0-9]+\.[0-9]+.*
       - beta
   - type: docker_registry
-    repo: {{ mailhog.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ mailhog.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ mailhog.base_image.name }}
     tag: {{ mailhog.base_image.tag }}
     excludes:
       - latest
   - type: docker_registry
-    repo: {{ docker_registry.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ docker_registry.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ docker_registry.base_image.name }}
     tag: {{ docker_registry.base_image.tag }}
     excludes:
@@ -363,7 +364,7 @@ watchers:
     includes:
       - "[2-9]+\\.[0-9]+\\.[0-9]+.*"
   - type: docker_registry
-    repo: {{ reloader.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ reloader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ reloader.base_image.name }}
     tag: {{ reloader.base_image.tag }}
     includes:
@@ -372,16 +373,16 @@ watchers:
       - .*SNAPSHOT.*
       - ^PR-.*
       - dev
-      - v0\.0\.[0-8]?[0-9]$
+      - v0\.0\.[0-9]?[0-9]$
   - type: docker_registry
-    repo: {{ unifi.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ unifi.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ unifi.base_image.name }}
     tag: {{ unifi.base_image.tag }}
     includes:
-      - "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+      - "^v?[0-9]+\\.[0-9]+\\.[0-9]+$"
     excludes:
-      - ^[0-5]\.
-      - ^6\.[0-1]\.
+      - ^v?[0-5]\.
+      - ^v?6\.[0-3]\.
   - name: ZoneMTA
     type: github_tag
     repo: {{ zonemta.repo.name }}
@@ -392,7 +393,7 @@ watchers:
       - ^v[1-2]\.
   - name: "ZoneMTA Redis"
     type: docker_registry
-    repo: {{ zonemta_redis.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ zonemta_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zonemta_redis.base_image.name }}
     tag: {{ zonemta_redis.base_image.tag }}
     includes:
@@ -401,16 +402,16 @@ watchers:
       - ^6\.[0-1]\.
   - name: "ZoneMTA Mongo"
     type: docker_registry
-    repo: {{ zonemta_mongo.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ zonemta_mongo.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zonemta_mongo.base_image.name }}
     tag: {{ zonemta_mongo.base_image.tag }}
     includes:
-      - 4\.[0-9]+.[0-9]+-bionic
+      - '[0-9]+\.[0-9]+.[0-9]+-.*'
     excludes:
-      - 4\.[0-3]\..*
+      - ^4\..*
   - name: "ZoneMTA Node"
     type: docker_registry
-    repo: {{ zonemta.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ zonemta.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zonemta.base_image.name }}
     tag: {{ zonemta.base_image.tag }}
     includes:
@@ -420,7 +421,7 @@ watchers:
       - 12\.[0-9]\..*
       - 12\.1[0-7]\..*
   - type: docker_registry
-    repo: {{ intel_gpu_plugin.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ intel_gpu_plugin.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ intel_gpu_plugin.base_image.name }}
     tag: {{ intel_gpu_plugin.base_image.tag }}
     includes:
@@ -433,7 +434,7 @@ watchers:
   # Apps : Logging #
   ##################
   - type: docker_registry
-    repo: {{ elasticsearch.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ elasticsearch.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ elasticsearch.base_image.name }}
     tag: {{ elasticsearch.base_image.tag }}
     excludes:
@@ -442,7 +443,7 @@ watchers:
       - ^1\.[0-9]\..*
       - ^1\.1[0-2]\..*
   - type: docker_registry
-    repo: {{ elasticsearch_exporter.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ elasticsearch_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ elasticsearch_exporter.base_image.name }}
     tag: {{ elasticsearch_exporter.base_image.tag }}
     excludes:
@@ -451,7 +452,7 @@ watchers:
       - ^1\.0\..*
       - .*rc.*
   - type: docker_registry
-    repo: {{ fluentbit.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ fluentbit.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ fluentbit.base_image.name }}
     tag: {{ fluentbit.base_image.tag }}
     includes:
@@ -463,7 +464,7 @@ watchers:
       - ^0\.
       - 1\.[0-7]\..*
   - type: docker_registry
-    repo: {{ fluentd.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ fluentd.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ fluentd.base_image.name }}
     tag: {{ fluentd.base_image.tag }}
     includes:
@@ -471,7 +472,7 @@ watchers:
     excludes:
       - .*(armhf|arm64).*
       - v1\.[0-9]\..*
-      - v1\.1[0-2]\..*
+      - v1\.1[0-3]\..*
   - type: github_tag
     repo: uken/fluent-plugin-elasticsearch
     tag: v{{ fluentd.plugins.elasticsearch.version }}
@@ -508,7 +509,7 @@ watchers:
     excludes:
       - v0\..*
   - type: docker_registry
-    repo: {{ kibana.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ kibana.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ kibana.base_image.name }}
     tag: {{ kibana.base_image.tag }}
     excludes:
@@ -523,13 +524,13 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: 43f726885366a74322abccc1f8de6203826d447e
+    commit: b31a075e82002c589f9ee745466974eb9287d55e
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
     commit: a6a02d24ffe92ee38fcfb80f38fc75c4f952e626
   - type: docker_registry
-    repo: {{ nginx_exporter.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ nginx_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ nginx_exporter.base_image.name }}
     tag: {{ nginx_exporter.base_image.tag }}
     includes:
@@ -537,7 +538,7 @@ watchers:
     excludes:
       - ^0\.[0-7]\..*
   - type: docker_registry
-    repo: {{ nginx_log_exporter.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ nginx_log_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ nginx_log_exporter.base_image.name }}
     tag: {{ nginx_log_exporter.base_image.tag }}
     includes:
@@ -545,7 +546,7 @@ watchers:
     excludes:
       - ^v1\.[0-7]\..*
   - type: docker_registry
-    repo: {{ pihole_exporter.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ pihole_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ pihole_exporter.base_image.name }}
     tag: {{ pihole_exporter.base_image.tag }}
     includes:
@@ -555,21 +556,21 @@ watchers:
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
-  #  repo: {{ kube_state_metrics.base_image.repo | default('registry-1.docker.io') }}
+  #  repo: {{ kube_state_metrics.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
   #  image: {{ kube_state_metrics.base_image.name }}
   #  tag: {{ kube_state_metrics.base_image.tag }}
   #  excludes:
   #    - latest
   #    - .*(alpha|beta|rc).*
   #- type: docker_registry
-  #  repo: {{ node_exporter.base_image.repo | default('registry-1.docker.io') }}
+  #  repo: {{ node_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
   #  image: {{ node_exporter.base_image.name }}
   #  tag: {{ node_exporter.base_image.tag }}
   #  excludes:
   #    - .*(alpha|beta|rc).*
   #    - (latest|master)
   #- type: docker_registry
-  #  repo: {{ grafana.base_image.repo | default('registry-1.docker.io') }}
+  #  repo: {{ grafana.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
   #  image: {{ grafana.base_image.name }}
   #  tag: {{ grafana.base_image.tag }}
   #  excludes:
@@ -577,7 +578,7 @@ watchers:
   #    - .*(alpha|beta|rc).*
   #    - ^[1-5].*
   #- type: docker_registry
-  #  repo: {{ prometheus_operator.base_image.repo | default('registry-1.docker.io') }}
+  #  repo: {{ prometheus_operator.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
   #  image: {{ prometheus_operator.base_image.name }}
   #  tag: {{ prometheus_operator.base_image.tag }}
   #  excludes:
@@ -586,7 +587,7 @@ watchers:
   #    - ^v0\.1[0-9]\..*
   #    - ^v0\.2[0-8]\..*
   #- type: docker_registry
-  #  repo: {{ prometheus.base_image.repo | default('registry-1.docker.io') }}
+  #  repo: {{ prometheus.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
   #  image: {{ prometheus.base_image.name }}
   #  tag: {{ prometheus.base_image.tag }}
   #  includes:
@@ -597,7 +598,7 @@ watchers:
   #    - ^v1\..*
   #    - ^v2\.[0-6]\..*
   #- type: docker_registry
-  #  repo: {{ alertmanager.base_image.repo | default('registry-1.docker.io') }}
+  #  repo: {{ alertmanager.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
   #  image: {{ alertmanager.base_image.name }}
   #  tag: {{ alertmanager.base_image.tag }}
   #  includes:
@@ -621,7 +622,7 @@ watchers:
   # Apps : Stream #
   #################
   - type: docker_registry
-    repo: {{ airsonic.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ airsonic.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ airsonic.base_image.name }}
     tag: {{ airsonic.base_image.tag }}
     includes:
@@ -629,7 +630,7 @@ watchers:
     excludes:
       - 10\.[0-5]\.
   - type: docker_registry
-    repo: {{ jellyfin.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ jellyfin.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ jellyfin.base_image.name }}
     tag: {{ jellyfin.base_image.tag }}
     includes:
@@ -638,7 +639,7 @@ watchers:
       - ^10\.[0-6]\..*
   - name: Jellyfin inject conf
     type: docker_registry
-    repo: {{ jellyfin.conf_injection_base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ jellyfin.conf_injection_base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ jellyfin.conf_injection_base_image.name }}
     tag: {{ jellyfin.conf_injection_base_image.tag }}
     includes:
@@ -668,14 +669,15 @@ watchers:
   ##############
   - name: Homer NGinx
     type: docker_registry
-    repo: {{ homer.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ homer.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ homer.base_image.name }}
     tag: {{ homer.base_image.tag }}
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine$
     excludes:
       - ^1\.[0-9]\..*-alpine$
-      - ^1\.1[0-8]\..*-alpine$
+      - ^1\.1[0-9]\..*-alpine$
+      - ^1\.2[0]\..*-alpine$
   - name: Homer
     type: github_release
     repo: bastienwirtz/homer
@@ -683,7 +685,7 @@ watchers:
     
   - name: TT-RSS PHP
     type: docker_registry
-    repo: {{ ttrss.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ ttrss.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ ttrss.base_image.name }}
     tag: {{ ttrss.base_image.tag }}
     includes:
@@ -725,7 +727,7 @@ watchers:
     date_attribute: "title"
   - name: TT-RSS PostgreSQL
     type: docker_registry
-    repo: {{ ttrss_pgsql.base_image.repo | default('registry-1.docker.io') }}
+    repo: {{ ttrss_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ ttrss_pgsql.base_image.name }}
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
