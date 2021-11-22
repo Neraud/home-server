@@ -26,4 +26,9 @@ kubernetes_master_ufw_applications:
     ports: 10252,10257/tcp
     rule: allow
 
-kubernetes_worker_ufw_applications: []
+kubernetes_worker_ufw_applications:  
+  - name: kubernetes_proxy
+    title: Kubernetes Proxy
+    description: Kubernetes Proxy
+    ports: 10249/tcp
+    rule: allow
