@@ -100,7 +100,7 @@
         push: yes
   when:
     - build | default('no') | bool
-    - not private_image_local_id
+    - (not private_image_local_id or force_build | default('no') | bool)
 
 # When building a custom image, a push can fail
 # In that case, the "Build and push container image" task will remain 'ok', without pushing
