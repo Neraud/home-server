@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ fluentd.base_image }}"
-    private_image: "{{ fluentd.container.image }}"
+    private_image: "{{ fluentd.private_image }}"
     build: yes
     build_args:
       fluent_plugin_elasticsearch_version: "{{ fluentd.plugins.elasticsearch.version }}"

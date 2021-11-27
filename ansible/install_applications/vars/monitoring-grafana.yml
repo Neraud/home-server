@@ -11,6 +11,10 @@ grafana:
 
   namespace: "monitoring-grafana"
   base_image: "{{ _grafana_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _grafana_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _grafana_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: grafana
@@ -20,7 +24,6 @@ grafana:
     app.kubernetes.io/version: "{{ _grafana_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _grafana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _grafana_var_loader.base_image.tag }}"
     requests_cpu: "{{ grafana_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ grafana_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ grafana_container_limits_cpu | default('400m') }}"

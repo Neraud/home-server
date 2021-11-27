@@ -29,7 +29,7 @@ spec:
         - --collector.netclass.ignored-devices=^(veth.*|[a-f0-9]{15})$
         - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
         - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
-        image: "{{ node_exporter.container.image }}"
+        image: "{{ node_exporter.private_image | image_full_name }}"
         imagePullPolicy: Always
         name: node-exporter
         readinessProbe:
@@ -70,7 +70,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: "{{ node_exporter_rbac_proxy.container.image }}"
+        image: "{{ node_exporter_rbac_proxy.private_image | image_full_name }}"
         imagePullPolicy: Always
         name: kube-rbac-proxy
         ports:

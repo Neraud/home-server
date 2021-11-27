@@ -20,7 +20,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -33,7 +33,7 @@ spec:
           mountPath: /var/lib/postgresql
       containers:
       - name: pgsql
-        image: "{{ ttrss_pgsql.container.image }}"
+        image: "{{ ttrss_pgsql.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
         - name: POSTGRES_USER

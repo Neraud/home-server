@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: elasticsearch
-        image: "{{ elasticsearch.container.image }}"
+        image: "{{ elasticsearch.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 9300
@@ -93,7 +93,7 @@ spec:
             value: "-Xms{{ elasticsearch.max_java_memory }} -Xmx{{ elasticsearch.max_java_memory }}"
       initContainers:
       - name: fix-permissions
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
         securityContext:
@@ -102,13 +102,13 @@ spec:
         - name: elasticsearch-pv-claim
           mountPath: /usr/share/elasticsearch/data
       - name: increase-vm-max-map
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command: ["sysctl", "-w", "vm.max_map_count=262144"]
         securityContext:
           privileged: true
       - name: increase-fd-ulimit
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command: ["sh", "-c", "ulimit -n 65536"]
         securityContext:

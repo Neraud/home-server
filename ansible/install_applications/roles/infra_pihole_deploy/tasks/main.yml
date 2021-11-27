@@ -14,7 +14,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ pihole.base_image }}"
-    private_image: "{{ pihole.container.image }}"
+    private_image: "{{ pihole.private_image }}"
 
 - name: Deploy PiHole
   kubernetes.core.k8s:

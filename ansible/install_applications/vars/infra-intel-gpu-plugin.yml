@@ -11,6 +11,10 @@ intel_gpu_plugin:
 
   namespace: "infra-intel-gpu-plugin"
   base_image: "{{ _intel_gpu_plugin_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _intel_gpu_plugin_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _intel_gpu_plugin_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: intel-gpu-plugin
@@ -20,7 +24,6 @@ intel_gpu_plugin:
     app.kubernetes.io/version: "{{ _intel_gpu_plugin_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _intel_gpu_plugin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _intel_gpu_plugin_var_loader.base_image.tag }}"
     requests_cpu: "{{ intel_gpu_plugin_container_requests_cpu | default('20m') }}"
     requests_memory: "{{ intel_gpu_plugin_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ intel_gpu_plugin_container_limits_cpu | default('100m') }}"

@@ -11,6 +11,10 @@ kube_state_metrics:
 
   namespace: "monitoring-kube-state-metrics"
   base_image: "{{ _kube_state_metrics_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _kube_state_metrics_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _kube_state_metrics_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: kube-state-metrics
@@ -20,7 +24,6 @@ kube_state_metrics:
     app.kubernetes.io/version: "{{ _kube_state_metrics_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _kube_state_metrics_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kube_state_metrics_var_loader.base_image.tag }}"
     requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('20m') }}"
     requests_memory: "{{ kube_state_metrics_container_requests_memory | default('192Mi') }}"
     limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('100m') }}"
@@ -35,8 +38,11 @@ _kube_state_metrics_rbac_proxy_var_loader:
 
 kube_state_metrics_rbac_proxy:
   base_image: "{{ _kube_state_metrics_rbac_proxy_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.tag }}"
   container:
-    image: "{{ docker_private_registry.url }}/{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.tag }}"
     requests_cpu: "{{ kube_state_metrics_rbac_proxy_container_requests_cpu | default('10m') }}"
     requests_memory: "{{ kube_state_metrics_rbac_proxy_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ kube_state_metrics_rbac_proxy_container_limits_cpu | default('250m') }}"

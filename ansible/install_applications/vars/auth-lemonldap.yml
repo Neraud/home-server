@@ -12,6 +12,10 @@ lemonldap:
 
   namespace: "{{ _lemonldap_var_loader.namespace }}"
   base_image: "{{ _lemonldap_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _lemonldap_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _lemonldap_var_loader.base_image.tag }}-custom"
 
   app_backup:
     name: auth-lemonldap
@@ -32,7 +36,6 @@ lemonldap:
     app.kubernetes.io/version: "{{ _lemonldap_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _lemonldap_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _lemonldap_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ lemonldap_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ lemonldap_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ lemonldap_container_limits_cpu | default('150m') }}"

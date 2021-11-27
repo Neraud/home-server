@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: fluentd
-        image: "{{ fluentd.container.image }}"
+        image: "{{ fluentd.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 24224

@@ -11,6 +11,10 @@ kibana:
 
   namespace: "logging-kibana"
   base_image: "{{ _kibana_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _kibana_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _kibana_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: kibana
@@ -20,7 +24,6 @@ kibana:
     app.kubernetes.io/version: "{{ _kibana_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _kibana_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kibana_var_loader.base_image.tag }}"
     requests_cpu: "{{ kibana_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ kibana_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ kibana_container_limits_cpu | default('500m') }}"

@@ -16,7 +16,15 @@ jellyfin:
 
   namespace: "{{ _jellyfin_var_loader.namespace }}"
   base_image: "{{ _jellyfin_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _jellyfin_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _jellyfin_var_loader.base_image.tag }}-custom"
   conf_injection_base_image: "{{ _jellyfin_var_loader.conf_injection_base_image }}"
+  conf_injection_private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "jellyfin-conf-inject-{{ _jellyfin_var_loader.conf_injection_base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _jellyfin_var_loader.conf_injection_base_image.tag }}"
 
   app_backup:
     name: stream-jellyfin
@@ -36,11 +44,7 @@ jellyfin:
   labels_desc:
     app.kubernetes.io/version: "{{ _jellyfin_var_loader.base_image.tag }}"
 
-  conf_injection_container:
-    image: "{{ docker_private_registry.url }}/jellyfin-conf-inject-{{ _jellyfin_var_loader.conf_injection_base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.conf_injection_base_image.tag }}"
-
   container:
-    image: "{{ docker_private_registry.url }}/{{ _jellyfin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _jellyfin_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ jellyfin_container_requests_cpu | default('250m') }}"
     requests_memory: "{{ jellyfin_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ jellyfin_container_limits_cpu | default('1000m') }}"

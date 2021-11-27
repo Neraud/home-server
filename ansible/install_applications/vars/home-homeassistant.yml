@@ -12,6 +12,10 @@ homeassistant:
 
   namespace: "{{ _homeassistant_var_loader.namespace }}"
   base_image: "{{ _homeassistant_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _homeassistant_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _homeassistant_var_loader.base_image.tag }}-custom"
   servername: "homeassistant.{{ _homeassistant_var_loader.namespace }}.svc.cluster.local"
 
   app_backup:
@@ -34,7 +38,6 @@ homeassistant:
     app.kubernetes.io/part-of: homeassistant
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _homeassistant_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homeassistant_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ homeassistant_homeassistant_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ homeassistant_homeassistant_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('250m') }}"
@@ -78,6 +81,10 @@ _homeassistant_mysql_var_loader:
 
 homeassistant_mysql:
   base_image: "{{ _homeassistant_mysql_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "home-assistant-{{ _homeassistant_mysql_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _homeassistant_mysql_var_loader.base_image.tag }}"
 
   app_backup:
     name: home-homeassistant_mysql
@@ -99,7 +106,6 @@ homeassistant_mysql:
     app.kubernetes.io/part-of: homeassistant
 
   container:
-    image: "{{ docker_private_registry.url }}/home-assistant-{{ _homeassistant_mysql_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _homeassistant_mysql_var_loader.base_image.tag }}"
     requests_cpu: "{{ homeassistant_mysql_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ homeassistant_mysql_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ homeassistant_mysql_container_limits_cpu | default('200m') }}"

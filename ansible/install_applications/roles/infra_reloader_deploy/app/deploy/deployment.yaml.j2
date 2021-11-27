@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: reloader
-        image: "{{ reloader.container.image }}"
+        image: "{{ reloader.private_image | image_full_name }}"
         imagePullPolicy: Always
         securityContext:
           runAsNonRoot: true

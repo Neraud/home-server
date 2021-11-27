@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -35,7 +35,7 @@ spec:
           mountPath: /data/sickchill
       containers:
       - name: sickchill
-        image: "{{ sickchill.container.image }}"
+        image: "{{ sickchill.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 8081

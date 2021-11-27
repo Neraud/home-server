@@ -9,7 +9,7 @@ metadata:
 spec:
   initContainers:
   - name: create-folders
-    image: "{{ busybox.container.image }}"
+    image: "{{ busybox.private_image | image_full_name }}"
     imagePullPolicy: Always
     command:
       - "sh"
@@ -29,7 +29,7 @@ spec:
       namespace: {{ prometheus.namespace }}
       port: web
   enableFeatures: []
-  image: "{{ prometheus.container.image }}"
+  image: "{{ prometheus.private_image | image_full_name }}"
   imagePullSecrets:
   - name: docker-config
   podMetadata:

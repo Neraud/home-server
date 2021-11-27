@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ gandi_livedns.base_image }}"
-    private_image: "{{ gandi_livedns.container.image }}"
+    private_image: "{{ gandi_livedns.private_image }}"
     build: yes
 
 - name: Deploy Gandi LiveDNS

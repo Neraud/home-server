@@ -20,13 +20,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
-    private_image: "{{ busybox.container.image }}"
+    private_image: "{{ busybox.private_image }}"
 
 - name: Ensure TT-RSS image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ ttrss.base_image }}"
-    private_image: "{{ ttrss.container.image }}"
+    private_image: "{{ ttrss.private_image }}"
     build: yes
     build_args:
       ttrss_commit: "{{ ttrss.commit }}"
@@ -38,7 +38,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ ttrss_pgsql.base_image }}"
-    private_image: "{{ ttrss_pgsql.container.image }}"
+    private_image: "{{ ttrss_pgsql.private_image }}"
 
 - name: Deploy TT-RSS
   kubernetes.core.k8s:

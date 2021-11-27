@@ -16,7 +16,13 @@ pyload:
 
   namespace: "{{ _pyload_var_loader.namespace }}"
   base_image: "{{ _pyload_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "pyload"
+    tag: "{{ _pyload_var_loader.repo.commit }}_{{ _pyload_var_loader.base_image.name | regex_replace('.*/', '') }}{{ _pyload_var_loader.base_image.tag }}"
   repo: "{{ _pyload_var_loader.repo }}"
+  branch: "{{ _pyload_var_loader.repo.branch }}"
+  commit: "{{ _pyload_var_loader.repo.commit }}"
 
   app_backup:
     name: download-pyload
@@ -37,9 +43,6 @@ pyload:
     app.kubernetes.io/version: "{{ _pyload_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/pyload:{{ _pyload_var_loader.repo.commit }}_{{ _pyload_var_loader.base_image.name | regex_replace('.*/', '') }}{{ _pyload_var_loader.base_image.tag }}"
-    branch: "{{ _pyload_var_loader.repo.branch }}"
-    commit: "{{ _pyload_var_loader.repo.commit }}"
     requests_cpu: "{{ pyload_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ pyload_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ pyload_container_limits_cpu | default('500m') }}"

@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: roomassistant
-        image: "{{ roomassistant.container.image }}"
+        image: "{{ roomassistant.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
         - name: NODE_LOG_LEVEL

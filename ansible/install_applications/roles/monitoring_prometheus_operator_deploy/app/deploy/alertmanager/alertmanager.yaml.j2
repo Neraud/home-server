@@ -9,7 +9,7 @@ metadata:
 spec:
   initContainers:
   - name: create-folders
-    image: "{{ busybox.container.image }}"
+    image: "{{ busybox.private_image | image_full_name }}"
     imagePullPolicy: Always
     command:
       - "sh"
@@ -23,7 +23,7 @@ spec:
     volumeMounts:
     - name: alertmanager-k8s-pv-claim
       mountPath: /data
-  image: "{{ alertmanager.container.image }}"
+  image: "{{ alertmanager.private_image | image_full_name }}"
   imagePullSecrets:
   - name: docker-config
   podMetadata:

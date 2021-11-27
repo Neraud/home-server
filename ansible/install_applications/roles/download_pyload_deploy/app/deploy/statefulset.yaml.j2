@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -37,7 +37,7 @@ spec:
           mountPath: /opt/pyload
       containers:
       - name: pyload
-        image: "{{ pyload.container.image }}"
+        image: "{{ pyload.private_image | image_full_name }}"
         imagePullPolicy: Always        
         ports:
         - containerPort: 8000

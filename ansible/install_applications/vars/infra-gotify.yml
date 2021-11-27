@@ -12,6 +12,10 @@ gotify:
 
   namespace: "{{ _gotify_var_loader.namespace }}"
   base_image: "{{ _gotify_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "gotify-server"
+    tag: "{{ _gotify_var_loader.base_image.tag }}"
   servername: "gotify.{{ _gotify_var_loader.namespace }}.svc.cluster.local"
 
   app_backup:
@@ -33,7 +37,6 @@ gotify:
     app.kubernetes.io/version: "{{ _gotify_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/gotify-server:{{ _gotify_var_loader.base_image.tag }}"
     requests_cpu: "{{ gotify_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ gotify_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ gotify_container_limits_cpu | default('100m') }}"

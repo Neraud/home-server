@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: gitlab
-        image: "{{ gitlab.container.image }}"
+        image: "{{ gitlab.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 80

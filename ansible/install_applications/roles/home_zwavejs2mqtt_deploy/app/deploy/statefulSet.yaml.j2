@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -41,7 +41,7 @@ spec:
           mountPath: /opt/zwavejs2mqtt
       containers:
       - name: zwavejs2mqtt
-        image: "{{ zwavejs2mqtt.container.image }}"
+        image: "{{ zwavejs2mqtt.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
         - name: SESSION_SECRET

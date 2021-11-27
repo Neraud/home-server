@@ -12,6 +12,10 @@ unifi:
 
   namespace: "{{ _unifi_var_loader.namespace }}"
   base_image: "{{ _unifi_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _unifi_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _unifi_var_loader.base_image.tag }}"
 
   app_backup:
     name: infra-unifi
@@ -32,7 +36,6 @@ unifi:
     app.kubernetes.io/version: "{{ _unifi_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _unifi_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _unifi_var_loader.base_image.tag }}"
     requests_cpu: "{{ unifi_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ unifi_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ unifi_container_limits_cpu | default('250m') }}"

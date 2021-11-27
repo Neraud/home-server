@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-data-dir
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -38,7 +38,7 @@ spec:
           mountPath: /data
       containers:
       - name: mongo
-        image: "{{ zonemta_mongo.container.image }}"
+        image: "{{ zonemta_mongo.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
         - name: MONGO_INITDB_ROOT_USERNAME

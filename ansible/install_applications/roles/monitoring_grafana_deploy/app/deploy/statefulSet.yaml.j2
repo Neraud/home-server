@@ -21,7 +21,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -33,7 +33,7 @@ spec:
         - name: grafana-pv-claim
           mountPath: /grafana
       containers:
-      - image: "{{ grafana.container.image }}"
+      - image: "{{ grafana.private_image | image_full_name }}"
         name: grafana
         env:
         - name: GF_SERVER_ROOT_URL

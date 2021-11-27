@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: mailhog
-        image: "{{ mailhog.container.image }}"
+        image: "{{ mailhog.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
           - name: MH_UI_WEB_PATH

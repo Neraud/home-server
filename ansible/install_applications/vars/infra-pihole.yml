@@ -12,6 +12,10 @@ pihole:
 
   namespace: "{{ _pihole_var_loader.namespace }}"
   base_image: "{{ _pihole_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _pihole_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _pihole_var_loader.base_image.tag }}"
 
   app_backup:
     name: infra-pihole
@@ -32,7 +36,6 @@ pihole:
     app.kubernetes.io/version: "{{ _pihole_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _pihole_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _pihole_var_loader.base_image.tag }}"
     requests_cpu: "{{ pihole_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ pihole_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ pihole_container_limits_cpu | default('250m') }}" # Web UI requires more CPU, but is rarely used

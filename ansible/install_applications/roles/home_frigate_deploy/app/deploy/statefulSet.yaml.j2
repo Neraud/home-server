@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -44,7 +44,7 @@ spec:
           subPath: config_base.yml
       containers:
       - name: frigate
-        image: "{{ frigate.container.image }}"
+        image: "{{ frigate.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 5000

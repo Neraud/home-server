@@ -11,6 +11,10 @@ pihole_exporter:
 
   namespace: "monitoring-pihole-exporter"
   base_image: "{{ _pihole_exporter_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _pihole_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _pihole_exporter_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: pihole-exporter
@@ -20,7 +24,6 @@ pihole_exporter:
     app.kubernetes.io/version: "{{ _pihole_exporter_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _pihole_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _pihole_exporter_var_loader.base_image.tag }}"
     requests_cpu: "{{ pihole_exporter_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ pihole_exporter_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ pihole_exporter_container_limits_cpu | default('50m') }}"

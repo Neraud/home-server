@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: nginx-log-exporter
-        image: "{{ nginx_log_exporter.container.image }}"
+        image: "{{ nginx_log_exporter.private_image | image_full_name }}"
         imagePullPolicy: Always
         args:
         - -config-file

@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-data-dir
-        image: "{{ busybox.container.public_image }}"
+        image: "{{ busybox.public_image | image_full_name }}"
         # Don't always pull : if the cluster goes down, pihole can't restart without registry and registry can't restart without pulling busybox
         imagePullPolicy: IfNotPresent
         command:
@@ -38,7 +38,7 @@ spec:
           mountPath: /var/lib/registry
       containers:
       - name: docker-registry
-        image: "{{ docker_registry.container.image }}"
+        image: "{{ docker_registry.base_image | image_full_name }}"
         # Don't always pull : if the cluster goes down, pihole can't restart without registry and registry can't restart without pulling busybox
         imagePullPolicy: IfNotPresent
         ports:

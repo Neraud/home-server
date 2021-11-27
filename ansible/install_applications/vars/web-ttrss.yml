@@ -14,6 +14,10 @@ ttrss:
 
   namespace: "{{ _ttrss_var_loader.namespace }}"
   base_image: "{{ _ttrss_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "ttrss-{{ _ttrss_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _ttrss_var_loader.commit }}-{{ _ttrss_var_loader.base_image.tag }}"
   commit: "{{ _ttrss_var_loader.commit }}"
 
   app_backup:
@@ -48,7 +52,6 @@ ttrss:
     app.kubernetes.io/part-of: ttrss
 
   container:
-    image: "{{ docker_private_registry.url }}/ttrss-{{ _ttrss_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _ttrss_var_loader.commit }}-{{ _ttrss_var_loader.base_image.tag }}"
     requests_cpu: "{{ ttrss_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ ttrss_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ ttrss_container_limits_cpu | default('250m') }}"
@@ -110,6 +113,10 @@ _ttrss_pgsql_var_loader:
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "tt-rss-{{ _ttrss_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _ttrss_pgsql_var_loader.base_image.tag }}"
 
   app_backup:
     name: web-ttrss_pgsql
@@ -131,7 +138,6 @@ ttrss_pgsql:
     app.kubernetes.io/part-of: ttrss
 
   container:
-    image: "{{ docker_private_registry.url }}/tt-rss-{{ _ttrss_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _ttrss_pgsql_var_loader.base_image.tag }}"
     requests_cpu: "{{ ttrss_pgsql_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ ttrss_pgsql_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ ttrss_pgsql_container_limits_cpu | default('250m') }}"

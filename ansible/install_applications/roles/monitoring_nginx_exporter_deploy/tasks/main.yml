@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ nginx_exporter.base_image }}"
-    private_image: "{{ nginx_exporter.container.image }}"
+    private_image: "{{ nginx_exporter.private_image }}"
 
 - name: Deploy nginx exporter
   kubernetes.core.k8s:

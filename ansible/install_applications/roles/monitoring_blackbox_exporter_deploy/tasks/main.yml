@@ -8,19 +8,19 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ blackbox_exporter.base_image }}"
-    private_image: "{{ blackbox_exporter.container.image }}"
+    private_image: "{{ blackbox_exporter.private_image }}"
 
 - name: Ensure blackbox exporter configmap_reload image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ blackbox_exporter_configmap_reload.base_image }}"
-    private_image: "{{ blackbox_exporter_configmap_reload.container.image }}"
+    private_image: "{{ blackbox_exporter_configmap_reload.private_image }}"
 
 - name: Ensure blackbox exporter rbac_proxy image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ blackbox_exporter_rbac_proxy.base_image }}"
-    private_image: "{{ blackbox_exporter_rbac_proxy.container.image }}"
+    private_image: "{{ blackbox_exporter_rbac_proxy.private_image }}"
 
 - name: Deploy blackbox exporter
   kubernetes.core.k8s:

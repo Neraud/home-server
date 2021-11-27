@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ intel_gpu_plugin.base_image }}"
-    private_image: "{{ intel_gpu_plugin.container.image }}"
+    private_image: "{{ intel_gpu_plugin.private_image }}"
 
 - name: Deploy Intel GPU Plugin
   kubernetes.core.k8s:

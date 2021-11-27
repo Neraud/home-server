@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ phpldapadmin.base_image }}"
-    private_image: "{{ phpldapadmin.container.image }}"
+    private_image: "{{ phpldapadmin.private_image }}"
     build: yes
     build_args:
       phpldapadmin_version: "{{ phpldapadmin.version }}"

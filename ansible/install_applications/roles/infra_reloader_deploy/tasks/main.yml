@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ reloader.base_image }}"
-    private_image: "{{ reloader.container.image }}"
+    private_image: "{{ reloader.private_image }}"
 
 - name: Deploy Reloader
   kubernetes.core.k8s:

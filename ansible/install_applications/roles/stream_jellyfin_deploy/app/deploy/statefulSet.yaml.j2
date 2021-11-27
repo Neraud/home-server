@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -36,7 +36,7 @@ spec:
         - name: jellyfin-pv-claim
           mountPath: /jellyfin
       - name: inject-conf
-        image: "{{ jellyfin.conf_injection_container.image }}"
+        image: "{{ jellyfin.conf_injection_private_image | image_full_name }}"
         imagePullPolicy: Always
         volumeMounts:
         - name: jellyfin-config
@@ -45,7 +45,7 @@ spec:
           mountPath: /config-target
           subPath: config
       - name: inject-certificate
-        image: "{{ jellyfin.conf_injection_container.image }}"
+        image: "{{ jellyfin.conf_injection_private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -60,7 +60,7 @@ spec:
         - name: tmp-cert-volume
           mountPath: /tmp-cert
       containers:
-      - image: "{{ jellyfin.container.image }}"
+      - image: "{{ jellyfin.private_image | image_full_name }}"
         name: jellyfin
         ports:
         - containerPort: 8096

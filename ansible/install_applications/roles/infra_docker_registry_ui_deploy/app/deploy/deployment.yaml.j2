@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: docker-registry-ui
-        image: "{{ docker_registry_ui.container.image }}"
+        image: "{{ docker_registry_ui.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 8000

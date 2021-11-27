@@ -8,13 +8,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
-    private_image: "{{ busybox.container.image }}"
+    private_image: "{{ busybox.private_image }}"
 
 - name: Ensure ZoneMTA image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ zonemta.base_image }}"
-    private_image: "{{ zonemta.container.image }}"
+    private_image: "{{ zonemta.private_image }}"
     build: yes
     build_args:
       ZONE_MTA_VERSION: "{{ zonemta.version }}"
@@ -23,13 +23,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ zonemta_mongo.base_image }}"
-    private_image: "{{ zonemta_mongo.container.image }}"
+    private_image: "{{ zonemta_mongo.private_image }}"
 
 - name: Ensure ZoneMTA Redis image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ zonemta_redis.base_image }}"
-    private_image: "{{ zonemta_redis.container.image }}"
+    private_image: "{{ zonemta_redis.private_image }}"
 
 - name: Read generated files
   ansible.builtin.slurp:

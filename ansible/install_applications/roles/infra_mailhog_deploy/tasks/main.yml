@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ mailhog.base_image }}"
-    private_image: "{{ mailhog.container.image }}"
+    private_image: "{{ mailhog.private_image }}"
 
 - name: Deploy MailHog
   kubernetes.core.k8s:

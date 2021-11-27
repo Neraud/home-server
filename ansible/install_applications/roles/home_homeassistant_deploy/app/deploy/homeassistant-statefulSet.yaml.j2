@@ -24,7 +24,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -51,7 +51,7 @@ spec:
           mountPath: /homeassistant-config-bootstrap
       containers:
       - name: homeassistant
-        image: "{{ homeassistant.container.image }}"
+        image: "{{ homeassistant.private_image | image_full_name }}"
         imagePullPolicy: Always        
         ports:
         - containerPort: 8123

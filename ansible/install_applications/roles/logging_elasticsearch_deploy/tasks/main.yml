@@ -8,19 +8,19 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
-    private_image: "{{ busybox.container.image }}"
+    private_image: "{{ busybox.private_image }}"
 
 - name: Ensure ElasticSearch image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ elasticsearch.base_image }}"
-    private_image: "{{ elasticsearch.container.image }}"
+    private_image: "{{ elasticsearch.private_image }}"
 
 - name: Ensure ElasticSearch Exporter image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ elasticsearch_exporter.base_image }}"
-    private_image: "{{ elasticsearch_exporter.container.image }}"
+    private_image: "{{ elasticsearch_exporter.private_image }}"
 
 - name: Read generated files
   ansible.builtin.slurp:

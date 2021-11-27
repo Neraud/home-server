@@ -12,6 +12,10 @@ nodered:
 
   namespace: "{{ _nodered_var_loader.namespace }}"
   base_image: "{{ _nodered_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _nodered_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _nodered_var_loader.base_image.tag }}-custom"
 
   app_backup:
     name: home-nodered
@@ -32,7 +36,6 @@ nodered:
     app.kubernetes.io/version: "{{ _nodered_var_loader.base_image.tag }}-custom"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _nodered_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _nodered_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ nodered_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ nodered_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ nodered_container_limits_cpu | default('200m') }}"

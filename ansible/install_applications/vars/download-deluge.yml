@@ -51,11 +51,16 @@ _deluge_base_var_loader:
 
 deluge_base:
   base_image: "{{ _deluge_base_var_loader.base_image }}"
-  private_image: "{{_deluge_base_var_loader.image.repo }}/{{_deluge_base_var_loader.image.name }}:{{_deluge_base_var_loader.image.tag }}"
-  image: "{{ _deluge_base_var_loader.image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{_deluge_base_var_loader.image.name }}"
+    tag: "{{_deluge_base_var_loader.image.tag }}"
 
 deluge_daemon:
-  base_image: "{{ deluge_base.image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "deluge-daemon"
+    tag: "{{ _deluge_base_var_loader.image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: deluge
@@ -64,7 +69,6 @@ deluge_daemon:
   labels_desc: "{{ deluge.labels_desc }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/deluge-daemon:{{ _deluge_base_var_loader.image.tag }}"
     requests_cpu: "{{ deluge_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ deluge_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ deluge_container_limits_cpu | default('500m') }}"
@@ -74,7 +78,10 @@ deluge_daemon:
   users: "{{ (deluge_daemon_users | default([])) + [ deluge.local_user, deluge_web.daemon_user ] }}"
 
 deluge_web:
-  base_image: "{{ deluge_base.image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "deluge-web"
+    tag: "{{ _deluge_base_var_loader.image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: deluge
@@ -83,7 +90,6 @@ deluge_web:
   labels_desc: "{{ deluge.labels_desc }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/deluge-web:{{ _deluge_base_var_loader.image.tag }}"
     requests_cpu: "{{ deluge_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ deluge_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ deluge_container_limits_cpu | default('250m') }}"

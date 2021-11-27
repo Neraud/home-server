@@ -25,7 +25,7 @@ spec:
         emptyDir: {}
       containers:
       - name: metrics-server
-        image: "{{ kubernetes_metrics_server.container.image }}"
+        image: "{{ kubernetes_metrics_server.private_image | image_full_name }}"
         imagePullPolicy: Always
         args:
         - --cert-dir=/tmp

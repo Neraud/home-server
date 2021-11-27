@@ -20,7 +20,7 @@ spec:
     spec:
       initContainers:
       - name: create-data-dir
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -35,7 +35,7 @@ spec:
           mountPath: /data-volume
       containers:
       - name: redis
-        image: "{{ zonemta_redis.container.image }}"
+        image: "{{ zonemta_redis.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
         - redis-server

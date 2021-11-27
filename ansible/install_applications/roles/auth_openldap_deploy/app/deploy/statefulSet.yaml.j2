@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: openldap
-        image: "{{ openldap.container.image }}"
+        image: "{{ openldap.private_image | image_full_name }}"
         imagePullPolicy: Always
         args: ["--copy-service"]
         volumeMounts:
