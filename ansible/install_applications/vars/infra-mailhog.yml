@@ -12,6 +12,10 @@ mailhog:
 
   namespace: "{{ _mailhog_var_loader.namespace }}"
   base_image: "{{ _mailhog_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _mailhog_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _mailhog_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: zonemta
@@ -22,7 +26,6 @@ mailhog:
     app.kubernetes.io/part-of: zonemta
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _mailhog_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _mailhog_var_loader.base_image.tag }}"
     requests_cpu: "{{ mailhog_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ mailhog_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ mailhog_container_limits_cpu | default('100m') }}"

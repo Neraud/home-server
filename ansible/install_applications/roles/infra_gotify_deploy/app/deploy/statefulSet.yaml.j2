@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-data-dir
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -39,7 +39,7 @@ spec:
           mountPath: /app/data
       containers:
       - name: gotify
-        image: "{{ gotify.container.image }}"
+        image: "{{ gotify.private_image | image_full_name }}"
         imagePullPolicy: Always        
         ports:
         - containerPort: 8080

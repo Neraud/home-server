@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: zonemta
-        image: "{{ zonemta.container.image }}"
+        image: "{{ zonemta.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
         - name: NODE_OPTIONS

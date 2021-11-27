@@ -9,6 +9,10 @@ release_watcher:
   enabled: "{{ release_watcher_enabled | default(True) }}"
 
   namespace: "monitoring-release-watcher"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "release-watcher"
+    tag: "{{ _release_watcher_var_loader.repo.version }}-custom"
 
   labels_def:
     app.kubernetes.io/name: release-watcher
@@ -18,7 +22,6 @@ release_watcher:
     app.kubernetes.io/version: "{{ _release_watcher_var_loader.repo.version }}-custom"
 
   container:
-    image: "{{ docker_private_registry.url }}/release-watcher:{{ _release_watcher_var_loader.repo.version }}-custom"
     requests_cpu: "{{ release_watcher_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ release_watcher_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ release_watcher_container_limits_cpu | default('100m') }}"

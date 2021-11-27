@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ docker_registry_ui.base_image }}"
-    private_image: "{{ docker_registry_ui.container.image }}"
+    private_image: "{{ docker_registry_ui.private_image }}"
 
 - name: Deploy Docker registry UI
   kubernetes.core.k8s:

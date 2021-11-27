@@ -11,6 +11,10 @@ kubernetes_dashboard:
 
   namespace: "infra-kubernetes-dashboard"
   base_image: "{{ _kubernetes_dashboard_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _kubernetes_dashboard_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _kubernetes_dashboard_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: kubernetes-dashboard
@@ -21,7 +25,6 @@ kubernetes_dashboard:
     app.kubernetes.io/part-of: kubernetes-dashboard
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _kubernetes_dashboard_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_var_loader.base_image.tag }}"
     requests_cpu: "{{ kubernetes_dashboard_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ kubernetes_dashboard_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ kubernetes_dashboard_container_limits_cpu | default('500m') }}"
@@ -38,6 +41,10 @@ _kubernetes_dashboard_metrics_scraper_var_loader:
 
 kubernetes_dashboard_metrics_scraper:
   base_image: "{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: kubernetes-dashboard
@@ -48,7 +55,6 @@ kubernetes_dashboard_metrics_scraper:
     app.kubernetes.io/part-of: kubernetes-dashboard
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _kubernetes_dashboard_metrics_scraper_var_loader.base_image.tag }}"
     requests_cpu: "{{ kubernetes_dashboard_metrics_scraper_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ kubernetes_dashboard_metrics_scraper_container_requests_memory | default('16Mi') }}"
     limits_cpu: "{{ kubernetes_dashboard_metrics_scraper_container_limits_cpu | default('250m') }}"

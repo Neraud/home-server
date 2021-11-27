@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ homer.base_image }}"
-    private_image: "{{ homer.container.image }}"
+    private_image: "{{ homer.private_image }}"
     build: yes
     build_args:
       homer_release: "{{ homer.release }}"

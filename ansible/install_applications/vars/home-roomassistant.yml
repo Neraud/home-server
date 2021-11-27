@@ -11,6 +11,10 @@ roomassistant:
 
   namespace: "home-roomassistant"
   base_image: "{{ _roomassistant_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _roomassistant_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _roomassistant_var_loader.base_image.tag }}-custom"
 
   labels_def:
     app.kubernetes.io/name: roomassistant
@@ -20,7 +24,6 @@ roomassistant:
     app.kubernetes.io/version: "{{ _roomassistant_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _roomassistant_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _roomassistant_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ roomassistant_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ roomassistant_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ roomassistant_container_limits_cpu | default('100m') }}"

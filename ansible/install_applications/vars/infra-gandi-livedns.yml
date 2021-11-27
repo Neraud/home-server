@@ -12,6 +12,10 @@ gandi_livedns:
 
   namespace: "infra-gandi-livedns"
   base_image: "{{ _gandi_livedns_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "gandi_livedns"
+    tag: "{{ _gandi_livedns_var_loader.version }}-{{ _gandi_livedns_var_loader.base_image.name | regex_replace('.*/', '') }}-{{ _gandi_livedns_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: gandi-livedns
@@ -21,7 +25,6 @@ gandi_livedns:
     app.kubernetes.io/version: "{{ _gandi_livedns_var_loader.version }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/gandi_livedns:{{ _gandi_livedns_var_loader.version }}-{{ _gandi_livedns_var_loader.base_image.name | regex_replace('.*/', '') }}-{{ _gandi_livedns_var_loader.base_image.tag }}"
     requests_cpu: "{{ docker_registry_ui_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ docker_registry_ui_container_requests_memory | default('16Mi') }}"
     limits_cpu: "{{ docker_registry_ui_container_limits_cpu | default('50m') }}"

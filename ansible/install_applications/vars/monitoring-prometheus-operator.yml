@@ -10,6 +10,10 @@ prometheus_operator:
   enabled: "{{ prometheus_operator_enabled | default(True) }}"
 
   base_image: "{{ _prometheus_operator_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _prometheus_operator_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _prometheus_operator_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: prometheus-operator
@@ -20,7 +24,6 @@ prometheus_operator:
     app.kubernetes.io/part-of: prometheus
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _prometheus_operator_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('100Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('50m') }}"
@@ -39,8 +42,11 @@ _prometheus_operator_rbac_proxy_var_loader:
 
 prometheus_operator_rbac_proxy:
   base_image: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image.tag }}"
   container:
-    image: "{{ docker_private_registry.url }}/{{ _prometheus_operator_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_operator_rbac_proxy_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('10m') }}"
     requests_memory: "{{ prometheus_operator_container_requests_memory | default('20Mi') }}"
     limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('20m') }}"
@@ -59,6 +65,10 @@ prometheus:
 
   namespace: "{{ _prometheus_var_loader.namespace }}"
   base_image: "{{ _prometheus_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _prometheus_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _prometheus_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: prometheus
@@ -70,7 +80,6 @@ prometheus:
     app.kubernetes.io/part-of: prometheus
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _prometheus_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _prometheus_var_loader.base_image.tag }}"
     requests_cpu: "{{ prometheus_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ prometheus_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('400m') }}"
@@ -88,6 +97,10 @@ _alertmanager_var_loader:
 
 alertmanager:
   base_image: "{{ _alertmanager_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _alertmanager_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _alertmanager_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: alertmanager
@@ -99,7 +112,6 @@ alertmanager:
     app.kubernetes.io/part-of: prometheus
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _alertmanager_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _alertmanager_var_loader.base_image.tag }}"
     requests_cpu: "{{ alertmanager_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ alertmanager_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ alertmanager_container_limits_cpu | default('50m') }}"

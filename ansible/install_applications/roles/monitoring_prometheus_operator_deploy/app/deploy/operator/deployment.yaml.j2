@@ -27,7 +27,7 @@ spec:
         - --config-reloader-cpu-limit={{ prometheus_operator.container.config_reloader_limits_cpu }}
         - --config-reloader-memory-limit={{ prometheus_operator.container.config_reloader_limits_memory }}
         - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:{{ prometheus_operator.base_image.tag }}
-        image: "{{ prometheus_operator.container.image }}"
+        image: "{{ prometheus_operator.private_image | image_full_name }}"
         imagePullPolicy: Always
         name: prometheus-operator
         ports:
@@ -55,7 +55,7 @@ spec:
         - --secure-listen-address=:8443
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:8080/
-        image: {{ prometheus_operator_rbac_proxy.container.image }}
+        image: {{ prometheus_operator_rbac_proxy.private_image | image_full_name }}
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443

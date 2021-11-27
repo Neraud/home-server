@@ -11,6 +11,10 @@ blackbox_exporter:
 
   namespace: "monitoring-blackbox-exporter"
   base_image: "{{ _blackbox_exporter_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _blackbox_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _blackbox_exporter_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: blackbox-exporter
@@ -20,7 +24,6 @@ blackbox_exporter:
     app.kubernetes.io/version: "{{ _blackbox_exporter_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _blackbox_exporter_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _blackbox_exporter_var_loader.base_image.tag }}"
     requests_cpu: "{{ blackbox_exporter_container_requests_cpu | default('10m') }}"
     requests_memory: "{{ blackbox_exporter_container_requests_memory | default('20Mi') }}"
     limits_cpu: "{{ blackbox_exporter_container_limits_cpu | default('20m') }}"
@@ -41,8 +44,11 @@ _blackbox_exporter_configmap_reload_var_loader:
 
 blackbox_exporter_configmap_reload:
   base_image: "{{ _blackbox_exporter_configmap_reload_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _blackbox_exporter_configmap_reload_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _blackbox_exporter_configmap_reload_var_loader.base_image.tag }}"
   container:
-    image: "{{ docker_private_registry.url }}/{{ _blackbox_exporter_configmap_reload_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _blackbox_exporter_configmap_reload_var_loader.base_image.tag }}"
     requests_cpu: "{{ blackbox_exporter_configmap_reload_container_requests_cpu | default('10m') }}"
     requests_memory: "{{ blackbox_exporter_configmap_reload_container_requests_memory | default('20Mi') }}"
     limits_cpu: "{{ blackbox_exporter_configmap_reload_container_limits_cpu | default('20m') }}"
@@ -57,8 +63,11 @@ _blackbox_exporter_rbac_proxy_var_loader:
 
 blackbox_exporter_rbac_proxy:
   base_image: "{{ _blackbox_exporter_rbac_proxy_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _blackbox_exporter_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _blackbox_exporter_rbac_proxy_var_loader.base_image.tag }}"
   container:
-    image: "{{ docker_private_registry.url }}/{{ _blackbox_exporter_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _blackbox_exporter_rbac_proxy_var_loader.base_image.tag }}"
     requests_cpu: "{{ blackbox_exporter_rbac_proxy_container_requests_cpu | default('10m') }}"
     requests_memory: "{{ blackbox_exporter_rbac_proxy_container_requests_memory | default('20Mi') }}"
     limits_cpu: "{{ blackbox_exporter_rbac_proxy_container_limits_cpu | default('20m') }}"

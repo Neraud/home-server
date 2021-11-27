@@ -8,13 +8,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ node_exporter.base_image }}"
-    private_image: "{{ node_exporter.container.image }}"
+    private_image: "{{ node_exporter.private_image }}"
 
 - name: Ensure node exporter rbac_proxy image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ node_exporter_rbac_proxy.base_image }}"
-    private_image: "{{ node_exporter_rbac_proxy.container.image }}"
+    private_image: "{{ node_exporter_rbac_proxy.private_image }}"
 
 - name: Deploy node exporter
   kubernetes.core.k8s:

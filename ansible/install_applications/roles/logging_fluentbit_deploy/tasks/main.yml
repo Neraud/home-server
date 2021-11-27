@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ fluentbit.base_image }}"
-    private_image: "{{ fluentbit.container.image }}"
+    private_image: "{{ fluentbit.private_image }}"
 
 - name: Read certificate files
   ansible.builtin.slurp:

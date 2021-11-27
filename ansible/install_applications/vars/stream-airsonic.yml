@@ -12,6 +12,10 @@ airsonic:
 
   namespace: "{{ _airsonic_var_loader.namespace }}"
   base_image: "{{ _airsonic_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _airsonic_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _airsonic_var_loader.base_image.tag }}"
 
   app_backup:
     name: stream-airsonic
@@ -33,7 +37,6 @@ airsonic:
     app.kubernetes.io/version: "{{ _airsonic_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _airsonic_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _airsonic_var_loader.base_image.tag }}"
     requests_cpu: "{{ airsonic_container_requests_cpu | default('200m') }}"
     requests_memory: "{{ airsonic_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ airsonic_container_limits_cpu | default('1000m') }}"

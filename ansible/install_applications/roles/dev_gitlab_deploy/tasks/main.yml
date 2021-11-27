@@ -14,7 +14,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ gitlab.base_image }}"
-    private_image: "{{ gitlab.container.image }}"
+    private_image: "{{ gitlab.private_image }}"
 
 - name: Deploy Gitlab
   kubernetes.core.k8s:

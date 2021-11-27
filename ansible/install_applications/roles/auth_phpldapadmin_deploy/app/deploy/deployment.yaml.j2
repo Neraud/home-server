@@ -22,7 +22,7 @@ spec:
         {{ phpldapadmin.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       containers:
-      - image: "{{ phpldapadmin.container.image }}"
+      - image: "{{ phpldapadmin.private_image | image_full_name }}"
         imagePullPolicy: Always
         name: phpldapadmin
         ports:

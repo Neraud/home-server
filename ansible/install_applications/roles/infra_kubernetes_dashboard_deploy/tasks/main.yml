@@ -8,13 +8,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ kubernetes_dashboard.base_image }}"
-    private_image: "{{ kubernetes_dashboard.container.image }}"
+    private_image: "{{ kubernetes_dashboard.private_image }}"
 
 - name: Ensure Kubernetes dashboard metrics scraper image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ kubernetes_dashboard_metrics_scraper.base_image }}"
-    private_image: "{{ kubernetes_dashboard_metrics_scraper.container.image }}"
+    private_image: "{{ kubernetes_dashboard_metrics_scraper.private_image }}"
 
 # TODO : kubernetes-dashboard-csrf is always changed, its resourceVersion is incremented each time we deploy
 - name: Deploy Kubernetes dashboard

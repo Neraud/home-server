@@ -14,7 +14,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ openldap.base_image }}"
-    private_image: "{{ openldap.container.image }}"
+    private_image: "{{ openldap.private_image }}"
 
 - name: Read certificate files
   ansible.builtin.slurp:

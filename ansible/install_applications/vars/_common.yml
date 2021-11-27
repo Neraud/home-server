@@ -15,12 +15,19 @@ _busybox_var_loader:
 
 busybox:
   base_image: "{{ _busybox_var_loader.base_image }}"
-  container:
-    # Our docker registry statefulset uses busybox for initContainer, it can't pull it from itself
-    public_image: "{{ _busybox_var_loader.base_image.repo }}/{{ _busybox_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _busybox_var_loader.base_image.tag }}"
-    image: "{{ docker_private_registry.url }}/{{ _busybox_var_loader.base_image.name }}:{{ _busybox_var_loader.base_image.tag }}"
+  # Our docker registry statefulset uses busybox for initContainer, it can't pull it from itself
+  public_image:
+    repo: "{{ _busybox_var_loader.base_image.repo }}"
+    name: "{{ _busybox_var_loader.base_image.name }}"
+    tag: "{{ _busybox_var_loader.base_image.tag }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _busybox_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _busybox_var_loader.base_image.tag }}"
 
 docker_private_registry:
-  url: "{{ docker_registry.url }}"
+  url: "{{ docker_registry.domain }}"
+  api_url: https://{{ docker_registry.domain }}
+  ca_path: "/etc/containers/certs.d/{{ docker_registry.domain }}/ca.crt"
   username: "{{ docker_registry_kube_registry_username }}"
   password: "{{ docker_registry_kube_registry_password }}"

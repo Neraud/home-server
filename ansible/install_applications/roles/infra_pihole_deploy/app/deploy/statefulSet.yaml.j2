@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: inject-conf
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -39,7 +39,7 @@ spec:
           subPath: pihole-FTL.conf
       containers:
       - name: pihole
-        image: "{{ pihole.container.image }}"
+        image: "{{ pihole.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
           - name: http

@@ -13,6 +13,10 @@ phpldapadmin:
 
   namespace: "auth-phpldapadmin"
   base_image: "{{ _phpldapadmin_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "phpldapadmin-{{ _phpldapadmin_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _phpldapadmin_var_loader.version }}-{{ _phpldapadmin_var_loader.base_image.tag }}"
   version: "{{ _phpldapadmin_var_loader.version }}"
 
   labels_def:
@@ -23,7 +27,6 @@ phpldapadmin:
     app.kubernetes.io/version: "{{ _phpldapadmin_var_loader.version }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/phpldapadmin-{{ _phpldapadmin_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _phpldapadmin_var_loader.version }}-{{ _phpldapadmin_var_loader.base_image.tag }}"
     requests_cpu: "{{ phpldapadmin_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ phpldapadmin_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ phpldapadmin_container_limits_cpu | default('250m') }}"

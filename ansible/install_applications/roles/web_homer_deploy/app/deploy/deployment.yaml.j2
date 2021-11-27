@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: homer
-        image: "{{ homer.container.image }}"
+        image: "{{ homer.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -35,7 +35,7 @@ spec:
           mountPath: /opt/deluge
       containers:
       - name: deluge-daemon
-        image: "{{ deluge_daemon.container.image }}"
+        image: "{{ deluge_daemon.private_image | image_full_name }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 58846

@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ apcups_exporter.base_image }}"
-    private_image: "{{ apcups_exporter.container.image }}"
+    private_image: "{{ apcups_exporter.private_image }}"
     build: yes
     build_args:
       from_image_build: "{% if apcups_exporter.base_image_build.repo is defined %}{{ apcups_exporter.base_image_build.repo }}/{% endif %}{{ apcups_exporter.base_image_build.name }}:{{ apcups_exporter.base_image_build.tag }}"

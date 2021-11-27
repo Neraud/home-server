@@ -14,13 +14,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
-    private_image: "{{ busybox.container.image }}"
+    private_image: "{{ busybox.private_image }}"
 
 - name: Ensure LemonLDAP image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ lemonldap.base_image }}"
-    private_image: "{{ lemonldap.container.image }}"
+    private_image: "{{ lemonldap.private_image }}"
     build: yes
 
 - name: Deploy LemonLDAP

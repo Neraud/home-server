@@ -11,6 +11,10 @@ reloader:
 
   namespace: "infra-reloader"
   base_image: "{{ _reloader_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _reloader_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _reloader_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: reloader
@@ -20,7 +24,6 @@ reloader:
     app.kubernetes.io/version: "{{ _reloader_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _reloader_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _reloader_var_loader.base_image.tag }}"
     requests_cpu: "{{ reloader_container_requests_cpu | default('10m') }}"
     requests_memory: "{{ reloader_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ reloader_container_limits_cpu | default('50m') }}"

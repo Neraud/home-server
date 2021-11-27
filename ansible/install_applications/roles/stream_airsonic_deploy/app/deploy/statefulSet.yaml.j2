@@ -22,7 +22,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         command:
           - "sh"
           - "-c"
@@ -33,7 +33,7 @@ spec:
         - name: airsonic-data-pv-claim
           mountPath: /airsonic
       - name: inject-properties
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000
@@ -45,7 +45,7 @@ spec:
         - name: airsonic-config
           mountPath: /config
       - name: inject-certificates
-        image: "{{ airsonic.container.image }}"
+        image: "{{ airsonic.private_image | image_full_name }}"
         command:
           - "sh"
           - "-c"
@@ -63,7 +63,7 @@ spec:
           subPath: ca.crt
       containers:
       - name: airsonic
-        image: "{{ airsonic.container.image }}"
+        image: "{{ airsonic.private_image | image_full_name }}"
         imagePullPolicy: Always        
         ports:
         - containerPort: 4040

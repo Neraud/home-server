@@ -15,13 +15,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
-    private_image: "{{ busybox.container.image }}"
+    private_image: "{{ busybox.private_image }}"
 
 - name: Ensure Airsonic image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ airsonic.base_image }}"
-    private_image: "{{ airsonic.container.image }}"
+    private_image: "{{ airsonic.private_image }}"
 
 - name: List config files
   ansible.builtin.set_fact:

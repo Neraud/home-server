@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ pihole_exporter.base_image }}"
-    private_image: "{{ pihole_exporter.container.image }}"
+    private_image: "{{ pihole_exporter.private_image }}"
 
 - name: Fetch API token from pihole
   ansible.builtin.command: kubectl {{ kubectl_params }} \

@@ -15,6 +15,10 @@ zonemta:
 
   namespace: "{{ _zonemta_var_loader.namespace }}"
   base_image: "{{ _zonemta_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "zonemta"
+    tag: "node-{{ _zonemta_var_loader.base_image.tag }}-{{ _zonemta_var_loader.version }}-custom"
   version: "{{ _zonemta_var_loader.version }}"
   repo:
     name: "zone-eu/zone-mta"
@@ -29,7 +33,6 @@ zonemta:
     app.kubernetes.io/part-of: zonemta
 
   container:
-    image: "{{ docker_private_registry.url }}/zonemta:node-{{ _zonemta_var_loader.base_image.tag }}-{{ _zonemta_var_loader.version }}-custom"
     requests_cpu: "{{ zonemta_container_requests_cpu | default('25m') }}"
     # ZoneMTA runs multiple node processes, be sure to have at least 5 times 'max-old-space-size' (set in nodejs_max_memory), and more if you use more processes
     requests_memory: "{{ zonemta_container_requests_memory | default('160Mi') }}"
@@ -61,6 +64,10 @@ _zonemta_mongo_var_loader:
 
 zonemta_mongo:
   base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "zonemta-{{ _zonemta_mongo_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _zonemta_mongo_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: zonemta
@@ -71,7 +78,6 @@ zonemta_mongo:
     app.kubernetes.io/part-of: zonemta
 
   container:
-    image: "{{ docker_private_registry.url }}/zonemta-{{ _zonemta_mongo_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _zonemta_mongo_var_loader.base_image.tag }}"
     requests_cpu: "{{ zonemta_mongo_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ zonemta_mongo_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ zonemta_mongo_container_limits_cpu | default('100m') }}"
@@ -92,6 +98,10 @@ _zonemta_redis_var_loader:
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "zonemta-{{ _zonemta_redis_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _zonemta_redis_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: zonemta
@@ -102,7 +112,6 @@ zonemta_redis:
     app.kubernetes.io/part-of: zonemta
 
   container:
-    image: "{{ docker_private_registry.url }}/zonemta-{{ _zonemta_redis_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _zonemta_redis_var_loader.base_image.tag }}"
     requests_cpu: "{{ zonemta_redis_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ zonemta_redis_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ zonemta_redis_container_limits_cpu | default('75m') }}"

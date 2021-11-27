@@ -8,7 +8,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ kubernetes_metrics_server.base_image }}"
-    private_image: "{{ kubernetes_metrics_server.container.image }}"
+    private_image: "{{ kubernetes_metrics_server.private_image }}"
 
 - name: Deploy Kubernetes metrics server
   kubernetes.core.k8s:

@@ -14,6 +14,10 @@ zwavejs2mqtt:
 
   namespace: "{{ _zwavejs2mqtt_var_loader.namespace }}"
   base_image: "{{ _zwavejs2mqtt_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _zwavejs2mqtt_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _zwavejs2mqtt_var_loader.base_image.tag }}-custom"
 
   app_backup:
     name: home-zwavejs2mqtt
@@ -34,7 +38,6 @@ zwavejs2mqtt:
     app.kubernetes.io/version: "{{ _zwavejs2mqtt_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _zwavejs2mqtt_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _zwavejs2mqtt_var_loader.base_image.tag }}-custom"
     requests_cpu: "{{ zwavejs2mqtt_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ zwavejs2mqtt_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ zwavejs2mqtt_container_limits_cpu | default('100m') }}"

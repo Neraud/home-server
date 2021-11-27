@@ -19,6 +19,10 @@ apcups_exporter:
   namespace: "monitoring-apcups-exporter"
   base_image: "{{ _apcups_exporter_var_loader.base_image }}"
   base_image_build: "{{ _apcups_exporter_var_loader.base_image_build }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "apcups-exporter"
+    tag: "{{ _apcups_exporter_var_loader.repo.version }}-custom"
 
   labels_def:
     app.kubernetes.io/name: apcups-exporter
@@ -28,7 +32,6 @@ apcups_exporter:
     app.kubernetes.io/version: "{{ _apcups_exporter_var_loader.repo.version }}-custom"
 
   container:
-    image: "{{ docker_private_registry.url }}/apcups-exporter:{{ _apcups_exporter_var_loader.repo.version }}-custom"
     requests_cpu: "{{ apcups_exporter_container_requests_cpu | default('20m') }}"
     requests_memory: "{{ apcups_exporter_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ apcups_exporter_container_limits_cpu | default('100m') }}"

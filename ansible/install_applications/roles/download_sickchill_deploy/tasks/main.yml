@@ -15,13 +15,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ busybox.base_image }}"
-    private_image: "{{ busybox.container.image }}"
+    private_image: "{{ busybox.private_image }}"
 
 - name: Ensure Sickchill image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ sickchill.base_image }}"
-    private_image: "{{ sickchill.container.image }}"
+    private_image: "{{ sickchill.private_image }}"
     build: yes
     build_args:
       sickchill_version: "{{ sickchill.version }}"

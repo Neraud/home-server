@@ -12,6 +12,10 @@ mosquitto:
 
   namespace: "{{ _mosquitto_var_loader.namespace }}"
   base_image: "{{ _mosquitto_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _mosquitto_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _mosquitto_var_loader.base_image.tag }}"
   servername: "mosquitto.{{ _mosquitto_var_loader.namespace }}.svc.cluster.local"
 
   app_backup:
@@ -33,7 +37,6 @@ mosquitto:
     app.kubernetes.io/version: "{{ _mosquitto_var_loader.base_image.tag }}"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _mosquitto_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _mosquitto_var_loader.base_image.tag }}"
     requests_cpu: "{{ mosquitto_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ mosquitto_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ mosquitto_container_limits_cpu | default('100m') }}"

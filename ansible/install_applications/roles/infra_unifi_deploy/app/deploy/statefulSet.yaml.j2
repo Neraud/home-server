@@ -20,7 +20,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.container.image }}"
+        image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -33,7 +33,7 @@ spec:
         - name: unifi-pv-claim
           mountPath: /unifi
       - name: inject-certificates
-        image: "{{ unifi.container.image }}"
+        image: "{{ unifi.private_image | image_full_name }}"
         command:
           - "sh"
           - "-c"
@@ -51,7 +51,7 @@ spec:
           subPath: ca.crt
       containers:
       - name: unifi
-        image: "{{ unifi.container.image }}"
+        image: "{{ unifi.private_image | image_full_name }}"
         imagePullPolicy: Always        
         ports:
         # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used

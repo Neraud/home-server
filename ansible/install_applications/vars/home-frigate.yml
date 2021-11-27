@@ -12,6 +12,10 @@ frigate:
 
   namespace: "{{ _frigate_var_loader.namespace }}"
   base_image: "{{ _frigate_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _frigate_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _frigate_var_loader.base_image.tag }}"
 
   app_backup:
     name: home-frigate
@@ -32,7 +36,6 @@ frigate:
     app.kubernetes.io/version: "{{ _frigate_var_loader.base_image.tag }}-custom"
 
   container:
-    image: "{{ docker_private_registry.url }}/{{ _frigate_var_loader.base_image.name | regex_replace('.*/', '') }}:{{ _frigate_var_loader.base_image.tag }}"
     requests_cpu: "{{ frigate_container_requests_cpu | default('100m') }}"
     requests_memory: "{{ frigate_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ frigate_container_limits_cpu | default('250m') }}"

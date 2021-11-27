@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: intel-gpu-plugin
-        image: "{{ intel_gpu_plugin.container.image }}"
+        image: "{{ intel_gpu_plugin.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
           - name: NODE_NAME

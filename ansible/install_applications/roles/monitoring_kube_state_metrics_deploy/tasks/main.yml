@@ -8,13 +8,13 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ kube_state_metrics.base_image }}"
-    private_image: "{{ kube_state_metrics.container.image }}"
+    private_image: "{{ kube_state_metrics.private_image }}"
 
 - name: Ensure Kube State metrics rbac_proxy image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ kube_state_metrics_rbac_proxy.base_image }}"
-    private_image: "{{ kube_state_metrics_rbac_proxy.container.image }}"
+    private_image: "{{ kube_state_metrics_rbac_proxy.private_image }}"
 
 - name: Deploy Kube State metrics
   kubernetes.core.k8s:

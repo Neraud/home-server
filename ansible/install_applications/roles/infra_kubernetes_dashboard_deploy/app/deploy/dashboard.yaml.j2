@@ -200,7 +200,7 @@ spec:
     spec:
       containers:
         - name: kubernetes-dashboard
-          image: "{{ kubernetes_dashboard.container.image }}"
+          image: "{{ kubernetes_dashboard.private_image | image_full_name }}"
           imagePullPolicy: Always
           ports:
             - name: https
@@ -304,7 +304,7 @@ spec:
     spec:
       containers:
         - name: dashboard-metrics-scraper
-          image: "{{ kubernetes_dashboard_metrics_scraper.container.image }}"
+          image: "{{ kubernetes_dashboard_metrics_scraper.private_image | image_full_name }}"
           imagePullPolicy: Always
           ports:
             - name: http
