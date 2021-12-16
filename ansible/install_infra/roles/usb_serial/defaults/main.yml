@@ -27,3 +27,14 @@
 #    mode: 777
 #    host: 127.0.0.1
 #    port: 3333
+
+# Install custom packages instead of the default ones
+# You need to manually build them first, see helper/debian-backports for more information
+#ser2net_custom_packages_root: /opt/provision/helpers/debian-backports/_out
+#ser2net_custom_packages:
+# - name: libgensio0
+#   version: 2.3.5-1~bpo11+1
+#   deb: libgensio0_2.3.5-1~bpo11+1_amd64.deb
+# - name: ser2net
+#   version: 4.3.4-2~bpo11+1
+#   deb: ser2net_4.3.4-2~bpo11+1_amd64.deb

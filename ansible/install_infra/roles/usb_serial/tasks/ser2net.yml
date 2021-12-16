@@ -11,10 +11,38 @@
         ports: "{{ serial_exposed_devices | map(attribute='port') | join(',') }}/tcp"
         rule: allow
 
-- name: Install ser2net
+- name: Install ser2net (from debian standard repositories)
   ansible.builtin.apt:
     pkg: ser2net
     state: present
+  when: ser2net_custom_packages | default([]) | length == 0
+
+- name: Install ser2net (from custom backports)
+  block:
+    - name: Gather the package facts
+      ansible.builtin.package_facts:
+        manager: auto
+
+    - name: Extract current versions
+      ansible.builtin.set_fact:
+        ser2net_current_packages: "{{ ser2net_current_packages | default({}) | combine({item.name: ansible_facts.packages[item.name] | default([]) | map(attribute='version')}) }}"
+      loop: "{{ ser2net_custom_packages }}"
+      
+    - name: Copy packages from controller
+      ansible.builtin.copy:
+        src: "{{ ser2net_custom_packages_root }}/{{ item.deb }}"
+        dest: /tmp/
+        mode: 0600
+      loop: "{{ ser2net_custom_packages }}"
+      when: item.version not in ser2net_current_packages[item.name]
+
+    - name: Install packages
+      ansible.builtin.apt:
+        deb: "/tmp/{{ item.deb }}"
+      loop: "{{ ser2net_custom_packages }}"
+      when: item.version not in ser2net_current_packages[item.name]
+      
+  when: ser2net_custom_packages | default([]) | length > 0
 
 - name: Configure ser2net
   ansible.builtin.template:
