@@ -1,0 +1,5 @@
+---
+- name: Provision home-zigbee2mqtt
+  hosts: controller
+  roles:
+  - role: home-zigbee2mqtt.deploy

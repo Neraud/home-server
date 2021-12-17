@@ -155,6 +155,10 @@
   tags: kubernetes-app-home-zwavejs2mqtt
   when: zwavejs2mqtt_enabled | bool
 
+- import_playbook: app-home-zigbee2mqtt.yml
+  tags: kubernetes-app-home-zigbee2mqtt
+  when: zigbee2mqtt_enabled | bool
+
 - import_playbook: app-home-frigate.yml
   tags: kubernetes-app-home-frigate
   when: frigate_enabled | bool

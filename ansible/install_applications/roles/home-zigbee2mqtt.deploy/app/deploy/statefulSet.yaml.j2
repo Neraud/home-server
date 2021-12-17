@@ -1,0 +1,130 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zigbee2mqtt
+  namespace: {{ zigbee2mqtt.namespace }}
+  labels:
+    {{ zigbee2mqtt.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zigbee2mqtt.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ zigbee2mqtt.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ zigbee2mqtt.labels_def | to_nice_yaml() | indent(8) }}
+        {{ zigbee2mqtt.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /app/data
+            chown 1000:1000 /app/data
+        volumeMounts:
+        - name: zigbee2mqtt-config
+          mountPath: /app_ref/data/configuration.yaml
+          subPath: configuration.yaml
+        - name: zigbee2mqtt-pv-claim
+          mountPath: /app
+      containers:
+      - name: zigbee2mqtt
+        image: "{{ zigbee2mqtt.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: ZIGBEE2MQTT_CONFIG_HOMEASSISTANT 
+          value: "true"
+        - name: ZIGBEE2MQTT_CONFIG_MQTT_SERVER
+          value: "mqtts://{{ zigbee2mqtt.mqtt.servername }}:{{ zigbee2mqtt.mqtt.port }}"
+        - name: ZIGBEE2MQTT_CONFIG_MQTT_CA
+          value: "/etc/ssl/cluster/ca.cert"
+        - name: ZIGBEE2MQTT_CONFIG_MQTT_USER
+          valueFrom:
+            secretKeyRef:
+              name: zigbee2mqtt-secret
+              key: mqtt_username
+        - name: ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: zigbee2mqtt-secret
+              key: mqtt_password
+        - name: ZIGBEE2MQTT_CONFIG_SERIAL_PORT
+          value: "{{ zigbee2mqtt.serial_device }}"
+        - name: ZIGBEE2MQTT_CONFIG_PERMIT_JOIN
+          value: "false"
+        # Optional: Logging level, options: debug, info, warn, error (default: info)
+        - name: ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL
+          value: "info"
+        - name: ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT
+          value: '["console"]'
+        - name: ZIGBEE2MQTT_CONFIG_ADVANCED_NETWORK_KEY
+          value: '[ {{ zigbee2mqtt.network_key }} ]'
+        - name: ZIGBEE2MQTT_CONFIG_FRONTEND_PORT
+          value: "8080"
+        - name: ZIGBEE2MQTT_CONFIG_FRONTEND_URL
+          value: "https://zigbee2mqtt.home.intra.{{ web_base_domain }}{{ zigbee2mqtt.context_root }}"
+        ports:
+        - containerPort: 8080
+          name: http
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ zigbee2mqtt.container.requests_cpu }}"
+            memory: "{{ zigbee2mqtt.container.requests_memory }}"
+          limits:
+            cpu: "{{ zigbee2mqtt.container.limits_cpu }}"
+            memory: "{{ zigbee2mqtt.container.limits_memory }}"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # node
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: zigbee2mqtt-pv-claim
+          mountPath: /app/data
+          subPath: data
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.cert
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: zigbee2mqtt-config
+        secret:
+          secretName: zigbee2mqtt-secret
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: zigbee2mqtt-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          {{ zigbee2mqtt.labels_def | to_nice_yaml() | indent(10) }}

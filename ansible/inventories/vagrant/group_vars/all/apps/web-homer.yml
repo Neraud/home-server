@@ -55,6 +55,8 @@ homer_images_to_download:
     source: https://esphome.io/_images/logo.svg
   - name: zwavejs2mqtt.png
     source: https://raw.githubusercontent.com/zwave-js/zwavejs2mqtt/master/static/logo.png
+  - name: zigbee2mqtt.png
+    source: https://raw.githubusercontent.com/Koenkk/zigbee2mqtt/master/images/logo.png
   - name: frigate.svg
     source: https://blakeblackshear.github.io/frigate/img/logo.svg
 
@@ -181,6 +183,11 @@ homer_config_services:
         logo: "assets/download/zwavejs2mqtt.png"
         url: "https://zwavejs2mqtt.home.intra.{{ web_base_domain }}{{ zwavejs2mqtt.context_root }}"
         subtitle: "Fully configurable Zwave to MQTT Gateway and Control Panel"
+        target: "_blank"
+      - name: "Zigbee2MQTT"
+        logo: "assets/download/zigbee2mqtt.png"
+        url: "https://zigbee2mqtt.home.intra.{{ web_base_domain }}{{ zigbee2mqtt.context_root }}"
+        subtitle: "Zigbee to MQTT bridge, get rid of your proprietary Zigbee bridges"
         target: "_blank"
       - name: "Frigate"
         logo: "assets/download/frigate.svg"

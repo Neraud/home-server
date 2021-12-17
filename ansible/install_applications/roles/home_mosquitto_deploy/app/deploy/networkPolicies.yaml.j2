@@ -48,6 +48,14 @@ spec:
             matchLabels:
               {{ roomassistant.labels_def | to_nice_yaml() | indent(14) }}
 
+        # Allow from zigbee2mqtt
+        - namespaceSelector:
+            matchLabels:
+              name: {{ zigbee2mqtt.namespace }}
+          podSelector:
+            matchLabels:
+              {{ zigbee2mqtt.labels_def | to_nice_yaml() | indent(14) }}
+
         # Allow from frigate
         - namespaceSelector:
             matchLabels:
