@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zigbee2mqtt
+  namespace: {{ zigbee2mqtt.namespace }}
+  labels:
+    {{ zigbee2mqtt.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zigbee2mqtt.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+{% if zigbee2mqtt.context_root != "" %}
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+{% endif %}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - zigbee2mqtt.home.intra.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: zigbee2mqtt.home.intra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: {{ '/' if zigbee2mqtt.context_root == '' else zigbee2mqtt.context_root + '/?(.*)' }}
+        pathType: Prefix
+        backend:
+          service:
+            name: zigbee2mqtt
+            port:
+              name: http

@@ -1,0 +1,7 @@
+---
+zigbee2mqtt_mqtt_user: user
+zigbee2mqtt_mqtt_password: Passw0rd
+
+# define mandatory variables to avoid issues with helpers/release-watcher
+zigbee2mqtt_serial_device: ""
+zigbee2mqtt_network_key: ""
