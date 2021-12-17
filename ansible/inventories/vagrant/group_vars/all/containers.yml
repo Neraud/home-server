@@ -10,3 +10,5 @@ containers_auth_repositories:
   - url: registry.intra.{{ web_base_domain }}
     username: "{{ private_registry_username }}"
     password: "{{ private_registry_password }}"
+
+docker_private_registry_ca_path: "/etc/containers/certs.d/{{ docker_registry.domain }}/ca.crt"

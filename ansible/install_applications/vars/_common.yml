@@ -28,6 +28,6 @@ busybox:
 docker_private_registry:
   url: "{{ docker_registry.domain }}"
   api_url: https://{{ docker_registry.domain }}
-  ca_path: "/etc/containers/certs.d/{{ docker_registry.domain }}/ca.crt"
+  ca_path: "{{ docker_private_registry_ca_path | default('') }}"
   username: "{{ docker_registry_kube_registry_username }}"
   password: "{{ docker_registry_kube_registry_password }}"
