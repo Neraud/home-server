@@ -3,8 +3,8 @@
 _elasticsearch_var_loader:
   base_image:
     repo: "docker.io"
-    name: "amazon/opendistro-for-elasticsearch"
-    tag: "1.13.2"
+    name: "opensearchproject/opensearch"
+    tag: "1.2.3"
   namespace: "logging-elasticsearch"
   cluster_name: k8s-logs
 
@@ -46,7 +46,7 @@ elasticsearch:
     delete_age: "{{ elasticsearch_logstash_policy_delete_age | default('7d') }}"
 
   # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
-  # We probably need to run /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh inside the container
+  # We probably need to run /usr/share/opensearch/plugins/opensearch-security/tools/securityadmin.sh inside the container
   internal_users: "{{ elasticsearch_internal_users | default([]) }}"
 
   admin_user:

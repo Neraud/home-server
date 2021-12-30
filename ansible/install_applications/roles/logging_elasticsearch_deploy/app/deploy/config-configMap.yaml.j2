@@ -7,5 +7,5 @@ metadata:
     {{ elasticsearch.labels_def | to_nice_yaml() | indent(4) }}
     {{ elasticsearch.labels_desc | to_nice_yaml() | indent(4) }}
 data:
-  elasticsearch.yml: |
-    {{ lookup('template', role_path + '/app/config/elasticsearch.yml.j2') | replace('\n', '\n    ') }}
+  opensearch.yml: |
+    {{ lookup('template', role_path + '/app/config/opensearch.yml.j2') | replace('\n', '\n    ') }}

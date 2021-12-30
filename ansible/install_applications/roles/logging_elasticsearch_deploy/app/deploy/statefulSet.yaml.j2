@@ -55,16 +55,16 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: elasticsearch-pv-claim
-          mountPath: /usr/share/elasticsearch/data
+          mountPath: /usr/share/opensearch/data
         - name: elasticsearch-config
-          mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
-          subPath: elasticsearch.yml
+          mountPath: /usr/share/opensearch/config/opensearch.yml
+          subPath: opensearch.yml
         - name: elasticsearch-security
-          mountPath: /usr/share/elasticsearch/plugins/opendistro_security/securityconfig
+          mountPath: /usr/share/opensearch/plugins/opensearch-security/securityconfig
         - name: certs-volume
-          mountPath: /usr/share/elasticsearch/config/certs
+          mountPath: /usr/share/opensearch/config/certs
         - name: cluster-ca-volume
-          mountPath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
+          mountPath: /usr/share/opensearch/plugins/opensearch-security/cluster/ca.crt
           subPath: ca.crt
         env:
           - name: cluster.name
@@ -73,12 +73,8 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
-          - name: node.master
-            value: "true"
-          - name: node.ingest
-            value: "true"
-          - name: node.data
-            value: "true"
+          - name: node.roles
+            value: "master,data,ingest"
           - name: discovery.seed_hosts
             value: "{% for i in range(0, elasticsearch.replicas|int) %}{% if i > 0 %},{% endif %}elasticsearch-{{ i }}{% endfor %}"
           - name: cluster.initial_master_nodes
@@ -89,18 +85,18 @@ spec:
             valueFrom:
               resourceFieldRef:
                 resource: limits.cpu
-          - name: ES_JAVA_OPTS
+          - name: OPENSEARCH_JAVA_OPTS
             value: "-Xms{{ elasticsearch.max_java_memory }} -Xmx{{ elasticsearch.max_java_memory }}"
       initContainers:
       - name: fix-permissions
         image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
-        command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
+        command: ["sh", "-c", "chown -R 1000:1000 /usr/share/opensearch/data"]
         securityContext:
           privileged: true
         volumeMounts:
         - name: elasticsearch-pv-claim
-          mountPath: /usr/share/elasticsearch/data
+          mountPath: /usr/share/opensearch/data
       - name: increase-vm-max-map
         image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always

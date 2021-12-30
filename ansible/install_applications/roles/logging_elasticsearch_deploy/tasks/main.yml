@@ -1,5 +1,5 @@
 ---
-- name: Ensure ElasticSearch namespace exists
+- name: Ensure OpenSearch namespace exists
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ elasticsearch.namespace }}"
@@ -10,7 +10,7 @@
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.private_image }}"
 
-- name: Ensure ElasticSearch image is up-to-date in the private registry
+- name: Ensure OpenSearch image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ elasticsearch.base_image }}"
@@ -37,7 +37,7 @@
   with_fileglob:
     - "{{ role_path }}/app/config/security/*.yml*"
 
-- name: Deploy ElasticSearch
+- name: Deploy OpenSearch
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
@@ -46,7 +46,7 @@
   register: elasticsearch_deployment
   with_fileglob:
     - "{{ role_path }}/app/deploy/*.yaml*"
-  notify: "Reconfigure Elasticsearch security"
+  notify: "Reconfigure OpenSearch security"
 
 - name: Deploy ElasticSearch Exporter
   kubernetes.core.k8s:
@@ -57,7 +57,7 @@
   with_fileglob:
     - "{{ role_path }}/app/deploy/prometheus_exporter/*.yaml*"
 
-- name: Wait for ElasticSearch to be available
+- name: Wait for OpenSearch to be available
   kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ elasticsearch.namespace }}"
@@ -69,14 +69,14 @@
   retries: 60
   delay: 3
 
-# On first start, ElasticSearch restarts to run its setup process
+# On first start, OpenSearch restarts to run its setup process
 # So if the first wait task has waited, we make sure it's really still up a few seconds later
 - name: Wait a bit ...
   ansible.builtin.pause:
     seconds: 10
   when: k8s_result.attempts > 1
 
-- name: Wait for ElasticSearch to be available
+- name: Wait for OpenSearch to be available
   kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ elasticsearch.namespace }}"
@@ -94,7 +94,7 @@
 
 - name: Get current logstash {{ elasticsearch.logstash_policy.name }} policy
   ansible.builtin.uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_plugins/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
     method: GET
     headers:
       Host: "elasticsearch.log.intra.{{ web_base_domain }}"
@@ -107,7 +107,7 @@
 
 - name: Create logstash {{ elasticsearch.logstash_policy.name }} policy
   ansible.builtin.uri:
-    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_plugins/_ism/policies/{{ elasticsearch.logstash_policy.name }}"
     method: PUT
     headers:
       Host: "elasticsearch.log.intra.{{ web_base_domain }}"
@@ -132,7 +132,7 @@
 
     - name: Update {{ elasticsearch.logstash_policy.name }} policy
       ansible.builtin.uri:
-        url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_opendistro/_ism/policies/{{ elasticsearch.logstash_policy.name }}?if_seq_no={{ current_ism_policy.json._seq_no }}&if_primary_term={{ current_ism_policy.json._primary_term }}"
+        url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_plugins/_ism/policies/{{ elasticsearch.logstash_policy.name }}?if_seq_no={{ current_ism_policy.json._seq_no }}&if_primary_term={{ current_ism_policy.json._primary_term }}"
         method: PUT
         headers:
           Host: "elasticsearch.log.intra.{{ web_base_domain }}"

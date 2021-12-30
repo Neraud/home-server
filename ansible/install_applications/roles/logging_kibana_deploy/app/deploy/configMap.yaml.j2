@@ -7,5 +7,5 @@ metadata:
     {{ kibana.labels_def | to_nice_yaml() | indent(4) }}
     {{ kibana.labels_desc | to_nice_yaml() | indent(4) }}
 data:
-  kibana.yml: |
-    {{ lookup('template', role_path + '/app/config/kibana.yml.j2') | replace('\n', '\n    ') }}
+  opensearch_dashboards.yml: |
+    {{ lookup('template', role_path + '/app/config/opensearch_dashboards.yml.j2') | replace('\n', '\n    ') }}

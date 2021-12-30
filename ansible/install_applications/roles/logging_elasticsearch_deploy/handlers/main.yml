@@ -4,10 +4,10 @@
 - name: Reconfigure security
   ansible.builtin.command: kubectl {{ kubectl_params }} \
     --namespace={{ elasticsearch.namespace }} exec -it elasticsearch-0 -- \
-    bash /usr/share/elasticsearch/plugins/opendistro_security/tools/securityadmin.sh \
+    bash /usr/share/opensearch/plugins/opensearch-security/tools/securityadmin.sh \
     -icl -nhnv \
-    -cd /usr/share/elasticsearch/plugins/opendistro_security/securityconfig/ \
-    -cacert /usr/share/elasticsearch/config/certs/ca.crt \
-    -cert /usr/share/elasticsearch/config/certs/server.crt \
-    -key /usr/share/elasticsearch/config/certs/server.key
-  listen: "Reconfigure Elasticsearch security"
+    -cd /usr/share/opensearch/plugins/opensearch-security/securityconfig/ \
+    -cacert /usr/share/opensearch/config/certs/ca.crt \
+    -cert /usr/share/opensearch/config/certs/server.crt \
+    -key /usr/share/opensearch/config/certs/server.key
+  listen: "Reconfigure OpenSearch security"
