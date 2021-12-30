@@ -1,6 +1,6 @@
 ---
 
-# This is the main Open Distro Security configuration file where authentication
+# This is the main OpenSearch Security configuration file where authentication
 # and authorization is defined.
 #
 # You need to configure at least one authentication domain in the authc of this file.
@@ -73,7 +73,7 @@ config:
       anonymous_auth_enabled: false
       xff:
         enabled: false
-        internalProxies: '10\.244\.0\..*' # regex pattern
+        internalProxies: '192\.168\.0\.10|192\.168\.0\.11' # regex pattern
         #internalProxies: '.*' # trust all internal proxies, regex pattern
         #remoteIpHeader:  'x-forwarded-for'
         ###### see https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html for regex help
@@ -81,18 +81,22 @@ config:
         ###### and here https://tools.ietf.org/html/rfc7239
         ###### and https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html#Remote_IP_Valve
     authc:
+      kerberos_auth_domain:
+        http_enabled: false
+        transport_enabled: false
+        order: 6
+        http_authenticator:
+          type: kerberos
+          challenge: true
+          config:
+            # If true a lot of kerberos/security related debugging output will be logged to standard out
+            krb_debug: false
+            # If true then the realm will be stripped from the user name
+            strip_realm_from_principal: true
+        authentication_backend:
+          type: noop
       basic_internal_auth_domain:
         description: "Authenticate via HTTP Basic against internal users database"
-        http_enabled: true
-        transport_enabled: true
-        order: 2
-        http_authenticator:
-          type: basic
-          challenge: true
-        authentication_backend:
-          type: intern
-      ldap:
-        description: "Authenticate via LDAP"
         http_enabled: true
         transport_enabled: true
         order: 4
@@ -100,38 +104,98 @@ config:
           type: basic
           challenge: true
         authentication_backend:
+          type: intern
+      proxy_auth_domain:
+        description: "Authenticate via proxy"
+        http_enabled: false
+        transport_enabled: false
+        order: 3
+        http_authenticator:
+          type: proxy
+          challenge: false
+          config:
+            user_header: "x-proxy-user"
+            roles_header: "x-proxy-roles"
+        authentication_backend:
+          type: noop
+      jwt_auth_domain:
+        description: "Authenticate via Json Web Token"
+        http_enabled: false
+        transport_enabled: false
+        order: 0
+        http_authenticator:
+          type: jwt
+          challenge: false
+          config:
+            signing_key: "base64 encoded HMAC key or public RSA/ECDSA pem key"
+            jwt_header: "Authorization"
+            jwt_url_parameter: null
+            roles_key: null
+            subject_key: null
+        authentication_backend:
+          type: noop
+      clientcert_auth_domain:
+        description: "Authenticate via SSL client certificates"
+        http_enabled: false
+        transport_enabled: false
+        order: 2
+        http_authenticator:
+          type: clientcert
+          config:
+            username_attribute: cn #optional, if omitted DN becomes username
+          challenge: false
+        authentication_backend:
+          type: noop
+      ldap:
+        description: "Authenticate via LDAP or Active Directory"
+        http_enabled: true
+        transport_enabled: true
+        order: 5
+        http_authenticator:
+          type: basic
+          challenge: true
+        authentication_backend:
           type: ldap
           config:
+            # enable ldaps
+            enable_ssl: true
+            # enable start tls, enable_ssl should be false
+            enable_start_tls: false
+            # send client certificate
+            enable_ssl_client_auth: false
+            # verify ldap hostname
+            verify_hostnames: true
             hosts:
               - {{ elasticsearch.ldap.servername }}:636
-            enable_ssl: true
-            enable_start_tls: false
-            enable_ssl_client_auth: false
-            verify_hostnames: true
-            pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
+            pemtrustedcas_filepath: /usr/share/opensearch/plugins/opensearch-security/cluster/ca.crt
             bind_dn: {{ elasticsearch.ldap.manager_dn }}
             password: {{ elasticsearch.ldap.manager_password }}
             userbase: '{{ elasticsearch.ldap.users_dn }}'
             # Filter to search for users (currently in the whole subtree beneath userbase)
             # {0} is substituted with the username
             usersearch: '(&(objectClass=inetOrgPerson)(cn={0})(memberOf={{ elasticsearch.ldap.group }}))'
+            # Use this attribute from the user as username (if not set then DN is used)
             username_attribute: cn
 
     authz:
       ldap:
-        description: "Authorize via LDAP"
+        description: "Authorize via LDAP or Active Directory"
         http_enabled: true
         transport_enabled: true
         authorization_backend:
           type: ldap
           config:
+            # enable ldaps
+            enable_ssl: true
+            # enable start tls, enable_ssl should be false
+            enable_start_tls: false
+            # send client certificate
+            enable_ssl_client_auth: false
+            # verify ldap hostname
+            verify_hostnames: true
             hosts:
               - {{ elasticsearch.ldap.servername }}:636
-            enable_ssl: true
-            enable_start_tls: false
-            enable_ssl_client_auth: false
-            verify_hostnames: true
-            pemtrustedcas_filepath: /usr/share/elasticsearch/plugins/opendistro_security/cluster/ca.crt
+            pemtrustedcas_filepath: /usr/share/opensearch/plugins/opensearch-security/cluster/ca.crt
             bind_dn: {{ elasticsearch.ldap.manager_dn }}
             password: {{ elasticsearch.ldap.manager_password }}
             rolebase: '{{ elasticsearch.ldap.roles_dn }}'
@@ -144,17 +208,20 @@ config:
             userroleattribute: null
             # Roles as an attribute of the user entry
             userrolename: disabled
+            #userrolename: memberOf
             # The attribute in a role entry containing the name of that role, Default is "name".
             # Can also be "dn" to use the full DN as rolename.
             rolename: cn
             # Resolve nested roles transitive (roles which are members of other roles and so on ...)
             resolve_nested_roles: false
             userbase: '{{ elasticsearch.ldap.users_dn }}'
+            # Filter to search for users (currently in the whole subtree beneath userbase)
+            # {0} is substituted with the username
             usersearch: '(&(objectClass=inetOrgPerson)(cn={1})(memberOf={{ elasticsearch.ldap.group }}))'
 {% if elasticsearch.internal_users | default([]) | length > 0 %}
+            # Skip users matching a user name, a wildcard or a regex pattern
             skip_users:
 {% for user in elasticsearch.internal_users | default([]) %}
               - {{ user.name }}
 {% endfor %}
 {% endif %}
-

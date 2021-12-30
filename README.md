@@ -60,7 +60,7 @@ The following services are deployed :
 | [Grafana](https://grafana.com/)                                  | Platform for beautiful analytics and monitoring                |
 | [Fluent Bit](https://fluentbit.io/)                              | Lightweight log Processor and Forwarder                        |
 | [FluentD](https://www.fluentd.org/)                              | Log Processor and Forwarder                                    |
-| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | Distributed, RESTful search and analytics engine               |
+| [OpenSearch](https://opensearch.org/)                            | Distributed, RESTful search and analytics engine               |
 | [Kibana](https://www.elastic.co/products/kibana)                 | Visualize your Elasticsearch data                              |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | Controller for Unifi devices                                   |
 | [HomeAssistant](https://www.home-assistant.io/)                  | Home automation                                                |
