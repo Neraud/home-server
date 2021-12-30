@@ -3,7 +3,12 @@ kubernetes_users:
   - name: "{{ standard_user.name }}"
     home: "{{ standard_user.home }}"
     install_autocomplete: yes
+
 #kubernetes_node_labels:
+#  - name: foo
+#    value: bar
+
+#kubernetes_node_annotations:
 #  - name: foo
 #    value: bar
 
