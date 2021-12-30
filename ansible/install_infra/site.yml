@@ -130,5 +130,6 @@
   roles:
     - { role: kubernetes_storage_distributed, tags: kubernetes-storage }
     - kubernetes_metallb_deploy
-    - kubernetes_infra
+    - kubernetes_nginx_ingress_deploy
+    - kubernetes_storage_classes
     - apcups_kubernetes

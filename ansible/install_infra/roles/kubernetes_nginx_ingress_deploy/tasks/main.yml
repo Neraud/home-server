@@ -1,15 +1,4 @@
 ---
-- name: Create storage classes
-  kubernetes.core.k8s:
-    definition: "{{ lookup('template', 'kubernetes/storage/' + item) }}"
-    state: present
-    kubeconfig: "{{ kubeconfig_path }}"
-    context: "{{ kubeconfig_context }}"
-  with_items:
-    - local-lvm-storage-class.yaml.j2
-    - glusterfs-storage-class.yaml.j2
-    - nas-nfs-storage-class.yaml.j2
-
 - name: Deploy Nginx Ingress namespace
   kubernetes.core.k8s:
     api_version: v1
@@ -26,4 +15,4 @@
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
   with_fileglob:
-    - "{{ role_path }}/app/ingress-nginx/deploy/*.yaml*"
+    - "{{ role_path }}/templates/*.yaml*"
