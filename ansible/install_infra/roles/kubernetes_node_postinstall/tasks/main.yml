@@ -32,12 +32,13 @@
   ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} get nodes {{ ansible_hostname | lower }} -o yaml
   delegate_to: "{{ groups.controller | first }}"
   changed_when: false
-  register: current_node_tags_results
+  register: current_node_info_results
 
-- name: Extract current node tags and taints
+- name: Extract current node tags, annotations and taints
   ansible.builtin.set_fact:
-    current_node_tags: "{{ (current_node_tags_results.stdout | from_yaml).metadata.labels }}"
-    current_node_taints: "{{ (current_node_tags_results.stdout | from_yaml).spec.taints | default([]) }}"
+    current_node_tags: "{{ (current_node_info_results.stdout | from_yaml).metadata.labels }}"
+    current_node_annotations: "{{ (current_node_info_results.stdout | from_yaml).metadata.annotations }}"
+    current_node_taints: "{{ (current_node_info_results.stdout | from_yaml).spec.taints | default([]) }}"
 
 - name: Tag node
   ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} label nodes {{ ansible_hostname | lower }} --overwrite=true {{ item.name }}={{ item.value }}
@@ -52,6 +53,21 @@
   when:
     - "'kubernetes.io' not in item"
     - item not in (kubernetes_node_labels | default([]) | map(attribute='name'))
+
+- name: Annotate node
+  ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} annotate nodes {{ ansible_hostname | lower }} --overwrite=true {{ item.name }}={{ item.value | quote }}
+  delegate_to: "{{ groups.controller | first }}"
+  with_items: "{{ kubernetes_node_annotations | default([]) }}"
+  when: (item.name not in current_node_annotations) or (item.value != current_node_annotations[item.name])
+
+- name: Unannotate node
+  ansible.builtin.command: kubectl {{ hostvars[groups.controller | first].kubectl_params }} annotate nodes {{ ansible_hostname | lower }} {{ item }}-
+  delegate_to: "{{ groups.controller | first }}"
+  with_items: "{{ current_node_annotations }}"
+  when:
+    - "'kubernetes.io' not in item"
+    - "'projectcalico.org' not in item"
+    - item not in (kubernetes_node_annotations | default([]) | map(attribute='name'))
 
 - name: Look for taints to add (with value)
   ansible.builtin.set_fact:
