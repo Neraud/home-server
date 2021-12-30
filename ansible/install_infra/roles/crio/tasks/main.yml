@@ -47,7 +47,7 @@
 
 - name: Add libcontainers crio repo
   ansible.builtin.apt_repository:
-    filename: "devel:kubic:libcontainers:stable:cri-o:{{ crio_apt_repository_version }}"
+    filename: "devel:kubic:libcontainers:stable:cri-o"
     repo: "deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_apt_repository_version }}/{{ crio_apt_repository_os }}/ /"
     state: present
 
