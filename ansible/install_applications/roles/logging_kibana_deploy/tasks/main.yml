@@ -1,5 +1,5 @@
 ---
-- name: Ensure Kibana namespace exists
+- name: Ensure OpenSearch Dashboards namespace exists
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ kibana.namespace }}"
@@ -10,13 +10,13 @@
     base_image: "{{ busybox.base_image }}"
     private_image: "{{ busybox.private_image }}"
 
-- name: Ensure Kibana image is up-to-date in the private registry
+- name: Ensure OpenSearch Dashboards image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
     base_image: "{{ kibana.base_image }}"
     private_image: "{{ kibana.private_image }}"
 
-- name: Deploy Kibana
+- name: Deploy OpenSearch Dashboards
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
     state: present
@@ -41,7 +41,7 @@
     group: "{{ standard_user.name }}"
     mode: 0755
 
-- name: Wait for Kibana to be available
+- name: Wait for OpenSearch Dashboards to be available
   kubernetes.core.k8s_info:
     kind: StatefulSet
     namespace: "{{ kibana.namespace }}"
@@ -91,7 +91,7 @@
     method: POST
     headers:
       Host: "kibana.log.intra.{{ web_base_domain }}"
-      kbn-xsrf: kbn-xsrf
+      osd-xsrf: osd-xsrf
     body:
       attributes: "{{ item.1.attributes }}"
     body_format: json
@@ -114,7 +114,7 @@
     method: PUT
     headers:
       Host: "kibana.log.intra.{{ web_base_domain }}"
-      kbn-xsrf: kbn-xsrf
+      osd-xsrf: osd-xsrf
     body:
       attributes: "{{ item.1.attributes }}"
     body_format: json

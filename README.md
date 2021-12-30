@@ -61,7 +61,7 @@ The following services are deployed :
 | [Fluent Bit](https://fluentbit.io/)                              | Lightweight log Processor and Forwarder                        |
 | [FluentD](https://www.fluentd.org/)                              | Log Processor and Forwarder                                    |
 | [OpenSearch](https://opensearch.org/)                            | Distributed, RESTful search and analytics engine               |
-| [Kibana](https://www.elastic.co/products/kibana)                 | Visualize your Elasticsearch data                              |
+| [OpenSearch Dashboard](https://opensearch.org/)                  | Visualize your Elasticsearch data                              |
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | Controller for Unifi devices                                   |
 | [HomeAssistant](https://www.home-assistant.io/)                  | Home automation                                                |
 | [ESPHome](https://esphome.io/index.html)                         | System to control your ESP8266/ESP32                           |

@@ -78,10 +78,10 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: kibana-config
-          mountPath: /usr/share/kibana/config/kibana.yml
-          subPath: kibana.yml
+          mountPath: /usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
+          subPath: opensearch_dashboards.yml
         - name: kibana-data-pv-claim
-          mountPath: /usr/share/kibana/data
+          mountPath: /usr/share/opensearch-dashboards/data
           subPath: data
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt

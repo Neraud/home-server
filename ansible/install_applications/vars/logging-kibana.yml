@@ -3,8 +3,8 @@
 _kibana_var_loader:
   base_image:
     repo: "docker.io"
-    name: "amazon/opendistro-for-elasticsearch-kibana"
-    tag: "1.13.2"
+    name: "opensearchproject/opensearch-dashboards"
+    tag: "1.2.0"
 
 kibana:
   enabled: "{{ kibana_enabled | default(True) }}"

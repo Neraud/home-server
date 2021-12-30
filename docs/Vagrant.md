@@ -349,7 +349,7 @@ You can use the exporter's user to test : `exporter` / `password`
 
 ### Kibana
 
-The [OpenDistro](https://opendistro.github.io/for-elasticsearch/) variant of Kibana is deployed and configured to read data from ElasticSearch.
+The [OpenSearch Dashboards](https://opensearch.org/) variant of Kibana is deployed and configured to read data from ElasticSearch.
 
 Saved Objects (sources, visualizations, dashboards) are loaded from the `ansible/install_applications/roles/logging-kibana.deploy/app/config/saved_objects` folder.
 
