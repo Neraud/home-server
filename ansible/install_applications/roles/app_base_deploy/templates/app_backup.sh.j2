@@ -13,7 +13,7 @@ export RESTIC_PASSWORD="{{ app_backup.repository.password }}"
 APP_NAME="{{ app_backup.name }}"
 FAKE_HOST_NAME=kubernetes
 
-VOLUME_MOUNT_ROOT=/data/volumes
+VOLUME_MOUNT_ROOT=/tmp/volumes_backup
 
 source ${BACKUP_SCRIPTS_DIR}/_restic.sh
 source ${BACKUP_SCRIPTS_DIR}/_prometheus.sh
@@ -63,8 +63,8 @@ function backup_volume() {
     task_status=$?
     
     echo " - unmounting"
-    umount ${VOLUME_MOUNT_ROOT}/${volume_name}
-    rm -R ${VOLUME_MOUNT_ROOT}/${volume_name}
+    umount -l ${VOLUME_MOUNT_ROOT}/${volume_name}
+    rmdir ${VOLUME_MOUNT_ROOT}/${volume_name}
     
     if [ ${task_status} -ne 0 ] ; then
         app_status=1
