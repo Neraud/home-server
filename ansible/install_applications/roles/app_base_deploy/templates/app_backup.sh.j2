@@ -13,7 +13,7 @@ export RESTIC_PASSWORD="{{ app_backup.repository.password }}"
 APP_NAME="{{ app_backup.name }}"
 FAKE_HOST_NAME=kubernetes
 
-VOLUME_MOUNT_ROOT=/data/volumes
+VOLUME_MOUNT_ROOT=/tmp/volumes_backup
 
 source ${BACKUP_SCRIPTS_DIR}/_restic.sh
 source ${BACKUP_SCRIPTS_DIR}/_prometheus.sh
