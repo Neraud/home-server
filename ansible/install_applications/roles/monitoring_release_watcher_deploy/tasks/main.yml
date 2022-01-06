@@ -13,6 +13,8 @@
 - name: Ensure release-watcher image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
   vars:
+    # base_image is not used for this particular app, but the variable is expected, we use private_image to avoid the "undefined variable" error
+    base_image: "{{ release_watcher.private_image }}"  
     private_image: "{{ release_watcher.private_image }}"
     build: yes
     build_path: "{{ release_watcher.path }}"
