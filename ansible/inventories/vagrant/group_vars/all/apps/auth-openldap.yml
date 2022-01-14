@@ -33,6 +33,11 @@ openldap_ldap_groups:
     ou: sso_groups
     members:
       - user
+  - id: tool
+    description: Tools
+    ou: sso_groups
+    members:
+      - user
   - id: home
     description: Home
     ou: sso_groups
