@@ -7,7 +7,7 @@
 #  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
 #  vars:
 #    application_namespace: namespace_name
-#    create_nfs_pvc: yes|no
+#    create_nfs_pvc: [ volume-name, ... ]
 
 - name: Create application namespace {{ application_namespace }}
   kubernetes.core.k8s:
@@ -76,10 +76,10 @@
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
-  loop: "{{ kubernetes_nfs_storage | dict2items | default([]) }}"
-  loop_control:
-    label: "{{ item.key }}"
-  when: create_nfs_pvc | default('no') | bool
+  loop: "{{ create_nfs_pvc | default([]) }}"
+  vars:
+    volume_name: "{{ item }}"
+    volume_conf: "{{ kubernetes_nfs_storage[item] }}"
 
 - name: Create default deny-all-ingress NetworkPolicy
   kubernetes.core.k8s:

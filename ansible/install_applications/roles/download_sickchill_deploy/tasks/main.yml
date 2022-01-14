@@ -3,7 +3,7 @@
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
   vars:
     application_namespace: "{{ sickchill.namespace }}"
-    create_nfs_pvc: yes
+    create_nfs_pvc: [ nfs-download, nfs-multimedia ]
 
 - name: Deploy Sickchill backup script
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/backup.yml
