@@ -47,6 +47,9 @@ homer_images_to_download:
   - name: ttrss.png
     source: https://git.tt-rss.org/fox/tt-rss/raw/branch/master/images/favicon-72px.png
 
+  - name: paperless.svg
+    source: https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/resources/logo/web/svg/square.svg
+
   - name: homeassistant.svg
     source: https://www.home-assistant.io/images/home-assistant-logo.svg
   - name: node-red.svg
@@ -160,6 +163,14 @@ homer_config_services:
         logo: "logo.png"
         url: "https://homer.web.{{ web_base_domain }}{{ _homer_var_loader.context_root }}"
         subtitle: "A very simple static homepage for your server"
+        target: "_blank"
+  - name: "Tools"
+    icon: "fas fa-toolbox"
+    items:
+      - name: "Paperless"
+        logo: "assets/download/paperless.svg"
+        url: "https://paperless.tool.intra.{{ web_base_domain }}{{ _paperless_var_loader.context_root }}"
+        subtitle: "Scan & OCR documents"
         target: "_blank"
   - name: "Home"
     icon: "fas fa-home"

@@ -742,3 +742,17 @@ watchers:
     tag: {{ ttrss_pgsql.base_image.tag }}
     includes:
       - ^12\.[0-9]+(\.[0-9]+)?-alpine
+
+  ################
+  # Apps : Tools #
+  ################
+  - name: Paperless-ng
+    type: docker_registry
+    repo: {{ _paperless_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
+    image: {{ _paperless_var_loader.base_image.name }}
+    tag: {{ _paperless_var_loader.base_image.tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - ^0\..*
+      - ^1\.[0-4]\..*

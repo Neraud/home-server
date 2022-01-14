@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgsql
+  namespace: {{ paperless.namespace }}
+  labels:
+    {{ paperless_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ paperless_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  clusterIP: None
+  ports:
+  - port: 5432
+  selector:
+    {{ paperless_pgsql.labels_def | to_nice_yaml() | indent(4) }}

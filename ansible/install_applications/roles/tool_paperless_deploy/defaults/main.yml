@@ -1,0 +1,26 @@
+---
+paperless_enabled: true
+
+#paperless_secret_key: [long random string]
+#paperless_admin_user: "admin"
+#paperless_admin_mail: "admin@email.net"
+#paperless_admin_password: "clear_password"
+
+paperless_settings_ocr_languagues: []
+paperless_settings_default_ocr_languague: "eng"
+paperless_settings_webserver_workers: 1
+paperless_settings_task_workers: 1
+paperless_settings_threads_per_worker: 1
+paperless_settings_consumer_polling: 10
+paperless_settings_consumer_delete_duplicates: false
+paperless_settings_consumer_recursive: false
+paperless_settings_consumer_ignore_patterns: "[\\\".DS_STORE/*\\\", \\\"._*\\\", \\\".stfolder/*\\\"]"
+paperless_settings_consumer_subdirs_as_tags: false
+paperless_settings_convert_memory_limit: 32
+paperless_settings_convert_tmpdir: "/tmp"
+# https://paperless-ng.readthedocs.io/en/latest/advanced_usage.html#file-name-handling
+# Changing the format requires to run the document renamer : https://paperless-ng.readthedocs.io/en/latest/administration.html#managing-filenames
+paperless_settings_filename_format: "{correspondent}/{created_year}/{title}"
+
+#paperless_pgsql_password: "clear_password"
+#paperless_redis_password: "clear_password"

@@ -135,6 +135,10 @@
   tags: kubernetes-app-web-homer
   when: homer_enabled | bool
 
+- import_playbook: app-tool-paperless.yml
+  tags: kubernetes-app-tool-paperless
+  when: paperless_enabled | bool
+
 - import_playbook: app-infra-unifi.yml
   tags: kubernetes-app-infra-unifi
   when: unifi_enabled | bool
