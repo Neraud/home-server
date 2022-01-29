@@ -5,9 +5,7 @@ _zwavejs2mqtt_var_loader:
   base_image:
     repo: "docker.io"
     name: "zwavejs/zwavejs2mqtt"
-    # 5.11.0 & 5.12.0 have issues with remote stick ?
-    # Maybe issue https://github.com/zwave-js/zwavejs2mqtt/issues/1980 ?
-    tag: "5.10.0"
+    tag: "6.4.1"
 
 zwavejs2mqtt:
   enabled: "{{ zwavejs2mqtt_enabled | default(True) }}"
