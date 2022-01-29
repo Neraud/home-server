@@ -5,9 +5,10 @@ _ttrss_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/php"
-    tag: "8.0.13-apache-buster"
-  commit: 7cfc30ac25
-  full_commit: 7cfc30ac25f01975ddca25efdb3ca600b030aa3b
+    # TTRSS has issues with PHP 8.1 (eg: PHP Fatal error:  Uncaught Error: Class "ORM" not found in /opt/ttrss/classes/logger/sql.php)
+    tag: "8.0.15-apache-buster"
+  commit: b59bde7b45
+  full_commit: b59bde7b45727724e5f711e1d7f88a6cabbbf5e4
 
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -63,7 +64,7 @@ ttrss:
     data_migration:
       repo_url: "https://git.tt-rss.org/fox/ttrss-data-migration"
       branch: master
-      commit: fc5f5e4e50
+      commit: 40bb223288
     auth_ldap:
       #github_repo: "hydrian/TTRSS-Auth-LDAP"
       #branch: master
