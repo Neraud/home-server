@@ -189,7 +189,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^2020\..*
-      - ^2021\.[1-8]\..*
+      - ^2021\.[1-11]\..*
   - type: github_commit
     repo: efficiosoft/ldap-auth-sh
     branch: master
@@ -200,12 +200,10 @@ watchers:
     image: {{ homeassistant_mysql.base_image.name }}
     tag: {{ homeassistant_mysql.base_image.tag }}
     includes:
-      - 5\.[0-9]+\.[0-9]+
+      - [0-9]\.[0-9]+\.[0-9]+
     excludes:
       - .*rc.*
-      - 5\.[0-6]\..*
-      - 5\.7\.[0-9]$
-      - 5\.7\.[12][0-9]$
+      - [0-7]\..*
   - type: docker_registry
     repo: {{ mosquitto.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ mosquitto.base_image.name }}
