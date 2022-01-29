@@ -5,9 +5,8 @@ _deluge_var_loader:
   base_image:
     repo: "docker.io"
     name: "emmercm/libtorrent"
-    # v1.2.12+ and v2+ don't provide python2 bindings
-    tag: "1.2.11-alpine"
-  version: 2.0.3
+    tag: "2.0.5-alpine"
+  version: 2.0.5
 
 deluge:
   enabled: "{{ deluge_enabled | default(True) }}"
