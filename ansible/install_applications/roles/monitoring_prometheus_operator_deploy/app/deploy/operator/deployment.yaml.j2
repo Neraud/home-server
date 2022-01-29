@@ -19,6 +19,7 @@ spec:
         {{ prometheus_operator.labels_def | to_nice_yaml() | indent(8) }}
         {{ prometheus_operator.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      automountServiceAccountToken: true
       containers:
       - args:
         - --kubelet-service=kube-system/kubelet
@@ -68,6 +69,8 @@ spec:
             cpu: {{ prometheus_operator_rbac_proxy.container.requests_cpu }}
             memory: {{ prometheus_operator_rbac_proxy.container.requests_memory }}
         securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532

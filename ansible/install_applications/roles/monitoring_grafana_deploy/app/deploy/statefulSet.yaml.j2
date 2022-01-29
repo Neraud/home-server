@@ -47,6 +47,8 @@ spec:
           runAsNonRoot: true
           runAsUser: 65534
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             path: /api/health

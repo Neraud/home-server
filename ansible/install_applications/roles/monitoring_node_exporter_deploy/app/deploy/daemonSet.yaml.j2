@@ -25,7 +25,7 @@ spec:
         - --path.rootfs=/host/root
         - --no-collector.wifi
         #- --no-collector.hwmon
-        - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
+        - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|run/k3s/containerd/.+|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
         - --collector.netclass.ignored-devices=^(veth.*|[a-f0-9]{15})$
         - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
         - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
@@ -39,8 +39,6 @@ spec:
             port: 9100
           initialDelaySeconds: 3
           periodSeconds: 5
-        securityContext:
-          readOnlyRootFilesystem: true
         resources:
           limits:
             cpu: {{ node_exporter.container.limits_cpu }}
@@ -48,6 +46,9 @@ spec:
           requests:
             cpu: {{ node_exporter.container.requests_cpu }}
             memory: {{ node_exporter.container.requests_memory }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /host/sys
           mountPropagation: HostToContainer
@@ -94,6 +95,8 @@ spec:
             cpu: {{ node_exporter_rbac_proxy.container.requests_cpu }}
             memory: {{ node_exporter_rbac_proxy.container.requests_memory }}
         securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532

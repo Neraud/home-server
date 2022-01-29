@@ -49,6 +49,7 @@ spec:
             - NET_RAW
             drop:
             - ALL
+          readOnlyRootFilesystem: true
           runAsNonRoot: false
 {% else %}
           runAsNonRoot: true
@@ -72,6 +73,8 @@ spec:
             cpu: {{ blackbox_exporter_configmap_reload.container.requests_cpu }}
             memory: {{ blackbox_exporter_configmap_reload.container.requests_memory }}
         securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 65534
           readOnlyRootFilesystem: true
@@ -109,6 +112,8 @@ spec:
             cpu: {{ blackbox_exporter_rbac_proxy.container.requests_cpu }}
             memory: {{ blackbox_exporter_rbac_proxy.container.requests_memory }}
         securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532

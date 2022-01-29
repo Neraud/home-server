@@ -17,6 +17,7 @@ spec:
         {{ kube_state_metrics.labels_def | to_nice_yaml() | indent(8) }}
         {{ kube_state_metrics.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      automountServiceAccountToken: true
       containers:
       - args:
         - --host=127.0.0.1
@@ -28,6 +29,7 @@ spec:
         name: kube-state-metrics
         securityContext:
           runAsGroup: 65532
+          allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
           runAsUser: 65532
         #readinessProbe:
@@ -62,6 +64,8 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
@@ -96,6 +100,8 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
