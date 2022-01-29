@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgsql-init
+  namespace: {{ paperless.namespace }}
+  labels:
+    {{ paperless_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ paperless_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
+data:
+  # add here sql files to init the db

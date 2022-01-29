@@ -55,3 +55,6 @@ lemonldap_location_rules:
   # Disable Auth for Gotify
   - domain: "gotify.web.{{ web_base_domain }}"
     default_rule: skip
+
+  - domain: "*.tool.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'tool')

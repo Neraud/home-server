@@ -1,0 +1,188 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: paperless
+  namespace: {{ paperless.namespace }}
+  labels:
+    {{ paperless.labels_def | to_nice_yaml() | indent(4) }}
+    {{ paperless.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ paperless.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ paperless.labels_def | to_nice_yaml() | indent(8) }}
+        {{ paperless.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /mnt/paperless-data/data
+            chown -R 1000:1000 /mnt/paperless-data/data
+        volumeMounts:
+        - name: paperless-data-pv-claim
+          mountPath: /mnt/paperless-data
+      containers:
+      - name: paperless
+        image: "{{ paperless.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: PAPERLESS_DEBUG
+          value: "false"
+        - name: PAPERLESS_ENABLE_HTTP_REMOTE_USER
+          value: "true"
+        - name: PAPERLESS_LOGGING_DIR
+          value: "/tmp/log/"
+        - name: PAPERLESS_ALLOWED_HOSTS
+          value: "paperless.tool.intra.{{ web_base_domain }}"
+        - name: PAPERLESS_CORS_ALLOWED_HOSTS
+          value: "https://paperless.tool.intra.{{ web_base_domain }}"
+        - name: PAPERLESS_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: paperless
+              key: admin_user
+        - name: PAPERLESS_ADMIN_MAIL
+          valueFrom:
+            secretKeyRef:
+              name: paperless
+              key: admin_mail
+        - name: PAPERLESS_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: paperless
+              key: admin_password
+        - name: PAPERLESS_REDIS
+          valueFrom:
+            secretKeyRef:
+              name: paperless
+              key: redis_connection_url
+        - name: PAPERLESS_DBHOST
+          value: "pgsql"
+        - name: PAPERLESS_DBPORT
+          value: "5432"
+        - name: PAPERLESS_DBNAME
+          value: "{{ paperless_pgsql.database }}"
+        - name: PAPERLESS_DBUSER
+          value: "{{ paperless_pgsql.user }}"
+        - name: PAPERLESS_DBPASS
+          valueFrom:
+            secretKeyRef:
+              name: pgsql
+              key: password
+        - name: PAPERLESS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: paperless
+              key: secret_key
+        - name: PAPERLESS_WEBSERVER_WORKERS
+          value: "{{ paperless.settings.webserver_workers }}"
+        - name: PAPERLESS_OCR_LANGUAGES
+          value: "{{ paperless.settings.ocr_languagues | join(' ') }}"
+        - name: PAPERLESS_OCR_LANGUAGE
+          value: "{{ paperless.settings.default_ocr_languague }}"
+        - name: PAPERLESS_TASK_WORKERS
+          value: "{{ paperless.settings.task_workers }}"
+        - name: PAPERLESS_THREADS_PER_WORKER
+          value: "{{ paperless.settings.threads_per_worker }}"
+        - name: PAPERLESS_CONSUMPTION_DIR
+          value: /mnt/consume
+        - name: PAPERLESS_CONSUMER_POLLING
+          value: "{{ paperless.settings.consumer_polling }}"
+        - name: PAPERLESS_CONSUMER_DELETE_DUPLICATES
+          value: "{{ paperless.settings.consumer_delete_duplicates }}"
+        - name: PAPERLESS_CONSUMER_RECURSIVE
+          value: "{{ paperless.settings.consumer_recursive }}"
+        - name: PAPERLESS_CONSUMER_IGNORE_PATTERNS
+          value: "{{ paperless.settings.consumer_ignore_patterns }}"
+        - name: PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS
+          value: "{{ paperless.settings.consumer_subdirs_as_tags }}"
+        - name: PAPERLESS_CONVERT_MEMORY_LIMIT
+          value: "{{ paperless.settings.convert_memory_limit }}"
+        - name: PAPERLESS_CONVERT_TMPDIR
+          value: "{{ paperless.settings.convert_tmpdir }}"
+        - name: PAPERLESS_FILENAME_FORMAT
+          value: "{{ paperless.settings.filename_format }}"
+        ports:
+        - containerPort: 8000
+          name: web
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # paperless
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ paperless.context_root }}/
+            port: web
+            httpHeaders:
+              - name: Host
+                value: "paperless.tool.intra.{{ web_base_domain }}"
+        resources:
+          requests:
+            cpu: "{{ paperless.container.requests_cpu }}"
+            memory: "{{ paperless.container.requests_memory }}"
+          limits:
+            cpu: "{{ paperless.container.limits_cpu }}"
+            memory: "{{ paperless.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: paperless-data-pv-claim
+          mountPath: /usr/src/paperless/data
+          subPath: data
+        - name: paperless-papers
+          mountPath: /mnt/consume
+          subPath: paperless/consume
+        - name: paperless-papers
+          mountPath: /usr/src/paperless/media
+          subPath: paperless/media
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: paperless-config
+        configMap:
+          name: paperless-config
+      - name: paperless-papers
+        persistentVolumeClaim:
+          claimName: nfs-papers
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: paperless-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M
+      selector:
+        matchLabels:
+          {{ paperless.labels_def | to_nice_yaml() | indent(10) }}
+          storage: data

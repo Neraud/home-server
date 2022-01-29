@@ -18,4 +18,6 @@ python3 -m venv --system-site-packages $ANSIBLE_VENV_PATH
 source $ANSIBLE_VENV_PATH/bin/activate
 
 echo "Install python ansible requirements"
+# Workaround for https://github.com/pypa/setuptools/issues/2956 (https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1003252)
+export SETUPTOOLS_USE_DISTUTILS=stdlib
 pip3 install -r $PROJECT_DIR/requirements.txt

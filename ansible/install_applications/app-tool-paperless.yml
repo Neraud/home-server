@@ -1,0 +1,5 @@
+---
+- name: Provision tool-paperless
+  hosts: controller
+  roles:
+    - role: tool_paperless_deploy

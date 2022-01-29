@@ -156,6 +156,37 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: ttrss
       app.kubernetes.io/component: pgsql
+  paperless-data:
+    replicas: 2
+    capacity: 128M
+    arbiterCapacity: 16M
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/component: paperless
+      storage: data
+  paperless-pgsql:
+    replicas: 2
+    capacity: 512M
+    arbiterCapacity: 64M
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/component: pgsql
+  paperless-redis:
+    replicas: 2
+    capacity: 32M
+    arbiterCapacity: 16M
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/component: redis
   homeassistant-config:
     replicas: 2
     capacity: 256M

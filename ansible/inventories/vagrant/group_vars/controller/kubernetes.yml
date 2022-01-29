@@ -22,3 +22,9 @@ kubernetes_nfs_storage:
     reclaim_policy: Retain
     labels:
       detail: nvr
+  nfs-papers:
+    nfs_server: "{{ hostvars[groups.controller[0]].ansible_host }}"
+    nfs_path: /opt/mock_nas/Paperless
+    reclaim_policy: Retain
+    labels:
+      detail: papers

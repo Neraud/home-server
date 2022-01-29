@@ -1,0 +1,78 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-pgsql
+  namespace: {{ paperless.namespace }}
+  labels:
+    {{ paperless_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ paperless_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ paperless_pgsql.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    # Allow from paperless
+    - ports:
+        - port: pgsql
+      from:
+        - podSelector:
+            matchLabels:
+              {{ paperless.labels_def | to_nice_yaml() | indent(14) }}
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-redis
+  namespace: {{ paperless.namespace }}
+  labels:
+    {{ paperless_redis.labels_def | to_nice_yaml() | indent(4) }}
+    {{ paperless_redis.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ paperless_redis.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    # Allow from paperless
+    - ports:
+        - port: redis
+      from:
+        - podSelector:
+            matchLabels:
+              {{ paperless.labels_def | to_nice_yaml() | indent(14) }}
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-paperless
+  namespace: {{ paperless.namespace }}
+  labels:
+    {{ paperless.labels_def | to_nice_yaml() | indent(4) }}
+    {{ paperless.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ paperless.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: web
+      from:
+        - namespaceSelector:
+            matchLabels:
+              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
+          podSelector:
+            matchLabels:
+              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
