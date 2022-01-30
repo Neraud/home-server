@@ -13,20 +13,31 @@ global:
 templates:
 - '*.tmpl'
 
-route:
-  group_by:
-  - job
-  group_interval: 5m
-  group_wait: 30s
-  receiver: "{{ alertmanager.default_receiver | default("null") }}"
-  repeat_interval: 12h
-  routes:
-  - matchers:
-    - "alertname = Watchdog"
-    receiver: "null"
+inhibit_rules:
+- equal:
+  - namespace
+  - alertname
+  source_matchers:
+  - severity = critical
+  target_matchers:
+  - severity =~ warning|info
+- equal:
+  - namespace
+  - alertname
+  source_matchers:
+  - severity = warning
+  target_matchers:
+  - severity = info
+- equal:
+  - namespace
+  source_matchers:
+  - alertname = InfoInhibitor
+  target_matchers:
+  - severity = info
 
 receivers:
 - name: "null"
+- name: Watchdog
 {% for receiver in alertmanager.receivers | default([]) %}
 - name: '{{ receiver.name }}'
   email_configs:
@@ -36,3 +47,18 @@ receivers:
       ca_file: /etc/alertmanager/secrets/cluster-ca/ca.crt
 {% endfor %}
 {% endfor %}
+
+route:
+  group_by:
+    - namespace
+  group_interval: 5m
+  group_wait: 30s
+  receiver: "{{ alertmanager.default_receiver | default("null") }}"
+  repeat_interval: 12h
+  routes:
+  - matchers:
+    - alertname = Watchdog
+    receiver: Watchdog
+  - matchers:
+    - alertname = InfoInhibitor
+    receiver: null

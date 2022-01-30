@@ -4,7 +4,7 @@ _nginx_log_exporter_var_loader:
   base_image:
     repo: quay.io
     name: "martinhelmich/prometheus-nginxlog-exporter"
-    tag: "v1.9.1"
+    tag: "v1.9.2"
 
 nginx_log_exporter:
   enabled: "{{ nginx_log_exporter_enabled | default(True) }}"

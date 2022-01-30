@@ -4,10 +4,12 @@ _sabnzbd_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.10.0-alpine3.14"
+    # alpine3.15 dropped unrar (https://gitlab.alpinelinux.org/alpine/aports/-/issues/13382)
+    # TODO : move to a debian-based image
+    tag: "3.10.2-alpine3.14"
   repo:
     name: sabnzbd/sabnzbd
-    version: 3.4.2
+    version: 3.5.0
   namespace: "download-sabnzbd"
 
 sabnzbd:
@@ -47,7 +49,7 @@ sabnzbd:
   nzbToMedia:
     repo:
       name: clinton-hall/nzbToMedia
-      version: 12.1.09
+      version: 12.1.10
 
   container:
     requests_cpu: "{{ sabnzbd_container_requests_cpu | default('200m') }}"

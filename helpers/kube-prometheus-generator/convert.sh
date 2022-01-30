@@ -126,6 +126,8 @@ PROMEHTEUS_RULES_ROOT=$OUT_CONVERTED_ROOT/monitoring_prometheus_operator_deploy/
 mkdir -p $PROMEHTEUS_RULES_ROOT
 python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
 rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-prometheusRule.yaml
+python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
+rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-prometheusRule.yaml
 python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-prometheus-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
 rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-prometheus-prometheusRule.yaml
 python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT

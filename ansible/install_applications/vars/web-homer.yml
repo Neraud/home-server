@@ -4,7 +4,7 @@ _homer_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/nginx"
-    tag: "1.21.4-alpine"
+    tag: "1.21.6-alpine"
   release: v21.09.2
   context_root: "{{ homer_context_root | default('') }}"
 

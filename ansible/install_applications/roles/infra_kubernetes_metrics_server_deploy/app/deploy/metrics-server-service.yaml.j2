@@ -7,11 +7,11 @@ metadata:
   labels:
     {{ kubernetes_metrics_server.labels_def | to_nice_yaml() | indent(4) }}
     {{ kubernetes_metrics_server.labels_desc | to_nice_yaml() | indent(4) }}
-    kubernetes.io/cluster-service: "true"
 spec:
   selector:
     {{ kubernetes_metrics_server.labels_def | to_nice_yaml() | indent(4) }}
   ports:
-  - port: 443
+  - name: https
+    port: 443
     protocol: TCP
-    targetPort: main-port
+    targetPort: https

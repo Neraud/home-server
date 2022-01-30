@@ -11,6 +11,9 @@ spec:
   selector:
     matchLabels:
       {{ kubernetes_metrics_server.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
   template:
     metadata:
       name: metrics-server
@@ -18,36 +21,38 @@ spec:
         {{ kubernetes_metrics_server.labels_def | to_nice_yaml() | indent(8) }}
         {{ kubernetes_metrics_server.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
-      serviceAccountName: metrics-server
-      volumes:
-      # mount in tmp so we can safely use from-scratch images and/or read-only containers
-      - name: tmp-dir
-        emptyDir: {}
       containers:
-      - name: metrics-server
-        image: "{{ kubernetes_metrics_server.private_image | image_full_name }}"
-        imagePullPolicy: Always
-        args:
+      - args:
         - --cert-dir=/tmp
         - --secure-port=4443
         # TODO : Fix kubelet serving certificate and remove this insecure flag
         # See https://github.com/kubernetes/kubeadm/issues/1223
         - --kubelet-insecure-tls=true
-        ports:
-        - name: main-port
-          containerPort: 4443
-          protocol: TCP
-        securityContext:
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          runAsUser: 1000
-        readinessProbe:
+        - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+        - --kubelet-use-node-status-port
+        - --metric-resolution=15s
+        image: "{{ kubernetes_metrics_server.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 3
           httpGet:
+            path: /livez
+            port: https
             scheme: HTTPS
-            path: /healthz
-            port: main-port
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          periodSeconds: 10
+        name: metrics-server
+        ports:
+        - containerPort: 4443
+          name: https
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /readyz
+            port: https
+            scheme: HTTPS
+          initialDelaySeconds: 20
+          periodSeconds: 10
         resources:
           requests:
             cpu: "{{ kubernetes_metrics_server.container.requests_cpu }}"
@@ -55,11 +60,19 @@ spec:
           limits:
             cpu: "{{ kubernetes_metrics_server.container.limits_cpu }}"
             memory: "{{ kubernetes_metrics_server.container.limits_memory }}"
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
         volumeMounts:
-        - name: tmp-dir
-          mountPath: /tmp
-      imagePullSecrets:
-      - name: docker-config
+        - mountPath: /tmp
+          name: tmp-dir
       nodeSelector:
-        beta.kubernetes.io/os: linux
+        kubernetes.io/os: linux
         capability/general-purpose: 'yes'
+      priorityClassName: system-cluster-critical
+      serviceAccountName: metrics-server
+      volumes:
+      - emptyDir: {}
+        name: tmp-dir
