@@ -122,10 +122,10 @@ watchers:
     image: {{ deluge_base.base_image.name }}
     tag: {{ deluge_base.base_image.tag }}
     includes:
-      - "[0-9]+\\.[0-9]+\\.[0-9]+-alpine"
+      - 1\.[0-9]+\.[0-9]+-alpine
     excludes:
-      - ^[0-1]\..*
-      - ^2\.0\.[0-4]-alpine
+      - ^1\.[0-1]\..*
+      - ^1\.2\.[0-9]-alpine
   - name: Deluge
     type: pypi
     package: deluge

@@ -5,11 +5,12 @@ _deluge_var_loader:
   base_image:
     repo: "docker.io"
     name: "emmercm/libtorrent"
-    # v1.2.12+ and v2+ don't provide python2 bindings
-    tag: "1.2.11-alpine"
-  # 2.0.5 starts with emmercm/libtorrent:2.0.5-alpine (with tweaks to the Dockerfile)
-  # But it segfaults as soon as a torrent is added :/
-  version: 2.0.3
+    
+    # v2 shouldn't be supported yet : https://dev.deluge-torrent.org/ticket/3455
+    tag: "1.2.14-alpine" 
+    #tag: "1.2.15-alpine" # > Segfault when starting a torrent
+    #tag: "2.0.5-alpine" # > Segfault when starting a torrent
+  version: 2.0.5
 
 deluge:
   enabled: "{{ deluge_enabled | default(True) }}"
@@ -49,20 +50,20 @@ _deluge_base_var_loader:
   image:
     repo: "{{ docker_private_registry.url }}"
     name: "deluge-base"
-    tag: "{{ _deluge_var_loader.version }}-{{ _deluge_var_loader.base_image.name | regex_replace('.*/', '') }}-{{ _deluge_var_loader.base_image.tag }}"
+    tag: "{{ _deluge_var_loader.version }}-{{ _deluge_var_loader.base_image.name | regex_replace('.*/', '') }}-{{ _deluge_var_loader.base_image.tag }}-2"
 
 deluge_base:
   base_image: "{{ _deluge_base_var_loader.base_image }}"
   private_image:
     repo: "{{ docker_private_registry.url }}"
     name: "{{_deluge_base_var_loader.image.name }}"
-    tag: "{{_deluge_base_var_loader.image.tag }}"
+    tag: "{{_deluge_base_var_loader.image.tag }}-2"
 
 deluge_daemon:
   private_image:
     repo: "{{ docker_private_registry.url }}"
     name: "deluge-daemon"
-    tag: "{{ _deluge_base_var_loader.image.tag }}"
+    tag: "{{ _deluge_base_var_loader.image.tag }}-2"
 
   labels_def:
     app.kubernetes.io/name: deluge
