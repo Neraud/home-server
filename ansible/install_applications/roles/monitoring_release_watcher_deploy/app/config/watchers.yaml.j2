@@ -142,21 +142,15 @@ watchers:
     image: {{ sabnzbd.base_image.name }}
     tag: {{ sabnzbd.base_image.tag }}
     includes:
-      - 3\.[0-9]+\.[0-9]+-alpine14
+      - 3\.[0-9]+\.[0-9]+-slim-bullseye
     excludes:
       - ^3\.[0-9]\..*
-      - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[0-3]
   - name: SABnzbd
     type: github_release
     repo: {{ sabnzbd.repo.name }}
     release: {{ sabnzbd.repo.version }}
     excludes:
       - .*(RC|Alpha|Beta).*
-  - name: SABnzbd par2cmdline
-    type: github_release
-    repo: {{ sabnzbd.par2cmdline.repo.name }}
-    release: {{ sabnzbd.par2cmdline.repo.version }}
   - name: SABnzbd nzbToMedia
     type: github_release
     repo: {{ sabnzbd.nzbToMedia.repo.name }}
@@ -169,7 +163,7 @@ watchers:
     includes:
       - 3\.[0-9]+\.[0-9]+-slim-bullseye
     excludes:
-      - ^3.[0-9]\..*
+      - ^3\.[0-9]\..*
   - type: pypi
     package: sickchill
     version: {{ sickchill.version }}
