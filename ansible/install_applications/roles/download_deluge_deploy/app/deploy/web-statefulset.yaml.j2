@@ -41,6 +41,8 @@ spec:
         - containerPort: 8112
           name: webui
         env:
+        - name: "DELUGE_LOGLEVEL"
+          value: "info"
         - name: "DELUGE_CONF_WEB_DEFAULT_DAEMON"
           value: "deluge-daemon"
         - name: "DELUGE_CONF_WEB_PORT"

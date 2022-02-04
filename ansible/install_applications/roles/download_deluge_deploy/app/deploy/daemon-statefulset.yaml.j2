@@ -41,6 +41,8 @@ spec:
         - containerPort: 58846
           name: daemon
         env:
+        - name: "DELUGE_LOGLEVEL"
+          value: "info"
         - name: "DELUGE_CONF_CORE_TORRENTFILES_LOCATION"
           value: "/mnt/download/torrent/torrent-files"
         - name: "DELUGE_CONF_CORE_DOWNLOAD_LOCATION"
