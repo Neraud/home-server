@@ -72,8 +72,6 @@ spec:
         - name: ttrss-pgsql-pv-claim
           mountPath: /var/lib/postgresql/data
           subPath: data
-        - name: ttrss-pgsql-init
-          mountPath: /docker-entrypoint-initdb.d/
         - name: run-volume
           mountPath: /var/run/postgresql/
         - name: tmp-volume
@@ -82,9 +80,6 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: ttrss-pgsql-init
-        configMap:
-          name: ttrss-pgsql-init
       - name: run-volume
         emptyDir: {}
       - name: tmp-volume
