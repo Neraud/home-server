@@ -50,14 +50,14 @@ spec:
           - "sh"
           - "-c"
           - |
-            cp /etc/ssl/certs/java/cacerts /etc/ssl/certs/java_target/cacerts
-            /usr/bin/keytool \
+            cp /opt/java/openjdk/lib/security/cacerts /opt/java/openjdk/lib/security_target/cacerts
+            /opt/java/openjdk/bin/keytool \
               -importcert -noprompt \
-              -keystore /etc/ssl/certs/java_target/cacerts -storepass changeit \
+              -keystore /opt/java/openjdk/lib/security_target/cacerts -storepass changeit \
               -alias cluster -file /etc/ssl/cluster/ca.crt
         volumeMounts:
         - name: keystore-volume
-          mountPath: /etc/ssl/certs/java_target
+          mountPath: /opt/java/openjdk/lib/security_target
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
@@ -100,12 +100,13 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: keystore-volume
-          mountPath: /etc/ssl/certs/java
+          mountPath: /opt/java/openjdk/lib/security/cacerts
+          subPath: cacerts
         - name: airsonic-data-pv-claim
-          mountPath: /airsonic/data
+          mountPath: /var/airsonic
           subPath: data
         - name: airsonic-playlists-pv-claim
-          mountPath: /airsonic/playlists
+          mountPath: /var/playlists
         - name: airsonic-multimedia
           mountPath: /mnt/multimedia
         # airsonic-config is not used by the container directly
@@ -114,6 +115,8 @@ spec:
           mountPath: /config
         - name: tmp-volume
           mountPath: /tmp
+        - name: transcode-volume
+          mountPath: /var/airsonic/transcode
       volumes:
       - name: tz-config
         hostPath:
@@ -131,6 +134,8 @@ spec:
       - name: keystore-volume
         emptyDir: {}
       - name: tmp-volume
+        emptyDir: {}
+      - name: transcode-volume
         emptyDir: {}
       imagePullSecrets:
       - name: docker-config

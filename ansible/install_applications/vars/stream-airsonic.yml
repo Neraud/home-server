@@ -3,9 +3,9 @@
 _airsonic_var_loader:
   namespace: "stream-airsonic"
   base_image:
-    repo: "docker.io"
-    name: "airsonic/airsonic"
-    tag: "10.6.2-RELEASE"
+    repo: "ghcr.io"
+    name: "airsonic-advanced/airsonic-advanced"
+    tag: "edge-11.0.0-SNAPSHOT.20220204175844"
 
 airsonic:
   enabled: "{{ airsonic_enabled | default(True) }}"
