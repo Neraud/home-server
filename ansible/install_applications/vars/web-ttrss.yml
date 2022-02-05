@@ -109,7 +109,7 @@ _ttrss_pgsql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/postgres"
-    tag: "12.9-alpine"
+    tag: "14.1-alpine3.15"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"
