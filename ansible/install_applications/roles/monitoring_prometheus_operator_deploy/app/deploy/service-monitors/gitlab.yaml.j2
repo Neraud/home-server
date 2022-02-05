@@ -27,7 +27,7 @@ spec:
     port: redis-metrics
     path: /metrics
   - interval: {{ (60 * service_monitors.interval_factor | float) | int }}s
-    scrapeTimeout: 30s
+    scrapeTimeout: 60s
     relabelings:
     - action: replace
       regex: '.*'

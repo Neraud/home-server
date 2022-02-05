@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import os
 import re
@@ -7,8 +7,10 @@ logging.basicConfig(level=logging.DEBUG)
 from deluge.config import Config
 
 import sys
+import sysconfig
 import glob
-sys.path.append(glob.glob('/usr/lib/python2.7/site-packages/deluge/plugins/AutoAdd*.egg')[0])
+auto_add_pattern = f"{sysconfig.get_paths()['purelib']}/deluge/plugins/AutoAdd*-py{sys.version_info.major}.{sys.version_info.minor}.egg"
+sys.path.append(glob.glob(auto_add_pattern)[0])
 from deluge_autoadd.core import DEFAULT_PREFS as AUTOADD_CONFIG_DEFAULTS
 
 envNamePrefix = "DELUGE_CONF_AUTOADD_"

@@ -4,9 +4,7 @@ _sabnzbd_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/python"
-    # alpine3.15 dropped unrar (https://gitlab.alpinelinux.org/alpine/aports/-/issues/13382)
-    # TODO : move to a debian-based image
-    tag: "3.10.2-alpine3.14"
+    tag: "3.10.2-slim-bullseye"
   repo:
     name: sabnzbd/sabnzbd
     version: 3.5.0
@@ -42,10 +40,6 @@ sabnzbd:
   labels_desc:
     app.kubernetes.io/version: "{{ _sabnzbd_var_loader.base_image.tag }}"
 
-  par2cmdline:
-    repo:
-      name: Parchive/par2cmdline
-      version: v0.8.1
   nzbToMedia:
     repo:
       name: clinton-hall/nzbToMedia
