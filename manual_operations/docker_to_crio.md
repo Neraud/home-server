@@ -43,3 +43,9 @@ Run the playbook :
 
 - at least `Prepare Kubernetes members` from `install_infra` is needed to deploy CRI-O
 - `install_applications` is needed to add missing caps
+
+## Fix node annotation
+
+```bash
+kubectl annotate node [node-name] --overwrite kubeadm.alpha.kubernetes.io/cri-socket=/var/run/crio/crio.sock
+```

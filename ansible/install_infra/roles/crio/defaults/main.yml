@@ -2,8 +2,8 @@
 crio_apt_repository_os: "Debian_11"
 # See in https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/
 # Use the full version (1.21:/1.21.4) and not just a major.minor (1.21) to make sure the package we're pinning will still be available
-crio_apt_repository_version: "1.21:/1.21.4"
+crio_apt_repository_version: "1.23:/1.23.1"
 # See in https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.21:/1.21.4/Debian_11/
-crio_version: 1.21.4~0
+crio_version: 1.23.1~0
 # See in https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Debian_11/
 crio_runc_version: 1.0.1
