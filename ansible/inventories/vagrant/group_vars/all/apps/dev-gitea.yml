@@ -1,0 +1,7 @@
+---
+gitea_context_root: ""
+gitea_external_url: "https://gitea.dev.intra.{{ web_base_domain }}{{ gitea_context_root }}"
+
+gitea_pgsql_user: gitea
+gitea_pgsql_database: gitea
+gitea_pgsql_password: Passw0rd

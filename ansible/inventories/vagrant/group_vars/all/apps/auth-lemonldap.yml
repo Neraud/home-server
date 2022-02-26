@@ -21,8 +21,11 @@ lemonldap_location_rules:
 
   - domain: "*.dev.intra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'dev')
-  # Skip gitlab to enable https clone
+  # Skip gitlab to enable https repo operations
   - domain: "gitlab.dev.intra.{{ web_base_domain }}"
+    default_rule: skip
+  # Skip gitea to enable https repo operations
+  - domain: "gitea.dev.intra.{{ web_base_domain }}"
     default_rule: skip
 
   - domain: "*.dl.intra.{{ web_base_domain }}"

@@ -1,0 +1,154 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gitea
+  namespace: {{ gitea.namespace }}
+  labels:
+    {{ gitea.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitea.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ gitea.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ gitea.labels_def | to_nice_yaml() | indent(8) }}
+        {{ gitea.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/gitea-data/data
+            chown -R 1000:1000 /opt/gitea-data/
+        volumeMounts:
+        - name: gitea-data-pv-claim
+          mountPath: /opt/gitea-data
+      containers:
+      - name: gitea
+        image: "{{ gitea.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: GITEA_APP_INI
+          value: "/var/lib/gitea/app.ini"
+        
+        - name: GITEA__server__STATIC_URL_PREFIX
+          value: "{{ gitea.context_root }}"
+        - name: GITEA__server__ROOT_URL
+          value: "{{ gitea_external_url }}"
+        - name: GITEA__security__INSTALL_LOCK
+          value: "true"
+        - name: GITEA__oauth2__ENABLE
+          value: "false"
+        - name: GITEA__log__LEVEL
+          value: "Info"
+
+        - name: GITEA__service__DISABLE_REGISTRATION
+          value: "true"
+        - name: GITEA__service__ENABLE_NOTIFY_MAIL
+          value: "true"
+          
+        - name: GITEA__openid__ENABLE_OPENID_SIGNIN
+          value: "false"
+          
+        - name: GITEA__metrics__ENABLED
+          value: "true"
+
+        - name: GITEA__database__DB_TYPE
+          value: "postgres"
+        - name: GITEA__database__HOST
+          value: "pgsql:5432"
+        - name: GITEA__database__NAME
+          value: "{{ gitea_pgsql.database }}"
+        - name: GITEA__database__USER
+          value: "{{ gitea_pgsql.user }}"
+        - name: GITEA__database__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: pgsql-pass
+              key: password
+
+        - name: GITEA__mailer__ENABLED
+          value: "true"
+        - name: GITEA__mailer__MAILER_TYPE
+          value: "smtp"
+        - name: GITEA__mailer__HOST
+          value: "{{ gitea.smtp.host }}:{{ gitea.smtp.port }}"
+        - name: GITEA__mailer__IS_TLS_ENABLED
+          value: "{{ gitea.smtp.tls_enabled }}"
+        - name: GITEA__mailer__USER
+          value: "{{ gitea.smtp.user }}"
+        - name: GITEA__mailer__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: gitea
+              key: smtp_password
+        - name: GITEA__mailer__FROM
+          value: "\"{{ gitea.smtp.displayName }}\" <{{ gitea.smtp.from }}>"
+        - name: GITEA__mailer__SUBJECT_PREFIX
+          value: "{{ gitea.smtp.subject_prefix }}"
+        ports:
+        - containerPort: 3000
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # git
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: {{ gitea.context_root }}/
+            port: http
+        resources:
+          requests:
+            cpu: "{{ gitea.container.requests_cpu }}"
+            memory: "{{ gitea.container.requests_memory }}"
+          limits:
+            cpu: "{{ gitea.container.limits_cpu }}"
+            memory: "{{ gitea.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: gitea-data-pv-claim
+          mountPath: /var/lib/gitea
+          subPath: data
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: gitea-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          {{ gitea.labels_def | to_nice_yaml() | indent(10) }}

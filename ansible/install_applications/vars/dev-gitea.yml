@@ -1,0 +1,98 @@
+---
+# To avoid loops inside gitea
+_gitea_var_loader:
+  namespace: "dev-gitea"
+  base_image:
+    repo: "docker.io"
+    name: "gitea/gitea"
+    tag: "1.16.2-rootless"
+
+gitea:
+  enabled: "{{ gitea_enabled | default(True) }}"
+
+  namespace: "{{ _gitea_var_loader.namespace }}"
+  base_image: "{{ _gitea_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "gitea-{{ _gitea_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _gitea_var_loader.base_image.tag }}"
+
+  app_backup:
+    name: dev-gitea
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+      - name: gitea
+        namespace: "{{ _gitea_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+    gluster_volumes:
+      - gitea-data
+
+  labels_def:
+    app.kubernetes.io/name: gitea
+    app.kubernetes.io/component: gitea
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _gitea_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: gitea
+
+  container:
+    requests_cpu: "{{ gitea_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ gitea_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ gitea_container_limits_cpu | default('250m') }}"
+    limits_memory: "{{ gitea_container_limits_memory | default('256Mi') }}"
+
+  context_root: "{{ gitea_context_root | default('') }}"
+
+  smtp:
+    host: "{{ gitea_smtp_host | default(zonemta.smtp_servername) }}"
+    port: "{{ gitea_smtp_port | default(587) }}"
+    user: "{{ gitea_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ gitea_smtp_password | default(zonemta.feeder.authentication_password) }}"
+    tls_enabled: "{{ gitea_smtp_tls_enabled | default('false') }}"
+    from: "{{ gitea_smtp_from | default('noreply@' + web_base_domain) }}"
+    displayName: "{{ gitea_smtp_displayName | default('Gitea') }}"
+    subject_prefix: "{{ gitea_smtp_subject_prefix | default('[Gitea]') }}"
+
+# To avoid loops inside gitea_pgsql
+_gitea_pgsql_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/postgres"
+    tag: "14.1-alpine3.15"
+
+gitea_pgsql:
+  base_image: "{{ _gitea_pgsql_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "gitea-{{ _gitea_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _gitea_pgsql_var_loader.base_image.tag }}"
+
+  app_backup:
+    name: dev-gitea_pgsql
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+      - name: pgsql
+        namespace: "{{ _gitea_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+    gluster_volumes:
+      - gitea-pgsql
+
+  labels_def:
+    app.kubernetes.io/name: gitea
+    app.kubernetes.io/component: pgsql
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _gitea_pgsql_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: gitea
+
+  container:
+    requests_cpu: "{{ gitea_pgsql_container_requests_cpu | default('50m') }}"
+    requests_memory: "{{ gitea_pgsql_container_requests_memory | default('256Mi') }}"
+    limits_cpu: "{{ gitea_pgsql_container_limits_cpu | default('250m') }}"
+    limits_memory: "{{ gitea_pgsql_container_limits_memory | default('256Mi') }}"
+
+  user: "{{ gitea_pgsql_user | default('gitea') }}"
+  database: "{{ gitea_pgsql_database | default('gitea') }}"
+  password: "{{ gitea_pgsql_password | default('clear_password') }}"

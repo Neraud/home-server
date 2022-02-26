@@ -66,6 +66,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 jellyfin.stream.intra.k8s.test
 
 192.168.100.101 gitlab.dev.intra.k8s.test
+192.168.100.101 gitea.dev.intra.k8s.test
 
 192.168.100.101 sickchill.dl.intra.k8s.test
 192.168.100.101 deluge.dl.intra.k8s.test
@@ -132,6 +133,7 @@ The following services are deployed :
 | [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.web.k8s.test>                         | A very simple static homepage for your server                  |
 | [PaperlessNG](https://paperless-ng.readthedocs.io/en/latest/)    | <https://paperless.tool.intra.k8s.test>              | Scan & OCR documents                                           |
 | [Gitlab](https://about.gitlab.com/)                              | <https://gitlab.dev.intra.k8s.test>                  | Source code management and CI/CD                               |
+| [Gitea](https://gitea.io/)                                       | <https://gitea.dev.intra.k8s.test>                   | Lightweight code hosting solution written in Go.               |
 | [Jellyfin](https://jellyfin.org/)                                | <https://jellyfin.stream.intra.k8s.test>             | Video streaming                                                |
 | [Airsonic](https://airsonic.github.io/)                          | <https://airsonic.stream.intra>                      | Music streaming                                                |
 | [Sickchill](https://sickchill.github.io/)                        | <https://sickchill.dl.intra.k8s.test>                | Automatic Video Library Manager for TV Shows.                  |
@@ -514,6 +516,13 @@ Gitlab is installed using the omnibus package.
 
 The `root` account password is set the first time the site is displayed.
 The default `user` account (from OpenLDAP) also has access.
+
+
+### Gitea
+
+Gitlab is installed and configured.
+
+**TODO**
 
 ### Jellyfin
 
