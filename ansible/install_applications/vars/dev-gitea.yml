@@ -49,6 +49,17 @@ gitea:
     password: "{{ gitea_admin_password }}"
     email: "{{ gitea_admin_email }}"
 
+  ldap:
+    name: "OpenLDAP"
+    servername: "{{ gitea_ldap_servername | default(openldap.ldap.servername) }}"
+    port: "{{ gitea_ldap_port | default(636) }}"
+    security_protocol: "{{ gitea_ldap_security_protocol | default('LDAPS') }}" # Unencrypted, LDAPS or StartTLS
+    users_dn: "{{ gitea_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    bind_dn: "{{ gitea_ldap_bind_dn | default(openldap.ldap.readonly_user_dn) }}"
+    bind_password: "{{ gitea_ldap_bind_password | default(openldap.ldap.readonly_user_password) }}"
+    group: "{{ gitea_ldap_group }}"
+    admin_group: "{{ gitea_ldap_admin_group }}"
+
   smtp:
     host: "{{ gitea_smtp_host | default(zonemta.smtp_servername) }}"
     port: "{{ gitea_smtp_port | default(587) }}"

@@ -49,5 +49,49 @@ else
     echo 'no admin account configured... skipping.'
 fi
 
+function configure_ldap() {
+  local GITEA_AUTH_ID=$(gitea --config ${GITEA_APP_INI} admin auth list --vertical-bars | grep -E "\|${GITEA_LDAP_NAME}\s+\|" | grep -iE '\|LDAP \(via BindDN\)\s+\|' | awk -F " "  "{print \$1}")
+  if [[ -z "${GITEA_AUTH_ID}" ]]; then
+    echo "No ldap configuration found with name '${GITEA_LDAP_NAME}'. Installing it now..."
+    gitea --config ${GITEA_APP_INI} admin auth add-ldap \
+        --name ${GITEA_LDAP_NAME} \
+        --security-protocol ${GITEA_LDAP_SECURITY_PROTOCOL} \
+        --host ${GITEA_LDAP_HOST} \
+        --port ${GITEA_LDAP_PORT} \
+        --bind-dn ${GITEA_LDAP_BIND_DN} \
+        --bind-password ${GITEA_LDAP_BIND_PASSWORD} \
+        --user-search-base ${GITEA_LDAP_USER_SEARCH_BASE} \
+        --user-filter ${GITEA_LDAP_USER_FILTER} \
+        --admin-filter ${GITEA_LDAP_ADMIN_FILTER} \
+        --allow-deactivate-all \
+        --username-attribute ${GITEA_LDAP_USERNAME_ATTRIBUTE} \
+        --email-attribute ${GITEA_LDAP_EMAIL_ATTRIBUTE}
+        
+    echo '...installed.'
+  else
+    echo "Existing ldap configuration with name '${GITEA_LDAP_NAME}': '${GITEA_AUTH_ID}'. Running update to sync settings..."
+    gitea --config ${GITEA_APP_INI} admin auth update-ldap --id "${GITEA_AUTH_ID}" \
+        --name ${GITEA_LDAP_NAME} \
+        --security-protocol ${GITEA_LDAP_SECURITY_PROTOCOL} \
+        --host ${GITEA_LDAP_HOST} \
+        --port ${GITEA_LDAP_PORT} \
+        --bind-dn ${GITEA_LDAP_BIND_DN} \
+        --bind-password ${GITEA_LDAP_BIND_PASSWORD} \
+        --user-search-base ${GITEA_LDAP_USER_SEARCH_BASE} \
+        --user-filter ${GITEA_LDAP_USER_FILTER} \
+        --admin-filter ${GITEA_LDAP_ADMIN_FILTER} \
+        --allow-deactivate-all \
+        --username-attribute ${GITEA_LDAP_USERNAME_ATTRIBUTE} \
+        --email-attribute ${GITEA_LDAP_EMAIL_ATTRIBUTE}
+    echo '...sync settings done.'
+  fi
+}
+
+if [[ -n "${GITEA_LDAP_NAME}" ]]; then
+    configure_ldap
+else
+    echo 'no ldap configuration... skipping.'
+fi
+
 echo "Starting Gitea"
 exec /usr/local/bin/gitea -c ${GITEA_APP_INI} web

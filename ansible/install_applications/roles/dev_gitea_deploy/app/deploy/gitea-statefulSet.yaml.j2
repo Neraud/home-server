@@ -33,6 +33,27 @@ spec:
         volumeMounts:
         - name: gitea-data-pv-claim
           mountPath: /opt/gitea-data
+      - name: prepare-certs
+        image: "{{ gitea.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            echo "Refreshing certs"
+            update-ca-certificates
+            echo "Copying generated certs in the volume"
+            cp -R /etc/ssl/certs/* /etc/ssl/certs-target/
+        securityContext:
+          runAsNonRoot: false
+          runAsUser: 0
+          readOnlyRootFilesystem: false
+        volumeMounts:
+        - name: cluster-ca-volume
+          mountPath: /usr/local/share/ca-certificates/cluster_ca.crt
+          subPath: ca.crt
+        - name: certs-volume
+          mountPath: /etc/ssl/certs-target
       containers:
       - name: gitea
         image: "{{ gitea.private_image | image_full_name }}"
@@ -107,6 +128,32 @@ spec:
               key: admin_password
         - name: GITEA_ADMIN_EMAIL
           value: "{{ gitea.admin.email }}"
+
+        - name: GITEA_LDAP_NAME
+          value: "{{ gitea.ldap.name }}"
+        - name: GITEA_LDAP_SECURITY_PROTOCOL
+          value: "{{ gitea.ldap.security_protocol }}"
+        - name: GITEA_LDAP_HOST
+          value: "{{ gitea.ldap.servername }}"
+        - name: GITEA_LDAP_PORT
+          value: "{{ gitea.ldap.port }}"
+        - name: GITEA_LDAP_BIND_DN
+          value: "{{ gitea.ldap.bind_dn }}"
+        - name: GITEA_LDAP_BIND_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: gitea
+              key: ldap_bind_password
+        - name: GITEA_LDAP_USER_SEARCH_BASE
+          value: "{{ gitea.ldap.users_dn }}"
+        - name: GITEA_LDAP_USER_FILTER
+          value: "(&(objectClass=inetOrgPerson)(cn=%s)(memberOf={{ gitea.ldap.group }}))"
+        - name: GITEA_LDAP_ADMIN_FILTER
+          value: "(&(objectClass=inetOrgPerson)(cn=%s)(memberOf={{ gitea.ldap.admin_group }}))"
+        - name: GITEA_LDAP_USERNAME_ATTRIBUTE
+          value: "cn"
+        - name: GITEA_LDAP_EMAIL_ATTRIBUTE
+          value: "email"
         ports:
         - containerPort: 3000
           name: http
@@ -137,8 +184,13 @@ spec:
           mountPath: /usr/local/bin/init_and_start.sh
           subPath: init_and_start.sh
         - name: cluster-ca-volume
+          mountPath: /usr/local/share/ca-certificates/cluster_ca.crt
+          subPath: ca.crt
+        - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
+        - name: certs-volume
+          mountPath: /etc/ssl/certs
         - name: tmp-volume
           mountPath: /tmp
       volumes:
@@ -153,6 +205,8 @@ spec:
         secret:
           secretName: cluster-ca
       - name: tmp-volume
+        emptyDir: {}
+      - name: certs-volume
         emptyDir: {}
       imagePullSecrets:
       - name: docker-config

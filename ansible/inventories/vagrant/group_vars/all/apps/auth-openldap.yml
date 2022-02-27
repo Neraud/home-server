@@ -13,6 +13,7 @@ openldap_ldap_structure_groups_ou_dns:
   elasticsearch_roles: "ou=elasticsearch_roles,{{ openldap_ldap_basedn }}"
   grafana_roles: "ou=grafana_roles,{{ openldap_ldap_basedn }}"
   jellyfin_roles: "ou=jellyfin_roles,{{ openldap_ldap_basedn }}"
+  gitea_roles: "ou=gitea_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
   - id: user_ldap
@@ -62,6 +63,11 @@ openldap_ldap_groups:
   # App Groups, used to filter access on each app
   - id: gitlab
     description: Gitlab
+    ou: app_groups
+    members:
+      - user_ldap
+  - id: gitea
+    description: gitea
     ou: app_groups
     members:
       - user_ldap
@@ -131,3 +137,9 @@ openldap_ldap_groups:
     members:
       - user_ldap
 
+  # Roles for Gitea
+  - id: admin
+    description: Gitea Admin
+    ou: gitea_roles
+    members:
+      - user_ldap

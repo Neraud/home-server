@@ -9,3 +9,6 @@ gitea_admin_email: admin@{{ web_base_domain }}
 gitea_pgsql_user: gitea
 gitea_pgsql_database: gitea
 gitea_pgsql_password: Passw0rd
+
+gitea_ldap_group: "cn=gitea,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
+gitea_ldap_admin_group: "cn=admin,{{ openldap.ldap.structure_groups_ou_dns['gitea_roles'] }}"

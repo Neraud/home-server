@@ -531,6 +531,7 @@ The default `user_ldap` account (from OpenLDAP) also has access.
 Gitlab is installed and configured.
 
 A default local admin account is created : `admin_local` / `Passw0rd`.
+The default `user_ldap` account (from OpenLDAP) also has access.
 
 ### Jellyfin
 
