@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# Script adapted from https://gitea.com/gitea/helm-chart/src/branch/master/templates/gitea/init.yaml
+
+set -euo pipefail
+
+# Connection retry inspired by https://gist.github.com/dublx/e99ea94858c07d2ca6de
+function test_db_connection() {
+  local RETRY=0
+  local MAX=30
+  local DB_HOST=$(echo ${GITEA__database__HOST} | cut -d':' -f1)
+  local DB_PORT=$(echo ${GITEA__database__HOST} | cut -d':' -f2)
+  echo 'Wait for database to become available...'
+  until [ "${RETRY}" -ge "${MAX}" ]; do
+    nc -vz -w2 ${DB_HOST} ${DB_PORT} && break
+    RETRY=$[${RETRY}+1]
+    echo "...not ready yet (${RETRY}/${MAX})"
+    sleep 3
+  done
+  if [ "${RETRY}" -ge "${MAX}" ]; then
+    echo "Database not reachable after '${MAX}' attempts!"
+    exit 1
+  fi
+}
+
+test_db_connection
+
+echo '==== BEGIN GITEA CONFIGURATION ===='
+
+gitea --config ${GITEA_APP_INI} migrate migrate
+
+
+function configure_admin_user() {
+  local ACCOUNT_ID=$(gitea --config ${GITEA_APP_INI} admin user list --admin | grep -e "\s\+${GITEA_ADMIN_USERNAME}\s\+" | awk -F " " "{printf \$1}")
+  if [[ -z "${ACCOUNT_ID}" ]]; then
+    echo "No admin user '${GITEA_ADMIN_USERNAME}' found. Creating now..."
+    gitea --config ${GITEA_APP_INI} admin user create --admin --username "${GITEA_ADMIN_USERNAME}" --password "${GITEA_ADMIN_PASSWORD}" --email ${GITEA_ADMIN_EMAIL} --must-change-password=false
+    echo '...created.'
+  else
+    echo "Admin account '${GITEA_ADMIN_USERNAME}' already exist. Running update to sync password..."
+    gitea --config ${GITEA_APP_INI} admin user change-password --username "${GITEA_ADMIN_USERNAME}" --password "${GITEA_ADMIN_PASSWORD}"
+    echo '...password sync done.'
+  fi
+}
+
+if [[ -n "${GITEA_ADMIN_USERNAME}" ]]; then
+    configure_admin_user
+else
+    echo 'no admin account configured... skipping.'
+fi
+
+echo "Starting Gitea"
+exec /usr/local/bin/gitea -c ${GITEA_APP_INI} web

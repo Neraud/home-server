@@ -517,12 +517,11 @@ Gitlab is installed using the omnibus package.
 The `root` account password is set the first time the site is displayed.
 The default `user` account (from OpenLDAP) also has access.
 
-
 ### Gitea
 
 Gitlab is installed and configured.
 
-**TODO**
+A default local admin account is created : `admin_local` / `Passw0rd`.
 
 ### Jellyfin
 

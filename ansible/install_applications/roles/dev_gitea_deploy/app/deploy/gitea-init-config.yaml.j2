@@ -1,12 +1,11 @@
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
-  name: gitea
+  name: gitea-init
   namespace: {{ gitea.namespace }}
   labels:
     {{ gitea.labels_def | to_nice_yaml() | indent(4) }}
     {{ gitea.labels_desc | to_nice_yaml() | indent(4) }}
-type: Opaque
 data:
-  admin_password: {{ gitea.admin.password | b64encode }}
-  smtp_password: {{ gitea.smtp.password | b64encode }}
+  init_and_start.sh: |
+    {{ lookup('template', role_path + '/app/config/init_and_start.sh.j2', convert_data=False) | replace('\n', '\n    ') }}

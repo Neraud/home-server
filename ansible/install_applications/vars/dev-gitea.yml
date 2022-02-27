@@ -44,6 +44,11 @@ gitea:
 
   context_root: "{{ gitea_context_root | default('') }}"
 
+  admin:
+    username: "{{ gitea_admin_username }}"
+    password: "{{ gitea_admin_password }}"
+    email: "{{ gitea_admin_email }}"
+
   smtp:
     host: "{{ gitea_smtp_host | default(zonemta.smtp_servername) }}"
     port: "{{ gitea_smtp_port | default(587) }}"

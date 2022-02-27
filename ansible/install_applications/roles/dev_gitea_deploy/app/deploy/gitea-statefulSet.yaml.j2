@@ -37,6 +37,7 @@ spec:
       - name: gitea
         image: "{{ gitea.private_image | image_full_name }}"
         imagePullPolicy: Always
+        args: [ "/usr/local/bin/init_and_start.sh" ]
         env:
         - name: GITEA_APP_INI
           value: "/var/lib/gitea/app.ini"
@@ -96,6 +97,16 @@ spec:
           value: "\"{{ gitea.smtp.displayName }}\" <{{ gitea.smtp.from }}>"
         - name: GITEA__mailer__SUBJECT_PREFIX
           value: "{{ gitea.smtp.subject_prefix }}"
+
+        - name: GITEA_ADMIN_USERNAME
+          value: "{{ gitea.admin.username }}"
+        - name: GITEA_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: gitea
+              key: admin_password
+        - name: GITEA_ADMIN_EMAIL
+          value: "{{ gitea.admin.email }}"
         ports:
         - containerPort: 3000
           name: http
@@ -122,6 +133,9 @@ spec:
         - name: gitea-data-pv-claim
           mountPath: /var/lib/gitea
           subPath: data
+        - name: gitea-init
+          mountPath: /usr/local/bin/init_and_start.sh
+          subPath: init_and_start.sh
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
@@ -131,6 +145,10 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: gitea-init
+        configMap:
+          name: gitea-init
+          defaultMode: 0555
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
