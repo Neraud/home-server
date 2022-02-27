@@ -65,6 +65,8 @@ homer_images_to_download:
 
   - name: gitlab.svg
     source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/gitlab.svg
+  - name: gitea.png
+    source: https://docs.gitea.io/images/gitea.png
 
   - name: sickchill.png
     source: https://raw.githubusercontent.com/SickChill/SickChill/master/sickchill/gui/slick/images/sickchill-sc.png
@@ -212,6 +214,11 @@ homer_config_services:
         logo: "assets/download/gitlab.svg"
         url: "https://gitlab.dev.intra.{{ web_base_domain }}{{ gitlab.context_root }}"
         subtitle: "Source code management and CI/CD"
+        target: "_blank"
+      - name: "Gitea"
+        logo: "assets/download/gitea.png"
+        url: "https://gitea.dev.intra.{{ web_base_domain }}{{ gitea.context_root }}"
+        subtitle: "Lightweight code hosting solution"
         target: "_blank"
   - name: "Download"
     icon: "fas fa-download"
