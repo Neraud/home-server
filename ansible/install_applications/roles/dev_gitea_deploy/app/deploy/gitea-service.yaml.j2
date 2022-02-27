@@ -6,6 +6,7 @@ metadata:
   labels:
     {{ gitea.labels_def | to_nice_yaml() | indent(4) }}
     {{ gitea.labels_desc | to_nice_yaml() | indent(4) }}
+    prometheus-target: gitea
 spec:
   ports:
   - port: 3000
