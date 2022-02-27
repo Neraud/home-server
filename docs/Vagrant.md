@@ -211,12 +211,12 @@ To test the LDAP connection, you can use :
 LemonLDAP is used as a SSO for all applications.
 User, credentials and groups are stored in OpenLDAP, while access rules are configured in LemonLDAP.
 
-User `user` has access to everything.
-You can add a TOTP device for `user` and force its use by setting the `requiredAuthnLevel` property under each domain in `lemonldap_location_rules` in `ansible/inventories/vagrant/group_vars/all/apps/auth-lemonldap`
+User `user_ldap` has access to everything.
+You can add a TOTP device for `user_ldap` and force its use by setting the `requiredAuthnLevel` property under each domain in `lemonldap_location_rules` in `ansible/inventories/vagrant/group_vars/all/apps/auth-lemonldap`
 
 ### phpLDAPadmin
 
-You can login using the `admin`/`Passw0rd` account to manage the LDAP.
+You can login using the `cn=readonly,dc=k8s,dc=test` / `Passw0rd` or `cn=admin,dc=k8s,dc=test` / `Passw0rd` account to manage the LDAP.
 
 ### ZoneMTA
 
@@ -313,13 +313,13 @@ Gotify can be used to send notifications.
 
 2 users are created :
 
-* `admin` / `Passw0rd`
-* `user` / `Passw0rd`
+* `admin_local` / `Passw0rd`
+* `user_local` / `Passw0rd`
 
-`user` also has a `sample` application, and you can send a test message via the command line :
+`user_local` also has a `sample` application, and you can send a test message via the command line :
 
 ```shell
-[user@master$] token=$(curl -s -k -H "Host: gotify.web.k8s.test" -u user:Passw0rd https://192.168.100.100/application | jq -r '.[] | select(.name=="sample") | .token')
+[user@master$] token=$(curl -s -k -H "Host: gotify.web.k8s.test" -u user_local:Passw0rd https://192.168.100.100/application | jq -r '.[] | select(.name=="sample") | .token')
 [user@master$] curl -X POST -s -k -H "Host: gotify.web.k8s.test" -H "X-Gotify-Key: $token" https://192.168.100.100/message -F "title=Sample title" -F "message=Sample message"
 ```
 
@@ -338,7 +338,8 @@ Grafana is deployed and configured to use Prometheus as a data source.
 
 Default Kubernetes dashboards are already created, based on [Kube Prometheus](https://github.com/coreos/prometheus-operator/tree/master/contrib/kube-prometheus).
 
-You can use the default admin account : `admin` / `Passw0rd`
+You can use the default admin account : `admin_local` / `Passw0rd`.
+Or the regular account : `user_ldap` / `Passw0rd`.
 
 ### Fluent Bit
 
@@ -355,6 +356,8 @@ You can use the exporter's user to test : `exporter` / `password`
 ### Kibana
 
 The [OpenSearch Dashboards](https://opensearch.org/) variant of Kibana is deployed and configured to read data from ElasticSearch.
+
+You can use the regular account : `user_ldap` / `Passw0rd`.
 
 Saved Objects (sources, visualizations, dashboards) are loaded from the `ansible/install_applications/roles/logging-kibana.deploy/app/config/saved_objects` folder.
 
@@ -378,19 +381,23 @@ When setting the controller up, the inform URL setting will need to be changed t
 
 HomeAssistant will prompt for the 1st user creation.
 
+You can then use the regular account using `Logging in with Command Line Authentication`: `user_ldap` / `Passw0rd`.
+
 The deployment also prepares and configures a MySQL database to use for HomeAssistant [recorder](https://www.home-assistant.io/components/recorder/).
 
 ### Zwavejs2Mqtt
 
 Zwavejs2Mqtt is not automatically installed for Vagrant. It requires access to a ZWave serial device (most probably exposed on a TCP port via ser2net).
 
-If configured and deployed, it can be accessed using `user` / `Passw0rd` on the web ui.
+If configured and deployed, it can be accessed using `user_local` / `Passw0rd` on the web ui.
 
 It can be added as an integration in Home Assistant using the following URL : `ws://zwavejs2mqtt.home-zwavejs2mqtt.svc.cluster.local:3000`.
 
 ### Zigbee2MQTT
 
 Zigbee2MQTT is not automatically installed for Vagrant. It requires access to a Zigbee serial device (most probably exposed on a TCP port via ser2net).
+
+If configured and deployed, it can be accessed using `user_local` / `Passw0rd` on the web ui.
 
 ### Frigate
 
@@ -477,6 +484,8 @@ To debug all messages sent via Mosquitto :
 
 Node-RED addons can be installed via the web interface.
 
+You can use the regular account : `user_ldap` / `Passw0rd`.
+
 A sample flow is already deployed to show how Node-RED integrates with HomeAssistant.
 It requires :
 
@@ -496,7 +505,7 @@ The real use case would be to use either a real shell, and/or enable the BLE plu
 ### TT-RSS
 
 TT-RSS is installed.
-The default account is `admin` / `password`.
+You can use the regular account : `user_ldap` / `Passw0rd`.
 
 ### Homer
 
@@ -508,14 +517,14 @@ Apps deployed in the cluster are added on the dashboard.
 
 Paperless-NG is installed.
 
-The default account is `admin` / `Passw0rd`.
+The default account is `admin_local` / `Passw0rd`.
 
 ### Gitlab
 
 Gitlab is installed using the omnibus package.
 
 The `root` account password is set the first time the site is displayed.
-The default `user` account (from OpenLDAP) also has access.
+The default `user_ldap` account (from OpenLDAP) also has access.
 
 ### Gitea
 
@@ -526,15 +535,18 @@ A default local admin account is created : `admin_local` / `Passw0rd`.
 ### Jellyfin
 
 Jellyfin is deployed and configured.
-The default `user` account (from OpenLDAP) has admin access.
+The default `user_ldap` account (from OpenLDAP) has admin access.
 
 ### Airsonic
 
 Airsonic is deployed and configured to look for music on the NAS share by default.
+You can use the regular account : `user_ldap` / `Passw0rd`.
 
 ### Sickchill
 
 Sickchill is installed.
+
+A default `user_local` / `Passw0rd` user is created.
 
 Search providers are not configured by default.
 
@@ -554,7 +566,7 @@ pyLoad is installed.
 
 The mock NAS storage is used as media storage.
 
-A default `user` / `Passw0rd` user is created.
+A default `user_local` / `Passw0rd` user is created.
 
 ### SABnzbd
 
@@ -562,7 +574,7 @@ pyLoad is installed.
 
 The mock NAS storage is used as media storage.
 
-A default `user` / `Passw0rd` user is created.
+A default `user_local` / `Passw0rd` user is created.
 
 [nzbToMedia](https://github.com/clinton-hall/nzbToMedia) is added and configured to notify Sickchill of finished downloads.
 

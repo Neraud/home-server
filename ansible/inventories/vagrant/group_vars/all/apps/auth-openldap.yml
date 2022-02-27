@@ -15,11 +15,11 @@ openldap_ldap_structure_groups_ou_dns:
   jellyfin_roles: "ou=jellyfin_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
-  - id: user
+  - id: user_ldap
     sn: User
     password: Passw0rd
     email: user@mail.net
-    displayName: User
+    displayName: User LDAP
 
 openldap_ldap_groups:
   # SSO Groups, used to filter access via LemonLDAP
@@ -27,86 +27,86 @@ openldap_ldap_groups:
     description: Infra
     ou: sso_groups
     members:
-      - user
+      - user_ldap
   - id: web
     description: Web
     ou: sso_groups
     members:
-      - user
+      - user_ldap
   - id: tool
     description: Tools
     ou: sso_groups
     members:
-      - user
+      - user_ldap
   - id: home
     description: Home
     ou: sso_groups
     members:
-      - user
+      - user_ldap
   - id: stream
     description: Stream
     ou: sso_groups
     members:
-      - user
+      - user_ldap
   - id: dev
     description: Dev
     ou: sso_groups
     members:
-      - user
+      - user_ldap
   - id: dl
     description: Download
     ou: sso_groups
     members:
-      - user
+      - user_ldap
 
   # App Groups, used to filter access on each app
   - id: gitlab
     description: Gitlab
     ou: app_groups
     members:
-      - user
+      - user_ldap
   - id: homeassistant
     description: HomeAssistant
     ou: app_groups
     members:
-      - user
+      - user_ldap
   - id: nodered
     description: Node-RED
     ou: app_groups
     members:
-      - user
+      - user_ldap
   - id: grafana
     description: Grafana
     ou: app_groups
     members:
-      - user
+      - user_ldap
   - id: airsonic
     description: Airsonic
     ou: app_groups
     members:
-      - user
+      - user_ldap
   - id: jellyfin
     description: Jellyfin
     ou: app_groups
     members:
-      - user
+      - user_ldap
   - id: ttrss
     description: TT-RSS
     ou: app_groups
     members:
-      - user
+      - user_ldap
   - id: elasticsearch
     description: ElasticSearch
     ou: app_groups
     members:
-      - user
+      - user_ldap
 
   # Roles for Grafana
   - id: admin
     description: Grafana admin
     ou: grafana_roles
     members:
-      - user
+      - user_ldap
   - id: editor
     description: Grafana editor
     ou: grafana_roles
@@ -117,16 +117,17 @@ openldap_ldap_groups:
     description: All access
     ou: elasticsearch_roles
     members:
-      - user
+      - user_ldap
   - id: kibanauser
     description: Kibana user
     ou: elasticsearch_roles
     members:
-      - user
+      - user_ldap
 
   # Roles for Jellyfin
   - id: admin
     description: Jellyfin Admin
     ou: jellyfin_roles
     members:
-      - user
+      - user_ldap
+
