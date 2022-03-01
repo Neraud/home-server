@@ -61,11 +61,6 @@ openldap_ldap_groups:
       - user_ldap
 
   # App Groups, used to filter access on each app
-  - id: gitlab
-    description: Gitlab
-    ou: app_groups
-    members:
-      - user_ldap
   - id: gitea
     description: gitea
     ou: app_groups

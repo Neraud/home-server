@@ -300,28 +300,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: jellyfin
       app.kubernetes.io/component: jellyfin
-  gitlab-config:
-    replicas: 2
-    capacity: 16M
-    arbiterCapacity: 16M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: gitlab
-      app.kubernetes.io/component: gitlab
-      storage: config
-  gitlab-data:
-    replicas: 2
-    capacity: 1G
-    arbiterCapacity: 64M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: gitlab
-      app.kubernetes.io/component: gitlab
-      storage: data
   gitea-data:
     replicas: 2
     capacity: 256M

@@ -101,13 +101,6 @@ When supported, applications also use OpenLDAP to authenticate their users.
 
 A dedicated group under the OU `app_groups` is created for each application.
 
-### Gitlab
-
-With Gitlab CE, login via LDAP is enabled.
-A filter on the `app_groups` `gitlab` is configured.
-
-However, the groups inside Gitlab can't be mapped with LDAP groups (it requires Gitlab EE)
-
 ### HomeAssistant
 
 HomeAssistant doesn't natively support LDAP authentication.

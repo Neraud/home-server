@@ -101,18 +101,6 @@ watchers:
   # Apps : Dev #
   ##############
   - type: docker_registry
-    repo: {{ gitlab.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ gitlab.base_image.name }}
-    tag: {{ gitlab.base_image.tag }}
-    excludes:
-      - nightly
-      - latest
-      - rc
-      - .*-rc[0-9]+.*
-      - ^[1-9]\.
-      - ^1[0-3]\.
-      - ^14\.[0-6]\.
-  - type: docker_registry
     repo: {{ gitea.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ gitea.base_image.name }}
     tag: {{ gitea.base_image.tag }}
