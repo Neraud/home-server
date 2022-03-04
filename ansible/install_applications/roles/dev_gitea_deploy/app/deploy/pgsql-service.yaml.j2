@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgsql
+  namespace: {{ gitea.namespace }}
+  labels:
+    {{ gitea_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitea_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  clusterIP: None
+  ports:
+  - port: 5432
+  selector:
+    {{ gitea_pgsql.labels_def | to_nice_yaml() | indent(4) }}

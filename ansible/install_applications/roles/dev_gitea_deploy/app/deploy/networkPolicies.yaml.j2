@@ -1,0 +1,59 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-pgsql
+  namespace: {{ gitea.namespace }}
+  labels:
+    {{ gitea_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitea_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ gitea_pgsql.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    # Allow from gitea
+    - ports:
+        - port: pgsql
+      from:
+        - podSelector:
+            matchLabels:
+              {{ gitea.labels_def | to_nice_yaml() | indent(14) }}
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-gitea
+  namespace: {{ gitea.namespace }}
+  labels:
+    {{ gitea.labels_def | to_nice_yaml() | indent(4) }}
+    {{ gitea.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ gitea.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    - ports:
+        - port: http
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
+          podSelector:
+            matchLabels:
+              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
+        # Allow from prometheus
+        - namespaceSelector:
+            matchLabels:
+              name: {{ prometheus.namespace }}
+          podSelector:
+            matchLabels:
+              {{ prometheus.labels_def | to_nice_yaml() | indent(14) }}

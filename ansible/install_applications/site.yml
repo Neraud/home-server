@@ -183,9 +183,9 @@
   tags: kubernetes-app-stream-jellyfin
   when: jellyfin_enabled | bool
 
-- import_playbook: app-dev-gitlab.yml
-  tags: kubernetes-app-dev-gitlab
-  when: gitlab_enabled | bool
+- import_playbook: app-dev-gitea.yml
+  tags: kubernetes-app-dev-gitea
+  when: gitea_enabled | bool
 
 - import_playbook: app-download-sickchill.yml
   tags: kubernetes-app-download-sickchill

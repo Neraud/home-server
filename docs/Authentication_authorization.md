@@ -7,21 +7,22 @@ They are created via the ansible playbook and can be configured in `ansible/inve
 
 ```yaml
 openldap_ldap_users:
-  - id: user
+  - id: user_ldap
     sn: User
     password: Passw0rd
     email: user@mail.net
-    displayName: User
+    displayName: User LDAP
 ```
 
 You can use [phpLDAPAdmin](https://infra.k8s.test/phpldapadmin/) to manually create and edit them.
 
 ## User groups
 
-2 kinds of groups are created in OpenLDAP :
+3 kinds of groups are created in OpenLDAP :
 
 * SSO groups, used by the Web SSO
 * Application groups, used by compatible applications
+* Application roles, used by compatible applications
 
 These groups and their members are configured in `ansible/inventories/vagrant/group_vars/all/apps/auth-openldap` :
 
@@ -32,14 +33,21 @@ openldap_ldap_groups:
     description: SSO Group Name 1
     ou: sso_groups
     members:
-      - user
+      - user_ldap
 
   # App Groups, used to filter access on each app
   - id: app-group-name-1
     description: Application Group Name 1
     ou: app_groups
     members:
-      - user
+      - user_ldap
+
+  # Roles for App
+  - id: admin
+    description: All access
+    ou: app-1_roles
+    members:
+      - user_ldap
 ```
 
 ## Web SSO
@@ -101,12 +109,13 @@ When supported, applications also use OpenLDAP to authenticate their users.
 
 A dedicated group under the OU `app_groups` is created for each application.
 
-### Gitlab
+### Gitea
 
-With Gitlab CE, login via LDAP is enabled.
-A filter on the `app_groups` `gitlab` is configured.
+Gitea natively supports LDAP Authentication.
+LDAP users are allowed to access the dashboards in View mode.
+Members of the `admin` `gitea_roles` are given Admin access.
 
-However, the groups inside Gitlab can't be mapped with LDAP groups (it requires Gitlab EE)
+The default `admin_local` account is still created.
 
 ### HomeAssistant
 
@@ -134,9 +143,18 @@ It is enabled by default, and filers on the `app_groups` `nodered`.
 
 Grafana natively supports LDAP Authentication.
 LDAP users are allowed to access the dashboards in View mode.
-Members of the `app_groups` `grafana` are given Admin access.
+Members of the `app_groups` `grafana` are given Viewer access.
+
+Roles are used to grant Editor (`editor`) or Admin (`admin`) access to Grafana.
 
 The default `admin` account is still created. It can safely be removed once logged in with an LDAP account
+
+### Jellyfin
+
+Jellyfin supports LDAP Authentication via a [plugin](https://github.com/jellyfin/jellyfin-plugin-ldapauth).
+Members of the `app_groups` `jellyfin` are given access.
+
+Members of the `admin` `jellyfin` are given Admin access.
 
 ### Airsonic
 
@@ -161,7 +179,7 @@ The internal authentication system (with the default `admin` / `password` accoun
 
 ### Elasticsearch & Kibana
 
-Using the security plugin of the OpenDistro package of Elasticsearch and Kibana enables to use LDAP authentication and authorization.
+Using the security plugin of OpenSearch enables to use LDAP authentication and authorization.
 
 Technical accounts are stored in the internal database (see `elasticsearch_internal_users` in `ansible/inventories/vagrant/group_vars/all/apps/logging-elasticsearch`)
 
