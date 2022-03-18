@@ -4,3 +4,5 @@ metadata:
   name: {{ kubernetes_glusterfs_storage_class_name }}
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
+# Avoid spamming kubelet logs : MarkFSResizeRequired failed to find expandable plugin for volume
+allowVolumeExpansion: false
