@@ -1,5 +1,9 @@
 ---
 kubernetes_cluster_name: kubernetes
+
+# To install from the binaries, override the control place version
+#kubernetes_control_plane_version_override: "1.24.0-alpha.3"
+
 kubernetes_pod_network_cidr: 10.244.0.0/16
 #kubernetes_apiserver_ip:
 

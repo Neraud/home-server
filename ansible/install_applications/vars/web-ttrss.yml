@@ -61,7 +61,7 @@ ttrss:
 
   plugins:
     data_migration:
-      repo_url: "https://git.tt-rss.org/fox/ttrss-data-migration"
+      repo_url: "https://git-gitea.tt-rss.org/fox/ttrss-data-migration"
       branch: master
       commit: 40bb223288
     auth_ldap:
@@ -79,7 +79,7 @@ ttrss:
       branch: php8_Auth_Base
       commit: eee2741a3f6e2e096d2d49c988eaf94540f4078d
     mailer_smtp:
-      repo_url: "https://git.tt-rss.org/fox/ttrss-mailer-smtp"
+      repo_url: "https://git-gitea.tt-rss.org/fox/ttrss-mailer-smtp"
       branch: master
       commit: 0719ebc8fa
 

@@ -658,6 +658,9 @@ watchers:
     tag: {{ airsonic.base_image.tag }}
     includes:
       - .*-SNAPSHOT.*
+    excludes:
+      - .*-SNAPSHOT.202[0-1].*
+      - .*-SNAPSHOT.20220[1-2].*
 
   - type: docker_registry
     repo: {{ jellyfin.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -728,7 +731,7 @@ watchers:
       - '8\.0\.1[0-4]-apache-buster'
   - name: TT-RSS
     type: raw_html
-    page_url: https://git.tt-rss.org/fox/tt-rss/commits/master
+    page_url: https://git-gitea.tt-rss.org/fox/tt-rss/commits/master
     id: {{ ttrss.commit }}
     container_selector: "#commits-table"
     item_selector: "tbody tr"

@@ -1,6 +1,9 @@
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 clusterName: {{ kubernetes_cluster_name }}
+{% if kubernetes_control_plane_version_override is defined %}
+kubernetesVersion: {{ kubernetes_control_plane_version_override }}
+{% endif %}
 controlPlaneEndpoint: {{ kubernetes_apiserver_bind_ip }}:{{ haproxy_kubernetes_apiserver_port }}
 networking:
   podSubnet: {{ kubernetes_pod_network_cidr }}
@@ -16,7 +19,7 @@ scheduler:
 
 ---
 
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 localAPIEndpoint:
 {% if kubernetes_apiserver_ip is defined %}
@@ -33,12 +36,6 @@ cgroupDriver: systemd
 # However, it requires to manually accept them (`kubectl get csr`, `kubectl certificate approve`
 # See https://github.com/kubernetes/kubeadm/issues/1223
 #serverTLSBootstrap: true
-
-# avoid "Failed to start ContainerManager failed to initialise top level QOS containers" error (ref: https://github.com/kubernetes/kubernetes/issues/43856)
-# avoid "kubelet crashes with: root container [kubepods] doesn't exist" (ref: https://github.com/kubernetes/kubernetes/issues/95488)
-# Also configured in kubernetes_kubelet_extra_parameters
-cgroupsPerQOS: false
-enforceNodeAllocatable: []
 
 ---
 

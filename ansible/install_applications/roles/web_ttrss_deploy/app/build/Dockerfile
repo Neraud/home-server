@@ -40,7 +40,7 @@ RUN apt-get update && \
 
 # Install TTRSS
 RUN mkdir -p /opt/ttrss && \
-    curl -sL "https://git.tt-rss.org/fox/tt-rss/archive/${ttrss_commit}.tar.gz" | tar xz --strip-components=1 -C /opt/ttrss && \
+    curl -sL "https://git-gitea.tt-rss.org/fox/tt-rss/archive/${ttrss_commit}.tar.gz" | tar xz --strip-components=1 -C /opt/ttrss && \
     rm -Rf /var/www/html && \
     ln -s /opt/ttrss /var/www/html && \
     chown -R www-data:www-data /opt/ttrss && \

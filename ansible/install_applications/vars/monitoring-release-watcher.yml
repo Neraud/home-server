@@ -3,7 +3,7 @@
 _release_watcher_var_loader:
   repo:
     url: "https://github.com/Neraud/release-watcher"
-    version: "b282d63d9887f16ab509a2223e3807c0a0b402ee"
+    version: "611fc16ed76c5406c4bc99d3326a6e91a1ca2b87"
 
 release_watcher:
   enabled: "{{ release_watcher_enabled | default(True) }}"

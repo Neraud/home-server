@@ -1,0 +1,25 @@
+---
+- name: Add Kubenetes repo key
+  ansible.builtin.apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add Kubernetes repo
+  ansible.builtin.apt_repository:
+    filename: "kubernetes"
+    repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+    state: present
+
+- name: Pin Kubernetes version
+  ansible.builtin.template:
+    src: apt_kubernetes.j2
+    dest: /etc/apt/preferences.d/kubernetes
+    mode: 0644
+
+- name: Install Kubernetes
+  ansible.builtin.apt:
+    pkg:
+      - kubelet
+      - kubectl
+      - kubeadm
+    state: present

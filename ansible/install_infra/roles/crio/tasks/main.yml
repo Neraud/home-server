@@ -74,6 +74,14 @@
     - 100-crio-bridge.conf
     - 200-loopback.conf
 
+- name: Enable crictl autocompletion
+  ansible.builtin.copy:
+    dest: /etc/bash_completion.d/crictl
+    content: |
+      # kubectl completion
+      source <(crictl completion)
+    mode: 0644
+
 - name: Auto-start CRI-O
   ansible.builtin.service:
     name: crio

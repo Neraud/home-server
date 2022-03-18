@@ -1,8 +1,4 @@
 ---
-- name: Install kubectl
-  ansible.builtin.apt:
-    pkg: kubectl
-    state: present
 
 # TODO check if that's a proper way to detect if the master has already been installed
 - name: Check if kubeadm has already run
