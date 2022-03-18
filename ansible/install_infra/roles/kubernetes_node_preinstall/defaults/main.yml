@@ -1,6 +1,15 @@
 ---
 kubernetes_version: 1.23.3-00
 
+# To install from the binaries, configure the following
+#kubernetes_from_binary: True
+#kubernetes_binary_version: v1.24.0-alpha.3  # See https://gcsweb.k8s.io/gcs/kubernetes-release/release
+#kubernetes_binary_release_version: master # See https://github.com/kubernetes/release
+#kubernetes_binary_crictl_version: v1.23.0 # See https://github.com/kubernetes-sigs/cri-tools/releases
+#kubernetes_binary_folder: /usr/local/bin
+#kubernetes_binary_cni_plugins_version: v1.1.1 # See https://github.com/containernetworking/plugins/releases
+# Also set kubernetes_control_plane_version_override in home-server-provisioning/ansible/install_infra/roles/kubernetes_master_bootstrap/defaults/main.yml
+
 kubernetes_kubelet_system_reserved_cpu: 500m
 kubernetes_kubelet_system_reserved_memory: 512M
 

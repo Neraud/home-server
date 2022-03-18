@@ -1,0 +1,100 @@
+---
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+- name: Install requirements
+  ansible.builtin.apt:
+    pkg: conntrack
+    state: present
+
+- name: Creates kubernetes manifests folder
+  ansible.builtin.file:
+    path: /etc/kubernetes/manifests
+    state: directory
+    mode: 0700
+
+- name: Creates cni binaries folder
+  ansible.builtin.file:
+    path: /opt/cni/bin
+    state: directory
+    mode: 0755
+
+- name: Download cni plugins binaries
+  ansible.builtin.unarchive:
+    src: "https://github.com/containernetworking/plugins/releases/download/{{ kubernetes_binary_cni_plugins_version }}/cni-plugins-linux-amd64-{{ kubernetes_binary_cni_plugins_version }}.tgz"
+    dest: /opt/cni/bin/
+    remote_src: yes
+    mode: 0755
+
+- name: Creates Kubernetes binary folder
+  ansible.builtin.file:
+    path: "{{ kubernetes_binary_folder }}"
+    state: directory
+    mode: 0755
+
+- name: Download Kubernetes binaries
+  ansible.builtin.get_url:
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubernetes_binary_version }}/bin/linux/amd64/{{ item }}"
+    dest: "{{ kubernetes_binary_folder }}/{{ item }}"
+    mode: 0755
+  loop:
+   - kubeadm
+   - kubelet
+   - kubectl
+
+- name: Download crictl binary
+  ansible.builtin.unarchive:
+    src: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ kubernetes_binary_crictl_version }}/crictl-{{ kubernetes_binary_crictl_version }}-linux-amd64.tar.gz"
+    dest: "{{ kubernetes_binary_folder }}/"
+    remote_src: yes
+    mode: 0755
+
+- name: Download kubelet service
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/kubernetes/release/{{ kubernetes_binary_release_version }}/cmd/kubepkg/templates/latest/deb/kubelet/lib/systemd/system/kubelet.service"
+    dest: /tmp/kubelet.service
+  changed_when: False
+
+- name: Configure kubelet service
+  ansible.builtin.replace:
+    path: /tmp/kubelet.service
+    regexp: /usr/bin
+    replace: "{{ kubernetes_binary_folder }}"
+  changed_when: False
+
+- name: Deploy kubelet service
+  ansible.builtin.copy:
+    src: /tmp/kubelet.service
+    dest: /etc/systemd/system/kubelet.service
+    remote_src: yes
+  notify: Restart kubelet
+
+- name: Creates kubelet service conf folder
+  ansible.builtin.file:
+    path: /etc/systemd/system/kubelet.service.d
+    state: directory
+    mode: 0755
+
+- name: Download kubeadm config
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/kubernetes/release/{{ kubernetes_binary_release_version }}/cmd/kubepkg/templates/latest/deb/kubeadm/10-kubeadm.conf"
+    dest: /tmp/10-kubeadm.conf
+  changed_when: False
+
+- name: Configure kubeadm config
+  ansible.builtin.replace:
+    path: /tmp/10-kubeadm.conf
+    regexp: /usr/bin
+    replace: "{{ kubernetes_binary_folder }}"
+  changed_when: False
+
+- name: Deploy kubeadm config
+  ansible.builtin.copy:
+    src: /tmp/10-kubeadm.conf
+    dest: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+    remote_src: yes
+  notify: Restart kubelet
+
+- name: Enable kubelet service
+  ansible.builtin.service:
+    name: kubelet
+    enabled: yes

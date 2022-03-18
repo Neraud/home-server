@@ -21,29 +21,11 @@
   vars:
     ufw_applications: "{{ kubernetes_ufw_applications }}"
 
-- name: Add Kubenetes repo key
-  ansible.builtin.apt_key:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-    state: present
+- include_tasks: from_apt.yml
+  when: not kubernetes_from_binary | default(False)
 
-- name: Add Kubernetes repo
-  ansible.builtin.apt_repository:
-    filename: "kubernetes"
-    repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
-    state: present
-
-- name: Pin Kubernetes version
-  ansible.builtin.template:
-    src: apt_kubernetes.j2
-    dest: /etc/apt/preferences.d/kubernetes
-    mode: 0644
-
-- name: Install Kubernetes
-  ansible.builtin.apt:
-    pkg:
-      - kubelet
-      - kubeadm
-    state: present
+- include_tasks: from_binaries.yml
+  when: kubernetes_from_binary | default(False)
 
 - name: Configure kubelet
   ansible.builtin.template:
