@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: docker-registry-pv-claim
+  namespace: {{ docker_registry.namespace }}
+spec:
+  accessModes: [ "ReadWriteMany" ]
+  storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+  resources:
+    requests:
+      storage: 10G
+  selector:
+    matchLabels:
+      {{ docker_registry.labels_def | to_nice_yaml() | indent(6) }}
