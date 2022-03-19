@@ -26,3 +26,5 @@ kubernetes_kubelet_extra_parameters:
   # avoid "Failed to start ContainerManager failed to initialise top level QOS containers" error (ref: https://github.com/kubernetes/kubernetes/issues/43856)
   # avoid "kubelet crashes with: root container [kubepods] doesn't exist" (ref: https://github.com/kubernetes/kubernetes/issues/95488)
   # Also configured in kubeadm_config.yaml
+  - --cgroups-per-qos=false
+  - --enforce-node-allocatable=''
