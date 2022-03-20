@@ -9,7 +9,7 @@ _jellyfin_var_loader:
   conf_injection_base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.9.7-alpine3.14"
+    tag: "3.9.11-alpine3.15"
 
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"
