@@ -18,6 +18,7 @@ spec:
         {{ node_exporter.labels_def | to_nice_yaml() | indent(8) }}
         {{ node_exporter.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      automountServiceAccountToken: true
       containers:
       - args:
         - --web.listen-address=127.0.0.1:9100
@@ -48,6 +49,11 @@ spec:
             memory: {{ node_exporter.container.requests_memory }}
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            add:
+            - SYS_TIME
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /host/sys
@@ -96,6 +102,9 @@ spec:
             memory: {{ node_exporter_rbac_proxy.container.requests_memory }}
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
@@ -107,6 +116,7 @@ spec:
       - name: docker-config
       nodeSelector:
         kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534

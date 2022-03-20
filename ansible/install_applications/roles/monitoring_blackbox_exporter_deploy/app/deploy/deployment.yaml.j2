@@ -19,6 +19,7 @@ spec:
         {{ blackbox_exporter.labels_def | to_nice_yaml() | indent(8) }}
         {{ blackbox_exporter.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      automountServiceAccountToken: true
       containers:
       - args:
         - --config.file=/etc/blackbox_exporter/config.yml
@@ -74,6 +75,9 @@ spec:
             memory: {{ blackbox_exporter_configmap_reload.container.requests_memory }}
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 65534
@@ -113,6 +117,9 @@ spec:
             memory: {{ blackbox_exporter_rbac_proxy.container.requests_memory }}
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
