@@ -274,6 +274,7 @@ watchers:
       - .*-(dev|beta).*
       - .*b[0-9]+$
       - ^202[0-1].*
+      - ^2022\.[0-2].*
   - type: docker_registry
     repo: {{ zwavejs2mqtt.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zwavejs2mqtt.base_image.name }}
