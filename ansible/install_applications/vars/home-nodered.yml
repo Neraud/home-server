@@ -5,7 +5,7 @@ _nodered_var_loader:
   base_image:
     repo: "docker.io"
     name: "nodered/node-red"
-    tag: "2.2.0-16-minimal"
+    tag: "2.2.2-12-minimal"
 
 nodered:
   enabled: "{{ nodered_enabled | default(True) }}"
