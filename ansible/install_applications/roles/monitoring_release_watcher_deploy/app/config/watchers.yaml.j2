@@ -586,9 +586,9 @@ watchers:
     image: {{ pihole_exporter.base_image.name }}
     tag: {{ pihole_exporter.base_image.tag }}
     includes:
-      - ^[0-9]+\.[0-9]+\.[0-9]+
+      - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
-      - ^0\.0\.[0-9]$
+      - ^v0\.[0-2]\..*$
   
   # The monitoring stack is deployed using manifests generated from coreos/kube-prometheus
   #- type: docker_registry
