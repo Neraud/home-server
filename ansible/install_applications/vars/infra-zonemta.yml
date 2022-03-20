@@ -5,7 +5,10 @@ _zonemta_var_loader:
     repo: "docker.io"
     name: "library/node"
     tag: "17.7.2-alpine3.15"
-  version: 3.3.0
+  # 3.2.4+ has issues with the API
+  # Each API call (prometheus metrics included) returns a 500
+  # 3.3.0 crashes when a /metrics request is received
+  version: 3.2.3
   namespace: "infra-zonemta"
 
 zonemta:
