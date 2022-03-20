@@ -4,7 +4,7 @@ _pihole_var_loader:
   base_image:
     repo: "docker.io"
     name: "pihole/pihole"
-    tag: "2022.01.1"
+    tag: "2022.02.1"
   namespace: "infra-pihole"
 
 pihole:

@@ -338,6 +338,7 @@ watchers:
       - '20[0-9]+\.[0-9]+(\.[0-9]+)?'
     excludes:
       - 2021\..*
+      - 2022\.0[0-1]\..*
   - type: docker_registry
     repo: {{ gotify.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ gotify.base_image.name }}
