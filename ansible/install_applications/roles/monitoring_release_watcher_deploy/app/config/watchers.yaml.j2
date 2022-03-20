@@ -311,8 +311,11 @@ watchers:
   - type: github_release
     repo: kubernetes-sigs/metrics-server
     release: {{ kubernetes_metrics_server.base_image.tag }}
+    includes:
+      - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*beta.*
+      - v0\.[0-5]\..*
   - type: github_release
     repo: kubernetes/dashboard
     release: {{ kubernetes_dashboard.base_image.tag }}
