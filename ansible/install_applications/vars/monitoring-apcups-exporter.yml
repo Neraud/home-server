@@ -4,14 +4,14 @@ _apcups_exporter_var_loader:
   base_image_build:
     repo: "docker.io"
     name: library/golang
-    tag: 1.12.7-alpine3.10
+    tag: 1.18.0-alpine3.14
   base_image:
     repo: "docker.io"
     name: library/alpine
-    tag: 3.10.1
+    tag: 3.15.1
   repo:
     url: "https://github.com/mdlayher/apcupsd_exporter"
-    version: "43387c6d027ff9d23dbbb5774b5a7c913e778845"
+    version: "3f531e59fc85ebd86ce9806a1336818c5db18bcb"
 
 apcups_exporter:
   enabled: "{{ apcups_exporter_enabled | default(True) }}"
