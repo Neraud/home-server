@@ -4,9 +4,10 @@ _zonemta_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/node"
-    tag: "12.22.7-alpine3.14"
-  # 3.2.4 has issues with the API
+    tag: "17.7.2-alpine3.15"
+  # 3.2.4+ has issues with the API
   # Each API call (prometheus metrics included) returns a 500
+  # 3.3.0 crashes when a /metrics request is received
   version: 3.2.3
   namespace: "infra-zonemta"
 
@@ -60,7 +61,7 @@ _zonemta_mongo_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/mongo"
-    tag: "5.0.4-focal"
+    tag: "5.0.6-focal"
 
 zonemta_mongo:
   base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
@@ -94,7 +95,7 @@ _zonemta_redis_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/redis"
-    tag: "6.2.6-alpine3.14"
+    tag: "6.2.6-alpine3.15"
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"

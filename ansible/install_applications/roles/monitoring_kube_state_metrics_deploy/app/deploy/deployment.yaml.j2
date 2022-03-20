@@ -30,8 +30,11 @@ spec:
         securityContext:
           runAsGroup: 65532
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
-          runAsUser: 65532
+          runAsUser: 65534
         #readinessProbe:
         # As we bind to 127.0.0.1, we can't add probes to this container
         resources:
@@ -65,6 +68,9 @@ spec:
           periodSeconds: 5
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true
@@ -101,6 +107,9 @@ spec:
           periodSeconds: 5
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true

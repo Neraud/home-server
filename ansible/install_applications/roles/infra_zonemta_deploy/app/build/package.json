@@ -1,7 +1,7 @@
 {
     "name": "zone-mta-template",
     "private": true,
-    "version": "1.6.0",
+    "version": "1.7.0",
     "description": "ZoneMTA example application",
     "main": "index.js",
     "scripts": {
@@ -24,5 +24,10 @@
         "zonemta-delivery-counters": "1.0.1",
         "zonemta-limiter": "1.0.0",
         "zonemta-loop-breaker": "1.0.2"
+    },
+    "devDependencies": {
+        "eslint": "7.32.0",
+        "eslint-config-nodemailer": "1.2.0",
+        "eslint-config-prettier": "8.3.0"
     }
 }

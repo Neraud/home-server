@@ -55,7 +55,7 @@
         {{ private_image_local_info.images[0].Id }}
       {%- endif %}
 
-- name: Pull from public registry and push to private registry
+- name: Pull from public registry and tag to private registry
   block:
     - name: Pull from public registry
       containers.podman.podman_image:
@@ -69,12 +69,6 @@
 
     - name: Tag to private registry
       command: "podman tag {{ public_image_full_name }} {{ private_image_full_name }}"
-      when: private_image_local_id != public_image_info.images[0].Id
-    
-    - name: Push to private registry
-      containers.podman.podman_image:
-        name: "{{ private_image_full_name }}"
-        push: yes
       when: private_image_local_id != public_image_info.images[0].Id
   when: not build | default('no') | bool
 
@@ -91,26 +85,28 @@
       vars:
           one_arg: "--build-arg={{ item.key }}={{ item.value }}"
       
-    - name: Build and push container image
+    - name: Build container image
       containers.podman.podman_image:
         name: "{{ private_image_full_name }}"
         path: "{{ build_path | default(role_path + '/app/build') }}"
         build:
           extra_args: "{{ (build_extra_args | default([])) | join(' ') }}"
-        push: yes
   when:
     - build | default('no') | bool
     - (not private_image_local_id or force_build | default('no') | bool)
 
-# When building a custom image, a push can fail
-# In that case, the "Build and push container image" task will remain 'ok', without pushing
-# We add this push task to make sure we retry the push
-- name: Push previously built custom image
+# Always push, in case we had a failure during a previous push
+# The previous logic looked for private_image_full_name, which is found locally if a push failed
+- name: Push to private registry
   containers.podman.podman_image:
     name: "{{ private_image_full_name }}"
-  when:
-    - build | default('no') | bool
-    - private_image_local_id != private_image_remote_id
+    pull: no
+    push: yes
+  # TODO : With multiple registry replicas, blob uploads can happen across multiple pods and sometimes fail with "upload resumed at wrong offest"
+  # workaround : retry :/
+  register: push_res
+  retries: 5
+  until: push_res is success
 
 - name: Reset build args
   ansible.builtin.set_fact:

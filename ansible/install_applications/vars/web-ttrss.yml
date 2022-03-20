@@ -6,8 +6,8 @@ _ttrss_var_loader:
     repo: "docker.io"
     name: "library/php"
     # TTRSS has issues with PHP 8.1 (eg: PHP Fatal error:  Uncaught Error: Class "ORM" not found in /opt/ttrss/classes/logger/sql.php)
-    tag: "8.0.15-apache-buster"
-  commit: b59bde7b45
+    tag: "8.0.17-apache-buster"
+  commit: 1703850215
 
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -109,7 +109,7 @@ _ttrss_pgsql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/postgres"
-    tag: "14.1-alpine3.15"
+    tag: "14.2-alpine3.15"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"

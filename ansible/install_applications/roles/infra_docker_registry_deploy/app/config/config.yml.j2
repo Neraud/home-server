@@ -22,6 +22,7 @@ health:
     threshold: 3
 http:
   addr: :5443
+  secret: {{ docker_registry.http_secret }}
 
   tls:
     certificate: /certs/server.crt

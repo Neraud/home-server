@@ -5,7 +5,7 @@ _docker_registry_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/registry"
-    tag: "2.7.1"
+    tag: "2.8.1"
   namespace: "infra-docker-registry"
 
 docker_registry:
@@ -22,6 +22,7 @@ docker_registry:
     app.kubernetes.io/version: "{{ _docker_registry_var_loader.base_image.tag }}"
 
   container:
+    replicas: "{{ docker_registry_container_replicas | default('2') }}"
     requests_cpu: "{{ docker_registry_container_requests_cpu | default('50m') }}"
     requests_memory: "{{ docker_registry_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ docker_registry_container_limits_cpu | default('500m') }}"
@@ -30,5 +31,6 @@ docker_registry:
   servername: "{{ docker_registry_servername | default('registry.' + _docker_registry_var_loader.namespace + '.svc.cluster.local') }}"
   port: "{{ _docker_registry_var_loader.port }}"
   domain: "registry.intra.{{ web_base_domain }}"
+  http_secret: "{{ docker_registry_http_secret | default('asecretforlocaldevelopment') }}"
   notification_endpoints: "{{ docker_registry_notification_endpoints | default([]) }}"
   users: "{{ docker_registry_users | default([]) }}"

@@ -570,6 +570,14 @@ spec:
                     description: matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
                     type: object
                 type: object
+              alertmanagerConfiguration:
+                description: 'EXPERIMENTAL: alertmanagerConfiguration specifies the global Alertmanager configuration. If defined, it takes precedence over the `configSecret` field. This field may change in future releases. The specified global alertmanager config will not force add a namespace label in routes and inhibitRules.'
+                properties:
+                  name:
+                    description: The name of the AlertmanagerConfig resource which holds the global configuration. It must be in the same namespace as the Alertmanager.
+                    minLength: 1
+                    type: string
+                type: object
               baseImage:
                 description: 'Base image that is used to deploy pods, without tag. Deprecated: use ''image'' instead'
                 type: string
@@ -2177,9 +2185,19 @@ spec:
                 type: boolean
               logFormat:
                 description: Log format for Alertmanager to be configured with.
+                enum:
+                - ""
+                - logfmt
+                - json
                 type: string
               logLevel:
                 description: Log level for Alertmanager to be configured with.
+                enum:
+                - ""
+                - debug
+                - info
+                - warn
+                - error
                 type: string
               minReadySeconds:
                 description: Minimum number of seconds for which a newly created pod should be ready without any of its container crashing for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) This is an alpha field and requires enabling StatefulSetMinReadySeconds feature gate.

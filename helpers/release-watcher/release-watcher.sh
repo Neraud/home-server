@@ -20,6 +20,6 @@ source /opt/ansible_venv/bin/activate
 ansible-playbook -i ../../ansible/inventories/vagrant/inventory.ini ./generate-watchers-config.yml
 
 # We could also generate the configuration from a running cluster :
-#kubectl --namespace=monitoring get ConfigMap release-watcher-config -o jsonpath='{.data.watchers\.yaml}' >./tmp/watchers.yaml
+#kubectl --namespace=monitoring-release-watcher get ConfigMap release-watcher-config -o jsonpath='{.data.watchers\.yaml}' >./tmp/watchers.yaml
 
 podman run -v $(pwd):/data release-watcher-helper

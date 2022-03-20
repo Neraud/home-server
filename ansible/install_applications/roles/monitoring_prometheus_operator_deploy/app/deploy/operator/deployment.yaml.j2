@@ -50,6 +50,9 @@ spec:
             memory: {{ prometheus_operator.container.requests_memory }}
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
       - args:
         - --logtostderr
@@ -70,6 +73,9 @@ spec:
             memory: {{ prometheus_operator_rbac_proxy.container.requests_memory }}
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
           readOnlyRootFilesystem: true
           runAsGroup: 65532
           runAsNonRoot: true

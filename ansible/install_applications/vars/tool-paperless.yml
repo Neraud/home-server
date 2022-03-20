@@ -15,7 +15,7 @@ paperless:
   base_image: "{{ _paperless_var_loader.base_image }}"
   private_image:
     repo: "{{ docker_private_registry.url }}"
-    name: "{{ _paperless_var_loader.base_image.name | regex_replace('.*/', '') }}-custom-5"
+    name: "{{ _paperless_var_loader.base_image.name | regex_replace('.*/', '') }}-custom"
     tag: "{{ _paperless_var_loader.base_image.tag }}"
 
   app_backup:

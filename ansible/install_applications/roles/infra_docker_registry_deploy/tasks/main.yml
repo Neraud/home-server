@@ -24,7 +24,7 @@
 
 - name: Wait for Docker registry to be available
   kubernetes.core.k8s_info:
-    kind: StatefulSet
+    kind: Deployment
     namespace: "{{ docker_registry.namespace }}"
     name: docker-registry
     kubeconfig: "{{ kubeconfig_path }}"

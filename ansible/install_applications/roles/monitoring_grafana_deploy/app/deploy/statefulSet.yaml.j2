@@ -19,6 +19,7 @@ spec:
         {{ grafana.labels_def | to_nice_yaml() | indent(8) }}
         {{ grafana.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      automountServiceAccountToken: false
       initContainers:
       - name: create-folders
         image: "{{ busybox.private_image | image_full_name }}"
@@ -46,9 +47,6 @@ spec:
         securityContext:
           runAsNonRoot: true
           runAsUser: 65534
-          readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             path: /api/health
@@ -62,6 +60,12 @@ spec:
           limits:
             cpu: "{{ grafana.container.limits_cpu }}"
             memory: "{{ grafana.container.limits_memory }}"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -90,6 +94,9 @@ spec:
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
+        - mountPath: /tmp
+          name: tmp-plugins
+          readOnly: false
       nodeSelector:
         beta.kubernetes.io/os: linux
         capability/general-purpose: 'yes'
@@ -115,6 +122,8 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - emptyDir: {}
+        name: tmp-plugins
       imagePullSecrets:
       - name: docker-config
   volumeClaimTemplates:

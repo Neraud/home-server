@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: docker-registry
   namespace: {{ docker_registry.namespace }}
@@ -9,6 +9,7 @@ metadata:
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
+  replicas: {{ docker_registry.container.replicas }}
   selector:
     matchLabels:
       {{ docker_registry.labels_def | to_nice_yaml() | indent(6) }}
@@ -34,7 +35,7 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: docker-registry-pv-claim
+        - name: docker-registry-data
           mountPath: /var/lib/registry
       containers:
       - name: docker-registry
@@ -68,7 +69,7 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: docker-registry-pv-claim
+        - name: docker-registry-data
           mountPath: /var/lib/registry
         - name: docker-registry-config
           mountPath: /etc/docker/registry/config.yml
@@ -91,17 +92,8 @@ spec:
       - name: certs-volume
         secret:
           secretName: docker-registry-certs
+      - name: docker-registry-data
+        persistentVolumeClaim:
+          claimName: docker-registry-pv-claim
       nodeSelector:
         capability/general-purpose: 'yes'
-  volumeClaimTemplates:
-  - metadata:
-      name: docker-registry-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
-      resources:
-        requests:
-          storage: 10G
-      selector:
-        matchLabels:
-          {{ docker_registry.labels_def | to_nice_yaml() | indent(10) }}

@@ -5,7 +5,7 @@ _airsonic_var_loader:
   base_image:
     repo: "ghcr.io"
     name: "airsonic-advanced/airsonic-advanced"
-    tag: "edge-11.0.0-SNAPSHOT.20220204175844"
+    tag: "edge-11.0.0-SNAPSHOT.20220320083637"
 
 airsonic:
   enabled: "{{ airsonic_enabled | default(True) }}"
