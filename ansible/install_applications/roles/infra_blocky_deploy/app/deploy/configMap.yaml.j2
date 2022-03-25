@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blocky-config
+  namespace: {{ blocky.namespace }}
+  labels:
+    {{ blocky.labels_def | to_nice_yaml() | indent(4) }}
+    {{ blocky.labels_desc | to_nice_yaml() | indent(4) }}
+data:
+  config.yml: |
+    {{ lookup('template', role_path + '/app/config/config.yml.j2')  | replace('\n', '\n    ') }}

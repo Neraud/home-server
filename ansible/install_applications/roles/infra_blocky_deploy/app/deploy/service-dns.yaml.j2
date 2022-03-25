@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blocky-dns-udp
+  namespace: {{ blocky.namespace }}
+  labels:
+    {{ blocky.labels_def | to_nice_yaml() | indent(4) }}
+    {{ blocky.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    metallb.universe.tf/allow-shared-ip: blocky
+spec:
+  type: LoadBalancer
+  # TODO
+  #loadBalancerIP: {{ kubernetes_dns_lb_ip }}
+  loadBalancerIP: 192.168.100.25
+  externalTrafficPolicy: Local
+  ports:
+    - name: dns-udp
+      port: 53
+      targetPort: dns-udp
+      protocol: UDP
+  selector:
+    {{ blocky.labels_def | to_nice_yaml() | indent(4) }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: blocky-dns-tcp
+  namespace: {{ blocky.namespace }}
+  labels:
+    {{ blocky.labels_def | to_nice_yaml() | indent(4) }}
+    {{ blocky.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    metallb.universe.tf/allow-shared-ip: blocky
+spec:
+  type: LoadBalancer
+  # TODO
+  #loadBalancerIP: {{ kubernetes_dns_lb_ip }}
+  loadBalancerIP: 192.168.100.25
+  externalTrafficPolicy: Local
+  ports:
+    - name: dns
+      port: 53
+      targetPort: dns
+      protocol: TCP
+  selector:
+    {{ blocky.labels_def | to_nice_yaml() | indent(4) }}

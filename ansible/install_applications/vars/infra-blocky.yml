@@ -1,0 +1,37 @@
+---
+# To avoid loops inside blocky
+_blocky_var_loader:
+  base_image:
+    repo: "ghcr.io"
+    name: "0xerr0r/blocky"
+    tag: "v0.18"
+
+blocky:
+  enabled: "{{ blocky_enabled | default(True) }}"
+
+  namespace: "infra-blocky"
+  base_image: "{{ _blocky_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _blocky_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _pihole_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/component: blocky
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _blocky_var_loader.base_image.tag }}"
+
+  container:
+    replicas: "{{ blocky_container_replicas | default('1') }}"
+    requests_cpu: "{{ blocky_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ blocky_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ blocky_container_limits_cpu | default('250m') }}"
+    limits_memory: "{{ blocky_container_limits_memory | default('128Mi') }}"
+
+  config:
+    dns_upstreams: "{{ blocky_config_dns_upstreams | default(['tcp-tls:1.1.1.1:853', 'tcp-tls:1.0.0.1:853' ])}}" # CloudFlare DNS over TLS
+    blacklists: "{{ blocky_config_blacklists | default({}) }}"
+    whitelists: "{{ blocky_config_whitelists | default({}) }}"
+    client_groups_block: "{{ blocky_config_client_groups_block | default({}) }}"
