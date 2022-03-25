@@ -10,7 +10,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: pihole
 spec:
   type: LoadBalancer
-  loadBalancerIP: {{ kubernetes_pihole_lb_ip }}
+  loadBalancerIP: {{ kubernetes_dns_lb_ip }}
   externalTrafficPolicy: Local
   ports:
     - name: dns-udp
@@ -34,7 +34,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: pihole
 spec:
   type: LoadBalancer
-  loadBalancerIP: {{ kubernetes_pihole_lb_ip }}
+  loadBalancerIP: {{ kubernetes_dns_lb_ip }}
   externalTrafficPolicy: Local
   ports:
     - name: dns
