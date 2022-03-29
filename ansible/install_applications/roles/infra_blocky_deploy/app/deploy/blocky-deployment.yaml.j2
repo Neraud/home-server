@@ -64,8 +64,8 @@ spec:
         hostPath:
           path: /etc/localtime
       - name: blocky-config
-        configMap:
-          name: blocky-config
+        secret:
+          secretName: blocky-config
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
