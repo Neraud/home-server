@@ -1,0 +1,14 @@
+apiVersion: 1
+datasources:
+  - name: Blocky PostgreSQL
+    uid: blocky-postgresql
+    type: postgres
+    url: pgsql.{{ blocky.namespace }}.svc.cluster.local:5432
+    database: {{ blocky_pgsql.database }}
+    user: {{ blocky_pgsql.readonly.user }}
+    editable: false
+    secureJsonData:
+      password: {{ blocky_pgsql.readonly.password }}
+    jsonData:
+      sslmode: "disable"
+      postgresVersion: 1200
