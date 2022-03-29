@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pgsql
+  namespace: {{ blocky.namespace }}
+  labels:
+    {{ blocky_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ blocky_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ blocky_pgsql.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ blocky_pgsql.labels_def | to_nice_yaml() | indent(8) }}
+        {{ blocky_pgsql.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /var/lib/postgresql/data
+            chown -R 70:70 /var/lib/postgresql/data
+        volumeMounts:
+        - name: pgsql-pv-claim
+          mountPath: /var/lib/postgresql
+      containers:
+      - name: pgsql
+        image: "{{ blocky_pgsql.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: POSTGRES_USER
+          value: {{ blocky_pgsql.user }}
+        - name: POSTGRES_DB
+          value: {{ blocky_pgsql.database }}
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgsql-pass
+              key: password
+        ports:
+        - containerPort: 5432
+          name: pgsql
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 70 # postgres
+          readOnlyRootFilesystem: true
+        readinessProbe:
+           exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U {{ blocky_pgsql.user }} -d {{ blocky_pgsql.database }} -h 127.0.0.1
+        resources:
+          requests:
+            cpu: "{{ blocky_pgsql.container.requests_cpu }}"
+            memory: "{{ blocky_pgsql.container.requests_memory }}"
+          limits:
+            cpu: "{{ blocky_pgsql.container.limits_cpu }}"
+            memory: "{{ blocky_pgsql.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: pgsql-pv-claim
+          mountPath: /var/lib/postgresql/data
+          subPath: data
+        - name: pgsql-config
+          mountPath: /docker-entrypoint-initdb.d/pg_readonly.sql
+          subPath: pg_readonly.sql
+        - name: run-volume
+          mountPath: /var/run/postgresql/
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: pgsql-config
+        secret:
+          secretName: pgsql-config
+      - name: run-volume
+        emptyDir: {}
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: pgsql-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 256M
+      selector:
+        matchLabels:
+          {{ blocky_pgsql.labels_def | to_nice_yaml() | indent(10) }}

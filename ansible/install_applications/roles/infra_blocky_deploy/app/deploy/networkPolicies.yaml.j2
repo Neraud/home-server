@@ -29,3 +29,29 @@ spec:
         - port: dns
         - port: dns-udp
           protocol: UDP
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-blocky-pgsql
+  namespace: {{ blocky.namespace }}
+  labels:
+    {{ blocky_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ blocky_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ blocky_pgsql.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    # Allow from blocky
+    - ports:
+        - port: pgsql
+      from:
+        - podSelector:
+            matchLabels:
+              {{ blocky.labels_def | to_nice_yaml() | indent(14) }}
