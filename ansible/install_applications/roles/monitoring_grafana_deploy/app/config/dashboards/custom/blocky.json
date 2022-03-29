@@ -20,8 +20,8 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13768,
   "graphTooltip": 0,
-  "id": 42,
-  "iteration": 1648201014702,
+  "id": 49,
+  "iteration": 1648558341908,
   "links": [{
     "icon": "external link",
     "tags": [],
@@ -32,10 +32,7 @@
   }],
   "liveNow": false,
   "panels": [{
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
+      "datasource": "prometheus",
       "description": "current service state",
       "fieldConfig": {
         "defaults": {
@@ -99,12 +96,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": false,
-        "expr": "sum(up{job=\"blocky\"})",
+        "expr": "sum(up{job=\"blocky\",pod=~\"${pod}\"})",
         "format": "table",
         "instant": true,
         "interval": "",
@@ -116,10 +110,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "datasource",
-        "uid": "grafana"
-      },
+      "datasource": "prometheus",
       "description": "Is blocking enabled?",
       "fieldConfig": {
         "defaults": {
@@ -172,19 +163,16 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^Value$/",
           "values": false
         },
-        "textMode": "value_and_name"
+        "textMode": "value"
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": false,
-        "expr": "blocky_blocking_enabled",
+        "expr": "blocky_blocking_enabled{pod=~\"${pod}\"}",
         "format": "table",
         "instant": true,
         "interval": "",
@@ -192,13 +180,12 @@
         "refId": "A"
       }],
       "title": "Blocking",
+      "transformations": [],
       "transparent": true,
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Number of blacklist entries",
       "fieldConfig": {
         "defaults": {
@@ -247,12 +234,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(blocky_blacklist_cache) / sum(up{job=\"blocky\"})",
+        "expr": "sum(blocky_blacklist_cache{pod=~\"${pod}\"}) / sum(up{job=\"blocky\",pod=~\"${pod}\"})",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -264,9 +248,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "decimals": 2,
@@ -315,12 +297,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(go_memstats_sys_bytes{job=\"blocky\"})/sum(up{job=\"blocky\"})",
+        "expr": "sum(go_memstats_sys_bytes{job=\"blocky\",pod=~\"${pod}\"})/sum(up{job=\"blocky\",pod=~\"${pod}\"})",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -332,6 +311,7 @@
       "type": "stat"
     },
     {
+      "datasource": "prometheus",
       "description": "Blocky [version](https://github.com/0xERR0R/blocky) number",
       "fieldConfig": {
         "defaults": {
@@ -375,14 +355,9 @@
       "pluginVersion": "8.4.3",
       "repeatDirection": "v",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "exemplar": false,
-        "expr": "blocky_build_info ",
-        "format": "table",
-        "instant": true,
+        "datasource": "prometheus",
+        "exemplar": true,
+        "expr": "blocky_build_info{pod=~\"${pod}\"}",
         "interval": "",
         "legendFormat": "",
         "refId": "A"
@@ -401,9 +376,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Average query response time for all query types",
       "fieldConfig": {
         "defaults": {
@@ -457,12 +430,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(increase(blocky_request_duration_ms_sum[$__range])) / sum(increase(blocky_request_duration_ms_count[$__range]))",
+        "expr": "sum(increase(blocky_request_duration_ms_sum{pod=~\"${pod}\"}[$__range])) / sum(increase(blocky_request_duration_ms_count{pod=~\"${pod}\"}[$__range]))",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -474,9 +444,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Number of entries in the cache. Shows the last value",
       "fieldConfig": {
         "defaults": {
@@ -514,12 +482,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(blocky_cache_entry_count)/ sum(up{job=\"blocky\"})",
+        "expr": "sum(blocky_cache_entry_count{pod=~\"${pod}\"})/ sum(up{job=\"blocky\",pod=~\"${pod}\"})",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -531,9 +496,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Cache Hit/Miss ratio. 100 % means, all queries could be answered from the cache, 0% - all queries must be resolved via external DNS",
       "fieldConfig": {
         "defaults": {
@@ -577,12 +540,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(increase(blocky_cache_hit_count[$__range])) / (sum(increase(blocky_cache_hit_count[$__range])) + sum(increase(blocky_cache_miss_count[$__range])))",
+        "expr": "sum(increase(blocky_cache_hit_count{pod=~\"${pod}\"}[$__range])) / (sum(increase(blocky_cache_hit_count{pod=~\"${pod}\"}[$__range])) + sum(increase(blocky_cache_miss_count{pod=~\"${pod}\"}[$__range])))",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -594,9 +554,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Percentage of blocked queries",
       "fieldConfig": {
         "defaults": {
@@ -653,12 +611,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(increase(blocky_response_total{response_type=\"BLOCKED\"}[$__range])) / sum(increase(blocky_query_total[$__range])) ",
+        "expr": "sum(increase(blocky_response_total{response_type=\"BLOCKED\",pod=~\"${pod}\"}[$__range])) / sum(increase(blocky_query_total{pod=~\"${pod}\"}[$__range])) ",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -670,10 +625,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Number of all queries. Shows the last value",
       "fieldConfig": {
         "defaults": {
@@ -723,12 +675,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "ceil(sum(increase(blocky_query_total[$__range]))) ",
+        "expr": "ceil(sum(increase(blocky_query_total{pod=~\"${pod}\"}[$__range]))) ",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -740,9 +689,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Amount of prefetch queries per minute",
       "fieldConfig": {
         "defaults": {
@@ -785,12 +732,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(rate(blocky_prefetch_count[5m])) * 60",
+        "expr": "sum(rate(blocky_prefetch_count{pod=~\"${pod}\"}[5m])) * 60",
         "format": "table",
         "interval": "",
         "legendFormat": "",
@@ -801,9 +745,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "How many of cached entries were prefetched automatically",
       "fieldConfig": {
         "defaults": {
@@ -847,12 +789,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(increase(blocky_prefetch_hit_count[$__range])) / (sum(increase(blocky_cache_hit_count[$__range])))",
+        "expr": "sum(increase(blocky_prefetch_hit_count{pod=~\"${pod}\"}[$__range])) / (sum(increase(blocky_cache_hit_count{pod=~\"${pod}\"}[$__range])))",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -864,9 +803,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Number of occured errors",
       "fieldConfig": {
         "defaults": {
@@ -924,12 +861,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(increase(blocky_error_total[$__range]))",
+        "expr": "sum(increase(blocky_error_total{pod=~\"${pod}\"}[$__range]))",
         "format": "table",
         "instant": false,
         "interval": "",
@@ -941,6 +875,7 @@
       "type": "stat"
     },
     {
+      "datasource": "prometheus",
       "description": "Time since last list refresh",
       "fieldConfig": {
         "defaults": {
@@ -980,14 +915,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "exemplar": false,
+        "datasource": "prometheus",
+        "exemplar": true,
         "expr": "sum(time() -blocky_last_list_group_refresh)/ sum(up{job=\"blocky\"})",
-        "format": "table",
-        "instant": true,
         "interval": "",
         "legendFormat": "",
         "refId": "A"
@@ -997,9 +927,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Amount of unique domains in the prefetched cache",
       "fieldConfig": {
         "defaults": {
@@ -1037,12 +965,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(blocky_prefetch_domain_name_cache_count)/ sum(up{job=\"blocky\"})",
+        "expr": "sum(blocky_prefetch_domain_name_cache_count{pod=~\"${pod}\"})/ sum(up{job=\"blocky\",pod=~\"${pod}\"})",
         "format": "table",
         "interval": "",
         "legendFormat": "",
@@ -1053,9 +978,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "uid": "P1809F7CD0C75ACF3"
-      },
+      "datasource": "prometheus",
       "description": "Amount of performed DNS queries to prefetch cached queries",
       "fieldConfig": {
         "defaults": {
@@ -1093,12 +1016,9 @@
       },
       "pluginVersion": "8.4.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
-        "expr": "ceil(sum(increase(blocky_prefetch_count[$__range])))",
+        "expr": "ceil(sum(increase(blocky_prefetch_count{pod=~\"${pod}\"}[$__range])))",
         "format": "table",
         "interval": "",
         "legendFormat": "",
@@ -1109,6 +1029,7 @@
       "type": "stat"
     },
     {
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1180,16 +1101,11 @@
       },
       "pluginVersion": "8.3.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
         "expr": "sum(rate(blocky_query_total[5m])) * 60",
-        "format": "time_series",
-        "instant": false,
         "interval": "",
-        "legendFormat": " ",
+        "legendFormat": "",
         "refId": "A"
       }],
       "title": "Request rate",
@@ -1197,6 +1113,7 @@
       "type": "timeseries"
     },
     {
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1268,16 +1185,11 @@
       },
       "pluginVersion": "8.3.3",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
         "expr": "sum by (client) (rate(blocky_query_total[5m])) * 60",
-        "format": "time_series",
-        "instant": false,
         "interval": "",
-        "legendFormat": " {{client}}",
+        "legendFormat": "{{client}}",
         "refId": "A"
       }],
       "title": "Request rate per client",
@@ -1294,6 +1206,7 @@
         "mode": "opacity"
       },
       "dataFormat": "tsbuckets",
+      "datasource": "prometheus",
       "gridPos": {
         "h": 9,
         "w": 24,
@@ -1309,14 +1222,9 @@
       },
       "reverseYBuckets": false,
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": true,
         "expr": "sum(increase(blocky_request_duration_ms_bucket{response_type=\"RESOLVED\"}[$__range])) by (le)",
-        "format": "heatmap",
-        "instant": false,
         "interval": "",
         "legendFormat": "{{le}}",
         "refId": "A"
@@ -1339,6 +1247,7 @@
       "yBucketBound": "auto"
     },
     {
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1391,16 +1300,11 @@
       },
       "pluginVersion": "6.6.2",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "exemplar": false,
-        "expr": " sort_desc(sum by (type) (ceil(increase(blocky_query_total[$__range]))))",
-        "format": "time_series",
-        "instant": true,
+        "datasource": "prometheus",
+        "exemplar": true,
+        "expr": "sort_desc(sum by (type) (ceil(increase(blocky_query_total{pod=~\"${pod}\"}[$__range]))))",
         "interval": "",
-        "legendFormat": "{{ type }}",
+        "legendFormat": "{{type}}",
         "refId": "A"
       }],
       "title": "Query by type",
@@ -1408,6 +1312,7 @@
       "type": "piechart"
     },
     {
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1460,16 +1365,11 @@
       },
       "pluginVersion": "6.6.2",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "exemplar": false,
-        "expr": "sort_desc(sum by (client) (ceil(increase(blocky_query_total[$__range]))))",
-        "format": "time_series",
-        "instant": true,
+        "datasource": "prometheus",
+        "exemplar": true,
+        "expr": "sort_desc(sum by (client) (ceil(increase(blocky_query_total{pod=~\"${pod}\"}[$__range]))))",
         "interval": "",
-        "legendFormat": "{{ client }}",
+        "legendFormat": "{{client}}",
         "refId": "A"
       }],
       "title": "Query per Client",
@@ -1477,6 +1377,7 @@
       "type": "piechart"
     },
     {
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1528,16 +1429,11 @@
       },
       "pluginVersion": "6.6.2",
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "exemplar": false,
-        "expr": "topk(1, blocky_blacklist_cache) by (group)",
-        "format": "time_series",
-        "instant": true,
+        "datasource": "prometheus",
+        "exemplar": true,
+        "expr": "topk(1, blocky_blacklist_cache{pod=~\"${pod}\"}) by (group)",
         "interval": "",
-        "legendFormat": "{{ group }}",
+        "legendFormat": "{{group}}",
         "refId": "A"
       }],
       "title": "Blacklist by group",
@@ -1545,6 +1441,7 @@
       "type": "piechart"
     },
     {
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1596,16 +1493,11 @@
         }
       },
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "exemplar": false,
-        "expr": " sort_desc(sum by (reason) (ceil(increase(blocky_response_total[$__range]))))",
-        "format": "time_series",
-        "instant": true,
+        "datasource": "prometheus",
+        "exemplar": true,
+        "expr": "sort_desc(sum by (reason) (ceil(increase(blocky_response_total{pod=~\"${pod}\"}[$__range]))))",
         "interval": "",
-        "legendFormat": "{{reason}}",
+        "legendFormat": "{{reson}}",
         "refId": "A"
       }],
       "title": "Response Reasons",
@@ -1613,6 +1505,7 @@
       "type": "piechart"
     },
     {
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1665,14 +1558,9 @@
         }
       },
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
-        "exemplar": false,
-        "expr": " sort_desc(sum by (response_type) (ceil(increase(blocky_response_total[$__range]))))",
-        "format": "time_series",
-        "instant": true,
+        "datasource": "prometheus",
+        "exemplar": true,
+        "expr": "sort_desc(sum by (response_type) (ceil(increase(blocky_response_total{pod=~\"${pod}\"}[$__range]))))",
         "interval": "",
         "legendFormat": "{{response_type}}",
         "refId": "A"
@@ -1682,6 +1570,7 @@
       "type": "piechart"
     },
     {
+      "datasource": "prometheus",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1733,12 +1622,9 @@
         }
       },
       "targets": [{
-        "datasource": {
-          "type": "prometheus",
-          "uid": "P1809F7CD0C75ACF3"
-        },
+        "datasource": "prometheus",
         "exemplar": false,
-        "expr": " sort_desc(sum by (response_code) (ceil(increase(blocky_response_total[$__range]))))",
+        "expr": "sort_desc(sum by (response_code) (ceil(increase(blocky_response_total{pod=~\"${pod}\"}[$__range]))))",
         "format": "time_series",
         "instant": true,
         "interval": "",
@@ -1753,9 +1639,38 @@
   "refresh": false,
   "schemaVersion": 35,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "infra",
+    "blocky"
+  ],
   "templating": {
-    "list": []
+    "list": [{
+      "current": {
+        "selected": false,
+        "text": [
+          "All"
+        ],
+        "value": [
+          "$__all"
+        ]
+      },
+      "datasource": "prometheus",
+      "definition": "label_values(blocky_build_info, pod)",
+      "hide": 0,
+      "includeAll": true,
+      "multi": true,
+      "name": "pod",
+      "options": [],
+      "query": {
+        "query": "label_values(blocky_build_info, pod)",
+        "refId": "StandardVariableQuery"
+      },
+      "refresh": 1,
+      "regex": "",
+      "skipUrlSync": false,
+      "sort": 1,
+      "type": "query"
+    }]
   },
   "time": {
     "from": "now-1h",
@@ -1778,6 +1693,6 @@
   "timezone": "",
   "title": "blocky",
   "uid": "JvOqE4gRk",
-  "version": 4,
+  "version": 1,
   "weekStart": ""
 }
