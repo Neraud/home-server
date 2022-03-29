@@ -35,3 +35,38 @@ blocky:
     blacklists: "{{ blocky_config_blacklists | default({}) }}"
     whitelists: "{{ blocky_config_whitelists | default({}) }}"
     client_groups_block: "{{ blocky_config_client_groups_block | default({}) }}"
+
+# To avoid loops inside blocky_pgsql
+_blocky_pgsql_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/postgres"
+    tag: "14.2-alpine3.15"
+
+blocky_pgsql:
+  base_image: "{{ _blocky_pgsql_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "blocky-{{ _blocky_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _blocky_pgsql_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/component: pgsql
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _blocky_pgsql_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: blocky
+
+  container:
+    requests_cpu: "{{ blocky_pgsql_container_requests_cpu | default('50m') }}"
+    requests_memory: "{{ blocky_pgsql_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ blocky_pgsql_container_limits_cpu | default('150m') }}"
+    limits_memory: "{{ blocky_pgsql_container_limits_memory | default('128Mi') }}"
+
+  user: "{{ blocky_pgsql_user | default('blocky') }}"
+  database: "{{ blocky_pgsql_database | default('blocky') }}"
+  password: "{{ blocky_pgsql_password | default('clear_password') }}"
+  readonly:
+    user: "{{ blocky_pgsql_readonly_user | default('readonly') }}"
+    password: "{{ blocky_pgsql_readonly_password | default('clear_password') }}"
