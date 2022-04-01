@@ -8,15 +8,13 @@ metallb_ip_pools:
 kubernetes_nginx_ingress_lb_ip: 192.168.100.20
 kubernetes_lemonLdap_handler_lb_ip: 192.168.100.21
 kubernetes_openldap_lb_ip: 192.168.100.22
-kubernetes_pihole_lb_ip: 192.168.100.23
+kubernetes_dns_lb_ip: 192.168.100.23
 kubernetes_unifi_private_lb_ip: 192.168.100.24
 kubernetes_ingress_http_port: 80
 kubernetes_ingress_https_port: 443
 kubernetes_lemonLdap_handler_port: 9000
 kubernetes_openldap_port: 636
 kubernetes_ingress_mqtt_port: 1883
-kubernetes_pihole_tcp_port: 53
-kubernetes_pihole_udp_port: 53
 
 kubernetes_local_lvm_storage_class_name: local-lvm
 kubernetes_glusterfs_storage_class_name: glusterfs

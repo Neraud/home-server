@@ -24,6 +24,12 @@
     - "{{ role_path }}/app/config/dashboards/kube-prometheus/*.json"
     - "{{ role_path }}/app/config/dashboards/gluster-mixin/*.json"
 
+- name: List datasources
+  ansible.builtin.set_fact:
+    grafana_datasources_files: "{{ grafana_datasources_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/datasources/*.yaml.j2"
+
 - name: Deploy Grafana
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

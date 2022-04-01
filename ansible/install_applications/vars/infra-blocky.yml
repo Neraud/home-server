@@ -1,0 +1,106 @@
+---
+# To avoid loops inside blocky
+_blocky_var_loader:
+  base_image:
+    repo: "ghcr.io"
+    name: "0xerr0r/blocky"
+    tag: "v0.18"
+
+blocky:
+  enabled: "{{ blocky_enabled | default(True) }}"
+
+  namespace: "infra-blocky"
+  base_image: "{{ _blocky_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _blocky_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _blocky_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/component: blocky
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _blocky_var_loader.base_image.tag }}"
+
+  container:
+    replicas: "{{ blocky_container_replicas | default('1') }}"
+    requests_cpu: "{{ blocky_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ blocky_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ blocky_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ blocky_container_limits_memory | default('128Mi') }}"
+
+  config:
+    dns_upstreams: "{{ blocky_config_dns_upstreams | default(['1.1.1.1', '1.0.0.1']) }}" # CloudFlare
+    blacklists: "{{ blocky_config_blacklists | default({}) }}"
+    whitelists: "{{ blocky_config_whitelists | default({}) }}"
+    client_groups_block: "{{ blocky_config_client_groups_block | default({}) }}"
+
+# To avoid loops inside blocky_pgsql
+_blocky_pgsql_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/postgres"
+    tag: "14.2-alpine3.15"
+
+blocky_pgsql:
+  base_image: "{{ _blocky_pgsql_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "blocky-{{ _blocky_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _blocky_pgsql_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/component: pgsql
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _blocky_pgsql_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: blocky
+
+  container:
+    requests_cpu: "{{ blocky_pgsql_container_requests_cpu | default('50m') }}"
+    requests_memory: "{{ blocky_pgsql_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ blocky_pgsql_container_limits_cpu | default('150m') }}"
+    limits_memory: "{{ blocky_pgsql_container_limits_memory | default('128Mi') }}"
+
+  user: "{{ blocky_pgsql_user | default('blocky') }}"
+  database: "{{ blocky_pgsql_database | default('blocky') }}"
+  password: "{{ blocky_pgsql_password | default('clear_password') }}"
+  readonly:
+    user: "{{ blocky_pgsql_readonly_user | default('readonly') }}"
+    password: "{{ blocky_pgsql_readonly_password | default('clear_password') }}"
+
+# To avoid loops inside blocky_redis
+_blocky_redis_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/redis"
+    tag: "6.2.6-alpine3.15"
+
+blocky_redis:
+  base_image: "{{ _blocky_redis_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _blocky_redis_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _blocky_redis_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/component: redis
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _blocky_redis_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: blocky
+
+  container:
+    requests_cpu: "{{ blocky_redis_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ blocky_redis_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ blocky_redis_container_limits_cpu | default('75m') }}"
+    limits_memory: "{{ blocky_redis_container_limits_memory | default('32Mi') }}"
+  
+  persistance_enabled: False
+  health_username: "{{ blocky_redis_health_username | default('health') }}"
+  #username: "{{ blocky_redis_username | default('blocky') }}"
+  username: "default" # blocky doesn't seem to support a user, we can only configure a password
+  password: "{{ blocky_redis_password }}"

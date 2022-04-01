@@ -31,9 +31,9 @@
   tags: kubernetes-app-infra-docker-registry-ui
   when: docker_registry_ui_enabled | bool
 
-- import_playbook: app-infra-pihole.yml
-  tags: kubernetes-app-infra-pihole
-  when: pihole_enabled | bool
+- import_playbook: app-infra-blocky.yml
+  tags: kubernetes-app-infra-blocky
+  when: blocky_enabled | bool
 
 - import_playbook: app-infra-gotify.yml
   tags: kubernetes-app-infra-gotify
@@ -102,10 +102,6 @@
 - import_playbook: app-monitoring-nginx-log-exporter.yml
   tags: kubernetes-app-monitoring-nginx-log-exporter
   when: nginx_log_exporter_enabled | bool
-
-- import_playbook: app-monitoring-pihole-exporter.yml
-  tags: kubernetes-app-monitoring-pihole-exporter
-  when: pihole_exporter_enabled | bool
 
 - import_playbook: app-monitoring-gluster-exporter.yml
   tags: kubernetes-app-monitoring-gluster-exporter

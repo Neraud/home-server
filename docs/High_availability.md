@@ -72,6 +72,21 @@ If an IP tries to scan or brute force access to the cluster, fail2ban add an ipt
 
 Finally on the applications side, it's a bit more hit-and-miss. But mostly miss.
 
-Some can easily be scaled up to be HA (docker registry for example).
+### Docker registry
 
-Others would be more complex to handle (MySQL, OpenLDAP ...).
+The private registry is scaled to 2 instances, and could be scaled up even more if required.
+
+### Blocky
+
+It is scaled to 2 instances by default to be *mostly* HA.
+
+DNS queries are logged to a PostgreSQL database.
+A Redis database is used to share state between Blocky instances.
+
+PostgreSQL and Redis are only using 1 instance.
+If they go down, Blocky will still work, with the following limitations :
+
+* DNS queries log fall back to stdout
+* state is not shared between Blocky instances
+
+This is the best compromise to still have DNS when a node goes down, but avoid consuming too much resources to build HA PostgreSQL and Redis clusters.

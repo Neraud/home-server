@@ -23,8 +23,6 @@ homer_images_to_download:
     source: https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg
   - name: docker-registry.svg
     source: https://raw.githubusercontent.com/cncf/landscape/7eeaf13c7dd0b7dc6136420602d4433b45433827/hosted_logos/docker-member.svg
-  - name: pihole.png
-    source: https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Pi-hole_Logo_2.png/220px-Pi-hole_Logo_2.png
   - name: gotify.png
     source: https://github.com/gotify/logo/raw/master/gotify-logo-small.png
   - name: mailhog.png
@@ -94,11 +92,6 @@ homer_config_services:
         logo: "assets/download/docker-registry.svg"
         url: "https://docker-registry-ui.infra.intra.{{ web_base_domain }}{{ docker_registry_ui.context_root }}"
         subtitle: "Web UI for Docker Registry"
-        target: "_blank"
-      - name: "PiHole"
-        logo: "assets/download/pihole.png"
-        url: "https://pihole.infra.intra.{{ web_base_domain }}{{ pihole.context_root }}/admin/"
-        subtitle: "A black hole for Internet advertisements"
         target: "_blank"
       - name: "Gotify"
         logo: "assets/download/gotify.png"

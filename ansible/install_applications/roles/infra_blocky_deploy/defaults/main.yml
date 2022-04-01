@@ -1,0 +1,31 @@
+---
+blocky_enabled: true
+
+# format for resolver: [net:]host:[port][/path]. net could be empty (default, shortcut for tcp+udp), tcp+udp, tcp, udp, tcp-tls or https (DoH). If port is empty, default port will be used (53 for udp and tcp, 853 for tcp-tls, 443 for https (Doh))
+blocky_config_dns_upstreams: 
+  #- 5.9.164.112 # example for tcp+udp IPv4 server (https://digitalcourage.de/)
+  - 1.1.1.1 # Cloudflare
+  - 1.0.0.1 # Cloudflare
+  #- tcp-tls:1.1.1.1:853 # example for DNS-over-TLS server (DoT)
+  #- https://dns.digitale-gesellschaft.ch/dns-query  # example for DNS-over-HTTPS (DoH)
+  #- "tcp-tls:1.1.1.1:853" # CloudFlare DNS over TLS
+  #- "tcp-tls:1.0.0.1:853" # CloudFlare DNS over TLS
+# Using DNS over TLS is great, but it requires far more CPU
+# With 100-300m CPU, it still CPU throttle and has latency
+# tcp+udp is faster even with very low CPU (25-150m)
+
+blocky_config_blacklists:
+  ads:
+    - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+    - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+    - http://sysctl.org/cameleon/hosts
+    - https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt
+  special:
+    - https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts
+
+blocky_config_whitelists: {}
+
+blocky_config_client_groups_block:
+  default:
+    - ads
+    - special
