@@ -20,8 +20,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 13768,
   "graphTooltip": 0,
-  "id": 49,
-  "iteration": 1648558341908,
+  "iteration": 1648817546721,
   "links": [{
     "icon": "external link",
     "tags": [],
@@ -1103,7 +1102,7 @@
       "targets": [{
         "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(rate(blocky_query_total[5m])) * 60",
+        "expr": "sum(rate(blocky_query_total{pod=~\"${pod}\"}[5m])) * 60",
         "interval": "",
         "legendFormat": "",
         "refId": "A"
@@ -1187,7 +1186,7 @@
       "targets": [{
         "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum by (client) (rate(blocky_query_total[5m])) * 60",
+        "expr": "sum by (client) (rate(blocky_query_total{pod=~\"${pod}\"}[5m])) * 60",
         "interval": "",
         "legendFormat": "{{client}}",
         "refId": "A"
@@ -1224,7 +1223,7 @@
       "targets": [{
         "datasource": "prometheus",
         "exemplar": true,
-        "expr": "sum(increase(blocky_request_duration_ms_bucket{response_type=\"RESOLVED\"}[$__range])) by (le)",
+        "expr": "sum(increase(blocky_request_duration_ms_bucket{response_type=\"RESOLVED\",pod=~\"${pod}\"}[$__range])) by (le)",
         "interval": "",
         "legendFormat": "{{le}}",
         "refId": "A"
@@ -1665,7 +1664,7 @@
         "query": "label_values(blocky_build_info, pod)",
         "refId": "StandardVariableQuery"
       },
-      "refresh": 1,
+      "refresh": 2,
       "regex": "",
       "skipUrlSync": false,
       "sort": 1,
@@ -1691,7 +1690,7 @@
     ]
   },
   "timezone": "",
-  "title": "blocky",
+  "title": "Blocky",
   "uid": "JvOqE4gRk",
   "version": 1,
   "weekStart": ""
