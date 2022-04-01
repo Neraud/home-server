@@ -40,16 +40,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: zonemta
       app.kubernetes.io/component: redis
-  pihole-data:
-    replicas: 2
-    capacity: 128M
-    arbiterCapacity: 32M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: pihole
-      app.kubernetes.io/component: pihole
   blocky-pgsql:
     replicas: 2
     capacity: 256M

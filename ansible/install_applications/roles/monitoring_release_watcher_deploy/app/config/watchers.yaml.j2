@@ -331,15 +331,6 @@ watchers:
     excludes:
       - 0\.[0-8]\.
   - type: docker_registry
-    repo: {{ pihole.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ pihole.base_image.name }}
-    tag: {{ pihole.base_image.tag }}
-    includes:
-      - '20[0-9]+\.[0-9]+(\.[0-9]+)?'
-    excludes:
-      - 2021\..*
-      - 2022\.0[0-1]\..*
-  - type: docker_registry
     repo: {{ blocky.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ blocky.base_image.name }}
     tag: {{ blocky.base_image.tag }}
@@ -610,14 +601,6 @@ watchers:
       - ^v[0-9]+\.[0-9]+.[0-9]+
     excludes:
       - ^v1\.[0-8]\..*
-  - type: docker_registry
-    repo: {{ pihole_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ pihole_exporter.base_image.name }}
-    tag: {{ pihole_exporter.base_image.tag }}
-    includes:
-      - ^v[0-9]+\.[0-9]+\.[0-9]+
-    excludes:
-      - ^v0\.[0-2]\..*$
   - type: github_commit
     repo: Neraud/release-watcher
     branch: master

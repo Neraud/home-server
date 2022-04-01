@@ -14,7 +14,7 @@ blocky:
   private_image:
     repo: "{{ docker_private_registry.url }}"
     name: "{{ _blocky_var_loader.base_image.name | regex_replace('.*/', '') }}"
-    tag: "{{ _pihole_var_loader.base_image.tag }}"
+    tag: "{{ _blocky_var_loader.base_image.tag }}"
 
   labels_def:
     app.kubernetes.io/name: blocky

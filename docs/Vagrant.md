@@ -39,7 +39,6 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 kube.infra.intra.k8s.test
 192.168.100.101 mailhog.infra.intra.k8s.test
 192.168.100.101 docker-registry-ui.infra.intra.k8s.test
-192.168.100.101 pihole.infra.intra.k8s.test
 192.168.100.101 unifi.infra.intra.k8s.test
 
 192.168.100.101 elasticsearch.log.intra.k8s.test
@@ -110,7 +109,6 @@ The following services are deployed :
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://phpldapadmin.auth.intra.k8s.test/>          | Web-based LDAP browser                                         |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                    | Modern outbound SMTP relay                                     |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://mailhog.infra.intra.k8s.test/>              | MailHog is an email testing tool for developers                |
-| [PiHole](https://pi-hole.net/)                                   | <https://pihole.infra.intra.k8s.test/admin/>         | A black hole for Internet advertisements                       |
 | [Blocky](https://0xerr0r.github.io/blocky/)                      | -                                                    | DNS proxy and ad-blocker for the local network                 |
 | [Gotify](https://gotify.net/)                                    | <https://gotify.web.k8s.test>                        | A simple server for sending and receiving messages             |
 | [Prometheus](https://prometheus.io/)                             | <https://prometheus.monitoring.intra.k8s.test>       | Monitoring solution                                            |
@@ -275,13 +273,10 @@ EOF
 
 ### Blocky
 
-Blocky is configured.
+Blocky is configured :
 
-### PiHole
-
-PiHole is configured.
-
-The web admin uses the password : `Passw0rd`.
+* Upstreams to CloudFlare
+* "standard" blocklists
 
 To test it, you can use nslookup :
 
