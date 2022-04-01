@@ -10,9 +10,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: blocky
 spec:
   type: LoadBalancer
-  # TODO
-  #loadBalancerIP: {{ kubernetes_dns_lb_ip }}
-  loadBalancerIP: 192.168.100.25
+  loadBalancerIP: {{ kubernetes_dns_lb_ip }}
   externalTrafficPolicy: Local
   ports:
     - name: dns-udp
@@ -36,9 +34,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: blocky
 spec:
   type: LoadBalancer
-  # TODO
-  #loadBalancerIP: {{ kubernetes_dns_lb_ip }}
-  loadBalancerIP: 192.168.100.25
+  loadBalancerIP: {{ kubernetes_dns_lb_ip }}
   externalTrafficPolicy: Local
   ports:
     - name: dns
