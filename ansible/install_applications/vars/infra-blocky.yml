@@ -27,11 +27,11 @@ blocky:
     replicas: "{{ blocky_container_replicas | default('1') }}"
     requests_cpu: "{{ blocky_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ blocky_container_requests_memory | default('64Mi') }}"
-    limits_cpu: "{{ blocky_container_limits_cpu | default('250m') }}"
+    limits_cpu: "{{ blocky_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ blocky_container_limits_memory | default('128Mi') }}"
 
   config:
-    dns_upstreams: "{{ blocky_config_dns_upstreams | default(['tcp-tls:1.1.1.1:853', 'tcp-tls:1.0.0.1:853' ])}}" # CloudFlare DNS over TLS
+    dns_upstreams: "{{ blocky_config_dns_upstreams | default(['1.1.1.1', '1.0.0.1']) }}" # CloudFlare
     blacklists: "{{ blocky_config_blacklists | default({}) }}"
     whitelists: "{{ blocky_config_whitelists | default({}) }}"
     client_groups_block: "{{ blocky_config_client_groups_block | default({}) }}"
