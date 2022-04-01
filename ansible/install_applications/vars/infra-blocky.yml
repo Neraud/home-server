@@ -70,3 +70,37 @@ blocky_pgsql:
   readonly:
     user: "{{ blocky_pgsql_readonly_user | default('readonly') }}"
     password: "{{ blocky_pgsql_readonly_password | default('clear_password') }}"
+
+# To avoid loops inside blocky_redis
+_blocky_redis_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/redis"
+    tag: "6.2.6-alpine3.15"
+
+blocky_redis:
+  base_image: "{{ _blocky_redis_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _blocky_redis_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _blocky_redis_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/component: redis
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _blocky_redis_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: blocky
+
+  container:
+    requests_cpu: "{{ blocky_redis_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ blocky_redis_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ blocky_redis_container_limits_cpu | default('75m') }}"
+    limits_memory: "{{ blocky_redis_container_limits_memory | default('32Mi') }}"
+  
+  persistance_enabled: False
+  health_username: "{{ blocky_redis_health_username | default('health') }}"
+  #username: "{{ blocky_redis_username | default('blocky') }}"
+  username: "default" # blocky doesn't seem to support a user, we can only configure a password
+  password: "{{ blocky_redis_password }}"

@@ -118,6 +118,20 @@ queryLog:
   # optional: Time between the creation attempts, default: 2s
   creationCooldown: 2s
 
+# optional: Blocky can synchronize its cache and blocking state between multiple instances through redis.
+redis:
+  # Server address and port
+  address: redis:6379
+  # Password if necessary
+  password: {{ blocky_redis.password }}
+  # Database, default: 0
+  database: 0
+  # Connection is required for blocky to start. Default: false
+  required: false
+  # Max connection attempts, default: 3
+  connectionAttempts: 5
+  # Time between the connection attempts, default: 1s
+  connectionCooldown: 2s
 
 # optional: DNS listener port(s) and bind ip address(es), default 53 (UDP and TCP). Example: 53, :53, "127.0.0.1:5353,[::1]:5353"
 port: 53

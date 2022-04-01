@@ -16,6 +16,12 @@
     base_image: "{{ blocky_pgsql.base_image }}"
     private_image: "{{ blocky_pgsql.private_image }}"
 
+- name: Ensure Blocky Redis image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+  vars:
+    base_image: "{{ blocky_redis.base_image }}"
+    private_image: "{{ blocky_redis.private_image }}"
+
 - name: Deploy Blocky
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
