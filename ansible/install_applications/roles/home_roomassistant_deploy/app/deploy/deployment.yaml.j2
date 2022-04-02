@@ -28,6 +28,9 @@ spec:
         env:
         - name: NODE_LOG_LEVEL
           value: info
+        ports:
+        - containerPort: 6415
+          name: http
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000 # node
@@ -43,6 +46,13 @@ spec:
           limits:
             cpu: "{{ roomassistant.container.limits_cpu }}"
             memory: "{{ roomassistant.container.limits_memory }}"
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /status
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

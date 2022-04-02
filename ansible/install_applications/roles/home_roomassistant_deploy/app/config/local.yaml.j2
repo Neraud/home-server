@@ -2,6 +2,7 @@
 
 global:
   instanceName: {{ roomassistant.config.instance_name }}
+  apiPort: 6415
   integrations:
 {% if roomassistant.config.integrations.homeassistant %}
     - homeAssistant
