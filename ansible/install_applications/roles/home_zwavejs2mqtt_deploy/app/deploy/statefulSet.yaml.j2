@@ -49,9 +49,6 @@ spec:
             secretKeyRef:
               name: zwavejs2mqtt-secret
               key: session-secret
-        # Disable soft reset to avoid issues with remote adapters (https://github.com/zwave-js/zwavejs2mqtt/issues/2086 & https://github.com/zwave-js/node-zwave-js/issues/3777)
-        - name: ZWAVEJS_DISABLE_SOFT_RESET
-          value: "false"
         ports:
         - name: http
           containerPort: 8091
