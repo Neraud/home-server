@@ -262,7 +262,7 @@ watchers:
       - .*beta.*
       - ^[0-1]\..*
       - ^2\.[0-9]\..*
-      - ^2\.1[0-8]\..*
+      - ^2\.1[0-9]\..*
   - type: docker_registry
     repo: {{ esphome.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ esphome.base_image.name }}
