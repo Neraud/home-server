@@ -7,7 +7,7 @@ _ttrss_var_loader:
     name: "library/php"
     # TTRSS has issues with PHP 8.1 (eg: PHP Fatal error:  Uncaught Error: Class "ORM" not found in /opt/ttrss/classes/logger/sql.php)
     tag: "8.0.17-apache-buster"
-  commit: 1703850215
+  commit: 41a52c8333
 
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"

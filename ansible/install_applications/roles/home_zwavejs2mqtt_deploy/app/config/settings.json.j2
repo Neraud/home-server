@@ -36,6 +36,8 @@
         "port": "{{ zwavejs2mqtt.serial_device }}",
         "commandsTimeout": 30,
         "networkKey": "{{ zwavejs2mqtt.zwave_network_key }}",
+        {# Disable soft reset to avoid issues with remote adapters (https://github.com/zwave-js/zwavejs2mqtt/issues/2086 & https://github.com/zwave-js/node-zwave-js/issues/3777) #}
+        "enableSoftReset": false,
         "logLevel": "warn",
         "logToFile": false,
         "serverEnabled": true,
