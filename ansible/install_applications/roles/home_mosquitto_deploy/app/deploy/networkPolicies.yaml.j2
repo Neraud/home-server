@@ -41,12 +41,13 @@ spec:
               {{ homeassistant.labels_def | to_nice_yaml() | indent(14) }}
 
         # Allow from roomassistant
-        - namespaceSelector:
-            matchLabels:
-              name: {{ roomassistant.namespace }}
-          podSelector:
-            matchLabels:
-              {{ roomassistant.labels_def | to_nice_yaml() | indent(14) }}
+        # Not used, roomassistant uses the host network and uses the ingress
+        #- namespaceSelector:
+        #    matchLabels:
+        #      name: {{ roomassistant.namespace }}
+        #  podSelector:
+        #    matchLabels:
+        #      {{ roomassistant.labels_def | to_nice_yaml() | indent(14) }}
 
         # Allow from zigbee2mqtt
         - namespaceSelector:
