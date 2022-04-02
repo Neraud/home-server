@@ -4,7 +4,7 @@ _sabnzbd_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.10.3-slim-bullseye"
+    tag: "3.10.4-slim-bullseye"
   repo:
     name: sabnzbd/sabnzbd
     version: 3.5.3
