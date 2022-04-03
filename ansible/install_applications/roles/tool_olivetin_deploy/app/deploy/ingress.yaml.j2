@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: olivetin
+  namespace: {{ olivetin.namespace }}
+  labels:
+    {{ olivetin.labels_def | to_nice_yaml() | indent(4) }}
+    {{ olivetin.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - olivetin.tool.intra.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: olivetin.tool.intra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: {{ '/' if olivetin.context_root == '' else olivetin.context_root }}
+        pathType: Prefix
+        backend:
+          service:
+            name: olivetin
+            port:
+              name: http

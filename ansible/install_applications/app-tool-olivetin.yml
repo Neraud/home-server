@@ -1,0 +1,5 @@
+---
+- name: Provision tool-olivetin
+  hosts: controller
+  roles:
+    - role: tool_olivetin_deploy
