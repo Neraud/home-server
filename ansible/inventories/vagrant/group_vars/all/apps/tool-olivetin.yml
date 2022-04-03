@@ -1,0 +1,19 @@
+---
+
+olivetin_images_to_download:
+- name: blocky.svg
+  source: https://raw.githubusercontent.com/0xERR0R/blocky/master/docs/blocky.svg
+
+olivetin_actions:
+- title: Blocky status
+  icon: '<img src = "customIcons/blocky.svg" width = "48px" />'
+  shell: curl -s http://blocky-prometheus.infra-blocky:4000/api/blocking/status
+  
+- title: Blocky disable
+  icon: '<img src = "customIcons/blocky.svg" width = "48px" />'
+  shell: "{% raw %}curl -s http://blocky-prometheus.infra-blocky:4000/api/blocking/disable?duration={{ duration }}m{% endraw %}"
+  arguments:
+    - name: duration
+      title: Duration (in minutes)
+      type: int
+      default: 5
