@@ -24,6 +24,13 @@ spec:
           podSelector:
             matchLabels:
               {{ prometheus.labels_def | to_nice_yaml() | indent(14) }}
+        # Allow from olivetin
+        - namespaceSelector:
+            matchLabels:
+              name: {{ olivetin.namespace }}
+          podSelector:
+            matchLabels:
+              {{ olivetin.labels_def | to_nice_yaml() | indent(14) }}
     # Allow dns / dns-udp from all
     - ports:
         - port: dns

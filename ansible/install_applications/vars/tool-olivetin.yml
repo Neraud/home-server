@@ -1,0 +1,37 @@
+---
+# To avoid loops inside olivetin
+_olivetin_var_loader:
+  namespace: "tool-olivetin"
+  base_image:
+    repo: "docker.io"
+    name: "jamesread/olivetin"
+    tag: "2022-01-06-amd64"
+  context_root: "{{ olivetin_context_root | default('') }}"
+
+olivetin:
+  enabled: "{{ olivetin_enabled | default(True) }}"
+
+  namespace: "{{ _olivetin_var_loader.namespace }}"
+  base_image: "{{ _olivetin_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _olivetin_var_loader.base_image.name | regex_replace('.*/', '') }}-custom"
+    tag: "{{ _olivetin_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: olivetin
+    app.kubernetes.io/component: olivetin
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _olivetin_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: olivetin
+
+  container:
+    requests_cpu: "{{ olivetin_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ olivetin_container_requests_memory | default('16Mi') }}"
+    limits_cpu: "{{ olivetin_container_limits_cpu | default('50m') }}"
+    limits_memory: "{{ olivetin_container_limits_memory | default('16Mi') }}"
+
+  context_root: "{{ _olivetin_var_loader.context_root }}"
+  images_to_download: "{{ olivetin_images_to_download | default([]) }}"
+  actions: "{{ olivetin_actions | default([]) }}"

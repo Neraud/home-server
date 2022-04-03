@@ -135,6 +135,10 @@
   tags: kubernetes-app-tool-paperless
   when: paperless_enabled | bool
 
+- import_playbook: app-tool-olivetin.yml
+  tags: kubernetes-app-tool-olivetin
+  when: olivetin_enabled | bool
+
 - import_playbook: app-infra-unifi.yml
   tags: kubernetes-app-infra-unifi
   when: unifi_enabled | bool

@@ -47,6 +47,8 @@ homer_images_to_download:
 
   - name: paperless.svg
     source: https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/resources/logo/web/svg/square.svg
+  - name: olivetin.png
+    source: https://raw.githubusercontent.com/OliveTin/OliveTin/main/webui/OliveTinLogo.png
 
   - name: homeassistant.svg
     source: https://www.home-assistant.io/images/home-assistant-logo.svg
@@ -164,6 +166,11 @@ homer_config_services:
         logo: "assets/download/paperless.svg"
         url: "https://paperless.tool.intra.{{ web_base_domain }}{{ _paperless_var_loader.context_root }}"
         subtitle: "Scan & OCR documents"
+        target: "_blank"
+      - name: "OliveTin"
+        logo: "assets/download/olivetin.png"
+        url: "https://olivetin.tool.intra.{{ web_base_domain }}{{ _olivetin_var_loader.context_root }}"
+        subtitle: "OliveTin gives safe and simple access to predefined shell commands from a web interface"
         target: "_blank"
   - name: "Home"
     icon: "fas fa-home"
