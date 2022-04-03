@@ -27,10 +27,10 @@ olivetin:
     app.kubernetes.io/part-of: olivetin
 
   container:
-    requests_cpu: "{{ olivetin_container_requests_cpu | default('75m') }}"
-    requests_memory: "{{ olivetin_container_requests_memory | default('256Mi') }}"
-    limits_cpu: "{{ olivetin_container_limits_cpu | default('750m') }}"
-    limits_memory: "{{ olivetin_container_limits_memory | default('1G') }}"
+    requests_cpu: "{{ olivetin_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ olivetin_container_requests_memory | default('16Mi') }}"
+    limits_cpu: "{{ olivetin_container_limits_cpu | default('50m') }}"
+    limits_memory: "{{ olivetin_container_limits_memory | default('16Mi') }}"
 
   context_root: "{{ _olivetin_var_loader.context_root }}"
   images_to_download: "{{ olivetin_images_to_download | default([]) }}"
