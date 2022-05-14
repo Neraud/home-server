@@ -9,6 +9,9 @@ RUN echo "Copy platformio for esp" && \
     mv /root/.platformio /home/esp/ && \
     chown -R esp:esp /home/esp/.platformio
 
+RUN echo "Chown piolibs for esp" && \
+    chown -R esp:esp /piolibs
+
 ENV PLATFORMIO_CORE_DIR=/tmp/.platformio
 
 COPY entrypoint.sh /
