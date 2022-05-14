@@ -5,7 +5,7 @@ _homer_var_loader:
     repo: "docker.io"
     name: "library/nginx"
     tag: "1.21.6-alpine"
-  release: v22.02.1
+  release: v22.02.2
   context_root: "{{ homer_context_root | default('') }}"
 
 homer:
