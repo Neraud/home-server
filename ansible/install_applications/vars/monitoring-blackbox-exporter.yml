@@ -4,7 +4,7 @@ _blackbox_exporter_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/blackbox-exporter"
-    tag: "v0.19.0"
+    tag: "v0.20.0"
 
 blackbox_exporter:
   enabled: "{{ blackbox_exporter_enabled | default(True) }}"
@@ -59,7 +59,7 @@ _blackbox_exporter_rbac_proxy_var_loader:
   base_image:
     repo: quay.io
     name: "brancz/kube-rbac-proxy"
-    tag: "v0.11.0"
+    tag: "v0.12.0"
 
 blackbox_exporter_rbac_proxy:
   base_image: "{{ _blackbox_exporter_rbac_proxy_var_loader.base_image }}"
