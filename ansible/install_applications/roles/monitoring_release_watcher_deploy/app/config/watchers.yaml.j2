@@ -623,7 +623,7 @@ watchers:
       - .*-SNAPSHOT.*
     excludes:
       - .*-SNAPSHOT.202[0-1].*
-      - .*-SNAPSHOT.20220[1-2].*
+      - .*-SNAPSHOT.20220[1-3].*
 
   - type: docker_registry
     repo: {{ jellyfin.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
