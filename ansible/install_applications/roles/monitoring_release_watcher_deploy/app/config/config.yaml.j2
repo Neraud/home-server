@@ -23,3 +23,9 @@ sources:
 outputs:
   - type: prometheus_http
     port: 8080
+  - type: yaml_file
+    path: /tmp/out_missing.yaml
+    displayUpToDate: no
+  - type: yaml_file
+    path: /tmp/out_all.yaml
+    displayUpToDate: yes

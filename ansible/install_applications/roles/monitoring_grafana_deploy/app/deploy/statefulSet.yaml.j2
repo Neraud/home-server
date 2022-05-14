@@ -122,7 +122,8 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
-      - emptyDir: {}
+      - emptyDir:
+          medium: Memory
         name: tmp-plugins
       imagePullSecrets:
       - name: docker-config

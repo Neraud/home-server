@@ -29,6 +29,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0thanosrulerCustomRes
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-clusterRoleBinding.yaml $OPERATOR_ROOT/clusterRoleBinding.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-clusterRole.yaml $OPERATOR_ROOT/clusterRole.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-deployment.yaml $OPERATOR_ROOT/deployment.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-networkPolicy.yaml $OPERATOR_ROOT/networkPolicies.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-serviceAccount.yaml $OPERATOR_ROOT/serviceAccount.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-service.yaml $OPERATOR_ROOT/service.yaml.j2
 
@@ -37,6 +38,7 @@ echo "Converting AlertManager"
 ALERTMANAGER_ROOT=$OUT_CONVERTED_ROOT/monitoring_prometheus_operator_deploy/app/deploy/alertmanager
 mkdir -p $ALERTMANAGER_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-alertmanager.yaml $ALERTMANAGER_ROOT/alertmanager.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-networkPolicy.yaml $ALERTMANAGER_ROOT/networkPolicies.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-secret.yaml $ALERTMANAGER_ROOT/secret.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-serviceAccount.yaml $ALERTMANAGER_ROOT/serviceAccount.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-service.yaml $ALERTMANAGER_ROOT/service.yaml.j2
@@ -49,6 +51,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRole.yaml $BLACKBOX_EX
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRoleBinding.yaml $BLACKBOX_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-configuration.yaml $BLACKBOX_EXPORTER_ROOT/configuration.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-deployment.yaml $BLACKBOX_EXPORTER_ROOT/deployment.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-networkPolicy.yaml $BLACKBOX_EXPORTER_ROOT/networkPolicies.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-service.yaml $BLACKBOX_EXPORTER_ROOT/service.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-serviceAccount.yaml $BLACKBOX_EXPORTER_ROOT/serviceAccount.yaml.j2
 
@@ -62,6 +65,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardDatasources.yaml $GRAFANA_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardDefinitions.yaml $GRAFANA_ROOT/dashboardProviders-configMap.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardSources.yaml $GRAFANA_ROOT/dashboards-configMap.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-deployment.yaml $GRAFANA_ROOT/statefulSet.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-networkPolicy.yaml $GRAFANA_ROOT/networkPolicies.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-serviceAccount.yaml $GRAFANA_ROOT/serviceAccount.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-service.yaml $GRAFANA_ROOT/service.yaml.j2
 echo "Extract dashboards"
@@ -74,6 +78,7 @@ mkdir -p $KUBE_STATE_METRICS_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-deployment.yaml $KUBE_STATE_METRICS_ROOT/deployment.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-networkPolicy.yaml $KUBE_STATE_METRICS_ROOT/networkPolicies.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/serviceAccount.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/service.yaml.j2
 
@@ -84,6 +89,7 @@ mkdir -p $NODE_EXPORTER_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/clusterRole.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-daemonset.yaml $NODE_EXPORTER_ROOT/daemonSet.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-networkPolicy.yaml $NODE_EXPORTER_ROOT/networkPolicies.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-serviceAccount.yaml $NODE_EXPORTER_ROOT/serviceAccount.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/service.yaml.j2
 
@@ -93,6 +99,7 @@ PROMETHEUS_ROOT=$OUT_CONVERTED_ROOT/monitoring_prometheus_operator_deploy/app/de
 mkdir -p $PROMETHEUS_ROOT
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-clusterRoleBinding.yaml $PROMETHEUS_ROOT/clusterRoleBinding.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-clusterRole.yaml $PROMETHEUS_ROOT/clusterRole.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-networkPolicy.yaml $PROMETHEUS_ROOT/networkPolicies.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-prometheus.yaml $PROMETHEUS_ROOT/prometheus.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-roleBindingConfig.yaml $PROMETHEUS_ROOT/roleBindingConfig.yaml.j2
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/prometheus-roleConfig.yaml $PROMETHEUS_ROOT/roleConfig.yaml.j2
@@ -128,6 +135,8 @@ python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-prometheusRu
 rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-prometheusRule.yaml
 python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
 rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-prometheusRule.yaml
+# Fix grafana alerts file name
+mv $PROMEHTEUS_RULES_ROOT/GrafanaAlerts.alerts.yaml $PROMEHTEUS_RULES_ROOT/grafana_alerts.yaml
 python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-prometheus-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT
 rm $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-prometheus-prometheusRule.yaml
 python3 extract_rules.py $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-prometheusRule.yaml $PROMEHTEUS_RULES_ROOT

@@ -4,7 +4,7 @@ _grafana_var_loader:
   base_image:
     repo: "docker.io"
     name: "grafana/grafana"
-    tag: "8.4.3"
+    tag: "8.5.2"
 
 grafana:
   enabled: "{{ grafana_enabled | default(True) }}"

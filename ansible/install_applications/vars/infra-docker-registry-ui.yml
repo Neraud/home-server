@@ -4,7 +4,7 @@ _docker_registry_ui_var_loader:
   base_image:
     repo: "docker.io"
     name: quiq/docker-registry-ui
-    tag: "0.9.3"
+    tag: "0.9.4"
 
   event_api_token: "{{ docker_registry_ui_event_api_token | default('token') }}"
   context_root: "{{ docker_registry_context_root | default('') }}"
