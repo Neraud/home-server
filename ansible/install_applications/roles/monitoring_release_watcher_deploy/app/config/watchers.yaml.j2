@@ -535,14 +535,14 @@ watchers:
     includes:
       - 'v[0-9]+\.[0-9]+\.[0-9]+'
     excludes:
-      - 'v[1-3]\..*'
+      - 'v[1-4]\..*'
   - type: github_tag
     repo: fluent/fluent-plugin-prometheus
     tag: v{{ fluentd.plugins.prometheus.version }}
     includes:
       - 'v[0-9]+\.[0-9]+\.[0-9]+'
     excludes:
-      - 'v1\.[0-6]\..*'
+      - 'v1\.[0-9]+\..*'
   - type: github_tag
     repo: bungoume/fluent-plugin-ua-parser
     tag: v{{ fluentd.plugins.ua_parser.version }}
