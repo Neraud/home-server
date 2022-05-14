@@ -35,7 +35,8 @@ event_database_location: data/registry_events.db
 cache_refresh_interval: 10
 
 # If users can delete tags. If set to False, then only admins listed below.
-anyone_can_delete: false
+{# FIXME: admins list doesn't work anymore #}
+anyone_can_delete: true
 # Users allowed to delete tags.
 # This should be sent via X-WEBAUTH-USER header from your proxy.
 admins: [ {{ docker_registry_ui.admin_users  | map("regex_replace", "(.+)", "\"\\1\"") | join(',') }} ]
