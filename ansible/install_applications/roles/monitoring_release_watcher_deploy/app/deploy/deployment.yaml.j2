@@ -55,6 +55,8 @@ spec:
         - name: release-watcher-config
           mountPath: /data/watchers.yaml
           subPath: watchers.yaml
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -62,6 +64,8 @@ spec:
       - name: release-watcher-config
         configMap:
           name: release-watcher-config
+      - name: tmp-volume
+        emptyDir: {}
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
