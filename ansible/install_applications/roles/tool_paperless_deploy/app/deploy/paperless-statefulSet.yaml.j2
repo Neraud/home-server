@@ -40,13 +40,13 @@ spec:
         env:
         - name: PAPERLESS_DEBUG
           value: "false"
+        - name: PAPERLESS_PORT
+          value: "8000"
         - name: PAPERLESS_ENABLE_HTTP_REMOTE_USER
           value: "true"
         - name: PAPERLESS_LOGGING_DIR
           value: "/tmp/log/"
-        - name: PAPERLESS_ALLOWED_HOSTS
-          value: "paperless.tool.intra.{{ web_base_domain }}"
-        - name: PAPERLESS_CORS_ALLOWED_HOSTS
+        - name: PAPERLESS_URL
           value: "https://paperless.tool.intra.{{ web_base_domain }}"
         - name: PAPERLESS_ADMIN_USER
           valueFrom:

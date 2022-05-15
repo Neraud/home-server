@@ -743,7 +743,7 @@ watchers:
   ################
   # Apps : Tools #
   ################
-  - name: Paperless-ng
+  - name: Paperless-ngx
     type: docker_registry
     repo: {{ _paperless_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ _paperless_var_loader.base_image.name }}
@@ -752,7 +752,7 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - ^0\..*
-      - ^1\.[0-4]\..*
+      - ^1\.[0-6]\..*
   - name: "Paperless Redis"
     type: docker_registry
     repo: {{ paperless_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}

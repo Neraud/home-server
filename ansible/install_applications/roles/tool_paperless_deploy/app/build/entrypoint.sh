@@ -32,8 +32,6 @@ echo "Paperless-ng docker container starting..."
 
 initialize
 
-echo "lol3 command $@"
-
 if [[ "$1" != "/"* ]]; then
 	echo Executing management command "$@"
 	exec python3 manage.py "$@"
