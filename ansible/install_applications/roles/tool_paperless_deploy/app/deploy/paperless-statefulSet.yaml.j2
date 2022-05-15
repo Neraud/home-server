@@ -46,9 +46,7 @@ spec:
           value: "true"
         - name: PAPERLESS_LOGGING_DIR
           value: "/tmp/log/"
-        - name: PAPERLESS_ALLOWED_HOSTS
-          value: "paperless.tool.intra.{{ web_base_domain }}"
-        - name: PAPERLESS_CORS_ALLOWED_HOSTS
+        - name: PAPERLESS_URL
           value: "https://paperless.tool.intra.{{ web_base_domain }}"
         - name: PAPERLESS_ADMIN_USER
           valueFrom:
