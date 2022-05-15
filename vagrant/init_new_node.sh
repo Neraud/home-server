@@ -116,7 +116,7 @@ __EOF__
 	mkdir -p /opt/mock_nas/Download/newsgroup/{nzbFiles,pending,done}
 	mkdir -p /opt/mock_nas/Download/pyload
 	mkdir -p /opt/mock_nas/NVR
-	mkdir -p /opt/mock_nas/Papers/paperless/{consume,media}
+	mkdir -p /opt/mock_nas/Paperless/{consume,media}
 	chmod -R 777 /opt/mock_nas
 
 	echo " - install NFS Server"
@@ -135,7 +135,7 @@ __EOF__
 /opt/mock_nas/Multimedia $network_cidr(rw)
 /opt/mock_nas/Download $network_cidr(rw)
 /opt/mock_nas/NVR $network_cidr(rw)
-/opt/mock_nas/Papers $network_cidr(rw)
+/opt/mock_nas/Paperless $network_cidr(rw)
 EOF
 	systemctl restart nfs-kernel-server
 
