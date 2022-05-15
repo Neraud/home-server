@@ -130,7 +130,7 @@ The following services are deployed :
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                    | Presence tracking                                              |
 | [TT-RSS](https://tt-rss.org/)                                    | <https://ttrss.web.k8s.test>                         | News feed (RSS/Atom) reader and aggregator                     |
 | [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.web.k8s.test>                         | A very simple static homepage for your server                  |
-| [PaperlessNG](https://paperless-ng.readthedocs.io/en/latest/)    | <https://paperless.tool.intra.k8s.test>              | Scan & OCR documents                                           |
+| [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)   | <https://paperless.tool.intra.k8s.test>              | Scan & OCR documents                                           |
 | [OliveTin](https://docs.olivetin.app/)                           | <https://olivetin.tool.intra.k8s.test>               | Access to predefined shell commands from a web interface.      |
 | [Gitea](https://gitea.io/)                                       | <https://gitea.dev.intra.k8s.test>                   | Lightweight code hosting solution written in Go.               |
 | [Jellyfin](https://jellyfin.org/)                                | <https://jellyfin.stream.intra.k8s.test>             | Video streaming                                                |
@@ -515,7 +515,7 @@ Apps deployed in the cluster are added on the dashboard.
 
 ### Parperless
 
-Paperless-NG is installed.
+Paperless-NGX is installed.
 
 The default account is `admin_local` / `Passw0rd`.
 

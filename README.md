@@ -72,7 +72,7 @@ The following services are deployed :
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | Presence tracking                                              |
 | [TT-RSS](https://tt-rss.org/)                                    | News feed (RSS/Atom) reader and aggregator                     |
 | [Homer](https://github.com/bastienwirtz/homer)                   | A very simple static homepage for your server                  |
-| [PaperlessNG](https://paperless-ng.readthedocs.io/en/latest/)    | Scan & OCR documents                                           |
+| [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)   | Scan & OCR documents                                           |
 | [Jellyfin](https://jellyfin.org/)                                | Video streaming                                                |
 | [Airsonic](https://airsonic.github.io/)                          | Music streaming                                                |
 | [Sickchill](https://sickchill.github.io/)                        | Automatic Video Library Manager for TV Shows.                  |
