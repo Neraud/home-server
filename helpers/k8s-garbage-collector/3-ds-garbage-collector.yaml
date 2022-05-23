@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: k8s-gc
+  namespace: garbage-collector
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: k8s-gc
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: k8s-gc
+    spec:
+      containers:
+      - command: ["/bin/sh"]
+        args: ["-c", "cp /tmp/gc.sh /host/tmp/gc.sh ; chmod +x /host/tmp/gc.sh ; chroot /host ./tmp/gc.sh -s $SLEEP_INTERVAL"]
+        image: busybox:1.35.0
+        imagePullPolicy: IfNotPresent
+        name: garbage-collector
+        env:
+        - name: SLEEP_INTERVAL
+          value: "600"
+        securityContext:
+          privileged: true
+          runAsUser: 0
+        volumeMounts:
+        - mountPath: /host
+          name: host
+        - mountPath: "/tmp/gc.sh"
+          subPath: gc
+          name: gc-script
+      enableServiceLinks: true
+      hostNetwork: true
+      hostPID: true
+      serviceAccount: garbage-collector
+      serviceAccountName: garbage-collector
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: gc-script
+        configMap:
+          name: gc-script
+      - hostPath:
+          path: /
+          type: Directory
+        name: host
+      nodeSelector:
+        kubernetes.io/os: linux
+      tolerations:
+      - operator: Exists
+  updateStrategy:
+    type: OnDelete
