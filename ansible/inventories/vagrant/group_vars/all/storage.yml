@@ -187,6 +187,26 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: paperless
       app.kubernetes.io/component: redis
+  syncthing-data:
+    replicas: 2
+    capacity: 64M
+    arbiterCapacity: 32M
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: syncthing
+      app.kubernetes.io/component: syncthing
+  syncthing-discovery-data:
+    replicas: 2
+    capacity: 32M
+    arbiterCapacity: 32M
+    nodes: [master-test-2, master-test-3]
+    arbiters: [master-test-1]
+    reclaim_policy: Retain
+    labels:
+      app.kubernetes.io/name: syncthing
+      app.kubernetes.io/component: discovery
   homeassistant-config:
     replicas: 2
     capacity: 256M

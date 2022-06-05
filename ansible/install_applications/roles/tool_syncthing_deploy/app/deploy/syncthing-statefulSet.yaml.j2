@@ -1,0 +1,164 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: syncthing
+  namespace: {{ syncthing.namespace }}
+  labels:
+    {{ syncthing.labels_def | to_nice_yaml() | indent(4) }}
+    {{ syncthing.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ syncthing.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ syncthing.labels_def | to_nice_yaml() | indent(8) }}
+        {{ syncthing.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /data/syncthing
+            chown 1000:1000 /data/syncthing
+        volumeMounts:
+        - name: syncthing-pv-claim
+          mountPath: /data
+      # Syncthing advertises its intefaces, but we can't advertise the LoadBalancer IP by default
+      # So we cheat by adding a dummy NIC in the container with the LB IP
+      - name: create-dummy-nic
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            echo "Creating dummy nic eth9"
+            ip link add eth9 type dummy
+            ip addr add {{ kubernetes_syncthing_ip }}/32 brd + dev eth9
+            ip link set dev eth9 up
+            echo "Dummy nic eth9 created :"
+            ip addr show eth9
+        securityContext:
+          capabilities:
+            add:
+            # Required to add a dummy nic
+            - NET_ADMIN
+      - name: init-syncthing-config
+        image: "{{ syncthing.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            echo "Preparing Syncthing configuration"
+            if [ ! -f /var/syncthing/config/config.xml ] ; then
+              echo "Syncthing has never been run, generating default conf"
+              /bin/syncthing generate --home=/var/syncthing/config
+            else
+              echo "Configuration already exists, nothing to do"
+            fi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: syncthing-pv-claim
+          mountPath: /var/syncthing
+          subPath: syncthing
+      - name: configure-syncthing
+        image: "{{ syncthing.conf_injection_private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+{% for conf in syncthong_configs %}
+          - name: SYNCTHING_CONF_{{ conf.category }}_{{ conf.key }}
+            value: "{{ conf.value }}"
+{% endfor %}
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: syncthing-pv-claim
+          mountPath: /var/syncthing
+          subPath: syncthing
+      containers:
+      - image: "{{ syncthing.private_image | image_full_name }}"
+        name: syncthing
+        ports:
+        - containerPort: 8384
+          name: web
+        - name: transfer-tcp
+          containerPort: 22000
+          protocol: TCP
+        #- name: transfer-udp
+        #  containerPort: 22000
+        #  protocol: UDP
+        - containerPort: 21027
+          name: discovery
+          protocol: UDP
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: web
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ syncthing.container.requests_cpu }}"
+            memory: "{{ syncthing.container.requests_memory }}"
+          limits:
+            cpu: "{{ syncthing.container.limits_cpu }}"
+            memory: "{{ syncthing.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: syncthing-pv-claim
+          mountPath: /var/syncthing
+          subPath: syncthing
+        - name: syncthing-volume
+          mountPath: /var/syncthing/Sync
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: syncthing-volume
+        persistentVolumeClaim:
+          claimName: nfs-syncthing
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: syncthing-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 32M
+      selector:
+        matchLabels:
+          {{ syncthing.labels_def | to_nice_yaml() | indent(10) }}

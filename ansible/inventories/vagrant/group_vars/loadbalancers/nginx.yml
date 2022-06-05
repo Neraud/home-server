@@ -238,6 +238,33 @@ nginx_sites:
         proxy_pass: https://kubernetes-https-ingress
         proxy_enable_websocket: True
 
+  - name: tool-internal-syncthing-discovery
+    enabled_name: 251-tool-internal-syncthing-discovery
+    server_name: "syncthing-discovery.tool.intra.{{ web_base_domain }}"
+    default: False
+    listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/tool.intra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/tool.intra.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    content: |
+      # Requirements for syncthing discovery : https://docs.syncthing.net/users/stdiscosrv.html#requirements
+      # ssl_verify_client must be set on the site, can't be added in a location.
+      ssl_verify_client optional_no_ca;
+    locations:
+      - path: /
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+        content: |
+          # Requirements for syncthing discovery : https://docs.syncthing.net/users/stdiscosrv.html#requirements
+          proxy_set_header X-Client-Port $remote_port;
+          proxy_set_header X-SSL-Cert $ssl_client_escaped_cert;
+
   - name: home-public
     enabled_name: 300-home-public
     server_name: "home.{{ web_base_domain }} *.home.{{ web_base_domain }}"

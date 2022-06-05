@@ -61,6 +61,8 @@ To test the deployed services, you will have to add the following domains to you
 
 192.168.100.101 paperless.tool.intra.k8s.test
 192.168.100.101 olivetin.tool.intra.k8s.test
+192.168.100.101 syncthing.tool.intra.k8s.test
+192.168.100.101 syncthing-discovery.tool.intra.k8s.test
 
 192.168.100.101 airsonic.stream.intra.k8s.test
 192.168.100.101 jellyfin.stream.intra.k8s.test

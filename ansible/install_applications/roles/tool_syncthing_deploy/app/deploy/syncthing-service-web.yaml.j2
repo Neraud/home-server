@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: syncthing-web
+  namespace: {{ syncthing.namespace }}
+  labels:
+    {{ syncthing.labels_def | to_nice_yaml() | indent(4) }}
+    {{ syncthing.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  ports:
+  - port: 8384
+    name: web
+    targetPort: web
+  selector:
+    {{ syncthing.labels_def | to_nice_yaml() | indent(4) }}
