@@ -15,7 +15,11 @@ server {
 	location / { rewrite ^ https://$server_name$request_uri? permanent; }
 	{% else %}
 	index index.html index.htm index.nginx-debian.html;
-		
+
+		{% if item.content is defined %}
+	{{ item.content }}
+		{% endif %}
+
 		{% if item.status is defined and item.status.enabled | default(False) %}
 	location {{ item.status.path | default('/status') }} {
 		stub_status on;
@@ -148,6 +152,10 @@ server {
 	ssl_stapling_verify on;
 	
 	index index.html index.htm index.nginx-debian.html;
+
+	{% if item.content is defined %}
+	{{ item.content }}
+	{% endif %}
 
 	{% if item.status is defined and item.status.enabled | default(False) %}
 	location {{ item.status.path | default('/status') }} {
