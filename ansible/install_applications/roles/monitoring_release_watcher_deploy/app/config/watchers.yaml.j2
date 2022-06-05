@@ -643,7 +643,7 @@ watchers:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
       - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[04]
+      - .*-alpine3\.1[0-4]
       - 3\.[0-8]\..*
       - 3\.9\.[0-9]-.*
       - 3\.9\.1[0]-.*
@@ -773,3 +773,37 @@ watchers:
     excludes:
       - ^202[0-1].*
       - ^2022-0[0-3].*
+  - name: Syncthing
+    type: docker_registry
+    repo: {{ _syncthing_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
+    image: {{ _syncthing_var_loader.base_image.name }}
+    tag: {{ _syncthing_var_loader.base_image.tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - ^1\.[0-9]\.
+      - ^1\.1[0-9]\.
+      - ^1\.20\.0
+  - name: Syncthing conf injection
+    type: docker_registry
+    repo: {{ _syncthing_var_loader.conf_injection_base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
+    image: {{ _syncthing_var_loader.conf_injection_base_image.name }}
+    tag: {{ _syncthing_var_loader.conf_injection_base_image.tag }}
+    includes:
+      - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
+    excludes:
+      - .*-alpine3\.[0-9]$
+      - .*-alpine3\.1[0-5]
+      - 3\.[0-9]\..*
+      - 3\.10\.[0-3]-.*
+  - name: Syncthing Discovery
+    type: docker_registry
+    repo: {{ _syncthing_discovery_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
+    image: {{ _syncthing_discovery_var_loader.base_image.name }}
+    tag: {{ _syncthing_discovery_var_loader.base_image.tag }}
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - ^1\.[0-9]\.
+      - ^1\.1[0-7]\.
+      - ^1\.18\.[0-5]
