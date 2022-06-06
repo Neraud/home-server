@@ -53,12 +53,13 @@ syncthing:
 
   context_root: "{{ _syncthing_var_loader.context_root }}"
 
+  # See https://docs.syncthing.net/users/config.html#config-file-format
   configs:
   - category: options
     key: localAnnounceEnabled
     value: "false"
   - category: options
-    key: globalAnnounceServer
+    key: globalAnnounceEnabled
     value: "true"
   - category: options
     key: globalAnnounceServer
