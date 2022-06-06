@@ -39,6 +39,11 @@ openldap_ldap_groups:
     ou: sso_groups
     members:
       - user_ldap
+  - id: syncthing
+    description: Syncthing
+    ou: sso_groups  # We can't properly implement an app group for Syncthing, so we filter on LemonLDAP
+    members:
+      - user_ldap
   - id: home
     description: Home
     ou: sso_groups

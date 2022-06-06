@@ -58,3 +58,5 @@ lemonldap_location_rules:
 
   - domain: "*.tool.intra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'tool')
+  - domain: "syncthing.tool.intra.{{ web_base_domain }}"
+    default_rule: groupMatch($hGroups, 'cn', 'syncthing')

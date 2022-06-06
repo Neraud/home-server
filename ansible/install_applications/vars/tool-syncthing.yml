@@ -78,10 +78,36 @@ syncthing:
   - category: options
     key: stunServer
     value: ""
+  
+  # We can't easily use LDAP auth
+  # Syncthing uses the user to bind and check for groups (not a dedicated readonly or admin user)
+  # However, our regular users can't browse the LDAP tree
+  # So we disable Syncthinc auth and required a dedicated group in LemonLDAP
   - category: gui
     key: authMode
     value: "" # "", static, ldap
-    # TODO LDAP
+  - category: gui
+    key: insecureAdminAccess
+    value: "true"
+  #- category: ldap
+  #  key: address
+  #  value: "{{ syncthing_ldap_address | default(openldap.ldap.servername + ':636') }}"
+  #- category: ldap
+  #  key: bindDN
+  #  value: "{{ syncthing_ldap_bindDN | default('cn=%s,' + openldap.ldap.structure_users_ou_dn) }}"
+  #- category: ldap
+  #  key: transport
+  #  value: "{{ syncthing_ldap_transport | default('tls') }}" # nontls, tls, starttls
+  #- category: ldap
+  #  key: insecureSkipVerify
+  #  value: "{{ syncthing_ldap_insecureSkipVerify | default(true) }}"
+  #- category: ldap
+  #  key: searchBaseDN
+  #  value: "{{ syncthing_ldap_searchBaseDN | default(openldap.ldap.structure_users_ou_dn) }}"
+  #- category: ldap
+  #  key: searchFilter
+  #  value: "{{ syncthing_ldap_searchBaseDN | default('(&(objectClass=inetOrgPerson)(cn=%s)(memberOf=' + syncthing_ldap_group + '))') }}"
+
 
 # To avoid loops inside syncthing_discovery
 _syncthing_discovery_var_loader:

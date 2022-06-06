@@ -1,2 +1,4 @@
 ---
 syncthing_discovery_insecure: True
+
+#syncthing_ldap_group: "cn=syncthing,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
