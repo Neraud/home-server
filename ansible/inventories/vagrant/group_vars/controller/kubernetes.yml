@@ -28,3 +28,9 @@ kubernetes_nfs_storage:
     reclaim_policy: Retain
     labels:
       detail: papers
+  nfs-syncthing:
+    nfs_server: "{{ hostvars[groups.controller[0]].ansible_host }}"
+    nfs_path: /opt/mock_nas/Syncthing
+    reclaim_policy: Retain
+    labels:
+      detail: syncthing

@@ -61,6 +61,8 @@ To test the deployed services, you will have to add the following domains to you
 
 192.168.100.101 paperless.tool.intra.k8s.test
 192.168.100.101 olivetin.tool.intra.k8s.test
+192.168.100.101 syncthing.tool.intra.k8s.test
+192.168.100.101 syncthing-discovery.tool.intra.k8s.test
 
 192.168.100.101 airsonic.stream.intra.k8s.test
 192.168.100.101 jellyfin.stream.intra.k8s.test
@@ -132,6 +134,7 @@ The following services are deployed :
 | [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.web.k8s.test>                         | A very simple static homepage for your server                  |
 | [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)   | <https://paperless.tool.intra.k8s.test>              | Scan & OCR documents                                           |
 | [OliveTin](https://docs.olivetin.app/)                           | <https://olivetin.tool.intra.k8s.test>               | Access to predefined shell commands from a web interface.      |
+| [Syncthing](https://syncthing.net/)                              |<https://syncthing.tool.intra.k8s.test/>              | Continuous file synchronization                                |
 | [Gitea](https://gitea.io/)                                       | <https://gitea.dev.intra.k8s.test>                   | Lightweight code hosting solution written in Go.               |
 | [Jellyfin](https://jellyfin.org/)                                | <https://jellyfin.stream.intra.k8s.test>             | Video streaming                                                |
 | [Airsonic](https://airsonic.github.io/)                          | <https://airsonic.stream.intra>                      | Music streaming                                                |
@@ -518,6 +521,16 @@ Apps deployed in the cluster are added on the dashboard.
 Paperless-NGX is installed.
 
 The default account is `admin_local` / `Passw0rd`.
+
+### Syncthing
+
+Syncthing is installed.
+
+The default `user_ldap` account (from OpenLDAP) has access.
+
+The data directory is set to the mock NAS.
+
+To add another Syncthing client, configure its global discovery to : <https://syncthing-discovery.tool.intra.k8s.test/?insecure>
 
 ### Gitea
 

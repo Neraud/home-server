@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: syncthing
+  namespace: {{ syncthing.namespace }}
+  labels:
+    {{ syncthing.labels_def | to_nice_yaml() | indent(4) }}
+    {{ syncthing.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+{% if syncthing.context_root != "" %}
+    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+{% endif %}   
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - syncthing.tool.intra.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: syncthing.tool.intra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: {{ '/' if syncthing.context_root == '' else syncthing.context_root + '/?(.*)' }}
+        pathType: Prefix
+        backend:
+          service:
+            name: syncthing-web
+            port:
+              number: 8384

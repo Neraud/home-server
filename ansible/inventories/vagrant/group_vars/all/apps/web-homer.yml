@@ -49,6 +49,8 @@ homer_images_to_download:
     source: https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/resources/logo/web/svg/square.svg
   - name: olivetin.png
     source: https://raw.githubusercontent.com/OliveTin/OliveTin/main/webui/OliveTinLogo.png
+  - name: syncthing.svg
+    source: https://raw.githubusercontent.com/syncthing/syncthing/main/assets/logo-only.svg
 
   - name: homeassistant.svg
     source: https://www.home-assistant.io/images/home-assistant-logo.svg
@@ -171,6 +173,11 @@ homer_config_services:
         logo: "assets/download/olivetin.png"
         url: "https://olivetin.tool.intra.{{ web_base_domain }}{{ _olivetin_var_loader.context_root }}"
         subtitle: "OliveTin gives safe and simple access to predefined shell commands from a web interface"
+        target: "_blank"
+      - name: "Syncthing"
+        logo: "assets/download/syncthing.svg"
+        url: "https://syncthing.tool.intra.{{ web_base_domain }}{{ _syncthing_var_loader.context_root }}"
+        subtitle: "Syncthing is a continuous file synchronization program"
         target: "_blank"
   - name: "Home"
     icon: "fas fa-home"

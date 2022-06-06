@@ -73,6 +73,8 @@ The following services are deployed :
 | [TT-RSS](https://tt-rss.org/)                                    | News feed (RSS/Atom) reader and aggregator                     |
 | [Homer](https://github.com/bastienwirtz/homer)                   | A very simple static homepage for your server                  |
 | [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)   | Scan & OCR documents                                           |
+| [OliveTin](https://docs.olivetin.app/)                           | Access to predefined shell commands from a web interface.      |
+| [Syncthing](https://syncthing.net/)                              | Continuous file synchronization                                |
 | [Jellyfin](https://jellyfin.org/)                                | Video streaming                                                |
 | [Airsonic](https://airsonic.github.io/)                          | Music streaming                                                |
 | [Sickchill](https://sickchill.github.io/)                        | Automatic Video Library Manager for TV Shows.                  |
