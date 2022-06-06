@@ -81,7 +81,7 @@ spec:
         image: "{{ syncthing.conf_injection_private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
-{% for conf in syncthong_configs %}
+{% for conf in syncthing.configs %}
           - name: SYNCTHING_CONF_{{ conf.category }}_{{ conf.key }}
             value: "{{ conf.value }}"
 {% endfor %}

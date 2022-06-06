@@ -53,6 +53,35 @@ syncthing:
 
   context_root: "{{ _syncthing_var_loader.context_root }}"
 
+  configs:
+  - category: options
+    key: localAnnounceEnabled
+    value: "false"
+  - category: options
+    key: globalAnnounceServer
+    value: "true"
+  - category: options
+    key: globalAnnounceServer
+    value: "https://syncthing-discovery.tool.intra.{{ web_base_domain }}/{{ syncthing_discovery_insecure | default(false) | ternary('?insecure', '') }}"
+  - category: options
+    key: announceLANAddresses
+    value: "true"
+  - category: options
+    key: crashReportingEnabled
+    value: "true"
+  - category: options
+    key: natEnabled
+    value: "false"
+  - category: options
+    key: relaysEnabled
+    value: "false"
+  - category: options
+    key: stunServer
+    value: ""
+  - category: gui
+    key: authMode
+    value: "" # "", static, ldap
+    # TODO LDAP
 
 # To avoid loops inside syncthing_discovery
 _syncthing_discovery_var_loader:
