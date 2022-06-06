@@ -28,8 +28,8 @@ spec:
           - "sh"
           - "-c"
           - |
-            mkdir -p /data/syncthing
-            chown 1000:1000 /data/syncthing
+            mkdir -p /data/config
+            chown 1000:1000 /data/config
         volumeMounts:
         - name: syncthing-pv-claim
           mountPath: /data
@@ -75,12 +75,14 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
         - name: syncthing-pv-claim
-          mountPath: /var/syncthing
-          subPath: syncthing
+          mountPath: /var/syncthing/config
+          subPath: config
       - name: configure-syncthing
         image: "{{ syncthing.conf_injection_private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
+          - name: SYNCTHING_DATA_DIR
+            value: /data
 {% for conf in syncthing.configs %}
           - name: SYNCTHING_CONF_{{ conf.category }}_{{ conf.key }}
             value: "{{ conf.value }}"
@@ -93,8 +95,8 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
         - name: syncthing-pv-claim
-          mountPath: /var/syncthing
-          subPath: syncthing
+          mountPath: /var/syncthing/config
+          subPath: config
       containers:
       - image: "{{ syncthing.private_image | image_full_name }}"
         name: syncthing
@@ -132,10 +134,10 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
         - name: syncthing-pv-claim
-          mountPath: /var/syncthing
-          subPath: syncthing
+          mountPath: /var/syncthing/config
+          subPath: config
         - name: syncthing-volume
-          mountPath: /var/syncthing/Sync
+          mountPath: /data
       volumes:
       - name: tz-config
         hostPath:

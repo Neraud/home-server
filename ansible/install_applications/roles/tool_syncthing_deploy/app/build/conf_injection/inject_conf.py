@@ -33,5 +33,12 @@ for k, v in os.environ.items():
     new = etree.SubElement(tree.xpath(category)[0], key)
     new.text = v
 
+
+data_dir = os.getenv('SYNCTHING_DATA_DIR', '~')
+logging.debug('Setting default fodler path to %s', data_dir)
+df = tree.xpath('defaults/folder')[0]
+df.set('path', data_dir)
+
+
 logging.info('Writing config at %s', config_path)
 tree.write(config_path)
