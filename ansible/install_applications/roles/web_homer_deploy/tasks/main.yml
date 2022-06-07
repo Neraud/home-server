@@ -10,6 +10,9 @@
     base_image: "{{ homer.base_image }}"
     private_image: "{{ homer.private_image }}"
     build: yes
+    build_args:
+      dashboard_icons_repo: "{{ homer.icons_repo.repo }}"
+      dashboard_icons_commit: "{{ homer.icons_repo.commit }}"
 
 - name: Deploy Homer
   kubernetes.core.k8s:

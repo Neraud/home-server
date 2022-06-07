@@ -14,5 +14,8 @@ else
     echo "No image to download"
 fi
 
+echo "Linking dashboard-icons"
+ln -s /opt/dashboard-icons /www/assets/dashboard-icons
+
 echo "Starting standard entrypoint"
 /bin/sh /entrypoint.sh

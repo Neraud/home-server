@@ -13,6 +13,11 @@ _homer_var_loader:
     name: "b4bz/homer"
     tag: "22.02.2-base-amd64"
   context_root: "{{ homer_context_root | default('') }}"
+  icons_repo:
+    #repo: walkxhub/dashboard-icons
+    #commit: f210fd8073afbdaf4ba9410cbbe851de140d9a48
+    repo: Neraud/dashboard-icons
+    commit: 8877e668de24bd83d8f281e970813c56c73baa71
 
 homer:
   enabled: "{{ homer_enabled | default(True) }}"
@@ -22,7 +27,8 @@ homer:
   private_image:
     repo: "{{ docker_private_registry.url }}"
     name: "homer-{{ _homer_var_loader.base_image.name | regex_replace('.*/', '') }}"
-    tag: "{{ _homer_var_loader.base_image.tag }}-custom"
+    tag: "{{ _homer_var_loader.base_image.tag }}-{{ _homer_var_loader.icons_repo.commit | truncate(6) }}"
+  icons_repo: "{{ _homer_var_loader.icons_repo }}"
   context_root: "{{ _homer_var_loader.context_root }}"
 
   labels_def:
