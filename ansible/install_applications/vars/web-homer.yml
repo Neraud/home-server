@@ -2,10 +2,16 @@
 # To avoid loops inside homer
 _homer_var_loader:
   base_image:
-    repo: "docker.io"
-    name: "library/nginx"
-    tag: "1.21.6-alpine"
-  release: v22.02.2
+    #repo: "docker.io" 
+    #name: "b4bz/homer"
+    #tag: "22.02.2-amd64"
+    
+    # TODO manual build for the image for now : 
+    # git clone https://github.com/bastienwirtz/homer
+    # podman build -t registry.intra.k8s.test/b4bz/homer:22.02.2-base-amd64 homer
+    repo: "registry.intra.k8s.test"
+    name: "b4bz/homer"
+    tag: "22.02.2-base-amd64"
   context_root: "{{ homer_context_root | default('') }}"
 
 homer:
@@ -16,8 +22,7 @@ homer:
   private_image:
     repo: "{{ docker_private_registry.url }}"
     name: "homer-{{ _homer_var_loader.base_image.name | regex_replace('.*/', '') }}"
-    tag: "{{ _homer_var_loader.release }}-{{ _homer_var_loader.base_image.tag }}"
-  release: "{{ _homer_var_loader.release }}"
+    tag: "{{ _homer_var_loader.base_image.tag }}-custom"
   context_root: "{{ _homer_var_loader.context_root }}"
 
   labels_def:
@@ -25,7 +30,7 @@ homer:
     app.kubernetes.io/component: homer
 
   labels_desc:
-    app.kubernetes.io/version: "{{ _homer_var_loader.release }}"
+    app.kubernetes.io/version: "{{ _homer_var_loader.base_image.tag }}"
 
   container:
     requests_cpu: "{{ homer_container_requests_cpu | default('25m') }}"

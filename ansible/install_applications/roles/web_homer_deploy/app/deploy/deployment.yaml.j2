@@ -28,11 +28,11 @@ spec:
         - containerPort: 8080
           name: http
         env:
-        - name: HOMER_CONTEXT_ROOT
+        - name: SUBFOLDER
           value: "{{ homer.context_root }}"
         securityContext:
           runAsNonRoot: true
-          runAsUser: 101 # nginx
+          runAsUser: 1000 # lighttpd
           readOnlyRootFilesystem: true
         resources:
           requests:
@@ -52,14 +52,14 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
+        - name: tmp-asset-volume
+          mountPath: /www/assets
         - name: homer-config
-          mountPath: /opt/homer/assets/config.yml
+          mountPath: /www/assets/config.yml
           subPath: config.yml
         - name: homer-config
           mountPath: /opt/images.csv
           subPath: images.csv
-        - name: tmp-volume
-          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -67,7 +67,7 @@ spec:
       - name: homer-config
         configMap:
           name: homer-config
-      - name: tmp-volume
+      - name: tmp-asset-volume
         emptyDir: {}
       imagePullSecrets:
       - name: docker-config

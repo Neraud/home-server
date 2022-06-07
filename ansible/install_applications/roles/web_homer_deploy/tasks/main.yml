@@ -10,8 +10,6 @@
     base_image: "{{ homer.base_image }}"
     private_image: "{{ homer.private_image }}"
     build: yes
-    build_args:
-      homer_release: "{{ homer.release }}"
 
 - name: Deploy Homer
   kubernetes.core.k8s:
