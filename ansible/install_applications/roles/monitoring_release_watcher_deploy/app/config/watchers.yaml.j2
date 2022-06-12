@@ -491,6 +491,8 @@ watchers:
     repo: {{ elasticsearch.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ elasticsearch.base_image.name }}
     tag: {{ elasticsearch.base_image.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - latest
       - .*-rc.*
@@ -569,6 +571,8 @@ watchers:
     repo: {{ kibana.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ kibana.base_image.name }}
     tag: {{ kibana.base_image.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - latest
       - .*-(rc|beta).*
