@@ -5,11 +5,11 @@ _jellyfin_var_loader:
   base_image:
     repo: "docker.io"
     name: "jellyfin/jellyfin"
-    tag: "10.7.7-amd64"
+    tag: "10.8.0-amd64"
   conf_injection_base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.9.11-alpine3.15"
+    tag: "3.10.5-alpine3.16"
 
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"
@@ -55,20 +55,20 @@ jellyfin:
 
   plugins:
     anidb:
-      url: https://repo.jellyfin.org/releases/plugin/anidb/anidb_4.0.0.0.zip
-      version: v4
-    anilist:
-      url: https://repo.jellyfin.org/releases/plugin/anilist/anilist_3.0.0.0.zip
-      version: v3
-    anisearch:
-      url: https://repo.jellyfin.org/releases/plugin/anisearch/anisearch_3.0.0.0.zip
-      version: v3
-    ldapauth:
-      url: https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_12.0.0.0.zip
-      version: v12
-    thetvdb:
-      url: https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_6.0.0.0.zip
+      url: https://repo.jellyfin.org/releases/plugin/anidb/anidb_6.0.0.0.zip
       version: v6
+    anilist:
+      url: https://repo.jellyfin.org/releases/plugin/anilist/anilist_5.0.0.0.zip
+      version: v5
+    anisearch:
+      url: https://repo.jellyfin.org/releases/plugin/anisearch/anisearch_4.0.0.0.zip
+      version: v4
+    ldapauth:
+      url: https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_15.0.0.0.zip
+      version: v15
+    thetvdb:
+      url: https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_8.0.0.0.zip
+      version: v8
 
   ldap:
     servername: "{{ jellyfin_ldap_servername | default(openldap.ldap.servername) }}"
