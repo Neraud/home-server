@@ -4,7 +4,7 @@ _fluentbit_var_loader:
   base_image:
     repo: "docker.io"
     name: "fluent/fluent-bit"
-    tag: "1.9.3"
+    tag: "1.9.4"
 
 fluentbit:
   enabled: "{{ fluentbit_enabled | default(True) }}"
