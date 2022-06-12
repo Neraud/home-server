@@ -29,9 +29,7 @@ spec:
           - "-c"
           - |
             mkdir -p /jellyfin/config
-            mkdir -p /jellyfin/cache
             chown 1000:1000 /jellyfin/config
-            chown 1000:1000 /jellyfin/cache
         volumeMounts:
         - name: jellyfin-pv-claim
           mountPath: /jellyfin
@@ -92,6 +90,8 @@ spec:
         - name: jellyfin-pv-claim
           mountPath: /config
           subPath: config
+        - name: tmp-cache-volume
+          mountPath: /cache
         - name: tmp-transcodes-volume
           mountPath: /config/transcodes
         - name: jellyfin-multimedia
@@ -117,6 +117,8 @@ spec:
       - name: tmp-volume
         emptyDir: {}
       - name: tmp-cert-volume
+        emptyDir: {}
+      - name: tmp-cache-volume
         emptyDir: {}
       - name: tmp-transcodes-volume
         emptyDir: {}

@@ -5,7 +5,7 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 5.7.0
+    version: 5.9.0
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
@@ -48,12 +48,12 @@ watchers:
   #########
   - type: github_release
     repo: coreos/flannel
-    release: v0.17.0
+    release: v0.18.1
     excludes:
       - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
-    release: v3.23.0
+    release: v3.23.1
     excludes:
       - v3\.1[0-9]\..*
       - v3\.2[0-2]\..*
@@ -122,7 +122,7 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - .*-alpine3\.1[0-4]
+      - .*-alpine3\.1[0-5]
       - ^[0-9]\..*
       - ^1[0-3]\..*
   
@@ -282,7 +282,8 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*$
     excludes:
       - ^[1-5]\..*
-      - ^6\.[0-8]\..*
+      - ^6\.[0-9]\..*
+      - ^6\.1[0-1]\..*
   - type: docker_registry
     repo: {{ zigbee2mqtt.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zigbee2mqtt.base_image.name }}
@@ -338,7 +339,7 @@ watchers:
       - 'v[0-9]+\.[0-9]+'
     excludes:
       - v0\.[0-9]$
-      - v0\.1[0-7]$
+      - v0\.1[0-8]$
   - name: Blocky PostgreSQL
     type: docker_registry
     repo: {{ blocky_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -347,7 +348,7 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - .*-alpine3\.1[0-4]
+      - .*-alpine3\.1[0-5]
       - ^[0-9]\..*
       - ^1[0-3]\..*
   - name: "Blocky Redis"
@@ -356,10 +357,10 @@ watchers:
     image: {{ blocky_redis.base_image.name }}
     tag: {{ blocky_redis.base_image.tag }}
     includes:
-      - "[6-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
     excludes:
-      - .*alpine3\.1[0-4]
-      - ^6\.[0-1]\.
+      - .*alpine3\.1[0-5]
+      - ^[0-6]\.
   - type: docker_registry
     repo: {{ gotify.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ gotify.base_image.name }}
@@ -378,7 +379,7 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - 3\.[0-9]\..*
-      - 3\.1[0-4]\..*
+      - 3\.1[0-5]\..*
       - .*rc.*
   - type: github_release
     repo: metallb/metallb
@@ -387,7 +388,7 @@ watchers:
       - metallb-chart-.*     
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v1.2.0
+    release: controller-v1.2.1
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
@@ -491,6 +492,8 @@ watchers:
     repo: {{ elasticsearch.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ elasticsearch.base_image.name }}
     tag: {{ elasticsearch.base_image.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - latest
       - .*-rc.*
@@ -569,6 +572,8 @@ watchers:
     repo: {{ kibana.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ kibana.base_image.name }}
     tag: {{ kibana.base_image.tag }}
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - latest
       - .*-(rc|beta).*
@@ -581,7 +586,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: 805f875f8c716c49650bf899399a1c590a2a29ab
+    commit: bfc49f2fe984fbc8de6a2f3bf14c7bc5d2cbce57
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
@@ -643,10 +648,9 @@ watchers:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
       - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[0-4]
-      - 3\.[0-8]\..*
-      - 3\.9\.[0-9]-.*
-      - 3\.9\.1[0]-.*
+      - .*-alpine3\.1[0-5]
+      - 3\.[0-9]\..*
+      - 3\.10\.[0-4]-.*
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anidb
     tag: {{ jellyfin.plugins.anidb.version }}
@@ -736,7 +740,7 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - .*-alpine3\.1[0-4]
+      - .*-alpine3\.1[0-5]
       - ^[0-9]\..*
       - ^1[0-3]\..*
 

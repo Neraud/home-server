@@ -18,11 +18,11 @@
       runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubepodnotready
       summary: Pod has been in a non-ready state for more than 15 minutes.
     expr: |
-      sum by (namespace, pod) (
-        max by(namespace, pod) (
+      sum by (namespace, pod, cluster) (
+        max by(namespace, pod, cluster) (
           kube_pod_status_phase{job="kube-state-metrics", phase=~"Pending|Unknown"}
-        ) * on(namespace, pod) group_left(owner_kind) topk by(namespace, pod) (
-          1, max by(namespace, pod, owner_kind) (kube_pod_owner{owner_kind!="Job"})
+        ) * on(namespace, pod, cluster) group_left(owner_kind) topk by(namespace, pod, cluster) (
+          1, max by(namespace, pod, owner_kind, cluster) (kube_pod_owner{owner_kind!="Job"})
         )
       ) > 0
     for: 15m
@@ -161,7 +161,7 @@
       runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubecontainerwaiting
       summary: Pod container waiting longer than 1 hour
     expr: |
-      sum by (namespace, pod, container) (kube_pod_container_status_waiting_reason{job="kube-state-metrics"}) > 0
+      sum by (namespace, pod, container, cluster) (kube_pod_container_status_waiting_reason{job="kube-state-metrics"}) > 0
     for: 1h
     labels:
       severity: warning
@@ -196,7 +196,7 @@
       runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubejobnotcompleted
       summary: Job did not complete in time
     expr: |
-      time() - max by(namespace, job_name) (kube_job_status_start_time{job="kube-state-metrics"}
+      time() - max by(namespace, job_name, cluster) (kube_job_status_start_time{job="kube-state-metrics"}
         and
       kube_job_status_active{job="kube-state-metrics"} > 0) > 43200
     labels:

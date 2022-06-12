@@ -6,8 +6,8 @@ _ttrss_var_loader:
     repo: "docker.io"
     name: "library/php"
     # TTRSS has issues with PHP 8.1 (eg: PHP Fatal error:  Uncaught Error: Class "ORM" not found in /opt/ttrss/classes/logger/sql.php)
-    tag: "8.0.19-apache-buster"
-  commit: 68e49203d1
+    tag: "8.0.20-apache-buster"
+  commit: d4be821825
 
 ttrss:
   enabled: "{{ ttrss_enabled | default(True) }}"
@@ -63,7 +63,7 @@ ttrss:
     data_migration:
       repo_url: "https://git-gitea.tt-rss.org/fox/ttrss-data-migration"
       branch: master
-      commit: 40bb223288
+      commit: a8bd8fdc0d
     auth_ldap:
       #github_repo: "hydrian/TTRSS-Auth-LDAP"
       #branch: master
@@ -81,7 +81,7 @@ ttrss:
     mailer_smtp:
       repo_url: "https://git-gitea.tt-rss.org/fox/ttrss-mailer-smtp"
       branch: master
-      commit: 0719ebc8fa
+      commit: 9e020e51ec
 
   ldap:
     servername: "{{ ttrss_ldap_servername | default(openldap.ldap.servername) }}"
@@ -109,7 +109,7 @@ _ttrss_pgsql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/postgres"
-    tag: "14.2-alpine3.15"
+    tag: "14.3-alpine3.16"
 
 ttrss_pgsql:
   base_image: "{{ _ttrss_pgsql_var_loader.base_image }}"
