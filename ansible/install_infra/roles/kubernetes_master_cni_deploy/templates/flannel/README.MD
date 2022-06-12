@@ -1,1 +1,1 @@
-See https://github.com/coreos/flannel/blob/v0.17.0/Documentation/kube-flannel.yml
+See https://github.com/coreos/flannel/blob/v0.18.1/Documentation/kube-flannel.yml
