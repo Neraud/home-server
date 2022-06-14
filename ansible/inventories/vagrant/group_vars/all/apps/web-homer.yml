@@ -8,7 +8,7 @@ homer_config_message:
   title: "Welcome !"
   content: |
     This dashboard is configured to list the applications deployed on the Kubernetes cluster. 
-    If promted, the credentials are usually : user / Passw0rd
+    If promted, the credentials are usually : user_ldap / Passw0rd
   style: "is-dark"
 
 # Optional navbar
@@ -18,70 +18,6 @@ homer_config_links:
     url: "https://github.com/Neraud/home-server"
     target: "_blank"
 
-homer_images_to_download:
-  - name: kubernetes.svg
-    source: https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg
-  - name: docker-registry.svg
-    source: https://raw.githubusercontent.com/cncf/landscape/7eeaf13c7dd0b7dc6136420602d4433b45433827/hosted_logos/docker-member.svg
-  - name: gotify.png
-    source: https://github.com/gotify/logo/raw/master/gotify-logo-small.png
-  - name: mailhog.png
-    source: https://artifacthub.io/image/e62ad039-2b04-4e0d-b3fc-3e604eaf3872
-  - name: unifi.svg
-    source: https://prd-www-cdn.ubnt.com/media/images/ubnt-logo-u.svg
-
-  - name: prometheus.svg
-    source: https://raw.githubusercontent.com/cncf/artwork/master/projects/prometheus/icon/color/prometheus-icon-color.svg
-  - name: grafana.svg
-    source: https://raw.githubusercontent.com/cncf/landscape/master/hosted_logos/grafana.svg
-  - name: kibana.svg
-    source: https://opensearch.org/assets/brand/SVG/Mark/opensearch_mark_default.svg
-
-  - name: lemon-ldap.svg
-    source: "https://upload.wikimedia.org/wikipedia/fr/2/24/Logo_lemonldap-ng.svg"
-  - name: phpldapadmin.png
-    source: https://raw.githubusercontent.com/leenooks/phpLDAPadmin/master/htdocs/images/default/logo-small.png
-
-  - name: ttrss.png
-    source: https://git-gitea.tt-rss.org/fox/tt-rss/raw/branch/master/images/favicon-72px.png
-
-  - name: paperless.svg
-    source: https://raw.githubusercontent.com/jonaswinkler/paperless-ng/master/resources/logo/web/svg/square.svg
-  - name: olivetin.png
-    source: https://raw.githubusercontent.com/OliveTin/OliveTin/main/webui/OliveTinLogo.png
-  - name: syncthing.svg
-    source: https://raw.githubusercontent.com/syncthing/syncthing/main/assets/logo-only.svg
-
-  - name: homeassistant.svg
-    source: https://www.home-assistant.io/images/home-assistant-logo.svg
-  - name: node-red.svg
-    source: https://nodered.org/about/resources/media/node-red-icon-2.svg
-  - name: esphome.svg
-    source: https://esphome.io/_images/logo.svg
-  - name: zwavejs2mqtt.png
-    source: https://raw.githubusercontent.com/zwave-js/zwavejs2mqtt/master/static/logo.png
-  - name: zigbee2mqtt.png
-    source: https://raw.githubusercontent.com/Koenkk/zigbee2mqtt/master/images/logo.png
-  - name: frigate.svg
-    source: https://blakeblackshear.github.io/frigate/img/logo.svg
-
-  - name: gitea.png
-    source: https://docs.gitea.io/images/gitea.png
-
-  - name: sickchill.png
-    source: https://raw.githubusercontent.com/SickChill/SickChill/master/sickchill/gui/slick/images/sickchill-sc.png
-  - name: deluge.png
-    source: https://git.deluge-torrent.org/deluge/plain/deluge/ui/web/icons/deluge-192.png
-  - name: pyload.png
-    source: https://raw.githubusercontent.com/pyload/pyload/stable/icons/logo.png
-  - name: sabnzbd.svg
-    source: https://sabnzbd.org/images/logo-full.svg
-
-  - name: airsonic.png
-    source: https://raw.githubusercontent.com/airsonic/airsonic/master/airsonic-main/src/main/webapp/icons/default_dark/logo_light.png
-  - name: jellyfin.svg
-    source: https://jellyfin.org/images/banner-dark.svg
-
 # First level array represent a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 homer_config_services:
@@ -89,26 +25,26 @@ homer_config_services:
     icon: "fas fa-server"
     items:
       - name: "Dashboard Kubernetes"
-        logo: "assets/download/kubernetes.svg"
+        logo: "assets/dashboard-icons/svg/kubernetes.svg"
         url: "https://kube.infra.intra.{{ web_base_domain }}{{ kubernetes_dashboard.context_root }}"
         target: "_blank"
       - name: "Docker Registry UI"
-        logo: "assets/download/docker-registry.svg"
+        logo: "assets/dashboard-icons/svg/docker.svg"
         url: "https://docker-registry-ui.infra.intra.{{ web_base_domain }}{{ docker_registry_ui.context_root }}"
         subtitle: "Web UI for Docker Registry"
         target: "_blank"
       - name: "Gotify"
-        logo: "assets/download/gotify.png"
+        logo: "assets/dashboard-icons/svg/gotify.svg"
         url: "https://gotify.web.{{ web_base_domain }}{{ gotify.context_root }}"
         subtitle: "Server for sending and receiving messages"
         target: "_blank"
       - name: "MailHog"
-        logo: "assets/download/mailhog.png"
+        logo: "assets/dashboard-icons/png/mailhog.png"
         url: "https://mailhog.infra.intra.{{ web_base_domain }}{{ mailhog.context_root }}"
         subtitle: "MailHog is an email testing tool for developers"
         target: "_blank"
       - name: "UniFi"
-        logo: "assets/download/unifi.svg"
+        logo: "assets/dashboard-icons/png/unifi.png"
         url: "https://unifi.infra.intra.{{ web_base_domain }}"
         subtitle: "Controller for Unifi devices"
         target: "_blank"
@@ -116,22 +52,22 @@ homer_config_services:
     icon: "fas fa-heartbeat"
     items:
       - name: "Prometheus"
-        logo: "assets/download/prometheus.svg"
+        logo: "assets/dashboard-icons/svg/prometheus.svg"
         url: "https://prometheus.monitoring.intra.{{ web_base_domain }}/{{ prometheus.context_root }}"
         subtitle: "Monitoring solution"
         target: "_blank"
       - name: "AlertManager"
-        logo: "assets/download/prometheus.svg"
+        logo: "assets/dashboard-icons/svg/prometheus.svg"
         url: "https://alertmanager.monitoring.intra.{{ web_base_domain }}/{{ alertmanager.context_root }}"
         subtitle: "Alert manager for Prometheus"
         target: "_blank"
       - name: "Grafana"
-        logo: "assets/download/grafana.svg"
+        logo: "assets/dashboard-icons/svg/grafana.svg"
         url: "https://grafana.monitoring.intra.{{ web_base_domain }}/{{ grafana.context_root }}"
         subtitle: "Platform for beautiful analytics and monitoring"
         target: "_blank"
-      - name: "Kibana"
-        logo: "assets/download/kibana.svg"
+      - name: "OpenSearch Dashboards"
+        logo: "assets/dashboard-icons/svg/opensearch.svg"
         url: "https://kibana.log.intra.{{ web_base_domain }}/{{ kibana.context_root }}"
         subtitle: "Visualize your Elasticsearch data"
         target: "_blank"
@@ -139,12 +75,12 @@ homer_config_services:
     icon: "fas fa-at"
     items:
       - name: "LemonLDAP"
-        logo: "assets/download/lemon-ldap.svg"
+        logo: "assets/dashboard-icons/png/lemonldapng.png"
         url: "https://lemonldap.auth.intra.{{ web_base_domain }}/manager.html"
         subtitle: "Web Single Sign On and Access Management"
         target: "_blank"
       - name: "Php LDAP Admin"
-        logo: "assets/download/phpldapadmin.png"
+        logo: "assets/dashboard-icons/png/phpldapadmin.png"
         url: "https://phpldapadmin.auth.intra.{{ web_base_domain }}{{ phpldapadmin.context_root }}"
         subtitle: "Web-based LDAP browser"
         target: "_blank"
@@ -152,7 +88,7 @@ homer_config_services:
     icon: "fas fa-globe"
     items:
       - name: "TT-RSS"
-        logo: "assets/download/ttrss.png"
+        logo: "assets/dashboard-icons/png/tinytinyrss.png"
         url: "https://ttrss.web.{{ web_base_domain }}{{ ttrss.context_root }}"
         subtitle: "News feed (RSS/Atom) reader and aggregator"
         target: "_blank"
@@ -165,17 +101,17 @@ homer_config_services:
     icon: "fas fa-toolbox"
     items:
       - name: "Paperless"
-        logo: "assets/download/paperless.svg"
+        logo: "assets/dashboard-icons/svg/paperless.svg"
         url: "https://paperless.tool.intra.{{ web_base_domain }}{{ _paperless_var_loader.context_root }}"
         subtitle: "Scan & OCR documents"
         target: "_blank"
       - name: "OliveTin"
-        logo: "assets/download/olivetin.png"
+        logo: "assets/dashboard-icons/svg/olivetin.svg"
         url: "https://olivetin.tool.intra.{{ web_base_domain }}{{ _olivetin_var_loader.context_root }}"
         subtitle: "OliveTin gives safe and simple access to predefined shell commands from a web interface"
         target: "_blank"
       - name: "Syncthing"
-        logo: "assets/download/syncthing.svg"
+        logo: "assets/dashboard-icons/svg/syncthing.svg"
         url: "https://syncthing.tool.intra.{{ web_base_domain }}{{ _syncthing_var_loader.context_root }}"
         subtitle: "Syncthing is a continuous file synchronization program"
         target: "_blank"
@@ -183,32 +119,32 @@ homer_config_services:
     icon: "fas fa-home"
     items:
       - name: "HomeAssistant"
-        logo: "assets/download/homeassistant.svg"
+        logo: "assets/dashboard-icons/svg/home-assistant.svg"
         url: "https://homeassistant.home.{{ web_base_domain }}"
         subtitle: "Home automation"
         target: "_blank"
       - name: "NodeRED"
-        logo: "assets/download/node-red.svg"
+        logo: "assets/dashboard-icons/svg/nodered.svg"
         url: "https://nodered.home.intra.{{ web_base_domain }}{{ nodered.context_root }}"
         subtitle: "Flow-based programming for the IoT"
         target: "_blank"
       - name: "ESPHome"
-        logo: "assets/download/esphome.svg"
+        logo: "assets/dashboard-icons/svg/esphome.svg"
         url: "https://esphome.home.intra.{{ web_base_domain }}{{ esphome.context_root }}"
         subtitle: "Control your ESP8266/ESP32"
         target: "_blank"
       - name: "Zwavejs2Mqtt"
-        logo: "assets/download/zwavejs2mqtt.png"
+        logo: "assets/dashboard-icons/png/zwavejs2mqtt.png"
         url: "https://zwavejs2mqtt.home.intra.{{ web_base_domain }}{{ zwavejs2mqtt.context_root }}"
         subtitle: "Fully configurable Zwave to MQTT Gateway and Control Panel"
         target: "_blank"
       - name: "Zigbee2MQTT"
-        logo: "assets/download/zigbee2mqtt.png"
+        logo: "assets/dashboard-icons/svg/zigbee2mqtt.svg"
         url: "https://zigbee2mqtt.home.intra.{{ web_base_domain }}{{ zigbee2mqtt.context_root }}"
         subtitle: "Zigbee to MQTT bridge, get rid of your proprietary Zigbee bridges"
         target: "_blank"
       - name: "Frigate"
-        logo: "assets/download/frigate.svg"
+        logo: "assets/dashboard-icons/svg/frigate.svg"
         url: "https://frigate.home.intra.{{ web_base_domain }}{{ frigate.context_root }}"
         subtitle: "Complete and local NVR designed for Home Assistant with AI object detection"
         target: "_blank"
@@ -216,7 +152,7 @@ homer_config_services:
     icon: "fab fa-dev"
     items:
       - name: "Gitea"
-        logo: "assets/download/gitea.png"
+        logo: "assets/dashboard-icons/svg/gitea.svg"
         url: "https://gitea.dev.intra.{{ web_base_domain }}{{ gitea.context_root }}"
         subtitle: "Lightweight code hosting solution"
         target: "_blank"
@@ -224,22 +160,22 @@ homer_config_services:
     icon: "fas fa-download"
     items:
       - name: "SickChill"
-        logo: "assets/download/sickchill.png"
+        logo: "assets/dashboard-icons/png/sickchill.png"
         url: "https://sickchill.dl.intra.{{ web_base_domain }}{{ sickchill.context_root }}"
         subtitle: "Automatic Video Library Manager for TV Shows"
         target: "_blank"
       - name: "Deluge"
-        logo: "assets/download/deluge.png"
+        logo: "assets/dashboard-icons/png/deluge.png"
         url: "https://deluge.dl.intra.{{ web_base_domain }}{{ deluge_web.context_root }}"
         subtitle: "Torrent client"
         target: "_blank"
       - name: "PyLoad"
-        logo: "assets/download/pyload.png"
+        logo: "assets/dashboard-icons/png/pyload.png"
         url: "https://pyload.dl.intra.{{ web_base_domain }}{{ pyload.context_root }}"
         subtitle: "HTTP download manager"
         target: "_blank"
       - name: "SABnzbd"
-        logo: "assets/download/sabnzbd.svg"
+        logo: "assets/dashboard-icons/svg/sabnzbd.svg"
         url: "https://sabnzbd.dl.intra.{{ web_base_domain }}{{ sabnzbd.context_root }}"
         subtitle: "Binary newsreader"
         target: "_blank"
@@ -247,12 +183,12 @@ homer_config_services:
     icon: "fas fa-stream"
     items:
       - name: "Airsonic"
-        logo: "assets/download/airsonic.png"
+        logo: "assets/dashboard-icons/png/airsonic.png"
         url: "https://airsonic.stream.intra.{{ web_base_domain }}{{ airsonic.context_root }}"
         subtitle: "Music streaming"
         target: "_blank"
       - name: "Jellyfin"
-        logo: "assets/download/jellyfin.svg"
+        logo: "assets/dashboard-icons/svg/jellyfin.svg"
         url: "https://jellyfin.stream.intra.{{ web_base_domain }}{{ jellyfin.context_root }}"
         subtitle: "Media streaming"
         target: "_blank"
