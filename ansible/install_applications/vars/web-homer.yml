@@ -2,22 +2,13 @@
 # To avoid loops inside homer
 _homer_var_loader:
   base_image:
-    #repo: "docker.io" 
-    #name: "b4bz/homer"
-    #tag: "22.02.2-amd64"
-    
-    # TODO manual build for the image for now : 
-    # git clone https://github.com/bastienwirtz/homer
-    # podman build -t registry.intra.k8s.test/b4bz/homer:22.02.2-base-amd64 homer
-    repo: "registry.intra.k8s.test"
+    repo: "docker.io" 
     name: "b4bz/homer"
-    tag: "22.02.2-base-amd64"
+    tag: "v22.06.1"
   context_root: "{{ homer_context_root | default('') }}"
   icons_repo:
-    #repo: walkxhub/dashboard-icons
-    #commit: f210fd8073afbdaf4ba9410cbbe851de140d9a48
-    repo: Neraud/dashboard-icons
-    commit: 8877e668de24bd83d8f281e970813c56c73baa71
+    repo: walkxhub/dashboard-icons
+    commit: 4309203236a37f35a7322632572b917222482041
 
 homer:
   enabled: "{{ homer_enabled | default(True) }}"
