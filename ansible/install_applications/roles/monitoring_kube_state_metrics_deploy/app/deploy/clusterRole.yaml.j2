@@ -14,6 +14,7 @@ rules:
   - nodes
   - pods
   - services
+  - serviceaccounts
   - resourcequotas
   - replicationcontrollers
   - limitranges
@@ -103,6 +104,14 @@ rules:
   - coordination.k8s.io
   resources:
   - leases
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterroles
+  - roles
   verbs:
   - list
   - watch
