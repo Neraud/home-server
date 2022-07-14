@@ -671,9 +671,20 @@ watchers:
   # Apps : Web #
   ##############
   - name: Homer
-    type: github_release
-    repo: bastienwirtz/homer
-    release: {{ homer.release }}
+    type: docker_registry
+    repo: {{ homer.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
+    image: {{ homer.base_image.name }}
+    tag: {{ homer.base_image.tag }}
+    includes:
+      - 'v?[0-9]+.[0-9]+.[0-9]+-amd64'
+    excludes:
+      - 'v?21\..*'
+      - 'v?22\.[0-6]\..*'
+  - name: Homer icons
+    type: github_commit
+    repo: {{ homer.icons_repo.repo }}
+    branch: master
+    commit: {{ homer.icons_repo.commit }}
     
   - name: TT-RSS PHP
     type: docker_registry
