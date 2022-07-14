@@ -11,7 +11,7 @@
     private_image: "{{ fluentd.private_image }}"
     build: yes
     build_args:
-      fluent_plugin_elasticsearch_version: "{{ fluentd.plugins.elasticsearch.version }}"
+      fluent_plugin_opensearch_version: "{{ fluentd.plugins.opensearch.version }}"
       fluent_plugin_prometheus_version: "{{ fluentd.plugins.prometheus.version }}"
       fluent_plugin_ua_parser_version: "{{ fluentd.plugins.ua_parser.version }}"
       fluent_plugin_uap_core_version: "{{ fluentd.plugins.uap_core.version }}"

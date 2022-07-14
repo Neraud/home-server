@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.8.0
+    controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
   name: probes.monitoring.coreos.com
 spec:
@@ -52,6 +52,7 @@ spec:
                     required:
                     - key
                     type: object
+                    x-kubernetes-map-type: atomic
                   type:
                     description: Set the authentication type. Defaults to Bearer, Basic will cause an error
                     type: string
@@ -74,6 +75,7 @@ spec:
                     required:
                     - key
                     type: object
+                    x-kubernetes-map-type: atomic
                   username:
                     description: The secret in the service monitor namespace that contains the username for authentication.
                     properties:
@@ -89,6 +91,7 @@ spec:
                     required:
                     - key
                     type: object
+                    x-kubernetes-map-type: atomic
                 type: object
               bearerTokenSecret:
                 description: Secret to mount to read bearer token for scraping targets. The secret needs to be in the same namespace as the probe and accessible by the Prometheus Operator.
@@ -105,6 +108,7 @@ spec:
                 required:
                 - key
                 type: object
+                x-kubernetes-map-type: atomic
               interval:
                 description: Interval at which targets are probed using the configured prober. If not specified Prometheus' global scrape interval is used.
                 pattern: ^(0|(([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?)$
@@ -131,15 +135,26 @@ spec:
                   properties:
                     action:
                       default: replace
-                      description: Action to perform based on regex matching. Default is 'replace'
+                      description: Action to perform based on regex matching. Default is 'replace'. uppercase and lowercase actions require Prometheus >= 2.36.
                       enum:
                       - replace
+                      - Replace
                       - keep
+                      - Keep
                       - drop
+                      - Drop
                       - hashmod
+                      - HashMod
                       - labelmap
+                      - LabelMap
                       - labeldrop
+                      - LabelDrop
                       - labelkeep
+                      - LabelKeep
+                      - lowercase
+                      - Lowercase
+                      - uppercase
+                      - Uppercase
                       type: string
                     modulus:
                       description: Modulus to take of the hash of the source label values.
@@ -190,6 +205,7 @@ spec:
                         required:
                         - key
                         type: object
+                        x-kubernetes-map-type: atomic
                       secret:
                         description: Secret containing data to use for the targets.
                         properties:
@@ -205,6 +221,7 @@ spec:
                         required:
                         - key
                         type: object
+                        x-kubernetes-map-type: atomic
                     type: object
                   clientSecret:
                     description: The secret containing the OAuth2 client secret
@@ -221,6 +238,7 @@ spec:
                     required:
                     - key
                     type: object
+                    x-kubernetes-map-type: atomic
                   endpointParams:
                     additionalProperties:
                       type: string
@@ -244,6 +262,7 @@ spec:
                 description: Specification for the prober to use for probing targets. The prober.URL parameter is required. Targets cannot be probed if left empty.
                 properties:
                   path:
+                    default: /probe
                     description: Path to collect metrics from. Defaults to `/probe`.
                     type: string
                   proxyUrl:
@@ -295,15 +314,26 @@ spec:
                           properties:
                             action:
                               default: replace
-                              description: Action to perform based on regex matching. Default is 'replace'
+                              description: Action to perform based on regex matching. Default is 'replace'. uppercase and lowercase actions require Prometheus >= 2.36.
                               enum:
                               - replace
+                              - Replace
                               - keep
+                              - Keep
                               - drop
+                              - Drop
                               - hashmod
+                              - HashMod
                               - labelmap
+                              - LabelMap
                               - labeldrop
+                              - LabelDrop
                               - labelkeep
+                              - LabelKeep
+                              - lowercase
+                              - Lowercase
+                              - uppercase
+                              - Uppercase
                               type: string
                             modulus:
                               description: Modulus to take of the hash of the source label values.
@@ -360,6 +390,7 @@ spec:
                             description: matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
                             type: object
                         type: object
+                        x-kubernetes-map-type: atomic
                     type: object
                   staticConfig:
                     description: 'staticConfig defines the static list of targets to probe and the relabeling configuration. If `ingress` is also defined, `staticConfig` takes precedence. More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#static_config.'
@@ -376,15 +407,26 @@ spec:
                           properties:
                             action:
                               default: replace
-                              description: Action to perform based on regex matching. Default is 'replace'
+                              description: Action to perform based on regex matching. Default is 'replace'. uppercase and lowercase actions require Prometheus >= 2.36.
                               enum:
                               - replace
+                              - Replace
                               - keep
+                              - Keep
                               - drop
+                              - Drop
                               - hashmod
+                              - HashMod
                               - labelmap
+                              - LabelMap
                               - labeldrop
+                              - LabelDrop
                               - labelkeep
+                              - LabelKeep
+                              - lowercase
+                              - Lowercase
+                              - uppercase
+                              - Uppercase
                               type: string
                             modulus:
                               description: Modulus to take of the hash of the source label values.
@@ -439,6 +481,7 @@ spec:
                         required:
                         - key
                         type: object
+                        x-kubernetes-map-type: atomic
                       secret:
                         description: Secret containing data to use for the targets.
                         properties:
@@ -454,6 +497,7 @@ spec:
                         required:
                         - key
                         type: object
+                        x-kubernetes-map-type: atomic
                     type: object
                   cert:
                     description: Struct containing the client cert file for the targets.
@@ -473,6 +517,7 @@ spec:
                         required:
                         - key
                         type: object
+                        x-kubernetes-map-type: atomic
                       secret:
                         description: Secret containing data to use for the targets.
                         properties:
@@ -488,6 +533,7 @@ spec:
                         required:
                         - key
                         type: object
+                        x-kubernetes-map-type: atomic
                     type: object
                   insecureSkipVerify:
                     description: Disable target certificate validation.
@@ -507,6 +553,7 @@ spec:
                     required:
                     - key
                     type: object
+                    x-kubernetes-map-type: atomic
                   serverName:
                     description: Used to verify the hostname for the targets.
                     type: string
@@ -517,9 +564,3 @@ spec:
         type: object
     served: true
     storage: true
-status:
-  acceptedNames:
-    kind: ""
-    plural: ""
-  conditions: []
-  storedVersions: []

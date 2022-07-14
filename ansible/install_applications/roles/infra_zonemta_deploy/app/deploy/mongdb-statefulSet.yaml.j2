@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: zonemta-mongo
+  name: mongo
   namespace: "{{ zonemta.namespace }}"
   labels:
     {{ zonemta_mongo.labels_def | to_nice_yaml() | indent(4) }}
@@ -34,7 +34,7 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: zonemta-mongo-pv-claim
+        - name: mongo-pv-claim
           mountPath: /data
       containers:
       - name: mongo
@@ -46,7 +46,7 @@ spec:
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: zonemta-mongo-pass
+              name: mongo-pass
               key: password
         - name: MONGO_INITDB_DATABASE
           value: {{ zonemta_mongo.database }}
@@ -80,13 +80,13 @@ spec:
           readOnly: true
         - mountPath: /tmp
           name: tmp-volume
-        - name: zonemta-mongo-pv-claim
+        - name: mongo-pv-claim
           mountPath: /data/db
           subPath: db
-        - name: zonemta-mongo-pv-claim
+        - name: mongo-pv-claim
           mountPath: /data/configdb
           subPath: configdb
-        - name: zonemta-mongo-init
+        - name: mongo-init
           mountPath: /docker-entrypoint-initdb.d/
       volumes:
       - name: tz-config
@@ -94,16 +94,16 @@ spec:
           path: /etc/localtime
       - name: tmp-volume
         emptyDir: {}
-      - name: zonemta-mongo-init
+      - name: mongo-init
         secret:
-          secretName: zonemta-mongo-init
+          secretName: mongo-init
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
-      name: zonemta-mongo-pv-claim
+      name: mongo-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}

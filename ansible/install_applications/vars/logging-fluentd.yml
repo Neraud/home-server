@@ -4,7 +4,7 @@ _fluentd_var_loader:
   base_image:
     repo: "docker.io"
     name: "fluent/fluentd"
-    tag: "v1.14.6-debian-1.0"
+    tag: "v1.15.0-debian-amd64-1.0"
   namespace: "logging-fluentd"
 
 fluentd:
@@ -34,8 +34,8 @@ fluentd:
   shared_key: "{{ fluentd_shared_key | default('secret') }}"
 
   plugins:
-    elasticsearch:
-      version: "5.2.2"
+    opensearch:
+      version: "1.0.7"
     prometheus:
       version: "2.0.3"
     ua_parser:

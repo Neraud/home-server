@@ -29,7 +29,6 @@ spec:
           - "sh"
           - "-c"
           - |
-            rm -Rf /data-volume/data
             mkdir -p /data-volume/data
             chown -R 999:1000 /data-volume/*
         securityContext:

@@ -1003,11 +1003,11 @@ replica-priority 100
 #
 # For more information about ACL configuration please refer to
 # the Redis web site at https://redis.io/topics/acl
-user {{ paperless_redis.health_username }} on nopass +@connection
-{% if paperless_redis.username != 'default' %}
+user {{ zonemta_redis.health_username }} on nopass +@connection
+{% if zonemta_redis.username != 'default' %}
 user default off
 {% endif %}
-user {{ paperless_redis.username }} on ~* &* +@all #{{ paperless_redis.password | hash('sha256') }}
+user {{ zonemta_redis.username }} on ~* &* +@all #{{ zonemta_redis.password | hash('sha256') }}
 
 # ACL LOG
 #
