@@ -25,6 +25,10 @@ RUN echo "Install and configure sudo fo socat" && \
         apk add --no-cache sudo && \
         echo "homeassistant ALL=(ALL) NOPASSWD: /usr/bin/socat" >> /etc/sudoers
 
+# Workaround for https://github.com/home-assistant/core/issues/74539
+# TODO : remove once fixed upstream
+RUN apk add mariadb-connector-c
+
 USER homeassistant
 
 CMD [ "sh", "/opt/entrypoint.sh" ]
