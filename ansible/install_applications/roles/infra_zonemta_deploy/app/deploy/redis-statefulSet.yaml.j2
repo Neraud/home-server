@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: zonemta-redis
+  name: redis
   namespace: "{{ zonemta.namespace }}"
   labels:
     {{ zonemta_redis.labels_def | to_nice_yaml() | indent(4) }}
@@ -31,7 +31,7 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: zonemta-redis-pv-claim
+        - name: redis-pv-claim
           mountPath: /data-volume
       containers:
       - name: redis
@@ -68,7 +68,7 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: zonemta-redis-pv-claim
+        - name: redis-pv-claim
           mountPath: /data
           subPath: data
       volumes:
@@ -81,7 +81,7 @@ spec:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
-      name: zonemta-redis-pv-claim
+      name: redis-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}

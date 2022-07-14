@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zonemta-server
+  name: zonemta
   namespace: "{{ zonemta.namespace }}"
   labels:
     {{ zonemta.labels_def | to_nice_yaml() | indent(4) }}
