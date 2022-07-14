@@ -533,12 +533,12 @@ watchers:
       - v1\.[0-9]\..*
       - v1\.1[0-4]\..*
   - type: github_tag
-    repo: uken/fluent-plugin-elasticsearch
-    tag: v{{ fluentd.plugins.elasticsearch.version }}
+    repo: fluent/fluent-plugin-opensearch
+    tag: v{{ fluentd.plugins.opensearch.version }}
     includes:
-      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+      - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
-      - 'v[1-4]\..*'
+      - v1\.[0-6]\..*
   - type: github_tag
     repo: fluent/fluent-plugin-prometheus
     tag: v{{ fluentd.plugins.prometheus.version }}

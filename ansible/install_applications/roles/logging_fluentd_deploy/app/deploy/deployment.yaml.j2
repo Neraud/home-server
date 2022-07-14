@@ -29,24 +29,24 @@ spec:
         - containerPort: 24231
           name: metrics
         env:
-          - name:  FLUENT_ELASTICSEARCH_HOST
+          - name:  FLUENT_OPENSEARCH_HOST
             value: "{{ elasticsearch.servername }}"
-          - name:  FLUENT_ELASTICSEARCH_PORT
+          - name:  FLUENT_OPENSEARCH_PORT
             value: "9200"
-          - name: FLUENT_ELASTICSEARCH_SCHEME
+          - name: FLUENT_OPENSEARCH_SCHEME
             value: "https"
-          - name: FLUENT_ELASTICSEARCH_USER
+          - name: FLUENT_OPENSEARCH_USER
             value: "{{ fluentd_elasticsearch_user }}"
-          - name: FLUENT_ELASTICSEARCH_PASSWORD
+          - name: FLUENT_OPENSEARCH_PASSWORD
             value: "{{ fluentd_elasticsearch_password }}"
           - name: SSL_CERT_FILE
             value: "/etc/ssl/cluster/ca.crt"
           # https://github.com/uken/fluent-plugin-elasticsearch#stopped-to-send-events-on-k8s-why
-          - name: FLUENT_ELASTICSEARCH_RELOAD_CONNECTIONS
+          - name: FLUENT_OPENSEARCH_RELOAD_CONNECTIONS
             value: "false"
-          - name: FLUENT_ELASTICSEARCH_RECONNECT_ON_ERROR
+          - name: FLUENT_OPENSEARCH_RECONNECT_ON_ERROR
             value: "true"
-          - name: FLUENT_ELASTICSEARCH_RELOAD_ON_FAILURE
+          - name: FLUENT_OPENSEARCH_RELOAD_ON_FAILURE
             value: "true"
           - name: FLUENT_SELF_HOSTNAME
             value: "{{ fluentd.servername }}"
@@ -57,7 +57,7 @@ spec:
                 key: fluentd_shared_key
           - name: FLUENT_REQUEST_TIMEOUT
             value: "10s"
-          - name: FLUENT_ELASTICSEARCH_BUFFER_FLUSH_THREAD_COUNT
+          - name: FLUENT_OPENSEARCH_BUFFER_FLUSH_THREAD_COUNT
             value: "2"
         securityContext:
           runAsNonRoot: true

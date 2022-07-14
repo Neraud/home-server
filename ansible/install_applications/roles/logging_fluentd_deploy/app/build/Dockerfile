@@ -1,7 +1,7 @@
 ARG from_image
 FROM $from_image
 
-ARG fluent_plugin_elasticsearch_version
+ARG fluent_plugin_opensearch_version
 ARG fluent_plugin_prometheus_version
 ARG fluent_plugin_ua_parser_version
 ARG fluent_plugin_uap_core_version
@@ -9,10 +9,7 @@ ARG fluent_plugin_geoip_version
 
 USER root
 
-# Pin the elasticsearch-ruby library < 7.14.
-# See https://github.com/uken/fluent-plugin-elasticsearch/issues/912
-RUN gem install elasticsearch -v 7.13.3
-RUN fluent-gem install fluent-plugin-elasticsearch --no-document --version ${fluent_plugin_elasticsearch_version}
+RUN fluent-gem install fluent-plugin-opensearch --no-document --version ${fluent_plugin_opensearch_version}
 
 RUN fluent-gem install fluent-plugin-prometheus --no-document --version ${fluent_plugin_prometheus_version}
 

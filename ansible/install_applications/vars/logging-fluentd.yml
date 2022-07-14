@@ -34,8 +34,8 @@ fluentd:
   shared_key: "{{ fluentd_shared_key | default('secret') }}"
 
   plugins:
-    elasticsearch:
-      version: "5.2.3"
+    opensearch:
+      version: "1.0.7"
     prometheus:
       version: "2.0.3"
     ua_parser:
