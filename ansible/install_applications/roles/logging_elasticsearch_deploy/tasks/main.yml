@@ -46,7 +46,6 @@
   register: elasticsearch_deployment
   with_fileglob:
     - "{{ role_path }}/app/deploy/*.yaml*"
-  notify: "Reconfigure OpenSearch security"
 
 - name: Deploy ElasticSearch Exporter
   kubernetes.core.k8s:
@@ -87,6 +86,19 @@
   until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
   retries: 60
   delay: 3
+
+# Security configuration changes are only taken into account the first time ES is deployed, or after running securityadmin.sh
+# The following tasks ensures that each time something changes in ES deployment, security configurations are properly updated.
+- name: Reconfigure security
+  ansible.builtin.command: kubectl {{ kubectl_params }} \
+    --namespace={{ elasticsearch.namespace }} exec -it elasticsearch-0 -- \
+    bash /usr/share/opensearch/plugins/opensearch-security/tools/securityadmin.sh \
+    -icl -nhnv \
+    -cd /usr/share/opensearch/plugins/opensearch-security/securityconfig/ \
+    -cacert /usr/share/opensearch/config/certs/ca.crt \
+    -cert /usr/share/opensearch/config/certs/server.crt \
+    -key /usr/share/opensearch/config/certs/server.key
+  when: elasticsearch_deployment.changed or elasticsearch_reconfigure_security|default(false)
 
 - name: Load {{ elasticsearch.logstash_policy.name }} policy
   ansible.builtin.set_fact:
