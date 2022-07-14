@@ -4,8 +4,13 @@
 # MongoDB connection string
 mongo="mongodb://{{ zonemta_mongo.user }}:{{ zonemta_mongo.password }}@mongo:27017/{{ zonemta_mongo.database }}"
 
-# Redis connection string
-redis="redis://:{{ zonemta_redis.password }}@redis:6379/0"
-
 # Database name for ZoneMTA data in MongoDB. In most cases it should be the same as in the connection string
 sender="{{ zonemta_mongo.database }}"
+
+# Redis connection string
+[redis]
+host = "redis"
+port = 6379
+db = 0
+username = "{{ zonemta_redis.username }}"
+password = "{{ zonemta_redis.password }}"

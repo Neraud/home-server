@@ -119,4 +119,6 @@ zonemta_redis:
     limits_cpu: "{{ zonemta_redis_container_limits_cpu | default('75m') }}"
     limits_memory: "{{ zonemta_redis_container_limits_memory | default('32Mi') }}"
 
+  health_username: "{{ blocky_redis_health_username | default('health') }}"
+  username: "{{ zonemta_redis_username | default('zonemta') }}"
   password: "{{ zonemta_redis_password | default('clear_password') }}"

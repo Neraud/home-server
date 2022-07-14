@@ -6,6 +6,8 @@ metadata:
   labels:
     {{ zonemta_redis.labels_def | to_nice_yaml() | indent(4) }}
     {{ zonemta_redis.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -39,8 +41,7 @@ spec:
         imagePullPolicy: Always
         command:
         - redis-server
-        - "--requirepass {{ zonemta_redis.password }}"
-        - "--appendonly yes"
+        - /usr/local/etc/redis/redis.conf
         ports:
         - containerPort: 6379
           name: redis
@@ -54,7 +55,7 @@ spec:
             command:
             - sh
             - -c
-            - "/usr/local/bin/redis-cli -a {{ zonemta_redis.password }} ping"
+            - "/usr/local/bin/redis-cli --user {{ zonemta_redis.health_username }} --pass '' ping"
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
@@ -68,6 +69,9 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
+        - name: redis-secret
+          mountPath: /usr/local/etc/redis/redis.conf
+          subPath: redis.conf
         - name: redis-pv-claim
           mountPath: /data
           subPath: data
@@ -75,6 +79,9 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: redis-secret
+        secret:
+          secretName: redis
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
