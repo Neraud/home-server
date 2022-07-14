@@ -448,10 +448,10 @@ watchers:
     image: {{ zonemta_redis.base_image.name }}
     tag: {{ zonemta_redis.base_image.tag }}
     includes:
-      - "[6-9]\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
+      - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - .*alpine3\.1[0-4]
-      - ^6\.[0-1]\.
+      - .*alpine3\.1[0-5]
+      - ^[0-6]\.
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: {{ zonemta_mongo.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -463,7 +463,7 @@ watchers:
       - .*rc.*
       - .*-(nanoserver).*$
       - ^[0-4]\..*
-      - ^5\.0\.[0-3]-.*
+      - ^5\.0\.[0-8]-.*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: {{ zonemta.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
