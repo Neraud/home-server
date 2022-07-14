@@ -9,8 +9,9 @@ _deluge_var_loader:
     # v2 shouldn't be supported yet : https://dev.deluge-torrent.org/ticket/3455
     tag: "1.2.14-alpine" 
     #tag: "1.2.15-alpine" # > Segfault when starting a torrent
+    #tag: "1.2.16-alpine" # > Segfault when starting a torrent
     #tag: "2.0.5-alpine" # > Segfault when starting a torrent
-  version: 2.0.5
+  version: 2.1.1
 
 deluge:
   enabled: "{{ deluge_enabled | default(True) }}"
