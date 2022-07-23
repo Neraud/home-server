@@ -29,7 +29,7 @@ spec:
           - "-c"
           - |
             mkdir -p /grafana/data
-            chown -R 65534:65534 /grafana/data
+            chown -R 472:472 /grafana/data
         volumeMounts:
         - name: grafana-pv-claim
           mountPath: /grafana
@@ -46,7 +46,7 @@ spec:
           name: http
         securityContext:
           runAsNonRoot: true
-          runAsUser: 65534
+          runAsUser: 472 # grafana
         readinessProbe:
           httpGet:
             path: /api/health
