@@ -70,8 +70,6 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: tmp-volume
-          mountPath: /tmp
         - mountPath: /var/lib/grafana
           name: grafana-pv-claim
           readOnly: false
@@ -105,8 +103,6 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: tmp-volume
-        emptyDir: {}
       - name: grafana-etc
         configMap:
           name: grafana-etc
