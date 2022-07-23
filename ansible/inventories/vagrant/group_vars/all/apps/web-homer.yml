@@ -100,6 +100,11 @@ homer_config_services:
   - name: "Tools"
     icon: "fas fa-toolbox"
     items:
+      - name: "Nextcloud"
+        logo: "assets/dashboard-icons/png/nextcloud.png"
+        url: "https://nextcloud.tool.intra.{{ web_base_domain }}"
+        subtitle: "The self-hosted productivity platform that keeps you in control"
+        target: "_blank"
       - name: "Paperless"
         logo: "assets/dashboard-icons/svg/paperless.svg"
         url: "https://paperless.tool.intra.{{ web_base_domain }}{{ _paperless_var_loader.context_root }}"
