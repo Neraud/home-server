@@ -1,0 +1,235 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nextcloud
+  namespace: {{ nextcloud.namespace }}
+  labels:
+    {{ nextcloud.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nextcloud.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ nextcloud.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ nextcloud.labels_def | to_nice_yaml() | indent(8) }}
+        {{ nextcloud.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            #mkdir -p /mnt/nextcloud-app/html
+            mkdir -p /mnt/nextcloud-app/config
+            mkdir -p /mnt/nextcloud-app/custom_apps
+            mkdir -p /mnt/nextcloud-app/themes
+            chown -R 33:33 /mnt/nextcloud-app/*
+            mkdir -p /mnt/nextcloud-data/data
+            chown -R 33:33 /mnt/nextcloud-data/*
+        volumeMounts:
+        - name: nextcloud-app-pv-claim
+          mountPath: /mnt/nextcloud-app
+        - name: nextcloud-data-pv-claim
+          mountPath: /mnt/nextcloud-data
+      #- name: install-nexcloud
+      #  image: "{{ nextcloud.private_image | image_full_name }}"
+      #  imagePullPolicy: Always
+      #  command:
+      #    - "sh"
+      #    - "-c"
+      #    - |
+      #      echo "Copying nextcloud files in volume"
+      #      # See https://github.com/nextcloud/docker/blob/6e7695e4439e18900ce4435de359d8ece6b6a35f/24/apache/entrypoint.sh#L128
+      #      rsync -rlDog --chown www-data:root --delete --exclude-from=/upgrade.exclude /usr/src/nextcloud/ /var/www/html/
+      #      
+      #      if [ ! -f /mnt/nextcloud-app/version.php ] ; then
+      #        echo "Injecting new version.php"
+      #        echo '<?php ' > /mnt/nextcloud-app/version.php
+      #        echo '$OC_Version = array(0,0,0,0);' >> /mnt/nextcloud-app/version.php
+      #        chown www-data:root /mnt/nextcloud-app/version.php
+      #      fi
+        volumeMounts:
+        #- name: tmp-app-volume
+        #  mountPath: /var/www/html
+        - name: nextcloud-app-pv-claim
+          mountPath: /mnt/nextcloud-app
+      - name: wait-for-requirements
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command: 
+          - "sh"
+          - "-c"
+          - |
+            echo "Waiting for Mysql DB"
+            timeout 120s sh -c "while ! nc -z -w 0 mysql 3306 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+            ret=$?
+            echo "return : $ret"
+            if [ $ret -eq 0 ] ; then
+              echo "MySQL DB Server has started"
+            else
+              echo "FAILED : MySQL DB Server isn't available"
+              exit 1
+            fi
+            
+            echo "Waiting for Redis"
+            timeout 30s sh -c "while ! nc -z -w 0 redis 6379 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+            ret=$?
+            echo "return : $ret"
+            if [ $ret -eq 0 ] ; then
+              echo "Redis Server has started"
+            else
+              echo "FAILED : Redis Server isn't available"
+              exit 1
+            fi
+      containers:
+      - name: nextcloud
+        image: "{{ nextcloud.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: NEXTCLOUD_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud
+              key: admin_user
+        - name: NEXTCLOUD_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud
+              key: admin_password
+        - name: NEXTCLOUD_TRUSTED_DOMAINS
+          value: "nextcloud.tool.intra.{{ web_base_domain }}"
+        - name: OVERWRITEHOST
+          value: "nextcloud.tool.intra.{{ web_base_domain }}"
+        - name: OVERWRITEPROTOCOL
+          value: "https"
+        - name: MYSQL_HOST
+          value: "mysql"
+        - name: MYSQL_DATABASE
+          value: "{{ nextcloud_mysql.database }}"
+        - name: MYSQL_USER
+          value: "{{ nextcloud_mysql.user }}"
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-pass
+              key: password
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_HOST_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: redis
+              key: password
+       #- name: SMTP_HOST (not set by default): The hostname of the SMTP server.
+       #- name: SMTP_SECURE (empty by default): Set to ssl to use SSL, or tls to use STARTTLS.
+       #- name: SMTP_PORT (default: 465 for SSL and 25 for non-secure connections): Optional port for the SMTP connection. Use 587 for an alternative port for STARTTLS.
+       #- name: SMTP_AUTHTYPE (default: LOGIN): The method used for authentication. Use PLAIN if no authentication is required.
+       #- name: SMTP_NAME (empty by default): The username for the authentication.
+       #- name: SMTP_PASSWORD (empty by default): The password for the authentication.
+       #- name: MAIL_FROM_ADDRESS (not set by default): Use this address for the 'from' field in the emails sent by Nextcloud.
+       #- name: MAIL_DOMAIN (not set by default): Set a different domain for the emails than the domain where Nextcloud is installed.
+       #- name: PHP_MEMORY_LIMIT (default 512M) This sets the maximum amount of memory in bytes that a script is allowed to allocate. This is meant to help prevent poorly written scripts from eating up all available memory but it can prevent normal operation if set too tight.
+       #- name: PHP_UPLOAD_LIMIT (default 512M) This sets the upload limit (post_max_size and upload_max_filesize) for big files. Note that you may have to change other limits depending on your client, webserver or operating system. Check the Nextcloud documentation for more information.
+        ports:
+        - containerPort: 80
+          name: web
+        #securityContext:
+        #  runAsNonRoot: true
+        #  runAsUser: 33 # www-data
+        #  readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /status.php
+            port: web
+            httpHeaders:
+              - name: Host
+                value: "nextcloud.tool.intra.{{ web_base_domain }}"
+        resources:
+          requests:
+            cpu: "{{ nextcloud.container.requests_cpu }}"
+            memory: "{{ nextcloud.container.requests_memory }}"
+          limits:
+            cpu: "{{ nextcloud.container.limits_cpu }}"
+            memory: "{{ nextcloud.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        #- name: nextcloud-app-pv-claim
+        #  mountPath: /var/www/html
+        #  subPath: html
+        #- name: tmp-app-volume
+        #  mountPath: /var/www/html_new
+        - name: nextcloud-app-pv-claim
+          mountPath: /var/www/html_new/config
+          subPath: config
+        - name: nextcloud-app-pv-claim
+          mountPath: /var/www/html_new/custom_apps
+          subPath: custom_apps
+        - name: nextcloud-app-pv-claim
+          mountPath: /var/www/html_new/themes
+          subPath: themes
+        #- name: nextcloud-app-pv-claim
+        #  mountPath: /var/www/html/version.php
+        #  subPath: version.php
+        - name: nextcloud-data-pv-claim
+          mountPath: /var/www/html_new/data
+          subPath: data
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        #- name: tmp-volume
+        #  mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      #- name: nextcloud-data
+      #  persistentVolumeClaim:
+      #    claimName: nfs-nextcloud
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      #- name: tmp-volume
+      #  emptyDir: {}
+      #- name: tmp-app-volume
+      #  emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: nextcloud-app-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 768M
+      selector:
+        matchLabels:
+          {{ nextcloud.labels_def | to_nice_yaml() | indent(10) }}
+          storage: app
+  - metadata:
+      name: nextcloud-data-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M
+      selector:
+        matchLabels:
+          {{ nextcloud.labels_def | to_nice_yaml() | indent(10) }}
+          storage: data

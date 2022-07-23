@@ -1,0 +1,129 @@
+---
+# To avoid loops inside nextcloud
+_nextcloud_var_loader:
+  namespace: "tool-nextcloud"
+  base_image:
+    repo: "docker.io"
+    name: "library/nextcloud"
+    tag: "24.0.3-apache"
+  context_root: "{{ nextcloud_context_root | default('') }}"
+
+nextcloud:
+  enabled: "{{ nextcloud_enabled | default(True) }}"
+
+  namespace: "{{ _nextcloud_var_loader.namespace }}"
+  base_image: "{{ _nextcloud_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _nextcloud_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _nextcloud_var_loader.base_image.tag }}-custom"
+
+  app_backup:
+    name: tool-nextcloud
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+      - name: nextcloud
+        namespace: "{{ _nextcloud_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+    gluster_volumes:
+      - nextcloud-data
+
+  labels_def:
+    app.kubernetes.io/name: nextcloud
+    app.kubernetes.io/component: nextcloud
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nextcloud_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: nextcloud
+
+  container:
+    requests_cpu: "{{ nextcloud_container_requests_cpu | default('250m') }}"
+    requests_memory: "{{ nextcloud_container_requests_memory | default('512Mi') }}"
+    limits_cpu: "{{ nextcloud_container_limits_cpu | default('750m') }}"
+    limits_memory: "{{ nextcloud_container_limits_memory | default('512Mi') }}"
+
+  admin:
+    user: "{{ nextcloud_admin_user }}"
+    password: "{{ nextcloud_admin_password }}"
+
+# To avoid loops inside nextcloud_mysql
+_nextcloud_mysql_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/mysql"
+    tag: "8.0.29-debian"
+
+nextcloud_mysql:
+  base_image: "{{ _nextcloud_mysql_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "home-assistant-{{ _nextcloud_mysql_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _nextcloud_mysql_var_loader.base_image.tag }}"
+
+  app_backup:
+    name: home-nextcloud_mysql
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+      - name: nextcloud
+        namespace: "{{ _nextcloud_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+      - name: mysql
+        namespace: "{{ _nextcloud_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+    gluster_volumes:
+      - nextcloud-mysql
+
+  labels_def:
+    app.kubernetes.io/name: nextcloud
+    app.kubernetes.io/component: mysql
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nextcloud_mysql_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: nextcloud
+
+  container:
+    requests_cpu: "{{ nextcloud_mysql_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ nextcloud_mysql_container_requests_memory | default('384Mi') }}"
+    limits_cpu: "{{ nextcloud_mysql_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ nextcloud_mysql_container_limits_memory | default('512Mi') }}"
+
+  user: "{{ nextcloud_mysql_user | default('nextcloud') }}"
+  database: "{{ nextcloud_mysql_database | default('nextcloud') }}"
+  password: "{{ nextcloud_mysql_password | default('clear_password') }}"
+  root_password: "{{ nextcloud_mysql_root_password | default('clear_password') }}"
+
+# To avoid loops inside nextcloud_redis
+_nextcloud_redis_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/redis"
+    tag: "7.0.3-alpine3.16"
+
+nextcloud_redis:
+  base_image: "{{ _nextcloud_redis_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _nextcloud_redis_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _nextcloud_redis_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: nextcloud
+    app.kubernetes.io/component: redis
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nextcloud_redis_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: nextcloud
+
+  container:
+    requests_cpu: "{{ nextcloud_redis_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ nextcloud_redis_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ nextcloud_redis_container_limits_cpu | default('75m') }}"
+    limits_memory: "{{ nextcloud_redis_container_limits_memory | default('32Mi') }}"
+  
+  health_username: "{{ nextcloud_redis_health_username | default('health') }}"
+  #username: "{{ nextcloud_redis_username | default('nextcloud') }}"
+  username: "default" # nextcloud doesn't seem to support using a dedicated user
+  password: "{{ nextcloud_redis_password | default('clear_password') }}"
