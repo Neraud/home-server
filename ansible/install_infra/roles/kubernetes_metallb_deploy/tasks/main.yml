@@ -15,4 +15,13 @@
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
   with_fileglob:
-    - "{{ role_path }}/templates/*.yaml*"
+    - "{{ role_path }}/templates/1-deploy/*.yaml*"
+
+- name: Configure MetalLB
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/templates/2-config/*.yaml*"
