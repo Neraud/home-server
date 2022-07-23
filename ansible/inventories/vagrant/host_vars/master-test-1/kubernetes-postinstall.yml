@@ -17,3 +17,6 @@ kubernetes_node_taints:
   - key: node-role.kubernetes.io/master
     effect: NoSchedule
     state: absent
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+    state: absent
