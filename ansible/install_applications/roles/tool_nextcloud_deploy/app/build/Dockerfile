@@ -1,15 +1,39 @@
-#ARG from_image
-#FROM $from_image
+ARG from_image
+FROM $from_image
 
-FROM nextcloud:24.0.2-apache
+# Use nextcloud sources as docroot
+# Backup folders that are replaced by a volume
+RUN mkdir /usr/src/nextcloud_bak && \
+    chown -R nobody:nogroup /usr/src/nextcloud_bak && \
+    for d in config data custom_apps themes ; do \
+        mv /usr/src/nextcloud/$d /usr/src/nextcloud_bak/ ; \
+        mkdir /var/www/html/$d ; \
+        chown nobody:nogroup /var/www/html/$d ; \
+        ln -s /var/www/html/$d /usr/src/nextcloud/ ; \
+    done && \
+    sed -i 's|/var/www/html|/usr/src/nextcloud|g' /etc/apache2/sites-available/* && \
+    sed -i 's|/var/www|/usr/src/nextcloud|g' /etc/apache2/apache2.conf && \
+    sed -i 's|/var/www|/usr/src/nextcloud|g' /etc/apache2/conf-available/docker-php.conf
 
-# Link nextcloud sources to /var/www/html_new and change docroot
-RUN ln -s /usr/src/nextcloud /var/www/html_new && \
-    sed -i 's|/var/www/html|/var/www/html_new|g' /etc/apache2/sites-available/*
+WORKDIR /usr/src/nextcloud
+ENV NEXTCLOUD_DATA_DIR /var/www/html/data
+VOLUME /var/www/html/config
+VOLUME /var/www/html/data
+VOLUME /var/www/html/custom_apps
+VOLUME /var/www/html/themes
 
 # Change listen port to avoid permission issue when running as a regular user
 RUN sed -i 's|^Listen 80$|Listen 8080|g' /etc/apache2/ports.conf && \
     sed -i 's|:80>|:8080>|g' /etc/apache2/sites-enabled/000-default.conf
+
+# Use a /tmp volume so that we can enable readOnlyRootFilesystem
+VOLUME /tmp
+# Move run and lock files under /tmp
+ENV APACHE_PID_FILE /tmp/run/apache2/apache2.pid
+ENV APACHE_RUN_DIR /tmp/run/apache2
+ENV APACHE_LOCK_DIR /tmp/lock/apache2
+# Move PHP conf.d under /tmp
+ENV PHP_INI_SCAN_DIR /tmp/php/conf.d
 
 COPY entrypoint-custom.sh /entrypoint-custom.sh
 

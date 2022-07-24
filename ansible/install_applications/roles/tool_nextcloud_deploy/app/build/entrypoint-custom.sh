@@ -3,9 +3,17 @@ set -eu
 
 # Copied from https://github.com/nextcloud/docker/blob/master/24/apache/entrypoint.sh
 # Changes :
-# - use /var/www/html_new instead of /var/www/html
+# - use /usr/src/nextcloud instead of /var/www/html
 # - use config/version-installed.php instead of version.php to check currently installed version
-# - do not rsync nextcloud sources from /usr/src/nextcloud to /var/www/html (it's already symlinked to /var/www/html_new by our custom image)
+# - do not rsync nextcloud sources (/usr/src/nextcloud is already the docroot in our custom image)
+# - move php conf files from /usr/local/etc/php/conf.d under /tmp
+# - move install lock under /tmp
+# - (add a few logs)
+
+# Prepare folders under /tmp
+mkdir -p ${PHP_INI_SCAN_DIR}
+cp -R /usr/local/etc/php/conf.d/* ${PHP_INI_SCAN_DIR}/
+
 
 # version_greater A B returns whether A > B
 version_greater() {
@@ -80,14 +88,15 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
             # redis.session.lock_wait_time is specified in microseconds.
             # Wait 10ms before retrying the lock rather than the default 2ms.
             echo "redis.session.lock_wait_time = 10000"
-        } > /usr/local/etc/php/conf.d/redis-session.ini
+        } > ${PHP_INI_SCAN_DIR}/redis-session.ini
     fi
 
     installed_version="0.0.0.0"
-    if [ -f /var/www/html_new/config/version-installed.php ]; then
+    if [ -f /usr/src/nextcloud/config/version-installed.php ]; then
         # shellcheck disable=SC2016
-        installed_version="$(php -r 'require "/var/www/html_new/config/version-installed.php"; echo implode(".", $OC_Version);')"
+        installed_version="$(php -r 'require "/usr/src/nextcloud/config/version-installed.php"; echo implode(".", $OC_Version);')"
     fi
+    echo "Installed version : $installed_version"
     # shellcheck disable=SC2016
     image_version="$(php -r 'require "/usr/src/nextcloud/version.php"; echo implode(".", $OC_Version);')"
 
@@ -100,7 +109,7 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
         echo "Initializing nextcloud $image_version ..."
         if [ "$installed_version" != "0.0.0.0" ]; then
             echo "Upgrading nextcloud from $installed_version ..."
-            run_as 'php /var/www/html_new/occ app:list' | sed -n "/Enabled:/,/Disabled:/p" > /tmp/list_before
+            run_as 'php /usr/src/nextcloud/occ app:list' | sed -n "/Enabled:/,/Disabled:/p" > /tmp/list_before
         fi
         if [ "$(id -u)" = 0 ]; then
             rsync_options="-rlDog --chown www-data:root"
@@ -111,7 +120,7 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
         # If another process is syncing the html folder, wait for
         # it to be done, then escape initalization.
         # You need to define the NEXTCLOUD_INIT_LOCK environment variable
-        lock=/var/www/html_new/nextcloud-init-sync.lock
+        lock=/tmp/nextcloud-init-sync.lock
         count=0
         limit=10
 
@@ -131,17 +140,19 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
         else
             # Prevent multiple images syncing simultaneously
             touch $lock
-            #rsync $rsync_options --delete --exclude-from=/upgrade.exclude /usr/src/nextcloud/ /var/www/html_new/
+            #rsync $rsync_options --delete --exclude-from=/upgrade.exclude /usr/src/nextcloud/ /usr/src/nextcloud/
 
             for dir in config data custom_apps themes; do
-                if [ ! -d "/var/www/html_new/$dir" ] || directory_empty "/var/www/html_new/$dir"; then
-                    rsync $rsync_options --include "/$dir/" --exclude '/*' /usr/src/nextcloud/ /var/www/html_new/
+                if [ ! -d "/usr/src/nextcloud/$dir" ] || directory_empty "/usr/src/nextcloud/$dir"; then
+                    echo " - copying $dir"
+                    rsync $rsync_options /usr/src/nextcloud_bak/$dir/ /usr/src/nextcloud/$dir
                 fi
             done
-            #rsync $rsync_options --include '/version.php' --exclude '/*' /usr/src/nextcloud/ /var/www/html_new/
-            cp /usr/src/nextcloud/version.php /var/www/html_new/config/version-installed.php
-             if [ "$(id -u)" = 0 ]; then
-                chown www-data:root /var/www/html_new/config/version-installed.php
+            echo " - copying version.php"
+            #rsync $rsync_options --include '/version.php' --exclude '/*' /usr/src/nextcloud/ /usr/src/nextcloud/
+            cp /usr/src/nextcloud/version.php /usr/src/nextcloud/config/version-installed.php
+            if [ "$(id -u)" = 0 ]; then
+                chown www-data:root /usr/src/nextcloud/config/version-installed.php
             fi
 
             # Install
@@ -188,7 +199,7 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
                         echo "Starting nextcloud installation"
                         max_retries=10
                         try=0
-                        until run_as "php /var/www/html_new/occ maintenance:install $install_options" || [ "$try" -gt "$max_retries" ]
+                        until run_as "php /usr/src/nextcloud/occ maintenance:install $install_options" || [ "$try" -gt "$max_retries" ]
                         do
                             echo "Retrying install..."
                             try=$((try+1))
@@ -203,7 +214,7 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
                             NC_TRUSTED_DOMAIN_IDX=1
                             for DOMAIN in $NEXTCLOUD_TRUSTED_DOMAINS ; do
                                 DOMAIN=$(echo "$DOMAIN" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-                                run_as "php /var/www/html_new/occ config:system:set trusted_domains $NC_TRUSTED_DOMAIN_IDX --value=$DOMAIN"
+                                run_as "php /usr/src/nextcloud/occ config:system:set trusted_domains $NC_TRUSTED_DOMAIN_IDX --value=$DOMAIN"
                                 NC_TRUSTED_DOMAIN_IDX=$(($NC_TRUSTED_DOMAIN_IDX+1))
                             done
                         fi
@@ -213,9 +224,9 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
                 fi
             # Upgrade
             else
-                run_as 'php /var/www/html_new/occ upgrade'
+                run_as 'php /usr/src/nextcloud/occ upgrade'
 
-                run_as 'php /var/www/html_new/occ app:list' | sed -n "/Enabled:/,/Disabled:/p" > /tmp/list_after
+                run_as 'php /usr/src/nextcloud/occ app:list' | sed -n "/Enabled:/,/Disabled:/p" > /tmp/list_after
                 echo "The following apps have been disabled:"
                 diff /tmp/list_before /tmp/list_after | grep '<' | cut -d- -f2 | cut -d: -f1
                 rm -f /tmp/list_before /tmp/list_after
@@ -230,7 +241,7 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
 
     # Update htaccess after init if requested
     if [ -n "${NEXTCLOUD_INIT_HTACCESS+x}" ]; then
-        run_as 'php /var/www/html_new/occ maintenance:update:htaccess'
+        run_as 'php /usr/src/nextcloud/occ maintenance:update:htaccess'
     fi
 
 fi

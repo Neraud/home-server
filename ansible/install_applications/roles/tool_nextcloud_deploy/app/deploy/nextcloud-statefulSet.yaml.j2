@@ -28,7 +28,6 @@ spec:
           - "sh"
           - "-c"
           - |
-            #mkdir -p /mnt/nextcloud-app/html
             mkdir -p /mnt/nextcloud-app/config
             mkdir -p /mnt/nextcloud-app/custom_apps
             mkdir -p /mnt/nextcloud-app/themes
@@ -40,28 +39,6 @@ spec:
           mountPath: /mnt/nextcloud-app
         - name: nextcloud-data-pv-claim
           mountPath: /mnt/nextcloud-data
-      #- name: install-nexcloud
-      #  image: "{{ nextcloud.private_image | image_full_name }}"
-      #  imagePullPolicy: Always
-      #  command:
-      #    - "sh"
-      #    - "-c"
-      #    - |
-      #      echo "Copying nextcloud files in volume"
-      #      # See https://github.com/nextcloud/docker/blob/6e7695e4439e18900ce4435de359d8ece6b6a35f/24/apache/entrypoint.sh#L128
-      #      rsync -rlDog --chown www-data:root --delete --exclude-from=/upgrade.exclude /usr/src/nextcloud/ /var/www/html/
-      #      
-      #      if [ ! -f /mnt/nextcloud-app/version.php ] ; then
-      #        echo "Injecting new version.php"
-      #        echo '<?php ' > /mnt/nextcloud-app/version.php
-      #        echo '$OC_Version = array(0,0,0,0);' >> /mnt/nextcloud-app/version.php
-      #        chown www-data:root /mnt/nextcloud-app/version.php
-      #      fi
-        volumeMounts:
-        #- name: tmp-app-volume
-        #  mountPath: /var/www/html
-        - name: nextcloud-app-pv-claim
-          mountPath: /mnt/nextcloud-app
       - name: wait-for-requirements
         image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
@@ -109,6 +86,8 @@ spec:
           value: "nextcloud.tool.intra.{{ web_base_domain }}"
         - name: OVERWRITEHOST
           value: "nextcloud.tool.intra.{{ web_base_domain }}"
+        - name: OVERWRITECLIURL
+          value: "nextcloud.tool.intra.{{ web_base_domain }}"
         - name: OVERWRITEPROTOCOL
           value: "https"
         - name: MYSQL_HOST
@@ -142,10 +121,10 @@ spec:
         ports:
         - containerPort: 8080
           name: web
-        #securityContext:
+        securityContext:
         #  runAsNonRoot: true
         #  runAsUser: 33 # www-data
-        #  readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -165,31 +144,23 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        #- name: nextcloud-app-pv-claim
-        #  mountPath: /var/www/html
-        #  subPath: html
-        #- name: tmp-app-volume
-        #  mountPath: /var/www/html_new
         - name: nextcloud-app-pv-claim
-          mountPath: /var/www/html_new/config
+          mountPath: /usr/src/nextcloud/config
           subPath: config
         - name: nextcloud-app-pv-claim
-          mountPath: /var/www/html_new/custom_apps
+          mountPath: /usr/src/nextcloud/custom_apps
           subPath: custom_apps
         - name: nextcloud-app-pv-claim
-          mountPath: /var/www/html_new/themes
+          mountPath: /usr/src/nextcloud/themes
           subPath: themes
-        #- name: nextcloud-app-pv-claim
-        #  mountPath: /var/www/html/version.php
-        #  subPath: version.php
         - name: nextcloud-data-pv-claim
-          mountPath: /var/www/html_new/data
+          mountPath: /usr/src/nextcloud/data
           subPath: data
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
-        #- name: tmp-volume
-        #  mountPath: /tmp
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -200,10 +171,8 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
-      #- name: tmp-volume
-      #  emptyDir: {}
-      #- name: tmp-app-volume
-      #  emptyDir: {}
+      - name: tmp-volume
+        emptyDir: {}
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
