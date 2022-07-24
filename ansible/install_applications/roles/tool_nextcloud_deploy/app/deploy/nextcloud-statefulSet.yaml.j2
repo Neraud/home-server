@@ -108,14 +108,26 @@ spec:
             secretKeyRef:
               name: redis
               key: password
-       #- name: SMTP_HOST (not set by default): The hostname of the SMTP server.
-       #- name: SMTP_SECURE (empty by default): Set to ssl to use SSL, or tls to use STARTTLS.
-       #- name: SMTP_PORT (default: 465 for SSL and 25 for non-secure connections): Optional port for the SMTP connection. Use 587 for an alternative port for STARTTLS.
-       #- name: SMTP_AUTHTYPE (default: LOGIN): The method used for authentication. Use PLAIN if no authentication is required.
-       #- name: SMTP_NAME (empty by default): The username for the authentication.
-       #- name: SMTP_PASSWORD (empty by default): The password for the authentication.
-       #- name: MAIL_FROM_ADDRESS (not set by default): Use this address for the 'from' field in the emails sent by Nextcloud.
-       #- name: MAIL_DOMAIN (not set by default): Set a different domain for the emails than the domain where Nextcloud is installed.
+        - name: SMTP_HOST
+          value: "{{ nextcloud.smtp.host }}"
+        - name: SMTP_SECURE
+          value: "{{ nextcloud.smtp.secure }}"
+        - name: SMTP_PORT
+          value: "{{ nextcloud.smtp.port }}"
+        - name: SMTP_NAME
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud
+              key: smtp_user
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud
+              key: smtp_password
+        - name: MAIL_FROM_ADDRESS
+          value: "{{ nextcloud.smtp.from_address }}"
+        - name: MAIL_DOMAIN
+          value: "{{ nextcloud.smtp.from_domain }}"
        #- name: PHP_MEMORY_LIMIT (default 512M) This sets the maximum amount of memory in bytes that a script is allowed to allocate. This is meant to help prevent poorly written scripts from eating up all available memory but it can prevent normal operation if set too tight.
        #- name: PHP_UPLOAD_LIMIT (default 512M) This sets the upload limit (post_max_size and upload_max_filesize) for big files. Note that you may have to change other limits depending on your client, webserver or operating system. Check the Nextcloud documentation for more information.
         ports:
@@ -156,6 +168,9 @@ spec:
         - name: nextcloud-data-pv-claim
           mountPath: /usr/src/nextcloud/data
           subPath: data
+        - name: nextcloud-secret
+          mountPath: /usr/src/nextcloud/config_custom/smtp_custom.config.php
+          subPath: smtp_custom.config.php
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
@@ -171,6 +186,9 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
+      - name: nextcloud-secret
+        secret:
+          secretName: nextcloud
       - name: tmp-volume
         emptyDir: {}
       imagePullSecrets:

@@ -8,6 +8,7 @@ set -eu
 # - do not rsync nextcloud sources (/usr/src/nextcloud is already the docroot in our custom image)
 # - move php conf files from /usr/local/etc/php/conf.d under /tmp
 # - move install lock under /tmp
+# - deploy custom configurations
 # - (add a few logs)
 
 # Prepare folders under /tmp
@@ -246,4 +247,12 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
 
 fi
 
+# Deploy custom configurations after Nextcloud is installed
+#We can't simply drop those files in hte config dir directly, because if config is not empty the first time this container starts, nextcloud is never installed.
+echo "Deploy custom configurations"
+if [ -d /usr/src/nextcloud/config_custom ] ; then
+    cp -v /usr/src/nextcloud/config_custom/* /usr/src/nextcloud/config/
+fi
+
+echo "Start nextcloud"
 exec "$@"

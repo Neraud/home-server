@@ -52,6 +52,18 @@ nextcloud:
     user: "{{ nextcloud_admin_user }}"
     password: "{{ nextcloud_admin_password }}"
 
+  smtp:
+    host: "{{ nextcloud_smtp_host | default(zonemta.smtp_servername) }}"
+    port: "{{ nextcloud_smtp_port | default(587) }}"
+    user: "{{ nextcloud_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ nextcloud_smtp_password | default(zonemta.feeder.authentication_password) }}"
+    secure: "{{ nextcloud_smtp_secure | default('tls') }}"
+    from_address: "{{ nextcloud_smtp_from_address | default('noreply') }}"
+    from_domain: "{{ nextcloud_smtp_from_domain | default(web_base_domain) }}"
+    #displayName: "{{ nextcloud_smtp_displayName | default('Nextcloud') }}"
+    #subject_prefix: "{{ nextcloud_smtp_subject_prefix | default('[Nextcloud]') }}"
+
+
 # To avoid loops inside nextcloud_mysql
 _nextcloud_mysql_var_loader:
   base_image:
