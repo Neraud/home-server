@@ -44,8 +44,7 @@ COPY entrypoint-custom.sh /entrypoint-custom.sh
 RUN curl -sL https://github.com/${app_tasks_repo}/releases/download/${app_tasks_version}/tasks.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
     chown -R nobody:nogroup /usr/src/nextcloud/apps/tasks
 
-# TODO non root user
-#USER www-data
+USER www-data
 
 ENTRYPOINT ["/entrypoint-custom.sh"]
 CMD ["apache2-foreground"]

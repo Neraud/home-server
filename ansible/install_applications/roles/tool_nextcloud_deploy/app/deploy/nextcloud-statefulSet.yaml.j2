@@ -122,8 +122,8 @@ spec:
         - containerPort: 8080
           name: web
         securityContext:
-        #  runAsNonRoot: true
-        #  runAsUser: 33 # www-data
+          runAsNonRoot: true
+          runAsUser: 33 # www-data
           readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
