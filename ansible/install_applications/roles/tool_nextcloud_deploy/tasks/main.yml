@@ -28,6 +28,9 @@
     base_image: "{{ nextcloud.base_image }}"
     private_image: "{{ nextcloud.private_image }}"
     build: yes
+    build_args:
+      app_tasks_repo: "{{ nextcloud.applications.tasks.repo }}"
+      app_tasks_version: "{{ nextcloud.applications.tasks.version }}"
 
 - name: Ensure Nextcloud MySQL image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml

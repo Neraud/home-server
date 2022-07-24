@@ -43,6 +43,11 @@ nextcloud:
     limits_cpu: "{{ nextcloud_container_limits_cpu | default('750m') }}"
     limits_memory: "{{ nextcloud_container_limits_memory | default('512Mi') }}"
 
+  applications:
+    tasks:
+      repo: nextcloud/tasks
+      version: v0.14.4
+  
   admin:
     user: "{{ nextcloud_admin_user }}"
     password: "{{ nextcloud_admin_password }}"

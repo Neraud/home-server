@@ -1,6 +1,9 @@
 ARG from_image
 FROM $from_image
 
+ARG app_tasks_repo
+ARG app_tasks_version
+
 # Use nextcloud sources as docroot
 # Backup folders that are replaced by a volume
 RUN mkdir /usr/src/nextcloud_bak && \
@@ -36,6 +39,10 @@ ENV APACHE_LOCK_DIR /tmp/lock/apache2
 ENV PHP_INI_SCAN_DIR /tmp/php/conf.d
 
 COPY entrypoint-custom.sh /entrypoint-custom.sh
+
+# Install task app
+RUN curl -sL https://github.com/${app_tasks_repo}/releases/download/${app_tasks_version}/tasks.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
+    chown -R nobody:nogroup /usr/src/nextcloud/apps/tasks
 
 # TODO non root user
 #USER www-data

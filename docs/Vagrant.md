@@ -524,6 +524,9 @@ Nextcloud is installed.
 
 The default admin account is `admin_local` / `Passw0rd`.
 
+Some additional apps are installed by default.
+However, they need to be manually enabled from the [app list](https://nextcloud.tool.intra.k8s.test/index.php/settings/apps).
+
 ### Parperless
 
 Paperless-NGX is installed.
