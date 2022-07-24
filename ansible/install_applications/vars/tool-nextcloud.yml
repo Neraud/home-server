@@ -43,6 +43,9 @@ nextcloud:
     limits_cpu: "{{ nextcloud_container_limits_cpu | default('750m') }}"
     limits_memory: "{{ nextcloud_container_limits_memory | default('512Mi') }}"
 
+  php_memory_limit: "{{ nextcloud_php_memory_limit | default('256M') }}"
+  php_upload_limit: "{{ nextcloud_php_upload_limit | default('512M') }}"
+
   applications:
     tasks:
       repo: nextcloud/tasks

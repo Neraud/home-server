@@ -128,8 +128,10 @@ spec:
           value: "{{ nextcloud.smtp.from_address }}"
         - name: MAIL_DOMAIN
           value: "{{ nextcloud.smtp.from_domain }}"
-       #- name: PHP_MEMORY_LIMIT (default 512M) This sets the maximum amount of memory in bytes that a script is allowed to allocate. This is meant to help prevent poorly written scripts from eating up all available memory but it can prevent normal operation if set too tight.
-       #- name: PHP_UPLOAD_LIMIT (default 512M) This sets the upload limit (post_max_size and upload_max_filesize) for big files. Note that you may have to change other limits depending on your client, webserver or operating system. Check the Nextcloud documentation for more information.
+        - name: PHP_MEMORY_LIMIT
+          value: "{{ nextcloud.php_memory_limit }}"
+        - name: PHP_UPLOAD_LIMIT
+          value: "{{ nextcloud.php_upload_limit }}"
         ports:
         - containerPort: 8080
           name: web
