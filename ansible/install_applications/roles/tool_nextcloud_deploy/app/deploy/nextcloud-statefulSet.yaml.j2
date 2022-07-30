@@ -128,6 +128,30 @@ spec:
           value: "{{ nextcloud.smtp.from_address }}"
         - name: MAIL_DOMAIN
           value: "{{ nextcloud.smtp.from_domain }}"
+        - name: NEXTCLOUD_LDAP_HOST
+          value: "{{ nextcloud.ldap.host }}"
+        - name: NEXTCLOUD_LDAP_PORT
+          value: "{{ nextcloud.ldap.port }}"
+        - name: NEXTCLOUD_LDAP_AGENT_NAME
+          value:  "{{ nextcloud.ldap.bind_dn }}"
+        - name: NEXTCLOUD_LDAP_AGENT_PASSWORD
+          value:  "{{ nextcloud.ldap.bind_password }}"
+        - name: NEXTCLOUD_LDAP_BASE
+          value: "{{ nextcloud.ldap.base }}"
+        - name: NEXTCLOUD_LDAP_BASE_USERS
+          value: "{{ nextcloud.ldap.users_dn }}"
+        - name: NEXTCLOUD_LDAP_USER_FILTER
+          value: "(&(objectClass=inetOrgPerson)(memberOf={{ nextcloud.ldap.group }}))"
+        - name: NEXTCLOUD_LDAP_LOGIN_FILTER
+          value: "(&(&(objectClass=inetOrgPerson)(memberOf={{ nextcloud.ldap.group }}))(|(cn=%uid)(mail=%uid)))"
+        - name: NEXTCLOUD_LDAP_DISPLAY_NAME
+          value: "{{ nextcloud.ldap.display_name }}"
+        - name: NEXTCLOUD_LDAP_EMAIL_ATTRIBUTE
+          value: "{{ nextcloud.ldap.email_attribute }}"
+        - name: NEXTCLOUD_LDAP_BASE_GROUPS
+          value: "{{ nextcloud.ldap.groups_dn }}"
+        - name: NEXTCLOUD_LDAP_GROUP_FILTER
+          value: "(objectClass=groupOfUniqueNames)"
         - name: PHP_MEMORY_LIMIT
           value: "{{ nextcloud.php_memory_limit }}"
         - name: PHP_UPLOAD_LIMIT
@@ -173,6 +197,9 @@ spec:
         - name: nextcloud-secret
           mountPath: /usr/src/nextcloud/config_custom/smtp_custom.config.php
           subPath: smtp_custom.config.php
+        - name: nextcloud-secret
+          mountPath: /etc/ldap/ldap.conf
+          subPath: ldap.conf
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt

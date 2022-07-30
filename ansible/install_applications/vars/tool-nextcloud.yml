@@ -55,6 +55,18 @@ nextcloud:
     user: "{{ nextcloud_admin_user }}"
     password: "{{ nextcloud_admin_password }}"
 
+  ldap:
+    host: "{{ nextcloud_ldap_host | default('ldaps://' + openldap.ldap.servername) }}"
+    port: "{{ nextcloud_ldap_port | default(636) }}"
+    bind_dn: "{{ nextcloud_ldap_bind_dn | default(openldap.ldap.readonly_user_dn) }}"
+    bind_password: "{{ nextcloud_ldap_bind_password | default(openldap.ldap.readonly_user_password) }}"
+    base: "{{ nextcloud_ldap_base | default(openldap.ldap.basedn) }}"
+    users_dn: "{{ nextcloud_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    group: "{{ nextcloud_ldap_group }}"
+    display_name: "{{ nextcloud_ldap_display_name | default('displayName') }}"
+    email_attribute: "{{ nextcloud_ldap_email_attribute | default('mail') }}"
+    groups_dn: "{{ nextcloud_ldap_groups_dn | default(openldap.ldap.structure_groups_ou_dns['nextcloud_roles']) }}"
+
   smtp:
     host: "{{ nextcloud_smtp_host | default(zonemta.smtp_servername) }}"
     port: "{{ nextcloud_smtp_port | default(587) }}"
@@ -63,9 +75,6 @@ nextcloud:
     secure: "{{ nextcloud_smtp_secure | default('tls') }}"
     from_address: "{{ nextcloud_smtp_from_address | default('noreply') }}"
     from_domain: "{{ nextcloud_smtp_from_domain | default(web_base_domain) }}"
-    #displayName: "{{ nextcloud_smtp_displayName | default('Nextcloud') }}"
-    #subject_prefix: "{{ nextcloud_smtp_subject_prefix | default('[Nextcloud]') }}"
-
 
 # To avoid loops inside nextcloud_mysql
 _nextcloud_mysql_var_loader:

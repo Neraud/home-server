@@ -8,6 +8,7 @@ set -eu
 # - do not rsync nextcloud sources (/usr/src/nextcloud is already the docroot in our custom image)
 # - move php conf files from /usr/local/etc/php/conf.d under /tmp
 # - move install lock under /tmp
+# - Add support for LDAP env var
 # - deploy custom configurations
 # - (add a few logs)
 
@@ -254,5 +255,35 @@ if [ -d /usr/src/nextcloud/config_custom ] ; then
     cp -v /usr/src/nextcloud/config_custom/* /usr/src/nextcloud/config/
 fi
 
+
+if [ -n "${NEXTCLOUD_LDAP_HOST}" ]; then
+    echo "Configure LDAP"
+    echo " - enable user_ldap app"
+    run_as "php /usr/src/nextcloud/occ app:enable user_ldap"
+
+    echo " - search for config"
+    if run_as "php /usr/src/nextcloud/occ ldap:show-config s01" 1> /dev/null ; then
+        echo "(config s01 already exists)"
+    else
+        echo " - creating new config"
+        run_as "php /usr/src/nextcloud/occ ldap:create-empty-config"
+    fi
+    
+    echo " - set config"
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapHost \"${NEXTCLOUD_LDAP_HOST}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapPort \"${NEXTCLOUD_LDAP_PORT}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapConfigurationActive \"1\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapAgentName \"${NEXTCLOUD_LDAP_AGENT_NAME}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapAgentPassword \"${NEXTCLOUD_LDAP_AGENT_PASSWORD}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapBase \"${NEXTCLOUD_LDAP_BASE}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapBaseUsers \"${NEXTCLOUD_LDAP_BASE_USERS}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapUserDisplayName \"${NEXTCLOUD_LDAP_DISPLAY_NAME}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapEmailAttribute \"${NEXTCLOUD_LDAP_EMAIL_ATTRIBUTE}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapUserFilter \"${NEXTCLOUD_LDAP_USER_FILTER}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapLoginFilter \"${NEXTCLOUD_LDAP_LOGIN_FILTER}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapBaseGroups \"${NEXTCLOUD_LDAP_BASE_GROUPS}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapGroupFilter \"${NEXTCLOUD_LDAP_GROUP_FILTER}\""
+    run_as "php /usr/src/nextcloud/occ ldap:set-config s01 turnOffCertCheck \"${NEXTCLOUD_LDAP_IGNORE_SSL_CERT:-0}\""
+fi
 echo "Start nextcloud"
 exec "$@"

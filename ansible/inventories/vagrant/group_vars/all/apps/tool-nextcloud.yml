@@ -5,3 +5,5 @@ nextcloud_admin_password: "Passw0rd"
 nextcloud_mysql_password: "Passw0rd"
 nextcloud_mysql_root_password: "Passw0rd"
 nextcloud_redis_password: "Passw0rd"
+
+nextcloud_ldap_group: "cn=nextcloud,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
