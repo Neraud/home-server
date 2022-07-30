@@ -27,7 +27,7 @@ nextcloud:
         type: statefulset
         replicas: 1
     gluster_volumes:
-      - nextcloud-data
+      - nextcloud-app
 
   labels_def:
     app.kubernetes.io/name: nextcloud

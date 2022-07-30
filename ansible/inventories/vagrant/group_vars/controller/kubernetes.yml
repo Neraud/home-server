@@ -16,6 +16,12 @@ kubernetes_nfs_storage:
     reclaim_policy: Retain
     labels:
       detail: download
+  nfs-nextcloud:
+    nfs_server: "{{ hostvars[groups.controller[0]].ansible_host }}"
+    nfs_path: /opt/mock_nas/Nextcloud
+    reclaim_policy: Retain
+    labels:
+      detail: nextcloud
   nfs-nvr:
     nfs_server: "{{ hostvars[groups.controller[0]].ansible_host }}"
     nfs_path: /opt/mock_nas/NVR

@@ -32,13 +32,9 @@ spec:
             mkdir -p /mnt/nextcloud-app/custom_apps
             mkdir -p /mnt/nextcloud-app/themes
             chown -R 33:33 /mnt/nextcloud-app/*
-            mkdir -p /mnt/nextcloud-data/data
-            chown -R 33:33 /mnt/nextcloud-data/*
         volumeMounts:
         - name: nextcloud-app-pv-claim
           mountPath: /mnt/nextcloud-app
-        - name: nextcloud-data-pv-claim
-          mountPath: /mnt/nextcloud-data
       - name: wait-for-requirements
         image: "{{ busybox.private_image | image_full_name }}"
         imagePullPolicy: Always
@@ -191,7 +187,7 @@ spec:
         - name: nextcloud-app-pv-claim
           mountPath: /usr/src/nextcloud/themes
           subPath: themes
-        - name: nextcloud-data-pv-claim
+        - name: nextcloud-data
           mountPath: /usr/src/nextcloud/data
           subPath: data
         - name: nextcloud-secret
@@ -209,9 +205,9 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      #- name: nextcloud-data
-      #  persistentVolumeClaim:
-      #    claimName: nfs-nextcloud
+      - name: nextcloud-data
+        persistentVolumeClaim:
+          claimName: nfs-nextcloud
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
@@ -237,15 +233,3 @@ spec:
         matchLabels:
           {{ nextcloud.labels_def | to_nice_yaml() | indent(10) }}
           storage: app
-  - metadata:
-      name: nextcloud-data-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
-      resources:
-        requests:
-          storage: 128M
-      selector:
-        matchLabels:
-          {{ nextcloud.labels_def | to_nice_yaml() | indent(10) }}
-          storage: data
