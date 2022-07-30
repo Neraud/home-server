@@ -4,6 +4,27 @@ FROM $from_image
 ARG app_tasks_repo
 ARG app_tasks_version
 
+# See https://github.com/nextcloud/docker/blob/master/.examples/dockerfiles/cron/apache/Dockerfile
+# Install supervisor
+RUN apt-get update && apt-get install -y \
+    supervisor \
+  && rm -rf /var/lib/apt/lists/* \
+  && mkdir /var/log/supervisord /var/run/supervisord
+COPY supervisord.conf /
+
+# Install supercronic, as crond doesn't like being run as non-root
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.1/supercronic-linux-amd64 \
+    SUPERCRONIC=supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=d7f4c0886eb85249ad05ed592902fa6865bb9d70
+
+RUN curl -fsSLO "$SUPERCRONIC_URL" \
+ && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+ && chmod +x "$SUPERCRONIC" \
+ && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+ && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+
+COPY cron-custom.sh /cron-custom.sh
+
 # Use nextcloud sources as docroot
 # Backup folders that are replaced by a volume
 RUN mkdir /usr/src/nextcloud_bak && \
@@ -16,7 +37,8 @@ RUN mkdir /usr/src/nextcloud_bak && \
     done && \
     sed -i 's|/var/www/html|/usr/src/nextcloud|g' /etc/apache2/sites-available/* && \
     sed -i 's|/var/www|/usr/src/nextcloud|g' /etc/apache2/apache2.conf && \
-    sed -i 's|/var/www|/usr/src/nextcloud|g' /etc/apache2/conf-available/docker-php.conf
+    sed -i 's|/var/www|/usr/src/nextcloud|g' /etc/apache2/conf-available/docker-php.conf && \
+    sed -i 's|/var/www/html|/usr/src/nextcloud|g' /var/spool/cron/crontabs/www-data
 
 WORKDIR /usr/src/nextcloud
 ENV NEXTCLOUD_DATA_DIR /var/www/html/data
@@ -46,5 +68,8 @@ RUN curl -sL https://github.com/${app_tasks_repo}/releases/download/${app_tasks_
 
 USER www-data
 
+# We use a custom command, so make sure nextcloud install is triggered
+ENV NEXTCLOUD_UPDATE 1
+
 ENTRYPOINT ["/entrypoint-custom.sh"]
-CMD ["apache2-foreground"]
+CMD ["/usr/bin/supervisord", "-c", "/supervisord.conf"]

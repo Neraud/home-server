@@ -10,11 +10,14 @@ set -eu
 # - move install lock under /tmp
 # - Add support for LDAP env var
 # - deploy custom configurations
+# - add supervisord (to run cron)
 # - (add a few logs)
 
 # Prepare folders under /tmp
 mkdir -p ${PHP_INI_SCAN_DIR}
 cp -R /usr/local/etc/php/conf.d/* ${PHP_INI_SCAN_DIR}/
+mkdir -p /tmp/log/supervisord
+mkdir -p /tmp/run/supervisord
 
 
 # version_greater A B returns whether A > B
@@ -285,5 +288,9 @@ if [ -n "${NEXTCLOUD_LDAP_HOST}" ]; then
     run_as "php /usr/src/nextcloud/occ ldap:set-config s01 ldapGroupFilter \"${NEXTCLOUD_LDAP_GROUP_FILTER}\""
     run_as "php /usr/src/nextcloud/occ ldap:set-config s01 turnOffCertCheck \"${NEXTCLOUD_LDAP_IGNORE_SSL_CERT:-0}\""
 fi
+
+echo "Configure background-job to cron"
+run_as "php /usr/src/nextcloud/occ background:cron"
+
 echo "Start nextcloud"
 exec "$@"
