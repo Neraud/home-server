@@ -169,7 +169,7 @@ glusterfs_volumes:
       storage: app
   nextcloud-mysql:
     replicas: 2
-    capacity: 256M
+    capacity: 512M
     arbiterCapacity: 32M
     nodes: [master-test-2, master-test-3]
     arbiters: [master-test-1]
