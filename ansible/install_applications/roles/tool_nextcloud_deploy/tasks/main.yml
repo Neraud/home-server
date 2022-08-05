@@ -45,6 +45,21 @@
     base_image: "{{ nextcloud_redis.base_image }}"
     private_image: "{{ nextcloud_redis.private_image }}"
 
+- name: Clone caldav-recurring-task-scheduler repo
+  ansible.builtin.git:
+    dest: "{{ nextcloud_task_rescheduler.path }}"
+    repo: "{{ nextcloud_task_rescheduler.repo.url }}"
+    version: "{{ nextcloud_task_rescheduler.repo.version }}"
+
+- name: Ensure caldav-recurring-task-scheduler image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+  vars:
+    # base_image is not used for this particular app, but the variable is expected, we use private_image to avoid the "undefined variable" error
+    base_image: "{{ nextcloud_task_rescheduler.private_image }}"  
+    private_image: "{{ nextcloud_task_rescheduler.private_image }}"
+    build: yes
+    build_path: "{{ nextcloud_task_rescheduler.path }}"
+
 - name: Deploy Nextcloud
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

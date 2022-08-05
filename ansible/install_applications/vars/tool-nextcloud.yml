@@ -156,3 +156,38 @@ nextcloud_redis:
   #username: "{{ nextcloud_redis_username | default('nextcloud') }}"
   username: "default" # nextcloud doesn't seem to support using a dedicated user
   password: "{{ nextcloud_redis_password | default('clear_password') }}"
+
+# To avoid loops inside nextcloud_task_rescheduler
+_nextcloud_task_rescheduler_var_loader:
+  repo:
+    url: "https://github.com/Neraud/caldav-recurring-task-scheduler"
+    version: "1b6cb6e328c895459573326a3868030bd099c215"
+
+nextcloud_task_rescheduler:
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "caldav-recurring-task-scheduler"
+    tag: "{{ _nextcloud_task_rescheduler_var_loader.repo.version }}-custom"
+
+  labels_def:
+    app.kubernetes.io/name: caldav-recurring-task-scheduler
+    app.kubernetes.io/component: caldav-recurring-task-scheduler
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nextcloud_task_rescheduler_var_loader.repo.version }}-custom"
+
+  container:
+    requests_cpu: "{{ nextcloud_task_rescheduler_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ nextcloud_task_rescheduler_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ nextcloud_task_rescheduler_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ nextcloud_task_rescheduler_container_limits_memory | default('64Mi') }}"
+
+  repo: "{{ _nextcloud_task_rescheduler_var_loader.repo }}"
+
+  cron: "{{ nextcloud_task_rescheduler_cron | default('0 6 * * *') }}"
+
+  path: "{{ nextcloud_task_rescheduler_path | default('/opt/caldav-recurring-task-scheduler') }}"
+
+  config:
+    schedules: "{{ nextcloud_task_rescheduler_config_schedules | default([]) }}"
+    users: "{{ nextcloud_task_rescheduler_config_users | default([]) }}"

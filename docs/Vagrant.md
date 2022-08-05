@@ -529,6 +529,16 @@ LDAP authentication is configured and enabled.
 Some additional apps are installed by default.
 However, they need to be manually enabled from the [app list](https://nextcloud.tool.intra.k8s.test/index.php/settings/apps).
 
+A custom Cronjob is also deployed to automatically reschedule tasks.
+It runs daily, and can be manually triggered for a specific date using :
+
+```bash
+run_date=$(date +%Y%m%d)  # Or a fixed date using YYMMDD format
+kubectl --namespace tool-nextcloud create job --from=cronjob/task-rescheduler task-rescheduler-manual --dry-run -o "json" \
+  | jq ".spec.template.spec.containers[0].env += [{ \"name\": \"RUN_DATE\", value:\"${run_date}\" }]" \
+  | kubectl apply -f -
+```
+
 ### Parperless
 
 Paperless-NGX is installed.

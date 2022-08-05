@@ -7,3 +7,7 @@ nextcloud_mysql_root_password: "Passw0rd"
 nextcloud_redis_password: "Passw0rd"
 
 nextcloud_ldap_group: "cn=nextcloud,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
+
+nextcloud_task_rescheduler_config_users:
+  - name: user_ldap
+    password: "Passw0rd" # Ideally, an app password instead of the user's password

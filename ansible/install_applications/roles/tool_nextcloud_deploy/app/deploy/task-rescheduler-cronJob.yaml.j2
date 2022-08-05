@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: task-rescheduler
+  namespace: "{{ nextcloud.namespace }}"
+  labels:
+    {{ nextcloud_task_rescheduler.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nextcloud_task_rescheduler.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  schedule: "{{ nextcloud_task_rescheduler.cron }}"
+  startingDeadlineSeconds: 600
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            {{ nextcloud_task_rescheduler.labels_def | to_nice_yaml() | indent(12) }}
+            {{ nextcloud_task_rescheduler.labels_desc | to_nice_yaml() | indent(12) }}
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: task-rescheduler
+            image: "{{ nextcloud_task_rescheduler.private_image | image_full_name }}"
+            imagePullPolicy: Always
+            env:
+            - name: CONFIG_PATH
+              value: "/data/config.yaml"
+            - name: LOG_LEVEL
+              value: "INFO"
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000 # app
+              runAsGroup: 1000 # app
+              readOnlyRootFilesystem: true
+            resources:
+              requests:
+                cpu: "{{ nextcloud_task_rescheduler.container.requests_cpu }}"
+                memory: "{{ nextcloud_task_rescheduler.container.requests_memory }}"
+              limits:
+                cpu: "{{ nextcloud_task_rescheduler.container.limits_cpu }}"
+                memory: "{{ nextcloud_task_rescheduler.container.limits_memory }}"
+            volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+              readOnly: true
+            - name: task-rescheduler-secret
+              mountPath: /data/config.yaml
+              subPath: config.yaml
+          volumes:
+          - name: tz-config
+            hostPath:
+              path: /etc/localtime
+          - name: task-rescheduler-secret
+            secret:
+              secretName: task-rescheduler
+          imagePullSecrets:
+          - name: docker-config
+          nodeSelector:
+            capability/general-purpose: 'yes'
+    
