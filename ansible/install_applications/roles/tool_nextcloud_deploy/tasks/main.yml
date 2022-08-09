@@ -30,8 +30,18 @@
     private_image: "{{ nextcloud.private_image }}"
     build: yes
     build_args:
+      app_breezedark_repo: "{{ nextcloud.applications.breezedark.repo }}"
+      app_breezedark_version: "{{ nextcloud.applications.breezedark.version }}"
+      app_calendar_repo: "{{ nextcloud.applications.calendar.repo }}"
+      app_calendar_version: "{{ nextcloud.applications.calendar.version }}"
+      app_contacts_repo: "{{ nextcloud.applications.contacts.repo }}"
+      app_contacts_version: "{{ nextcloud.applications.contacts.version }}"
+      app_notes_repo: "{{ nextcloud.applications.notes.repo }}"
+      app_notes_version: "{{ nextcloud.applications.notes.version }}"
       app_tasks_repo: "{{ nextcloud.applications.tasks.repo }}"
       app_tasks_version: "{{ nextcloud.applications.tasks.version }}"
+      app_twofactor_totp_repo: "{{ nextcloud.applications.twofactor_totp.repo }}"
+      app_twofactor_totp_version: "{{ nextcloud.applications.twofactor_totp.version }}"
 
 - name: Ensure Nextcloud MySQL image is up-to-date in the private registry
   ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml

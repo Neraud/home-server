@@ -757,10 +757,31 @@ watchers:
       - ^[0-9]\..*
       - ^1[0-9]\..*
       - ^2[0-3]\..*
+  - name: Nextcloud Breeze Dark Theme
+    type: github_release
+    repo: {{ nextcloud.applications.breezedark.repo }}
+    release: {{ nextcloud.applications.breezedark.version }}
+  - name: Nextcloud Calendar
+    type: github_release
+    repo: {{ nextcloud.applications.calendar.repo }}
+    release: {{ nextcloud.applications.calendar.version }}
+  - name: Nextcloud Contacts
+    type: github_release
+    repo: {{ nextcloud.applications.contacts.repo }}
+    release: {{ nextcloud.applications.contacts.version }}
+  - name: Nextcloud Notes
+    type: github_release
+    repo: {{ nextcloud.applications.notes.repo }}
+    release: {{ nextcloud.applications.notes.version }}
   - name: Nextcloud Tasks
     type: github_release
     repo: {{ nextcloud.applications.tasks.repo }}
     release: {{ nextcloud.applications.tasks.version }}
+  - name: Nextcloud Two Factor Totp
+    type: github_release
+    repo: {{ nextcloud.applications.twofactor_totp.repo }}
+    release: {{ nextcloud.applications.twofactor_totp.version }}
+
   - name: "Nextcloud MySQL"
     type: docker_registry
     repo: {{ nextcloud_mysql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}

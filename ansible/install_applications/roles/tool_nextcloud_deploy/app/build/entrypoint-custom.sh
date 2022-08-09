@@ -289,6 +289,15 @@ if [ -n "${NEXTCLOUD_LDAP_HOST}" ]; then
     run_as "php /usr/src/nextcloud/occ ldap:set-config s01 turnOffCertCheck \"${NEXTCLOUD_LDAP_IGNORE_SSL_CERT:-0}\""
 fi
 
+echo "Enable default applications"
+run_as "php /usr/src/nextcloud/occ app:enable admin_audit"
+run_as "php /usr/src/nextcloud/occ app:enable breezedark"
+run_as "php /usr/src/nextcloud/occ app:enable calendar"
+run_as "php /usr/src/nextcloud/occ app:enable contacts"
+run_as "php /usr/src/nextcloud/occ app:enable notes"
+run_as "php /usr/src/nextcloud/occ app:enable tasks"
+run_as "php /usr/src/nextcloud/occ app:enable twofactor_totp"
+
 echo "Configure background-job to cron"
 run_as "php /usr/src/nextcloud/occ background:cron"
 

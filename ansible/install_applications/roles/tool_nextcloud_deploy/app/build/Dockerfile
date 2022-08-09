@@ -1,8 +1,18 @@
 ARG from_image
 FROM $from_image
 
+ARG app_breezedark_repo
+ARG app_breezedark_version
+ARG app_calendar_repo
+ARG app_calendar_version
+ARG app_contacts_repo
+ARG app_contacts_version
+ARG app_notes_repo
+ARG app_notes_version
 ARG app_tasks_repo
 ARG app_tasks_version
+ARG app_twofactor_totp_repo
+ARG app_twofactor_totp_version
 
 # See https://github.com/nextcloud/docker/blob/master/.examples/dockerfiles/cron/apache/Dockerfile
 # Install supervisor
@@ -62,9 +72,24 @@ ENV PHP_INI_SCAN_DIR /tmp/php/conf.d
 
 COPY entrypoint-custom.sh /entrypoint-custom.sh
 
-# Install task app
+# Install Breeze Dark Theme app
+RUN curl -sL https://github.com/${app_breezedark_repo}/releases/download/${app_breezedark_version}/breezedark.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
+    chown -R nobody:nogroup /usr/src/nextcloud/apps/breezedark
+# Install Calendar app
+RUN curl -sL https://github.com/${app_calendar_repo}/releases/download/${app_calendar_version}/calendar-${app_calendar_version}.tar.gz  | tar xz -C /usr/src/nextcloud/apps/ && \
+    chown -R nobody:nogroup /usr/src/nextcloud/apps/calendar
+# Install Contacts app
+RUN curl -sL https://github.com/${app_contacts_repo}/releases/download/${app_contacts_version}/contacts-${app_contacts_version}.tar.gz  | tar xz -C /usr/src/nextcloud/apps/ && \
+    chown -R nobody:nogroup /usr/src/nextcloud/apps/contacts
+# Install Notes app
+RUN curl -sL https://github.com/${app_notes_repo}/releases/download/${app_notes_version}/notes.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
+    chown -R nobody:nogroup /usr/src/nextcloud/apps/notes
+# Install Tasks app
 RUN curl -sL https://github.com/${app_tasks_repo}/releases/download/${app_tasks_version}/tasks.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
     chown -R nobody:nogroup /usr/src/nextcloud/apps/tasks
+# Install Two Factor Totp app
+RUN curl -sL https://github.com/${app_twofactor_totp_repo}/releases/download/${app_twofactor_totp_version}/twofactor_totp-${app_twofactor_totp_version}.tar.gz  | tar xz -C /usr/src/nextcloud/apps/ && \
+    chown -R nobody:nogroup /usr/src/nextcloud/apps/twofactor_totp
 
 USER www-data
 

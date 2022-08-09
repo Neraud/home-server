@@ -47,9 +47,24 @@ nextcloud:
   php_upload_limit: "{{ nextcloud_php_upload_limit | default('512M') }}"
 
   applications:
+    breezedark:
+      repo: mwalbeck/nextcloud-breeze-dark
+      version: v24.0.2
+    calendar:
+      repo: nextcloud-releases/calendar
+      version: v3.4.2
+    contacts:
+      repo: nextcloud-releases/contacts
+      version: v4.2.0
+    notes:
+      repo: nextcloud/notes
+      version: v4.4.0
     tasks:
       repo: nextcloud/tasks
       version: v0.14.4
+    twofactor_totp:
+      repo: nextcloud-releases/twofactor_totp
+      version: v6.4.0
   
   admin:
     user: "{{ nextcloud_admin_user }}"
