@@ -1,0 +1,208 @@
+---
+# To avoid loops inside nextcloud
+_nextcloud_var_loader:
+  namespace: "tool-nextcloud"
+  base_image:
+    repo: "docker.io"
+    name: "library/nextcloud"
+    tag: "24.0.3-apache"
+  context_root: "{{ nextcloud_context_root | default('') }}"
+
+nextcloud:
+  enabled: "{{ nextcloud_enabled | default(True) }}"
+
+  namespace: "{{ _nextcloud_var_loader.namespace }}"
+  base_image: "{{ _nextcloud_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _nextcloud_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _nextcloud_var_loader.base_image.tag }}-custom"
+
+  app_backup:
+    name: tool-nextcloud
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+      - name: nextcloud
+        namespace: "{{ _nextcloud_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+    gluster_volumes:
+      - nextcloud-app
+
+  labels_def:
+    app.kubernetes.io/name: nextcloud
+    app.kubernetes.io/component: nextcloud
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nextcloud_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: nextcloud
+
+  container:
+    requests_cpu: "{{ nextcloud_container_requests_cpu | default('250m') }}"
+    requests_memory: "{{ nextcloud_container_requests_memory | default('512Mi') }}"
+    limits_cpu: "{{ nextcloud_container_limits_cpu | default('750m') }}"
+    limits_memory: "{{ nextcloud_container_limits_memory | default('512Mi') }}"
+
+  php_memory_limit: "{{ nextcloud_php_memory_limit | default('256M') }}"
+  php_upload_limit: "{{ nextcloud_php_upload_limit | default('512M') }}"
+
+  applications:
+    breezedark:
+      repo: mwalbeck/nextcloud-breeze-dark
+      version: v24.0.2
+    calendar:
+      repo: nextcloud-releases/calendar
+      version: v3.4.2
+    contacts:
+      repo: nextcloud-releases/contacts
+      version: v4.2.0
+    notes:
+      repo: nextcloud/notes
+      version: v4.4.0
+    tasks:
+      repo: nextcloud/tasks
+      version: v0.14.4
+    twofactor_totp:
+      repo: nextcloud-releases/twofactor_totp
+      version: v6.4.0
+  
+  admin:
+    user: "{{ nextcloud_admin_user }}"
+    password: "{{ nextcloud_admin_password }}"
+
+  ldap:
+    host: "{{ nextcloud_ldap_host | default('ldaps://' + openldap.ldap.servername) }}"
+    port: "{{ nextcloud_ldap_port | default(636) }}"
+    bind_dn: "{{ nextcloud_ldap_bind_dn | default(openldap.ldap.readonly_user_dn) }}"
+    bind_password: "{{ nextcloud_ldap_bind_password | default(openldap.ldap.readonly_user_password) }}"
+    base: "{{ nextcloud_ldap_base | default(openldap.ldap.basedn) }}"
+    users_dn: "{{ nextcloud_ldap_users_dn | default(openldap.ldap.structure_users_ou_dn) }}"
+    group: "{{ nextcloud_ldap_group }}"
+    display_name: "{{ nextcloud_ldap_display_name | default('displayName') }}"
+    email_attribute: "{{ nextcloud_ldap_email_attribute | default('mail') }}"
+    groups_dn: "{{ nextcloud_ldap_groups_dn | default(openldap.ldap.structure_groups_ou_dns['nextcloud_roles']) }}"
+
+  smtp:
+    host: "{{ nextcloud_smtp_host | default(zonemta.smtp_servername) }}"
+    port: "{{ nextcloud_smtp_port | default(587) }}"
+    user: "{{ nextcloud_smtp_user | default(zonemta.feeder.authentication_username) }}"
+    password: "{{ nextcloud_smtp_password | default(zonemta.feeder.authentication_password) }}"
+    secure: "{{ nextcloud_smtp_secure | default('tls') }}"
+    from_address: "{{ nextcloud_smtp_from_address | default('noreply') }}"
+    from_domain: "{{ nextcloud_smtp_from_domain | default(web_base_domain) }}"
+
+# To avoid loops inside nextcloud_mysql
+_nextcloud_mysql_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/mysql"
+    tag: "8.0.29-debian"
+
+nextcloud_mysql:
+  base_image: "{{ _nextcloud_mysql_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "home-assistant-{{ _nextcloud_mysql_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _nextcloud_mysql_var_loader.base_image.tag }}"
+
+  app_backup:
+    name: home-nextcloud_mysql
+    repository: "{{ restic_apps_backup_repository }}"
+    apps_to_stop:
+      - name: nextcloud
+        namespace: "{{ _nextcloud_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+      - name: mysql
+        namespace: "{{ _nextcloud_var_loader.namespace }}"
+        type: statefulset
+        replicas: 1
+    gluster_volumes:
+      - nextcloud-mysql
+
+  labels_def:
+    app.kubernetes.io/name: nextcloud
+    app.kubernetes.io/component: mysql
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nextcloud_mysql_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: nextcloud
+
+  container:
+    requests_cpu: "{{ nextcloud_mysql_container_requests_cpu | default('100m') }}"
+    requests_memory: "{{ nextcloud_mysql_container_requests_memory | default('384Mi') }}"
+    limits_cpu: "{{ nextcloud_mysql_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ nextcloud_mysql_container_limits_memory | default('512Mi') }}"
+
+  user: "{{ nextcloud_mysql_user | default('nextcloud') }}"
+  database: "{{ nextcloud_mysql_database | default('nextcloud') }}"
+  password: "{{ nextcloud_mysql_password | default('clear_password') }}"
+  root_password: "{{ nextcloud_mysql_root_password | default('clear_password') }}"
+
+# To avoid loops inside nextcloud_redis
+_nextcloud_redis_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "library/redis"
+    tag: "7.0.3-alpine3.16"
+
+nextcloud_redis:
+  base_image: "{{ _nextcloud_redis_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _nextcloud_redis_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _nextcloud_redis_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: nextcloud
+    app.kubernetes.io/component: redis
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nextcloud_redis_var_loader.base_image.tag }}"
+    app.kubernetes.io/part-of: nextcloud
+
+  container:
+    requests_cpu: "{{ nextcloud_redis_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ nextcloud_redis_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ nextcloud_redis_container_limits_cpu | default('75m') }}"
+    limits_memory: "{{ nextcloud_redis_container_limits_memory | default('32Mi') }}"
+  
+  health_username: "{{ nextcloud_redis_health_username | default('health') }}"
+  #username: "{{ nextcloud_redis_username | default('nextcloud') }}"
+  username: "default" # nextcloud doesn't seem to support using a dedicated user
+  password: "{{ nextcloud_redis_password | default('clear_password') }}"
+
+# To avoid loops inside nextcloud_task_rescheduler
+_nextcloud_task_rescheduler_var_loader:
+  repo:
+    url: "https://github.com/Neraud/caldav-recurring-task-scheduler"
+    version: "1b6cb6e328c895459573326a3868030bd099c215"
+
+nextcloud_task_rescheduler:
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "caldav-recurring-task-scheduler"
+    tag: "{{ _nextcloud_task_rescheduler_var_loader.repo.version }}-custom"
+
+  labels_def:
+    app.kubernetes.io/name: caldav-recurring-task-scheduler
+    app.kubernetes.io/component: caldav-recurring-task-scheduler
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _nextcloud_task_rescheduler_var_loader.repo.version }}-custom"
+
+  container:
+    requests_cpu: "{{ nextcloud_task_rescheduler_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ nextcloud_task_rescheduler_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ nextcloud_task_rescheduler_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ nextcloud_task_rescheduler_container_limits_memory | default('64Mi') }}"
+
+  repo: "{{ _nextcloud_task_rescheduler_var_loader.repo }}"
+
+  cron: "{{ nextcloud_task_rescheduler_cron | default('0 6 * * *') }}"
+
+  path: "{{ nextcloud_task_rescheduler_path | default('/opt/caldav-recurring-task-scheduler') }}"
+
+  config:
+    schedules: "{{ nextcloud_task_rescheduler_config_schedules | default([]) }}"
+    users: "{{ nextcloud_task_rescheduler_config_users | default([]) }}"

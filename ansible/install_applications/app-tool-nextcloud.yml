@@ -1,0 +1,5 @@
+---
+- name: Provision tool-nextcloud
+  hosts: controller
+  roles:
+    - role: tool_nextcloud_deploy

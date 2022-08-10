@@ -115,10 +115,14 @@ __EOF__
 	mkdir -p /opt/mock_nas/Download/torrent/{pending,done,auto-load,torrent-files}
 	mkdir -p /opt/mock_nas/Download/newsgroup/{nzbFiles,pending,done}
 	mkdir -p /opt/mock_nas/Download/pyload
+	mkdir -p /opt/mock_nas/Nextcloud/data
 	mkdir -p /opt/mock_nas/NVR
 	mkdir -p /opt/mock_nas/Paperless/{consume,media}
 	mkdir -p /opt/mock_nas/Syncthing
 	chmod -R 777 /opt/mock_nas
+	# Permissions for Nextcloud
+	chown 33:33 /opt/mock_nas/Nextcloud/data
+	chmod 700 /opt/mock_nas/Nextcloud/data
 
 	echo " - install NFS Server"
 	apt-get -q -y install nfs-kernel-server
@@ -135,6 +139,7 @@ __EOF__
 	cat <<EOF >/etc/exports
 /opt/mock_nas/Multimedia $network_cidr(rw)
 /opt/mock_nas/Download $network_cidr(rw)
+/opt/mock_nas/Nextcloud $network_cidr(rw)
 /opt/mock_nas/NVR $network_cidr(rw)
 /opt/mock_nas/Paperless $network_cidr(rw)
 /opt/mock_nas/Syncthing $network_cidr(rw)

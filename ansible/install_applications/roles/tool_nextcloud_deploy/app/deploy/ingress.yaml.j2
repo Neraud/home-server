@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: paperless
+  namespace: {{ nextcloud.namespace }}
+  labels:
+    {{ nextcloud.labels_def | to_nice_yaml() | indent(4) }}
+    {{ nextcloud.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - nextcloud.tool.intra.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: nextcloud.tool.intra.{{ web_base_domain }}
+    http:
+      paths:
+      - path: '/'
+        pathType: Prefix
+        backend:
+          service:
+            name: nextcloud
+            port:
+              name: web

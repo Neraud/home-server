@@ -139,6 +139,10 @@
   tags: kubernetes-app-tool-olivetin
   when: olivetin_enabled | bool
 
+- import_playbook: app-tool-nextcloud.yml
+  tags: kubernetes-app-tool-nextcloud
+  when: nextcloud_enabled | bool
+
 - import_playbook: app-tool-syncthing.yml
   tags: kubernetes-app-tool-syncthing
   when: syncthing_enabled | bool

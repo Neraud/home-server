@@ -60,3 +60,6 @@ lemonldap_location_rules:
     default_rule: groupMatch($hGroups, 'cn', 'tool')
   - domain: "syncthing.tool.intra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'syncthing')
+  # Disable Auth for Nextcloud
+  - domain: "nextcloud.tool.intra.{{ web_base_domain }}"
+    default_rule: skip
