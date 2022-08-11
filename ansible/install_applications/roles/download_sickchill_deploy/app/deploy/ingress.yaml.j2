@@ -6,6 +6,10 @@ metadata:
   labels:
     {{ sickchill.labels_def | to_nice_yaml() | indent(4) }}
     {{ sickchill.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "900"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "900"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "900"
 spec:
   ingressClassName: nginx
   tls:
