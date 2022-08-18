@@ -224,6 +224,7 @@ watchers:
       - latest
       - ^1\.
       - ^2\.0\.[0-9]-openssl$
+      - ^2\.0\.1[0-4]-openssl$
   - type: docker_registry
     repo: {{ nodered.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ nodered.base_image.name }}
