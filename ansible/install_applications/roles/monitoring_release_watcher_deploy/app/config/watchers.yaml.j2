@@ -113,7 +113,7 @@ watchers:
     excludes:
       - ^0\..*
       - ^1\.[0-9]\..*
-      - ^1\.1[0-5]\..*
+      - ^1\.1[0-6]\..*
   - name: Gitea PostgreSQL
     type: docker_registry
     repo: {{ gitea_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
