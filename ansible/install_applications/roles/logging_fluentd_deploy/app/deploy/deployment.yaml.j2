@@ -19,6 +19,22 @@ spec:
         {{ fluentd.labels_def | to_nice_yaml() | indent(8) }}
         {{ fluentd.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: create-tmp-folder
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            # To avoid ruby errors like : /tmp is world-writable: /tmp
+            # Create /tmp/app, make sure it's nor world-writable, and use the TMPDIR env var in the main container
+            mkdir -p /tmp/app
+            chown 999 /tmp/app
+            chmod 700 /tmp/app
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /tmp
       containers:
       - name: fluentd
         image: "{{ fluentd.private_image | image_full_name }}"
@@ -59,6 +75,8 @@ spec:
             value: "10s"
           - name: FLUENT_OPENSEARCH_BUFFER_FLUSH_THREAD_COUNT
             value: "2"
+          - name: TMPDIR
+            value: "/tmp/app"
         securityContext:
           runAsNonRoot: true
           runAsUser: 999 # fluent
