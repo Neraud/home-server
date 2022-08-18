@@ -151,7 +151,7 @@ Once the Vagrant environment is started, you can easily list all the service URL
 
 An `admin-user` service account is automatically created by the playbook.
 
-To login, you need to fetch the associated token.
+To login, you need to generate a token for this account.
 
 You can do so using a terminal (assuming you start at the project root) :
 
@@ -159,7 +159,7 @@ You can do so using a terminal (assuming you start at the project root) :
 [your_account@your_computer$] cd vagrant
 [your_account@your_computer$] vagrant ssh master
 [vagrant@master$] sudo su - user
-[user@master$] kubectl --namespace=infra-kubernetes-dashboard describe secrets $(kubectl --namespace=infra-kubernetes-dashboard get secrets | awk '/dashboard-admin-user-token/ { print $1 }')
+[user@master$] kubectl --namespace=infra-kubernetes-dashboard create token dashboard-admin-user
 ```
 
 ### Docker Registry UI

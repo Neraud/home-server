@@ -4,7 +4,7 @@ _kubernetes_dashboard_var_loader:
   base_image:
     repo: "docker.io"
     name: "kubernetesui/dashboard"
-    tag: "v2.6.0"
+    tag: "v2.6.1"
 
 kubernetes_dashboard:
   enabled: "{{ kubernetes_dashboard_enabled | default(True) }}"
