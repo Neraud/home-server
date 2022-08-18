@@ -62,7 +62,7 @@ _zonemta_mongo_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/mongo"
-    tag: "5.0.9-focal"
+    tag: "5.0.10-focal"
 
 zonemta_mongo:
   base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
@@ -96,7 +96,7 @@ _zonemta_redis_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/redis"
-    tag: "7.0.3-alpine3.16"
+    tag: "7.0.4-alpine3.16"
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"
