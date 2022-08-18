@@ -9,7 +9,7 @@ _pyload_var_loader:
   repo:
     name: "pyload/pyload"
     branch: "stable"
-    commit: "7fcfa0e"
+    commit: "d99fb60"
 
 pyload:
   enabled: "{{ pyload_enabled | default(True) }}"

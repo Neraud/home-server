@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Copy the default assets
+# The default entrypoint only copies them if the assets folder is empty
+cp -Ri /www/default-assets/* /www/assets/
+
 mkdir -p /www/assets/download
 if [ -f /opt/images.csv ]; then
     echo "Downloading images"

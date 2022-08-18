@@ -5,7 +5,7 @@ watchers:
   ###################
   - type: pypi
     package: ansible
-    version: 6.1.0
+    version: 6.2.0
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
@@ -48,12 +48,12 @@ watchers:
   #########
   - type: github_release
     repo: coreos/flannel
-    release: v0.19.0
+    release: v0.19.1
     excludes:
       - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
-    release: v3.23.2
+    release: v3.23.3
     excludes:
       - v3\.1[0-9]\..*
       - v3\.2[0-2]\..*
@@ -113,7 +113,7 @@ watchers:
     excludes:
       - ^0\..*
       - ^1\.[0-9]\..*
-      - ^1\.1[0-5]\..*
+      - ^1\.1[0-6]\..*
   - name: Gitea PostgreSQL
     type: docker_registry
     repo: {{ gitea_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -196,7 +196,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^202[01]\..*
-      - ^2022\.[0-6]\..*
+      - ^2022\.[0-7]\..*
   - type: github_commit
     repo: efficiosoft/ldap-auth-sh
     branch: master
@@ -224,6 +224,7 @@ watchers:
       - latest
       - ^1\.
       - ^2\.0\.[0-9]-openssl$
+      - ^2\.0\.1[0-4]-openssl$
   - type: docker_registry
     repo: {{ nodered.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ nodered.base_image.name }}
@@ -231,8 +232,7 @@ watchers:
     includes:
       - '[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-minimal'
     excludes:
-      - ^1\.
-      - ^2\.[0-1]\.
+      - ^[1-2]\.
   - type: github_tag
     repo: vesse/node-ldapauth-fork
     tag: v{{ nodered.additional_modules.ldapauth_fork.version }}
@@ -273,7 +273,7 @@ watchers:
       - .*-(dev|beta).*
       - .*b[0-9]+$
       - ^202[0-1].*
-      - ^2022\.[0-5].*
+      - ^2022\.[0-7].*
   - type: docker_registry
     repo: {{ zwavejs2mqtt.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zwavejs2mqtt.base_image.name }}
@@ -283,7 +283,7 @@ watchers:
     excludes:
       - ^[1-5]\..*
       - ^6\.[0-9]\..*
-      - ^6\.1[0-2]\..*
+      - ^6\.1[0-4]\..*
   - type: docker_registry
     repo: {{ zigbee2mqtt.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zigbee2mqtt.base_image.name }}
@@ -294,7 +294,7 @@ watchers:
       - ^0\..*
       - ^1\.[0-9]\..*
       - ^1\.1[0-9]\..*
-      - ^1\.2[0-5]\..*
+      - ^1\.2[0-6]\..*
   - type: docker_registry
     repo: {{ frigate.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ frigate.base_image.name }}
@@ -383,7 +383,7 @@ watchers:
       - .*rc.*
   - type: github_release
     repo: metallb/metallb
-    release: v0.13.3
+    release: v0.13.4
     excludes:
       - metallb-chart-.*     
   - type: github_release
@@ -424,7 +424,7 @@ watchers:
       - dev
       - v0\.0\.[0-9]?[0-9]$
       - v0\.0\.10[0-9]$
-      - v0\.0\.11[0-6]$
+      - v0\.0\.11[0-7]$
   - type: docker_registry
     repo: {{ unifi.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ unifi.base_image.name }}
@@ -433,7 +433,7 @@ watchers:
       - "^v?[0-9]+\\.[0-9]+\\.[0-9]+$"
     excludes:
       - ^v?[0-6]\.
-      - ^v?7\.0\.
+      - ^v?7\.[0-1]\.
   - name: ZoneMTA
     type: github_tag
     repo: {{ zonemta.repo.name }}
@@ -500,7 +500,7 @@ watchers:
       - .*-rc.*
       - ^0\..*
       - ^1\..*
-      - ^2\.[0]\..*
+      - ^2\.[0-1]\..*
   - type: docker_registry
     repo: {{ elasticsearch_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ elasticsearch_exporter.base_image.name }}
@@ -578,7 +578,7 @@ watchers:
       - .*-(rc|beta).*
       - ^0\..*
       - ^1\..*
-      - ^2\.[0]\..*
+      - ^2\.[0-1]\..*
   
   #####################
   # Apps : Monitoring #
@@ -586,7 +586,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: 30a6c1bb4a18e7a3e244c0745de242c2ef3db44e
+    commit: 67501d0759265753351d9bc84435715e150f5d57
   - type: github_commit
     repo: gluster/gluster-mixins
     branch: master
@@ -637,8 +637,8 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
-      - ^10\.[0-6]\..*
-      - ^10\.7\.[0-6]-.*
+      - ^10\.[0-7]\..*
+      - ^10\.8\.[0-3]-.*
   - name: Jellyfin inject conf
     type: docker_registry
     repo: {{ jellyfin.conf_injection_base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -676,10 +676,10 @@ watchers:
     image: {{ homer.base_image.name }}
     tag: {{ homer.base_image.tag }}
     includes:
-      - 'v?[0-9]+.[0-9]+.[0-9]+-amd64'
+      - 'v[0-9]+.[0-9]+.[0-9]+-amd64'
     excludes:
-      - 'v?21\..*'
-      - 'v?22\.[0-6]\..*'
+      - 'v21\..*'
+      - 'v22\.[0-6]\..*'
   - name: Homer icons
     type: github_commit
     repo: {{ homer.icons_repo.repo }}
@@ -818,8 +818,9 @@ watchers:
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
+      - .*(beta|rc).*
       - ^0\..*
-      - ^1\.[0-6]\..*
+      - ^1\.[0-7]\..*
   - name: "Paperless Redis"
     type: docker_registry
     repo: {{ paperless_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}

@@ -4,11 +4,11 @@ _homer_var_loader:
   base_image:
     repo: "docker.io" 
     name: "b4bz/homer"
-    tag: "v22.07.1"
+    tag: "v22.07.2"
   context_root: "{{ homer_context_root | default('') }}"
   icons_repo:
-    repo: walkxhub/dashboard-icons
-    commit: 5b883aff2e2bfd73fffef8928bde63ada2306f81
+    repo: walkxcode/dashboard-icons
+    commit: 1284c4247d5530f254a376fb610e9b9c88963c0e
 
 homer:
   enabled: "{{ homer_enabled | default(True) }}"
