@@ -232,8 +232,7 @@ watchers:
     includes:
       - '[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-minimal'
     excludes:
-      - ^1\.
-      - ^2\.[0-1]\.
+      - ^[1-2]\.
   - type: github_tag
     repo: vesse/node-ldapauth-fork
     tag: v{{ nodered.additional_modules.ldapauth_fork.version }}
