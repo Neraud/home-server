@@ -72,6 +72,7 @@ The following services are deployed :
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | Presence tracking                                               |
 | [TT-RSS](https://tt-rss.org/)                                    | News feed (RSS/Atom) reader and aggregator                      |
 | [Homer](https://github.com/bastienwirtz/homer)                   | A very simple static homepage for your server                   |
+| [Miniflux](https://miniflux.app/)                                | Miniflux is a minimalist and opinionated feed reader            |
 | [Nextcloud](https://nextcloud.com/)                              | The self-hosted productivity platform that keeps you in control |
 | [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)   | Scan & OCR documents                                            |
 | [OliveTin](https://docs.olivetin.app/)                           | Access to predefined shell commands from a web interface.       |
