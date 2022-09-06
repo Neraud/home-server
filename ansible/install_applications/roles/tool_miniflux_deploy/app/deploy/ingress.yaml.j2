@@ -13,6 +13,16 @@ spec:
       - miniflux.tool.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
+  - host: miniflux.tool.{{ web_base_domain }}
+    http:
+      paths:
+      - path: /reminiflux
+        pathType: Prefix
+        backend:
+          service:
+            name: reminiflux
+            port:
+              name: http
       - path: /
         pathType: Prefix
         backend:

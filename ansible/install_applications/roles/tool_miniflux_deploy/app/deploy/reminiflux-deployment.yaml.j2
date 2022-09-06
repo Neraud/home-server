@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reminiflux
+  namespace: {{ miniflux.namespace }}
+  labels:
+    {{ miniflux_reminiflux.labels_def | to_nice_yaml() | indent(4) }}
+    {{ miniflux_reminiflux.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ miniflux_reminiflux.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ miniflux_reminiflux.labels_def | to_nice_yaml() | indent(8) }}
+        {{ miniflux_reminiflux.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      containers:
+      - name: reminiflux
+        image: "{{ miniflux_reminiflux.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: NGINX_PORT
+          value: "8080"
+        - name: CONTEXT_ROOT
+          value: "reminiflux"
+        ports:
+        - containerPort: 8080
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 101 # nginx
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /reminiflux
+            port: http
+        resources:
+          requests:
+            cpu: "{{ miniflux_reminiflux.container.requests_cpu }}"
+            memory: "{{ miniflux_reminiflux.container.requests_memory }}"
+          limits:
+            cpu: "{{ miniflux_reminiflux.container.limits_cpu }}"
+            memory: "{{ miniflux_reminiflux.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

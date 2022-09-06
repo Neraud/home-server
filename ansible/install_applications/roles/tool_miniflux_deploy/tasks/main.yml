@@ -28,6 +28,18 @@
     base_image: "{{ miniflux_pgsql.base_image }}"
     private_image: "{{ miniflux_pgsql.private_image }}"
 
+- name: Ensure Miniflux Reminiflux image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+  vars:
+    base_image: "{{ miniflux_reminiflux.base_image }}"
+    private_image: "{{ miniflux_reminiflux.private_image }}"
+    build: yes
+    build_path: "{{ role_path }}/app/build/reminiflux"
+    build_args:
+      from_build_image: "{{ miniflux_reminiflux.base_builder_image | image_full_name }}"
+      reminiflux_repo: "{{ miniflux_reminiflux.repo }}"
+      reminiflux_commit: "{{ miniflux_reminiflux.commit }}"
+
 - name: Deploy Miniflux
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
