@@ -147,6 +147,8 @@ openssl_custom_pki:
           - "*.log.intra.{{ web_base_domain }}"
           - "*.monitoring.intra.{{ web_base_domain }}"
           - "*.web.{{ web_base_domain }}"
+          - "*.tool.{{ web_base_domain }}"
+          - "*.tool.intra.{{ web_base_domain }}"
           - "*.home.{{ web_base_domain }}"
           - "*.home.intra.{{ web_base_domain }}"
           - "*.stream.intra.{{ web_base_domain }}"
