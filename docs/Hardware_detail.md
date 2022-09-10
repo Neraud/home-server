@@ -80,19 +80,14 @@ Media and backups are stored on a Synology NAS
 
 ### NAS-1
 
-| Part   | Model                                                                                             | Price   |
-| ------ | ------------------------------------------------------------------------------------------------- | ------- |
-| NAS    | [DS415+](https://www.synology.com/en-global/products/DS415+)                                      | xx,xx € |
-| Drives | 4*[WD Red 6To](https://shop.westerndigital.com/products/internal-drives/wd-red-sata-hdd#WD60EFAX) | xx,xx € |
-
-### NAS-2
-
-Synology NAS DS1621+, with 4 Seagate Enterprise Exos X16 12T (ST12000NM001G) in SHR mode.
+Synology NAS DS1621+, with 4 Seagate Enterprise Exos X16 12T (ST12000NM001G) and 2 Seagate Enterprise Exos X16 14T (ST14000NM001G) in SHR2 mode.
 
 | Part   | Model                                                                                                                                                        | Price    |
 | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- |
 | NAS    | [DS1621+](https://www.amazon.de/-/en/gp/product/B08JH22W42)                                                                                                  | 884,36 € |
 | Drives | 4*[Seagate Enterprise Exos X16 12T](https://www.alternate.fr/Seagate/Enterprise-Exos-X16-3-Zoll-12000-Go-S%C3%A9rie-ATA-III-Disque-dur/html/product/1694652) | 4*278 €  |
+| Drives | 2*[Seagate Enterprise Exos X16 14T](https://www.alternate.fr/Seagate/Exos-X16-3-Zoll-14000-Go-S%C3%A9rie-ATA-III-Disque-dur/html/product/1603523)            | 4*267 €  |
+| NIC    | [Synology E10G18-T1 Network Card Ethernet 10000Mbps](https://www.amazon.de/-/en/gp/product/B07GBGLV37/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1)      | 151,96 € |
 
 (ordered 2021-04)
 
@@ -120,3 +115,12 @@ Synology NAS DS1621+, with 4 Seagate Enterprise Exos X16 12T (ST12000NM001G) in 
 (dead 2019-08, won't boot after changing the dead fan)
 
 This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
+
+### Old NAS-1
+
+| Part   | Model                                                                                             | Price   |
+| ------ | ------------------------------------------------------------------------------------------------- | ------- |
+| NAS    | [DS415+](https://www.synology.com/en-global/products/DS415+)                                      | xx,xx € |
+| Drives | 4*[WD Red 6To](https://shop.westerndigital.com/products/internal-drives/wd-red-sata-hdd#WD60EFAX) | xx,xx € |
+
+Decommissioned after having to solder a resistor to fix the Atom issue and starting to receive errors from the drives (after 6.5 years of power-on time !).
