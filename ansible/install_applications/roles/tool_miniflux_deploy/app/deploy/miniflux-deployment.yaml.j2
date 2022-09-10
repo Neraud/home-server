@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miniflux
+  namespace: {{ miniflux.namespace }}
+  labels:
+    {{ miniflux.labels_def | to_nice_yaml() | indent(4) }}
+    {{ miniflux.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ miniflux.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ miniflux.labels_def | to_nice_yaml() | indent(8) }}
+        {{ miniflux.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: wait-for-requirements
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command: 
+          - "sh"
+          - "-c"
+          - |
+            echo "Waiting for PostgreSQL DB"
+            timeout 120s sh -c "while ! nc -z -w 0 pgsql 5432 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+            ret=$?
+            echo "return : $ret"
+            if [ $ret -eq 0 ] ; then
+              echo "PostgreSQL DB Server has started"
+            else
+              echo "FAILED : PostgreSQL DB Server isn't available"
+              exit 1
+            fi
+      containers:
+      - name: miniflux-web
+        image: "{{ miniflux.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: miniflux
+              key: database_url
+        - name: RUN_MIGRATIONS
+          value: "1"
+        - name: CREATE_ADMIN
+          value: "1"
+        - name: ADMIN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: miniflux
+              key: admin_username
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: miniflux
+              key: admin_password
+        - name: BASE_URL
+          value: "https://miniflux.tool.{{ web_base_domain }}/"
+        - name: WORKER_POOL_SIZE
+          value: "{{ miniflux.config.worker_pool_size }}"
+        - name: POLLING_FREQUENCY
+          value: "{{ miniflux.config.polling_frequency }}"
+        - name: POLLING_PARSING_ERROR_LIMIT
+          value: "{{ miniflux.config.polling_parsing_error_limit }}"
+        - name: BATCH_SIZE
+          value: "{{ miniflux.config.batch_size }}"
+        - name: CLEANUP_FREQUENCY_HOURS
+          value: "{{ miniflux.config.cleanup_frequency_hours }}"
+        - name: CLEANUP_ARCHIVE_UNREAD_DAYS
+          value: "{{ miniflux.config.cleanup_archive_unread_days }}"
+        - name: CLEANUP_ARCHIVE_READ_DAYS
+          value: "{{ miniflux.config.cleanup_archive_read_days }}"
+        - name: METRICS_COLLECTOR
+          value: "0"
+        - name: LOG_DATE_TIME
+          value: "1"
+        - name: DEBUG
+          value: "0"
+        ports:
+        - containerPort: 8080
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          readOnlyRootFilesystem: true
+        readinessProbe:
+           exec:
+              command:
+                - /usr/bin/miniflux
+                - -healthcheck
+                - auto
+        resources:
+          requests:
+            cpu: "{{ miniflux.container.requests_cpu }}"
+            memory: "{{ miniflux.container.requests_memory }}"
+          limits:
+            cpu: "{{ miniflux.container.limits_cpu }}"
+            memory: "{{ miniflux.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

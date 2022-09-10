@@ -59,6 +59,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.100 ttrss.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
 
+192.168.100.100 miniflux.tool.k8s.test
 192.168.100.101 nextcloud.tool.intra.k8s.test
 192.168.100.101 paperless.tool.intra.k8s.test
 192.168.100.101 olivetin.tool.intra.k8s.test
@@ -133,6 +134,8 @@ The following services are deployed :
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                    | Presence tracking                                                 |
 | [TT-RSS](https://tt-rss.org/)                                    | <https://ttrss.web.k8s.test>                         | News feed (RSS/Atom) reader and aggregator                        |
 | [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.web.k8s.test>                         | A very simple static homepage for your server                     |
+| [Miniflux](https://miniflux.app/)                                | <https://miniflux.tool.k8s.test/>                    | Miniflux is a minimalist and opinionated feed reader              |
+| [Reminiflux](https://github.com/reminiflux/reminiflux)           | <https://miniflux.tool.k8s.test/reminiflux/>         | Alternative web frontend for miniflux                             |
 | [Nextcloud](https://nextcloud.com/)                              | <https://nextcloud.tool.intra.k8s.test>              | The self-hosted productivity platform that keeps you in control   |
 | [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)   | <https://paperless.tool.intra.k8s.test>              | Scan & OCR documents                                              |
 | [OliveTin](https://docs.olivetin.app/)                           | <https://olivetin.tool.intra.k8s.test>               | Access to predefined shell commands from a web interface.         |
@@ -517,6 +520,11 @@ You can use the regular account : `user_ldap` / `Passw0rd`.
 Homer is installed.
 
 Apps deployed in the cluster are added on the dashboard.
+
+### Miniflux
+
+Miniflux is installed.
+You can use the local admin account : `admin_local` / `Passw0rd`.
 
 ### Nextcloud
 

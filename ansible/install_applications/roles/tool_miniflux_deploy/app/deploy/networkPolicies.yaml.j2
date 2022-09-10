@@ -1,0 +1,81 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-pgsql
+  namespace: {{ miniflux.namespace }}
+  labels:
+    {{ miniflux_pgsql.labels_def | to_nice_yaml() | indent(4) }}
+    {{ miniflux_pgsql.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ miniflux_pgsql.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    # Allow from miniflux
+    - ports:
+        - port: pgsql
+      from:
+        - podSelector:
+            matchLabels:
+              {{ miniflux.labels_def | to_nice_yaml() | indent(14) }}
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-miniflux
+  namespace: {{ miniflux.namespace }}
+  labels:
+    {{ miniflux.labels_def | to_nice_yaml() | indent(4) }}
+    {{ miniflux.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ miniflux.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
+          podSelector:
+            matchLabels:
+              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
+
+---
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-reminiflux
+  namespace: {{ miniflux.namespace }}
+  labels:
+    {{ miniflux_reminiflux.labels_def | to_nice_yaml() | indent(4) }}
+    {{ miniflux_reminiflux.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      {{ miniflux_reminiflux.labels_def | to_nice_yaml() | indent(6) }}
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
+          podSelector:
+            matchLabels:
+              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
