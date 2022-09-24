@@ -55,7 +55,7 @@ miniflux_pgsql:
   base_image: "{{ _miniflux_pgsql_var_loader.base_image }}"
   private_image:
     repo: "{{ docker_private_registry.url }}"
-    name: "tt-rss-{{ _miniflux_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    name: "miniflux-{{ _miniflux_pgsql_var_loader.base_image.name | regex_replace('.*/', '') }}"
     tag: "{{ _miniflux_pgsql_var_loader.base_image.tag }}"
 
   app_backup:
