@@ -87,11 +87,6 @@ homer_config_services:
   - name: "Web"
     icon: "fas fa-globe"
     items:
-      - name: "TT-RSS"
-        logo: "assets/dashboard-icons/png/tinytinyrss.png"
-        url: "https://ttrss.web.{{ web_base_domain }}{{ ttrss.context_root }}"
-        subtitle: "News feed (RSS/Atom) reader and aggregator"
-        target: "_blank"
       - name: "Homer"
         logo: "logo.png"
         url: "https://homer.web.{{ web_base_domain }}{{ _homer_var_loader.context_root }}"

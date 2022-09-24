@@ -167,16 +167,6 @@ The default `admin` account is still created. After logging in with `admin` and 
 
 Beware, using the "Forgotten password" feature will convert an LDAP account to a local account.
 
-### TT-RSS
-
-TT-RSS doesn't natively support LDAP authentication.
-A [contrib plugin](https://github.com/hydrian/TTRSS-Auth-LDAP) enables it.
-Members of the `app_groups` `ttrss` are given access.
-
-However, the email address for these users is not imported in TT-RSS. It can be set manually in Preferences > Preferences > Personal data.
-
-The internal authentication system (with the default `admin` / `password` account) is disabled.
-
 ### Elasticsearch & Kibana
 
 Using the security plugin of OpenSearch enables to use LDAP authentication and authorization.

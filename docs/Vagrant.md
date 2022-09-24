@@ -56,7 +56,6 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 frigate.home.intra.k8s.test
 
 192.168.100.100 homer.web.k8s.test
-192.168.100.100 ttrss.web.k8s.test
 192.168.100.100 gotify.web.k8s.test
 
 192.168.100.100 miniflux.tool.k8s.test
@@ -132,7 +131,6 @@ The following services are deployed :
 | [Node-RED](https://nodered.org/)                                 | <https://nodered.home.intra.k8s.test>                | Flow-based programming for the IoT                                |
 | [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                              | MQTT broker                                                       |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                    | Presence tracking                                                 |
-| [TT-RSS](https://tt-rss.org/)                                    | <https://ttrss.web.k8s.test>                         | News feed (RSS/Atom) reader and aggregator                        |
 | [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.web.k8s.test>                         | A very simple static homepage for your server                     |
 | [Miniflux](https://miniflux.app/)                                | <https://miniflux.tool.k8s.test/>                    | Miniflux is a minimalist and opinionated feed reader              |
 | [Reminiflux](https://github.com/reminiflux/reminiflux)           | <https://miniflux.tool.k8s.test/reminiflux/>         | Alternative web frontend for miniflux                             |
@@ -509,11 +507,6 @@ RoomAssistant is deployed and configured to use Mosquitto.
 A sample Shell script is used to generate a random number and push it as a sensor on Home Assistant.
 
 The real use case would be to use either a real shell, and/or enable the BLE plugin to detect room presence.
-
-### TT-RSS
-
-TT-RSS is installed.
-You can use the regular account : `user_ldap` / `Passw0rd`.
 
 ### Homer
 
