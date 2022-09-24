@@ -120,8 +120,34 @@ nginx_sites:
           chunked_transfer_encoding on;
           proxy_read_timeout 900;
 
+  - name: infra-public
+    enabled_name: 100-infra-public
+    server_name: "infra.{{ web_base_domain }} *.infra.{{ web_base_domain }}"
+    default: False
+    listen_ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+    http_port: 80
+    https_port: 443
+    https_cert:
+      mode: file
+      cert_path: "{{ custom_ssl_pki_root_dir }}/web/infra.{{ web_base_domain }}/server.crt"
+      cert_key_path: "{{ custom_ssl_pki_root_dir }}/web/infra.{{ web_base_domain }}/server.key"
+    force_http_to_https: True
+    root: /var/www/html
+    disable_robots: True
+    lemonLdap:
+      path: /lmauth
+      proxy_pass: kubernetes-lemonldap-handler-ingress
+    locations:
+      - path: /
+        lemonLdap_protected: True
+        lemonLdap_exported_headers:
+          # Header for Docker Registry UI
+          X-WEBAUTH-USER: Auth-User
+        proxy_pass: https://kubernetes-https-ingress
+        proxy_enable_websocket: True
+
   - name: infra-internal
-    enabled_name: 100-infra-internal
+    enabled_name: 110-infra-internal
     server_name: "infra.intra.{{ web_base_domain }} *.infra.intra.{{ web_base_domain }}"
     default: False
     listen_ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"

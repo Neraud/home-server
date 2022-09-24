@@ -15,10 +15,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - homer.web.{{ web_base_domain }}
+      - homer.tool.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: homer.web.{{ web_base_domain }}
+  - host: homer.tool.{{ web_base_domain }}
     http:
       paths:
       - path: {{ '/' if homer.context_root == '' else homer.context_root }}

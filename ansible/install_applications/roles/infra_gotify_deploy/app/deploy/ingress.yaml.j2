@@ -16,10 +16,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - gotify.web.{{ web_base_domain }}
+      - gotify.infra.{{ web_base_domain }}
       secretName: ingress-tls
   rules:
-  - host: gotify.web.{{ web_base_domain }}
+  - host: gotify.infra.{{ web_base_domain }}
     http:
       paths:
       - path: {{ '/' if gotify.context_root == '' else gotify.context_root + '/?(.*)' }}

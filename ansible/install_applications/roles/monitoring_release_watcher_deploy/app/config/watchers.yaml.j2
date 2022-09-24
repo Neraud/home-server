@@ -686,62 +686,6 @@ watchers:
     branch: master
     commit: {{ homer.icons_repo.commit }}
     
-  - name: TT-RSS PHP
-    type: docker_registry
-    repo: {{ ttrss.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ ttrss.base_image.name }}
-    tag: {{ ttrss.base_image.tag }}
-    includes:
-      - '8\.[0-9]+.[0-9]+-apache-buster'
-    excludes:
-      - '8\.0\.[0-9]-apache-buster'
-      - '8\.0\.1[0-8]-apache-buster'
-  - name: TT-RSS
-    type: raw_html
-    page_url: https://git-gitea.tt-rss.org/fox/tt-rss/commits/master
-    id: {{ ttrss.commit }}
-    container_selector: "#commits-table"
-    item_selector: "tbody tr"
-    id_selector: "[class~=shortsha]"
-    id_attribute: ""
-    date_selector: "[class~=time-since]"
-    date_attribute: "title"
-  - name: TT-RSS Data migration
-    type: raw_html
-    page_url: {{ ttrss.plugins.data_migration.repo_url }}/commits/{{ ttrss.plugins.data_migration.branch }}
-    id: {{ ttrss.plugins.data_migration.commit }}
-    container_selector: "#commits-table"
-    item_selector: "tbody tr"
-    id_selector: "[class~=shortsha]"
-    id_attribute: ""
-    date_selector: "[class~=time-since]"
-    date_attribute: "title"
-  - name: TT-RSS Auth LDAP
-    type: github_commit
-    repo: {{ ttrss.plugins.auth_ldap.github_repo }}
-    branch: {{ ttrss.plugins.auth_ldap.branch }}
-    commit: {{ ttrss.plugins.auth_ldap.commit }}
-  - name: TT-RSS Mailer SMTP
-    type: raw_html
-    page_url: {{ ttrss.plugins.mailer_smtp.repo_url }}/commits/{{ ttrss.plugins.mailer_smtp.branch }}
-    id: {{ ttrss.plugins.mailer_smtp.commit }}
-    container_selector: "#commits-table"
-    item_selector: "tbody tr"
-    id_selector: "[class~=shortsha]"
-    id_attribute: ""
-    date_selector: "[class~=time-since]"
-    date_attribute: "title"
-  - name: TT-RSS PostgreSQL
-    type: docker_registry
-    repo: {{ ttrss_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ ttrss_pgsql.base_image.name }}
-    tag: {{ ttrss_pgsql.base_image.tag }}
-    includes:
-      - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
-    excludes:
-      - .*-alpine3\.1[0-5]
-      - ^[0-9]\..*
-      - ^1[0-3]\..*
 
   ################
   # Apps : Tools #

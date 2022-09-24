@@ -1,5 +1,0 @@
----
-ttrss_pgsql_user: ttrss
-ttrss_pgsql_database: ttrss
-ttrss_pgsql_password: Passw0rd
-ttrss_ldap_group: "cn=ttrss,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"

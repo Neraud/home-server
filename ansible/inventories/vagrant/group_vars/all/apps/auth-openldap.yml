@@ -97,11 +97,6 @@ openldap_ldap_groups:
     ou: app_groups
     members:
       - user_ldap
-  - id: ttrss
-    description: TT-RSS
-    ou: app_groups
-    members:
-      - user_ldap
   - id: elasticsearch
     description: ElasticSearch
     ou: app_groups

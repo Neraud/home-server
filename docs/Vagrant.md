@@ -36,6 +36,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 lemonldap.auth.intra.k8s.test
 192.168.100.101 phpldapadmin.auth.intra.k8s.test
 
+192.168.100.100 gotify.infra.k8s.test
 192.168.100.101 kube.infra.intra.k8s.test
 192.168.100.101 mailhog.infra.intra.k8s.test
 192.168.100.101 docker-registry-ui.infra.intra.k8s.test
@@ -55,10 +56,8 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 nodered.home.intra.k8s.test
 192.168.100.101 frigate.home.intra.k8s.test
 
-192.168.100.100 homer.web.k8s.test
-192.168.100.100 ttrss.web.k8s.test
-192.168.100.100 gotify.web.k8s.test
 
+192.168.100.100 homer.tool.k8s.test
 192.168.100.100 miniflux.tool.k8s.test
 192.168.100.101 nextcloud.tool.intra.k8s.test
 192.168.100.101 paperless.tool.intra.k8s.test
@@ -115,7 +114,7 @@ The following services are deployed :
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                    | Modern outbound SMTP relay                                        |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://mailhog.infra.intra.k8s.test/>              | MailHog is an email testing tool for developers                   |
 | [Blocky](https://0xerr0r.github.io/blocky/)                      | -                                                    | DNS proxy and ad-blocker for the local network                    |
-| [Gotify](https://gotify.net/)                                    | <https://gotify.web.k8s.test>                        | A simple server for sending and receiving messages                |
+| [Gotify](https://gotify.net/)                                    | <https://gotify.infra.k8s.test>                      | A simple server for sending and receiving messages                |
 | [Prometheus](https://prometheus.io/)                             | <https://prometheus.monitoring.intra.k8s.test>       | Monitoring solution                                               |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | <https://alertmanager.monitoring.intra.k8s.test>     | Alert manager for Prometheus                                      |
 | [Grafana](https://grafana.com/)                                  | <https://grafana.monitoring.intra.k8s.test>          | Platform for beautiful analytics and monitoring                   |
@@ -132,8 +131,7 @@ The following services are deployed :
 | [Node-RED](https://nodered.org/)                                 | <https://nodered.home.intra.k8s.test>                | Flow-based programming for the IoT                                |
 | [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                              | MQTT broker                                                       |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                    | Presence tracking                                                 |
-| [TT-RSS](https://tt-rss.org/)                                    | <https://ttrss.web.k8s.test>                         | News feed (RSS/Atom) reader and aggregator                        |
-| [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.web.k8s.test>                         | A very simple static homepage for your server                     |
+| [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.tool.k8s.test>                        | A very simple static homepage for your server                     |
 | [Miniflux](https://miniflux.app/)                                | <https://miniflux.tool.k8s.test/>                    | Miniflux is a minimalist and opinionated feed reader              |
 | [Reminiflux](https://github.com/reminiflux/reminiflux)           | <https://miniflux.tool.k8s.test/reminiflux/>         | Alternative web frontend for miniflux                             |
 | [Nextcloud](https://nextcloud.com/)                              | <https://nextcloud.tool.intra.k8s.test>              | The self-hosted productivity platform that keeps you in control   |
@@ -327,8 +325,8 @@ Gotify can be used to send notifications.
 `user_local` also has a `sample` application, and you can send a test message via the command line :
 
 ```shell
-[user@master$] token=$(curl -s -k -H "Host: gotify.web.k8s.test" -u user_local:Passw0rd https://192.168.100.100/application | jq -r '.[] | select(.name=="sample") | .token')
-[user@master$] curl -X POST -s -k -H "Host: gotify.web.k8s.test" -H "X-Gotify-Key: $token" https://192.168.100.100/message -F "title=Sample title" -F "message=Sample message"
+[user@master$] token=$(curl -s -k -H "Host: gotify.infra.k8s.test" -u user_local:Passw0rd https://192.168.100.100/application | jq -r '.[] | select(.name=="sample") | .token')
+[user@master$] curl -X POST -s -k -H "Host: gotify.infra.k8s.test" -H "X-Gotify-Key: $token" https://192.168.100.100/message -F "title=Sample title" -F "message=Sample message"
 ```
 
 ### Prometheus & AlertManager
@@ -509,11 +507,6 @@ RoomAssistant is deployed and configured to use Mosquitto.
 A sample Shell script is used to generate a random number and push it as a sensor on Home Assistant.
 
 The real use case would be to use either a real shell, and/or enable the BLE plugin to detect room presence.
-
-### TT-RSS
-
-TT-RSS is installed.
-You can use the regular account : `user_ldap` / `Passw0rd`.
 
 ### Homer
 

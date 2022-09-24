@@ -1,0 +1,5 @@
+---
+- name: Provision tool-homer
+  hosts: controller
+  roles:
+    - role: tool_homer_deploy
