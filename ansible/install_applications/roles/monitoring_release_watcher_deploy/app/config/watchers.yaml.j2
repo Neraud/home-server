@@ -524,7 +524,7 @@ watchers:
       - .*dev.*
       - ^0\.
       - 1\.[0-8]\..*
-      - 1\.9\.[0-5]$
+      - 1\.9\.[0-8]$
   - type: docker_registry
     repo: {{ fluentd.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ fluentd.base_image.name }}
