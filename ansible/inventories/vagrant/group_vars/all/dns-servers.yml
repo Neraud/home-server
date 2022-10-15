@@ -25,6 +25,8 @@ dns_static_domains:
     ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
   - name: "web.{{ web_base_domain }}"
     ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
+  - name: "tool.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
   - name: "tool.intra.{{ web_base_domain }}"
     ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
   - name: "home.{{ web_base_domain }}"
