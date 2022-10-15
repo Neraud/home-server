@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lapi
+  namespace: {{ crowdsec.namespace }}
+  labels:
+    {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ crowdsec_lapi.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: http
+  selector:
+    {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(4) }}

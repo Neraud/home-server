@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lapi
+  namespace: {{ crowdsec.namespace }}
+  labels:
+    {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ crowdsec_lapi.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(8) }}
+        {{ crowdsec_lapi.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /mnt/crowdsec-config/crowdsec
+            mkdir -p /mnt/crowdsec-db/data
+            chown -R 65534:65534 /mnt/crowdsec-config/crowdsec
+            chown -R 65534:65534 /mnt/crowdsec-db/data
+        volumeMounts:
+        - name: crowdsec-config-pv-claim
+          mountPath: /mnt/crowdsec-config
+        - name: crowdsec-db-pv-claim
+          mountPath: /mnt/crowdsec-db
+      containers:
+      - name: lapi
+        image: "{{ crowdsec.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: LOCAL_API_URL
+          value: http://localhost:8080
+        - name: DISABLE_AGENT
+          value: "true"
+        - name: DISABLE_ONLINE_API
+          value: "true"
+        # Force DEBUG level for the container log
+        - name: LEVEL_DEBUG
+          value: "false"
+        # Trace the entrypoint
+        - name:   DEBUG
+          value: "false"
+        - name: AGENT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: agent-credentials
+              key: username
+        - name: AGENT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: agent-credentials
+              key: password
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 6060
+          name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          privileged: false
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: http
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: http
+          timeoutSeconds: 1
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: http
+          timeoutSeconds: 1
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ crowdsec_lapi.container.requests_cpu }}"
+            memory: "{{ crowdsec_lapi.container.requests_memory }}"
+          limits:
+            cpu: "{{ crowdsec_lapi.container.limits_cpu }}"
+            memory: "{{ crowdsec_lapi.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: crowdsec-config-pv-claim
+          mountPath: /etc/crowdsec
+          subPath: crowdsec
+        - name: crowdsec-db-pv-claim
+          mountPath: /var/lib/crowdsec/data
+          subPath: data
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: crowdsec-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
+      resources:
+        requests:
+          storage: 16M
+  - metadata:
+      name: crowdsec-db-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M

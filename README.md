@@ -51,6 +51,7 @@ The following services are deployed :
 | [OpenLDAP](https://www.openldap.org/)                            | Open source Lightweight Directory Access Protocol               |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | Web Single Sign On and Access Management Free Software          |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | Web-based LDAP browser                                          |
+| [Crowdsec](https://www.crowdsec.net/)                            | Collaborative malicious activity detection and remediation tool |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | Modern outbound SMTP relay                                      |
 | [MailHog](https://github.com/mailhog/MailHog)                    | MailHog is an email testing tool for developers                 |
 | [Blocky](https://0xerr0r.github.io/blocky/)                      | DNS proxy and ad-blocker for the local network                  |

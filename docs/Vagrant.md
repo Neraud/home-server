@@ -113,6 +113,7 @@ The following services are deployed :
 | [OpenLDAP](https://www.openldap.org/)                            | -                                                    | Open source Lightweight Directory Access Protocol                 |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | <https://lemonldap.auth.intra.k8s.test/manager.html> | Web Single Sign On and Access Management Free Software            |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://phpldapadmin.auth.intra.k8s.test/>          | Web-based LDAP browser                                            |
+| [Crowdsec](https://www.crowdsec.net/)                            | -                                                    | Collaborative malicious activity detection and remediation tool   |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                    | Modern outbound SMTP relay                                        |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://mailhog.infra.intra.k8s.test/>              | MailHog is an email testing tool for developers                   |
 | [Blocky](https://0xerr0r.github.io/blocky/)                      | -                                                    | DNS proxy and ad-blocker for the local network                    |
@@ -224,6 +225,25 @@ You can add a TOTP device for `user_ldap` and force its use by setting the `requ
 ### phpLDAPadmin
 
 You can login using the `cn=readonly,dc=k8s,dc=test` / `Passw0rd` or `cn=admin,dc=k8s,dc=test` / `Passw0rd` account to manage the LDAP.
+
+### Crowdsec
+
+Crowdsec is deployed, and configured with the default collections :
+
+* crowdsecurity/linux
+* crowdsecurity/sshd
+* crowdsecurity/nginx
+
+To test it in the Vagrant cluster, we can't just inject trafic from the local network : RFC1918 ranges are whitelisted by default.
+
+We can however simulate logs.
+For example, to simulate an SSH brute force attack:
+
+```bash
+echo "$(date '+%b %d %T') $(hostname) sshd[123456]: Connection closed by authenticating user root 1.2.3.4 port 12345 [preauth]" >> /var/log/auth.log
+```
+
+After a few lines added, crowdsec should ban the ip.
 
 ### ZoneMTA
 

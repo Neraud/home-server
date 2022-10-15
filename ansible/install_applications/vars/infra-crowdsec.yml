@@ -1,0 +1,52 @@
+---
+# To avoid loops inside crowdsec
+_crowdsec_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "crowdsecurity/crowdsec"
+    tag: "v1.4.6-debian"
+
+crowdsec:
+  enabled: "{{ crowdsec_enabled | default(True) }}"
+
+  namespace: "infra-crowdsec"
+  base_image: "{{ _crowdsec_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _crowdsec_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _crowdsec_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: crowdsec
+    
+  labels_desc:
+    app.kubernetes.io/version: "{{ _crowdsec_var_loader.base_image.tag }}"
+
+crowdsec_lapi:
+  labels_def:
+    app.kubernetes.io/name: crowdsec
+    app.kubernetes.io/component: lapi
+
+  labels_desc: "{{ crowdsec.labels_desc }}"
+
+  container:
+    requests_cpu: "{{ crowdsec_lapi_container_requests_cpu | default('150m') }}"
+    requests_memory: "{{ crowdsec_lapi_container_requests_memory | default('128Mi') }}"
+    limits_cpu: "{{ crowdsec_lapi_container_limits_cpu | default('400m') }}"
+    limits_memory: "{{ crowdsec_lapi_container_limits_memory | default('128Mi') }}"
+
+crowdsec_agent:  
+  labels_def:
+    app.kubernetes.io/name: crowdsec
+    app.kubernetes.io/component: agent
+
+  labels_desc: "{{ crowdsec.labels_desc }}"
+
+  container:
+    requests_cpu: "{{ crowdsec_agent_container_requests_cpu | default('50m') }}"
+    requests_memory: "{{ crowdsec_agent_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ crowdsec_agent_container_limits_cpu | default('200m') }}"
+    limits_memory: "{{ crowdsec_agent_container_limits_memory | default('64Mi') }}"
+
+  config:
+    collections: "{{ crowdsec_agent_config_collections | default([]) }}"
