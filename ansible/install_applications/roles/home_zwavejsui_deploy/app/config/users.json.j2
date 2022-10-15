@@ -1,0 +1,8 @@
+[
+{% for user in zwavejsui.users %}
+{
+    "username": "{{ user.username }}",
+    "passwordHash": "{{ user.passwordHash }}"
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+]

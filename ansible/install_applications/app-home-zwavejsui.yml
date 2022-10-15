@@ -1,0 +1,5 @@
+---
+- name: Provision home-zwave-js-ui
+  hosts: controller
+  roles:
+    - role: home_zwavejsui_deploy

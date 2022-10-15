@@ -1,13 +1,13 @@
 ---
-zwavejs2mqtt_enabled: false
-#zwavejs2mqtt_serial_device: "tcp://1.2.3.4:1234"
-#zwavejs2mqtt_zwave_network_key: 12345678901234567890123456789012
+zwavejsui_enabled: false
+#zwavejsui_serial_device: "tcp://1.2.3.4:1234"
+#zwavejsui_zwave_network_key: 12345678901234567890123456789012
 
-zwavejs2mqtt_session_secret: "DEFAULT_SESSION_SECRET_CHANGE_ME"
-zwavejs2mqtt_authentication_enabled: True
+zwavejsui_session_secret: "DEFAULT_SESSION_SECRET_CHANGE_ME"
+zwavejsui_authentication_enabled: True
 
-# A password can be generated with (https://github.com/zwave-js/zwavejs2mqtt/blob/16eb768987bf09dd256d6d70a446556ed0771f37/lib/utils.ts#L209) :
-#cat <<"EOF" | docker run --rm -i zwavejs/zwavejs2mqtt:latest nodejs -
+# A password can be generated with (https://github.com/zwave-js/zwavejsui/blob/16eb768987bf09dd256d6d70a446556ed0771f37/lib/utils.ts#L209) :
+#cat <<"EOF" | docker run --rm -i zwavejs/zwavejsui:latest nodejs -
 #var crypto = require('crypto');
 #var password = 'clear_text_here';
 #const salt = crypto.randomBytes(8).toString('hex')
@@ -18,7 +18,7 @@ zwavejs2mqtt_authentication_enabled: True
 #  console.log("passwordHash to add in users.json :", salt + ':' + derivedKey.toString('hex'))
 #});
 #EOF
-zwavejs2mqtt_users:
+zwavejsui_users:
   - username: user_local
     # zwave
     passwordHash: "796211d6aa1c8b60:c94464f31fc489ce35044eded42e1aee2aac656488222af4ecfd57abca23b0ec1a7f83761d5f330c86d04529fc052189c3881a9aaadd9ef6201a8d71afbf8a90"

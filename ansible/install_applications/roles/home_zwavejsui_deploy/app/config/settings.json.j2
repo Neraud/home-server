@@ -1,0 +1,49 @@
+{
+    "mqtt": {
+        "name": "zwavejsui",
+        "host": "",
+        "port": 1883,
+        "qos": 1,
+        "prefix": "zwave",
+        "reconnectPeriod": 3000,
+        "retain": true,
+        "clean": true,
+        "auth": true,
+        "username": "user",
+        "password": "password",
+        "_ca": "",
+        "ca": "",
+        "_cert": "",
+        "cert": "",
+        "_key": "",
+        "key": "",
+        "disabled": true
+    },
+    "gateway": {
+        "type": 0,
+        "plugins": [],
+        "authEnabled": true,
+        "payloadType": 0,
+        "nodeNames": true,
+        "hassDiscovery": false,
+        "discoveryPrefix": "homeassistant",
+        "logEnabled": true,
+        "logLevel": "warn",
+        "logToFile": false,
+        "values": []
+    },
+    "zwave": {
+        "port": "{{ zwavejsui.serial_device }}",
+        "commandsTimeout": 30,
+        "networkKey": "{{ zwavejsui.zwave_network_key }}",
+        {# Disable soft reset to avoid issues with remote adapters (https://github.com/zwave-js/zwavejsui/issues/2086 & https://github.com/zwave-js/node-zwave-js/issues/3777) #}
+        "enableSoftReset": false,
+        "logLevel": "warn",
+        "logToFile": false,
+        "serverEnabled": true,
+        "enableStatistics": true,
+        "serverPort": 3000,
+        "disclaimerVersion": 1,
+        "logEnabled": true
+    }
+}

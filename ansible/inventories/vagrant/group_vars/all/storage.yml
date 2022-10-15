@@ -269,7 +269,7 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: esphome
       app.kubernetes.io/component: esphome
-  zwavejs2mqtt-data:
+  zwavejsui-data:
     replicas: 2
     capacity: 32M
     arbiterCapacity: 16M
@@ -277,8 +277,8 @@ glusterfs_volumes:
     arbiters: [master-test-1]
     reclaim_policy: Retain
     labels:
-      app.kubernetes.io/name: zwavejs2mqtt
-      app.kubernetes.io/component: zwavejs2mqtt
+      app.kubernetes.io/name: zwavejsui
+      app.kubernetes.io/component: zwavejsui
   zigbee2mqtt-data:
     replicas: 2
     capacity: 32M
