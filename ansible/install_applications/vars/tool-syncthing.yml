@@ -5,11 +5,11 @@ _syncthing_var_loader:
   base_image:
     repo: "docker.io"
     name: "syncthing/syncthing"
-    tag: "1.20.4"
+    tag: "1.22.0"
   conf_injection_base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.10.6-alpine3.16"
+    tag: "3.10.8-alpine3.16"
   context_root: "{{ syncthing_context_root | default('') }}"
 
 syncthing:

@@ -865,7 +865,7 @@ watchers:
     excludes:
       - ^1\.[0-9]\.
       - ^1\.1[0-9]\.
-      - ^1\.20\.0
+      - ^1\.2[0-1]\.
   - name: Syncthing conf injection
     type: docker_registry
     repo: {{ _syncthing_var_loader.conf_injection_base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
