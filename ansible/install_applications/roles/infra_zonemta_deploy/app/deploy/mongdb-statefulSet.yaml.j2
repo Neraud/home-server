@@ -58,12 +58,22 @@ spec:
           runAsUser: 1001
           runAsGroup: 1001
           readOnlyRootFilesystem: true
+        # With mongodb 6, the mongo cli has been replaced by mongosh
+        # However, mongosh is TOO slow (issue : https://jira.mongodb.org/browse/MONGOSH-1240) and can't be used for our probe
+        # (timed at around 20 sec on the vagrant test env)
+        # TODO : revisit this once the issue is fixed
+        #readinessProbe:
+        #  exec:
+        #    command:
+        #    - mongosh
+        #    - --eval
+        #    - "db.adminCommand('ping')"
+        #  timeoutSeconds: 5
+        #  initialDelaySeconds: 10
+        #  periodSeconds: 10
         readinessProbe:
-          exec:
-            command:
-            - mongo
-            - --eval
-            - "db.adminCommand('ping')"
+          tcpSocket:
+            port: mongo
           timeoutSeconds: 5
           initialDelaySeconds: 10
           periodSeconds: 10

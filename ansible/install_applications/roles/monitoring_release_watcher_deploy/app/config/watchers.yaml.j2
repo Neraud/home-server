@@ -462,8 +462,8 @@ watchers:
     excludes:
       - .*rc.*
       - .*-(nanoserver).*$
-      - ^[0-4]\..*
-      - ^5\.0\.[0-8]-.*
+      - ^[0-5]\..*
+      - ^6\.0\.[0-1]-.*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: {{ zonemta.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -474,7 +474,9 @@ watchers:
     excludes:
       - .*-alpine3.1[0-4]
       - 1[0-6]\.[0-9]\..*
-      - 17\.[0-6]\..*
+      - 17\.[0-8]\..*
+      # Zonemta 3.4.1 doesn't support node 18+
+      - 18\..*
   - type: docker_registry
     repo: {{ intel_gpu_plugin.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ intel_gpu_plugin.base_image.name }}
