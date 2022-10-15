@@ -17,10 +17,10 @@ print("Reading sabnzbd_delta config file")
 configDelta = configobj.ConfigObj(config_delta_path)
 
 print("Merging the sabnzbd configs")
-config.CFG.merge(configDelta)
+config.CFG_OBJ.merge(configDelta)
 
 print("Writing resulting sabnzbd config file")
-config.CFG.write()
+config.CFG_OBJ.write()
 
 
 config_nzbtomedia_path = '/opt/sabnzbd-data/nzbtomedia/autoProcessMedia.cfg'
