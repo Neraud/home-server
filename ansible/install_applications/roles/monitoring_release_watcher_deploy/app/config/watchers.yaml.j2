@@ -606,9 +606,9 @@ watchers:
     image: {{ nginx_log_exporter.base_image.name }}
     tag: {{ nginx_log_exporter.base_image.tag }}
     includes:
-      - ^v[0-9]+\.[0-9]+.[0-9]+
+      - ^v[0-9]+\.[0-9]+.[0-9]+-amd64
     excludes:
-      - ^v1\.[0-8]\..*
+      - ^v1\.[0-9]\..*
   - type: github_commit
     repo: Neraud/release-watcher
     branch: main
