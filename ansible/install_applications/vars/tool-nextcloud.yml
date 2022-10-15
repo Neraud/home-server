@@ -5,7 +5,7 @@ _nextcloud_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/nextcloud"
-    tag: "24.0.4-apache"
+    tag: "24.0.6-apache"
   context_root: "{{ nextcloud_context_root | default('') }}"
 
 nextcloud:
@@ -52,19 +52,19 @@ nextcloud:
       version: v24.0.2
     calendar:
       repo: nextcloud-releases/calendar
-      version: v3.4.2
+      version: v3.5.0
     contacts:
       repo: nextcloud-releases/contacts
-      version: v4.2.0
+      version: v4.2.2
     notes:
       repo: nextcloud/notes
-      version: v4.5.0
+      version: v4.5.1
     tasks:
       repo: nextcloud/tasks
       version: v0.14.4
     twofactor_totp:
       repo: nextcloud-releases/twofactor_totp
-      version: v6.4.0
+      version: v6.4.1
   
   admin:
     user: "{{ nextcloud_admin_user }}"
@@ -96,7 +96,7 @@ _nextcloud_mysql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/mysql"
-    tag: "8.0.30-debian"
+    tag: "8.0.31-debian"
 
 nextcloud_mysql:
   base_image: "{{ _nextcloud_mysql_var_loader.base_image }}"
@@ -144,7 +144,7 @@ _nextcloud_redis_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/redis"
-    tag: "7.0.4-alpine3.16"
+    tag: "7.0.5-alpine3.16"
 
 nextcloud_redis:
   base_image: "{{ _nextcloud_redis_var_loader.base_image }}"

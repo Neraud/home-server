@@ -752,26 +752,38 @@ watchers:
     type: github_release
     repo: {{ nextcloud.applications.breezedark.repo }}
     release: {{ nextcloud.applications.breezedark.version }}
+    excludes:
+      - .*(alpha|beta|rc).*
   - name: Nextcloud Calendar
     type: github_release
     repo: {{ nextcloud.applications.calendar.repo }}
     release: {{ nextcloud.applications.calendar.version }}
+    excludes:
+      - .*(alpha|beta|rc).*
   - name: Nextcloud Contacts
     type: github_release
     repo: {{ nextcloud.applications.contacts.repo }}
     release: {{ nextcloud.applications.contacts.version }}
+    excludes:
+      - .*(alpha|beta|rc).*
   - name: Nextcloud Notes
     type: github_release
     repo: {{ nextcloud.applications.notes.repo }}
     release: {{ nextcloud.applications.notes.version }}
+    excludes:
+      - .*(alpha|beta|rc).*
   - name: Nextcloud Tasks
     type: github_release
     repo: {{ nextcloud.applications.tasks.repo }}
     release: {{ nextcloud.applications.tasks.version }}
+    excludes:
+      - .*(alpha|beta|rc).*
   - name: Nextcloud Two Factor Totp
     type: github_release
     repo: {{ nextcloud.applications.twofactor_totp.repo }}
     release: {{ nextcloud.applications.twofactor_totp.version }}
+    excludes:
+      - .*(alpha|beta|rc).*
 
   - name: "Nextcloud MySQL"
     type: docker_registry
