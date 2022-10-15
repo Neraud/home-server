@@ -4,7 +4,7 @@ _kibana_var_loader:
   base_image:
     repo: "docker.io"
     name: "opensearchproject/opensearch-dashboards"
-    tag: "2.2.0"
+    tag: "2.3.0"
 
 kibana:
   enabled: "{{ kibana_enabled | default(True) }}"
