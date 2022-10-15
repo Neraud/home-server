@@ -196,7 +196,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^202[01]\..*
-      - ^2022\.[0-7]\..*
+      - ^2022\.[0-9]\..*
   - type: github_commit
     repo: efficiosoft/ldap-auth-sh
     branch: master
@@ -212,8 +212,8 @@ watchers:
       - .*rc.*
       - ^[0-7]\..*
       - ^8\.0\.[0-9]$
-      - ^8\.0\.1[0-9]$
-      - ^8\.0\.2[0-7]$
+      - ^8\.0\.[1-2][0-9]$
+      - ^8\.0\.3[0]$
   - type: docker_registry
     repo: {{ mosquitto.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ mosquitto.base_image.name }}
