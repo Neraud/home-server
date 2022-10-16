@@ -5,11 +5,11 @@ _jellyfin_var_loader:
   base_image:
     repo: "docker.io"
     name: "jellyfin/jellyfin"
-    tag: "10.8.4-amd64"
+    tag: "10.8.5-amd64"
   conf_injection_base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.10.6-alpine3.16"
+    tag: "3.10.8-alpine3.16"
 
 jellyfin:
   enabled: "{{ jellyfin_enabled | default(True) }}"

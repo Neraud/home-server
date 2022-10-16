@@ -65,7 +65,7 @@ The following services are deployed :
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | Controller for Unifi devices                                    |
 | [HomeAssistant](https://www.home-assistant.io/)                  | Home automation                                                 |
 | [ESPHome](https://esphome.io/index.html)                         | System to control your ESP8266/ESP32                            |
-| [Zwavejs2Mqtt](https://zwave-js.github.io/zwavejs2mqtt/)         | Fully configurable Zwave Gateway and Control Panel              |
+| [Z-Wave JS UI](https://zwave-js.github.io/zwave-js-ui/)          | Fully configurable Zwave Gateway and Control Panel              |
 | [Frigate](https://blakeblackshear.github.io/frigate/)            | Local NVR designed for Home Assistant with AI object detection  |
 | [Node-RED](https://nodered.org/)                                 | Flow-based programming for the IoT                              |
 | [Mosquitto](https://mosquitto.org/)                              | MQTT broker                                                     |

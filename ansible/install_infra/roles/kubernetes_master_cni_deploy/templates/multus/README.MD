@@ -1,1 +1,1 @@
-See https://github.com/k8snetworkplumbingwg/multus-cni/blob/master/deployments/multus-daemonset.yml
+See https://github.com/k8snetworkplumbingwg/multus-cni/blob/v3.9.2/deployments/multus-daemonset.yml

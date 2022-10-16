@@ -20,6 +20,35 @@ spec:
         {{ zonemta.labels_def | to_nice_yaml() | indent(8) }}
         {{ zonemta.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      initContainers:
+      - name: wait-for-requirements
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command: 
+          - "sh"
+          - "-c"
+          - |
+            echo "Waiting for MongoDB"
+            timeout 120s sh -c "while ! nc -z -w 0 mongo 27017 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+            ret=$?
+            echo "return : $ret"
+            if [ $ret -eq 0 ] ; then
+              echo "MongoDB Server has started"
+            else
+              echo "FAILED : MongoDB Server isn't available"
+              exit 1
+            fi
+
+            echo "Waiting for Redis"
+            timeout 120s sh -c "while ! nc -z -w 0 redis 6379 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+            ret=$?
+            echo "return : $ret"
+            if [ $ret -eq 0 ] ; then
+              echo "Redis Server has started"
+            else
+              echo "FAILED : Redis Server isn't available"
+              exit 1
+            fi
       containers:
       - name: zonemta
         image: "{{ zonemta.private_image | image_full_name }}"

@@ -51,7 +51,7 @@ To test the deployed services, you will have to add the following domains to you
 
 192.168.100.100 homeassistant.home.k8s.test
 192.168.100.101 esphome.home.intra.k8s.test
-192.168.100.101 zwavejs2mqtt.home.intra.k8s.test
+192.168.100.101 zwavejsui.home.intra.k8s.test
 192.168.100.101 zigbee2mqtt.home.intra.k8s.test
 192.168.100.101 nodered.home.intra.k8s.test
 192.168.100.101 frigate.home.intra.k8s.test
@@ -125,7 +125,7 @@ The following services are deployed :
 | [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | <https://unifi.infra.intra>                          | Controller for Unifi devices                                      |
 | [HomeAssistant](https://www.home-assistant.io/)                  | <https://homeassistant.home.k8s.test>                | Home automation                                                   |
 | [ESPHome](https://esphome.io/index.html)                         | <https://esphome.home.intra>                         | System to control your ESP8266/ESP32                              |
-| [Zwavejs2Mqtt](https://zwave-js.github.io/zwavejs2mqtt/)         | <https://zwavejs2mqtt.home.intra.k8s.test>           | Fully configurable Zwave Gateway and Control Panel                |
+| [Z-Wave JS UI](https://zwave-js.github.io/zwavejsui/)            | <https://zwavejsui.home.intra.k8s.test>              | Fully configurable Zwave Gateway and Control Panel                |
 | [Zigbee2MQTT](https://www.zigbee2mqtt.io/)                       | <https://zigbee2mqtt.home.intra.k8s.test>            | Zigbee to MQTT bridge, get rid of your proprietary Zigbee bridges |
 | [Frigate](https://blakeblackshear.github.io/frigate/)            | <https://frigate.home.intra.k8s.test>                | Local NVR designed for Home Assistant with AI object detection    |
 | [Node-RED](https://nodered.org/)                                 | <https://nodered.home.intra.k8s.test>                | Flow-based programming for the IoT                                |
@@ -391,13 +391,13 @@ You can then use the regular account using `Logging in with Command Line Authent
 
 The deployment also prepares and configures a MySQL database to use for HomeAssistant [recorder](https://www.home-assistant.io/components/recorder/).
 
-### Zwavejs2Mqtt
+### Z-Wave JS UI
 
-Zwavejs2Mqtt is not automatically installed for Vagrant. It requires access to a ZWave serial device (most probably exposed on a TCP port via ser2net).
+Z-Wave JS UI is not automatically installed for Vagrant. It requires access to a ZWave serial device (most probably exposed on a TCP port via ser2net).
 
 If configured and deployed, it can be accessed using `user_local` / `Passw0rd` on the web ui.
 
-It can be added as an integration in Home Assistant using the following URL : `ws://zwavejs2mqtt.home-zwavejs2mqtt.svc.cluster.local:3000`.
+It can be added as an integration in Home Assistant using the following URL : `ws://zwavejsui.home-zwave-js-ui.svc.cluster.local:3000`.
 
 ### Zigbee2MQTT
 

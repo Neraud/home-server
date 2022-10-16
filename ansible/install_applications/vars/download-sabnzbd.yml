@@ -4,10 +4,10 @@ _sabnzbd_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.10.5-slim-bullseye"
+    tag: "3.10.8-slim-bullseye"
   repo:
     name: sabnzbd/sabnzbd
-    version: 3.6.0
+    version: 3.6.1
   namespace: "download-sabnzbd"
 
 sabnzbd:

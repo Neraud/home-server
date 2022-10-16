@@ -5,7 +5,7 @@ _frigate_var_loader:
   base_image:
     repo: "docker.io"
     name: "blakeblackshear/frigate"
-    tag: "0.10.1-amd64"
+    tag: "0.11.1"
 
 frigate:
   enabled: "{{ frigate_enabled | default(True) }}"
@@ -37,9 +37,9 @@ frigate:
 
   container:
     requests_cpu: "{{ frigate_container_requests_cpu | default('100m') }}"
-    requests_memory: "{{ frigate_container_requests_memory | default('256Mi') }}"
+    requests_memory: "{{ frigate_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ frigate_container_limits_cpu | default('250m') }}"
-    limits_memory: "{{ frigate_container_limits_memory | default('256Mi') }}"
+    limits_memory: "{{ frigate_container_limits_memory | default('384Mi') }}"
     limits_gpu: "{{ frigate_container_limits_gpu | default({}) }}"
     # (width * height * 1.5 * 7 + 270480)/1048576 = <shm size in mb>
     shm_size: "{{ frigate_container_shm_size | default('64Mi') }}"

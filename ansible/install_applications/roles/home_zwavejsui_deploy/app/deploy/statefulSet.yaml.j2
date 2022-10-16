@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: zwavejs2mqtt
-  namespace: {{ zwavejs2mqtt.namespace }}
+  name: zwavejsui
+  namespace: {{ zwavejsui.namespace }}
   labels:
-    {{ zwavejs2mqtt.labels_def | to_nice_yaml() | indent(4) }}
-    {{ zwavejs2mqtt.labels_desc | to_nice_yaml() | indent(4) }}
+    {{ zwavejsui.labels_def | to_nice_yaml() | indent(4) }}
+    {{ zwavejsui.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ zwavejs2mqtt.labels_def | to_nice_yaml() | indent(6) }}
+      {{ zwavejsui.labels_def | to_nice_yaml() | indent(6) }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ zwavejs2mqtt.labels_def | to_nice_yaml() | indent(8) }}
-        {{ zwavejs2mqtt.labels_desc | to_nice_yaml() | indent(8) }}
+        {{ zwavejsui.labels_def | to_nice_yaml() | indent(8) }}
+        {{ zwavejsui.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
       initContainers:
       - name: create-folders
@@ -29,25 +29,25 @@ spec:
           - "sh"
           - "-c"
           - |
-            mkdir -p /opt/zwavejs2mqtt/store
-            chown 1000:1000 /opt/zwavejs2mqtt/store
-            cp /opt/zwavejs2mqtt/store/settings_bootstrap.json /opt/zwavejs2mqtt/store/settings.json
-            chown 1000:1000 /opt/zwavejs2mqtt/store/settings.json
+            mkdir -p /opt/zwavejsui/store
+            chown 1000:1000 /opt/zwavejsui/store
+            cp /opt/zwavejsui/store/settings_bootstrap.json /opt/zwavejsui/store/settings.json
+            chown 1000:1000 /opt/zwavejsui/store/settings.json
         volumeMounts:
         - name: config-volume
-          mountPath: /opt/zwavejs2mqtt/store/settings_bootstrap.json
+          mountPath: /opt/zwavejsui/store/settings_bootstrap.json
           subPath: settings.json
-        - name: zwavejs2mqtt-pv-claim
-          mountPath: /opt/zwavejs2mqtt
+        - name: zwavejsui-pv-claim
+          mountPath: /opt/zwavejsui
       containers:
-      - name: zwavejs2mqtt
-        image: "{{ zwavejs2mqtt.private_image | image_full_name }}"
+      - name: zwavejsui
+        image: "{{ zwavejsui.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
         - name: SESSION_SECRET
           valueFrom:
             secretKeyRef:
-              name: zwavejs2mqtt-secret
+              name: zwavejsui-secret
               key: session-secret
         ports:
         - name: http
@@ -68,11 +68,11 @@ spec:
           timeoutSeconds: 2
         resources:
           requests:
-            cpu: "{{ zwavejs2mqtt.container.requests_cpu }}"
-            memory: "{{ zwavejs2mqtt.container.requests_memory }}"
+            cpu: "{{ zwavejsui.container.requests_cpu }}"
+            memory: "{{ zwavejsui.container.requests_memory }}"
           limits:
-            cpu: "{{ zwavejs2mqtt.container.limits_cpu }}"
-            memory: "{{ zwavejs2mqtt.container.limits_memory }}"
+            cpu: "{{ zwavejsui.container.limits_cpu }}"
+            memory: "{{ zwavejsui.container.limits_memory }}"
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000 # node
@@ -81,7 +81,7 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: zwavejs2mqtt-pv-claim
+        - name: zwavejsui-pv-claim
           mountPath: /usr/src/app/store
           subPath: store
         - name: config-volume
@@ -93,14 +93,14 @@ spec:
           path: /etc/localtime
       - name: config-volume
         secret:
-          secretName: zwavejs2mqtt-secret
+          secretName: zwavejsui-secret
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
   volumeClaimTemplates:
   - metadata:
-      name: zwavejs2mqtt-pv-claim
+      name: zwavejsui-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
@@ -109,4 +109,4 @@ spec:
           storage: 32M
       selector:
         matchLabels:
-          {{ zwavejs2mqtt.labels_def | to_nice_yaml() | indent(10) }}
+          {{ zwavejsui.labels_def | to_nice_yaml() | indent(10) }}

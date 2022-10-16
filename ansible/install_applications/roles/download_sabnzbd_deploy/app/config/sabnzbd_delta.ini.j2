@@ -6,7 +6,7 @@ __encoding__ = utf-8
 host = 0.0.0.0
 port = 8080
 url_base = {{ '/' if sabnzbd.context_root == '' else sabnzbd.context_root }}
-host_whitelist = sabnzbd-0,dl.{{ web_base_domain }}
+host_whitelist = sabnzbd-0,sabnzbd.dl.intra.{{ web_base_domain }}
 
 enable_https = 0
 https_port = ""

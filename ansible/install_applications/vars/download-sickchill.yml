@@ -4,8 +4,8 @@ _sickchill_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.10.6-slim-bullseye"
-  version: "2022.8.15"
+    tag: "3.10.8-slim-bullseye"
+  version: "2022.10.13"
   namespace: "download-sickchill"
 
 sickchill:
