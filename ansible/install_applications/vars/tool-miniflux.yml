@@ -14,7 +14,7 @@ miniflux:
   base_image: "{{ _miniflux_var_loader.base_image }}"
   private_image:
     repo: "{{ docker_private_registry.url }}"
-    name: "{{ _jellyfin_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    name: "{{ _miniflux_var_loader.base_image.name | regex_replace('.*/', '') }}"
     tag: "{{ _miniflux_var_loader.base_image.tag }}"
 
   labels_def:
