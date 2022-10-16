@@ -71,12 +71,6 @@ spec:
         #  timeoutSeconds: 5
         #  initialDelaySeconds: 10
         #  periodSeconds: 10
-        readinessProbe:
-          tcpSocket:
-            port: mongo
-          timeoutSeconds: 5
-          initialDelaySeconds: 10
-          periodSeconds: 10
         resources:
           requests:
             cpu: "{{ zonemta_mongo.container.requests_cpu }}"
