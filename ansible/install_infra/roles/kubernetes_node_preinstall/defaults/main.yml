@@ -1,5 +1,6 @@
 ---
-kubernetes_version: 1.23.3-00
+# apt list -a kubelet
+kubernetes_version: 1.24.7-00
 
 # To install from the binaries, configure the following
 #kubernetes_from_binary: True
