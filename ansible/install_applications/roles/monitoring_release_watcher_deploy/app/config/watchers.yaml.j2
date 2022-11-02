@@ -23,6 +23,13 @@ watchers:
   - type: github_release
     repo: cafebazaar/keepalived-exporter
     release: v1.2.0
+  - type: github_release
+    repo: kubernetes/kubernetes
+    release: v1.25.3
+    excludes:
+      - .*(alpha|beta|rc).*
+      - v1\.[0-1][0-9]\..*
+      - v1\.2[0-4]\..*
   
 
   ########
