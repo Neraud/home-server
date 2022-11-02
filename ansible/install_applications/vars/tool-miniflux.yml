@@ -5,7 +5,7 @@ _miniflux_var_loader:
   base_image:
     repo: "ghcr.io"
     name: "miniflux/miniflux"
-    tag: "2.0.38"
+    tag: "2.0.39"
 
 miniflux:
   enabled: "{{ miniflux_enabled | default(True) }}"
@@ -97,11 +97,11 @@ _miniflux_reminiflux_var_loader:
   base_builder_image:
     repo: "docker.io"
     name: "library/node"
-    tag: "18.11.0-alpine3.16"
+    tag: "19.0.0-alpine3.16"
   base_image:
     repo: "docker.io"
     name: "library/nginx"
-    tag: "1.23.1-alpine"
+    tag: "1.23.2-alpine"
   repo: "reminiflux/reminiflux"
   commit: "153dc9464cef69f7c29bff1d680cfa0013b5e281"
   

@@ -724,7 +724,7 @@ watchers:
       - ^1\..*
       - ^2.0.[0-9]$
       - ^2.0.[0-2][0-9]$
-      - ^2.0.3[0-7]$
+      - ^2.0.3[0-8]$
   - name: Miniflux PostgreSQL
     type: docker_registry
     repo: {{ miniflux_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -745,9 +745,7 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*-alpine3.1[0-5]
-      - 1[0-7]\..*
-      - 18\.[0-9]\..*
-      - 18\.1[0]\..*
+      - 1[0-8]\..*
   - name: "Reminiflux Nginx"
     type: docker_registry
     repo: {{ miniflux_reminiflux.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -759,7 +757,7 @@ watchers:
       - 1\.[0-9]\..*
       - 1\.[0-1][0-9]\..*
       - 1\.2[0-2]\..*
-      - 1\.23\.[0]-.*
+      - 1\.23\.[0-1]-.*
   - name: Nextcloud
     type: docker_registry
     repo: {{ nextcloud.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
