@@ -1,8 +1,6 @@
 ARG from_image
 FROM $from_image
 
-ARG app_breezedark_repo
-ARG app_breezedark_version
 ARG app_calendar_repo
 ARG app_calendar_version
 ARG app_contacts_repo
@@ -72,9 +70,6 @@ ENV PHP_INI_SCAN_DIR /tmp/php/conf.d
 
 COPY entrypoint-custom.sh /entrypoint-custom.sh
 
-# Install Breeze Dark Theme app
-RUN curl -sL https://github.com/${app_breezedark_repo}/releases/download/${app_breezedark_version}/breezedark.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
-    chown -R nobody:nogroup /usr/src/nextcloud/apps/breezedark
 # Install Calendar app
 RUN curl -sL https://github.com/${app_calendar_repo}/releases/download/${app_calendar_version}/calendar-${app_calendar_version}.tar.gz  | tar xz -C /usr/src/nextcloud/apps/ && \
     chown -R nobody:nogroup /usr/src/nextcloud/apps/calendar

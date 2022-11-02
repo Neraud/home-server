@@ -259,7 +259,7 @@ if [ -d /usr/src/nextcloud/config_custom ] ; then
 fi
 
 
-if [ -n "${NEXTCLOUD_LDAP_HOST}" ]; then
+if [ -n "${NEXTCLOUD_LDAP_HOST:-}" ]; then
     echo "Configure LDAP"
     echo " - enable user_ldap app"
     run_as "php /usr/src/nextcloud/occ app:enable user_ldap"
@@ -291,7 +291,6 @@ fi
 
 echo "Enable default applications"
 run_as "php /usr/src/nextcloud/occ app:enable admin_audit"
-run_as "php /usr/src/nextcloud/occ app:enable breezedark"
 run_as "php /usr/src/nextcloud/occ app:enable calendar"
 run_as "php /usr/src/nextcloud/occ app:enable contacts"
 run_as "php /usr/src/nextcloud/occ app:enable notes"

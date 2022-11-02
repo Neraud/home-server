@@ -4,9 +4,8 @@ FROM $from_image
 USER root
 
 # Install requirements
-RUN dnf install -y wol \
-    && dnf clean all \
-    && rm -rf /var/cache/dnf 
+RUN microdnf install -y wol \
+    && microdnf clean all
 
 # Add custom entrypoint
 ADD --chown=olivetin:olivetin entrypoint.sh /opt/entrypoint.sh

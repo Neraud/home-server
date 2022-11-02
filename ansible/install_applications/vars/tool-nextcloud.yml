@@ -5,7 +5,7 @@ _nextcloud_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/nextcloud"
-    tag: "24.0.6-apache"
+    tag: "25.0.0-apache"
   context_root: "{{ nextcloud_context_root | default('') }}"
 
 nextcloud:
@@ -47,21 +47,18 @@ nextcloud:
   php_upload_limit: "{{ nextcloud_php_upload_limit | default('512M') }}"
 
   applications:
-    breezedark:
-      repo: mwalbeck/nextcloud-breeze-dark
-      version: v24.0.2
     calendar:
       repo: nextcloud-releases/calendar
-      version: v3.5.0
+      version: v4.0.2
     contacts:
       repo: nextcloud-releases/contacts
-      version: v4.2.2
+      version: v5.0.1
     notes:
       repo: nextcloud/notes
-      version: v4.5.1
+      version: v4.6.0
     tasks:
       repo: nextcloud/tasks
-      version: v0.14.4
+      version: v0.14.5
     twofactor_totp:
       repo: nextcloud-releases/twofactor_totp
       version: v6.4.1

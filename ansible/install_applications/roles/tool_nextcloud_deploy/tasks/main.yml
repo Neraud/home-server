@@ -30,8 +30,6 @@
     private_image: "{{ nextcloud.private_image }}"
     build: yes
     build_args:
-      app_breezedark_repo: "{{ nextcloud.applications.breezedark.repo }}"
-      app_breezedark_version: "{{ nextcloud.applications.breezedark.version }}"
       app_calendar_repo: "{{ nextcloud.applications.calendar.repo }}"
       app_calendar_version: "{{ nextcloud.applications.calendar.version }}"
       app_contacts_repo: "{{ nextcloud.applications.contacts.repo }}"
