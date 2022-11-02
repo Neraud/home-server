@@ -21,4 +21,4 @@ gluster_exporter_port: 8090
 
 # The percentage specifies how much CPU time the unit shall get at maximum, relative to the total CPU time available on one CPU
 # 100% = 1 core
-gluster_exporter_cpu_quota: 10%
+gluster_exporter_cpu_quota: 20%
