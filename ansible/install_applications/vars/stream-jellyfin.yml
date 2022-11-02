@@ -5,7 +5,7 @@ _jellyfin_var_loader:
   base_image:
     repo: "docker.io"
     name: "jellyfin/jellyfin"
-    tag: "10.8.5-amd64"
+    tag: "10.8.7-amd64"
   conf_injection_base_image:
     repo: "docker.io"
     name: "library/python"
