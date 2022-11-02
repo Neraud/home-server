@@ -5,7 +5,7 @@ _syncthing_var_loader:
   base_image:
     repo: "docker.io"
     name: "syncthing/syncthing"
-    tag: "1.22.0"
+    tag: "1.22.1"
   conf_injection_base_image:
     repo: "docker.io"
     name: "library/python"
