@@ -47,10 +47,6 @@ nextcloud:
   php_upload_limit: "{{ nextcloud_php_upload_limit | default('512M') }}"
 
   applications:
-    # TODO breezedark doesn't support NC25 yet, install is disabled in home-server-provisioning\ansible\install_applications\roles\tool_nextcloud_deploy\app\build\entrypoint-custom.sh
-    breezedark:
-      repo: mwalbeck/nextcloud-breeze-dark
-      version: v24.0.2
     calendar:
       repo: nextcloud-releases/calendar
       version: v4.0.2

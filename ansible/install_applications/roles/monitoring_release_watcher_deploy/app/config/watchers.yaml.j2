@@ -770,12 +770,6 @@ watchers:
       - ^[0-9]\..*
       - ^1[0-9]\..*
       - ^2[0-4]\..*
-  - name: Nextcloud Breeze Dark Theme
-    type: github_release
-    repo: {{ nextcloud.applications.breezedark.repo }}
-    release: {{ nextcloud.applications.breezedark.version }}
-    excludes:
-      - .*(alpha|beta|rc).*
   - name: Nextcloud Calendar
     type: github_release
     repo: {{ nextcloud.applications.calendar.repo }}

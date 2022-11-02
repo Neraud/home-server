@@ -291,8 +291,6 @@ fi
 
 echo "Enable default applications"
 run_as "php /usr/src/nextcloud/occ app:enable admin_audit"
-# TODO breezedark doesn't support NC25 yet
-#run_as "php /usr/src/nextcloud/occ app:enable breezedark"
 run_as "php /usr/src/nextcloud/occ app:enable calendar"
 run_as "php /usr/src/nextcloud/occ app:enable contacts"
 run_as "php /usr/src/nextcloud/occ app:enable notes"
