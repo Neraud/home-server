@@ -86,6 +86,8 @@ miniflux_pgsql:
     requests_memory: "{{ miniflux_pgsql_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ miniflux_pgsql_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ miniflux_pgsql_container_limits_memory | default('256Mi') }}"
+    storage:
+      data: "{{ miniflux_pgsql_container_storage_data | default('256M') }}"
 
   user: "{{ miniflux_pgsql_user | default('miniflux') }}"
   database: "{{ miniflux_pgsql_database | default('miniflux') }}"

@@ -27,6 +27,8 @@ docker_registry:
     requests_memory: "{{ docker_registry_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ docker_registry_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ docker_registry_container_limits_memory | default('128Mi') }}"
+    storage:
+      data: "{{ docker_registry_container_storage_data | default('15G') }}"
 
   servername: "{{ docker_registry_servername | default('registry.' + _docker_registry_var_loader.namespace + '.svc.cluster.local') }}"
   port: "{{ _docker_registry_var_loader.port }}"

@@ -28,6 +28,8 @@ kibana:
     requests_memory: "{{ kibana_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ kibana_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ kibana_container_limits_memory | default('256Mi') }}"
+    storage:
+      data: "{{ kibana_container_storage_data | default('64M') }}"
   nodejs_max_memory: "{{ kibana_nodejs_max_memory | default('192') }}"
 
   context_root: "{{ kibana_context_root | default('') }}"

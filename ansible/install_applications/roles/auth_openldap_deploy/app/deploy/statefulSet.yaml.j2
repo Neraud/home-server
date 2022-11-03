@@ -85,7 +85,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 256M
+          storage: {{ openldap.container.storage.data }}
       selector:
         matchLabels:
           {{ openldap.labels_def | to_nice_yaml() | indent(10) }}
@@ -97,7 +97,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 16M
+          storage: {{ openldap.container.storage.config }}
       selector:
         matchLabels:
           {{ openldap.labels_def | to_nice_yaml() | indent(10) }}
@@ -109,7 +109,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 16M
+          storage: {{ openldap.container.storage.run }}
       selector:
         matchLabels:
           {{ openldap.labels_def | to_nice_yaml() | indent(10) }}

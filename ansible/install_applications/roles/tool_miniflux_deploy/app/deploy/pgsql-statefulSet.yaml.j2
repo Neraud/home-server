@@ -96,7 +96,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 256M
+          storage: {{ miniflux_pgsql.container.storage.data }}
       selector:
         matchLabels:
           {{ miniflux_pgsql.labels_def | to_nice_yaml() | indent(10) }}

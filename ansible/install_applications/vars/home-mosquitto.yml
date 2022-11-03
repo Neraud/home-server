@@ -41,6 +41,8 @@ mosquitto:
     requests_memory: "{{ mosquitto_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ mosquitto_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ mosquitto_container_limits_memory | default('64Mi') }}"
+    storage:
+      data: "{{ mosquitto_container_storage_data | default('128M') }}"
 
   listeners: "{{ mosquitto_listeners | default([]) }}"
   credentials: "{{ mosquitto_credentials | default([]) }}"

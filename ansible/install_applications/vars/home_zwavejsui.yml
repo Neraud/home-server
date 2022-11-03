@@ -40,6 +40,8 @@ zwavejsui:
     requests_memory: "{{ zwavejsui_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ zwavejsui_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ zwavejsui_container_limits_memory | default('128Mi') }}"
+    storage:
+      data: "{{ zwavejsui_container_storage_data | default('32M') }}"
 
   context_root: "{{ zwavejsui_context_root | default('') }}"
 

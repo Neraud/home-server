@@ -41,6 +41,8 @@ nodered:
     requests_memory: "{{ nodered_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ nodered_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ nodered_container_limits_memory | default('256Mi') }}"
+    storage:
+      data: "{{ nodered_container_storage_data | default('128M') }}"
 
   context_root: "{{ nodered_context_root | default('') }}"
 

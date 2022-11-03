@@ -94,7 +94,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 32M
+          storage: {{ paperless_redis.container.storage.data }}
       selector:
         matchLabels:
           {{ paperless_redis.labels_def | to_nice_yaml() | indent(10) }}

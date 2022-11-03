@@ -104,7 +104,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 256M
+          storage: {{ blocky_pgsql.container.storage.data }}
       selector:
         matchLabels:
           {{ blocky_pgsql.labels_def | to_nice_yaml() | indent(10) }}

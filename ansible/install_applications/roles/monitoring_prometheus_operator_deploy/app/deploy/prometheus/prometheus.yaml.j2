@@ -77,7 +77,7 @@ spec:
         storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
         resources:
           requests:
-            storage: 4G
+            storage: {{ prometheus.container.storage.data }}
         selector:
           matchLabels:
             {{ prometheus.labels_def | to_nice_yaml() | indent(4) }}

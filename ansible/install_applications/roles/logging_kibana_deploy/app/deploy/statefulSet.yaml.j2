@@ -110,7 +110,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 64M
+          storage: {{ kibana.container.storage.data }}
       selector:
         matchLabels:
           {{ kibana.labels_def | to_nice_yaml() | indent(10) }}

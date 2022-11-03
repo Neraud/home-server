@@ -101,7 +101,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 1G
+          storage: {{ sickchill.container.storage.data }}
       selector:
         matchLabels:
           {{ sickchill.labels_def | to_nice_yaml() | indent(10) }}

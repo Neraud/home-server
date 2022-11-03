@@ -220,7 +220,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 256M
+          storage: {{ gitea.container.storage.data }}
       selector:
         matchLabels:
           {{ gitea.labels_def | to_nice_yaml() | indent(10) }}

@@ -41,6 +41,8 @@ gotify:
     requests_memory: "{{ gotify_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ gotify_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ gotify_container_limits_memory | default('64Mi') }}"
+    storage:
+      data: "{{ gotify_container_storage_data | default('256M') }}"
 
   context_root: "{{ gotify_context_root | default('') }}"
   default_admin_user: "{{ gotify_default_admin_user | default('admin_local') }}"

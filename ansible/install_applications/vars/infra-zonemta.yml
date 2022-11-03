@@ -81,6 +81,8 @@ zonemta_mongo:
     requests_memory: "{{ zonemta_mongo_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ zonemta_mongo_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ zonemta_mongo_container_limits_memory | default('384Mi') }}"
+    storage:
+      data: "{{ zonemta_mongo_container_storage_data | default('1G') }}"
 
   root_user: "{{ zonemta_mongo_root_user | default('root') }}"
   root_password: "{{ zonemta_mongo_root_password | default('clear_password') }}"
@@ -115,6 +117,8 @@ zonemta_redis:
     requests_memory: "{{ zonemta_redis_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ zonemta_redis_container_limits_cpu | default('75m') }}"
     limits_memory: "{{ zonemta_redis_container_limits_memory | default('32Mi') }}"
+    storage:
+      data: "{{ zonemta_redis_container_storage_data | default('32M') }}"
 
   health_username: "{{ blocky_redis_health_username | default('health') }}"
   username: "{{ zonemta_redis_username | default('zonemta') }}"

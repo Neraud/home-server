@@ -50,6 +50,8 @@ syncthing:
     requests_memory: "{{ syncthing_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ syncthing_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ syncthing_container_limits_memory | default('64Mi') }}"
+    storage:
+      data: "{{ syncthing_container_storage_data | default('64M') }}"
 
   context_root: "{{ _syncthing_var_loader.context_root }}"
 
@@ -147,5 +149,7 @@ syncthing_discovery:
     requests_memory: "{{ syncthing_discovery_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ syncthing_discovery_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ syncthing_discovery_container_limits_memory | default('32Mi') }}"
+    storage:
+      data: "{{ syncthing_discovery_container_storage_data | default('32M') }}"
   
   context_root: "{{ syncthing_discovery_context_root | default('') }}"
