@@ -38,6 +38,7 @@ To test the deployed services, you will have to add the following domains to you
 
 192.168.100.100 gotify.infra.k8s.test
 192.168.100.101 kube.infra.intra.k8s.test
+192.168.100.101 longhorn.infra.intra.k8s.test
 192.168.100.101 mailhog.infra.intra.k8s.test
 192.168.100.101 docker-registry-ui.infra.intra.k8s.test
 192.168.100.101 unifi.infra.intra.k8s.test
@@ -106,6 +107,7 @@ The following services are deployed :
 | Service                                                          | Test URL                                             | Description                                                       |
 | ---------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------- |
 | [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://kube.infra.intra.k8s.test/>                 | Kubernetes dashboard                                              |
+| [Longhorn Management UI](https://github.com/longhorn/longhorn-ui)| <https://longhorn.infra.intra.k8s.test>              | Longhorn Managmeent UI                                            |
 | [Docker Registry](https://docs.docker.com/registry/deploying/)   | -                                                    | Docker Registry                                                   |
 | [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://docker-registry-ui.infra.intra.k8s.test>    | Web UI for Docker Registry                                        |
 | [OpenLDAP](https://www.openldap.org/)                            | -                                                    | Open source Lightweight Directory Access Protocol                 |

@@ -1,0 +1,14 @@
+---
+#- name: Configure UFW for Longhorn
+#  ansible.builtin.include_role:
+#    name: firewall
+#    tasks_from: add-applications
+#  vars:
+#    ufw_applications: "{{ longhorn_ufw_applications }}"
+
+- name: Install Longhorn requirements
+  ansible.builtin.apt:
+    pkg:
+    - open-iscsi
+    - nfs-common
+    state: present

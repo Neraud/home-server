@@ -124,6 +124,7 @@
     - kubernetes_node_postinstall
     - { role: kubernetes_storage_local, tags: kubernetes-storage }
     - kubernetes_metallb_prepare
+    - kubernetes_longhorn_prepare
 
 - name: Provision Kubernetes infra applications
   hosts: controller
@@ -132,4 +133,5 @@
     - kubernetes_metallb_deploy
     - kubernetes_nginx_ingress_deploy
     - kubernetes_storage_classes
+    - kubernetes_longhorn_deploy
     - apcups_kubernetes
