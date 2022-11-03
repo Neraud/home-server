@@ -43,6 +43,8 @@ sickchill:
     requests_memory: "{{ sickchill_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ sickchill_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ sickchill_container_limits_memory | default('256Mi') }}"
+    storage:
+      data: "{{ sickchill_container_storage_data | default('1G') }}"
 
   context_root: "{{ sickchill_context_root | default('') }}"
   api_key: "{{ sickchill_api_key | default('abcdefghijklmnopqrstuvwxyz123456') }}"

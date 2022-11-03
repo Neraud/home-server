@@ -99,7 +99,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 32M
+          storage: {{ pyload.container.storage.config }}
       selector:
         matchLabels:
           {{ pyload.labels_def | to_nice_yaml() | indent(10) }}

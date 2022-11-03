@@ -228,7 +228,7 @@ spec:
       storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
       resources:
         requests:
-          storage: 768M
+          storage: {{ nextcloud.container.storage.data }}
       selector:
         matchLabels:
           {{ nextcloud.labels_def | to_nice_yaml() | indent(10) }}

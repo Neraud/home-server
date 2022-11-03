@@ -41,6 +41,8 @@ gitea:
     requests_memory: "{{ gitea_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ gitea_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ gitea_container_limits_memory | default('256Mi') }}"
+    storage:
+      data: "{{ gitea_container_storage_data | default('256M') }}"
 
   context_root: "{{ gitea_context_root | default('') }}"
 
@@ -108,6 +110,8 @@ gitea_pgsql:
     requests_memory: "{{ gitea_pgsql_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ gitea_pgsql_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ gitea_pgsql_container_limits_memory | default('256Mi') }}"
+    storage:
+      data: "{{ gitea_pgsql_container_storage_data | default('512M') }}"
 
   user: "{{ gitea_pgsql_user | default('gitea') }}"
   database: "{{ gitea_pgsql_database | default('gitea') }}"

@@ -42,6 +42,8 @@ nextcloud:
     requests_memory: "{{ nextcloud_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ nextcloud_container_limits_cpu | default('750m') }}"
     limits_memory: "{{ nextcloud_container_limits_memory | default('512Mi') }}"
+    storage:
+      data: "{{ nextcloud_container_storage_data | default('768M') }}"
 
   php_memory_limit: "{{ nextcloud_php_memory_limit | default('256M') }}"
   php_upload_limit: "{{ nextcloud_php_upload_limit | default('512M') }}"
@@ -130,6 +132,8 @@ nextcloud_mysql:
     requests_memory: "{{ nextcloud_mysql_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ nextcloud_mysql_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ nextcloud_mysql_container_limits_memory | default('512Mi') }}"
+    storage:
+      data: "{{ nextcloud_mysql_container_storage_data | default('512M') }}"
 
   user: "{{ nextcloud_mysql_user | default('nextcloud') }}"
   database: "{{ nextcloud_mysql_database | default('nextcloud') }}"

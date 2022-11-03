@@ -44,6 +44,10 @@ openldap:
     requests_memory: "{{ openldap_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ openldap_container_limits_cpu | default('150m') }}"
     limits_memory: "{{ openldap_container_limits_memory | default('128Mi') }}"
+    storage:
+      data: "{{ openldap_container_storage_data | default('256M') }}"
+      config: "{{ openldap_container_storage_config | default('16M') }}"
+      run: "{{ openldap_container_storage_run | default('32M') }}"
 
   ldap:
     servername: "{{ openldap_ldap_servername | default('openldap.' + _openldap_var_loader.namespace + '.svc.cluster.local') }}"

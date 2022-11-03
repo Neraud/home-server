@@ -40,6 +40,8 @@ unifi:
     requests_memory: "{{ unifi_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ unifi_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ unifi_container_limits_memory | default('1024Mi') }}"
+    storage:
+      data: "{{ unifi_container_storage_data | default('1G') }}"
 
   max_java_memory: "{{ unifi_max_java_memory | default('512M') }}"
   private_ip: "{{ unifi_private_ip }}"

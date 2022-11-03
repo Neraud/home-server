@@ -41,6 +41,8 @@ zigbee2mqtt:
     requests_memory: "{{ zigbee2mqtt_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ zigbee2mqtt_container_limits_cpu | default('100m') }}"
     limits_memory: "{{ zigbee2mqtt_container_limits_memory | default('128Mi') }}"
+    storage:
+      data: "{{ zigbee2mqtt_container_storage_data | default('32M') }}"
 
   context_root: "{{ zigbee2mqtt_context_root | default('') }}"
 

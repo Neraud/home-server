@@ -50,6 +50,8 @@ jellyfin:
     limits_cpu: "{{ jellyfin_container_limits_cpu | default('1000m') }}"
     limits_memory: "{{ jellyfin_container_limits_memory | default('512Mi') }}"
     limits_gpu: "{{ jellyfin_container_limits_gpu | default({}) }}"
+    storage:
+      data: "{{ jellyfin_container_storage_data | default('256M') }}"
 
   context_root: "{{ jellyfin_context_root | default('') }}"
 

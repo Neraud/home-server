@@ -42,6 +42,8 @@ homeassistant:
     requests_memory: "{{ homeassistant_homeassistant_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ homeassistant_homeassistant_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ homeassistant_homeassistant_container_limits_memory | default('512Mi') }}"
+    storage:
+      data: "{{ homeassistant_container_storage_data | default('256M') }}"
 
   mqtt:
     servername: "{{ mosquitto.servername }}"
@@ -110,6 +112,8 @@ homeassistant_mysql:
     requests_memory: "{{ homeassistant_mysql_container_requests_memory | default('512Mi') }}"
     limits_cpu: "{{ homeassistant_mysql_container_limits_cpu | default('200m') }}"
     limits_memory: "{{ homeassistant_mysql_container_limits_memory | default('512Mi') }}"
+    storage:
+      data: "{{ homeassistant_mysql_container_storage_data | default('2G') }}"
 
   user: "{{ homeassistant_mysql_user | default('homeassistant') }}"
   database: "{{ homeassistant_mysql_database | default('homeassistant') }}"

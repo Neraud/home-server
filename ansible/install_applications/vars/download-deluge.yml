@@ -40,6 +40,10 @@ deluge:
   labels_desc:
     app.kubernetes.io/version: "{{ _deluge_var_loader.version }}"
 
+  container:
+    storage:
+      data: "{{ deluge_container_storage_data | default('256M') }}"
+  
   local_user:
     name: localclient
     password: "{{ deluge_local_user_password | default('clear_password') }}"

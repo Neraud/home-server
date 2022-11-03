@@ -8,7 +8,7 @@ spec:
   storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
   resources:
     requests:
-      storage: 10G
+      storage: {{ docker_registry.container.storage.data }}
   selector:
     matchLabels:
       {{ docker_registry.labels_def | to_nice_yaml() | indent(6) }}

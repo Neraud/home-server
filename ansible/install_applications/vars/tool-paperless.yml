@@ -42,6 +42,8 @@ paperless:
     requests_memory: "{{ paperless_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ paperless_container_limits_cpu | default('750m') }}"
     limits_memory: "{{ paperless_container_limits_memory | default('1G') }}" # With large-ish PDF documents (~10MB), 512M isn't enough
+    storage:
+      data: "{{ paperless_container_storage_data | default('128M') }}"
 
   context_root: "{{ _paperless_var_loader.context_root }}"
   secret_key: "{{ paperless_secret_key }}"
@@ -102,6 +104,8 @@ paperless_pgsql:
     requests_memory: "{{ paperless_pgsql_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ paperless_pgsql_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ paperless_pgsql_container_limits_memory | default('256Mi') }}"
+    storage:
+      data: "{{ paperless_pgsql_container_storage_data | default('512M') }}"
 
   user: "{{ paperless_pgsql_user | default('paperless') }}"
   database: "{{ paperless_pgsql_database | default('paperless') }}"
@@ -134,6 +138,8 @@ paperless_redis:
     requests_memory: "{{ paperless_redis_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ paperless_redis_container_limits_cpu | default('75m') }}"
     limits_memory: "{{ paperless_redis_container_limits_memory | default('32Mi') }}"
+    storage:
+      data: "{{ paperless_redis_container_storage_data | default('32M') }}"
   
   health_username: "{{ paperless_redis_health_username | default('health') }}"
   #username: "{{ paperless_redis_username | default('paperless') }}"

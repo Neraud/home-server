@@ -50,6 +50,8 @@ sabnzbd:
     requests_memory: "{{ sabnzbd_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ sabnzbd_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ sabnzbd_container_limits_memory | default('256Mi') }}"
+    storage:
+      config: "{{ sabnzbd_container_storage_config | default('32M') }}"
 
   context_root: "{{ sabnzbd_context_root | default('') }}"
   user: "{{ sabnzbd_user | default('sabnzbd') }}"

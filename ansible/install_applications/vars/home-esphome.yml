@@ -41,5 +41,7 @@ esphome:
     # Allow much higher cpu/memory limits to have faster compile times and avoid OOM
     limits_cpu: "{{ esphome_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ esphome_container_limits_memory | default('512Mi') }}"
+    storage:
+      config: "{{ esphome_container_storage_config | default('128M') }}"
 
   context_root: "{{ esphome_context_root | default('') }}"

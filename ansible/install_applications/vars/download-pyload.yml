@@ -47,6 +47,8 @@ pyload:
     requests_memory: "{{ pyload_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ pyload_container_limits_cpu | default('500m') }}"
     limits_memory: "{{ pyload_container_limits_memory | default('256Mi') }}"
+    storage:
+      config: "{{ pyload_container_storage_config | default('32M') }}"
 
   context_root: "{{ pyload_context_root | default('') }}"
   default_user: "{{ pyload_default_user | default('pyload') }}"

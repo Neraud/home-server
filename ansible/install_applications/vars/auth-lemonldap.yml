@@ -40,6 +40,8 @@ lemonldap:
     requests_memory: "{{ lemonldap_container_requests_memory | default('384Mi') }}"
     limits_cpu: "{{ lemonldap_container_limits_cpu | default('150m') }}"
     limits_memory: "{{ lemonldap_container_limits_memory | default('384Mi') }}"
+    storage:
+      data: "{{ lemonldap_container_storage_data | default('32M') }}"
 
   fastcgi_port: "{{ lemonldap_fastcgi_port | default(9000) }}"
   persistent_volume_path: "{{ lemonldap_persistent_volume_path | default('/var/lib/lemonldap-ng-pv') }}"

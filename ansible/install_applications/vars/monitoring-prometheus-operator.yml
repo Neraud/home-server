@@ -84,6 +84,8 @@ prometheus:
     requests_memory: "{{ prometheus_container_requests_memory | default('1024Mi') }}"
     limits_cpu: "{{ prometheus_container_limits_cpu | default('400m') }}"
     limits_memory: "{{ prometheus_container_limits_memory | default('1024Mi') }}"
+    storage:
+      data: "{{ prometheus_container_storage_data | default('4G') }}"
 
   context_root: "{{ prometheus_context_root | default('') }}"
   servername: "prometheus-k8s.{{ _prometheus_var_loader.namespace }}.svc.cluster.local"
@@ -116,6 +118,8 @@ alertmanager:
     requests_memory: "{{ alertmanager_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ alertmanager_container_limits_cpu | default('50m') }}"
     limits_memory: "{{ alertmanager_container_limits_memory | default('128Mi') }}"
+    storage:
+      data: "{{ alertmanager_container_storage_data | default('16M') }}"
 
   smtp:
     enabled: "{{ alertmanager_smtp_enabled | default(True) }}"
