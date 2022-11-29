@@ -88,6 +88,12 @@
   with_fileglob:
     - "{{ role_path }}/app/config/prometheus/rules/kube-prometheus/*"
 
+- name: List Prometheus rules files from longhorn
+  ansible.builtin.set_fact:
+    prometheus_rules_longhorn: "{{ prometheus_rules_longhorn | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/prometheus/rules/longhorn/*"
+
 - name: Deploy Prometheus Rules
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
