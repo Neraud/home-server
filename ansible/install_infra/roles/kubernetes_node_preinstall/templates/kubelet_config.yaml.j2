@@ -1,0 +1,5 @@
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+systemReserved:
+  cpu: "{{ kubernetes_kubelet_system_reserved_cpu }}"
+  memory: "{{ kubernetes_kubelet_system_reserved_memory }}"

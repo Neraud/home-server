@@ -25,6 +25,15 @@ localAPIEndpoint:
 {% if kubernetes_apiserver_ip is defined %}
   advertiseAddress: "{{ kubernetes_apiserver_ip }}"
 {% endif %}
+patches:
+  directory: /etc/kubernetes/patches
+
+---
+
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: JoinConfiguration
+patches:
+  directory: /etc/kubernetes/patches
 
 ---
 

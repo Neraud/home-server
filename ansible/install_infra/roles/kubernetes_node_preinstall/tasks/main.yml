@@ -27,7 +27,21 @@
 - include_tasks: from_binaries.yml
   when: kubernetes_from_binary | default(False)
 
-- name: Configure kubelet
+- name: Create Kubernetes patches directory
+  ansible.builtin.file:
+    path: /etc/kubernetes/patches
+    state: directory
+    mode: 0755
+
+# FIXME : not used until upgrading to kubernetes 1.25
+- name: Generate kubelet config patch
+  ansible.builtin.template:
+    dest: /etc/kubernetes/patches/kubeletconfiguration0+merge.yaml
+    src: kubelet_config.yaml.j2
+    mode: 0644
+    backup: yes
+
+- name: Configure kubelet service
   ansible.builtin.template:
     dest: /etc/default/kubelet
     src: kubelet.j2
