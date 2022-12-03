@@ -26,8 +26,9 @@ gotify:
       - name: gotify
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - gotify-data
+    longhorn_volumes:
+      - volume_name: gotify-data
+        pvc_name: gotify-pv-claim-gotify-0
 
   labels_def:
     app.kubernetes.io/name: gotify
