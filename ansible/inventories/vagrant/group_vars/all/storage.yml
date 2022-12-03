@@ -1,15 +1,5 @@
 ---
 glusterfs_volumes:
-  deluge-data:
-    replicas: 2
-    capacity: 256M
-    arbiterCapacity: 16M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: deluge
-      app.kubernetes.io/component: deluge
   pyload-config:
     replicas: 2
     capacity: 32M

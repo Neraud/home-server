@@ -30,8 +30,9 @@ deluge:
       - name: deluge-web
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - deluge-data
+    longhorn_volumes:
+      - volume_name: deluge-data
+        pvc_name: deluge-data-pv-claim
 
   labels_def:
     app.kubernetes.io/name: deluge

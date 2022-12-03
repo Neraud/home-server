@@ -8,10 +8,7 @@ metadata:
     {{ deluge.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   accessModes: [ "ReadWriteMany" ]
-  storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+  storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
   resources:
     requests:
       storage: {{ deluge.container.storage.data }}
-  selector:
-    matchLabels:
-      {{ deluge.labels_def | to_nice_yaml() | indent(10) }}
