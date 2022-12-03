@@ -25,8 +25,9 @@ airsonic:
       - name: airsonic
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - airsonic-data
+    longhorn_volumes:
+      - volume_name: airsonic-data
+        pvc_name: airsonic-data-pv-claim-airsonic-0
 
   labels_def:
     app.kubernetes.io/name: airsonic
