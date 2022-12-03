@@ -31,14 +31,17 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: openldap-data-pv-claim
+          subPath: data
           mountPath: /var/lib/ldap
-        - name: openldap-config-pv-claim
+        - name: openldap-data-pv-claim
+          subPath: conf
           mountPath: /etc/ldap/slapd.d
         - name: config-volume
           mountPath: /container/environment/01-custom
         - name: certs-volume
           mountPath: /container/service/slapd/assets/certs
-        - name: openldap-run-pv-claim
+        - name: openldap-data-pv-claim
+          subPath: run
           mountPath: /container/run
         ports:
         - containerPort: 389
@@ -89,28 +92,3 @@ spec:
       selector:
         matchLabels:
           {{ openldap.labels_def | to_nice_yaml() | indent(10) }}
-          storage: data
-  - metadata:
-      name: openldap-config-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ openldap.container.storage.config }}
-      selector:
-        matchLabels:
-          {{ openldap.labels_def | to_nice_yaml() | indent(10) }}
-          storage: config
-  - metadata:
-      name: openldap-run-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ openldap.container.storage.run }}
-      selector:
-        matchLabels:
-          {{ openldap.labels_def | to_nice_yaml() | indent(10) }}
-          storage: run
