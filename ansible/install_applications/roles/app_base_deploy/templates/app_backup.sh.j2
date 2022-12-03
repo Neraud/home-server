@@ -42,7 +42,8 @@ function stop_app() {
 {% endif %}
 }
 
-function backup_volume() {
+{% if app_backup.gluster_volumes | default ([]) %}
+function backup_gluster_volume() {
     volume_name="$1"
     echo "--------------------------------------------------"
     echo "Volume : ${volume_name}"
@@ -101,6 +102,140 @@ function backup_volume() {
 
     rm ${tmp_output}
 }
+{% endif %}
+
+{% if app_backup.longhorn_volumes | default ([]) %}
+function call_longhorn_api() {
+    method="$1"
+    path="$2"
+    data="${3-}"
+
+    curl_cmd="curl -s"
+    curl_cmd="${curl_cmd} -X ${method}"
+    curl_cmd="${curl_cmd} -H 'Host: longhorn.infra.intra.{{ web_base_domain }}'"
+    curl_cmd="${curl_cmd} -H 'Accept: application/json'"
+    if [ -n "${data}" ]; then
+        curl_cmd="${curl_cmd} -d '${data}'"
+    fi
+    curl_cmd="${curl_cmd} http://{{ kubernetes_nginx_ingress_lb_ip }}/v1${path}"
+
+    eval ${curl_cmd}
+}
+
+function find_longhorn_volume_by_pvc() {
+    namespace="$1"
+    pvc_name="$2"
+    call_longhorn_api "GET" "/volumes" | jq -r '.data[].kubernetesStatus | select(.namespace=="'${namespace}'" and .pvcName=="'${pvc_name}'") | .pvName'
+}
+
+function detach_longhorn_volume() {
+    pv_name="$1"
+    
+    state=""
+    counter=1
+    while [ "${state}" != "detached" -a ${counter} -lt 10 ]; do
+        state=$(call_longhorn_api "POST" "/volumes/${pv_name}?action=detach" | jq -r .state)
+        echo " - volume state ${counter} : ${state}"
+        sleep 2
+        let counter=counter+1
+    done
+
+    if [ "${state}" != "detached" ] ; then
+        echo "Volume still not detached, aborting"
+        exit 1
+    fi
+}
+
+function attach_longhorn_volume() {
+    pv_name="$1"
+    
+    state=""
+    counter=1
+    while [ "${state}" != "attached" -a ${counter} -lt 20 ]; do
+        state=$(call_longhorn_api "POST" "/volumes/${pv_name}?action=attach" "{ \"hostId\": \"master-test-1\", \"disableFrontend\": false }" | jq -r .state)
+        echo " - volume state ${counter} : ${state}"
+        sleep 2
+        let counter=counter+1
+    done
+
+    if [ "${state}" != "attached" ] ; then
+        echo "Volume still not detached, aborting"
+        exit 1
+    fi
+}
+
+function backup_longhorn_volume() {
+    pvc_name="$1"
+    volume_name="$2"
+    echo "--------------------------------------------------"
+    task_start=$(date +%s)
+    task_status=0
+    task_common_labels="app=\"${APP_NAME}\",path=\"${volume_name}\""
+    tmp_output=$(mktemp)
+
+    echo "Searching for pvc ${pvc_name} in {{ app_backup.namespace }}"
+    pv_name=$(find_longhorn_volume_by_pvc {{ app_backup.namespace }} ${pvc_name})
+
+    echo "Detaching ${pv_name}"
+    detach_longhorn_volume ${pv_name}
+
+    echo "Attaching ${pv_name} on host"
+    attach_longhorn_volume ${pv_name}
+
+    echo "Mounting ${pv_name} on host as ${volume_name}"
+    mkdir -p ${VOLUME_MOUNT_ROOT}/${volume_name}
+    umount -q ${VOLUME_MOUNT_ROOT}/${volume_name}
+    mount /dev/longhorn/${pv_name} ${VOLUME_MOUNT_ROOT}/${volume_name}
+    
+    echo "Backuping"
+    # TODO tag app ?
+    {{ restic_bin_path }} backup --host="${FAKE_HOST_NAME}" ${VOLUME_MOUNT_ROOT}/${volume_name} --json > ${tmp_output}
+    task_status=$?
+
+    echo " - unmounting"
+    umount -l ${VOLUME_MOUNT_ROOT}/${volume_name}
+    rmdir ${VOLUME_MOUNT_ROOT}/${volume_name}
+
+    echo "Detaching ${pv_name}"
+    detach_longhorn_volume ${pv_name}
+    
+    if [ ${task_status} -ne 0 ] ; then
+        app_status=1
+    fi
+    
+    task_end=$(date +%s)
+    task_duration=$((task_end-task_start))
+
+    echo "finished with status ${task_status}"
+    cat ${tmp_output} | jq -r '. | select(.message_type == "summary")'
+    add_prom_metric "backup_task_start" "${task_common_labels}" ${task_start}
+    add_prom_metric "backup_task_duration" "${task_common_labels}" ${task_duration}
+    add_prom_metric "backup_task_status" "${task_common_labels}" ${task_status}
+    
+    if [ ${task_status} -eq 0 ] ; then
+        bytes_added=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .data_added')
+        bytes_total=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .total_bytes_processed')
+        files_new=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .files_new')
+        files_modified=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .files_changed')
+        files_unchanged=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .files_unmodified')
+        dirs_new=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .dirs_new')
+        dirs_modified=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .dirs_changed')
+        dirs_unchanged=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .dirs_unmodified')
+
+        add_prom_metric "backup_task_added_bytes" "${task_common_labels}" ${bytes_added}
+        add_prom_metric "backup_task_total_bytes" "${task_common_labels}" ${bytes_total}
+        add_prom_metric "backup_task_files" "${task_common_labels},state=\"new\"" ${files_new}
+        add_prom_metric "backup_task_files" "${task_common_labels},state=\"modified\"" ${files_modified}
+        add_prom_metric "backup_task_files" "${task_common_labels},state=\"unchanged\"" ${files_unchanged}
+        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"new\"" ${dirs_new}
+        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"modified\"" ${dirs_modified}
+        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"unchanged\"" ${dirs_unchanged}
+    fi
+
+    rm ${tmp_output}
+}
+{% endif %}
+
 
 function restart_app() {
     echo ""
@@ -121,8 +256,11 @@ init_backup_prom_file
 
 stop_app
 
-{% for vol in app_backup.gluster_volumes %}
-backup_volume "{{ vol }}"
+{% for vol in app_backup.gluster_volumes | default ([]) %}
+backup_gluster_volume "{{ vol }}"
+{% endfor %}
+{% for vol in app_backup.longhorn_volumes | default ([]) %}
+backup_longhorn_volume "{{ vol.pvc_name }}" "{{ vol.volume_name }}"
 {% endfor %}
 
 restart_app
