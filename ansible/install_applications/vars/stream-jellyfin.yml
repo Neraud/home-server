@@ -34,8 +34,9 @@ jellyfin:
       - name: jellyfin
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - jellyfin-data
+    longhorn_volumes:
+      - volume_name: jellyfin-data
+        pvc_name: jellyfin-pv-claim-jellyfin-0
 
   labels_def:
     app.kubernetes.io/name: jellyfin
