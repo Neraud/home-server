@@ -76,12 +76,6 @@
   with_fileglob:
     - "{{ role_path }}/app/config/prometheus/rules/custom/*"
 
-- name: List Prometheus rules files from gluster-mixin
-  ansible.builtin.set_fact:
-    prometheus_rules_gluster_mixin: "{{ prometheus_rules_gluster_mixin | default([]) + [ item ] }}"
-  with_fileglob:
-    - "{{ role_path }}/app/config/prometheus/rules/gluster-mixin/*"
-
 - name: List Prometheus rules files from kube-prometheus
   ansible.builtin.set_fact:
     prometheus_rules_kube_prometheus: "{{ prometheus_rules_kube_prometheus | default([]) + [ item ] }}"

@@ -54,16 +54,6 @@
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
 
-- name: Create GlusterFS endpoint and service
-  kubernetes.core.k8s:
-    definition: "{{ lookup('template', role_path + '/../app_base_deploy/templates/namespace/' + item) }}"
-    state: present
-    kubeconfig: "{{ kubeconfig_path }}"
-    context: "{{ kubeconfig_context }}"
-  with_items:
-    - glusterfs-endpoint.yaml.j2
-    - glusterfs-service.yaml.j2
-
 # PVCs are namespaced, and need to be created in each namespace
 # PVs are not namespaced, but can't be used by multiple PVCs
 # So for each namespace that requires it, we create :

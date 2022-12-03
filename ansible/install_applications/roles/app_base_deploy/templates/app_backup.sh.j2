@@ -42,68 +42,6 @@ function stop_app() {
 {% endif %}
 }
 
-{% if app_backup.gluster_volumes | default ([]) %}
-function backup_gluster_volume() {
-    volume_name="$1"
-    echo "--------------------------------------------------"
-    echo "Volume : ${volume_name}"
-    
-    task_start=$(date +%s)
-    task_status=0
-    task_common_labels="app=\"${APP_NAME}\",path=\"${volume_name}\""
-    tmp_output=$(mktemp)
-
-    echo " - mounting"
-    mkdir -p ${VOLUME_MOUNT_ROOT}/${volume_name}
-    umount -q ${VOLUME_MOUNT_ROOT}/${volume_name}
-    mount -t glusterfs {{ groups['glusterfs_servers'][0] }}:/${volume_name} ${VOLUME_MOUNT_ROOT}/${volume_name}
-    
-    echo " - backing up"
-    # TODO tag app ?
-    {{ restic_bin_path }} backup --host="${FAKE_HOST_NAME}" ${VOLUME_MOUNT_ROOT}/${volume_name} --json > ${tmp_output}
-    task_status=$?
-    
-    echo " - unmounting"
-    umount -l ${VOLUME_MOUNT_ROOT}/${volume_name}
-    rmdir ${VOLUME_MOUNT_ROOT}/${volume_name}
-    
-    if [ ${task_status} -ne 0 ] ; then
-        app_status=1
-    fi
-    
-    task_end=$(date +%s)
-    task_duration=$((task_end-task_start))
-
-    echo "finished with status ${task_status}"
-    cat ${tmp_output} | jq -r '. | select(.message_type == "summary")'
-    add_prom_metric "backup_task_start" "${task_common_labels}" ${task_start}
-    add_prom_metric "backup_task_duration" "${task_common_labels}" ${task_duration}
-    add_prom_metric "backup_task_status" "${task_common_labels}" ${task_status}
-    
-    if [ ${task_status} -eq 0 ] ; then
-        bytes_added=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .data_added')
-        bytes_total=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .total_bytes_processed')
-        files_new=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .files_new')
-        files_modified=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .files_changed')
-        files_unchanged=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .files_unmodified')
-        dirs_new=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .dirs_new')
-        dirs_modified=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .dirs_changed')
-        dirs_unchanged=$(cat ${tmp_output} | jq -r '. | select(.message_type == "summary") | .dirs_unmodified')
-
-        add_prom_metric "backup_task_added_bytes" "${task_common_labels}" ${bytes_added}
-        add_prom_metric "backup_task_total_bytes" "${task_common_labels}" ${bytes_total}
-        add_prom_metric "backup_task_files" "${task_common_labels},state=\"new\"" ${files_new}
-        add_prom_metric "backup_task_files" "${task_common_labels},state=\"modified\"" ${files_modified}
-        add_prom_metric "backup_task_files" "${task_common_labels},state=\"unchanged\"" ${files_unchanged}
-        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"new\"" ${dirs_new}
-        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"modified\"" ${dirs_modified}
-        add_prom_metric "backup_task_dirs" "${task_common_labels},state=\"unchanged\"" ${dirs_unchanged}
-    fi
-
-    rm ${tmp_output}
-}
-{% endif %}
-
 {% if app_backup.longhorn_volumes | default ([]) %}
 function call_longhorn_api() {
     method="$1"
@@ -256,9 +194,6 @@ init_backup_prom_file
 
 stop_app
 
-{% for vol in app_backup.gluster_volumes | default ([]) %}
-backup_gluster_volume "{{ vol }}"
-{% endfor %}
 {% for vol in app_backup.longhorn_volumes | default ([]) %}
 backup_longhorn_volume "{{ vol.pvc_name }}" "{{ vol.volume_name }}"
 {% endfor %}
