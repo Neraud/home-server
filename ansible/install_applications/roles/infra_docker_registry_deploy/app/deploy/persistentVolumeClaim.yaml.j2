@@ -5,10 +5,7 @@ metadata:
   namespace: {{ docker_registry.namespace }}
 spec:
   accessModes: [ "ReadWriteMany" ]
-  storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+  storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
   resources:
     requests:
       storage: {{ docker_registry.container.storage.data }}
-  selector:
-    matchLabels:
-      {{ docker_registry.labels_def | to_nice_yaml() | indent(6) }}

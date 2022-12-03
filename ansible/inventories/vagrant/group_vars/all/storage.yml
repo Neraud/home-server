@@ -1,15 +1,5 @@
 ---
 glusterfs_volumes:
-  docker-registry-data:
-    replicas: 2
-    capacity: 15G
-    arbiterCapacity: 64M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: docker-registry
-      app.kubernetes.io/component: registry
   zonemta-mongo-data:
     replicas: 2
     capacity: 1G
