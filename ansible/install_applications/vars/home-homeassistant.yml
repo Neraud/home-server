@@ -26,8 +26,9 @@ homeassistant:
       - name: homeassistant
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - homeassistant-config
+    longhorn_volumes:
+      - volume_name: homeassistant-config
+        pvc_name: homeassistant-pv-claim-homeassistant-0
 
   labels_def:
     app.kubernetes.io/name: homeassistant
@@ -96,8 +97,9 @@ homeassistant_mysql:
       - name: homeassistant-mysql
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - homeassistant-mysql
+    longhorn_volumes:
+      - volume_name: homeassistant-mysql
+        pvc_name: homeassistant-mysql-pv-claim-homeassistant-mysql-0
 
   labels_def:
     app.kubernetes.io/name: homeassistant

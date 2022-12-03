@@ -1,25 +1,5 @@
 ---
 glusterfs_volumes:
-  homeassistant-config:
-    replicas: 2
-    capacity: 256M
-    arbiterCapacity: 16M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: homeassistant
-      app.kubernetes.io/component: homeassistant
-  homeassistant-mysql:
-    replicas: 2
-    capacity: 2G
-    arbiterCapacity: 32M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: homeassistant
-      app.kubernetes.io/component: mysql
   nodered-data:
     replicas: 2
     capacity: 128M
