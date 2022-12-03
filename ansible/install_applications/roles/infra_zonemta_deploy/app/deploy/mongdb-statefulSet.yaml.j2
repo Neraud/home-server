@@ -110,10 +110,7 @@ spec:
       name: mongo-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      storageClassName: {{ kubernetes_longhorn_low_durability_storage_class_name }}
       resources:
         requests:
           storage: {{ zonemta_mongo.container.storage.data }}
-      selector:
-        matchLabels:
-          {{ zonemta_mongo.labels_def | to_nice_yaml() | indent(10) }}
