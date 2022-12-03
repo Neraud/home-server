@@ -35,8 +35,9 @@ syncthing:
       - name: syncthing
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - syncthing-data
+    longhorn_volumes:
+      - volume_name: syncthing-data
+        pvc_name: syncthing-pv-claim-syncthing-0
 
   labels_def:
     app.kubernetes.io/name: syncthing
@@ -134,8 +135,9 @@ syncthing_discovery:
       - name: discovery
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - syncthing-discovery-data
+    longhorn_volumes:
+      - volume_name: syncthing-discovery-data
+        pvc_name: discovery-pv-claim-discovery-0
   
   labels_def:
     app.kubernetes.io/name: syncthing
