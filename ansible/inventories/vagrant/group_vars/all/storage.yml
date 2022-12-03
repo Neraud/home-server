@@ -10,28 +10,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: unifi
       app.kubernetes.io/component: unifi
-  prometheus-k8s:
-    replicas: 2
-    capacity: 4G
-    arbiterCapacity: 64M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: prometheus
-      app.kubernetes.io/component: prometheus
-      app.kubernetes.io/instance: k8s
-  alertmanager-k8s:
-    replicas: 2
-    capacity: 16M
-    arbiterCapacity: 16M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: alertmanager
-      app.kubernetes.io/component: alertmanager
-      app.kubernetes.io/instance: k8s
   grafana-data:
     replicas: 2
     capacity: 128M

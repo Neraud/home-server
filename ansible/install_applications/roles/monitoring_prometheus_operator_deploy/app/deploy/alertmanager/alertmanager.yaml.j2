@@ -58,10 +58,8 @@ spec:
         name: alertmanager-k8s-pv-claim
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+        storageClassName: {{ kubernetes_longhorn_low_durability_storage_class_name }}
         resources:
           requests:
             storage: {{ alertmanager.container.storage.data }}
-        selector:
-          matchLabels:
-            {{ alertmanager.labels_def | to_nice_yaml() | indent(4) }}
+
