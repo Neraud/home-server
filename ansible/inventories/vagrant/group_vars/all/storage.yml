@@ -286,18 +286,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: airsonic
       app.kubernetes.io/component: airsonic
-      storage: data
-  airsonic-playlists:
-    replicas: 2
-    capacity: 256M
-    arbiterCapacity: 16M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: airsonic
-      app.kubernetes.io/component: airsonic
-      storage: playlists
   jellyfin-data:
     replicas: 2
     capacity: 256M

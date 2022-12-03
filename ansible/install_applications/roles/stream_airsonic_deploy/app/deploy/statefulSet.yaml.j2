@@ -29,6 +29,8 @@ spec:
           - |
             mkdir -p /airsonic/data
             chown -R 1000:1000 /airsonic/data
+            mkdir -p /airsonic/playlists
+            chown -R 1000:1000 /airsonic/playlists
         volumeMounts:
         - name: airsonic-data-pv-claim
           mountPath: /airsonic
@@ -105,8 +107,9 @@ spec:
         - name: airsonic-data-pv-claim
           mountPath: /var/airsonic
           subPath: data
-        - name: airsonic-playlists-pv-claim
+        - name: airsonic-data-pv-claim
           mountPath: /var/playlists
+          subPath: playlists
         - name: airsonic-multimedia
           mountPath: /mnt/multimedia
         # airsonic-config is not used by the container directly
@@ -153,16 +156,3 @@ spec:
       selector:
         matchLabels:
           {{ airsonic.labels_def | to_nice_yaml() | indent(10) }}
-          storage: data
-  - metadata:
-      name: airsonic-playlists-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ airsonic.container.storage.playlists }}
-      selector:
-        matchLabels:
-          {{ airsonic.labels_def | to_nice_yaml() | indent(10) }}
-          storage: playlists

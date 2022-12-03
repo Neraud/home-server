@@ -27,7 +27,6 @@ airsonic:
         replicas: 1
     gluster_volumes:
       - airsonic-data
-      - airsonic-playlists
 
   labels_def:
     app.kubernetes.io/name: airsonic
@@ -43,7 +42,6 @@ airsonic:
     limits_memory: "{{ airsonic_container_limits_memory | default('512Mi') }}"
     storage:
       data: "{{ airsonic_container_storage_data | default('256M') }}"
-      playlists: "{{ airsonic_container_storage_playlists | default('256M') }}"
 
   context_root: "{{ airsonic_context_root | default('') }}"
   extra_java_opts: "{{ airsonic_extra_java_opts | default(airsonic_extra_java_opts_default) }}"
