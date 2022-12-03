@@ -26,8 +26,9 @@ mosquitto:
       - name: mosquitto
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - mosquitto-data
+    longhorn_volumes:
+      - volume_name: mosquitto-data
+        pvc_name: mosquitto-data-pv-claim-mosquitto-0
 
   labels_def:
     app.kubernetes.io/name: mosquitto
