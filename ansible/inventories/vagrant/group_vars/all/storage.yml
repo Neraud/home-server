@@ -30,13 +30,3 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: sabnzbd
       app.kubernetes.io/component: sabnzbd
-  sickchill-data:
-    replicas: 2
-    capacity: 1G
-    arbiterCapacity: 32M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: sickchill
-      app.kubernetes.io/component: sickchill
