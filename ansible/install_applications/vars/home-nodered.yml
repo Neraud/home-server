@@ -26,8 +26,9 @@ nodered:
       - name: nodered
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - nodered-data
+    longhorn_volumes:
+      - volume_name: nodered-data
+        pvc_name: nodered-pv-claim-nodered-0
 
   labels_def:
     app.kubernetes.io/name: nodered
