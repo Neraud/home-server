@@ -25,8 +25,9 @@ frigate:
       - name: frigate
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - frigate-config
+    longhorn_volumes:
+      - volume_name: frigate-config
+        pvc_name: frigate-config-pv-claim-frigate-0
 
   labels_def:
     app.kubernetes.io/name: frigate
