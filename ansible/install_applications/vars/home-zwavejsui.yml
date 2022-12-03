@@ -25,8 +25,9 @@ zwavejsui:
       - name: zwave-js-ui
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - zwavejsui-data
+    longhorn_volumes:
+      - volume_name: zwavejsui-data
+        pvc_name: zwavejsui-pv-claim-zwavejsui-0
 
   labels_def:
     app.kubernetes.io/name: zwavejsui
