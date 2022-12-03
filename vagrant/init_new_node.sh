@@ -73,7 +73,7 @@ if [ -e /dev/sdc ]; then
 	vgcreate data_vg /dev/sdc1
 
 	echo " - prapare Longhorn LV"
-	lvcreate -L 20G -n lv_longhorn data_vg
+	lvcreate -l 80%FREE -n lv_longhorn data_vg
 	mkfs.ext4 /dev/mapper/data_vg-lv_longhorn
 	mkdir -p /data/longhorn/ssd-1
 	echo "/dev/data_vg/lv_longhorn /data/longhorn/ssd-1 ext4 rw,relatime 0 0" >> /etc/fstab
