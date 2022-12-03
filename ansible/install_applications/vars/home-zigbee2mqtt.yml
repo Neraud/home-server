@@ -26,8 +26,9 @@ zigbee2mqtt:
       - name: zigbee2mqtt
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - zigbee2mqtt-data
+    longhorn_volumes:
+      - volume_name: zigbee2mqtt-data
+        pvc_name: zigbee2mqtt-pv-claim-zigbee2mqtt-0
 
   labels_def:
     app.kubernetes.io/name: zigbee2mqtt
