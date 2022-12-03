@@ -1,15 +1,5 @@
 ---
 glusterfs_volumes:
-  unifi-data:
-    replicas: 2
-    capacity: 1G
-    arbiterCapacity: 32M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: unifi
-      app.kubernetes.io/component: unifi
   homeassistant-config:
     replicas: 2
     capacity: 256M
