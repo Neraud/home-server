@@ -26,8 +26,9 @@ nextcloud:
       - name: nextcloud
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - nextcloud-app
+    longhorn_volumes:
+      - volume_name: nextcloud-app
+        pvc_name: nextcloud-app-pv-claim-nextcloud-0
 
   labels_def:
     app.kubernetes.io/name: nextcloud
@@ -115,8 +116,9 @@ nextcloud_mysql:
       - name: mysql
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - nextcloud-mysql
+    longhorn_volumes:
+      - volume_name: nextcloud-mysql
+        pvc_name: mysql-pv-claim-mysql-0
 
   labels_def:
     app.kubernetes.io/name: nextcloud
