@@ -32,8 +32,9 @@ pyload:
       - name: pyload
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - pyload-config
+    longhorn_volumes:
+      - volume_name: pyload-config
+        pvc_name: pyload-config-pv-claim-pyload-0
 
   labels_def:
     app.kubernetes.io/name: pyload
