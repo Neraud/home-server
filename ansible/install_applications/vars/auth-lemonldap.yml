@@ -25,8 +25,9 @@ lemonldap:
       - name: lemonldap
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - lemonldap-data
+    longhorn_volumes:
+      - volume_name: lemonldap-data
+        pvc_name: lemonldap-data-pv-claim-lemonldap-0
 
   labels_def:
     app.kubernetes.io/name: lemonldap

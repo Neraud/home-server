@@ -10,17 +10,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: unifi
       app.kubernetes.io/component: unifi
-  lemonldap-data:
-    replicas: 2
-    capacity: 32M
-    arbiterCapacity: 16M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: lemonldap
-      app.kubernetes.io/component: lemonldap
-      storage: data
   prometheus-k8s:
     replicas: 2
     capacity: 4G
