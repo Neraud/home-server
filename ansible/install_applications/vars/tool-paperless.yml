@@ -26,8 +26,9 @@ paperless:
       - name: paperless
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - paperless-data
+    longhorn_volumes:
+      - volume_name: paperless-data
+        pvc_name: paperless-data-pv-claim-paperless-0
 
   labels_def:
     app.kubernetes.io/name: paperless
@@ -88,8 +89,9 @@ paperless_pgsql:
       - name: pgsql
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - paperless-pgsql
+    longhorn_volumes:
+      - volume_name: paperless-pgsql
+        pvc_name: pgsql-pv-claim-pgsql-0
 
   labels_def:
     app.kubernetes.io/name: paperless
