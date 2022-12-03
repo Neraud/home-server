@@ -30,8 +30,9 @@ sabnzbd:
       - name: sabnzbd
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - sabnzbd-config
+    longhorn_volumes:
+      - volume_name: sabnzbd-config
+        pvc_name: sabnzbd-config-pv-claim-sabnzbd-0
 
   labels_def:
     app.kubernetes.io/name: sabnzbd
