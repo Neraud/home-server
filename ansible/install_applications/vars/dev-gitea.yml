@@ -25,8 +25,9 @@ gitea:
       - name: gitea
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - gitea-data
+    longhorn_volumes:
+      - volume_name: gitea-data
+        pvc_name: gitea-data-pv-claim-gitea-0
 
   labels_def:
     app.kubernetes.io/name: gitea
@@ -94,8 +95,9 @@ gitea_pgsql:
       - name: pgsql
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - gitea-pgsql
+    longhorn_volumes:
+      - volume_name: gitea-pgsql
+        pvc_name: pgsql-pv-claim-pgsql-0
 
   labels_def:
     app.kubernetes.io/name: gitea

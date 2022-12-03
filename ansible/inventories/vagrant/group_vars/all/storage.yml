@@ -1,25 +1,5 @@
 ---
 glusterfs_volumes:
-  gitea-data:
-    replicas: 2
-    capacity: 256M
-    arbiterCapacity: 16M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: gitea
-      app.kubernetes.io/component: gitea
-  gitea-pgsql:
-    replicas: 2
-    capacity: 512M
-    arbiterCapacity: 32M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: gitea
-      app.kubernetes.io/component: pgsql
   deluge-data:
     replicas: 2
     capacity: 256M
