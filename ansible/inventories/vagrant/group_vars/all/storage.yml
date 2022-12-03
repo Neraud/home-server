@@ -10,16 +10,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: unifi
       app.kubernetes.io/component: unifi
-  openldap-data:
-    replicas: 2
-    capacity: 256M
-    arbiterCapacity: 16M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: openldap
-      app.kubernetes.io/component: openldap
   lemonldap-data:
     replicas: 2
     capacity: 32M

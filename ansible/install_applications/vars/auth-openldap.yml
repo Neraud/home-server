@@ -28,8 +28,9 @@ openldap:
       - name: openldap
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - openldap-data
+    longhorn_volumes:
+      - volume_name: openldap-data
+        pvc_name: openldap-data-pv-claim-openldap-0
 
   labels_def:
     app.kubernetes.io/name: openldap
