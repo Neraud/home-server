@@ -69,8 +69,9 @@ miniflux_pgsql:
       - name: miniflux
         type: deployment
         replicas: 1
-    gluster_volumes:
-      - miniflux-pgsql
+    longhorn_volumes:
+      - volume_name: miniflux-pgsql
+        pvc_name: miniflux-pgsql-pv-claim-pgsql-0
 
   labels_def:
     app.kubernetes.io/name: miniflux

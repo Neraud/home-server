@@ -10,16 +10,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: unifi
       app.kubernetes.io/component: unifi
-  miniflux-pgsql:
-    replicas: 2
-    capacity: 256M
-    arbiterCapacity: 64M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: miniflux
-      app.kubernetes.io/component: pgsql
   nextcloud-app:
     replicas: 2
     capacity: 768M
