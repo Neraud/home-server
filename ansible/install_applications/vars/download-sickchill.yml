@@ -23,9 +23,9 @@ sickchill:
   app_backup:
     name: download-sickchill
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _sickchill_var_loader.namespace }}"
     apps_to_stop:
       - name: sickchill
-        namespace: "{{ _sickchill_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:

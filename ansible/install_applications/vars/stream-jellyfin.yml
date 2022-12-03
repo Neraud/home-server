@@ -29,9 +29,9 @@ jellyfin:
   app_backup:
     name: stream-jellyfin
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _jellyfin_var_loader.namespace }}"
     apps_to_stop:
       - name: jellyfin
-        namespace: "{{ _jellyfin_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:

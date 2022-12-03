@@ -30,12 +30,12 @@ function stop_app() {
     echo "Stopping applications"
     {% for app in app_backup.apps_to_stop %}
     echo " - {{ app.name }}"
-    kubectl {{ kubectl_params }} --namespace={{ app.namespace }} scale {{ app.type }} {{ app.name }} --replicas=0
+    kubectl {{ kubectl_params }} --namespace={{ app_backup.namespace }} scale {{ app.type }} {{ app.name }} --replicas=0
     {% endfor %}
     echo "Waiting for applications to stop"
     {% for app in app_backup.apps_to_stop %}
     echo " - {{ app.name }}"
-    timeout 1m bash -c 'until test $(kubectl {{ kubectl_params }}  --namespace={{ app.namespace }} get {{ app.type }} {{ app.name }} -o json | jq -r ".status.replicas") -eq 0 ; do sleep 5 ; done'
+    timeout 1m bash -c 'until test $(kubectl {{ kubectl_params }} --namespace={{ app_backup.namespace }} get {{ app.type }} {{ app.name }} -o json | jq -r ".status.replicas") -eq 0 ; do sleep 5 ; done'
     {% endfor %}
 {% else %}
     echo "No application to stop, continuing"
@@ -108,7 +108,7 @@ function restart_app() {
     echo "Restarting applications"
     {% for app in app_backup.apps_to_stop %}
     echo " - {{ app.name }}"
-    kubectl {{ kubectl_params }} --namespace={{ app.namespace }} scale {{ app.type }} {{ app.name }} --replicas={{ app.replicas }}
+    kubectl {{ kubectl_params }} --namespace={{ app_backup.namespace }} scale {{ app.type }} {{ app.name }} --replicas={{ app.replicas }}
     {% endfor %}
 {% else %}
     echo "No application to restart, continuing"

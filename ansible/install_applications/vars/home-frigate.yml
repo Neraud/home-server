@@ -20,9 +20,9 @@ frigate:
   app_backup:
     name: home-frigate
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _frigate_var_loader.namespace }}"
     apps_to_stop:
       - name: frigate
-        namespace: "{{ _frigate_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:

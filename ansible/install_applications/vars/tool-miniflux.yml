@@ -61,13 +61,12 @@ miniflux_pgsql:
   app_backup:
     name: tool-miniflux_pgsql
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _miniflux_var_loader.namespace }}"
     apps_to_stop:
       - name: miniflux-pgsql
-        namespace: "{{ _miniflux_var_loader.namespace }}"
         type: statefulset
         replicas: 1
       - name: miniflux
-        namespace: "{{ _miniflux_var_loader.namespace }}"
         type: deployment
         replicas: 1
     gluster_volumes:

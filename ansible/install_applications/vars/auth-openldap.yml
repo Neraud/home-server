@@ -23,9 +23,9 @@ openldap:
   app_backup:
     name: auth-openldap
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _openldap_var_loader.namespace }}"
     apps_to_stop:
       - name: openldap
-        namespace: "{{ _openldap_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:

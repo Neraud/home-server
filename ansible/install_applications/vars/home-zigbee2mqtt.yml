@@ -21,9 +21,9 @@ zigbee2mqtt:
   app_backup:
     name: home-zigbee2mqtt
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _zigbee2mqtt_var_loader.namespace }}"
     apps_to_stop:
       - name: zigbee2mqtt
-        namespace: "{{ _zigbee2mqtt_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:

@@ -20,9 +20,9 @@ lemonldap:
   app_backup:
     name: auth-lemonldap
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _lemonldap_var_loader.namespace }}"
     apps_to_stop:
       - name: lemonldap
-        namespace: "{{ _lemonldap_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:

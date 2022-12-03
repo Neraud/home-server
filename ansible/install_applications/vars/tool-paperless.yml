@@ -21,9 +21,9 @@ paperless:
   app_backup:
     name: tool-paperless
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _paperless_var_loader.namespace }}"
     apps_to_stop:
       - name: paperless
-        namespace: "{{ _paperless_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:
@@ -83,9 +83,9 @@ paperless_pgsql:
   app_backup:
     name: tool-paperless_pgsql
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _paperless_var_loader.namespace }}"
     apps_to_stop:
       - name: pgsql
-        namespace: "{{ _paperless_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:

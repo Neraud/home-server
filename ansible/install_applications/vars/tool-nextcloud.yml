@@ -21,9 +21,9 @@ nextcloud:
   app_backup:
     name: tool-nextcloud
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _nextcloud_var_loader.namespace }}"
     apps_to_stop:
       - name: nextcloud
-        namespace: "{{ _nextcloud_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:
@@ -107,13 +107,12 @@ nextcloud_mysql:
   app_backup:
     name: home-nextcloud_mysql
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _nextcloud_var_loader.namespace }}"
     apps_to_stop:
       - name: nextcloud
-        namespace: "{{ _nextcloud_var_loader.namespace }}"
         type: statefulset
         replicas: 1
       - name: mysql
-        namespace: "{{ _nextcloud_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:

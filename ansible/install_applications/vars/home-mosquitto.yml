@@ -21,9 +21,9 @@ mosquitto:
   app_backup:
     name: home-mosquitto
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _mosquitto_var_loader.namespace }}"
     apps_to_stop:
       - name: mosquitto
-        namespace: "{{ _mosquitto_var_loader.namespace }}"
         type: statefulset
         replicas: 1
     gluster_volumes:
