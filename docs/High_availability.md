@@ -36,12 +36,12 @@ The apiserver is accessed though a HAProxy that distributes requests across the 
 
 ### Storage
 
-All persistent volumes use GlusterFS.
+All persistent volumes use Longhorn.
 
-The GlusterFS volumes are built on 3 nodes with 2 replicas.
-To lower the storage requirements, only 2 nodes hold data, with the 3rd one only being an arbiter.
+The Longhorn provisionner is deployed at least on our 3 master nodes.
+The Longhorn volumes are using at 2 or 3 replicas.
 
-**HighAvailability** : GlusterFS tolerates the loss of 1 master node
+**HighAvailability** : Longhorn tolerates the loss of at least 1 node
 
 ### Reverse Proxy
 
