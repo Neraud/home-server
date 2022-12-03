@@ -401,10 +401,16 @@ watchers:
       - 3\.16\.[0-1]$
       - .*rc.*
   - type: github_release
+    repo: longhorn/longhorn
+    release: v1.3.2
+    excludes:
+      - .*(alpha|beta|rc).*
+      - v1\.[0-2]\..*
+  - type: github_release
     repo: metallb/metallb
     release: v0.13.7
     excludes:
-      - metallb-chart-.*     
+      - metallb-chart-.*
   - type: github_release
     repo: kubernetes/ingress-nginx
     release: controller-v1.4.0
