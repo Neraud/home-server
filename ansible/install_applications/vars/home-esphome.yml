@@ -25,8 +25,9 @@ esphome:
       - name: esphome
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - esphome-config
+    longhorn_volumes:
+      - volume_name: esphome-config
+        pvc_name: esphome-config-pv-claim-esphome-0
 
   labels_def:
     app.kubernetes.io/name: esphome

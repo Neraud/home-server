@@ -82,10 +82,7 @@ spec:
       name: esphome-config-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
       resources:
         requests:
           storage: {{ esphome.container.storage.config }}
-      selector:
-        matchLabels:
-          {{ esphome.labels_def | to_nice_yaml() | indent(10) }}
