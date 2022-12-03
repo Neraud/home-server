@@ -10,16 +10,6 @@ glusterfs_volumes:
     labels:
       app.kubernetes.io/name: unifi
       app.kubernetes.io/component: unifi
-  grafana-data:
-    replicas: 2
-    capacity: 128M
-    arbiterCapacity: 128M
-    nodes: [master-test-2, master-test-3]
-    arbiters: [master-test-1]
-    reclaim_policy: Retain
-    labels:
-      app.kubernetes.io/name: grafana
-      app.kubernetes.io/component: grafana
   miniflux-pgsql:
     replicas: 2
     capacity: 256M
