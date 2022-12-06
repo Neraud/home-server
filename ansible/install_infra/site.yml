@@ -76,7 +76,8 @@
     - crio
     - podman
     - kubernetes_node_preinstall
-    - kubernetes_master_cni_prepare
+    - kubernetes_master_cni_calico_prepare
+    #- kubernetes_master_cni_flannel_prepare
     - { role: local_lvm, tags: kubernetes-storage }
 
 - name: Prepare Kubernetes masters
@@ -99,7 +100,9 @@
 - name: Deploy CNI
   hosts: controller
   roles:
-    - kubernetes_master_cni_deploy
+    - kubernetes_master_cni_calico_deploy
+    #- kubernetes_master_cni_flannel_deploy
+    - kubernetes_master_cni_multus_deploy
 
 - name: Provision Kubernetes nodes
   hosts: kubernetes_nodes
