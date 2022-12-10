@@ -2,7 +2,7 @@
 
 # From https://packages.debian.org/bookworm/ser2net
 PACKAGE_NAME=ser2net-4.3.4
-PACKAGE_DESC_URL=http://deb.debian.org/debian/pool/main/s/ser2net/ser2net_4.3.4-2.dsc
+PACKAGE_DESC_URL=https://snapshot.debian.org/archive/debian/20211122T151224Z/pool/main/s/ser2net/ser2net_4.3.4-2.dsc
 
 /opt/backports/backport.sh "${PACKAGE_NAME}" "${PACKAGE_DESC_URL}"
 
