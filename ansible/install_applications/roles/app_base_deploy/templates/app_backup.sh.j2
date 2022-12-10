@@ -90,7 +90,7 @@ function attach_longhorn_volume() {
     state=""
     counter=1
     while [ "${state}" != "attached" -a ${counter} -lt 20 ]; do
-        state=$(call_longhorn_api "POST" "/volumes/${pv_name}?action=attach" "{ \"hostId\": \"master-test-1\", \"disableFrontend\": false }" | jq -r .state)
+        state=$(call_longhorn_api "POST" "/volumes/${pv_name}?action=attach" "{ \"hostId\": \"$(hostname)\", \"disableFrontend\": false }" | jq -r .state)
         echo " - volume state ${counter} : ${state}"
         sleep 2
         let counter=counter+1
