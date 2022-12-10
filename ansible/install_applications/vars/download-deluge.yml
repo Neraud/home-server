@@ -19,20 +19,21 @@ deluge:
   namespace: "{{ _deluge_var_loader.namespace }}"
   version: "{{ _deluge_var_loader.version }}"
 
-  app_backup:
-    name: download-deluge
-    repository: "{{ restic_apps_backup_repository }}"
-    namespace: "{{ _deluge_var_loader.namespace }}"
-    apps_to_stop:
-      - name: deluge-daemon
-        type: statefulset
-        replicas: 1
-      - name: deluge-web
-        type: statefulset
-        replicas: 1
-    longhorn_volumes:
-      - volume_name: deluge-data
-        pvc_name: deluge-data-pv-claim
+  # TODO : we can't mount a Longhorn RWX volume to back it up :/
+  #app_backup:
+  #  name: download-deluge
+  #  repository: "{{ restic_apps_backup_repository }}"
+  #  namespace: "{{ _deluge_var_loader.namespace }}"
+  #  apps_to_stop:
+  #    - name: deluge-daemon
+  #      type: statefulset
+  #      replicas: 1
+  #    - name: deluge-web
+  #      type: statefulset
+  #      replicas: 1
+  #  longhorn_volumes:
+  #    - volume_name: deluge-data
+  #      pvc_name: deluge-data-pv-claim
 
   labels_def:
     app.kubernetes.io/name: deluge
