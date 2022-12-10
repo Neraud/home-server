@@ -24,9 +24,9 @@ docker_registry:
   container:
     replicas: "{{ docker_registry_container_replicas | default('2') }}"
     requests_cpu: "{{ docker_registry_container_requests_cpu | default('50m') }}"
-    requests_memory: "{{ docker_registry_container_requests_memory | default('128Mi') }}"
+    requests_memory: "{{ docker_registry_container_requests_memory | default('256Mi') }}"
     limits_cpu: "{{ docker_registry_container_limits_cpu | default('500m') }}"
-    limits_memory: "{{ docker_registry_container_limits_memory | default('128Mi') }}"
+    limits_memory: "{{ docker_registry_container_limits_memory | default('256Mi') }}"
     storage:
       data: "{{ docker_registry_container_storage_data | default('15G') }}"
 
