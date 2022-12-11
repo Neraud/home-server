@@ -10,17 +10,41 @@ I tried to keep track of the prices of these parts at the time I bought them.
 
 ### Kubernetes Master-1
 
-| Part     | Model                                                                                      | Price    |
-| -------- | ------------------------------------------------------------------------------------------ | -------- |
-| Barebone | [Intel NUC 6i5SYH](https://www.amazon.fr/gp/product/B018Q0GN60)                            | 437,29 € |
-| RAM      | 2*16 GB DDR4 2133 ([Crucial CT2K16G4SFD8213](https://www.amazon.fr/gp/product/B015YPB8ME)) | 110,52 € |
-| Storage  | [Samsung 850 EVO M.2 500 GB](https://www.amazon.fr/gp/product/B00TGIW1XG)                  | 165,32 € |
+| Part     | Model                                                                                                                          | Price    |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| Barebone | [ASRock DeskMini X300](https://www.amazon.de/gp/product/B08NWHGTQQ)                                                            | 136,67 € |
+| CPU      | [AMD Ryzen 7 5700G](https://www.rueducommerce.fr/p-ryzen-7-5700g-3846-ghz-amd-3276970-18381.html)                              | 399.90 € |
+| Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.fr/gp/product/B075SG1T3X)                                                               | 44,90  € |
+| RAM      | 2*16 GB DDR4 3200 CL 16 ([Crucial Ballistix BL2K16G32C16S4B](https://www.amazon.fr/gp/product/B083W5ZRJ1))                     | 157,19 € |
+| Storage  | 1 To [WD Blue SN550 NVMe](https://www.rueducommerce.fr/produit/western-digital-wd-blue-sn550-1-to-m-2-pcie-gen3-nvme-98427536) | 109.99 € |
 
-(ordered 2016-08)
-
-This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-) CPU.
+(ordered 2021-08)
 
 ### Kubernetes Master-2
+
+| Part     | Model                                                                                                              | Price    |
+| -------- | ------------------------------------------------------------------------------------------------------------------ | -------- |
+| Barebone | [ASRock DeskMini X300](https://www.amazon.de/-/en/gp/product/B08NWHGTQQ)                                           | 161,34 € |
+| CPU      | [AMD Ryzen 7 5700G](https://www.amazon.de/dp/B091J3NYVF/ref=pe_27091401_487027711_TE_SCE_dp_1)                     | 208,73 € |
+| Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.de/-/en/gp/product/B075SG1T3X/ref=ppx_od_dt_b_asin_title_s00?ie=UTF8&psc=1) | 50,32 €  |
+| RAM      | 2*16 GB DDR4 3200 CL 22 ([GSKILL RipJaws S44-3200C22D-32GRS](https://www.amazon.de/-/en/gp/product/B08HDL6M19))    | 96,05 €  |
+| Storage  | 1 To [WD Blue SN570 NVMe](https://www.amazon.de/-/en/gp/product/B09HKDQ1RN)                                        | 70,49 €  |
+
+(ordered 2022-12)
+
+### Kubernetes Master-3
+
+| Part     | Model                                                                                                                           | Price    |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Barebone | [ASRock DeskMini X300](https://www.amazon.de/-/en/gp/product/B08NWHGTQQ)                                                        | 161,34 € |
+| CPU      | [AMD Ryzen 7 5700G](https://www.amazon.de/dp/B091J3NYVF/ref=pe_27091401_487027711_TE_SCE_dp_1)                                  | 208,73 € |
+| Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.de/-/en/gp/product/B075SG1T3X/ref=ppx_od_dt_b_asin_title_s00?ie=UTF8&psc=1)              | 50,32 €  |
+| RAM      | 2*16 GB DDR4 3200 CL 22 ([GSKILL RipJaws S44-3200C22D-32GRS](https://www.amazon.de/-/en/gp/product/B08HDL6M19))                 | 96,05 €  |
+| Storage  | 1 To [WD Blue SN570 NVMe](https://www.rueducommerce.fr/p-disque-ssd-nvme-wd-blue-sn570-1-to-western-digital-3363012-18409.html) | 69,89 €  |
+
+(ordered 2022-12)
+
+### Kubernetes Node-1
 
 | Part     | Model                                                                                                                              | Price    |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
@@ -32,7 +56,7 @@ This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Cor
 
 This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
 
-### Kubernetes Master-3
+### Kubernetes Node-2
 
 | Part     | Model                                                                                                                              | Price    |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
@@ -53,16 +77,6 @@ This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/pr
 (ordered 2017-08)
 
 This box runs an [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-) CPU, with 2 GB of DDR3 RAM and 32GB of onboard flash storage.
-
-### Kubernetes Node-1
-
-| Part     | Model                                                                                                                          | Price    |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------ | -------- |
-| Barebone | [ASRock DeskMini X300](https://www.amazon.de/gp/product/B08NWHGTQQ)                                                            | 136,67 € |
-| CPU      | [AMD Ryzen 7 5700G](https://www.rueducommerce.fr/p-ryzen-7-5700g-3846-ghz-amd-3276970-18381.html)                              | 399.90 € |
-| Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.fr/gp/product/B075SG1T3X)                                                               | 44,90  € |
-| RAM      | 2*16 GB DDR4 3200 CL 16 ([Crucial Ballistix BL2K16G32C16S4B](https://www.amazon.fr/gp/product/B083W5ZRJ1))                     | 157,19 € |
-| Storage  | 1 To [WD Blue SN550 NVMe](https://www.rueducommerce.fr/produit/western-digital-wd-blue-sn550-1-to-m-2-pcie-gen3-nvme-98427536) | 109.99 € |
 
 ## Accessories
 
@@ -103,7 +117,7 @@ Synology NAS DS1621+, with 4 Seagate Enterprise Exos X16 12T (ST12000NM001G) and
 
 ## Graveyard
 
-### Old Kubernetes Master-1
+### Old Kubernetes Master
 
 | Part     | Model                  | Price    |
 | -------- | ---------------------- | -------- |
@@ -115,6 +129,20 @@ Synology NAS DS1621+, with 4 Seagate Enterprise Exos X16 12T (ST12000NM001G) and
 (dead 2019-08, won't boot after changing the dead fan)
 
 This NUC runs an [Intel i3-3217U](https://ark.intel.com/products/65697/Intel-Core-i3-3217U-Processor-3M-Cache-1-80-GHz-) CPU.
+
+### Old Kubernetes Master
+
+| Part     | Model                                                                                      | Price    |
+| -------- | ------------------------------------------------------------------------------------------ | -------- |
+| Barebone | [Intel NUC 6i5SYH](https://www.amazon.fr/gp/product/B018Q0GN60)                            | 437,29 € |
+| RAM      | 2*16 GB DDR4 2133 ([Crucial CT2K16G4SFD8213](https://www.amazon.fr/gp/product/B015YPB8ME)) | 110,52 € |
+| Storage  | [Samsung 850 EVO M.2 500 GB](https://www.amazon.fr/gp/product/B00TGIW1XG)                  | 165,32 € |
+
+(ordered 2016-08)
+
+This NUC runs an [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-) CPU.
+
+Decommissioned around 2022-12 after more than 6 years of service !
 
 ### Old NAS-1
 
