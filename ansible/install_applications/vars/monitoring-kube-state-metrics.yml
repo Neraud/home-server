@@ -24,10 +24,10 @@ kube_state_metrics:
     app.kubernetes.io/version: "{{ _kube_state_metrics_var_loader.base_image.tag }}"
 
   container:
-    requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('20m') }}"
-    requests_memory: "{{ kube_state_metrics_container_requests_memory | default('192Mi') }}"
+    requests_cpu: "{{ kube_state_metrics_container_requests_cpu | default('50m') }}"
+    requests_memory: "{{ kube_state_metrics_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ kube_state_metrics_container_limits_cpu | default('100m') }}"
-    limits_memory: "{{ kube_state_metrics_container_limits_memory | default('256Mi') }}"
+    limits_memory: "{{ kube_state_metrics_container_limits_memory | default('96Mi') }}"
 
 # To avoid loops kube_state_metrics_rbac_proxy kube_state_metrics
 _kube_state_metrics_rbac_proxy_var_loader:
@@ -43,7 +43,7 @@ kube_state_metrics_rbac_proxy:
     name: "{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}"
     tag: "{{ _kube_state_metrics_rbac_proxy_var_loader.base_image.tag }}"
   container:
-    requests_cpu: "{{ kube_state_metrics_rbac_proxy_container_requests_cpu | default('10m') }}"
+    requests_cpu: "{{ kube_state_metrics_rbac_proxy_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ kube_state_metrics_rbac_proxy_container_requests_memory | default('32Mi') }}"
     limits_cpu: "{{ kube_state_metrics_rbac_proxy_container_limits_cpu | default('250m') }}"
     limits_memory: "{{ kube_state_metrics_rbac_proxy_container_limits_memory | default('64Mi') }}"

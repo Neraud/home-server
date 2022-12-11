@@ -24,7 +24,7 @@ reloader:
     app.kubernetes.io/version: "{{ _reloader_var_loader.base_image.tag }}"
 
   container:
-    requests_cpu: "{{ reloader_container_requests_cpu | default('10m') }}"
-    requests_memory: "{{ reloader_container_requests_memory | default('128Mi') }}"
+    requests_cpu: "{{ reloader_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ reloader_container_requests_memory | default('64Mi') }}"
     limits_cpu: "{{ reloader_container_limits_cpu | default('50m') }}"
-    limits_memory: "{{ reloader_container_limits_memory | default('128Mi') }}"
+    limits_memory: "{{ reloader_container_limits_memory | default('64Mi') }}"
