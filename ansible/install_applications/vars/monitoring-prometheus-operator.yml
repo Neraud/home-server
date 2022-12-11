@@ -47,10 +47,10 @@ prometheus_operator_rbac_proxy:
     name: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image.name | regex_replace('.*/', '') }}"
     tag: "{{ _prometheus_operator_rbac_proxy_var_loader.base_image.tag }}"
   container:
-    requests_cpu: "{{ prometheus_operator_container_requests_cpu | default('10m') }}"
-    requests_memory: "{{ prometheus_operator_container_requests_memory | default('20Mi') }}"
-    limits_cpu: "{{ prometheus_operator_container_limits_cpu | default('20m') }}"
-    limits_memory: "{{ prometheus_operator_container_limits_memory | default('40Mi') }}"
+    requests_cpu: "{{ prometheus_operator_rbac_proxy_container_requests_cpu | default('10m') }}"
+    requests_memory: "{{ prometheus_operator_rbac_proxy_container_requests_memory | default('20Mi') }}"
+    limits_cpu: "{{ prometheus_operator_rbac_proxy_container_limits_cpu | default('20m') }}"
+    limits_memory: "{{ prometheus_operator_rbac_proxy_container_limits_memory | default('40Mi') }}"
 
 # To avoid loops inside prometheus
 _prometheus_var_loader:
