@@ -63,7 +63,7 @@ miniflux_pgsql:
     repository: "{{ restic_apps_backup_repository }}"
     namespace: "{{ _miniflux_var_loader.namespace }}"
     apps_to_stop:
-      - name: miniflux-pgsql
+      - name: pgsql
         type: statefulset
         replicas: 1
       - name: miniflux
