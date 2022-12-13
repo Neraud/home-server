@@ -35,7 +35,7 @@ function stop_app() {
     echo "Waiting for applications to stop"
     {% for app in app_backup.apps_to_stop %}
     echo " - {{ app.name }}"
-    timeout 1m bash -c 'until test $(kubectl {{ kubectl_params }} --namespace={{ app_backup.namespace }} get {{ app.type }} {{ app.name }} -o json | jq -r ".status.replicas") -eq 0 ; do sleep 5 ; done'
+    timeout 1m bash -c 'until test $(kubectl {{ kubectl_params }} --namespace={{ app_backup.namespace }} get {{ app.type }} {{ app.name }} -o json | jq -r ".status.replicas" | sed "s/null/0/") -eq 0 ; do sleep 5 ; done'
     {% endfor %}
 {% else %}
     echo "No application to stop, continuing"
