@@ -20,13 +20,14 @@ lemonldap:
   app_backup:
     name: auth-lemonldap
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _lemonldap_var_loader.namespace }}"
     apps_to_stop:
       - name: lemonldap
-        namespace: "{{ _lemonldap_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - lemonldap-data
+    longhorn_volumes:
+      - volume_name: lemonldap-data
+        pvc_name: lemonldap-data-pv-claim-lemonldap-0
 
   labels_def:
     app.kubernetes.io/name: lemonldap

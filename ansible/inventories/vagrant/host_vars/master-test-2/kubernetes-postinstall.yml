@@ -1,7 +1,5 @@
 ---
 kubernetes_node_labels:
-  - name: capability/glusterfs-server
-    value: "yes"
   - name: capability/general-purpose
     value: "yes"
   - name: capability/home
@@ -12,6 +10,22 @@ kubernetes_node_labels:
     value: "no"
   - name: capability/tpu
     value: "no"
+  - name: node.longhorn.io/create-default-disk
+    value: "config"
+
+kubernetes_node_annotations:
+  - name: node.longhorn.io/default-disks-config
+    value: >-
+      [
+        {   
+            "name": "ssd-1", 
+            "path": "/data/longhorn/ssd-1",
+            "allowScheduling": true,
+            "tags": [
+                "ssd"
+            ]
+        }
+      ]
 
 kubernetes_node_taints:
   - key: node-role.kubernetes.io/master

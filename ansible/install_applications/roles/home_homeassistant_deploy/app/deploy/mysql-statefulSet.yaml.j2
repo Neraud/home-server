@@ -100,10 +100,7 @@ spec:
       name: homeassistant-mysql-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
       resources:
         requests:
           storage: {{ homeassistant_mysql.container.storage.data }}
-      selector:
-        matchLabels:
-          {{ homeassistant_mysql.labels_def | to_nice_yaml() | indent(10) }}

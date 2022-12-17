@@ -1,6 +1,0 @@
-# {{ ansible_managed }}
-
-[Service]
-{% if gluster_exporter_cpu_quota is defined %}
-CPUQuota={{ gluster_exporter_cpu_quota }}
-{% endif %}

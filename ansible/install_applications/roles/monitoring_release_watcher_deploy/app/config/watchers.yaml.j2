@@ -16,10 +16,6 @@ watchers:
   #################################
   # Installed by ansible on hosts #
   #################################
-  - type: github_commit
-    repo: gluster/gluster-prometheus
-    branch: master
-    commit: 3ebaacc2c690223f77fc93f5f237ab5065138660
   - type: github_release
     repo: cafebazaar/keepalived-exporter
     release: v1.2.0
@@ -49,11 +45,6 @@ watchers:
   #########
   # Infra #
   #########
-  - type: github_release
-    repo: coreos/flannel
-    release: v0.20.0
-    excludes:
-      - .*-rc[0-9]+.*
   - type: github_release
     repo: projectcalico/calico
     release: v3.24.3
@@ -401,10 +392,16 @@ watchers:
       - 3\.16\.[0-1]$
       - .*rc.*
   - type: github_release
+    repo: longhorn/longhorn
+    release: v1.3.2
+    excludes:
+      - .*(alpha|beta|rc).*
+      - v1\.[0-2]\..*
+  - type: github_release
     repo: metallb/metallb
     release: v0.13.7
     excludes:
-      - metallb-chart-.*     
+      - metallb-chart-.*
   - type: github_release
     repo: kubernetes/ingress-nginx
     release: controller-v1.4.0
@@ -612,10 +609,6 @@ watchers:
     repo: prometheus-operator/kube-prometheus
     branch: main
     commit: 1bf12a98422ed9e2f26c061beb07fa14035e8823
-  - type: github_commit
-    repo: gluster/gluster-mixins
-    branch: master
-    commit: a6a02d24ffe92ee38fcfb80f38fc75c4f952e626
   - type: docker_registry
     repo: {{ nginx_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ nginx_exporter.base_image.name }}

@@ -23,13 +23,14 @@ sickchill:
   app_backup:
     name: download-sickchill
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _sickchill_var_loader.namespace }}"
     apps_to_stop:
       - name: sickchill
-        namespace: "{{ _sickchill_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - sickchill-data
+    longhorn_volumes:
+      - volume_name: sickchill-data
+        pvc_name: sickchill-data-pv-claim-sickchill-0
 
   labels_def:
     app.kubernetes.io/name: sickchill

@@ -7,5 +7,4 @@
     context: "{{ kubeconfig_context }}"
   with_items:
     - local-lvm-storage-class.yaml.j2
-    - glusterfs-storage-class.yaml.j2
     - nas-nfs-storage-class.yaml.j2

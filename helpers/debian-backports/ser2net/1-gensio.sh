@@ -2,7 +2,7 @@
 
 # From https://packages.debian.org/bookworm/gensio-bin
 PACKAGE_NAME=gensio-2.3.5
-PACKAGE_DESC_URL=http://deb.debian.org/debian/pool/main/g/gensio/gensio_2.3.5-1.dsc
+PACKAGE_DESC_URL=https://snapshot.debian.org/archive/debian/20211122T151224Z/pool/main/g/gensio/gensio_2.3.5-1.dsc
 
 /opt/backports/backport.sh "${PACKAGE_NAME}" "${PACKAGE_DESC_URL}"
 

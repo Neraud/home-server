@@ -21,13 +21,14 @@ homeassistant:
   app_backup:
     name: home-homeassistant
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _homeassistant_var_loader.namespace }}"
     apps_to_stop:
       - name: homeassistant
-        namespace: "{{ _homeassistant_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - homeassistant-config
+    longhorn_volumes:
+      - volume_name: homeassistant-config
+        pvc_name: homeassistant-pv-claim-homeassistant-0
 
   labels_def:
     app.kubernetes.io/name: homeassistant
@@ -91,13 +92,14 @@ homeassistant_mysql:
   app_backup:
     name: home-homeassistant_mysql
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _homeassistant_var_loader.namespace }}"
     apps_to_stop:
       - name: homeassistant-mysql
-        namespace: "{{ _homeassistant_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - homeassistant-mysql
+    longhorn_volumes:
+      - volume_name: homeassistant-mysql
+        pvc_name: homeassistant-mysql-pv-claim-homeassistant-mysql-0
 
   labels_def:
     app.kubernetes.io/name: homeassistant

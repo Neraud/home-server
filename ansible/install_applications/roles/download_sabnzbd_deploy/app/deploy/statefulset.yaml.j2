@@ -88,10 +88,7 @@ spec:
       name: sabnzbd-config-pv-claim
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_glusterfs_storage_class_name }}
+      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
       resources:
         requests:
           storage: {{ sabnzbd.container.storage.config }}
-      selector:
-        matchLabels:
-          {{ sabnzbd.labels_def | to_nice_yaml() | indent(10) }}

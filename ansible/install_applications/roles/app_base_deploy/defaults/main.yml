@@ -1,6 +1,5 @@
 ---
 custom_ssl_pki_generation_root_dir: /etc/ssl/custom
-kubernetes_glusterfs_endpoint: glusterfs-cluster
 kubernetes_nas_nfs_storage_class_name: nas-nfs
 
 restic_bin_path: /usr/local/bin/restic

@@ -18,7 +18,8 @@ kubernetes_openldap_port: 636
 kubernetes_ingress_mqtt_port: 1883
 
 kubernetes_local_lvm_storage_class_name: local-lvm
-kubernetes_glusterfs_storage_class_name: glusterfs
+kubernetes_longhorn_low_durability_storage_class_name: longhorn-low-durability
+kubernetes_longhorn_high_durability_storage_class_name: longhorn-high-durability
 
 kubernetes_k8s_bridge_name: k8s-bridge
 kubernetes_k8s_bridge_namespace: kube-system

@@ -25,9 +25,9 @@ grafana:
 
   container:
     requests_cpu: "{{ grafana_container_requests_cpu | default('50m') }}"
-    requests_memory: "{{ grafana_container_requests_memory | default('100Mi') }}"
-    limits_cpu: "{{ grafana_container_limits_cpu | default('400m') }}"
-    limits_memory: "{{ grafana_container_limits_memory | default('200Mi') }}"
+    requests_memory: "{{ grafana_container_requests_memory | default('96Mi') }}"
+    limits_cpu: "{{ grafana_container_limits_cpu | default('250m') }}"
+    limits_memory: "{{ grafana_container_limits_memory | default('128Mi') }}"
     storage:
       data: "{{ grafana_container_storage_data | default('128M') }}"
 

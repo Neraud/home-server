@@ -22,7 +22,6 @@
   with_fileglob:
     - "{{ role_path }}/app/config/dashboards/custom/*.json"
     - "{{ role_path }}/app/config/dashboards/kube-prometheus/*.json"
-    - "{{ role_path }}/app/config/dashboards/gluster-mixin/*.json"
 
 - name: List datasources
   ansible.builtin.set_fact:

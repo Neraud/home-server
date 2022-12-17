@@ -24,9 +24,9 @@ blackbox_exporter:
     app.kubernetes.io/version: "{{ _blackbox_exporter_var_loader.base_image.tag }}"
 
   container:
-    requests_cpu: "{{ blackbox_exporter_container_requests_cpu | default('10m') }}"
+    requests_cpu: "{{ blackbox_exporter_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ blackbox_exporter_container_requests_memory | default('20Mi') }}"
-    limits_cpu: "{{ blackbox_exporter_container_limits_cpu | default('20m') }}"
+    limits_cpu: "{{ blackbox_exporter_container_limits_cpu | default('50m') }}"
     limits_memory: "{{ blackbox_exporter_container_limits_memory | default('40Mi') }}"
 
   # Using the icmp prober requires running the container as root (with restricted capabilities)

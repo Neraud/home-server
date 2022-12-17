@@ -1,0 +1,8 @@
+---
+# See https://docs.projectcalico.org/v3.9/getting-started/kubernetes/requirements
+kubernetes_cni_calico_ufw_applications:
+  - name: kubernetes_calico
+    title: Kubernetes Calico
+    description: Kubernetes Calico
+    ports: 179/tcp
+    rule: allow

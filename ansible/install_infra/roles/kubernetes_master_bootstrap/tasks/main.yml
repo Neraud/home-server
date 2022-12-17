@@ -10,13 +10,13 @@
 
 - name: Generate kubeadm config file
   ansible.builtin.template:
-    dest: /tmp/kubeadm_config.yaml
+    dest: /etc/kubernetes/kubeadm_config.yaml
     src: kubeadm_config.yaml.j2
     mode: 0600
   when: kubectl_info.rc != 0
 
 - name: Initialize first master
-  ansible.builtin.command: "kubeadm init --config /tmp/kubeadm_config.yaml"
+  ansible.builtin.command: "kubeadm init --config /etc/kubernetes/kubeadm_config.yaml"
   register: kubeadm_init
   when: kubectl_info.rc != 0
 

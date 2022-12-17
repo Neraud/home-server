@@ -21,13 +21,14 @@ gotify:
   app_backup:
     name: infra-gotify
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _gotify_var_loader.namespace }}"
     apps_to_stop:
       - name: gotify
-        namespace: "{{ _gotify_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - gotify-data
+    longhorn_volumes:
+      - volume_name: gotify-data
+        pvc_name: gotify-pv-claim-gotify-0
 
   labels_def:
     app.kubernetes.io/name: gotify

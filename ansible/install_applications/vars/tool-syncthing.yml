@@ -30,13 +30,14 @@ syncthing:
   app_backup:
     name: tool-syncthing
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _syncthing_var_loader.namespace }}"
     apps_to_stop:
       - name: syncthing
-        namespace: "{{ _syncthing_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - syncthing-data
+    longhorn_volumes:
+      - volume_name: syncthing-data
+        pvc_name: syncthing-pv-claim-syncthing-0
 
   labels_def:
     app.kubernetes.io/name: syncthing
@@ -129,13 +130,14 @@ syncthing_discovery:
   app_backup:
     name: tool-syncthing-discovery
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _syncthing_var_loader.namespace }}"
     apps_to_stop:
       - name: discovery
-        namespace: "{{ _syncthing_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - syncthing-discovery-data
+    longhorn_volumes:
+      - volume_name: syncthing-discovery-data
+        pvc_name: discovery-pv-claim-discovery-0
   
   labels_def:
     app.kubernetes.io/name: syncthing

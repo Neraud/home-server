@@ -20,14 +20,14 @@ airsonic:
   app_backup:
     name: stream-airsonic
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _airsonic_var_loader.namespace }}"
     apps_to_stop:
       - name: airsonic
-        namespace: "{{ _airsonic_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - airsonic-data
-      - airsonic-playlists
+    longhorn_volumes:
+      - volume_name: airsonic-data
+        pvc_name: airsonic-data-pv-claim-airsonic-0
 
   labels_def:
     app.kubernetes.io/name: airsonic
@@ -43,7 +43,6 @@ airsonic:
     limits_memory: "{{ airsonic_container_limits_memory | default('512Mi') }}"
     storage:
       data: "{{ airsonic_container_storage_data | default('256M') }}"
-      playlists: "{{ airsonic_container_storage_playlists | default('256M') }}"
 
   context_root: "{{ airsonic_context_root | default('') }}"
   extra_java_opts: "{{ airsonic_extra_java_opts | default(airsonic_extra_java_opts_default) }}"

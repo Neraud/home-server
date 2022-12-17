@@ -20,13 +20,14 @@ gitea:
   app_backup:
     name: dev-gitea
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _gitea_var_loader.namespace }}"
     apps_to_stop:
       - name: gitea
-        namespace: "{{ _gitea_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - gitea-data
+    longhorn_volumes:
+      - volume_name: gitea-data
+        pvc_name: gitea-data-pv-claim-gitea-0
 
   labels_def:
     app.kubernetes.io/name: gitea
@@ -89,13 +90,14 @@ gitea_pgsql:
   app_backup:
     name: dev-gitea_pgsql
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _gitea_var_loader.namespace }}"
     apps_to_stop:
       - name: pgsql
-        namespace: "{{ _gitea_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - gitea-pgsql
+    longhorn_volumes:
+      - volume_name: gitea-pgsql
+        pvc_name: pgsql-pv-claim-pgsql-0
 
   labels_def:
     app.kubernetes.io/name: gitea

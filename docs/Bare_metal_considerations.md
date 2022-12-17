@@ -104,7 +104,7 @@ nodeSelector:
   capability/general-purpose: 'yes'
 ```
 
-## GlusterFS
+## GlusterFS (deprecated)
 
 As I said earlier, a distributed storage solution is probably overkill.
 
@@ -126,20 +126,10 @@ However, Heketi has a few [requirements](https://github.com/heketi/heketi/blob/m
 
 I would rather avoid having a container that can SSH to all my nodes, and then password-lessly sudo whatever they want.
 
-### Selected solution
+### Deprecation
 
-To avoid Heketi's requirements, I've chosen to skip the dynamic provisioner part.
+However, the GlusterFS volume type has been deprecated in [Kubernetes 1.25](https://kubernetes.io/docs/concepts/storage/volumes/#glusterf) :/
 
-The ansible playbook :
+## Longhorn
 
-* installs a standalone GlusterFS cluster
-* creates the required brick LVs on each node
-* creates the volumes
-* creates the Kubernetes PersistentVolumes
-
-Only 2 of my NUCs have enough storage (500G SSD). I've decided to use a default volume template with :
-
-* 2 replicas (master-2, master-3)
-* 1 arbiter (master-1)
-
-As with the local volumes, tags are used to target the proper volume.
+[Longhorn](https://longhorn.io/) is an easy solution to manage distributed storage on Kubernetes.

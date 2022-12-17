@@ -30,41 +30,112 @@ function stop_app() {
     echo "Stopping applications"
     {% for app in app_backup.apps_to_stop %}
     echo " - {{ app.name }}"
-    kubectl {{ kubectl_params }} --namespace={{ app.namespace }} scale {{ app.type }} {{ app.name }} --replicas=0
+    kubectl {{ kubectl_params }} --namespace={{ app_backup.namespace }} scale {{ app.type }} {{ app.name }} --replicas=0
     {% endfor %}
     echo "Waiting for applications to stop"
     {% for app in app_backup.apps_to_stop %}
     echo " - {{ app.name }}"
-    timeout 1m bash -c 'until test $(kubectl {{ kubectl_params }}  --namespace={{ app.namespace }} get {{ app.type }} {{ app.name }} -o json | jq -r ".status.replicas") -eq 0 ; do sleep 5 ; done'
+    timeout 1m bash -c 'until test $(kubectl {{ kubectl_params }} --namespace={{ app_backup.namespace }} get {{ app.type }} {{ app.name }} -o json | jq -r ".status.replicas" | sed "s/null/0/") -eq 0 ; do sleep 5 ; done'
     {% endfor %}
 {% else %}
     echo "No application to stop, continuing"
 {% endif %}
 }
 
-function backup_volume() {
-    volume_name="$1"
-    echo "--------------------------------------------------"
-    echo "Volume : ${volume_name}"
+{% if app_backup.longhorn_volumes | default ([]) %}
+function call_longhorn_api() {
+    method="$1"
+    path="$2"
+    data="${3-}"
+
+    curl_cmd="curl -s"
+    curl_cmd="${curl_cmd} -X ${method}"
+    curl_cmd="${curl_cmd} -H 'Host: longhorn.infra.intra.{{ web_base_domain }}'"
+    curl_cmd="${curl_cmd} -H 'Accept: application/json'"
+    if [ -n "${data}" ]; then
+        curl_cmd="${curl_cmd} -d '${data}'"
+    fi
+    curl_cmd="${curl_cmd} http://{{ kubernetes_nginx_ingress_lb_ip }}/v1${path}"
+
+    eval ${curl_cmd}
+}
+
+function find_longhorn_volume_by_pvc() {
+    namespace="$1"
+    pvc_name="$2"
+    call_longhorn_api "GET" "/volumes" | jq -r '.data[].kubernetesStatus | select(.namespace=="'${namespace}'" and .pvcName=="'${pvc_name}'") | .pvName'
+}
+
+function detach_longhorn_volume() {
+    pv_name="$1"
     
+    state=""
+    counter=1
+    while [ "${state}" != "detached" -a ${counter} -lt 10 ]; do
+        state=$(call_longhorn_api "POST" "/volumes/${pv_name}?action=detach" | jq -r .state)
+        echo " - volume state ${counter} : ${state}"
+        sleep 2
+        let counter=counter+1
+    done
+
+    if [ "${state}" != "detached" ] ; then
+        echo "Volume still not detached, aborting"
+        exit 1
+    fi
+}
+
+function attach_longhorn_volume() {
+    pv_name="$1"
+    
+    state=""
+    counter=1
+    while [ "${state}" != "attached" -a ${counter} -lt 20 ]; do
+        state=$(call_longhorn_api "POST" "/volumes/${pv_name}?action=attach" "{ \"hostId\": \"$(hostname)\", \"disableFrontend\": false }" | jq -r .state)
+        echo " - volume state ${counter} : ${state}"
+        sleep 2
+        let counter=counter+1
+    done
+
+    if [ "${state}" != "attached" ] ; then
+        echo "Volume still not detached, aborting"
+        exit 1
+    fi
+}
+
+function backup_longhorn_volume() {
+    pvc_name="$1"
+    volume_name="$2"
+    echo "--------------------------------------------------"
     task_start=$(date +%s)
     task_status=0
     task_common_labels="app=\"${APP_NAME}\",path=\"${volume_name}\""
     tmp_output=$(mktemp)
 
-    echo " - mounting"
+    echo "Searching for pvc ${pvc_name} in {{ app_backup.namespace }}"
+    pv_name=$(find_longhorn_volume_by_pvc {{ app_backup.namespace }} ${pvc_name})
+
+    echo "Detaching ${pv_name}"
+    detach_longhorn_volume ${pv_name}
+
+    echo "Attaching ${pv_name} on host"
+    attach_longhorn_volume ${pv_name}
+
+    echo "Mounting ${pv_name} on host as ${volume_name}"
     mkdir -p ${VOLUME_MOUNT_ROOT}/${volume_name}
     umount -q ${VOLUME_MOUNT_ROOT}/${volume_name}
-    mount -t glusterfs {{ groups['glusterfs_servers'][0] }}:/${volume_name} ${VOLUME_MOUNT_ROOT}/${volume_name}
+    mount /dev/longhorn/${pv_name} ${VOLUME_MOUNT_ROOT}/${volume_name}
     
-    echo " - backing up"
+    echo "Backuping"
     # TODO tag app ?
     {{ restic_bin_path }} backup --host="${FAKE_HOST_NAME}" ${VOLUME_MOUNT_ROOT}/${volume_name} --json > ${tmp_output}
     task_status=$?
-    
+
     echo " - unmounting"
     umount -l ${VOLUME_MOUNT_ROOT}/${volume_name}
     rmdir ${VOLUME_MOUNT_ROOT}/${volume_name}
+
+    echo "Detaching ${pv_name}"
+    detach_longhorn_volume ${pv_name}
     
     if [ ${task_status} -ne 0 ] ; then
         app_status=1
@@ -101,6 +172,8 @@ function backup_volume() {
 
     rm ${tmp_output}
 }
+{% endif %}
+
 
 function restart_app() {
     echo ""
@@ -108,7 +181,7 @@ function restart_app() {
     echo "Restarting applications"
     {% for app in app_backup.apps_to_stop %}
     echo " - {{ app.name }}"
-    kubectl {{ kubectl_params }} --namespace={{ app.namespace }} scale {{ app.type }} {{ app.name }} --replicas={{ app.replicas }}
+    kubectl {{ kubectl_params }} --namespace={{ app_backup.namespace }} scale {{ app.type }} {{ app.name }} --replicas={{ app.replicas }}
     {% endfor %}
 {% else %}
     echo "No application to restart, continuing"
@@ -121,8 +194,8 @@ init_backup_prom_file
 
 stop_app
 
-{% for vol in app_backup.gluster_volumes %}
-backup_volume "{{ vol }}"
+{% for vol in app_backup.longhorn_volumes | default ([]) %}
+backup_longhorn_volume "{{ vol.pvc_name }}" "{{ vol.volume_name }}"
 {% endfor %}
 
 restart_app

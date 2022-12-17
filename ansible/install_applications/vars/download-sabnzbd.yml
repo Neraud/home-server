@@ -25,13 +25,14 @@ sabnzbd:
   app_backup:
     name: download-sabnzbd
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _sabnzbd_var_loader.namespace }}"
     apps_to_stop:
       - name: sabnzbd
-        namespace: "{{ _sabnzbd_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - sabnzbd-config
+    longhorn_volumes:
+      - volume_name: sabnzbd-config
+        pvc_name: sabnzbd-config-pv-claim-sabnzbd-0
 
   labels_def:
     app.kubernetes.io/name: sabnzbd

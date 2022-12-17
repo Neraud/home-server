@@ -29,13 +29,14 @@ jellyfin:
   app_backup:
     name: stream-jellyfin
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _jellyfin_var_loader.namespace }}"
     apps_to_stop:
       - name: jellyfin
-        namespace: "{{ _jellyfin_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - jellyfin-data
+    longhorn_volumes:
+      - volume_name: jellyfin-data
+        pvc_name: jellyfin-pv-claim-jellyfin-0
 
   labels_def:
     app.kubernetes.io/name: jellyfin

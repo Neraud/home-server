@@ -20,13 +20,14 @@ unifi:
   app_backup:
     name: infra-unifi
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _unifi_var_loader.namespace }}"
     apps_to_stop:
       - name: unifi
-        namespace: "{{ _unifi_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - unifi-data
+    longhorn_volumes:
+      - volume_name: unifi-data
+        pvc_name: unifi-pv-claim-unifi-0
 
   labels_def:
     app.kubernetes.io/name: unifi

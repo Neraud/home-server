@@ -76,24 +76,8 @@
     - crio
     - podman
     - kubernetes_node_preinstall
-    - kubernetes_master_cni_prepare
+    - kubernetes_master_cni_calico_prepare
     - { role: local_lvm, tags: kubernetes-storage }
-
-- name: Prepare GlusterFS hosts
-  hosts: glusterfs
-  roles:
-    - glusterfs_preinstall
-
-- name: Prepare GlusterFS servers
-  hosts: glusterfs_servers
-  roles:
-    - { role: glusterfs_server_install, tags: kubernetes-storage }
-    - { role: glusterfs_server_configure, tags: kubernetes-storage }
-
-- name: Prepare GlusterFS servers
-  hosts: glusterfs_clients
-  roles:
-    - { role: glusterfs_client, tags: kubernetes-storage }
 
 - name: Prepare Kubernetes masters
   hosts: kubernetes_masters
@@ -115,7 +99,8 @@
 - name: Deploy CNI
   hosts: controller
   roles:
-    - kubernetes_master_cni_deploy
+    - kubernetes_master_cni_calico_deploy
+    - kubernetes_master_cni_multus_deploy
 
 - name: Provision Kubernetes nodes
   hosts: kubernetes_nodes
@@ -124,12 +109,13 @@
     - kubernetes_node_postinstall
     - { role: kubernetes_storage_local, tags: kubernetes-storage }
     - kubernetes_metallb_prepare
+    - kubernetes_longhorn_prepare
 
 - name: Provision Kubernetes infra applications
   hosts: controller
   roles:
-    - { role: kubernetes_storage_distributed, tags: kubernetes-storage }
     - kubernetes_metallb_deploy
     - kubernetes_nginx_ingress_deploy
     - kubernetes_storage_classes
+    - kubernetes_longhorn_deploy
     - apcups_kubernetes

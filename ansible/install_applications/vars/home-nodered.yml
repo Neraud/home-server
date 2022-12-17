@@ -21,13 +21,14 @@ nodered:
   app_backup:
     name: home-nodered
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _nodered_var_loader.namespace }}"
     apps_to_stop:
       - name: nodered
-        namespace: "{{ _nodered_var_loader.namespace }}"
         type: statefulset
         replicas: 1
-    gluster_volumes:
-      - nodered-data
+    longhorn_volumes:
+      - volume_name: nodered-data
+        pvc_name: nodered-pv-claim-nodered-0
 
   labels_def:
     app.kubernetes.io/name: nodered

@@ -61,17 +61,17 @@ miniflux_pgsql:
   app_backup:
     name: tool-miniflux_pgsql
     repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _miniflux_var_loader.namespace }}"
     apps_to_stop:
-      - name: miniflux-pgsql
-        namespace: "{{ _miniflux_var_loader.namespace }}"
+      - name: pgsql
         type: statefulset
         replicas: 1
       - name: miniflux
-        namespace: "{{ _miniflux_var_loader.namespace }}"
         type: deployment
         replicas: 1
-    gluster_volumes:
-      - miniflux-pgsql
+    longhorn_volumes:
+      - volume_name: miniflux-pgsql
+        pvc_name: miniflux-pgsql-pv-claim-pgsql-0
 
   labels_def:
     app.kubernetes.io/name: miniflux
