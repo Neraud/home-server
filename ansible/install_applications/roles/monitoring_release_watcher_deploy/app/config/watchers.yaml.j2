@@ -518,7 +518,7 @@ watchers:
       - .*-rc.*
       - ^0\..*
       - ^1\..*
-      - ^2\.[0-2]\..*
+      - ^2\.[0-3]\..*
   - type: docker_registry
     repo: {{ elasticsearch_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ elasticsearch_exporter.base_image.name }}
