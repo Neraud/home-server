@@ -875,7 +875,7 @@ watchers:
       - ^1\.[0-9]\.
       - ^1\.1[0-9]\.
       - ^1\.2[0-1]\.
-      - ^1\.22\.[0]
+      - ^1\.22\.[0-1]
   - name: Syncthing conf injection
     type: docker_registry
     repo: {{ _syncthing_var_loader.conf_injection_base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -885,9 +885,9 @@ watchers:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
       - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[0-5]
+      - .*-alpine3\.1[0-6]
       - 3\.[0-9]\..*
-      - 3\.10\.[0-7]-.*
+      - 3\.1[0]\..*
   - name: Syncthing Discovery
     type: docker_registry
     repo: {{ _syncthing_discovery_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
