@@ -4,7 +4,7 @@ _node_exporter_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/node-exporter"
-    tag: "v1.4.0"
+    tag: "v1.5.0"
 
 node_exporter:
   enabled: "{{ node_exporter_enabled | default(True) }}"
