@@ -78,7 +78,7 @@ _gitea_pgsql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/postgres"
-    tag: "15.0-alpine3.16"
+    tag: "15.1-alpine3.17"
 
 gitea_pgsql:
   base_image: "{{ _gitea_pgsql_var_loader.base_image }}"
