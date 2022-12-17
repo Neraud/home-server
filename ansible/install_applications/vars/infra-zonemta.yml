@@ -4,9 +4,8 @@ _zonemta_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/node"
-    # Zonemta 3.4.1 fails with "TypeError: Cannot set property closed of #<Readable> which has only a getter" under node >= 18.0.0
-    tag: "17.9.1-alpine3.15"
-  version: 3.4.1
+    tag: "19.3.0-alpine3.17"
+  version: 3.5.1
   namespace: "infra-zonemta"
 
 zonemta:
@@ -59,7 +58,7 @@ _zonemta_mongo_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/mongo"
-    tag: "6.0.2-focal"
+    tag: "6.0.3-focal"
 
 zonemta_mongo:
   base_image: "{{ _zonemta_mongo_var_loader.base_image }}"
@@ -95,7 +94,7 @@ _zonemta_redis_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/redis"
-    tag: "7.0.5-alpine3.16"
+    tag: "7.0.7-alpine3.17"
 
 zonemta_redis:
   base_image: "{{ _zonemta_redis_var_loader.base_image }}"

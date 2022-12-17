@@ -4,7 +4,7 @@ _blackbox_exporter_var_loader:
   base_image:
     repo: quay.io
     name: "prometheus/blackbox-exporter"
-    tag: "v0.22.0"
+    tag: "v0.23.0"
 
 blackbox_exporter:
   enabled: "{{ blackbox_exporter_enabled | default(True) }}"

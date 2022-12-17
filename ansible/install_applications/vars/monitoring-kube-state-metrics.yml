@@ -2,9 +2,9 @@
 # To avoid loops inside kube_state_metrics
 _kube_state_metrics_var_loader:
   base_image:
-    repo: k8s.gcr.io
+    repo: registry.k8s.io
     name: "kube-state-metrics/kube-state-metrics"
-    tag: "v2.6.0"
+    tag: "v2.7.0"
 
 kube_state_metrics:
   enabled: "{{ kube_state_metrics_enabled | default(True) }}"

@@ -4,7 +4,7 @@ _homeassistant_var_loader:
   base_image:
     repo: "docker.io"
     name: homeassistant/home-assistant
-    tag: "2022.10.5"
+    tag: "2022.12.6"
   namespace: "home-homeassistant"
 
 homeassistant:

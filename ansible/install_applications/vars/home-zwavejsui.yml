@@ -5,7 +5,7 @@ _zwavejsui_var_loader:
   base_image:
     repo: "docker.io"
     name: "zwavejs/zwave-js-ui"
-    tag: "8.2.2"
+    tag: "8.6.1"
 
 zwavejsui:
   enabled: "{{ zwavejsui_enabled | default(True) }}"
