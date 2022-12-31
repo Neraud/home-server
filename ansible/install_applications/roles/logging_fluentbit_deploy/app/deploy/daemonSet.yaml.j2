@@ -99,3 +99,6 @@ spec:
       - key: node-role.kubernetes.io/master
         operator: Exists
         effect: NoSchedule
+      - key: "specific-worker-type"
+        operator: Exists
+        effect: NoSchedule

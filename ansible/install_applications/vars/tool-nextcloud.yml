@@ -106,7 +106,7 @@ nextcloud_mysql:
     tag: "{{ _nextcloud_mysql_var_loader.base_image.tag }}"
 
   app_backup:
-    name: home-nextcloud_mysql
+    name: tool-nextcloud_mysql
     repository: "{{ restic_apps_backup_repository }}"
     namespace: "{{ _nextcloud_var_loader.namespace }}"
     apps_to_stop:

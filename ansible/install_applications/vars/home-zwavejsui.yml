@@ -22,7 +22,7 @@ zwavejsui:
     repository: "{{ restic_apps_backup_repository }}"
     namespace: "{{ _zwavejsui_var_loader.namespace }}"
     apps_to_stop:
-      - name: zwave-js-ui
+      - name: zwavejsui
         type: statefulset
         replicas: 1
     longhorn_volumes:

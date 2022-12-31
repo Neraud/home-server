@@ -72,3 +72,8 @@ spec:
       - name: docker-config
       nodeSelector:
         capability/home: 'yes'
+      tolerations:
+      - key: "specific-worker-type"
+        operator: "Equal"
+        value: "home-only"
+        effect: "NoSchedule"

@@ -1732,6 +1732,9 @@ spec:
       - effect: NoSchedule
         key: node-role.kubernetes.io/control-plane
         operator: Exists
+      - key: "specific-worker-type"
+        operator: Exists
+        effect: NoSchedule
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration

@@ -8,3 +8,9 @@ kubernetes_node_labels:
     value: "no"
   - name: capability/tpu
     value: "no"
+
+kubernetes_node_taints:
+  - key: specific-worker-type
+    value: home-only
+    effect: NoSchedule
+    state: present
