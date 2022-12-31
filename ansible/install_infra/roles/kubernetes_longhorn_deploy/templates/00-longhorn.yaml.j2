@@ -3528,6 +3528,10 @@ spec:
           secretName: longhorn-grpc-tls
           optional: true
       serviceAccountName: longhorn-service-account
+      tolerations:
+      - key: "specific-worker-type"
+        operator: Exists
+        effect: NoSchedule
   updateStrategy:
     rollingUpdate:
       maxUnavailable: "100%"
