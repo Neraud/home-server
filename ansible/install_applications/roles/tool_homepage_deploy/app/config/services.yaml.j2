@@ -1,0 +1,174 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/services
+
+- Infrastructure:
+  - Dashboard Kubernetes:
+      icon: kubernetes-dashboard
+      href: https://kube.infra.intra.{{ web_base_domain }}{{ kubernetes_dashboard.context_root }}
+
+  - Longhorn UI:
+      icon: longhorn
+      href: https://longhorn.infra.intra.{{ web_base_domain }}
+
+  - Docker Registry UI:
+      icon: docker
+      description: Web UI for Docker Registry
+      href: https://docker-registry-ui.infra.intra.{{ web_base_domain }}{{ docker_registry_ui.context_root }}
+
+  - Gotify:
+      icon: gotify
+      description: Server for sending and receiving messages
+      href: https://gotify.infra.{{ web_base_domain }}{{ gotify.context_root }}
+
+  - MailHog:
+      icon: mailhog
+      description: MailHog is an email testing tool for developers
+      href: https://mailhog.infra.intra.{{ web_base_domain }}{{ mailhog.context_root }}
+
+  - UniFi:
+      icon: unifi
+      description: Controller for Unifi devices
+      href: https://unifi.infra.intra.{{ web_base_domain }}
+
+- Monitoring:
+  - Prometheus:
+      icon: prometheus
+      description: Monitoring solution
+      href: https://prometheus.monitoring.intra.{{ web_base_domain }}/{{ prometheus.context_root }}
+
+  - AlertManager:
+      icon: prometheus
+      description: Alert manager for Prometheus
+      href: https://alertmanager.monitoring.intra.{{ web_base_domain }}/{{ alertmanager.context_root }}
+
+  - Grafana:
+      icon: grafana
+      description: Platform for beautiful analytics and monitoring
+      href: https://grafana.monitoring.intra.{{ web_base_domain }}/{{ grafana.context_root }}
+
+  - OpenSearch Dashboards:
+      icon: opensearch
+      description: Visualize your Elasticsearch data
+      href: https://kibana.log.intra.{{ web_base_domain }}/{{ kibana.context_root }}
+
+- Auth:
+  - LemonLDAP:
+      icon: lemonldapng
+      description: Web Single Sign On and Access Management
+      href: https://lemonldap.auth.intra.{{ web_base_domain }}/manager.html
+
+  - Php LDAP Admin:
+      icon: phpldapadmin
+      description: Web-based LDAP browser
+      href: https://phpldapadmin.auth.intra.{{ web_base_domain }}{{ phpldapadmin.context_root }}
+
+- Tools:
+  - Homer:
+      icon: homer
+      description: A very simple static homepage for your server
+      href: https://homer.tool.{{ web_base_domain }}{{ _homer_var_loader.context_root }}
+
+  - Homepage:
+      icon: homepage
+      description: A very simple static homepage for your server
+      href: https://homer.tool.{{ web_base_domain }}{{ _homer_var_loader.context_root }}
+
+  - Miniflux:
+      icon: miniflux
+      description: Miniflux is a minimalist and opinionated feed reader
+      href: https://miniflux.tool.{{ web_base_domain }}
+
+  - Reminiflux:
+      icon: miniflux
+      description: Alternative web frontend for Miniflux
+      href: https://miniflux.tool.{{ web_base_domain }}/reminiflux/
+
+  - Nextcloud:
+      icon: nextcloud
+      description: The self-hosted productivity platform that keeps you in control
+      href: https://nextcloud.tool.intra.{{ web_base_domain }}
+
+  - Paperless:
+      icon: paperless
+      description: Scan & OCR documents
+      href: https://paperless.tool.intra.{{ web_base_domain }}{{ _paperless_var_loader.context_root }}
+
+  - OliveTin:
+      icon: olivetin
+      description: OliveTin gives safe and simple access to predefined shell commands from a web interface
+      href: https://olivetin.tool.intra.{{ web_base_domain }}{{ _olivetin_var_loader.context_root }}
+
+  - Syncthing:
+      icon: syncthing
+      description: Syncthing is a continuous file synchronization program
+      href: https://syncthing.tool.intra.{{ web_base_domain }}{{ _syncthing_var_loader.context_root }}
+
+- Home:
+  - HomeAssistant:
+      icon: home-assistant
+      description: Home automation
+      href: https://homeassistant.home.{{ web_base_domain }}
+
+  - NodeRED:
+      icon: nodered
+      description: Flow-based programming for the IoT
+      href: https://nodered.home.intra.{{ web_base_domain }}{{ nodered.context_root }}
+
+  - ESPHome:
+      icon: esphome
+      description: Control your ESP8266/ESP32
+      href: https://esphome.home.intra.{{ web_base_domain }}{{ esphome.context_root }}
+
+  - Z-Wave JS UI:
+      icon: zwavejs2mqtt
+      description: Fully configurable Zwave to MQTT Gateway and Control Panel
+      href: https://zwavejsui.home.intra.{{ web_base_domain }}{{ zwavejsui.context_root }}
+
+  - Zigbee2MQTT:
+      icon: zigbee2mqtt
+      description: Zigbee to MQTT bridge, get rid of your proprietary Zigbee bridges
+      href: https://zigbee2mqtt.home.intra.{{ web_base_domain }}{{ zigbee2mqtt.context_root }}
+
+  - Frigate:
+      icon: frigate
+      description: Complete and local NVR designed for Home Assistant with AI object detection
+      href: https://frigate.home.intra.{{ web_base_domain }}{{ frigate.context_root }}
+
+- Dev:
+  - Gitea:
+      icon: gitea
+      description: Lightweight code hosting solution
+      href: https://gitea.dev.intra.{{ web_base_domain }}{{ gitea.context_root }}
+
+- Download:
+  - SickChill:
+      icon: sickchill
+      description: Automatic Video Library Manager for TV Shows
+      href: https://sickchill.dl.intra.{{ web_base_domain }}{{ sickchill.context_root }}
+
+  - Deluge:
+      icon: deluge
+      description: Torrent client
+      href: https://deluge.dl.intra.{{ web_base_domain }}{{ deluge_web.context_root }}
+
+  - PyLoad:
+      icon: pyload
+      description: HTTP download manager
+      href: https://pyload.dl.intra.{{ web_base_domain }}{{ pyload.context_root }}
+
+  - SABnzbd:
+      icon: sabnzbd
+      description: Binary newsreader
+      href: https://sabnzbd.dl.intra.{{ web_base_domain }}{{ sabnzbd.context_root }}
+
+- Stream:
+  - Airsonic:
+      icon: airsonic
+      description: Music streaming
+      href: https://airsonic.stream.intra.{{ web_base_domain }}{{ airsonic.context_root }}
+
+  - Jellyfin:
+      icon: jellyfin
+      description: Media streaming
+      href: https://jellyfin.stream.intra.{{ web_base_domain }}{{ jellyfin.context_root }}

@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homepage
+  namespace: {{ homepage.namespace }}
+  labels:
+    {{ homepage.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homepage.labels_desc | to_nice_yaml() | indent(4) }}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - homepage.tool.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: homepage.tool.{{ web_base_domain }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: homepage
+            port:
+              name: http

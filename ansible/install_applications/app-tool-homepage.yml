@@ -1,0 +1,5 @@
+---
+- name: Provision tool-homepage
+  hosts: controller
+  roles:
+    - role: tool_homepage_deploy

@@ -123,6 +123,10 @@
   tags: kubernetes-app-tool-homer
   when: homer_enabled | bool
 
+- import_playbook: app-tool-homepage.yml
+  tags: kubernetes-app-tool-homepage
+  when: homepage_enabled | bool
+
 - import_playbook: app-tool-miniflux.yml
   tags: kubernetes-app-tool-miniflux
   when: miniflux_enabled | bool
