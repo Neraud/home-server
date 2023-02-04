@@ -652,7 +652,7 @@ watchers:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
       - ^10\.[0-7]\..*
-      - ^10\.8\.[0-7]-.*
+      - ^10\.8\.[0-8]-.*
   - name: Jellyfin inject conf
     type: docker_registry
     repo: {{ jellyfin.conf_injection_base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
