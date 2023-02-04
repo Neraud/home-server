@@ -5,7 +5,7 @@ _gitea_var_loader:
   base_image:
     repo: "docker.io"
     name: "gitea/gitea"
-    tag: "1.17.3-rootless"
+    tag: "1.18.3-rootless"
 
 gitea:
   enabled: "{{ gitea_enabled | default(True) }}"
