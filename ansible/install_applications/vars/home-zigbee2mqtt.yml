@@ -6,7 +6,7 @@ _zigbee2mqtt_var_loader:
   base_image:
     repo: "docker.io"
     name: "koenkk/zigbee2mqtt"
-    tag: "1.28.4"
+    tag: "1.30.0"
 
 zigbee2mqtt:
   enabled: "{{ zigbee2mqtt_enabled | default(True) }}"

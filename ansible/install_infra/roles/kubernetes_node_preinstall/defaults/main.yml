@@ -1,6 +1,6 @@
 ---
 # apt list -a kubelet
-kubernetes_version: 1.24.7-00
+kubernetes_version: 1.26.1-00
 
 # To install from the binaries, configure the following
 #kubernetes_from_binary: True
@@ -16,5 +16,3 @@ kubernetes_kubelet_system_reserved_memory: 512M
 
 kubernetes_kubelet_extra_parameters:
   - "--node-ip {{ kubernetes_kubelet_ip}}"
-  # TODO after upgrading to kubernetes 1.25, remove the deprecated --system-reserved and use kuberletconfiguration patches
-  - "--system-reserved=cpu={{ kubernetes_kubelet_system_reserved_cpu }},memory={{ kubernetes_kubelet_system_reserved_memory }}"

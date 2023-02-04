@@ -5,7 +5,7 @@ _lemonldap_var_loader:
   base_image:
     repo: "docker.io"
     name: "coudot/lemonldap-ng"
-    tag: "2.0.15.1"
+    tag: "2.0.16"
 
 lemonldap:
   enabled: "{{ lemonldap_enabled | default(True) }}"

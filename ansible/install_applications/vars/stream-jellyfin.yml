@@ -5,7 +5,7 @@ _jellyfin_var_loader:
   base_image:
     repo: "docker.io"
     name: "jellyfin/jellyfin"
-    tag: "10.8.8-amd64"
+    tag: "10.8.9-amd64"
   conf_injection_base_image:
     repo: "docker.io"
     name: "library/python"
@@ -70,8 +70,8 @@ jellyfin:
       url: https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_16.0.0.0.zip
       version: v16
     thetvdb:
-      url: https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_8.0.0.0.zip
-      version: v8
+      url: https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_9.0.0.0.zip
+      version: v9
 
   ldap:
     servername: "{{ jellyfin_ldap_servername | default(openldap.ldap.servername) }}"

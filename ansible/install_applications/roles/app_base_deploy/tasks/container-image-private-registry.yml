@@ -39,7 +39,7 @@
 - name: Extract remote private image id
   set_fact:
     private_image_remote_id: >-
-      {% if private_image_remote_info.status == 200 -%}
+      {% if private_image_remote_info.status == 200 and 'json' in private_image_remote_info -%}
         {{ private_image_remote_info.json.config.digest | regex_replace('sha256:', '') }}
       {%- endif %}
 

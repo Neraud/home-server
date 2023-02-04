@@ -5,7 +5,7 @@ _miniflux_var_loader:
   base_image:
     repo: "ghcr.io"
     name: "miniflux/miniflux"
-    tag: "2.0.41"
+    tag: "2.0.42-distroless"
 
 miniflux:
   enabled: "{{ miniflux_enabled | default(True) }}"
@@ -99,7 +99,7 @@ _miniflux_reminiflux_var_loader:
   base_builder_image:
     repo: "docker.io"
     name: "library/node"
-    tag: "19.3.0-alpine3.17"
+    tag: "19.6.0-alpine3.17"
   base_image:
     repo: "docker.io"
     name: "library/nginx"

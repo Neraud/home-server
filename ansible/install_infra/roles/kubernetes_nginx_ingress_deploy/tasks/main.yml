@@ -16,3 +16,15 @@
     context: "{{ kubeconfig_context }}"
   with_fileglob:
     - "{{ role_path }}/templates/*.yaml*"
+
+- name: Wait for Nginx Ingress Controller to be available
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    namespace: ingress-nginx
+    name: ingress-nginx-controller
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_result
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 3

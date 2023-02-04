@@ -59,7 +59,7 @@ _blackbox_exporter_rbac_proxy_var_loader:
   base_image:
     repo: quay.io
     name: "brancz/kube-rbac-proxy"
-    tag: "v0.13.1"
+    tag: "v0.14.0"
 
 blackbox_exporter_rbac_proxy:
   base_image: "{{ _blackbox_exporter_rbac_proxy_var_loader.base_image }}"

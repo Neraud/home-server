@@ -7,4 +7,6 @@ if [ -f /app/config_delta.ini ]; then
 fi
 
 echo "Starting Sickchill"
-/app/sickchill/bin/python3 /app/sickchill/lib/python3.10/site-packages/SickChill.py --nolaunch --datadir=/data --port 8081
+. /app/sickchill/bin/activate
+site_packages_dir=$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
+${site_packages_dir}/SickChill.py --nolaunch --datadir=/data --port 8081
