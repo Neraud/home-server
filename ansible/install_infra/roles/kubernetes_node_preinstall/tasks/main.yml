@@ -33,7 +33,6 @@
     state: directory
     mode: 0755
 
-# FIXME : not used until upgrading to kubernetes 1.25
 - name: Generate kubelet config patch
   ansible.builtin.template:
     dest: /etc/kubernetes/patches/kubeletconfiguration0+merge.yaml
