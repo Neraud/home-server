@@ -17,6 +17,18 @@
   with_fileglob:
     - "{{ role_path }}/templates/1-deploy/*.yaml*"
 
+- name: Wait for MetalLB Controller to be available
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    namespace: metallb-system
+    name: controller
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_result
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 3
+
 - name: Configure MetalLB
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
