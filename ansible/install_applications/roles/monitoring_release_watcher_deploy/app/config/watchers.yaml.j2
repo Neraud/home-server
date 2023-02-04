@@ -833,7 +833,8 @@ watchers:
       - .*(beta|rc).*
       - ^0\..*
       - ^1\.[0-9]\..*
-      - ^1\.10\.[0-1]$
+      - ^1\.1[0-1]\..*
+      - ^1\.12\.[0-1]$
   - name: "Paperless Redis"
     type: docker_registry
     repo: {{ paperless_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -844,7 +845,7 @@ watchers:
     excludes:
       - .*alpine3\.1[0-7]
       - ^[0-6]\.
-      - ^7\.0\.[0-6]-.*
+      - ^7\.0\.[0-7]-.*
   - name: Paperless PostgreSQL
     type: docker_registry
     repo: {{ paperless_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
