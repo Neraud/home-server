@@ -604,7 +604,7 @@ watchers:
   - type: github_commit
     repo: prometheus-operator/kube-prometheus
     branch: main
-    commit: d3941f904503140ca2413f2ce5190381606bfb23
+    commit: c936a999acdbee7b1134bcf4be230e458d3ed9cd
   - type: docker_registry
     repo: {{ nginx_exporter.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ nginx_exporter.base_image.name }}
