@@ -277,8 +277,9 @@ watchers:
       - .*-(dev|beta).*
       - .*b[0-9]+$
       - ^202[0-1].*
-      - ^2022\.[0-8].*
-      - ^2022\.9\.[0-3].*
+      - ^2022\.[0-9]\..*
+      - ^2022\.1[0-1]\..*
+      - ^2022\.12\.[0-7].*
   - type: docker_registry
     repo: {{ zwavejsui.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ zwavejsui.base_image.name }}
