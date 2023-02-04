@@ -867,6 +867,7 @@ watchers:
     excludes:
       - ^202[0-1].*
       - ^2022-0[0-9].*
+      - ^2022-1[0].*
   - name: Syncthing
     type: docker_registry
     repo: {{ _syncthing_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
