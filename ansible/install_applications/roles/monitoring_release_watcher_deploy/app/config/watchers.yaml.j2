@@ -468,7 +468,7 @@ watchers:
     excludes:
       - .*alpine3\.1[0-6]
       - ^[0-6]\.
-      - ^7\.0\.[0-6]-.*
+      - ^7\.0\.[0-7]-.*
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: {{ zonemta_mongo.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -479,8 +479,9 @@ watchers:
     excludes:
       - .*rc.*
       - .*-(nanoserver).*$
+      - .*-focal$
       - ^[0-5]\..*
-      - ^6\.0\.[0-2]-.*
+      - ^6\.0\.[0-3]-.*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: {{ zonemta.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
@@ -491,7 +492,7 @@ watchers:
     excludes:
       - .*-alpine3.1[0-6]
       - 1[0-8]\..*
-      - 19\.[0-2]\..*
+      - 19\.[0-5]\..*
   - type: docker_registry
     repo: {{ intel_gpu_plugin.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ intel_gpu_plugin.base_image.name }}
