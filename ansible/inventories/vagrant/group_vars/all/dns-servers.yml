@@ -17,6 +17,8 @@ dns_static_domains:
     ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
   - name: "registry.intra.{{ web_base_domain }}"
     ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
+  - name: "infra.{{ web_base_domain }}"
+    ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
   - name: "infra.intra.{{ web_base_domain }}"
     ip: "{{ nginx_keepalived_instance_internal_virtual_ip }}"
   - name: "log.intra.{{ web_base_domain }}"
