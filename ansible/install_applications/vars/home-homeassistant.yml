@@ -4,7 +4,7 @@ _homeassistant_var_loader:
   base_image:
     repo: "docker.io"
     name: homeassistant/home-assistant
-    tag: "2022.12.6"
+    tag: "2023.2.1"
   namespace: "home-homeassistant"
 
 homeassistant:
@@ -80,7 +80,7 @@ _homeassistant_mysql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/mysql"
-    tag: "8.0.31-debian"
+    tag: "8.0.32-debian"
 
 homeassistant_mysql:
   base_image: "{{ _homeassistant_mysql_var_loader.base_image }}"
