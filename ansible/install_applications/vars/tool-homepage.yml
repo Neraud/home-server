@@ -4,7 +4,7 @@ _homepage_var_loader:
   base_image:
     repo: "ghcr.io" 
     name: "benphelps/homepage"
-    tag: "v0.5.7"
+    tag: "v0.6.7"
 
 homepage:
   enabled: "{{ homepage_enabled | default(True) }}"
@@ -25,9 +25,9 @@ homepage:
 
   container:
     requests_cpu: "{{ homepage_container_requests_cpu | default('25m') }}"
-    requests_memory: "{{ homepage_container_requests_memory | default('96Mi') }}"
+    requests_memory: "{{ homepage_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ homepage_container_limits_cpu | default('100m') }}"
-    limits_memory: "{{ homepage_container_limits_memory | default('96Mi') }}"
+    limits_memory: "{{ homepage_container_limits_memory | default('128Mi') }}"
 
   config:
     title: "{{ homepage_config_title | default('') }}"
