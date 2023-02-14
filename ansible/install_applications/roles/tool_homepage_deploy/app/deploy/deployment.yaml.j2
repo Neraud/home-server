@@ -20,6 +20,8 @@ spec:
         {{ homepage.labels_def | to_nice_yaml() | indent(8) }}
         {{ homepage.labels_desc | to_nice_yaml() | indent(8) }}
     spec:
+      serviceAccountName: homepage
+      automountServiceAccountToken: true
       containers:
       - name: homepage
         image: "{{ homepage.private_image | image_full_name }}"
