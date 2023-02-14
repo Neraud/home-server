@@ -27,7 +27,7 @@ homepage:
     requests_cpu: "{{ homepage_container_requests_cpu | default('25m') }}"
     requests_memory: "{{ homepage_container_requests_memory | default('128Mi') }}"
     limits_cpu: "{{ homepage_container_limits_cpu | default('100m') }}"
-    limits_memory: "{{ homepage_container_limits_memory | default('128Mi') }}"
+    limits_memory: "{{ homepage_container_limits_memory | default('256Mi') }}"
 
   config:
     title: "{{ homepage_config_title | default('') }}"
