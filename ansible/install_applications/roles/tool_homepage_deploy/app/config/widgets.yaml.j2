@@ -5,6 +5,35 @@
 - greeting:
     text_size: sm
     text: "{{ homepage.config.greeting }}"
+- kubernetes:
+    cluster:
+      # Shows the cluster node
+      show: true
+      # Shows the aggregate CPU stats
+      cpu: true
+      # Shows the aggregate memory stats
+      memory: true
+      # Shows a custom label
+      showLabel: true
+      label: "cluster"
+    nodes:
+      # Shows the clusters
+      show: true
+      # Shows the CPU for each node
+      cpu: true
+      # Shows the memory for each node
+      memory: true
+      # Shows the label, which is always the node name
+      showLabel: true
+- longhorn:
+    # Show the expanded view
+    expanded: true
+    # Shows a node representing the aggregate values
+    total: true
+    # Shows the node names as labels
+    labels: true
+    # Show the nodes
+    nodes: true
 - datetime:
     format:
       timeStyle: short
