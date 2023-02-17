@@ -32,3 +32,5 @@ homepage:
   config:
     title: "{{ homepage_config_title | default('') }}"
     greeting: "{{ homepage_config_greeting | default('') }}"
+    external_categories: "{{ homepage_config_external_categories | default({}) }}"
+    external_services: "{{ homepage_config_external_services | default([]) }}"
