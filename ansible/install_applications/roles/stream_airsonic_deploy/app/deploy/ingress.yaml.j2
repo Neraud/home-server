@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ airsonic.labels_def | to_nice_yaml() | indent(4) }}
     {{ airsonic.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Stream
+    gethomepage.dev/name: Airsonic
+    gethomepage.dev/description: Music streaming
+    gethomepage.dev/icon: airsonic
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=airsonic"
 spec:
   ingressClassName: nginx
   tls:

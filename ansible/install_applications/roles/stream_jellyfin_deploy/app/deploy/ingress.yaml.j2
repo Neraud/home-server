@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ jellyfin.labels_def | to_nice_yaml() | indent(4) }}
     {{ jellyfin.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Stream
+    gethomepage.dev/name: Jellyfin
+    gethomepage.dev/description: Media streaming
+    gethomepage.dev/icon: jellyfin
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=jellyfin"
 spec:
   ingressClassName: nginx
   tls:

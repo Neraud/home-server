@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ homepage.labels_def | to_nice_yaml() | indent(4) }}
     {{ homepage.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/name: Homepage
+    gethomepage.dev/description: A modern, secure, highly customizable application dashboard
+    gethomepage.dev/icon: homepage
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=homepage"
 spec:
   ingressClassName: nginx
   tls:

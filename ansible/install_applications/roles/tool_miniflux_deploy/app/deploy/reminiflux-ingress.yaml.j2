@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: reminiflux
+  namespace: {{ miniflux.namespace }}
+  labels:
+    {{ miniflux.labels_def | to_nice_yaml() | indent(4) }}
+    {{ miniflux.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/name: Reminiflux
+    gethomepage.dev/description: Alternative web frontend for Miniflux
+    gethomepage.dev/icon: miniflux
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=miniflux,app.kubernetes.io/component=reminiflux"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(/reminiflux)$ $1/ redirect;
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - miniflux.tool.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: miniflux.tool.{{ web_base_domain }}
+    http:
+      paths:
+      - path: /reminiflux
+        pathType: Prefix
+        backend:
+          service:
+            name: reminiflux
+            port:
+              name: http

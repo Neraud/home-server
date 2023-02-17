@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ nodered.labels_def | to_nice_yaml() | indent(4) }}
     {{ nodered.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: NodeRED
+    gethomepage.dev/description: Flow-based programming for the IoT
+    gethomepage.dev/icon: nodered
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=nodered"
 spec:
   ingressClassName: nginx
   tls:

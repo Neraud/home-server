@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ mailhog.labels_def | to_nice_yaml() | indent(4) }}
     {{ mailhog.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: MailHog
+    gethomepage.dev/description: MailHog is an email testing tool for developers
+    gethomepage.dev/icon: mailhog
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=mailhog"
 spec:
   ingressClassName: nginx
   tls:

@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ pyload.labels_def | to_nice_yaml() | indent(4) }}
     {{ pyload.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Download
+    gethomepage.dev/name: PyLoad
+    gethomepage.dev/description: HTTP download manager
+    gethomepage.dev/icon: pyload
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=pyload"
 spec:
   ingressClassName: nginx
   tls:

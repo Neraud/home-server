@@ -11,6 +11,12 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^({{ homer.context_root }})$ $1/ permanent;
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/name: Homer
+    gethomepage.dev/description: A very simple static homepage for your server
+    gethomepage.dev/icon: homer
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=homer"
 spec:
   ingressClassName: nginx
   tls:

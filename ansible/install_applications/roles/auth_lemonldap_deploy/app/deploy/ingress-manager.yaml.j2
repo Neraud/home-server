@@ -7,7 +7,13 @@ metadata:
     {{ lemonldap.labels_def | to_nice_yaml() | indent(4) }}
     {{ lemonldap.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
-    #nginx.ingress.kubernetes.io/upstream-vhost: lemonldap.auth.intra.{{ web_base_domain }}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Auth
+    gethomepage.dev/name: LemonLDAP
+    gethomepage.dev/description: Web Single Sign On and Access Management
+    gethomepage.dev/icon: lemonldapng
+    gethomepage.dev/href: https://lemonldap.auth.intra.{{ web_base_domain }}/manager.html
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=lemonldap"
 spec:
   ingressClassName: nginx
   rules:

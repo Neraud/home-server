@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ paperless.labels_def | to_nice_yaml() | indent(4) }}
     {{ paperless.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/name: Paperless
+    gethomepage.dev/description: Scan & OCR documents
+    gethomepage.dev/icon: paperless
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=paperless"
 spec:
   ingressClassName: nginx
   tls:

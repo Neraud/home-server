@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ olivetin.labels_def | to_nice_yaml() | indent(4) }}
     {{ olivetin.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/name: OliveTin
+    gethomepage.dev/description: OliveTin gives safe and simple access to predefined shell commands from a web interface
+    gethomepage.dev/icon: olivetin
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=olivetin"
 spec:
   ingressClassName: nginx
   tls:

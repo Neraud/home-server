@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(4) }}
     {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: Docker Registry UI
+    gethomepage.dev/description: Web UI for Docker Registry
+    gethomepage.dev/icon: docker
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=docker-registry-ui"
 spec:
   ingressClassName: nginx
   tls:

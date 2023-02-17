@@ -10,6 +10,12 @@ metadata:
 {% if zigbee2mqtt.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: Zigbee2MQTT
+    gethomepage.dev/description: Zigbee to MQTT bridge, get rid of your proprietary Zigbee bridges
+    gethomepage.dev/icon: zigbee2mqtt
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=zigbee2mqtt"
 spec:
   ingressClassName: nginx
   tls:
