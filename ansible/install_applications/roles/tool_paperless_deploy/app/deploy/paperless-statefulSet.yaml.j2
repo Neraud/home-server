@@ -48,6 +48,9 @@ spec:
           value: "/tmp/log/"
         - name: PAPERLESS_URL
           value: "https://paperless.tool.intra.{{ web_base_domain }}"
+        # Manually set the allowed hosts with the public domain, the internal Kubernetes domain (for the Homepage widget for example)
+        - name: PAPERLESS_ALLOWED_HOSTS
+          value: "paperless.tool.intra.{{ web_base_domain }},paperless.tool-paperless.svc.cluster.local,localhost"
         - name: PAPERLESS_ADMIN_USER
           valueFrom:
             secretKeyRef:

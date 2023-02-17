@@ -13,6 +13,12 @@ metadata:
     gethomepage.dev/description: Media streaming
     gethomepage.dev/icon: jellyfin
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=jellyfin"
+{% if homepage.config.jellyfin.enabled %}
+    # https://gethomepage.dev/en/services/jellyfin/
+    gethomepage.dev/widget.type: "jellyfin"
+    gethomepage.dev/widget.url: "http://jellyfin.stream-jellyfin.svc.cluster.local"
+    gethomepage.dev/widget.key: "{{ homepage.config.jellyfin.apikey }}"
+{% endif %}
 spec:
   ingressClassName: nginx
   tls:

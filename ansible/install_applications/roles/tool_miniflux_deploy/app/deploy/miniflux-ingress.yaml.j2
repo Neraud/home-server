@@ -13,6 +13,13 @@ metadata:
     gethomepage.dev/description: Miniflux is a minimalist and opinionated feed reader
     gethomepage.dev/icon: miniflux
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=miniflux,app.kubernetes.io/component!=reminiflux"
+{% if homepage.config.miniflux.enabled %}
+    # https://gethomepage.dev/en/services/miniflux/
+    gethomepage.dev/widget.type: "miniflux"
+    gethomepage.dev/widget.url: "http://miniflux.tool-miniflux.svc.cluster.local:8080"
+    gethomepage.dev/widget.fields: '["unread", "read"]'
+    gethomepage.dev/widget.key: "{{ homepage.config.miniflux.apikey }}"
+{% endif %}
 spec:
   ingressClassName: nginx
   tls:

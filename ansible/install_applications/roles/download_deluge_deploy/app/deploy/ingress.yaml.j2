@@ -13,6 +13,13 @@ metadata:
     gethomepage.dev/description: Torrent client
     gethomepage.dev/icon: deluge
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=deluge"
+{% if homepage.config.deluge.enabled %}
+    # https://gethomepage.dev/en/services/deluge/
+    gethomepage.dev/widget.type: "deluge"
+    gethomepage.dev/widget.url: "http://deluge-web.download-deluge.svc.cluster.local:80"
+    gethomepage.dev/widget.fields: '["leech", "download", "seed", "upload"]'
+    gethomepage.dev/widget.password: "{{ homepage.config.deluge.password }}"
+{% endif %}
 spec:
   ingressClassName: nginx
   tls:

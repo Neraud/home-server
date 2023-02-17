@@ -14,6 +14,14 @@ metadata:
     gethomepage.dev/description: Controller for Unifi devices
     gethomepage.dev/icon: unifi
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=unifi"
+{% if homepage.config.unifi.enabled %}
+    # https://gethomepage.dev/en/services/unifi-controller/
+    gethomepage.dev/widget.type: "unifi"
+    gethomepage.dev/widget.url: "https://unifi-frontend.infra-unifi.svc.cluster.local:443"
+    gethomepage.dev/widget.fields: '["uptime", "wan", "lan_users", "wlan_users"]'
+    gethomepage.dev/widget.username: "{{ homepage.config.unifi.username }}"
+    gethomepage.dev/widget.password: "{{ homepage.config.unifi.password }}"
+{% endif %}
 spec:
   ingressClassName: nginx
   tls:
