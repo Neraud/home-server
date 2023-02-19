@@ -2,9 +2,11 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/en/configs/widgets
 
+{% if homepage.config.greeting | length > 0 %}
 - greeting:
     text_size: sm
     text: "{{ homepage.config.greeting }}"
+{% endif %}
 {% if homepage.config.unifi.enabled %}
 - unifi_console:
     url: https://unifi-frontend.infra-unifi.svc.cluster.local:443
