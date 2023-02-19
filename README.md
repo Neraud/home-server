@@ -70,7 +70,6 @@ The following services are deployed :
 | [Node-RED](https://nodered.org/)                                 | Flow-based programming for the IoT                              |
 | [Mosquitto](https://mosquitto.org/)                              | MQTT broker                                                     |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | Presence tracking                                               |
-| [Homer](https://github.com/bastienwirtz/homer)                   | A very simple static homepage for your server                   |
 | [Homepage](https://gethomepage.dev/)                             | A highly customizable homepage with service API integrations    |
 | [Miniflux](https://miniflux.app/)                                | Miniflux is a minimalist and opinionated feed reader            |
 | [Reminiflux](https://github.com/reminiflux/reminiflux)           | Alternative web frontend for miniflux                           |

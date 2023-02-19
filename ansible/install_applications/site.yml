@@ -119,10 +119,6 @@
   tags: kubernetes-app-monitoring-grafana
   when: grafana_enabled | bool
 
-- import_playbook: app-tool-homer.yml
-  tags: kubernetes-app-tool-homer
-  when: homer_enabled | bool
-
 - import_playbook: app-tool-homepage.yml
   tags: kubernetes-app-tool-homepage
   when: homepage_enabled | bool
