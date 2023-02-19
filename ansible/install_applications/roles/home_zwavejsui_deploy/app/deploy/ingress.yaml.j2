@@ -12,6 +12,12 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header X-External-Path /zwave;
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: Z-Wave JS UI
+    gethomepage.dev/description: Fully configurable Zwave to MQTT Gateway and Control Panel
+    gethomepage.dev/icon: zwavejs2mqtt
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=zwavejsui"
 spec:
   ingressClassName: nginx
   tls:

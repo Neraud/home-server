@@ -10,6 +10,12 @@ metadata:
 {% if esphome.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: ESPHome
+    gethomepage.dev/description: Control your ESP8266/ESP32
+    gethomepage.dev/icon: esphome
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=esphome"
 spec:
   ingressClassName: nginx
   tls:

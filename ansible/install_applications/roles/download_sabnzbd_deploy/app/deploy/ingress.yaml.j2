@@ -6,6 +6,20 @@ metadata:
   labels:
     {{ sabnzbd.labels_def | to_nice_yaml() | indent(4) }}
     {{ sabnzbd.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Download
+    gethomepage.dev/name: SABnzbd
+    gethomepage.dev/description: Binary newsreader
+    gethomepage.dev/icon: sabnzbd
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=sabnzbd"
+{% if homepage.config.sabnzbd.enabled %}
+    # https://gethomepage.dev/en/services/sabnzbd/
+    gethomepage.dev/widget.type: "sabnzbd"
+    gethomepage.dev/widget.url: "http://sabnzbd.download-sabnzbd.svc.cluster.local:80"
+    gethomepage.dev/widget.fields: '["rate", "queue", "timeleft"]'
+    gethomepage.dev/widget.key: "{{ homepage.config.sabnzbd.apikey }}"
+{% endif %}
 spec:
   ingressClassName: nginx
   tls:

@@ -18,12 +18,12 @@ mailhog:
     tag: "{{ _mailhog_var_loader.base_image.tag }}"
 
   labels_def:
-    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/name: mailhog
     app.kubernetes.io/component: server
 
   labels_desc:
     app.kubernetes.io/version: "{{ _mailhog_var_loader.base_image.tag }}"
-    app.kubernetes.io/part-of: zonemta
+    app.kubernetes.io/part-of: mailhog
 
   container:
     requests_cpu: "{{ mailhog_container_requests_cpu | default('25m') }}"

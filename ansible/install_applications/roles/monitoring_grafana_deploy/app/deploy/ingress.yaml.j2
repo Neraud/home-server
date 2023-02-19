@@ -10,6 +10,12 @@ metadata:
 {% if grafana.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Monitoring
+    gethomepage.dev/name: Grafana
+    gethomepage.dev/description: Platform for beautiful analytics and monitoring
+    gethomepage.dev/icon: grafana
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=grafana"
 spec:
   ingressClassName: nginx
   tls:

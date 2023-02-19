@@ -1,0 +1,46 @@
+---
+homepage_enabled: true
+
+homepage_config_title: "Demo homepage"
+#homepage_config_greeting: "Welcome !"
+
+#homepage_config_external_categories:
+#  Category Name:
+#    icon: mdi-ab-testing
+#
+#homepage_config_external_services:
+#- Category Name:
+#  - Service Name:
+#      icon: google
+#      description: External service example
+#      href: https://www.google.com
+#      ping: https://www.google.com
+
+# To enable Unifi stats, create a readonly user on the console
+#homepage_config_unifi_enabled: True
+#homepage_config_unifi_username: ""
+#homepage_config_unifi_password: ""
+
+# To enable Miniflux stats, create an API Key
+#homepage_config_miniflux_enabled: True
+#homepage_config_miniflux_apikey: ""
+
+# To enable Paperless stats, create a dedicated user (it doesn't require any special permissions)
+#homepage_config_paperless_enabled: True
+#homepage_config_paperless_username: ""
+#homepage_config_paperless_password: ""
+
+# To enable Deluge stats
+#homepage_config_deluge_enabled: True
+
+# To enable PyLoad stats, create a readonly user in the container (python /opt/pyload/pyLoadCore.py --configdir=/opt/pyload-data --user)
+#homepage_config_pyload_enabled: True
+#homepage_config_pyload_username: ""
+#homepage_config_pyload_password: ""
+
+# To enable SABnzbd stats
+#homepage_config_sabnzbd_enabled: True
+
+# To enable Jellyfin stats, create an API Key (Settings > Advanced > Api Keys)
+#homepage_config_jellyfin_enabled: True
+#homepage_config_jellyfin_apikey: ""

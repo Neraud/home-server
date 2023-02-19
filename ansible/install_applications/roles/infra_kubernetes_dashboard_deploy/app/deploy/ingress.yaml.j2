@@ -13,6 +13,11 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^({{ kubernetes_dashboard.context_root }})$ $1/ permanent;
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: Dashboard Kubernetes
+    gethomepage.dev/icon: kubernetes-dashboard
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=kubernetes-dashboard"
 spec:
   ingressClassName: nginx
   tls:

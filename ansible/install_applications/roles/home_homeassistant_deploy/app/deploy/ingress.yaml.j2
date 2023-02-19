@@ -6,6 +6,13 @@ metadata:
   labels:
     {{ homeassistant.labels_def | to_nice_yaml() | indent(4) }}
     {{ homeassistant.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: HomeAssistant
+    gethomepage.dev/description: Home automation
+    gethomepage.dev/icon: home-assistant
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=homeassistant"
 spec:
   ingressClassName: nginx
   tls:

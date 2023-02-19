@@ -8,6 +8,12 @@ metadata:
     {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: UniFi
+    gethomepage.dev/description: Controller for Unifi devices
+    gethomepage.dev/icon: unifi
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=unifi"
 spec:
   ingressClassName: nginx
   tls:

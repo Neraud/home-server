@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: miniflux
+  namespace: {{ miniflux.namespace }}
+  labels:
+    {{ miniflux.labels_def | to_nice_yaml() | indent(4) }}
+    {{ miniflux.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/name: Miniflux
+    gethomepage.dev/description: Miniflux is a minimalist and opinionated feed reader
+    gethomepage.dev/icon: miniflux
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=miniflux,app.kubernetes.io/component!=reminiflux"
+{% if homepage.config.miniflux.enabled %}
+    # https://gethomepage.dev/en/services/miniflux/
+    gethomepage.dev/widget.type: "miniflux"
+    gethomepage.dev/widget.url: "http://miniflux.tool-miniflux.svc.cluster.local:8080"
+    gethomepage.dev/widget.fields: '["unread", "read"]'
+    gethomepage.dev/widget.key: "{{ homepage.config.miniflux.apikey }}"
+{% endif %}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - miniflux.tool.{{ web_base_domain }}
+      secretName: ingress-tls
+  rules:
+  - host: miniflux.tool.{{ web_base_domain }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: miniflux
+            port:
+              name: http

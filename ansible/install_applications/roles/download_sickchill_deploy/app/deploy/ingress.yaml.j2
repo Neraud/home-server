@@ -10,6 +10,12 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "900"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "900"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "900"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Download
+    gethomepage.dev/name: SickChill
+    gethomepage.dev/description: Automatic Video Library Manager for TV Shows
+    gethomepage.dev/icon: sickchill
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=sickchill"
 spec:
   ingressClassName: nginx
   tls:

@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage
+  namespace: {{ homepage.namespace }}
+  labels:
+    {{ homepage.labels_def | to_nice_yaml() | indent(4) }}
+    {{ homepage.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ homepage.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ homepage.labels_def | to_nice_yaml() | indent(8) }}
+        {{ homepage.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      serviceAccountName: homepage
+      automountServiceAccountToken: true
+      containers:
+      - name: homepage
+        image: "{{ homepage.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          name: http
+        env:
+        - name: LOG_LEVEL
+          value: "debug"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # node
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: "{{ homepage.container.requests_cpu }}"
+            memory: "{{ homepage.container.requests_memory }}"
+          limits:
+            cpu: "{{ homepage.container.limits_cpu }}"
+            memory: "{{ homepage.container.limits_memory }}"
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /api/healthcheck
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: homepage-config
+          mountPath: /app/config
+        - name: logs-volume
+          mountPath: /app/config/logs
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: homepage-config
+        secret:
+          secretName: homepage-config
+      - name: logs-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

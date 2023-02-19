@@ -28,7 +28,6 @@ spec:
           - "sh"
           - "-c"
           - |
-            rm -Rf /var/lib/postgresql/data
             mkdir -p /var/lib/postgresql/data
             chown -R 70:70 /var/lib/postgresql/data
         volumeMounts:

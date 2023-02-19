@@ -9,7 +9,13 @@ metadata:
   annotations:
 {% if syncthing.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
-{% endif %}   
+{% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Files
+    gethomepage.dev/name: Syncthing
+    gethomepage.dev/description: Syncthing is a continuous file synchronization program
+    gethomepage.dev/icon: syncthing
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=syncthing"
 spec:
   ingressClassName: nginx
   tls:

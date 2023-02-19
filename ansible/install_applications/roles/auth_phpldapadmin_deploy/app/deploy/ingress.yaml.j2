@@ -10,6 +10,12 @@ metadata:
 {% if phpldapadmin.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Auth
+    gethomepage.dev/name: Php LDAP Admin
+    gethomepage.dev/description: Web-based LDAP browser
+    gethomepage.dev/icon: phpldapadmin
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=phpldapadmin"
 spec:
   ingressClassName: nginx
   tls:

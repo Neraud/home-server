@@ -6,6 +6,21 @@ metadata:
   labels:
     {{ pyload.labels_def | to_nice_yaml() | indent(4) }}
     {{ pyload.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Download
+    gethomepage.dev/name: PyLoad
+    gethomepage.dev/description: HTTP download manager
+    gethomepage.dev/icon: pyload
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=pyload"
+{% if homepage.config.pyload.enabled %}
+    # https://gethomepage.dev/en/services/pyload/
+    gethomepage.dev/widget.type: "pyload"
+    gethomepage.dev/widget.url: "http://pyload.download-pyload.svc.cluster.local:80"
+    gethomepage.dev/widget.fields: '["speed", "active", "queue", "total"]'
+    gethomepage.dev/widget.username: "{{ homepage.config.pyload.username }}"
+    gethomepage.dev/widget.password: "{{ homepage.config.pyload.password }}"
+{% endif %}
 spec:
   ingressClassName: nginx
   tls:

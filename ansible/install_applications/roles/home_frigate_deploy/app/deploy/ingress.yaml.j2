@@ -27,7 +27,13 @@ metadata:
       sub_filter 'href:`/' 'href:`/frigate/';
       sub_filter 'path:"/' 'path:"/frigate/';
       sub_filter 'p=`/' 'p=`/frigate/';   
-{% endif %}   
+{% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: Frigate
+    gethomepage.dev/description: Complete and local NVR designed for Home Assistant with AI object detection
+    gethomepage.dev/icon: frigate
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=frigate"
 
 spec:
   ingressClassName: nginx

@@ -12,6 +12,18 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite ^({{ gotify.context_root }})$ $1/ permanent;
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: Gotify
+    gethomepage.dev/description: Server for sending and receiving messages
+    gethomepage.dev/icon: gotify
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=gotify"
+    # The widget lists apps, clients and messages for a specific account only :/
+    # https://gethomepage.dev/en/services/gotify/
+    #gethomepage.dev/widget.type: "gotify"
+    #gethomepage.dev/widget.url: "http://gotify.infra-gotify.svc.cluster.local"
+    #gethomepage.dev/widget.fields: '["apps", "clients", "messages"]'
+    #gethomepage.dev/widget.key: "clientoken"
 spec:
   ingressClassName: nginx
   tls:

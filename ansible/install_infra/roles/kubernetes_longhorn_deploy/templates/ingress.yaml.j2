@@ -8,6 +8,11 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: 'false'
     # custom max body size for file uploading like backing image uploading
     nginx.ingress.kubernetes.io/proxy-body-size: 10000m
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: Longhorn UI
+    gethomepage.dev/icon: longhorn
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=longhorn"
 spec:
   ingressClassName: nginx
   tls:

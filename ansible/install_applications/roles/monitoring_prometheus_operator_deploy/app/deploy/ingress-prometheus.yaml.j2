@@ -10,6 +10,12 @@ metadata:
 {% if prometheus.context_root != "" %}
     nginx.ingress.kubernetes.io/rewrite-target: "/$1"
 {% endif %}
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Monitoring
+    gethomepage.dev/name: Prometheus
+    gethomepage.dev/description: Monitoring solution
+    gethomepage.dev/icon: prometheus
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=prometheus"
 spec:
   ingressClassName: nginx
   rules:
