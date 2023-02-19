@@ -59,6 +59,7 @@ To test the deployed services, you will have to add the following domains to you
 
 
 192.168.100.100 homer.tool.k8s.test
+192.168.100.100 homepage.tool.k8s.test
 192.168.100.100 miniflux.tool.k8s.test
 192.168.100.101 nextcloud.tool.intra.k8s.test
 192.168.100.101 paperless.tool.intra.k8s.test
@@ -134,6 +135,7 @@ The following services are deployed :
 | [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                              | MQTT broker                                                       |
 | [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                    | Presence tracking                                                 |
 | [Homer](https://github.com/bastienwirtz/homer)                   | <https://homer.tool.k8s.test>                        | A very simple static homepage for your server                     |
+| [Homepage](https://gethomepage.dev/)                             | <https://homepage.tool.k8s.test/>                    | A highly customizable homepage with service API integrations      |
 | [Miniflux](https://miniflux.app/)                                | <https://miniflux.tool.k8s.test/>                    | Miniflux is a minimalist and opinionated feed reader              |
 | [Reminiflux](https://github.com/reminiflux/reminiflux)           | <https://miniflux.tool.k8s.test/reminiflux/>         | Alternative web frontend for miniflux                             |
 | [Nextcloud](https://nextcloud.com/)                              | <https://nextcloud.tool.intra.k8s.test>              | The self-hosted productivity platform that keeps you in control   |
@@ -513,6 +515,12 @@ The real use case would be to use either a real shell, and/or enable the BLE plu
 ### Homer
 
 Homer is installed.
+
+Apps deployed in the cluster are added on the dashboard.
+
+### Homepage
+
+Homepage is installed.
 
 Apps deployed in the cluster are added on the dashboard.
 
