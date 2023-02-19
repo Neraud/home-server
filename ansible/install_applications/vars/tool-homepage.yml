@@ -47,7 +47,7 @@ homepage:
       password: "{{ homepage_config_paperless_password | default('') }}"
     deluge:
       enabled: "{{ homepage_config_deluge_enabled | default('false') | bool }}"
-      password: "{{ deluge_web.daemon_user.password }}"
+      password: "{{ deluge_web.password }}"
     pyload:
       enabled: "{{ homepage_config_pyload_enabled | default('false') | bool }}"
       username: "{{ homepage_config_pyload_username | default('') }}"
