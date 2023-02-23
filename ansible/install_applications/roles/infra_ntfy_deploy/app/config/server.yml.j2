@@ -97,6 +97,8 @@ cache-file: "/var/cache/ntfy/cache.db"
 # auth-file: <filename>
 # auth-default-access: "read-write"
 # auth-startup-queries:
+auth-file: /var/lib/ntfy/user.db
+auth-default-access: "deny-all"
 
 # If set, the X-Forwarded-For header is used to determine the visitor IP address
 # instead of the remote address of the connection.

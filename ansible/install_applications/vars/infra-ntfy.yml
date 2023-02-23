@@ -44,3 +44,5 @@ ntfy:
     limits_memory: "{{ ntfy_container_limits_memory | default('64Mi') }}"
     storage:
       data: "{{ ntfy_container_storage_data | default('128M') }}"
+
+  users: "{{ ntfy_users | default([])}}"

@@ -1,0 +1,12 @@
+---
+
+ntfy_users:
+- name: admin_local
+  password: Passw0rd
+  admin: yes
+- name: user_local
+  password: Passw0rd
+  admin: no
+  permissions:
+  - topic: "*"
+    permission: read-only

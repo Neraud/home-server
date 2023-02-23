@@ -1,2 +1,19 @@
 ---
 ntfy_enabled: true
+
+#ntfy_users:
+#- name: admin_local
+#  password: Passw0rd
+#  admin: yes
+#- name: user_local
+#  password: Passw0rd
+#  admin: no
+#  permissions:
+#  - topic: "*"
+#    permission: read-only
+#- name: app_x
+#  password: Passw0rd
+#  admin: no
+#  permissions:
+#  - topic: "appx*"
+#    permission: write-only

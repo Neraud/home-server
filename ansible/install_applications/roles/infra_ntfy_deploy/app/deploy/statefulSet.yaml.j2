@@ -29,13 +29,42 @@ spec:
           - "-c"
           - |
             rm -Rf /app/data/cache
+            rm -Rf /app/data/data
             mkdir -p /app/data/cache
+            mkdir -p /app/data/data
             chown -R 65534:65534 /app/data/*
         securityContext:
           readOnlyRootFilesystem: true
         volumeMounts:
         - name: ntfy-pv-claim
           mountPath: /app/data
+      - name: manage-users
+        image: "{{ ntfy.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "/opt/manage_users.sh"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          runAsGroup: 65534
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: ntfy-pv-claim
+          mountPath: /var/cache/ntfy
+          subPath: cache
+        - name: ntfy-pv-claim
+          mountPath: /var/lib/ntfy
+          subPath: data
+        - name: ntfy-config
+          mountPath: /etc/ntfy/server.yml
+          subPath: server.yml
+        - name: ntfy-init-volume
+          mountPath: /opt/manage_users.sh
+          subPath: manage_users.sh
       containers:
       - name: ntfy
         image: "{{ ntfy.private_image | image_full_name }}"
@@ -70,6 +99,9 @@ spec:
         - name: ntfy-pv-claim
           mountPath: /var/cache/ntfy
           subPath: cache
+        - name: ntfy-pv-claim
+          mountPath: /var/lib/ntfy
+          subPath: data
         - name: ntfy-config
           mountPath: /etc/ntfy/server.yml
           subPath: server.yml
@@ -80,6 +112,9 @@ spec:
       - name: ntfy-config
         configMap:
           name: ntfy-config
+      - name: ntfy-init-volume
+        secret:
+          secretName: ntfy-init
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
