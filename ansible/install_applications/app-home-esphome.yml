@@ -1,5 +1,6 @@
 ---
 - name: Provision home-esphome
   hosts: controller
+  gather_facts: no
   roles:
     - role: home_esphome_deploy

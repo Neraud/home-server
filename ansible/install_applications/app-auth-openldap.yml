@@ -1,5 +1,6 @@
 ---
 - name: Provision auth-openldap
   hosts: controller
+  gather_facts: no
   roles:
     - role: auth_openldap_deploy

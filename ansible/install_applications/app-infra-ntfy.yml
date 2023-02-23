@@ -1,5 +1,6 @@
 ---
 - name: Provision infra-ntfy
   hosts: controller
+  gather_facts: no
   roles:
     - role: infra_ntfy_deploy

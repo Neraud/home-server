@@ -1,5 +1,6 @@
 ---
 - name: Provision infra-dashboard
   hosts: controller
+  gather_facts: no
   roles:
     - role: infra_kubernetes_dashboard_deploy

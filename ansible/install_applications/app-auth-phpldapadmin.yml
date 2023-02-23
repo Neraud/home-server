@@ -1,5 +1,6 @@
 ---
 - name: Provision auth-phpldapadmin
   hosts: controller
+  gather_facts: no
   roles:
     - role: auth_phpldapadmin_deploy
