@@ -1,0 +1,46 @@
+---
+# To avoid loops inside ntfy
+_ntfy_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "binwiederhier/ntfy"
+    tag: "v2.0.1-amd64"
+  namespace: "infra-ntfy"
+
+ntfy:
+  enabled: "{{ ntfy_enabled | default(True) }}"
+
+  namespace: "{{ _ntfy_var_loader.namespace }}"
+  base_image: "{{ _ntfy_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "ntfy"
+    tag: "{{ _ntfy_var_loader.base_image.tag }}"
+  servername: "ntfy.{{ _ntfy_var_loader.namespace }}.svc.cluster.local"
+
+  app_backup:
+    name: infra-ntfy
+    repository: "{{ restic_apps_backup_repository }}"
+    namespace: "{{ _ntfy_var_loader.namespace }}"
+    apps_to_stop:
+      - name: ntfy
+        type: statefulset
+        replicas: 1
+    longhorn_volumes:
+      - volume_name: ntfy-data
+        pvc_name: ntfy-pv-claim-ntfy-0
+
+  labels_def:
+    app.kubernetes.io/name: ntfy
+    app.kubernetes.io/component: ntfy
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _ntfy_var_loader.base_image.tag }}"
+
+  container:
+    requests_cpu: "{{ ntfy_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ ntfy_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ ntfy_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ ntfy_container_limits_memory | default('64Mi') }}"
+    storage:
+      data: "{{ ntfy_container_storage_data | default('128M') }}"

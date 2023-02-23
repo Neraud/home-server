@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ntfy
+  namespace: {{ ntfy.namespace }}
+  labels:
+    {{ ntfy.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ntfy.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ ntfy.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ ntfy.labels_def | to_nice_yaml() | indent(8) }}
+        {{ ntfy.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-data-dir
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            rm -Rf /app/data/cache
+            mkdir -p /app/data/cache
+            chown -R 65534:65534 /app/data/*
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: ntfy-pv-claim
+          mountPath: /app/data
+      containers:
+      - name: ntfy
+        image: "{{ ntfy.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        args: ["serve"]
+        ports:
+        - containerPort: 8080
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          runAsGroup: 65534
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /v1/health
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ ntfy.container.requests_cpu }}"
+            memory: "{{ ntfy.container.requests_memory }}"
+          limits:
+            cpu: "{{ ntfy.container.limits_cpu }}"
+            memory: "{{ ntfy.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: ntfy-pv-claim
+          mountPath: /var/cache/ntfy
+          subPath: cache
+        - name: ntfy-config
+          mountPath: /etc/ntfy/server.yml
+          subPath: server.yml
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: ntfy-config
+        configMap:
+          name: ntfy-config
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: ntfy-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ ntfy.container.storage.data }}
