@@ -55,6 +55,7 @@ The following services are deployed :
 | [MailHog](https://github.com/mailhog/MailHog)                    | MailHog is an email testing tool for developers                 |
 | [Blocky](https://0xerr0r.github.io/blocky/)                      | DNS proxy and ad-blocker for the local network                  |
 | [Gotify](https://github.com/gotify/server)                       | Server for sending and receiving messages                       |
+| [Ntfy](https://ntfy.sh/)                                         | Send push notifications to your phone or desktop via PUT/POST   |
 | [Prometheus](https://prometheus.io/)                             | Monitoring solution                                             |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | Alert manager for Prometheus                                    |
 | [Grafana](https://grafana.com/)                                  | Platform for beautiful analytics and monitoring                 |
