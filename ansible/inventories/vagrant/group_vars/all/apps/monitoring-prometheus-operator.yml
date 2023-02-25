@@ -1,8 +1,6 @@
 ---
-alertmanager_default_receiver: default
-alertmanager_receivers:
-  - name: "{{ alertmanager_default_receiver }}"
-    emails_to:
-      - user@mail.net
+alertmanager_default_receiver_name: default
+alertmanager_default_receiver_emails_to:
+- user@mail.net
 
 service_monitors_interval_factor: 2

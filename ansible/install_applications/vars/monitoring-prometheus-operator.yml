@@ -130,8 +130,9 @@ alertmanager:
     auth_password: "{{ alertmanager_smtp_auth_password | default(zonemta.feeder.authentication_password) }}"
 
   context_root: "{{ alertmanager_context_root | default('') }}"
-  default_receiver: "{{ alertmanager_default_receiver | default('default') }}"
-  receivers: "{{ alertmanager_receivers | default([]) }}"
+  default_receiver: 
+    name: "{{ alertmanager_default_receiver_name | default('default') }}"
+    emails_to: "{{ alertmanager_default_receiver_emails_to | default([]) }}"
 
 service_monitors:
   # Multiply all scrap intervals with this factor.
