@@ -129,6 +129,12 @@ alertmanager:
     auth_username: "{{ alertmanager_smtp_auth_username | default(zonemta.feeder.authentication_username) }}"
     auth_password: "{{ alertmanager_smtp_auth_password | default(zonemta.feeder.authentication_password) }}"
 
+  ntfy_alertmanager:
+    enabled: "{{ ntfy_alertmanager.alertmanager.enabled | default(False) }}"
+    url: "{{ ntfy_alertmanager.webhook.url }}"
+    username: "{{ ntfy_alertmanager.webhook.username }}"
+    password: "{{ ntfy_alertmanager.webhook.password }}"
+
   context_root: "{{ alertmanager_context_root | default('') }}"
   default_receiver: 
     name: "{{ alertmanager_default_receiver_name | default('default') }}"

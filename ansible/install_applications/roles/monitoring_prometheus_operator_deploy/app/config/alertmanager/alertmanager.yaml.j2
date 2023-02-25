@@ -45,6 +45,12 @@ receivers:
     tls_config:
       ca_file: /etc/alertmanager/secrets/cluster-ca/ca.crt
 {% endfor %}
+  webhook_configs:
+  - url: {{ alertmanager.ntfy_alertmanager.url }}
+    http_config:
+      basic_auth:
+        username: "{{ alertmanager.ntfy_alertmanager.username }}"
+        password: "{{ alertmanager.ntfy_alertmanager.password }}"
 
 route:
   group_by:
