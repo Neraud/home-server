@@ -36,7 +36,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 lemonldap.auth.intra.k8s.test
 192.168.100.101 phpldapadmin.auth.intra.k8s.test
 
-192.168.100.100 gotify.infra.k8s.test
+192.168.100.100 ntfy.infra.k8s.test
 192.168.100.101 kube.infra.intra.k8s.test
 192.168.100.101 longhorn.infra.intra.k8s.test
 192.168.100.101 mailhog.infra.intra.k8s.test
@@ -116,7 +116,7 @@ The following services are deployed :
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                    | Modern outbound SMTP relay                                        |
 | [MailHog](https://github.com/mailhog/MailHog)                    | <https://mailhog.infra.intra.k8s.test/>              | MailHog is an email testing tool for developers                   |
 | [Blocky](https://0xerr0r.github.io/blocky/)                      | -                                                    | DNS proxy and ad-blocker for the local network                    |
-| [Gotify](https://gotify.net/)                                    | <https://gotify.infra.k8s.test>                      | A simple server for sending and receiving messages                |
+| [Ntfy](https://ntfy.sh/)                                         | <https://ntfy.infra.k8s.test>                        | Send push notifications to your phone or desktop via PUT/POST     |
 | [Prometheus](https://prometheus.io/)                             | <https://prometheus.monitoring.intra.k8s.test>       | Monitoring solution                                               |
 | [AlertManager](https://github.com/prometheus/alertmanager)       | <https://alertmanager.monitoring.intra.k8s.test>     | Alert manager for Prometheus                                      |
 | [Grafana](https://grafana.com/)                                  | <https://grafana.monitoring.intra.k8s.test>          | Platform for beautiful analytics and monitoring                   |
@@ -315,20 +315,21 @@ Name:   ad.doubleclick.net
 Address: ::
 ```
 
-### Gotify
+### Ntfy
 
-Gotify can be used to send notifications.
+Ntfy can be used to send notifications.
 
-2 users are created :
+A few users are configured :
 
-* `admin_local` / `Passw0rd`
-* `user_local` / `Passw0rd`
+* `admin_local` / `Passw0rd` can read and write all topics
+* `user_local` / `Passw0rd` can read all topics
+* `alertmanager` / `Passw0rd` can write on `alerts` and is used by alertmanager to push alerts
+* `homeassistant` / `Passw0rd` can write on `home` and is used by homeassistant to push notifications
 
-`user_local` also has a `sample` application, and you can send a test message via the command line :
+To send a sample message, you can use :
 
-```shell
-[user@master$] token=$(curl -s -k -H "Host: gotify.infra.k8s.test" -u user_local:Passw0rd https://192.168.100.100/application | jq -r '.[] | select(.name=="sample") | .token')
-[user@master$] curl -X POST -s -k -H "Host: gotify.infra.k8s.test" -H "X-Gotify-Key: $token" https://192.168.100.100/message -F "title=Sample title" -F "message=Sample message"
+```bash
+curl -u admin_local:Passw0rd -d "Test message" $(kubectl --namespace=infra-ntfy get service ntfy -o=jsonpath='{.spec.clusterIP}'):8080/test
 ```
 
 ### Prometheus & AlertManager

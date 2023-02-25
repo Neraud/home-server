@@ -1,5 +1,6 @@
 ---
 - name: Provision infra-reloader
   hosts: controller
+  gather_facts: no
   roles:
     - role: infra_reloader_deploy

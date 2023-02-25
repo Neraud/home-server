@@ -9,8 +9,8 @@ lemonldap_location_rules:
 
   - domain: "*.infra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'infra')
-  # Disable Auth for Gotify
-  - domain: "gotify.infra.{{ web_base_domain }}"
+  # Disable Auth for Ntfy
+  - domain: "ntfy.infra.{{ web_base_domain }}"
     default_rule: skip
   - domain: "*.infra.intra.{{ web_base_domain }}"
     default_rule: groupMatch($hGroups, 'cn', 'infra')

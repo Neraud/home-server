@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ntfy-config
+  namespace: {{ ntfy.namespace }}
+  labels:
+    {{ ntfy.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ntfy.labels_desc | to_nice_yaml() | indent(4) }}
+data:
+  server.yml: |
+    {{ lookup('template', role_path + '/app/config/server.yml.j2')  | replace('\n', '\n    ') }}

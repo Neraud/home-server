@@ -1,5 +1,6 @@
 ---
 - name: Provision monitoring-node-exporter-external
   hosts: controller
+  gather_facts: no
   roles:
     - role: monitoring_node_exporter_external_deploy

@@ -1,5 +1,6 @@
 ---
 - name: Provision auth-lemonldap
   hosts: controller
+  gather_facts: no
   roles:
     - role: auth_lemonldap_deploy

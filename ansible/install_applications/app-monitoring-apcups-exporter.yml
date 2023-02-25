@@ -1,5 +1,6 @@
 ---
 - name: Provision monitoring-apcups-exporter
   hosts: controller
+  gather_facts: no
   roles:
     - role: monitoring_apcups_exporter_deploy

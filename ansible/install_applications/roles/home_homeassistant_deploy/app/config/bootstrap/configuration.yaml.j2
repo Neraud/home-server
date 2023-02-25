@@ -35,15 +35,6 @@ http:
   use_x_forwarded_for: true
   trusted_proxies: 10.244.0.0/16
 
-# Checks for available updates
-# Note: This component will send some information about your system to
-# the developers to assist with development of Home Assistant.
-# For more information, please see:
-# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
-updater:
-  # Optional, allows Home Assistant developers to focus on popular components.
-  # include_used_components: true
-
 recorder:
   db_url: !secret recorder_mysql_url
 
@@ -56,6 +47,17 @@ mqtt:
   password: !secret mqtt_password
   certificate: /etc/ssl/cluster/ca.cert
   discovery: true
+  sensor:
+    # Test sensor for manual MQTT
+    - name: Test MQTT sensor
+      state_topic: "test/test_sensor"
+
+    # Test sensor for RoomAssistant
+    # Manually configuring the sensor is not required, as RoomAssistant exposes the configuration via Discovery.
+    #- name: Test RoomAssistant
+    #  state_topic: "homeassistant/sensor/example-room/example-script/state"
+    #  unit_of_measurement: '%'
+    #  value_template: "{{ '{{ value_json.value }}' }}"
 
 notify:
   - name: email_user
@@ -66,43 +68,41 @@ notify:
     sender: {{ homeassistant.smtp.from }}
     sender_name: {{ homeassistant.smtp.displayFrom }}
     encryption: {{ homeassistant.smtp.encryption }}
+    verify_ssl: False
     username: !secret smtp_username
     password: !secret smtp_password
     recipient:
       - !secret smtp_recipient_user
-{% if homeassistant.gotify.enabled %}
-  - name: gotify
+{% if homeassistant.ntfy.enabled %}
+  - name: ntfy_info
     platform: rest
-    resource: http://{{ homeassistant.gotify.servername }}/message
+    resource: {{ homeassistant.ntfy.url }}
     method: POST_JSON
-    headers: 
-      X-Gotify-Key: !secret gotify_application_token
-    message_param_name: message
-    title_param_name: title
+    authentication: basic
+    username: !secret ntfy_username
+    password: !secret ntfy_password
     data:
-      extras:
-        client::display:
-          contentType: "text/markdown"
+      topic: {{ homeassistant.ntfy.topic }}
+      priority: 3 # info
+    title_param_name: title
+    message_param_name: message
+  - name: ntfy_high
+    platform: rest
+    resource: {{ homeassistant.ntfy.url }}
+    method: POST_JSON
+    authentication: basic
+    username: !secret ntfy_username
+    password: !secret ntfy_password
+    data:
+      topic: {{ homeassistant.ntfy.topic }}
+      priority: 4 # high
+    title_param_name: title
+    message_param_name: message
 {% endif %}
 
 
 # Track the sun
 sun:
-
-# Sensors
-sensor:
-  # Test sensor for manual MQTT
-  - platform: mqtt
-    name: Test MQTT sensor
-    state_topic: "test/test_sensor"
-
-  # Test sensor for RoomAssistant
-  # Manually configuring the sensor is not required, as RoomAssistant exposes the configuration via Discovery.
-  #- platform: mqtt
-  #  name: Test RoomAssistant
-  #  state_topic: "homeassistant/sensor/example-room/example-script/state"
-  #  unit_of_measurement: '%'
-  #  value_template: "{{ '{{ value_json.value }}' }}"
 
 # Text to speech
 tts:

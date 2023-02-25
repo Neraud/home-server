@@ -1,5 +1,6 @@
 ---
 - name: Provision home-mosquitto
   hosts: controller
+  gather_facts: no
   roles:
     - role: home_mosquitto_deploy

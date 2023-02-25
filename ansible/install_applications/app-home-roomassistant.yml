@@ -1,5 +1,6 @@
 ---
 - name: Provision home-roomassistant
   hosts: controller
+  gather_facts: no
   roles:
     - role: home_roomassistant_deploy

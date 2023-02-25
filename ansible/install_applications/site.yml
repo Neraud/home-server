@@ -35,9 +35,9 @@
   tags: kubernetes-app-infra-blocky
   when: blocky_enabled | bool
 
-- import_playbook: app-infra-gotify.yml
-  tags: kubernetes-app-infra-gotify
-  when: gotify_enabled | bool
+- import_playbook: app-infra-ntfy.yml
+  tags: kubernetes-app-infra-ntfy
+  when: ntfy_enabled | bool
 
 - import_playbook: app-infra-gandi-livedns.yml
   tags: kubernetes-app-infra-gandi-livedns

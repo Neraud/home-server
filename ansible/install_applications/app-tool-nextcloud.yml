@@ -1,5 +1,6 @@
 ---
 - name: Provision tool-nextcloud
   hosts: controller
+  gather_facts: no
   roles:
     - role: tool_nextcloud_deploy
