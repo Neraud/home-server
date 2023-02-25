@@ -1,5 +1,9 @@
 ---
 
+ntfy_alertmanager_username: "alertmanager"
+ntfy_alertmanager_password: "Passw0rd"
+ntfy_alertmanager_topic: alerts
+
 ntfy_homeassistant_enabled: True
 ntfy_homeassistant_username: "homeassistant"
 ntfy_homeassistant_password: "Passw0rd"
@@ -15,6 +19,12 @@ ntfy_users:
   permissions:
   - topic: "*"
     permission: read-only
+- name: "{{ ntfy_alertmanager_username }}"
+  password: "{{ ntfy_alertmanager_password }}"
+  admin: no
+  permissions:
+  - topic: "{{ ntfy_alertmanager_topic }}*"
+    permission: write-only
 - name: "{{ ntfy_homeassistant_username }}"
   password: "{{ ntfy_homeassistant_password }}"
   admin: no

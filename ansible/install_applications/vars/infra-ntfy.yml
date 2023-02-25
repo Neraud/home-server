@@ -46,9 +46,47 @@ ntfy:
       data: "{{ ntfy_container_storage_data | default('128M') }}"
 
   users: "{{ ntfy_users | default([])}}"
+
+  alertmanager:
+    username: "{{ ntfy_alertmanager_username | default('user') }}"
+    password: "{{ ntfy_alertmanager_password | default('Passw0rd') }}"
+    topic: "{{ ntfy_alertmanager_topic | default('alerts') }}"
   
   homeassistant:
     enabled: "{{ ntfy_homeassistant_enabled | default(True) }}"
     username: "{{ ntfy_homeassistant_username | default('user') }}"
     password: "{{ ntfy_homeassistant_password | default('Passw0rd') }}"
     topic: "{{ ntfy_homeassistant_topic | default('home') }}"
+
+
+# To avoid loops inside ntfy
+_ntfy_alertmanager_var_loader:
+  base_image:
+    repo: "docker.io"
+    name: "xenrox/ntfy-alertmanager"
+    tag: "0.2.0"
+
+ntfy_alertmanager:
+  base_image: "{{ _ntfy_alertmanager_var_loader.base_image }}"
+  private_image:
+    repo: "{{ docker_private_registry.url }}"
+    name: "{{ _ntfy_alertmanager_var_loader.base_image.name | regex_replace('.*/', '') }}"
+    tag: "{{ _ntfy_alertmanager_var_loader.base_image.tag }}"
+
+  labels_def:
+    app.kubernetes.io/name: ntfy
+    app.kubernetes.io/component: ntfy-alertmanager
+
+  labels_desc:
+    app.kubernetes.io/version: "{{ _ntfy_alertmanager_var_loader.base_image.tag }}"
+
+  container:
+    requests_cpu: "{{ ntfy_alertmanager_container_requests_cpu | default('25m') }}"
+    requests_memory: "{{ ntfy_alertmanager_container_requests_memory | default('64Mi') }}"
+    limits_cpu: "{{ ntfy_alertmanager_container_limits_cpu | default('100m') }}"
+    limits_memory: "{{ ntfy_alertmanager_container_limits_memory | default('64Mi') }}"
+
+  webhook:
+    url: http://ntfy-alertmanager.{{ _ntfy_var_loader.namespace }}.svc.cluster.local:8080
+    username: "{{ ntfy_alertmanager_webhook_username | default('user') }}"
+    password: "{{ ntfy_alertmanager_webhook_password | default('password') }}"

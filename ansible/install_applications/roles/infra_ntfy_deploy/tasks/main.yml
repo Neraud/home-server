@@ -22,6 +22,12 @@
     base_image: "{{ ntfy.base_image }}"
     private_image: "{{ ntfy.private_image }}"
 
+- name: Ensure Ntfy-Alertmanager image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+  vars:
+    base_image: "{{ ntfy_alertmanager.base_image }}"
+    private_image: "{{ ntfy_alertmanager.private_image }}"
+
 - name: Deploy Ntfy
   kubernetes.core.k8s:
     definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"

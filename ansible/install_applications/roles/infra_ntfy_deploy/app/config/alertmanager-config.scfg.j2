@@ -1,0 +1,70 @@
+# Public facing base URL of the service (e.g. https://ntfy-alertmanager.xenrox.net)
+# This setting is required for the "Silence" feature.
+base-url https://ntfy-alertmanager.xenrox.net
+# http listen address
+http-address :8080
+# Log level (either debug, info, warning, error)
+log-level info
+# When multiple alerts are grouped together by Alertmanager, they can either be sent
+# each on their own (single mode) or be kept together (multi mode) (either single or multi; default is single)
+alert-mode single
+# Optionally protect with HTTP basic authentication
+user {{ ntfy_alertmanager.webhook.username }}
+password {{ ntfy_alertmanager.webhook.password }}
+
+labels {
+    order "severity,instance"
+
+    severity "critical" {
+        priority 5
+        tags "rotating_light"
+    }
+
+    severity "info" {
+        priority 1
+    }
+
+    instance "example.com" {
+        tags "computer,example"
+    }
+}
+
+# Set tags for resolved alerts
+resolved {
+    tags "resolved,partying_face"
+}
+
+ntfy {
+    # URL of the ntfy topic - required
+    topic {{ ntfy.internal_url }}/{{ ntfy.alertmanager.topic }}
+    # ntfy access control (https://ntfy.sh/docs/config/#access-control)
+    user {{ ntfy.alertmanager.username }}
+    password {{ ntfy.alertmanager.password }}
+}
+
+#alertmanager {
+#    # If set, the ntfy message will contain a "Silence" button, which can be used
+#    # to create a silence via the Alertmanager API. Because of limitations in ntfy,
+#    # the request will be proxied through ntfy-alertmanager. Therefore ntfy-alertmanager
+#    # needs to be exposed to external network requests and base-url has to be set.
+#    #
+#    # When alert-mode is set to "single" all alert labels will be used to create the silence.
+#    # When it is "multi" common labels between all the alerts will be used. WARNING: This
+#    # could silence unwanted alerts.
+#    silence-duration 24h
+#    # Basic authentication (https://prometheus.io/docs/alerting/latest/https/)
+#    user user
+#    password pass
+#    # By default the Alertmanager URL gets parsed from the webhook. In case that
+#    # Alertmanger is not reachable under that URL, it can be overwritten here.
+#    url http://alertmanager.monitoring-prometheus.svc.cluster.local:8080
+#}
+
+# When the alert-mode is set to single, ntfy-alertmanager will cache each single alert
+# to avoid sending recurrences.
+cache {
+    # How long messages stay in the cache for
+    duration 24h
+    # Interval in which the cache is cleaned up
+    cleanup-interval 1h
+}

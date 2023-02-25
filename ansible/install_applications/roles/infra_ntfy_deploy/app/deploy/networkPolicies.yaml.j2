@@ -25,6 +25,11 @@ spec:
             matchLabels:
               {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
 
+        # Allow from ntfy-alertmanager
+        - podSelector:
+            matchLabels:
+              {{ ntfy_alertmanager.labels_def | to_nice_yaml() | indent(14) }}
+
         # Allow from homeassistant
         - namespaceSelector:
             matchLabels:

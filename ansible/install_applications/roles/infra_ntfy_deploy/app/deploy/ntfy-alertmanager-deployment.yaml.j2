@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ntfy-alertmanager
+  namespace: {{ ntfy.namespace }}
+  labels:
+    {{ ntfy_alertmanager.labels_def | to_nice_yaml() | indent(4) }}
+    {{ ntfy_alertmanager.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{ ntfy_alertmanager.labels_def | to_nice_yaml() | indent(6) }}
+  template:
+    metadata:
+      labels:
+        {{ ntfy_alertmanager.labels_def | to_nice_yaml() | indent(8) }}
+        {{ ntfy_alertmanager.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      containers:
+      - name: ntfy-alertmanager
+        image: "{{ ntfy_alertmanager.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        args: 
+        - "--config"
+        - "/etc/ntfy-alertmanager/config.scfg"
+        ports:
+        - containerPort: 8080
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          runAsGroup: 65534
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ ntfy_alertmanager.container.requests_cpu }}"
+            memory: "{{ ntfy_alertmanager.container.requests_memory }}"
+          limits:
+            cpu: "{{ ntfy_alertmanager.container.limits_cpu }}"
+            memory: "{{ ntfy_alertmanager.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: ntfy-alertmanager-config
+          mountPath: /etc/ntfy-alertmanager/config.scfg
+          subPath: config.scfg
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: ntfy-alertmanager-config
+        secret:
+          secretName: ntfy-alertmanager-config
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
