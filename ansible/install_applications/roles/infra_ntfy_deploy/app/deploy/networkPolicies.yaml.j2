@@ -24,3 +24,11 @@ spec:
           podSelector:
             matchLabels:
               {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
+
+        # Allow from homeassistant
+        - namespaceSelector:
+            matchLabels:
+              name: {{ homeassistant.namespace }}
+          podSelector:
+            matchLabels:
+              {{ homeassistant.labels_def | to_nice_yaml() | indent(14) }}

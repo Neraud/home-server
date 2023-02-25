@@ -63,3 +63,25 @@
         It you simply dismiss the notification, it will be sent again next time HomeAssistant is restarted.
         Please edit `automations.yaml` to permanently remove it.
 {% endif %}
+
+
+{% if homeassistant.ntfy.enabled %}
+- alias: welcome_ntfy
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    service: notify.ntfy_info
+    data:
+      title: "Welcome to HomeAssistant !"
+      message: |
+        This notification is configured by ansible to confirm that the whole provisioning worked fine.
+        You now have an out of the box install of HomeAssistant with a couple of settings updated :
+
+        * `secrets.yaml` contains the configuration for mysql
+        * `configuration.yaml` uses the MySQL secret to setup the recorder (instead of using a slow SQLite storage)
+        * `automations.yaml` triggers this notification.
+
+        It you simply dismiss the notification, it will be sent again next time HomeAssistant is restarted.
+        Please edit `automations.yaml` to permanently remove it.
+{% endif %}

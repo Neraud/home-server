@@ -73,6 +73,13 @@ homeassistant:
     password: "{{ gotify.homeassistant.password | default('clear_password') }}"
     application_name: "{{ gotify.homeassistant.application_name | default('HomeAssistant') }}"
 
+  ntfy:
+    enabled: "{{ ntfy.homeassistant.enabled }}"
+    username: "{{ ntfy.homeassistant.username }}"
+    password: "{{ ntfy.homeassistant.password }}"
+    url: "{{ ntfy.internal_url }}"
+    topic: "{{ ntfy.homeassistant.topic }}"
+
   serial_remote_devices: "{{ homeassistant_serial_remote_devices | default({}) }}"
 
 # To avoid loops inside homeassistant_mysql

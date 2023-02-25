@@ -87,6 +87,32 @@ notify:
         client::display:
           contentType: "text/markdown"
 {% endif %}
+{% if homeassistant.ntfy.enabled %}
+  - name: ntfy_info
+    platform: rest
+    resource: {{ homeassistant.ntfy.url }}
+    method: POST_JSON
+    authentication: basic
+    username: !secret ntfy_username
+    password: !secret ntfy_password
+    data:
+      topic: {{ homeassistant.ntfy.topic }}
+      priority: 3 # info
+    title_param_name: title
+    message_param_name: message
+  - name: ntfy_high
+    platform: rest
+    resource: {{ homeassistant.ntfy.url }}
+    method: POST_JSON
+    authentication: basic
+    username: !secret ntfy_username
+    password: !secret ntfy_password
+    data:
+      topic: {{ homeassistant.ntfy.topic }}
+      priority: 4 # high
+    title_param_name: title
+    message_param_name: message
+{% endif %}
 
 
 # Track the sun
