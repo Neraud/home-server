@@ -18,6 +18,10 @@ metadata:
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=prometheus"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+      - ntfy.infra.{{ web_base_domain }}
+      secretName: ingress-tls
   rules:
   - host: prometheus.monitoring.intra.{{ web_base_domain }}
     http:
