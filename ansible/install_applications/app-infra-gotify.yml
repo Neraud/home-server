@@ -1,6 +1,0 @@
----
-- name: Provision infra-gotify
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_gotify_deploy

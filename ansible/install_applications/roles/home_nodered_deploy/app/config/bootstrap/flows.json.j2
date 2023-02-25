@@ -138,7 +138,7 @@
         "x": 470,
         "y": 320,
         "wires": [
-            ["6007c54a.af0e04", "98bee1c8.a412c", "8751ccfc3ffd59f6", "c487401f16759748"]
+            ["6007c54a.af0e04", "98bee1c8.a412c", "c487401f16759748"]
         ]
     },
     {
@@ -150,7 +150,7 @@
         "x": 330,
         "y": 40,
         "wires": []
-    }, 
+    },
     {
         "id": "17c95d30.ca700b",
         "type": "comment",
@@ -210,39 +210,7 @@
         "x": 510,
         "y": 240,
         "wires": []
-    }, 
-    {
-        "id": "8751ccfc3ffd59f6",
-        "type": "api-call-service",
-        "z": "5cf77e32.54a47",
-        "name": "Gotify",
-        "server": "3925f1ad.f3636e",
-        "version": 5,
-        "debugenabled": false,
-        "domain": "notify",
-        "service": "gotify",
-        "areaId": [],
-        "deviceId": [],
-        "entityId": [],
-        "data": "{\"title\":\"Test from NodeRED !\",\"message\":\"The sun is : {{ '{{' }} payload {{ '}}' }}\"}",
-        "dataType": "json",
-        "mergeContext": "",
-        "mustacheAltTags": false,
-        "outputProperties": [{
-            "property": "payload",
-            "propertyType": "msg",
-            "value": "",
-            "valueType": "data"
-        }],
-        "queue": "none",
-        "output_location": "payload",
-        "output_location_type": "msg",
-        "x": 690,
-        "y": 440,
-        "wires": [
-            []
-        ]
-    }, 
+    },
     {
         "id": "c487401f16759748",
         "type": "api-call-service",
@@ -270,7 +238,7 @@
         "output_location": "payload",
         "output_location_type": "msg",
         "x": 690,
-        "y": 500,
+        "y": 440,
         "wires": [
             []
         ]

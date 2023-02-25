@@ -73,20 +73,6 @@ notify:
     password: !secret smtp_password
     recipient:
       - !secret smtp_recipient_user
-{% if homeassistant.gotify.enabled %}
-  - name: gotify
-    platform: rest
-    resource: http://{{ homeassistant.gotify.servername }}/message
-    method: POST_JSON
-    headers: 
-      X-Gotify-Key: !secret gotify_application_token
-    message_param_name: message
-    title_param_name: title
-    data:
-      extras:
-        client::display:
-          contentType: "text/markdown"
-{% endif %}
 {% if homeassistant.ntfy.enabled %}
   - name: ntfy_info
     platform: rest
