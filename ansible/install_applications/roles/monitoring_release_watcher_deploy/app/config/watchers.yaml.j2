@@ -143,10 +143,19 @@ watchers:
     version: {{ deluge.version }}
     excludes: 
       - ^1\..*
-  - type: github_commit
-    repo: {{ pyload.repo.name }}
-    branch: {{ pyload.repo.branch }}
-    commit: {{ pyload.repo.commit }}
+  - name: Pyload Baseimage
+    type: docker_registry
+    repo: {{ pyload.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
+    image: {{ pyload.base_image.name }}
+    tag: {{ pyload.base_image.tag }}
+    includes:
+      - 3\.[0-9]+\.[0-9]+-slim-bullseye
+    excludes:
+      - ^3\.[0-9]\..*
+      - ^3\.1[0]\..*
+  - type: pypi
+    package: pyload-ng
+    version: {{ pyload.version }}
   - name: SABnzbd Baseimage
     type: docker_registry
     repo: {{ sabnzbd.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}

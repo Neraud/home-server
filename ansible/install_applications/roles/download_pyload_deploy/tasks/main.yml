@@ -24,7 +24,7 @@
     private_image: "{{ pyload.private_image }}"
     build: yes
     build_args:
-      pyload_version: "{{ pyload.commit }}"
+      pyload_version: "{{ pyload.version }}"
 
 - name: Deploy pyLoad
   kubernetes.core.k8s:

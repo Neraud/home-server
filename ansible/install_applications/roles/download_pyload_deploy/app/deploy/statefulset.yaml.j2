@@ -28,13 +28,11 @@ spec:
           - "sh"
           - "-c"
           - |
-            mkdir -p /opt/pyload/data
-            chown -R 1000:1000 /opt/pyload/data
-            # Ensure pid file is absent
-            rm -f /opt/pyload/data/pyload.pid
+            mkdir -p /pyload-config/config
+            chown -R 1000:1000 /pyload-config/config
         volumeMounts:
         - name: pyload-config-pv-claim
-          mountPath: /opt/pyload
+          mountPath: /pyload-config
       containers:
       - name: pyload
         image: "{{ pyload.private_image | image_full_name }}"
@@ -44,7 +42,7 @@ spec:
           name: webui
         securityContext:
           runAsNonRoot: true
-          runAsUser: 1000
+          runAsUser: 1000 # pyload
           readOnlyRootFilesystem: true
         readinessProbe:
           httpGet:
@@ -58,11 +56,11 @@ spec:
             value: "{{ pyload.default_user }}"
           - name: PYLOAD_DEFAULT_PASSWORD
             value: "{{ pyload.default_password }}"
-          - name: PYLOAD_CONF_webinterface_prefix
+          - name: PYLOAD_CONF_webui_prefix
             value: "{{ pyload.context_root }}"
-          - name: PYLOAD_CONF_general_download_folder
-            value: /mnt/download/pyload
-          - name: PYLOAD_CONF_log_file_log
+          - name: PYLOAD_CONF_general_storage_folder
+            value: /downloads
+          - name: PYLOAD_CONF_log_filelog
             value: "False"
         resources:
           requests:
@@ -76,10 +74,13 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: pyload-config-pv-claim
-          mountPath: /opt/pyload-data
-          subPath: data
+          mountPath: /config
+          subPath: config
         - name: pyload-download
-          mountPath: /mnt/download
+          mountPath: /downloads
+          subPath: pyload
+        - name: tmp-volume
+          mountPath: /tmp
       volumes:
       - name: tz-config
         hostPath:
@@ -87,6 +88,8 @@ spec:
       - name: pyload-download
         persistentVolumeClaim:
           claimName: nfs-download
+      - name: tmp-volume
+        emptyDir: {}
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
