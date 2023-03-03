@@ -81,10 +81,10 @@ ntfy_alertmanager:
     app.kubernetes.io/version: "{{ _ntfy_alertmanager_var_loader.base_image.tag }}"
 
   container:
-    requests_cpu: "{{ ntfy_alertmanager_container_requests_cpu | default('25m') }}"
-    requests_memory: "{{ ntfy_alertmanager_container_requests_memory | default('64Mi') }}"
-    limits_cpu: "{{ ntfy_alertmanager_container_limits_cpu | default('100m') }}"
-    limits_memory: "{{ ntfy_alertmanager_container_limits_memory | default('64Mi') }}"
+    requests_cpu: "{{ ntfy_alertmanager_container_requests_cpu | default('20m') }}"
+    requests_memory: "{{ ntfy_alertmanager_container_requests_memory | default('32Mi') }}"
+    limits_cpu: "{{ ntfy_alertmanager_container_limits_cpu | default('40m') }}"
+    limits_memory: "{{ ntfy_alertmanager_container_limits_memory | default('32Mi') }}"
 
   webhook:
     url: http://ntfy-alertmanager.{{ _ntfy_var_loader.namespace }}.svc.cluster.local:8080
