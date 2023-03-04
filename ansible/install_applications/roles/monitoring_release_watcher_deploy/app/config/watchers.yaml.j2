@@ -483,7 +483,7 @@ watchers:
     excludes:
       - .*alpine3\.1[0-6]
       - ^[0-6]\.
-      - ^7\.0\.[0-7]-.*
+      - ^7\.0\.[0-8]-.*
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: {{ zonemta_mongo.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
