@@ -5,7 +5,7 @@ _gitea_var_loader:
   base_image:
     repo: "docker.io"
     name: "gitea/gitea"
-    tag: "1.18.3-rootless"
+    tag: "1.18.5-rootless"
 
 gitea:
   enabled: "{{ gitea_enabled | default(True) }}"
@@ -78,7 +78,7 @@ _gitea_pgsql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/postgres"
-    tag: "15.1-alpine3.17"
+    tag: "15.2-alpine3.17"
 
 gitea_pgsql:
   base_image: "{{ _gitea_pgsql_var_loader.base_image }}"
