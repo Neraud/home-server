@@ -4,7 +4,7 @@ _reloader_var_loader:
   base_image:
     repo: "docker.io"
     name: "stakater/reloader"
-    tag: "v1.0.3"
+    tag: "v1.0.11"
 
 reloader:
   enabled: "{{ reloader_enabled | default(True) }}"

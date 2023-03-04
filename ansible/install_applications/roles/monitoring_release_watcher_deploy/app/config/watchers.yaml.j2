@@ -455,7 +455,7 @@ watchers:
       - ^PR-.*
       - dev
       - v0\.
-      - v1\.0\.[0-2]$
+      - v1\.0\.[0-9]$
   - type: docker_registry
     repo: {{ unifi.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ unifi.base_image.name }}
