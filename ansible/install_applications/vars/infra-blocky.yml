@@ -41,7 +41,7 @@ _blocky_pgsql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/postgres"
-    tag: "15.1-alpine3.17"
+    tag: "15.2-alpine3.17"
 
 blocky_pgsql:
   base_image: "{{ _blocky_pgsql_var_loader.base_image }}"

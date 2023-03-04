@@ -366,7 +366,7 @@ watchers:
       - .*-alpine3\.1[0-6]
       - ^[0-9]\..*
       - ^1[0-4]\..*
-      - ^15\.[0]\..*
+      - ^15\.[0-1]\..*
   - name: "Blocky Redis"
     type: docker_registry
     repo: {{ blocky_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
