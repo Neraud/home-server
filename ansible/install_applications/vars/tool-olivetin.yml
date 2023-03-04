@@ -5,7 +5,7 @@ _olivetin_var_loader:
   base_image:
     repo: "docker.io"
     name: "jamesread/olivetin"
-    tag: "2022.11.14-amd64"
+    tag: "2023.02.16-amd64"
   context_root: "{{ olivetin_context_root | default('') }}"
 
 olivetin:
