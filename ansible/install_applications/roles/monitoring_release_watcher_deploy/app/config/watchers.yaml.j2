@@ -839,8 +839,7 @@ watchers:
       - .*(beta|rc).*
       - ^0\..*
       - ^1\.[0-9]\..*
-      - ^1\.1[0-1]\..*
-      - ^1\.12\.[0-1]$
+      - ^1\.1[0-2]\..*
   - name: "Paperless Redis"
     type: docker_registry
     repo: {{ paperless_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
