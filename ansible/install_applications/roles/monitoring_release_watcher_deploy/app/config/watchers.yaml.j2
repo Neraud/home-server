@@ -775,24 +775,29 @@ watchers:
     release: {{ nextcloud.applications.calendar.version }}
     excludes:
       - .*(alpha|beta|rc).*
+      - ^v[0-3]\..*
   - name: Nextcloud Contacts
     type: github_release
     repo: {{ nextcloud.applications.contacts.repo }}
     release: {{ nextcloud.applications.contacts.version }}
     excludes:
       - .*(alpha|beta|rc).*
+      - ^v[0-4]\..*
   - name: Nextcloud Notes
     type: github_release
     repo: {{ nextcloud.applications.notes.repo }}
     release: {{ nextcloud.applications.notes.version }}
     excludes:
       - .*(alpha|beta|rc).*
+      - ^v[0-3]\..*
   - name: Nextcloud Tasks
     type: github_release
     repo: {{ nextcloud.applications.tasks.repo }}
     release: {{ nextcloud.applications.tasks.version }}
     excludes:
       - .*(alpha|beta|rc).*
+      - ^v0\.[0-9]\..*
+      - ^v0\.1[0-3]\..*
   - name: Nextcloud Two Factor Totp
     type: github_release
     repo: {{ nextcloud.applications.twofactor_totp.repo }}
