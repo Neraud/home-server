@@ -5,7 +5,7 @@ _nextcloud_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/nextcloud"
-    tag: "25.0.3-apache"
+    tag: "25.0.4-apache"
   context_root: "{{ nextcloud_context_root | default('') }}"
 
 nextcloud:
@@ -52,7 +52,7 @@ nextcloud:
   applications:
     calendar:
       repo: nextcloud-releases/calendar
-      version: v4.2.3
+      version: v4.2.4
     contacts:
       repo: nextcloud-releases/contacts
       version: v5.1.0
@@ -146,7 +146,7 @@ _nextcloud_redis_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/redis"
-    tag: "7.0.8-alpine3.17"
+    tag: "7.0.9-alpine3.17"
 
 nextcloud_redis:
   base_image: "{{ _nextcloud_redis_var_loader.base_image }}"

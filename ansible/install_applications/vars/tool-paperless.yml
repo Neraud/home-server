@@ -5,7 +5,7 @@ _paperless_var_loader:
   base_image:
     repo: "ghcr.io"
     name: "paperless-ngx/paperless-ngx"
-    tag: "1.12.2"
+    tag: "1.13.0"
   context_root: "{{ paperless_context_root | default('') }}"
 
 paperless:
@@ -72,7 +72,7 @@ _paperless_pgsql_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/postgres"
-    tag: "15.1-alpine3.17"
+    tag: "15.2-alpine3.17"
 
 paperless_pgsql:
   base_image: "{{ _paperless_pgsql_var_loader.base_image }}"

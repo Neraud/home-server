@@ -5,7 +5,7 @@ _unifi_var_loader:
   base_image:
     repo: "docker.io"
     name: "jacobalberty/unifi"
-    tag: "v7.3.76"
+    tag: "v7.3.83"
 
 unifi:
   enabled: "{{ unifi_enabled | default(True) }}"

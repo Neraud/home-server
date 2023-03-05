@@ -4,7 +4,7 @@ _fluentd_var_loader:
   base_image:
     repo: "docker.io"
     name: "fluent/fluentd"
-    tag: "v1.15.3-debian-amd64-1.1"
+    tag: "v1.15.3-debian-amd64-1.2"
   namespace: "logging-fluentd"
 
 fluentd:
@@ -35,7 +35,7 @@ fluentd:
 
   plugins:
     opensearch:
-      version: "1.0.9"
+      version: "1.0.10"
     prometheus:
       version: "2.0.3"
     ua_parser:

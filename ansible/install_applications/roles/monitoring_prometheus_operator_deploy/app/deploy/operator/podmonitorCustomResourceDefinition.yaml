@@ -194,6 +194,10 @@ spec:
                             - Lowercase
                             - uppercase
                             - Uppercase
+                            - keepequal
+                            - KeepEqual
+                            - dropequal
+                            - DropEqual
                             type: string
                           modulus:
                             description: Modulus to take of the hash of the source label values.
@@ -337,6 +341,10 @@ spec:
                             - Lowercase
                             - uppercase
                             - Uppercase
+                            - keepequal
+                            - KeepEqual
+                            - dropequal
+                            - DropEqual
                             type: string
                           modulus:
                             description: Modulus to take of the hash of the source label values.
