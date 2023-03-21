@@ -70,6 +70,11 @@
     - { role: nginx, tags: nginx }
     - fail2ban
 
+- name: Deploy Crowdsec bouncers
+  hosts: all_hosts
+  roles:
+    - crowdsec_firewall_bouncer
+
 - name: Provision Wireguard
   hosts: wireguard_servers
   roles:
