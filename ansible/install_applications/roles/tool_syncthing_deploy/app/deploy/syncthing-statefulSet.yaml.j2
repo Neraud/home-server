@@ -44,7 +44,7 @@ spec:
           - |
             echo "Creating dummy nic eth9"
             ip link add eth9 type dummy
-            ip addr add {{ kubernetes_syncthing_ip }}/32 brd + dev eth9
+            ip addr add {{ kubernetes_syncthing_lb_ip }}/32 brd + dev eth9
             ip link set dev eth9 up
             echo "Dummy nic eth9 created :"
             ip addr show eth9

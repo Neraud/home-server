@@ -10,7 +10,7 @@ kubernetes_lemonLdap_handler_lb_ip: 192.168.100.21
 kubernetes_openldap_lb_ip: 192.168.100.22
 kubernetes_dns_lb_ip: 192.168.100.23
 kubernetes_unifi_private_lb_ip: 192.168.100.24
-kubernetes_syncthing_ip: 192.168.100.25
+kubernetes_syncthing_lb_ip: 192.168.100.25
 kubernetes_crowdsec_lapi_ip: 192.168.100.26
 kubernetes_ingress_http_port: 80
 kubernetes_ingress_https_port: 443
