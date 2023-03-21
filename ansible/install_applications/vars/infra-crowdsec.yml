@@ -35,6 +35,11 @@ crowdsec_lapi:
     limits_cpu: "{{ crowdsec_lapi_container_limits_cpu | default('400m') }}"
     limits_memory: "{{ crowdsec_lapi_container_limits_memory | default('128Mi') }}"
 
+  config:
+    tls:
+      bouncers_ou: "{{ crowdsec_lapi_config_tls_bouncers_ou | default([]) }}"
+      agents_ou: "{{ crowdsec_lapi_config_tls_agents_ou | default([]) }}"
+
 crowdsec_agent:  
   labels_def:
     app.kubernetes.io/name: crowdsec

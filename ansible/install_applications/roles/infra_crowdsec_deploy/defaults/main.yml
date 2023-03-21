@@ -5,3 +5,6 @@ crowdsec_agent_config_collections:
   - crowdsecurity/linux
   - crowdsecurity/sshd
   - crowdsecurity/nginx
+
+crowdsec_lapi_config_tls_bouncers_ou: []
+crowdsec_lapi_config_tls_agents_ou: []

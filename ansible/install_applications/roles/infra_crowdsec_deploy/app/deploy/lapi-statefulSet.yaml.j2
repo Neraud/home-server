@@ -42,8 +42,6 @@ spec:
         image: "{{ crowdsec.private_image | image_full_name }}"
         imagePullPolicy: Always
         env:
-        - name: LOCAL_API_URL
-          value: http://localhost:8080
         - name: DISABLE_AGENT
           value: "true"
         - name: DISABLE_ONLINE_API
@@ -54,19 +52,31 @@ spec:
         # Trace the entrypoint
         - name:   DEBUG
           value: "false"
-        - name: AGENT_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: agent-credentials
-              key: username
-        - name: AGENT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: agent-credentials
-              key: password
+        - name: CUSTOM_HOSTNAME
+          value: lapi
+        - name: LOCAL_API_URL
+          value: "https://lapi.{{ crowdsec.namespace }}.svc.cluster.local:8080"
+        - name: USE_TLS
+          value: "true"
+        - name: CACERT_FILE
+          value: "/etc/ssl/crowdsec/ca.crt"
+        - name: LAPI_CERT_FILE
+          value: "/etc/ssl/crowdsec/server/server-chain.crt"
+        - name: LAPI_KEY_FILE
+          value: "/etc/ssl/crowdsec/server/server.key"
+        - name: AGENTS_ALLOWED_OU
+          value: "{{ crowdsec_lapi.config.tls.agents_ou | join(',') }}"
+        - name: BOUNCERS_ALLOWED_OU
+          value: "{{ crowdsec_lapi.config.tls.bouncers_ou | join(',') }}"
+        # Workaround for https://github.com/crowdsecurity/crowdsec/issues/2127
+        - name: agents_allowed_yaml
+          value: "[\"{{ crowdsec_lapi.config.tls.agents_ou | join('\\", \\"') }}\"]"
+        # Workaround for https://github.com/crowdsecurity/crowdsec/issues/2127
+        - name: bouncers_allowed_yaml
+          value: "[\"{{ crowdsec_lapi.config.tls.bouncers_ou | join('\\", \\"') }}\"]"
         ports:
         - containerPort: 8080
-          name: http
+          name: lapi
         - containerPort: 6060
           name: metrics
         securityContext:
@@ -79,22 +89,28 @@ spec:
           failureThreshold: 3
           periodSeconds: 10
           successThreshold: 1
-          tcpSocket:
-            port: http
+          httpGet:
+            port: lapi
+            path: /health
+            scheme: HTTPS
           timeoutSeconds: 1
         readinessProbe:
           failureThreshold: 3
           periodSeconds: 10
           successThreshold: 1
-          tcpSocket:
-            port: http
+          httpGet:
+            port: lapi
+            path: /health
+            scheme: HTTPS
           timeoutSeconds: 1
         startupProbe:
           failureThreshold: 30
           periodSeconds: 10
           successThreshold: 1
-          tcpSocket:
-            port: http
+          httpGet:
+            port: lapi
+            path: /health
+            scheme: HTTPS
           timeoutSeconds: 1
           timeoutSeconds: 5
         resources:
@@ -108,6 +124,10 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
+        - name: crowdsec-ca-certs
+          mountPath: /etc/ssl/crowdsec
+        - name: lapi-certs
+          mountPath: /etc/ssl/crowdsec/server
         - name: crowdsec-config-pv-claim
           mountPath: /etc/crowdsec
           subPath: crowdsec
@@ -120,6 +140,12 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: crowdsec-ca-certs
+        secret:
+          secretName: crowdsec-ca-certs
+      - name: lapi-certs
+        secret:
+          secretName: lapi-certs
       - name: tmp-volume
         emptyDir: {}
       imagePullSecrets:

@@ -8,8 +8,8 @@ metadata:
     {{ crowdsec_lapi.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
-  - name: http
+  - name: lapi
     port: 8080
-    targetPort: http
+    targetPort: lapi
   selector:
     {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(4) }}

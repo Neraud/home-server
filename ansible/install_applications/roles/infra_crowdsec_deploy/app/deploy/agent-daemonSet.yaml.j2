@@ -54,19 +54,15 @@ spec:
         - name:   DEBUG
           value: "false"
         - name: LOCAL_API_URL
-          value: "http://lapi.{{ crowdsec.namespace }}.svc.cluster.local:8080"
-        - name: DISABLE_ONLINE_API
+          value: "https://lapi.{{ crowdsec.namespace }}.svc.cluster.local:8080"
+        - name: USE_TLS
           value: "true"
-        - name: AGENT_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: agent-credentials
-              key: username
-        - name: AGENT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: agent-credentials
-              key: password
+        - name: CACERT_FILE
+          value: "/etc/ssl/crowdsec/ca.crt"
+        - name: CLIENT_CERT_FILE
+          value: "/etc/ssl/crowdsec/agent/agent-chain.crt"
+        - name: CLIENT_KEY_FILE
+          value: "/etc/ssl/crowdsec/agent/agent.key"
         - name: COLLECTIONS
           value: "{{ crowdsec_agent.config.collections | join(' ') }}"
         ports:
@@ -90,6 +86,11 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
+        - name: crowdsec-ca-certs
+          mountPath: /etc/ssl/crowdsec
+        - name: agent-cert-volume
+          mountPath: /etc/ssl/crowdsec/agent
+          readOnly: true
         - name: etc-volume
           mountPath: /etc/crowdsec
         - name: data-volume
@@ -103,6 +104,12 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: crowdsec-ca-certs
+        secret:
+          secretName: crowdsec-ca-certs
+      - name: agent-cert-volume
+        hostPath:
+          path: /etc/ssl/crowdsec_host/agent
       - name: tmp-volume
         emptyDir: {}
       - name: etc-volume
