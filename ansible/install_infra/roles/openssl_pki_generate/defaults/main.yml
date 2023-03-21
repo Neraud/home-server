@@ -4,6 +4,11 @@
 
 openssl_custom_pki: []
 #  - pki_name: pki_1
+#    country_name: US
+#    state_or_province_name: State
+#    locality_name: Locality
+#    organization_name: Organization
+#    organizational_unit_name: OU
 #    ca_common_name: test1.com
 #    certs:
 #      - name: cert_1
@@ -24,6 +29,11 @@ openssl_custom_pki: []
 #        common_name: cn2.test1.com
 #        email_address: user@mail.net
 #  - pki_name: pki_2
+#    country_name: US
+#    state_or_province_name: State
+#    locality_name: Locality
+#    organization_name: Organization
+#    organizational_unit_name: OU
 #    ca_common_name: test2.com
 #    certs:
 #      - name: cert_1
@@ -31,6 +41,7 @@ openssl_custom_pki: []
 #        state_or_province_name: State
 #        locality_name: Locality
 #        organization_name: Organization
+#        organizational_unit_name: OU
 #        common_name: cn1.test1.com
 #        email_address: user@mail.net
 #      - name: cert_2
@@ -38,5 +49,6 @@ openssl_custom_pki: []
 #        state_or_province_name: State
 #        locality_name: Locality
 #        organization_name: Organization
+#        organizational_unit_name: OU
 #        common_name: cn2.test1.com
 #        email_address: user@mail.net

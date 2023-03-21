@@ -12,6 +12,11 @@
   community.crypto.openssl_csr:
     path: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.csr"
     privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.key"
+    country_name : "{{ pki_item.country_name }}"
+    state_or_province_name : "{{ pki_item.state_or_province_name }}"
+    locality_name : "{{ pki_item.locality_name }}"
+    organization_name : "{{ pki_item.organization_name }}"
+    organizational_unit_name : "{{ pki_item.organizational_unit_name }}"
     common_name: "{{ pki_item.ca_common_name }}"
     basicConstraints:
       - CA:TRUE

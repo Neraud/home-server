@@ -12,6 +12,11 @@
   community.crypto.openssl_csr:
     path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
     privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    country_name : "{{ item.1.country_name }}"
+    state_or_province_name : "{{ item.1.state_or_province_name }}"
+    locality_name : "{{ item.1.locality_name }}"
+    organization_name : "{{ item.1.organization_name }}"
+    organizational_unit_name : "{{ item.1.organizational_unit_name }}"
     common_name: "{{ item.1.common_name }}"
     subject_alt_name: "{{ complete_san_domains | map('regex_replace', '^', 'DNS:') | list }}"
   vars:
