@@ -1,0 +1,94 @@
+---
+- name: Prepare list of expected CA files
+  ansible.builtin.set_fact:
+    crowdsec_pki_expected_files:
+    - "ca.pkcs1.key"
+    - "ca.key"
+    - "ca.csr"
+    - "ca.crt"
+
+- name: Prepare list of expected intermediate CAs certs files
+  ansible.builtin.set_fact:
+    crowdsec_pki_expected_files: "{{ crowdsec_pki_expected_files | default([]) + expected_files }}"
+  loop:
+  - "{{ crowdsec_pki_server_intermediate_ca }}"
+  - "{{ crowdsec_pki_client_intermediate_ca }}"
+  vars:
+    expected_files:
+      - "{{ item.name }}.pkcs1.key"
+      - "{{ item.name }}.key"
+      - "{{ item.name }}.csr"
+      - "{{ item.name }}.crt"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: Prepare list of expected server cert files
+  ansible.builtin.set_fact:
+    crowdsec_pki_expected_files: "{{ crowdsec_pki_expected_files | default([]) + expected_files }}"
+  vars:
+    expected_files:
+      - "{{ crowdsec_pki_server_cert.name }}.pkcs1.key"
+      - "{{ crowdsec_pki_server_cert.name }}.key"
+      - "{{ crowdsec_pki_server_cert.name }}.csr"
+      - "{{ crowdsec_pki_server_cert.name }}.crt"
+      - "{{ crowdsec_pki_server_cert.name }}-chain.crt"
+
+- name: Prepare list of expected agents certs files
+  ansible.builtin.set_fact:
+    crowdsec_pki_expected_files: "{{ crowdsec_pki_expected_files | default([]) + expected_files }}"
+  loop: "{{ crowdsec_pki_additional_agents }}"
+  vars:
+    expected_files:
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}.pkcs1.key"
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}.key"
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}.csr"
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}.crt"
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}-chain.crt"
+
+- name: Prepare list of expected static bouncers certs files
+  ansible.builtin.set_fact:
+    crowdsec_pki_expected_files: "{{ crowdsec_pki_expected_files | default([]) + expected_files }}"
+  loop: "{{ crowdsec_pki_static_bouncers }}"
+  vars:
+    expected_files:
+      - "bouncers/{{ item }}/{{ crowdsec_pki_bouncer_cert.name }}.pkcs1.key"
+      - "bouncers/{{ item }}/{{ crowdsec_pki_bouncer_cert.name }}.key"
+      - "bouncers/{{ item }}/{{ crowdsec_pki_bouncer_cert.name }}.csr"
+      - "bouncers/{{ item }}/{{ crowdsec_pki_bouncer_cert.name }}.crt"
+      - "bouncers/{{ item }}/{{ crowdsec_pki_bouncer_cert.name }}-chain.crt"
+
+- name: Prepare list of expected host bouncers certs files
+  ansible.builtin.set_fact:
+    crowdsec_pki_expected_files: "{{ crowdsec_pki_expected_files | default([]) + expected_files }}"
+  loop: "{{ (groups['all_hosts'] + crowdsec_pki_additional_agents) | product(crowdsec_pki_host_bouncers) | list }}"
+  vars:
+    expected_files:
+      - "hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.pkcs1.key"
+      - "hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.key"
+      - "hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.csr"
+      - "hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.crt"
+      - "hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}-chain.crt"
+
+- name: List existing files on the controller
+  ansible.builtin.find:
+    paths:
+      - "{{ crowdsec_pki_generation_root_dir }}"
+    file_type: file
+    recurse: yes
+  register: custom_pki_current_files
+
+- name: Delete obsolete files from controller
+  ansible.builtin.file:
+    path: "{{ crowdsec_pki_generation_root_dir }}/{{ item }}"
+    state: absent
+  loop: "{{ custom_pki_current_files.files | map(attribute='path') | replace(crowdsec_pki_generation_root_dir + '/', '') }}"
+  when: item not in crowdsec_pki_expected_files
+
+- name: Fetch existing files from a current node
+  ansible.builtin.fetch:
+    src: "{{ crowdsec_pki_root_dir }}/{{ item }}"
+    dest: "{{ crowdsec_pki_generation_root_dir }}/{{ item }}"
+    flat: yes
+    fail_on_missing: no
+  delegate_to: "{{ groups.loadbalancers | first }}"
+  loop: "{{ crowdsec_pki_expected_files }}"

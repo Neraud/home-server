@@ -1,0 +1,48 @@
+---
+- name: "[{{ item.0 }}: {{ item.1 }}] Generate OpenSSL host bouncer certificate private key"
+  community.crypto.openssl_privatekey:
+    path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.pkcs1.key"
+
+- name: "[{{ item.0 }}: {{ item.1 }}] Convert OpenSSL host bouncer certificate private key to PKCS8"
+  ansible.builtin.command: openssl pkcs8 -topk8 -inform PEM -in {{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.pkcs1.key -out {{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.key -nocrypt
+  args:
+    creates: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.key"
+
+- name: "[{{ item.0 }}: {{ item.1 }}] Generate an OpenSSL host bouncer certificate CSR"
+  community.crypto.openssl_csr:
+    path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.csr"
+    privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.key"
+    country_name: "{{ crowdsec_pki_bouncer_cert.country_name }}"
+    state_or_province_name: "{{ crowdsec_pki_bouncer_cert.state_or_province_name }}"
+    locality_name: "{{ crowdsec_pki_bouncer_cert.locality_name }}"
+    organization_name: "{{ crowdsec_pki_bouncer_cert.organization_name }}"
+    organizational_unit_name: "{{ crowdsec_pki_bouncer_cert.organizational_unit_name }}"
+    common_name: "{{ item.1 }}"
+
+- name: "[{{ item.0 }}: {{ item.1 }}] Generate a CA Signed OpenSSL host bouncer certificate certificate"
+  community.crypto.x509_certificate:
+    path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.crt"
+    privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.key"
+    csr_path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.csr"
+    ownca_path: "{{ crowdsec_pki_generation_root_dir }}/{{ crowdsec_pki_client_intermediate_ca.name }}.crt"
+    ownca_privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/{{ crowdsec_pki_client_intermediate_ca.name }}.key"
+    provider: ownca
+
+- name: "[{{ item.0 }}: {{ item.1 }}] Read bouncer certificate certificate"
+  ansible.builtin.slurp:
+    path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}.crt"
+  register: bouncer_cert
+
+- name: "[{{ item.0 }}: {{ item.1 }}] Generate bouncer complete chain"
+  community.crypto.certificate_complete_chain:
+    input_chain: "{{ bouncer_cert.content | b64decode }}"
+    intermediate_certificates:
+    - "{{ crowdsec_pki_generation_root_dir }}/{{ crowdsec_pki_client_intermediate_ca.name }}.crt"
+    root_certificates:
+    - "{{ crowdsec_pki_generation_root_dir }}/ca.crt"
+  register: bouncer_cert_full_chain
+
+- name: "[{{ item.0 }}: {{ item.1 }}] Write bouncer complete chain"
+  copy:
+    dest: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}/{{ crowdsec_pki_bouncer_cert.name }}-chain.crt"
+    content: "{{ ''.join(bouncer_cert_full_chain.complete_chain) }}"

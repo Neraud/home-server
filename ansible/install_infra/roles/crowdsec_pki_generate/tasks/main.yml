@@ -1,0 +1,31 @@
+---
+
+- name: Prepare generation folders
+  ansible.builtin.include_tasks: prepare_folders.yml
+
+- name: Clean up existing files
+  ansible.builtin.include_tasks: cleanup_generation.yml
+
+- name: Generate root CA
+  ansible.builtin.include_tasks: generate_root_ca.yml
+
+- name: Generate intermediate CAs
+  ansible.builtin.include_tasks: generate_intermediate_cas.yml
+  loop:
+  - "{{ crowdsec_pki_server_intermediate_ca }}"
+  - "{{ crowdsec_pki_client_intermediate_ca }}"
+
+- name: Generate server certificate
+  ansible.builtin.include_tasks: generate_server_cert.yml
+
+- name: Generate agents certificate
+  ansible.builtin.include_tasks: generate_agents_cert.yml
+  loop: "{{ groups['all_hosts'] + crowdsec_pki_additional_agents }}"
+
+- name: Generate static bouncers certificate
+  ansible.builtin.include_tasks: generate_static_bouncers_cert.yml
+  loop: "{{ crowdsec_pki_static_bouncers }}"
+
+- name: Generate host bouncers certificate
+  ansible.builtin.include_tasks: generate_host_bouncers_cert.yml
+  loop: "{{ (groups['all_hosts'] + crowdsec_pki_additional_agents) | product(crowdsec_pki_host_bouncers) | list }}"

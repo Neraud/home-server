@@ -32,10 +32,17 @@
   roles:
     - keepalived
 
-- name: Provision OpenSSL PKI
+- name: Provision OpenSSL PKIs
   hosts: controller
   roles:
     - { role: openssl_pki_generate, tags: openssl-pki }
+    - { role: crowdsec_pki_generate, tags: openssl-pki }
+
+- name: Deploy OpenSSL PKIs
+  hosts: all_hosts
+  roles:
+    - { role: openssl_pki_deploy, tags: openssl-pki }
+    - { role: crowdsec_pki_deploy, tags: openssl-pki }
 
 - name: Configure DNS server
   hosts: dns_servers
@@ -60,7 +67,6 @@
 - name: Provision Reverse Proxies
   hosts: loadbalancers
   roles:
-    - { role: openssl_pki_deploy, tags: openssl-pki }
     - { role: nginx, tags: nginx }
     - fail2ban
 

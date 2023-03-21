@@ -1,0 +1,24 @@
+---
+- name: Ensure directory exists for crowdsec PKIs
+  ansible.builtin.file:
+    path: "{{ crowdsec_pki_root_dir }}/{{ item.pki_name }}"
+    state: directory
+    mode: 0755
+  with_items: "{{ openssl_custom_pki }}"
+  loop_control:
+    label: "{{ item.pki_name }}"
+
+- name: Copy crowdsec PKI to targets from controller
+  ansible.posix.synchronize:
+    src: "{{ crowdsec_pki_generation_root_dir }}/"
+    dest: "{{ crowdsec_pki_root_dir }}/"
+    delete: yes
+  delegate_to: "{{ groups['controller'][0] }}"
+
+- name: Link crowdsec host folder
+  ansible.builtin.file:
+    src: "{{ crowdsec_pki_root_dir }}/hosts/{{ inventory_hostname }}"
+    dest: /etc/ssl/crowdsec_host
+    owner: root
+    group: root
+    state: link

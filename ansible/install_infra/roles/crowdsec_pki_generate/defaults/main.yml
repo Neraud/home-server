@@ -1,0 +1,59 @@
+---
+#crowdsec_pki_generation_root_dir: "/etc/ssl/crowdsec-generation"
+#crowdsec_pki_root_dir: /etc/ssl/crowdsec
+
+crowdsec_pki_ca:
+  common_name: Crowdsec CA
+  country_name: US
+  state_or_province_name: State
+  locality_name: Locality
+  organization_name: Organization
+  organizational_unit_name: Organization Unit
+
+crowdsec_pki_server_intermediate_ca:
+  name: server_intermediate_ca
+  common_name: Crowdsec Server Intermediate CA
+  country_name: US
+  state_or_province_name: State
+  locality_name: Locality
+  organization_name: Organization
+  organizational_unit_name: Organization Unit
+
+crowdsec_pki_server_cert:
+  name: server
+  common_name: lapi.infra-crowdsec.svc.cluster.local
+  country_name: US
+  state_or_province_name: State
+  locality_name: Locality
+  organization_name: Organization
+  organizational_unit_name: Organization Unit
+
+crowdsec_pki_client_intermediate_ca:
+  name: client_intermediate_ca
+  common_name: Crowdsec Client Intermediate CA
+  country_name: US
+  state_or_province_name: State
+  locality_name: Locality
+  organization_name: Organization
+  organizational_unit_name: Organization Unit
+
+crowdsec_pki_additional_agents: []
+crowdsec_pki_agent_cert:
+  name: agent
+  country_name: US
+  state_or_province_name: State
+  locality_name: Locality
+  organization_name: Organization
+  organizational_unit_name: Organization Unit Agents
+
+crowdsec_pki_static_bouncers: []
+crowdsec_pki_host_bouncers:
+- firewall
+
+crowdsec_pki_bouncer_cert:
+  name: bouncer
+  country_name: US
+  state_or_province_name: State
+  locality_name: Locality
+  organization_name: Organization
+  organizational_unit_name: Organization Unit Bouncers
