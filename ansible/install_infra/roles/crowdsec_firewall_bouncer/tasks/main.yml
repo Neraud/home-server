@@ -26,6 +26,21 @@
     backup: yes
   notify: Restart Crowdsec firewall bouncer
 
+- name: Prepare Crowdsec firewall bouncer systemd configuration directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/crowdsec-firewall-bouncer.service.d
+    state: directory
+    mode: 0755
+
+- name: Configure Crowdsec firewall bouncer service
+  ansible.builtin.template:
+    src: systemd_override.conf.j2
+    dest: /etc/systemd/system/crowdsec-firewall-bouncer.service.d/override.conf
+    mode: 0644
+  notify:
+    - Reload systemd daemon
+    - Restart Crowdsec firewall bouncer
+
 - name: Auto-start Crowdsec firewall bouncer
   ansible.builtin.service:
     name: crowdsec-firewall-bouncer.service
