@@ -6,6 +6,7 @@ metadata:
   namespace: {{ crowdsec_external.namespace }}
   labels:
     {{ crowdsec_external.labels_def | to_nice_yaml() | indent(4) }}
+    crowdsec-role: {{ target.role }}
     prometheus-target: crowdsec-external
 spec:
   ports:

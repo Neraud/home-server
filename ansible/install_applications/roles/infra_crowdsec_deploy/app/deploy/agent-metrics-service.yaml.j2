@@ -6,6 +6,7 @@ metadata:
   labels:
     {{ crowdsec_agent.labels_def | to_nice_yaml() | indent(4) }}
     {{ crowdsec_agent.labels_desc | to_nice_yaml() | indent(4) }}
+    crowdsec-role: agent
     prometheus-target: crowdsec-agent
 spec:
   ports:
