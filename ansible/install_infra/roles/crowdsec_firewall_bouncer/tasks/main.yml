@@ -46,3 +46,10 @@
     name: crowdsec-firewall-bouncer.service
     state: started
     enabled: yes
+
+- name: Configure UFW for metrics
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ crowdsec_firewall_bouncer_metrics_applications }}"

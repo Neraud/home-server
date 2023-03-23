@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{ crowdsec_external.labels_def | to_nice_yaml() | indent(4) }}
+  name: crowdsec-external
+  namespace: {{ prometheus.namespace }}
+spec:
+  endpoints:
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    port: metrics
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - {{ crowdsec_external.namespace }}
+  selector:
+    matchLabels:
+      prometheus-target: crowdsec-external

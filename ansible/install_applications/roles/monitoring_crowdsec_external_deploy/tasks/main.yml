@@ -1,0 +1,39 @@
+---
+- name: Ensure Crowdsec external namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ crowdsec_external.namespace }}"
+
+- name: Deploy Crowdsec external
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"
+
+- name: Get a list existing services
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Service
+    namespace: "{{ crowdsec_external.namespace }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: crowdsec_external_existing_services
+
+- name: Prepare lists
+  ansible.builtin.set_fact:
+    crowdsec_external_existing_service_names: "{{ crowdsec_external_existing_services.resources | map(attribute='metadata.name') | select('match', '^crowdsec-external-.*') }}"
+    crowdsec_external_configured_names: "{{ crowdsec_external.targets | map(attribute='name') | map('regex_replace', '^(.*)$', 'crowdsec-external-\\1') }}"
+
+- name: Delete obsolete services
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Service
+    state: absent
+    namespace: "{{ crowdsec_external.namespace }}"
+    name: "{{ item }}"
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  loop: "{{ crowdsec_external_existing_service_names | difference(crowdsec_external_configured_names) }}"
