@@ -1,3 +1,14 @@
 _meta:
   type: "roles"
   config_version: 2
+
+crowdsec:
+  reserved: true
+  hidden: false
+  cluster_permissions: []
+  index_permissions:
+  - index_patterns:
+    - "crowdsec*"
+    allowed_actions:
+    - "crud"
+  static: false

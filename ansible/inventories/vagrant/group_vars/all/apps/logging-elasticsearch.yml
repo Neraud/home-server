@@ -27,6 +27,11 @@ elasticsearch_internal_users:
     reserved: True
     backend_roles:
       - kibana_server
+  - name: "{{ elasticsearch_crowdsec_user }}"
+    password: "{{ elasticsearch_crowdsec_password }}"
+    reserved: True
+    backend_roles:
+      - crowdsec
 
 elasticsearch_admin_user_user: admin
 elasticsearch_admin_user_password: password
@@ -36,3 +41,6 @@ elasticsearch_ldap_roles_dn: "{{ openldap.ldap.structure_groups_ou_dns['elastics
 
 elasticsearch_exporter_user: exporter
 elasticsearch_exporter_password: password
+
+elasticsearch_crowdsec_user: crowdsec
+elasticsearch_crowdsec_password: password

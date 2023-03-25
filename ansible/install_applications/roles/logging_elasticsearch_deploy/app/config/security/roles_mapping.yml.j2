@@ -53,6 +53,11 @@ readall_and_monitor:
   backend_roles:
   - "readall_and_monitor"
 
+crowdsec:
+  reserved: true
+  backend_roles:
+  - "crowdsec"
+
 ## Additional roles
 
 {% for role_mapping in elasticsearch_role_mappings | default([]) %}
