@@ -14,7 +14,7 @@ plugins.security.allow_unsafe_democertificates: false
 plugins.security.allow_default_init_securityindex: true
 plugins.security.authcz.admin_dn:
   # Use the node certificate as an admin user
-  - CN={{ elasticsearch.servername }}
+  - {{ elasticsearch.admin_user.cn }}
 
 plugins.security.audit.type: internal_opensearch
 plugins.security.enable_snapshot_restore_privilege: true

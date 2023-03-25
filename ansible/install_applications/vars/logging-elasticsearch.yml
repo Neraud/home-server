@@ -52,6 +52,8 @@ elasticsearch:
   admin_user:
     user: "{{ elasticsearch_admin_user_user | default('admin') }}"
     password: "{{ elasticsearch_admin_user_password | default(['password']) }}"
+    # Use the node certificate as an admin user
+    cn: "{{ elasticsearch_admin_user_cn }}"
 
   ldap:
     servername: "{{ elasticsearch_ldap_servername | default(openldap.ldap.servername) }}"

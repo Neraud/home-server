@@ -3,6 +3,9 @@
 # The server cert is improperly used in ansible/install_applications/roles/logging-elasticsearch.deploy/handlers/main.yml
 elasticsearch_servername: elasticsearch.logging-elasticsearch.svc.cluster.local
 
+# Use the node certificate as an admin user
+elasticsearch_admin_user_cn: "CN=elasticsearch.logging-elasticsearch.svc.cluster.local,O=Test,L=Paris,ST=France,C=FR"
+
 elasticsearch_internal_users:
   - name: "{{ elasticsearch_admin_user_user }}"
     password: "{{ elasticsearch_admin_user_password }}"
