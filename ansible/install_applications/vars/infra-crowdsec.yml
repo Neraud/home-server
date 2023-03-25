@@ -39,6 +39,10 @@ crowdsec_lapi:
     tls:
       bouncers_ou: "{{ crowdsec_lapi_config_tls_bouncers_ou | default([]) }}"
       agents_ou: "{{ crowdsec_lapi_config_tls_agents_ou | default([]) }}"
+    notifications:
+      elasticsearch:
+        username: "{{ elasticsearch_crowdsec_user }}"
+        password: "{{ elasticsearch_crowdsec_password }}"
 
 crowdsec_agent:  
   labels_def:

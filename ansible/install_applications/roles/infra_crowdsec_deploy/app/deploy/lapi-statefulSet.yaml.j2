@@ -30,6 +30,12 @@ spec:
           - |
             mkdir -p /mnt/crowdsec-config/crowdsec
             mkdir -p /mnt/crowdsec-db/data
+            
+            # We can't use the secret directly in the main container, files must be owned by nobody
+            mkdir /mnt/crowdsec-config/crowdsec/notifications/
+            cp /mnt/crowdsec_secret/profiles.yaml /mnt/crowdsec-config/crowdsec/
+            cp /mnt/crowdsec_secret/notifications_elasticsearch.yaml /mnt/crowdsec-config/crowdsec/notifications/elasticsearch.yaml
+            
             chown -R 65534:65534 /mnt/crowdsec-config/crowdsec
             chown -R 65534:65534 /mnt/crowdsec-db/data
         volumeMounts:
@@ -37,6 +43,22 @@ spec:
           mountPath: /mnt/crowdsec-config
         - name: crowdsec-db-pv-claim
           mountPath: /mnt/crowdsec-db
+        - name: lapi-config
+          mountPath: /mnt/crowdsec_secret
+      - name: fix-permissions
+        image: "{{ crowdsec.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            # Copy plugins under TMP and chown them
+            # Fixes "api server init: unable to run local API: while loading plugin: plugin at /usr/local/lib/crowdsec/plugins/notification-email is not owned by user 'nobody'"
+            cp -R /usr/local/lib/crowdsec/plugins /tmp/
+            chown -R 65534:65534 /tmp/
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /tmp
       containers:
       - name: lapi
         image: "{{ crowdsec.private_image | image_full_name }}"
@@ -74,6 +96,8 @@ spec:
         # Workaround for https://github.com/crowdsecurity/crowdsec/issues/2127
         - name: bouncers_allowed_yaml
           value: "[\"{{ crowdsec_lapi.config.tls.bouncers_ou | join('\\", \\"') }}\"]"
+        - name: PLUGIN_DIR
+          value: /tmp/plugins
         ports:
         - containerPort: 8080
           name: lapi
@@ -146,6 +170,9 @@ spec:
       - name: lapi-certs
         secret:
           secretName: lapi-certs
+      - name: lapi-config
+        secret:
+          secretName: lapi-config
       - name: tmp-volume
         emptyDir: {}
       imagePullSecrets:
