@@ -1,0 +1,59 @@
+---
+- name: List existing ElasticSearch indices
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/*?expand_wildcards=open,hidden"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: elasticsearch_existing_indices
+
+- name: Update existing ElasticSearch default indices
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/{{ item.key }}/_settings"
+    method: PUT
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body:
+      index: "{{ default_wanted_index_settings }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_index_settings
+  changed_when: True
+  failed_when: "not set_index_settings.json.acknowledged | default (false)"
+  loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - not item.key is match("logstash.*")
+    - default_wanted_index_settings | dict2items | difference(item.value.settings.index | dict2items)
+
+- name: Update existing ElasticSearch logstash indices
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/{{ item.key }}/_settings"
+    method: PUT
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body:
+      index: "{{ default_wanted_index_settings | combine(logstash_wanted_index_settings) }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_index_settings
+  changed_when: True
+  failed_when: "not set_index_settings.json.acknowledged | default (false)"
+  loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - item.key is match("logstash.*")
+    - default_wanted_index_settings | combine(logstash_wanted_index_settings) | dict2items | difference(item.value.settings.index | dict2items)

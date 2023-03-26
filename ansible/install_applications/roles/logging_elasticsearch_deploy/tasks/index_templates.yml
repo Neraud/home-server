@@ -1,0 +1,89 @@
+---
+- name: Prepare wanted index settings
+  ansible.builtin.set_fact:
+    default_wanted_index_settings:
+      # By default, an index is created with 1 replica.
+      # If we only have 1 node, this index will remain yellow
+      number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+    logstash_wanted_index_settings:
+      # By default, an index is created with 1 replica.
+      # If we only have 1 node, this index will remain yellow
+      number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+      # After 30 seconds without search, an index is flagged idle and not refresh automatically
+      # Our prometheus exporter won't see new documents and trigger a ElasticNoNewDocuments alert when this happens
+      # To avoid that, we force the scheduled refresh
+      refresh_interval: "10s"
+
+- name: Get current default ElasticSearch index template
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/default"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: current_default_index_template
+
+- name: Configure default ElasticSearch index template
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/default"
+    method: POST
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body:
+      index_patterns: ["*"]
+      priority: 0
+      template:
+        settings: "{{ default_wanted_index_settings }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_default_index_template
+  changed_when: True
+  failed_when: "not set_default_index_template.json.acknowledged | default (false)"
+  when: >
+    current_default_index_template.status == 404
+    or not current_default_index_template.json
+    or (current_default_index_template.json.index_templates[0].index_template.template.settings.index != default_wanted_index_settings)
+
+- name: Get current logstash ElasticSearch index template
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/logstash"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: current_logstash_index_template
+
+- name: Configure logstash ElasticSearch index template
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/_index_template/logstash"
+    method: POST
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    body:
+      index_patterns: ["logstash-*"]
+      priority: 10
+      template:
+        settings: "{{ logstash_wanted_index_settings }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: set_logstash_index_template
+  changed_when: True
+  failed_when: "not set_logstash_index_template.json.acknowledged | default(false)"
+  when: >
+    current_logstash_index_template.status == 404
+    or not current_logstash_index_template.json
+    or (current_logstash_index_template.json.index_templates[0].index_template.template.settings.index != logstash_wanted_index_settings)
