@@ -58,6 +58,11 @@ crowdsec:
   backend_roles:
   - "crowdsec"
 
+grafana:
+  reserved: true
+  backend_roles:
+  - "grafana"
+
 ## Additional roles
 
 {% for role_mapping in elasticsearch_role_mappings | default([]) %}

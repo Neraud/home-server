@@ -12,3 +12,15 @@ crowdsec:
     allowed_actions:
     - "crud"
   static: false
+
+grafana:
+  reserved: true
+  hidden: false
+  cluster_permissions: []
+  index_permissions:
+  - index_patterns:
+    - "crowdsec*"
+    allowed_actions:
+    - "read"
+    - "indices:admin/mappings/get"
+  static: false

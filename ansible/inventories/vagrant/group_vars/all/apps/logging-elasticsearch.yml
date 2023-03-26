@@ -32,6 +32,11 @@ elasticsearch_internal_users:
     reserved: True
     backend_roles:
       - crowdsec
+  - name: "{{ elasticsearch_grafana_user }}"
+    password: "{{ elasticsearch_grafana_password }}"
+    reserved: True
+    backend_roles:
+      - grafana
 
 elasticsearch_admin_user_user: admin
 elasticsearch_admin_user_password: password
@@ -44,3 +49,6 @@ elasticsearch_exporter_password: password
 
 elasticsearch_crowdsec_user: crowdsec
 elasticsearch_crowdsec_password: password
+
+elasticsearch_grafana_user: grafana
+elasticsearch_grafana_password: password
