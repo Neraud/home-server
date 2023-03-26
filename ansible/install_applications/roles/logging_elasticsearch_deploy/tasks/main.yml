@@ -4,23 +4,23 @@
   vars:
     application_namespace: "{{ elasticsearch.namespace }}"
 
-- name: Ensure BusyBox image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
-  vars:
-    base_image: "{{ busybox.base_image }}"
-    private_image: "{{ busybox.private_image }}"
-
-- name: Ensure OpenSearch image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
-  vars:
-    base_image: "{{ elasticsearch.base_image }}"
-    private_image: "{{ elasticsearch.private_image }}"
-
-- name: Ensure ElasticSearch Exporter image is up-to-date in the private registry
-  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
-  vars:
-    base_image: "{{ elasticsearch_exporter.base_image }}"
-    private_image: "{{ elasticsearch_exporter.private_image }}"
+#- name: Ensure BusyBox image is up-to-date in the private registry
+#  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+#  vars:
+#    base_image: "{{ busybox.base_image }}"
+#    private_image: "{{ busybox.private_image }}"
+#
+#- name: Ensure OpenSearch image is up-to-date in the private registry
+#  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+#  vars:
+#    base_image: "{{ elasticsearch.base_image }}"
+#    private_image: "{{ elasticsearch.private_image }}"
+#
+#- name: Ensure ElasticSearch Exporter image is up-to-date in the private registry
+#  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+#  vars:
+#    base_image: "{{ elasticsearch_exporter.base_image }}"
+#    private_image: "{{ elasticsearch_exporter.private_image }}"
 
 - name: Read generated files
   ansible.builtin.slurp:
@@ -108,3 +108,13 @@
 
 - name: Update existing indices
   ansible.builtin.include_tasks: update_existing_indices.yml
+
+- name: List indices config
+  ansible.builtin.set_fact:
+    elasticsearch_indices_to_create: "{{ elasticsearch_indices_to_create | default([]) + [ item | basename | regex_replace('\\.json$', '') ] }}"
+  with_fileglob:
+    - "{{ role_path }}/app/config/indices/*.json"
+
+- name: Create indices
+  ansible.builtin.include_tasks: create_indices.yml
+  loop: "{{ elasticsearch_indices_to_create }}"
