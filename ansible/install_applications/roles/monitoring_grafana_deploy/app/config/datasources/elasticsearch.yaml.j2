@@ -1,0 +1,18 @@
+apiVersion: 1
+datasources:
+  - name: Crowdsec (Elasticsearch)
+    type: elasticsearch
+    access: proxy
+    database: 'crowdsec*'
+    url: https://{{ elasticsearch.servername }}:9200
+    basicAuth: true
+    basicAuthUser: {{ elasticsearch_grafana_user }}
+    editable: false
+    jsonData:
+      sslRootCertFile: /etc/ssl/cluster/ca.crt
+      tlsSkipVerify: true
+      logMessageField: message
+      timeField: 'start_at'
+      esVersion: '7.10.2'
+    secureJsonData:
+      basicAuthPassword: {{ elasticsearch_grafana_password }}
