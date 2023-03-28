@@ -11,6 +11,7 @@ crowdsec:
     - "crowdsec*"
     allowed_actions:
     - "crud"
+    - "indices:admin/create"
   static: false
 
 grafana:

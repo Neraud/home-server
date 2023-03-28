@@ -141,4 +141,4 @@
 
 - name: Create indices
   ansible.builtin.include_tasks: create_indices.yml
-  loop: "{{ elasticsearch_indices_to_create }}"
+  loop: "{{ elasticsearch_indices_to_create | default([]) }}"
