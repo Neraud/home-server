@@ -43,6 +43,9 @@ elasticsearch:
   logstash_policy:
     cold_age: "{{ elasticsearch_logstash_policy_cold_age | default('2d') }}"
     delete_age: "{{ elasticsearch_logstash_policy_delete_age | default('7d') }}"
+  crowdsec_policy:
+    cold_age: "{{ elasticsearch_crowdsec_policy_cold_age | default('2d') }}"
+    delete_age: "{{ elasticsearch_crowdsec_policy_delete_age | default('7d') }}"
 
   # TODO : these user / passwords can't easily be changed without wiping the ES cluster.
   # We probably need to run /usr/share/opensearch/plugins/opensearch-security/tools/securityadmin.sh inside the container
