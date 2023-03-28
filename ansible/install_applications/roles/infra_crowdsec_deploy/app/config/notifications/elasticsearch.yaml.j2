@@ -8,7 +8,7 @@ log_level: debug # Options include: trace, debug, info, warn, error, off
 {% raw %}
 format: |-
  {{ range .}}
-  {"index": { "_index": "crowdsec"} }
+  {"index": { "_index": "crowdsec-{{ substr 0 10 .StartAt }}"} }
   {{.|toJson}}
  {{ end }}
 {% endraw %}

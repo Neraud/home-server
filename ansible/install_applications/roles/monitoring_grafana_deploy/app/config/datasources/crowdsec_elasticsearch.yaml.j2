@@ -3,12 +3,13 @@ datasources:
   - name: Crowdsec (Elasticsearch)
     type: elasticsearch
     access: proxy
-    database: 'crowdsec*'
+    database: '[crowdsec-]YYYY-MM-DD'
     url: https://{{ elasticsearch.servername }}:9200
     basicAuth: true
     basicAuthUser: {{ elasticsearch_grafana_user }}
     editable: false
     jsonData:
+      interval: Daily
       sslRootCertFile: /etc/ssl/cluster/ca.crt
       tlsSkipVerify: true
       logMessageField: message
