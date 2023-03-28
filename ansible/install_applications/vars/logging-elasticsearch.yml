@@ -41,7 +41,6 @@ elasticsearch:
   max_java_memory: "{{ elasticsearch_max_java_memory | default('512m') }}"
 
   logstash_policy:
-    name: "hot-cold-delete"
     cold_age: "{{ elasticsearch_logstash_policy_cold_age | default('2d') }}"
     delete_age: "{{ elasticsearch_logstash_policy_delete_age | default('7d') }}"
 

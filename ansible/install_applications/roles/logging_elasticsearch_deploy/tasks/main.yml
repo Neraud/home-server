@@ -4,23 +4,23 @@
   vars:
     application_namespace: "{{ elasticsearch.namespace }}"
 
-#- name: Ensure BusyBox image is up-to-date in the private registry
-#  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
-#  vars:
-#    base_image: "{{ busybox.base_image }}"
-#    private_image: "{{ busybox.private_image }}"
-#
-#- name: Ensure OpenSearch image is up-to-date in the private registry
-#  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
-#  vars:
-#    base_image: "{{ elasticsearch.base_image }}"
-#    private_image: "{{ elasticsearch.private_image }}"
-#
-#- name: Ensure ElasticSearch Exporter image is up-to-date in the private registry
-#  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
-#  vars:
-#    base_image: "{{ elasticsearch_exporter.base_image }}"
-#    private_image: "{{ elasticsearch_exporter.private_image }}"
+- name: Ensure BusyBox image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+  vars:
+    base_image: "{{ busybox.base_image }}"
+    private_image: "{{ busybox.private_image }}"
+
+- name: Ensure OpenSearch image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+  vars:
+    base_image: "{{ elasticsearch.base_image }}"
+    private_image: "{{ elasticsearch.private_image }}"
+
+- name: Ensure ElasticSearch Exporter image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+  vars:
+    base_image: "{{ elasticsearch_exporter.base_image }}"
+    private_image: "{{ elasticsearch_exporter.private_image }}"
 
 - name: Read generated files
   ansible.builtin.slurp:
@@ -100,14 +100,38 @@
     -key /usr/share/opensearch/config/certs/server.key
   when: elasticsearch_deployment.changed or elasticsearch_reconfigure_security|default(false)
 
-- name: Configure Logstash policy
-  ansible.builtin.include_tasks: logstash_policy.yml
+- name: Configure index policies
+  ansible.builtin.include_tasks: index_policies.yml
+  loop: "{{ elasticsearch_index_policies }}"
+  loop_control:
+    loop_var: policy_item
+    label: "{{ policy_item.policy_id }}"
 
 - name: Configure index templates
   ansible.builtin.include_tasks: index_templates.yml
+  loop: "{{ elasticeach_index_templates }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: List existing ElasticSearch indices
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}{{ elasticsearch.context_root }}/*?expand_wildcards=open,hidden"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch.admin_user.user }}"
+    password: "{{ elasticsearch.admin_user.password }}"
+  register: elasticsearch_existing_indices
 
 - name: Update existing indices
   ansible.builtin.include_tasks: update_existing_indices.yml
+  loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
+  loop_control:
+    loop_var: index_item
+    label: "{{ index_item.key }}"
 
 - name: List indices config
   ansible.builtin.set_fact:
