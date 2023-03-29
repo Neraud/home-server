@@ -71,6 +71,10 @@ spec:
         - name: DISABLE_ONLINE_API
           value: "true"
 {% endif %}
+{% if crowdsec_lapi.config.console.enroll_key %}
+        - name: ENROLL_KEY
+          value: "{{ crowdsec_lapi.config.console.enroll_key }}"
+{% endif %}
         # Force DEBUG level for the container log
         - name: LEVEL_DEBUG
           value: "false"

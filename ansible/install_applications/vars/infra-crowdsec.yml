@@ -44,6 +44,9 @@ crowdsec_lapi:
       elasticsearch:
         username: "{{ elasticsearch_crowdsec_user }}"
         password: "{{ elasticsearch_crowdsec_password }}"
+    console:
+      enroll_key: "{{ crowdsec_lapi_config_console_enroll_key | default('') }}"
+
 
 crowdsec_agent:  
   labels_def:
