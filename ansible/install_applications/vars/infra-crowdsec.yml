@@ -36,6 +36,7 @@ crowdsec_lapi:
     limits_memory: "{{ crowdsec_lapi_container_limits_memory | default('128Mi') }}"
 
   config:
+    test_mode: "{{ crowdsec_lapi_config_test_mode | default(True) }}"
     tls:
       bouncers_ou: "{{ crowdsec_lapi_config_tls_bouncers_ou | default([]) }}"
       agents_ou: "{{ crowdsec_lapi_config_tls_agents_ou | default([]) }}"

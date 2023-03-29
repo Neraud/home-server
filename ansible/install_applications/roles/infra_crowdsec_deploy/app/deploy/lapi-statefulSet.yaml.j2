@@ -66,8 +66,11 @@ spec:
         env:
         - name: DISABLE_AGENT
           value: "true"
+{% if crowdsec_lapi.config.test_mode %}
+        # Test mode, don't share signals with CrowdSec online API
         - name: DISABLE_ONLINE_API
           value: "true"
+{% endif %}
         # Force DEBUG level for the container log
         - name: LEVEL_DEBUG
           value: "false"
