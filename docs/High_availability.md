@@ -65,9 +65,6 @@ If it stays down for a long period, SSL certs will expire.
 
 Traffic is not load balanced between the 3 NGinx instances.
 
-It could easily be added. However, using a single active NGinx instance allows for a more effective fail2ban filtering.
-If an IP tries to scan or brute force access to the cluster, fail2ban add an iptables rule to deny this IP. Using 3 hosts means that each instance will have its own fail2ban counters and its own iptables rules. It will allow for more tries before denying the IP.
-
 ## Applications
 
 Finally on the applications side, it's a bit more hit-and-miss. But mostly miss.
