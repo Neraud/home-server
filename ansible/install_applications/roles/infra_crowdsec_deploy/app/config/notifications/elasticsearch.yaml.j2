@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+type: http
+
+name: elasticsearch
+log_level: debug # Options include: trace, debug, info, warn, error, off
+
+{% raw %}
+format: |-
+ {{ range .}}
+  {"index": { "_index": "crowdsec-{{ substr 0 10 .StartAt }}"} }
+  {{.|toJson}}
+ {{ end }}
+{% endraw %}
+
+url: https://{{ elasticsearch.servername }}:9200/_bulk
+# FIXME : use the cluster CA
+skip_tls_verification: true
+
+method: POST
+headers:
+  Content-Type: "application/json"
+  Authorization: "Basic {{ (crowdsec_lapi.config.notifications.elasticsearch.username + ':' + crowdsec_lapi.config.notifications.elasticsearch.password) | b64encode }}"

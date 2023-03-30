@@ -3,6 +3,9 @@
 # The server cert is improperly used in ansible/install_applications/roles/logging-elasticsearch.deploy/handlers/main.yml
 elasticsearch_servername: elasticsearch.logging-elasticsearch.svc.cluster.local
 
+# Use the node certificate as an admin user
+elasticsearch_admin_user_cn: "CN=elasticsearch.logging-elasticsearch.svc.cluster.local,O=Test,L=Paris,ST=France,C=FR"
+
 elasticsearch_internal_users:
   - name: "{{ elasticsearch_admin_user_user }}"
     password: "{{ elasticsearch_admin_user_password }}"
@@ -24,6 +27,16 @@ elasticsearch_internal_users:
     reserved: True
     backend_roles:
       - kibana_server
+  - name: "{{ elasticsearch_crowdsec_user }}"
+    password: "{{ elasticsearch_crowdsec_password }}"
+    reserved: True
+    backend_roles:
+      - crowdsec
+  - name: "{{ elasticsearch_grafana_user }}"
+    password: "{{ elasticsearch_grafana_password }}"
+    reserved: True
+    backend_roles:
+      - grafana
 
 elasticsearch_admin_user_user: admin
 elasticsearch_admin_user_password: password
@@ -33,3 +46,9 @@ elasticsearch_ldap_roles_dn: "{{ openldap.ldap.structure_groups_ou_dns['elastics
 
 elasticsearch_exporter_user: exporter
 elasticsearch_exporter_password: password
+
+elasticsearch_crowdsec_user: crowdsec
+elasticsearch_crowdsec_password: password
+
+elasticsearch_grafana_user: grafana
+elasticsearch_grafana_password: password

@@ -1,0 +1,7 @@
+---
+crowdsec_firewall_bouncer_metrics_applications:
+  - name: crowdsec_firewall_bouncer_metrics
+    title: Crowdsec firewall bouncer
+    description: Prometheus metrics for Crowdsec firewall bouncer
+    ports: 60601/tcp
+    rule: allow

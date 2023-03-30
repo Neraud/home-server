@@ -1,0 +1,256 @@
+---
+elasticeach_index_templates:
+- name: default
+  index_pattern: "*"
+  index_regexp: ".*"
+  priority: 1
+  settings:
+    # By default, an index is created with 1 replica.
+    # If we only have 1 node, this index will remain yellow
+    number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+- name: logstash
+  index_pattern: "logstash-*"
+  index_regexp: "logstash-.*"
+  priority: 10
+  settings:
+    # By default, an index is created with 1 replica.
+    # If we only have 1 node, this index will remain yellow
+    number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+    # After 30 seconds without search, an index is flagged idle and not refresh automatically
+    # Our prometheus exporter won't see new documents and trigger a ElasticNoNewDocuments alert when this happens
+    # To avoid that, we force the scheduled refresh
+    refresh_interval: "10s"
+- name: crowdsec
+  index_pattern: "crowdsec-*"
+  index_regexp: "crowdsec-.*"
+  priority: 10
+  settings:
+    # By default, an index is created with 1 replica.
+    # If we only have 1 node, this index will remain yellow
+    number_of_replicas: "{{ (elasticsearch.replicas|int > 1) | ternary(1, 0) }}"
+  mappings:
+    properties:
+      capacity:
+        type: integer
+      decisions:
+        properties:
+          duration:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+          origin:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+          scenario:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+          scope:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+          type:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+          value:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+      events:
+        properties:
+          meta:
+            properties:
+              key:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+                    ignore_above: 256
+              value:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+                    ignore_above: 256
+          timestamp:
+            type: date
+      events_count:
+        type: integer
+      leakspeed:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+            ignore_above: 256
+      machine_id:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+            ignore_above: 256
+      message:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+            ignore_above: 256
+      remediation:
+        type: boolean
+      scenario:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+            ignore_above: 256
+      scenario_hash:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+            ignore_above: 256
+      scenario_version:
+        type: text
+        fields:
+          keyword:
+            type: keyword
+            ignore_above: 256
+      simulated:
+        type: boolean
+      source:
+        properties:
+          as_number:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+          cn:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+          ip:
+            type: ip
+          latitude:
+            type: float
+          longitude:
+            type: float
+          scope:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+          value:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+                ignore_above: 256
+      start_at:
+        type: date
+      stop_at:
+        type: date
+
+elasticsearch_index_policies:
+- policy_id: "logstash-hot-cold-delete"
+  description: A Logstash policy that handles hot / cold / delete states.
+  ism_template:
+  - index_patterns: [ "logstash-*" ]
+    priority: 100
+  default_state: hot
+  states:
+  - name: hot
+    actions:
+    - open: {}
+      retry:
+        backoff: exponential
+        count: 3
+        delay: 1m
+    transitions:
+    - state_name: cold
+      conditions:
+        min_index_age: "{{ elasticsearch.logstash_policy.cold_age }}"
+  - name: cold
+    actions:
+    - read_only: {}
+      retry:
+        backoff: exponential
+        count: 3
+        delay: 1m
+    - replica_count:
+        number_of_replicas: 0
+      retry:
+        backoff: exponential
+        count: 3
+        delay: 1m
+    transitions:
+    - state_name: delete
+      conditions:
+        min_index_age: "{{ elasticsearch.logstash_policy.delete_age }}"
+  - name: delete
+    actions:
+    - delete: {}
+      retry:
+        backoff: exponential
+        count: 3
+        delay: 1m
+    transitions: []
+- policy_id: "crowdsec-hot-cold-delete"
+  description: A Crowdsec policy that handles hot / cold / delete states.
+  ism_template:
+  - index_patterns: [ "crowdsec-*" ]
+    priority: 100
+  default_state: hot
+  states:
+  - name: hot
+    actions:
+    - open: {}
+      retry:
+        backoff: exponential
+        count: 3
+        delay: 1m
+    transitions:
+    - state_name: cold
+      conditions:
+        min_index_age: "{{ elasticsearch.crowdsec_policy.cold_age }}"
+  - name: cold
+    actions:
+    - read_only: {}
+      retry:
+        backoff: exponential
+        count: 3
+        delay: 1m
+    - replica_count:
+        number_of_replicas: 0
+      retry:
+        backoff: exponential
+        count: 3
+        delay: 1m
+    transitions:
+    - state_name: delete
+      conditions:
+        min_index_age: "{{ elasticsearch.crowdsec_policy.delete_age }}"
+  - name: delete
+    actions:
+    - delete: {}
+      retry:
+        backoff: exponential
+        count: 3
+        delay: 1m
+    transitions: []

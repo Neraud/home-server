@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: agent
+  namespace: {{ crowdsec.namespace }}
+  labels:
+    {{ crowdsec_agent.labels_def | to_nice_yaml() | indent(4) }}
+    {{ crowdsec_agent.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ crowdsec_agent.labels_def | to_nice_yaml() | indent(6) }}
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{ crowdsec_agent.labels_def | to_nice_yaml() | indent(8) }}
+        {{ crowdsec_agent.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: wait-for-requirements
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command: 
+          - "sh"
+          - "-c"
+          - |
+            echo "Waiting for LAPI"
+            timeout 120s sh -c "while ! nc -z -w 0 lapi 8080 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+            ret=$?
+            echo "return : $ret"
+            if [ $ret -eq 0 ] ; then
+              echo "LAPI has started"
+            else
+              echo "FAILED : LAPI isn't available"
+              exit 1
+            fi
+      containers:
+      - name: agent
+        image: "{{ crowdsec.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: DISABLE_LOCAL_API
+          value: "true"
+        - name: DISABLE_ONLINE_API
+          value: "true"
+        # Force DEBUG level for the container log
+        - name: LEVEL_DEBUG
+          value: "false"
+        # Trace the entrypoint
+        - name:   DEBUG
+          value: "false"
+        - name: LOCAL_API_URL
+          value: "https://lapi.{{ crowdsec.namespace }}.svc.cluster.local:8080"
+        - name: USE_TLS
+          value: "true"
+        - name: CACERT_FILE
+          value: "/etc/ssl/crowdsec/ca.crt"
+        - name: CLIENT_CERT_FILE
+          value: "/etc/ssl/crowdsec/agent/agent-chain.crt"
+        - name: CLIENT_KEY_FILE
+          value: "/etc/ssl/crowdsec/agent/agent.key"
+        - name: COLLECTIONS
+          value: "{{ crowdsec_agent.config.collections | join(' ') }}"
+        ports:
+        - containerPort: 6060
+          name: metrics
+        securityContext:
+          # Run as root to be able to read host logs
+          #runAsNonRoot: true
+          #runAsUser: 65534 # nobody
+          readOnlyRootFilesystem: true          
+          allowPrivilegeEscalation: false
+          privileged: false
+        resources:
+          requests:
+            cpu: "{{ crowdsec_agent.container.requests_cpu }}"
+            memory: "{{ crowdsec_agent.container.requests_memory }}"
+          limits:
+            cpu: "{{ crowdsec_agent.container.limits_cpu }}"
+            memory: "{{ crowdsec_agent.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: crowdsec-ca-certs
+          mountPath: /etc/ssl/crowdsec
+        - name: agent-cert-volume
+          mountPath: /etc/ssl/crowdsec/agent
+          readOnly: true
+        - name: etc-volume
+          mountPath: /etc/crowdsec
+        - name: data-volume
+          mountPath: /var/lib/crowdsec/data
+        - name: varlog
+          mountPath: /var/log
+          readOnly: true
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: crowdsec-ca-certs
+        secret:
+          secretName: crowdsec-ca-certs
+      - name: agent-cert-volume
+        hostPath:
+          path: /etc/ssl/crowdsec_host/agent
+      - name: tmp-volume
+        emptyDir: {}
+      - name: etc-volume
+        emptyDir: {}
+      - name: data-volume
+        emptyDir: {}
+      - name: varlog
+        hostPath:
+          path: /var/log
+      imagePullSecrets:
+      - name: docker-config

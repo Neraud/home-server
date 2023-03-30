@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lapi-config
+  namespace: {{ crowdsec.namespace }}
+  labels:
+    {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ crowdsec_lapi.labels_desc | to_nice_yaml() | indent(4) }}
+type: Opaque
+data:
+  profiles.yaml: |
+    {{ lookup('template', role_path + '/app/config/profiles.yaml.j2')  | b64encode }}
+  notifications_elasticsearch.yaml: |
+    {{ lookup('template', role_path + '/app/config/notifications/elasticsearch.yaml.j2')  | b64encode }}

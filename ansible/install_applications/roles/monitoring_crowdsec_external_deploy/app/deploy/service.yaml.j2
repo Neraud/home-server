@@ -1,0 +1,20 @@
+{% for target in crowdsec_external.targets %}
+kind: Service
+apiVersion: v1
+metadata:
+  name: crowdsec-external-{{ target.name }}
+  namespace: {{ crowdsec_external.namespace }}
+  labels:
+    {{ crowdsec_external.labels_def | to_nice_yaml() | indent(4) }}
+    crowdsec-role: {{ target.role }}
+    prometheus-target: crowdsec-external
+spec:
+  ports:
+  - name: metrics
+    port: {{ target.port }}
+    targetPort: metrics
+
+{% if not loop.last %}
+---
+{% endif %}
+{% endfor %}

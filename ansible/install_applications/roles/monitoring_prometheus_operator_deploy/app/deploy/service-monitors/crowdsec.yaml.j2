@@ -1,0 +1,51 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ crowdsec_lapi.labels_desc | to_nice_yaml() | indent(4) }}
+  name: crowdsec-lapi
+  namespace: {{ prometheus.namespace }}
+spec:
+  endpoints:
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    port: metrics
+    path: /metrics
+  targetLabels:
+    - crowdsec-role
+  namespaceSelector:
+    matchNames:
+    - {{ crowdsec.namespace }}
+  selector:
+    matchLabels:
+      prometheus-target: crowdsec-lapi
+
+---
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{ crowdsec_agent.labels_def | to_nice_yaml() | indent(4) }}
+    {{ crowdsec_agent.labels_desc | to_nice_yaml() | indent(4) }}
+  name: crowdsec-agent
+  namespace: {{ prometheus.namespace }}
+spec:
+  endpoints:
+  - interval: {{ (30 * service_monitors.interval_factor | float) | int }}s
+    port: metrics
+    path: /metrics
+    relabelings:
+    # Crowdsec dashboards use a "machine" label, populate it with the node name for agents
+    - action: replace
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: machine
+  targetLabels:
+    - crowdsec-role
+  namespaceSelector:
+    matchNames:
+    - {{ crowdsec.namespace }}
+  selector:
+    matchLabels:
+      prometheus-target: crowdsec-agent

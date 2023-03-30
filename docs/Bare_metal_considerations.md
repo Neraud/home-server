@@ -21,7 +21,7 @@ This NGinx RP is used for :
 * Authentication when needed
 * Basic load balancer to the various nodes
 
-It also provides error logs parsed by [Fail2Ban](https://www.fail2ban.org/wiki/index.php/Fail2Ban).
+It also provides error logs parsed by [Crowdsec](https://www.crowdsec.net/).
 
 The NGinx Ingress is exposed on a dedicated IP provided by MetalLB and the RP merely forwards requests to this port.
 

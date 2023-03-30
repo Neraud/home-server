@@ -1,0 +1,29 @@
+---
+- name: Generate OpenSSL CA private key
+  community.crypto.openssl_privatekey:
+    path: "{{ crowdsec_pki_generation_root_dir }}/ca.pkcs1.key"
+
+- name: Convert OpenSSL CA private key to PKCS8
+  ansible.builtin.command: openssl pkcs8 -topk8 -inform PEM -in {{ crowdsec_pki_generation_root_dir }}/ca.pkcs1.key -out {{ crowdsec_pki_generation_root_dir }}/ca.key -nocrypt
+  args:
+    creates: "{{ crowdsec_pki_generation_root_dir }}/ca.key"
+
+- name: Generate an OpenSSL CA CSR
+  community.crypto.openssl_csr:
+    path: "{{ crowdsec_pki_generation_root_dir }}/ca.csr"
+    privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/ca.key"
+    country_name : "{{ crowdsec_pki_ca.country_name }}"
+    state_or_province_name : "{{ crowdsec_pki_ca.state_or_province_name }}"
+    locality_name : "{{ crowdsec_pki_ca.locality_name }}"
+    organization_name : "{{ crowdsec_pki_ca.organization_name }}"
+    organizational_unit_name  : "{{ crowdsec_pki_ca.organizational_unit_name }}"
+    common_name: "{{ crowdsec_pki_ca.common_name }}"
+    basicConstraints:
+      - CA:TRUE
+
+- name: Generate a Self Signed OpenSSL CA certificate
+  community.crypto.x509_certificate:
+    path: "{{ crowdsec_pki_generation_root_dir }}/ca.crt"
+    privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/ca.key"
+    csr_path: "{{ crowdsec_pki_generation_root_dir }}/ca.csr"
+    provider: selfsigned

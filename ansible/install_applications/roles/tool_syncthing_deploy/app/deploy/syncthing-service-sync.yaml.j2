@@ -10,7 +10,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: syncthing-sync
 spec:
   type: LoadBalancer
-  loadBalancerIP: {{ kubernetes_syncthing_ip }}
+  loadBalancerIP: {{ kubernetes_syncthing_lb_ip }}
   externalTrafficPolicy: Local
   ports:
     - name: transfer-udp
@@ -38,7 +38,7 @@ metadata:
     metallb.universe.tf/allow-shared-ip: syncthing-sync
 spec:
   type: LoadBalancer
-  loadBalancerIP: {{ kubernetes_syncthing_ip }}
+  loadBalancerIP: {{ kubernetes_syncthing_lb_ip }}
   externalTrafficPolicy: Local
   ports:
     - name: transfer-tcp

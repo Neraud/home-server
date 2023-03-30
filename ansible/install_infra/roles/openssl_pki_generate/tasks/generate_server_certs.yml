@@ -1,0 +1,38 @@
+---
+- name: "[{{ item.0.pki_name }} : {{ item.1.name }}] Generate an OpenSSL server private key"
+  community.crypto.openssl_privatekey:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key"
+
+- name: "[{{ item.0.pki_name }} : {{ item.1.name }}] Convert an OpenSSL server private key to PKCS8"
+  ansible.builtin.command: openssl pkcs8 -topk8 -inform PEM -in {{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.pkcs1.key -out {{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key -nocrypt
+  args:
+    creates: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+
+- name: "[{{ item.0.pki_name }} : {{ item.1.name }}] Generate an OpenSSL server CSR"
+  community.crypto.openssl_csr:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
+    privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    country_name : "{{ item.1.country_name }}"
+    state_or_province_name : "{{ item.1.state_or_province_name }}"
+    locality_name : "{{ item.1.locality_name }}"
+    organization_name : "{{ item.1.organization_name }}"
+    organizational_unit_name : "{{ item.1.organizational_unit_name }}"
+    common_name: "{{ item.1.common_name }}"
+    subject_alt_name: "{{ complete_san_domains | map('regex_replace', '^', 'DNS:') | list }}"
+  vars:
+    complete_san_domains: "{{ [ item.1.common_name ] + (item.1.san | default([])) }}"
+
+- name: "[{{ item.0.pki_name }} : {{ item.1.name }}] Generate a CA Signed OpenSSL server certificate"
+  community.crypto.x509_certificate:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.crt"
+    privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.key"
+    csr_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/server.csr"
+    ownca_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/ca.crt"
+    ownca_privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/ca.key"
+    provider: ownca
+
+- name: "[{{ item.0.pki_name }} : {{ item.1.name }}] Generate DH Parameters"
+  community.crypto.openssl_dhparam:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item.0.pki_name }}/{{ item.1.name }}/dhparam.pem"
+    size: "{{ item.1.generate_dh_param_size | default(2048) }}"
+  when: item.1.generate_dh_param_enabled | default(false)

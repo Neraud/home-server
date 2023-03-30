@@ -1,0 +1,205 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lapi
+  namespace: {{ crowdsec.namespace }}
+  labels:
+    {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(4) }}
+    {{ crowdsec_lapi.labels_desc | to_nice_yaml() | indent(4) }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(6) }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{ crowdsec_lapi.labels_def | to_nice_yaml() | indent(8) }}
+        {{ crowdsec_lapi.labels_desc | to_nice_yaml() | indent(8) }}
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "{{ busybox.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /mnt/crowdsec-config/crowdsec
+            mkdir -p /mnt/crowdsec-db/data
+            
+            # We can't use the secret directly in the main container, files must be owned by nobody
+            mkdir /mnt/crowdsec-config/crowdsec/notifications/
+            cp /mnt/crowdsec_secret/profiles.yaml /mnt/crowdsec-config/crowdsec/
+            cp /mnt/crowdsec_secret/notifications_elasticsearch.yaml /mnt/crowdsec-config/crowdsec/notifications/elasticsearch.yaml
+            
+            chown -R 65534:65534 /mnt/crowdsec-config/crowdsec
+            chown -R 65534:65534 /mnt/crowdsec-db/data
+        volumeMounts:
+        - name: crowdsec-config-pv-claim
+          mountPath: /mnt/crowdsec-config
+        - name: crowdsec-db-pv-claim
+          mountPath: /mnt/crowdsec-db
+        - name: lapi-config
+          mountPath: /mnt/crowdsec_secret
+      - name: fix-permissions
+        image: "{{ crowdsec.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            # Copy plugins under TMP and chown them
+            # Fixes "api server init: unable to run local API: while loading plugin: plugin at /usr/local/lib/crowdsec/plugins/notification-email is not owned by user 'nobody'"
+            cp -R /usr/local/lib/crowdsec/plugins /tmp/
+            chown -R 65534:65534 /tmp/
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /tmp
+      containers:
+      - name: lapi
+        image: "{{ crowdsec.private_image | image_full_name }}"
+        imagePullPolicy: Always
+        env:
+        - name: DISABLE_AGENT
+          value: "true"
+{% if crowdsec_lapi.config.test_mode %}
+        # Test mode, don't share signals with CrowdSec online API
+        - name: DISABLE_ONLINE_API
+          value: "true"
+{% endif %}
+{% if crowdsec_lapi.config.console.enroll_key %}
+        - name: ENROLL_KEY
+          value: "{{ crowdsec_lapi.config.console.enroll_key }}"
+{% endif %}
+        # Force DEBUG level for the container log
+        - name: LEVEL_DEBUG
+          value: "false"
+        # Trace the entrypoint
+        - name:   DEBUG
+          value: "false"
+        - name: CUSTOM_HOSTNAME
+          value: lapi
+        - name: LOCAL_API_URL
+          value: "https://lapi.{{ crowdsec.namespace }}.svc.cluster.local:8080"
+        - name: USE_TLS
+          value: "true"
+        - name: CACERT_FILE
+          value: "/etc/ssl/crowdsec/ca.crt"
+        - name: LAPI_CERT_FILE
+          value: "/etc/ssl/crowdsec/server/server-chain.crt"
+        - name: LAPI_KEY_FILE
+          value: "/etc/ssl/crowdsec/server/server.key"
+        - name: AGENTS_ALLOWED_OU
+          value: "{{ crowdsec_lapi.config.tls.agents_ou | join(',') }}"
+        - name: BOUNCERS_ALLOWED_OU
+          value: "{{ crowdsec_lapi.config.tls.bouncers_ou | join(',') }}"
+        # Workaround for https://github.com/crowdsecurity/crowdsec/issues/2127
+        - name: agents_allowed_yaml
+          value: "[\"{{ crowdsec_lapi.config.tls.agents_ou | join('\\", \\"') }}\"]"
+        # Workaround for https://github.com/crowdsecurity/crowdsec/issues/2127
+        - name: bouncers_allowed_yaml
+          value: "[\"{{ crowdsec_lapi.config.tls.bouncers_ou | join('\\", \\"') }}\"]"
+        - name: PLUGIN_DIR
+          value: /tmp/plugins
+        ports:
+        - containerPort: 8080
+          name: lapi
+        - containerPort: 6060
+          name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          privileged: false
+        livenessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          httpGet:
+            port: lapi
+            path: /health
+            scheme: HTTPS
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          periodSeconds: 10
+          successThreshold: 1
+          httpGet:
+            port: lapi
+            path: /health
+            scheme: HTTPS
+          timeoutSeconds: 1
+        startupProbe:
+          failureThreshold: 30
+          periodSeconds: 10
+          successThreshold: 1
+          httpGet:
+            port: lapi
+            path: /health
+            scheme: HTTPS
+          timeoutSeconds: 1
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: "{{ crowdsec_lapi.container.requests_cpu }}"
+            memory: "{{ crowdsec_lapi.container.requests_memory }}"
+          limits:
+            cpu: "{{ crowdsec_lapi.container.limits_cpu }}"
+            memory: "{{ crowdsec_lapi.container.limits_memory }}"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: crowdsec-ca-certs
+          mountPath: /etc/ssl/crowdsec
+        - name: lapi-certs
+          mountPath: /etc/ssl/crowdsec/server
+        - name: crowdsec-config-pv-claim
+          mountPath: /etc/crowdsec
+          subPath: crowdsec
+        - name: crowdsec-db-pv-claim
+          mountPath: /var/lib/crowdsec/data
+          subPath: data
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: crowdsec-ca-certs
+        secret:
+          secretName: crowdsec-ca-certs
+      - name: lapi-certs
+        secret:
+          secretName: lapi-certs
+      - name: lapi-config
+        secret:
+          secretName: lapi-config
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+  - metadata:
+      name: crowdsec-config-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
+      resources:
+        requests:
+          storage: 16M
+  - metadata:
+      name: crowdsec-db-pv-claim
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
+      resources:
+        requests:
+          storage: 128M

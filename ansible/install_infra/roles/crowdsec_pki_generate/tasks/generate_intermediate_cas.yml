@@ -1,0 +1,31 @@
+---
+- name: "[{{ item.name }}] Generate OpenSSL Intermediate CAs private key"
+  community.crypto.openssl_privatekey:
+    path: "{{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.pkcs1.key"
+
+- name: "[{{ item.name }}] Convert OpenSSL Intermediate CAs private key to PKCS8"
+  ansible.builtin.command: openssl pkcs8 -topk8 -inform PEM -in {{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.pkcs1.key -out {{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.key -nocrypt
+  args:
+    creates: "{{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.key"
+
+- name: "[{{ item.name }}] Generate an OpenSSL Intermediate CAs CSR"
+  community.crypto.openssl_csr:
+    path: "{{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.csr"
+    privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.key"
+    country_name: "{{ item.country_name }}"
+    state_or_province_name: "{{ item.state_or_province_name }}"
+    locality_name: "{{ item.locality_name }}"
+    organization_name: "{{ item.organization_name }}"
+    organizational_unit_name: "{{ item.organizational_unit_name }}"
+    common_name: "{{ item.name }}"
+    basicConstraints:
+      - CA:TRUE
+
+- name: "[{{ item.name }}] Generate a CA Signed OpenSSL Intermediate CAs certificate"
+  community.crypto.x509_certificate:
+    path: "{{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.crt"
+    privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.key"
+    csr_path: "{{ crowdsec_pki_generation_root_dir }}/{{ item.name }}.csr"
+    ownca_path: "{{ crowdsec_pki_generation_root_dir }}/ca.crt"
+    ownca_privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/ca.key"
+    provider: ownca

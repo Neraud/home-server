@@ -1,5 +1,9 @@
 ---
 elasticsearch_enabled: true
+
+# Use the node certificate as an admin user
+#elasticsearch_admin_user_cn: "CN=elasticsearch.logging-elasticsearch.svc.cluster.local,O=Test,L=Paris,ST=France,C=FR"
+
 #elasticsearch_internal_users:
 #  - name: userName
 #    password: clear_password

@@ -1,0 +1,37 @@
+---
+- name: Ensure Crowdsec namespace exists
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/custom-namespace.yml
+  vars:
+    application_namespace: "{{ crowdsec.namespace }}"
+
+- name: Ensure Crowdsec image is up-to-date in the private registry
+  ansible.builtin.import_tasks: ../../app_base_deploy/tasks/container-image-private-registry.yml
+  vars:
+    base_image: "{{ crowdsec.base_image }}"
+    private_image: "{{ crowdsec.private_image }}"
+
+- name: Read ca certificate files
+  ansible.builtin.slurp:
+    src: "{{ item }}"
+  register: crowdsec_ca_certificate_files
+  with_items:
+    - "{{ crowdsec_ssl_pki_generation_root_dir }}/ca.crt"
+    - "{{ crowdsec_ssl_pki_generation_root_dir }}/client_intermediate_ca.crt"
+    - "{{ crowdsec_ssl_pki_generation_root_dir }}/server_intermediate_ca.crt"
+
+- name: Read LAPI certificate files
+  ansible.builtin.slurp:
+    src: "{{ item }}"
+  register: crowdsec_lapi_certificate_files
+  with_items:
+    - "{{ crowdsec_ssl_pki_generation_root_dir }}/server/server-chain.crt"
+    - "{{ crowdsec_ssl_pki_generation_root_dir }}/server/server.key"
+
+- name: Deploy Crowdsec
+  kubernetes.core.k8s:
+    definition: "{{ lookup(item | regex_search('.j2$') | ternary('template','file'), item) }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  with_fileglob:
+    - "{{ role_path }}/app/deploy/*.yaml*"

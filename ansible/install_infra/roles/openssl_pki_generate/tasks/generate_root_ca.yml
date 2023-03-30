@@ -1,0 +1,29 @@
+---
+- name: "[{{ pki_item.pki_name }}] Generate OpenSSL CA private key"
+  community.crypto.openssl_privatekey:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.pkcs1.key"
+
+- name: "[{{ pki_item.pki_name }}] Convert OpenSSL CA private key to PKCS8"
+  ansible.builtin.command: openssl pkcs8 -topk8 -inform PEM -in {{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.pkcs1.key -out {{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.key -nocrypt
+  args:
+    creates: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.key"
+
+- name: "[{{ pki_item.pki_name }}] Generate an OpenSSL CA CSR"
+  community.crypto.openssl_csr:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.csr"
+    privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.key"
+    country_name : "{{ pki_item.country_name }}"
+    state_or_province_name : "{{ pki_item.state_or_province_name }}"
+    locality_name : "{{ pki_item.locality_name }}"
+    organization_name : "{{ pki_item.organization_name }}"
+    organizational_unit_name : "{{ pki_item.organizational_unit_name }}"
+    common_name: "{{ pki_item.ca_common_name }}"
+    basicConstraints:
+      - CA:TRUE
+
+- name: "[{{ pki_item.pki_name }}] Generate a Self Signed OpenSSL CA certificate"
+  community.crypto.x509_certificate:
+    path: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.crt"
+    privatekey_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.key"
+    csr_path: "{{ custom_ssl_pki_generation_root_dir }}/{{ pki_item.pki_name }}/ca.csr"
+    provider: selfsigned

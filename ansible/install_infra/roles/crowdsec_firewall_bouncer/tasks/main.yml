@@ -1,0 +1,55 @@
+---
+- name: Add Crowdsec repo key
+  ansible.builtin.apt_key:
+    url: "https://packagecloud.io/crowdsec/crowdsec/gpgkey"
+    state: present
+    keyring: /usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg
+
+- name: Add Crowdsec repo
+  ansible.builtin.apt_repository:
+    filename: "crowdsec_crowdsec"
+    repo: "{{ item }}"
+    state: present
+  loop:
+  - "deb [signed-by=/usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/debian/ bullseye main"
+  - "deb-src [signed-by=/usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/debian/ bullseye main"
+
+- name: Install Crowdsec firewall bouncer
+  ansible.builtin.apt:
+    pkg: crowdsec-firewall-bouncer-iptables
+    state: present
+
+- name: Configure Crowdsec firewall bouncer
+  ansible.builtin.template:
+    src: crowdsec-firewall-bouncer.yaml.j2
+    dest: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+    backup: yes
+  notify: Restart Crowdsec firewall bouncer
+
+- name: Prepare Crowdsec firewall bouncer systemd configuration directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/crowdsec-firewall-bouncer.service.d
+    state: directory
+    mode: 0755
+
+- name: Configure Crowdsec firewall bouncer service
+  ansible.builtin.template:
+    src: systemd_override.conf.j2
+    dest: /etc/systemd/system/crowdsec-firewall-bouncer.service.d/override.conf
+    mode: 0644
+  notify:
+    - Reload systemd daemon
+    - Restart Crowdsec firewall bouncer
+
+- name: Auto-start Crowdsec firewall bouncer
+  ansible.builtin.service:
+    name: crowdsec-firewall-bouncer.service
+    state: started
+    enabled: yes
+
+- name: Configure UFW for metrics
+  ansible.builtin.include_role:
+    name: firewall
+    tasks_from: add-applications
+  vars:
+    ufw_applications: "{{ crowdsec_firewall_bouncer_metrics_applications }}"

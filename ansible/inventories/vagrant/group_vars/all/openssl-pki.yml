@@ -3,6 +3,11 @@ custom_ssl_pki_root_dir: /etc/ssl/custom
 
 openssl_custom_pki:
   - pki_name: web
+    country_name: FR
+    state_or_province_name: France
+    locality_name: Paris
+    organization_name: Test
+    organizational_unit_name: Test
     ca_common_name: "{{ web_base_domain }}"
     certs:
       - name: "{{ web_base_domain }}"
@@ -12,6 +17,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "intra.{{ web_base_domain }}"
         common_name: "intra.{{ web_base_domain }}"
@@ -20,6 +26,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "log.intra.{{ web_base_domain }}"
         common_name: "log.intra.{{ web_base_domain }}"
@@ -28,6 +35,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "monitoring.intra.{{ web_base_domain }}"
         common_name: "monitoring.intra.{{ web_base_domain }}"
@@ -36,6 +44,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "auth.{{ web_base_domain }}"
         common_name: "auth.{{ web_base_domain }}"
@@ -44,6 +53,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "auth.intra.{{ web_base_domain }}"
         common_name: "auth.intra.{{ web_base_domain }}"
@@ -52,6 +62,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "infra.{{ web_base_domain }}"
         common_name: "infra.{{ web_base_domain }}"
@@ -60,6 +71,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "infra.intra.{{ web_base_domain }}"
         common_name: "infra.intra.{{ web_base_domain }}"
@@ -68,6 +80,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "web.{{ web_base_domain }}"
         common_name: "web.{{ web_base_domain }}"
@@ -76,6 +89,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "tool.{{ web_base_domain }}"
         common_name: "tool.{{ web_base_domain }}"
@@ -84,6 +98,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "tool.intra.{{ web_base_domain }}"
         common_name: "tool.intra.{{ web_base_domain }}"
@@ -92,6 +107,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "home.{{ web_base_domain }}"
         common_name: "home.{{ web_base_domain }}"
@@ -100,6 +116,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "home.intra.{{ web_base_domain }}"
         common_name: "home.intra.{{ web_base_domain }}"
@@ -108,6 +125,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "stream.intra.{{ web_base_domain }}"
         common_name: "stream.intra.{{ web_base_domain }}"
@@ -116,6 +134,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "dev.intra.{{ web_base_domain }}"
         common_name: "dev.intra.{{ web_base_domain }}"
@@ -124,6 +143,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "dl.intra.{{ web_base_domain }}"
         common_name: "dl.intra.{{ web_base_domain }}"
@@ -132,9 +152,15 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
 
   - pki_name: cluster
+    country_name: FR
+    state_or_province_name: France
+    locality_name: Paris
+    organization_name: Test
+    organizational_unit_name: Test
     ca_common_name: "cluster.local"
     certs:
       - name: "docker-registry"
@@ -143,6 +169,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "ingress"
         common_name: "*.{{ web_base_domain }}"
@@ -167,6 +194,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "ldap"
         common_name: "{{ openldap_ldap_servername }}"
@@ -174,6 +202,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
         generate_dh_param_enabled: true
         generate_dh_param_size: 1024
@@ -183,6 +212,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "fluentd"
         common_name: "{{ fluentd_servername }}"
@@ -190,6 +220,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "fluentbit"
         common_name: "{{ fluentbit_servername }}"
@@ -197,6 +228,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "elasticsearch"
         common_name: "{{ elasticsearch_servername }}"
@@ -204,6 +236,7 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net
       - name: "mqtt"
         common_name: "{{ mosquitto_default_listener_servername }}"
@@ -211,4 +244,5 @@ openssl_custom_pki:
         state_or_province_name: France
         locality_name: Paris
         organization_name: Test
+        organizational_unit_name: Test
         email_address: user@mail.net

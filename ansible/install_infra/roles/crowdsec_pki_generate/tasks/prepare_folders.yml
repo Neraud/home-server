@@ -1,0 +1,29 @@
+---
+- name: Ensure directory exists for crowdsec PKI
+  ansible.builtin.file:
+    path: "{{ crowdsec_pki_generation_root_dir }}/{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+  - server
+  
+- name: Ensure directory exists for each agent certificate
+  ansible.builtin.file:
+    path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item }}/agent"
+    state: directory
+    mode: 0755
+  loop: "{{ groups['all_hosts'] + crowdsec_pki_additional_agents }}"
+  
+- name: Ensure directory exists for each static bouncer certificate
+  ansible.builtin.file:
+    path: "{{ crowdsec_pki_generation_root_dir }}/bouncers/{{ item }}"
+    state: directory
+    mode: 0755
+  loop: "{{ crowdsec_pki_static_bouncers }}"
+  
+- name: Ensure directory exists for each host bouncer certificate
+  ansible.builtin.file:
+    path: "{{ crowdsec_pki_generation_root_dir }}/hosts/{{ item.0 }}/bouncers/{{ item.1 }}"
+    state: directory
+    mode: 0755
+  loop: "{{ (groups['all_hosts'] + crowdsec_pki_additional_agents) | product(crowdsec_pki_host_bouncers) | list }}"

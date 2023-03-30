@@ -1,0 +1,53 @@
+---
+crowdsec_pki_root_dir: /etc/ssl/crowdsec
+
+crowdsec_pki_ca:
+  common_name: Crowdsec CA
+  country_name: FR
+  state_or_province_name: France
+  locality_name: Paris
+  organization_name: Test
+  organizational_unit_name: Crowdsec
+
+crowdsec_pki_server_intermediate_ca:
+  name: server_intermediate_ca
+  common_name: Crowdsec Server Intermediate CA
+  country_name: FR
+  state_or_province_name: France
+  locality_name: Paris
+  organization_name: Test
+  organizational_unit_name: Crowdsec
+
+crowdsec_pki_server_cert:
+  name: server
+  common_name: lapi.infra-crowdsec.svc.cluster.local
+  country_name: FR
+  state_or_province_name: France
+  locality_name: Paris
+  organization_name: Test
+  organizational_unit_name: Crowdsec
+
+crowdsec_pki_client_intermediate_ca:
+  name: client_intermediate_ca
+  common_name: Crowdsec Client Intermediate CA
+  country_name: FR
+  state_or_province_name: France
+  locality_name: Paris
+  organization_name: Test
+  organizational_unit_name: Crowdsec
+
+crowdsec_pki_agent_cert:
+  name: agent
+  country_name: FR
+  state_or_province_name: France
+  locality_name: Paris
+  organization_name: Test
+  organizational_unit_name: Crowdsec-Agents
+
+crowdsec_pki_bouncer_cert:
+  name: bouncer
+  country_name: FR
+  state_or_province_name: France
+  locality_name: Paris
+  organization_name: Test
+  organizational_unit_name: Crowdsec-Bouncers

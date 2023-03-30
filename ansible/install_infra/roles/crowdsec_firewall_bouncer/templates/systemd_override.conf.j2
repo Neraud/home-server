@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+
+[Service]
+# crowdsec-firewall-bouncer.service exits 0 if it can't contact LAPI, so we need to restart it even on SUCCESS
+Restart=always
+RestartSec=30

@@ -35,6 +35,10 @@
   tags: kubernetes-app-infra-blocky
   when: blocky_enabled | bool
 
+- import_playbook: app-infra-crowdsec.yml
+  tags: kubernetes-app-infra-crowdsec
+  when: crowdsec_enabled | bool
+
 - import_playbook: app-infra-ntfy.yml
   tags: kubernetes-app-infra-ntfy
   when: ntfy_enabled | bool
@@ -118,6 +122,10 @@
 - import_playbook: app-monitoring-grafana.yml
   tags: kubernetes-app-monitoring-grafana
   when: grafana_enabled | bool
+
+- import_playbook: app-monitoring-crowdsec-external.yml
+  tags: kubernetes-app-monitoring-crowdsec-external
+  when: crowdsec_external_enabled | bool
 
 - import_playbook: app-tool-homepage.yml
   tags: kubernetes-app-tool-homepage
