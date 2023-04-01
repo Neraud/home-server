@@ -22,8 +22,8 @@
       index_patterns: [ "{{ item.index_pattern }}" ]
       priority: "{{ item.priority }}"
       template:
-        settings: "{{ item.settings }}"
-        mappings: "{{ item.mappings }}"
+        settings: "{{ item.settings | default({}) }}"
+        mappings: "{{ item.mappings | default({}) }}"
     body_format: json
     validate_certs: no
     force_basic_auth: yes
@@ -36,4 +36,4 @@
     current_index_template.status == 404
     or not current_index_template.json
     or (current_index_template.json.index_templates[0].index_template.template.settings.index != item.settings)
-    or (current_index_template.json.index_templates[0].index_template.template.mappings is defined and current_index_template.json.index_templates[0].index_template.template.mappings != item.mappings)
+    or (current_index_template.json.index_templates[0].index_template.template.mappings is defined and item.mappings is defined and current_index_template.json.index_templates[0].index_template.template.mappings != item.mappings)
