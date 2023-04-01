@@ -4,7 +4,7 @@
 elasticsearch_servername: elasticsearch.logging-elasticsearch.svc.cluster.local
 
 # Use the node certificate as an admin user
-elasticsearch_admin_user_cn: "CN=elasticsearch.logging-elasticsearch.svc.cluster.local,O=Test,L=Paris,ST=France,C=FR"
+elasticsearch_admin_user_cn: "CN=elasticsearch.logging-elasticsearch.svc.cluster.local,OU=Test,O=Test,L=Paris,ST=France,C=FR"
 
 elasticsearch_internal_users:
   - name: "{{ elasticsearch_admin_user_user }}"
