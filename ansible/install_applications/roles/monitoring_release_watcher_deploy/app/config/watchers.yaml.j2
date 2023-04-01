@@ -416,12 +416,12 @@ watchers:
       - metallb-chart-.*
   - type: github_release
     repo: kubernetes/ingress-nginx
-    release: controller-v1.6.4
+    release: controller-v1.7.0
     includes:
       - controller-v?[0-9]+\.[0-9]+\.[0-9]+.*
     excludes:
       - controller-v?0\.[0-9]+\.[0-9]+.*
-      - controller-v?1\.[0-5]\..*
+      - controller-v?1\.[0-6]\..*
       - .*beta.*
   - type: docker_registry
     repo: {{ mailhog.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
