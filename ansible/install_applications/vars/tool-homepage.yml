@@ -4,7 +4,7 @@ _homepage_var_loader:
   base_image:
     repo: "ghcr.io" 
     name: "benphelps/homepage"
-    tag: "v0.6.9"
+    tag: "v0.6.10"
 
 homepage:
   enabled: "{{ homepage_enabled | default(True) }}"
