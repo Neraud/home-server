@@ -5,8 +5,8 @@ _pyload_var_loader:
   base_image:
     repo: "docker.io"
     name: "library/python"
-    tag: "3.11.1-slim-bullseye"
-  version: 0.5.0b3.dev53
+    tag: "3.11.2-slim-bullseye"
+  version: 0.5.0b3.dev54
 
 pyload:
   enabled: "{{ pyload_enabled | default(True) }}"
