@@ -342,7 +342,7 @@ watchers:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - 0\.[0-8]\.
-      - 0\.9\.[0-4]$
+      - 0\.9\.[0-5]$
   - type: docker_registry
     repo: {{ blocky.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
     image: {{ blocky.base_image.name }}
