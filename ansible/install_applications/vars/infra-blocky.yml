@@ -4,7 +4,7 @@ _blocky_var_loader:
   base_image:
     repo: "ghcr.io"
     name: "0xerr0r/blocky"
-    tag: "v0.20"
+    tag: "v0.21"
 
 blocky:
   enabled: "{{ blocky_enabled | default(True) }}"

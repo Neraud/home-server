@@ -4,7 +4,7 @@ _kube_state_metrics_var_loader:
   base_image:
     repo: registry.k8s.io
     name: "kube-state-metrics/kube-state-metrics"
-    tag: "v2.8.1"
+    tag: "v2.8.2"
 
 kube_state_metrics:
   enabled: "{{ kube_state_metrics_enabled | default(True) }}"

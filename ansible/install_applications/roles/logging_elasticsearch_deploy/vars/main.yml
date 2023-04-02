@@ -3,7 +3,7 @@ elasticeach_index_templates:
 - name: default
   index_pattern: "*"
   index_regexp: ".*"
-  priority: 1
+  priority: 9
   settings:
     # By default, an index is created with 1 replica.
     # If we only have 1 node, this index will remain yellow
