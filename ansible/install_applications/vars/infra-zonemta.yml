@@ -5,7 +5,10 @@ _zonemta_var_loader:
     repo: "docker.io"
     name: "library/node"
     tag: "19.8.1-alpine3.17"
-  version: 3.6.5
+  version: 3.5.1
+  # Fail with MTA-STS policy check failed for smtp.gmail.com
+  #version: 3.6.2
+  #version: 3.6.5
   namespace: "infra-zonemta"
 
 zonemta:
