@@ -1,0 +1,18 @@
+---
+restic_bin_path: /usr/local/bin/restic
+restic_backup_scripts_dir: /opt/backups
+restic_backup_apps_scripts_dir: "{{ restic_backup_scripts_dir }}/apps.d"
+
+restic_apps_backup_repository:
+  name: apps_backup
+  enabled: False
+
+docker_private_registry:
+  domain: "registry.intra.{{ web_base_domain }}"
+  api_url: https://registry.intra.{{ web_base_domain }}
+  ca_path: "{{ docker_private_registry_ca_path }}"
+  username: "{{ docker_registry_kube_registry_username }}"
+  password: "{{ docker_registry_kube_registry_password }}"
+
+app_build_path: "{{ role_path }}/../../../../apps/base/{{ app_name }}/build"
+app_deploy_path: "{{ role_path }}/../../../../apps/vagrant/{{ app_name }}/deploy"

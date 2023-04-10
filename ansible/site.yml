@@ -5,3 +5,7 @@
 - name: Provision applications
   import_playbook: install_applications/site.yml
   tags: kubernetes-apps
+
+- name: Provision applications (new)
+  import_playbook: install_applications_new/site.yml
+  tags: kubernetes-apps

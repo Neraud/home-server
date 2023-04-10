@@ -1,0 +1,39 @@
+---
+- set_fact:
+    concourse_installed: no # fly -t cluster status??
+    argocd_installed: no
+
+- name: "Build and deploy {{ app_name }} manually"
+  block:
+  - name: "Find {{ app_name }} images to build"
+    ansible.builtin.find:
+      paths: "{{ app_build_path }}"
+      recurse: no
+      file_type: directory
+    register: images_to_build
+  
+  - name: "Build each {{ app_name }} image manually"
+    ansible.builtin.include_tasks: build-manual.yml
+    loop: "{{ images_to_build.files }}"
+    loop_control:
+      label: "{{ item.path | basename }}"
+    vars:
+      image_build_path: "{{ item.path }}"
+  
+  - name: "Build {{ app_name }} image manually"
+    ansible.builtin.include_tasks: build-manual.yml
+    when: not images_to_build.files
+    vars:
+      image_build_path: "{{ app_build_path }}"
+
+  - name: "Deploy {{ app_name }} manually"
+    kubernetes.core.k8s:
+      definition: "{{ lookup('kubernetes.core.kustomize', dir=app_deploy_path) }}"
+      state: present
+      kubeconfig: "{{ kubeconfig_path }}"
+      context: "{{ kubeconfig_context }}"
+  when: not (concourse_installed and argocd_installed)
+
+- name: "Build and deploy {{ app_name }} with concourse & argocd"
+  ansible.builtin.include_tasks: build-manual.yml
+  when: concourse_installed and argocd_installed

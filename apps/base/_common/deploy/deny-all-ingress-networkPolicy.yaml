@@ -1,0 +1,15 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: deny-all-ingress
+spec:
+  types: [Ingress]
+
+  # Match all pods in the namespace
+  podSelector: {}
+
+  # Deny all ingress
+  # Not defining the ingress list has the same result as having an empty list
+  # However, setting the empty list is detected as a change every time
+  # (k8s doesn't return the ingress property when the list is empty -> detected as changed)
+  #ingress: []
