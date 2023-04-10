@@ -577,12 +577,12 @@ $servers->setValue('server','force_may',array('uidNumber','gidNumber','sambaSID'
 $servers->newServer('ldap_pla');
 $servers->setValue('server','name','openldap');
 # http://phpldapadmin.sourceforge.net/wiki/index.php/Server:server:host
-$servers->setValue('server','host','ldap://{{ phpldapadmin.ldap_servername }}');
-$servers->setValue('server','port',389);
+$servers->setValue('server','host','ldaps://{{ phpldapadmin.ldap_servername }}:636');
+$servers->setValue('server','port',0);
 $servers->setValue('server','base',array('{{ phpldapadmin.basedn }}'));
 $servers->setValue('login','auth_type','cookie');
 $servers->setValue('login','bind_id','{{ phpldapadmin.bind_id }}');
 $servers->setValue('login','bind_pass','{{ phpldapadmin.bind_password }}');
-$servers->setValue('server','tls',true);
+$servers->setValue('server','tls',false);
 
 ?>
