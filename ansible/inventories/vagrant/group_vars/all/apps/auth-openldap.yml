@@ -15,6 +15,7 @@ openldap_ldap_structure_groups_ou_dns:
   jellyfin_roles: "ou=jellyfin_roles,{{ openldap_ldap_basedn }}"
   gitea_roles: "ou=gitea_roles,{{ openldap_ldap_basedn }}"
   nextcloud_roles: "ou=nextcloud_roles,{{ openldap_ldap_basedn }}"
+  concourse_roles: "ou=concourse_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
   - id: user_ldap
@@ -22,6 +23,11 @@ openldap_ldap_users:
     password: Passw0rd
     email: user@mail.net
     displayName: User LDAP
+  - id: concourse
+    sn: Concourse
+    password: Passw0rd
+    email: concourse@mail.net
+    displayName: Concourse
 
 openldap_ldap_groups:
   # SSO Groups, used to filter access via LemonLDAP
@@ -72,6 +78,7 @@ openldap_ldap_groups:
     ou: app_groups
     members:
       - user_ldap
+      - concourse
   - id: homeassistant
     description: HomeAssistant
     ou: app_groups
@@ -104,6 +111,11 @@ openldap_ldap_groups:
       - user_ldap
   - id: nextcloud
     description: Nextcloud
+    ou: app_groups
+    members:
+      - user_ldap
+  - id: concourse
+    description: Concourse
     ou: app_groups
     members:
       - user_ldap
@@ -151,3 +163,10 @@ openldap_ldap_groups:
   #  ou: nextcloud_roles
   #  members:
   #    - user_ldap
+
+  # Roles for Concourse
+  - id: main
+    description: Concourse Main team
+    ou: concourse_roles
+    members:
+      - user_ldap

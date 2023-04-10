@@ -1,0 +1,42 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/dev-concourse/deploy
+
+configMapGenerator:
+- name: web-env
+  env: concourse/web/config/web.env
+  behavior: merge
+
+secretGenerator:
+- name: pgsql-env
+  env: postgres/config/postgres.secret.env
+  behavior: replace
+- name: web-keys
+  files:
+  - keys/session_signing_key
+  - keys/tsa_host_key
+  - keys/worker_key.pub
+  behavior: replace
+- name: worker-keys
+  files:
+  - keys/tsa_host_key.pub
+  - keys/worker_key
+  behavior: replace
+- name: web-env
+  env: concourse/web/config/web.secret.env
+  behavior: replace
+- name: web-postgres-env
+  env: concourse/web/config/web-postgres.secret.env
+  behavior: replace
+
+patches:
+- path: postgres/postgres-resources.yaml
+- path: postgres/postgres-storage.yaml
+  target:
+    kind: StatefulSet
+    name: pgsql
+- path: concourse/web/web-deployment-resources.yaml
+- path: concourse/web/web-service-lb.yaml
+- path: concourse/worker/worker-statefulset-resources.yaml

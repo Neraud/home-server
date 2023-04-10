@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev-concourse
+  labels:
+    # we need a label for NetworkPolicy namespaceSelector
+    name: dev-concourse

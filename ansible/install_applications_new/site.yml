@@ -6,3 +6,6 @@
     - role: cluster-reflector
       tags: kubernetes-app-cluster-reflector
       when: reflector_enabled | bool
+    - role: dev-concourse
+      tags: kubernetes-app-dev-concourse
+      when: concourse_enabled | bool

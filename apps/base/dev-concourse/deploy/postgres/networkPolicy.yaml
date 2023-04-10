@@ -1,0 +1,19 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-pgsql
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: pgsql
+
+  ingress:
+    # Allow from concourse web
+    - ports:
+        - port: pgsql
+      from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: concourse-web

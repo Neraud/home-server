@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: worker
+  labels:
+    app.kubernetes.io/name: concourse-worker
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  serviceName: worker
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: concourse-worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: concourse-worker
+      annotations:
+        checksum/secrets: 3329eb617ada4cb81373872ca0a4b6685208f9fc7dea4d3f92e2a2073e04024a
+    spec:
+      serviceAccountName: worker
+      terminationGracePeriodSeconds: 60
+      initContainers:
+        - name: worker-init-rm
+          image: "concourse/concourse:7.9.1"
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            privileged: true
+          command:
+            - /bin/bash
+          args:
+            - -ce
+            - |-
+              for v in $((btrfs subvolume list --sort=-ogen "/concourse-work-dir" || true) | awk '{print $9}'); do
+                (btrfs subvolume show "/concourse-work-dir/$v" && btrfs subvolume delete "/concourse-work-dir/$v") || true
+              done
+              rm -rf "/concourse-work-dir/*"
+          volumeMounts:
+            - name: concourse-work-dir
+              mountPath: "/concourse-work-dir"
+      containers:
+        - name: worker
+          image: "concourse/concourse:7.9.1"
+          imagePullPolicy: "IfNotPresent"
+          args:
+            - worker
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /
+              port: worker-hc
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 3
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - "/bin/bash"
+                  - "/pre-stop-hook.sh"
+          envFrom:
+          - configMapRef:
+              name: worker-env
+          ports:
+            - name: worker-hc
+              containerPort: 8888
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 100m
+              memory: 512Mi
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+              readOnly: true
+            - name: cluster-ca-volume
+              mountPath: /etc/ssl/cluster/ca.cert
+              subPath: ca.crt
+            - name: worker-keys
+              mountPath: "/concourse-keys"
+              readOnly: true
+            - name: concourse-work-dir
+              mountPath: "/concourse-work-dir"
+            - name: pre-stop-hook
+              mountPath: /pre-stop-hook.sh
+              subPath: pre-stop-hook.sh
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: concourse-worker
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: /etc/localtime
+        - name: cluster-ca-volume
+          secret:
+            secretName: cluster-ca
+        - name: pre-stop-hook
+          configMap:
+            name: worker-scripts
+        - name: worker-keys
+          secret:
+            secretName: worker-keys
+            defaultMode: 0400
+            items:
+              - key: tsa_host_key.pub
+                path: tsa_host_key.pub
+              - key: worker_key
+                path: worker_key
+      nodeSelector:
+        capability/general-purpose: 'yes'
+  volumeClaimTemplates:
+    - metadata:
+        name: concourse-work-dir
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: longhorn-low-durability
+        resources:
+          requests:
+            storage: 1G
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel

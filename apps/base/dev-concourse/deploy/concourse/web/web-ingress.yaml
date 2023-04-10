@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: concourse
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Dev
+    gethomepage.dev/name: Concourse CI
+    gethomepage.dev/description: Concourse is an open-source continuous thing-doer
+    gethomepage.dev/icon: concourse
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=concourse"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - concourse.dev.intra.k8s.test
+      secretName: ingress-tls
+  rules:
+  - host: concourse.dev.intra.k8s.test
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web
+            port:
+              name: atc
