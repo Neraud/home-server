@@ -1,0 +1,43 @@
+---
+- name: Create cluster-secrets namespace
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'namespace.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+- name: Deploy registry config
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'registry-secret.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+- name: Read the cluster CA file
+  ansible.builtin.slurp:
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+  register: cluster_ca_file
+
+- name: Expose the cluster CA
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'cluster-ca-secret.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+- name: Read the ingress TLS cert
+  ansible.builtin.slurp:
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.crt"
+  register: ingress_tls_cert_file
+
+- name: Read the ingress TLS key
+  ansible.builtin.slurp:
+    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.key"
+  register: ingress_tls_key_file
+
+- name: Deploy TLS secret
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'tls-secret.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"

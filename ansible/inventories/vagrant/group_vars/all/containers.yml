@@ -1,14 +1,15 @@
 ---
+docker_private_registry_domain: registry.intra.{{ web_base_domain }}
 containers_trusted_registries:
-  - url: "registry.intra.{{ web_base_domain }}"
+  - url: "{{ docker_private_registry_domain }}"
     ca_path: "{{ custom_ssl_pki_generation_root_dir }}/web/ca.crt"
 
 private_registry_username: docker
 private_registry_password: Passw0rd
 
 containers_auth_repositories:
-  - url: registry.intra.{{ web_base_domain }}
+  - url: "{{ docker_private_registry_domain }}"
     username: "{{ private_registry_username }}"
     password: "{{ private_registry_password }}"
 
-docker_private_registry_ca_path: "/etc/containers/certs.d/{{ docker_registry.domain }}/ca.crt"
+docker_private_registry_ca_path: "/etc/containers/certs.d/{{ docker_private_registry_domain }}/ca.crt"
