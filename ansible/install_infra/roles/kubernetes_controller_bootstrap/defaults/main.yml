@@ -1,3 +1,10 @@
 ---
-kubectl_version: 1.19.0
+kubectl_version: 1.26.1
 #kubeconfig_path: ~/.kube/config
+
+kustomize_version: v5.0.1
+
+kubernetes_users:
+  - name: "{{ standard_user.name }}"
+    home: "{{ standard_user.home }}"
+    install_autocomplete: yes

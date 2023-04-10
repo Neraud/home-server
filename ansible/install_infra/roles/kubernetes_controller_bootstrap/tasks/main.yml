@@ -17,3 +17,31 @@
     src: /etc/kubernetes/admin.conf
     flat: yes
   delegate_to: "{{ groups.kubernetes_master_bootstrap | first }}"
+
+- name: Enable k8s autocompletion for kubernetes users
+  ansible.builtin.copy:
+    dest: "{{ item.home }}/.bashrc.d/k8s_autocomplete.bashrc"
+    content: |
+      # kubectl completion
+      source <(kubectl completion bash)
+    owner: "{{ item.name }}"
+    mode: 0644
+  loop: "{{ kubernetes_users }}"
+  when: item.install_autocomplete | default('no') | bool
+
+- name: Download kustomize
+  ansible.builtin.unarchive:
+    src: "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/{{ kustomize_version }}/kustomize_{{ kustomize_version }}_linux_amd64.tar.gz"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: Enable kustomize autocompletion for kubernetes users
+  ansible.builtin.copy:
+    dest: "{{ item.home }}/.bashrc.d/kustomize_autocomplete.bashrc"
+    content: |
+      # kubectl completion
+      source <(kustomize completion bash)
+    owner: "{{ item.name }}"
+    mode: 0644
+  loop: "{{ kubernetes_users }}"
+  when: item.install_autocomplete | default('no') | bool
