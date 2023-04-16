@@ -1,39 +1,46 @@
 ---
-- set_fact:
-    ci_installed: false #
-    argocd_installed: false # TODO
-
-- name: "Build and deploy {{ app_name }} manually"
-  block:
-  - name: "Find {{ app_name }} images to build"
-    ansible.builtin.find:
-      paths: "{{ app_build_path }}"
-      recurse: no
-      file_type: directory
-    register: images_to_build
-  
-  - name: "Build each {{ app_name }} image manually"
-    ansible.builtin.include_tasks: build-manual.yml
-    loop: "{{ images_to_build.files }}"
-    loop_control:
-      label: "{{ item.path | basename }}"
-    vars:
-      image_build_path: "{{ item.path }}"
-  
-  - name: "Build {{ app_name }} image manually"
-    ansible.builtin.include_tasks: build-manual.yml
-    when: not images_to_build.files
-    vars:
-      image_build_path: "{{ app_build_path }}"
-
-  - name: "Deploy {{ app_name }} manually"
-    kubernetes.core.k8s:
-      definition: "{{ lookup('kubernetes.core.kustomize', dir=app_deploy_path) }}"
-      state: present
-      kubeconfig: "{{ kubeconfig_path }}"
-      context: "{{ kubeconfig_context }}"
-  when: not (ci_installed and argocd_installed)
-
-#- name: "Build and deploy {{ app_name }} with argo"
-#  ansible.builtin.include_tasks: build-ci.yml
-#  when: ci_installed and argocd_installed
+    - name: Check if Argo Workflows CLI is configured
+      ansible.builtin.command: argo version
+      changed_when: no
+      failed_when: no
+      register: argo_workflows_cli_status
+    
+    - set_fact:
+        argo_workflows_installed: "{{ argo_workflows_cli_status.rc == 0 }}"
+        argocd_installed: false # TODO
+    
+    - name: "Build and deploy {{ app_name }} manually"
+      block:
+      - name: "Find {{ app_name }} images to build"
+        ansible.builtin.find:
+          paths: "{{ app_build_path }}"
+          recurse: no
+          file_type: directory
+        register: images_to_build
+      
+      - name: "Build each {{ app_name }} image manually"
+        ansible.builtin.include_tasks: build-manual.yml
+        loop: "{{ images_to_build.files }}"
+        loop_control:
+          label: "{{ item.path | basename }}"
+        vars:
+          image_build_path: "{{ item.path }}"
+      
+      - name: "Build {{ app_name }} image manually"
+        ansible.builtin.include_tasks: build-manual.yml
+        when: not images_to_build.files
+        vars:
+          image_build_path: "{{ app_build_path }}"
+    
+      - name: "Deploy {{ app_name }} manually"
+        kubernetes.core.k8s:
+          definition: "{{ lookup('kubernetes.core.kustomize', dir=app_deploy_path) }}"
+          state: present
+          kubeconfig: "{{ kubeconfig_path }}"
+          context: "{{ kubeconfig_context }}"
+      when: not (argo_workflows_installed and argocd_installed)
+    
+    - name: "Build and deploy {{ app_name }} with argo"
+      ansible.builtin.include_tasks: build-argo.yml
+      when: argo_workflows_installed and argocd_installed
+    

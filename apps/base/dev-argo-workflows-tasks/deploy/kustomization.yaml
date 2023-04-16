@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/part-of: argo-workflows-tasks
+
+namespace: dev-argo-workflows-tasks
+
+resources:
+- namespace.yaml
+- service-account.yaml
+- role.yaml
+- role-binding.yaml
+- templates

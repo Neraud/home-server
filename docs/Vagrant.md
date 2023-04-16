@@ -70,6 +70,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 jellyfin.stream.intra.k8s.test
 
 192.168.100.101 gitea.dev.intra.k8s.test
+192.168.100.101 argo-workflows.dev.intra.k8s.test
 
 192.168.100.101 sickchill.dl.intra.k8s.test
 192.168.100.101 deluge.dl.intra.k8s.test

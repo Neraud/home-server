@@ -14,5 +14,6 @@ docker_private_registry:
   username: "{{ docker_registry_kube_registry_username }}"
   password: "{{ docker_registry_kube_registry_password }}"
 
-app_build_path: "{{ role_path }}/../../../../apps/base/{{ app_name }}/build"
+app_gitops_path: "{{ role_path }}/../../../../apps/base/{{ app_name }}"
+app_build_path: "{{ app_gitops_path }}/build"
 app_deploy_path: "{{ role_path }}/../../../../apps/vagrant/{{ app_name }}/deploy"
