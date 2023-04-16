@@ -1,0 +1,42 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dev-minio
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/version: "RELEASE.2023-04-13T03-08-07Z"
+      app.kubernetes.io/part-of: minio
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: init-scripts
+  files:
+  - config/init_scripts/initialize
+  - config/init_scripts/add-user
+  - config/init_scripts/add-policy
+  - config/init_scripts/add-svcacct
+
+secretGenerator:
+- name: custom-scripts
+  files:
+  - config/custom_scripts/initialize
+  - config/custom_scripts/add-user
+  - config/custom_scripts/add-policy
+  - config/custom_scripts/add-svcacct
+- name: minio
+  env: config/root-credentials.secret.env
+
+resources:
+- namespace.yaml
+- networkpolicy.yaml
+- serviceaccount.yaml
+- pvc.yaml
+- console-service.yaml
+- console-ingress.yaml
+- service.yaml
+- deployment.yaml
+- init-job.yaml

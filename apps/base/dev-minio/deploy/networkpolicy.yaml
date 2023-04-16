@@ -1,0 +1,36 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-minio
+  labels:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/component: minio
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: minio
+      app.kubernetes.io/component: minio
+  ingress:
+    - ports:
+        - port: 9000
+      from:
+        # Allow from the post-job
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: minio
+              app.kubernetes.io/component: init-job
+        # Allow from argo workflows tasks
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: dev-argo-workflows-tasks
+    # Allow from the ingress controller
+    - ports:
+        - port: 9001
+      from:
+        - namespaceSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+

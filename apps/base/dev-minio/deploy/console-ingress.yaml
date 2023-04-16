@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-console
+  labels:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/component: minio
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Dev
+    gethomepage.dev/name: MinIO
+    gethomepage.dev/description: High Performance Object Storage
+    gethomepage.dev/icon: minio
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name: minio"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - minio.dev.intra.k8s.test
+      secretName: ingress-tls
+  rules:
+  - host: minio.dev.intra.k8s.test
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minio-console
+            port:
+              name: http

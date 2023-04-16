@@ -6,6 +6,9 @@
     - role: cluster-reflector
       tags: kubernetes-app-cluster-reflector
       when: reflector_enabled | bool
+    - role: dev-minio
+      tags: kubernetes-app-dev-minio
+      when: minio_enabled | bool
     - role: dev-argo-workflows
       tags: kubernetes-app-dev-argo-workflows
       when: argo_workflows_enabled | bool

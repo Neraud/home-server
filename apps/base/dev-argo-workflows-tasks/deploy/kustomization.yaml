@@ -11,6 +11,10 @@ labels:
 
 namespace: dev-argo-workflows-tasks
 
+secretGenerator:
+- name: minio-credentials
+  env: config/minio-credentials.secret.env
+
 resources:
 - namespace.yaml
 - service-account.yaml
