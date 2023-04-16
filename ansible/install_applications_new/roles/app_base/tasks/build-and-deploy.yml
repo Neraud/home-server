@@ -1,7 +1,7 @@
 ---
 - set_fact:
-    concourse_installed: no # fly -t cluster status??
-    argocd_installed: no
+    ci_installed: false #
+    argocd_installed: false # TODO
 
 - name: "Build and deploy {{ app_name }} manually"
   block:
@@ -32,8 +32,8 @@
       state: present
       kubeconfig: "{{ kubeconfig_path }}"
       context: "{{ kubeconfig_context }}"
-  when: not (concourse_installed and argocd_installed)
+  when: not (ci_installed and argocd_installed)
 
-- name: "Build and deploy {{ app_name }} with concourse & argocd"
-  ansible.builtin.include_tasks: build-manual.yml
-  when: concourse_installed and argocd_installed
+#- name: "Build and deploy {{ app_name }} with argo"
+#  ansible.builtin.include_tasks: build-ci.yml
+#  when: ci_installed and argocd_installed
