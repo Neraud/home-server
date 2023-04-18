@@ -14,9 +14,16 @@ namespace: dev-argo-workflows-tasks
 secretGenerator:
 - name: minio-credentials
   env: config/minio-credentials.secret.env
+- name: rsync-source
+  files:
+  - config/rsync/ssh_config
+  - config/rsync/id_rsa
+- name: git-credentials
+  env: config/git-credentials.env
 
 resources:
 - namespace.yaml
+- ../../_common/deploy
 - service-account.yaml
 - role.yaml
 - role-binding.yaml

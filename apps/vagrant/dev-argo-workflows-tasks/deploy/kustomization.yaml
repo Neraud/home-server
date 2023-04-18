@@ -5,6 +5,14 @@ secretGenerator:
 - name: minio-credentials
   env: config/minio-credentials.secret.env
   behavior: replace
+- name: rsync-source
+  files:
+  - config/rsync/ssh_config
+  - config/rsync/id_rsa
+  behavior: replace
+- name: git-credentials
+  env: config/git-credentials.env
+  behavior: replace
 
 resources:
 - ../../../base/dev-argo-workflows-tasks/deploy

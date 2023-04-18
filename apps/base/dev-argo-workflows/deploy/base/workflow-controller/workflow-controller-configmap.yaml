@@ -112,11 +112,11 @@ data:
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: 0.1
+        cpu: 0.2
         memory: 64Mi
       limits:
         cpu: 0.5
-        memory: 512Mi
+        memory: 64Mi
     securityContext:
       allowPrivilegeEscalation: false
       capabilities:
