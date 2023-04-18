@@ -25,12 +25,6 @@
           label: "{{ item.path | basename }}"
         vars:
           image_build_path: "{{ item.path }}"
-      
-      - name: "Build {{ app_name }} image manually"
-        ansible.builtin.include_tasks: build-manual.yml
-        when: not images_to_build.files
-        vars:
-          image_build_path: "{{ app_build_path }}"
     
       - name: "Deploy {{ app_name }} manually"
         kubernetes.core.k8s:
