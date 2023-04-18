@@ -1,0 +1,207 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: cluster-reflector-build-and-deploy-
+spec:
+  entrypoint: build-and-deploy-from-rsync
+  serviceAccountName: executor
+  arguments:
+    parameters:
+      - name: app_name
+        value: cluster-reflector
+  templates:
+    - name: build-and-deploy-from-git
+      steps:
+      - - name: source-from-git
+          template: source-from-git
+          arguments:
+            parameters:
+            - name: app_name
+              value: "{{workflow.parameters.app_name}}"
+      - - name: build-images-from-git
+          template: build-image
+          arguments:
+            parameters:
+            - name: build_folder
+              value: "{{item.folder}}"
+            - name: image_name
+              value: "{{item.image_name}}"
+            - name: image_tag
+              value: "{{item.image_tag}}"
+            artifacts:
+            - name: app_source_base
+              from: "{{steps.source-from-git.outputs.artifacts.app_source_base}}"
+          withParam: "{{steps.source-from-git.outputs.parameters.app_images}}"
+      - - name: deploy-from-git
+          template: deploy
+          arguments:
+            artifacts:
+            - name: app_source_base
+              from: "{{steps.source-from-git.outputs.artifacts.app_source_base}}"
+            - name: app_source_overlay
+              from: "{{steps.source-from-git.outputs.artifacts.app_source_overlay}}"
+
+    - name: build-and-deploy-from-rsync
+      steps:
+      - - name: source-from-rsync
+          template: source-from-rsync
+          arguments:
+            parameters:
+            - name: app_name
+              value: "{{workflow.parameters.app_name}}"
+      - - name: build-images-from-rsync
+          template: build-image
+          arguments:
+            parameters:
+            - name: build_folder
+              value: "{{item.folder}}"
+            - name: image_name
+              value: "{{item.image_name}}"
+            - name: image_tag
+              value: "{{item.image_tag}}"
+            artifacts:
+            - name: app_source_base
+              from: "{{steps.source-from-rsync.outputs.artifacts.app_source_base}}"
+          withParam: "{{steps.source-from-rsync.outputs.parameters.app_images}}"
+      - - name: deploy-from-rsync
+          template: deploy
+          arguments:
+            artifacts:
+            - name: app_source_base
+              from: "{{steps.source-from-rsync.outputs.artifacts.app_source_base}}"
+            - name: app_source_overlay
+              from: "{{steps.source-from-rsync.outputs.artifacts.app_source_overlay}}"
+
+    - name: source-from-git
+      inputs:
+        parameters:
+        - name: app_name
+        artifacts:
+        - name: argo-source
+          path: /source
+          git:
+            repo: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+            branch: dev/gitops
+            depth: 1
+            disableSubmodules: false
+            singleBranch: true
+            usernameSecret:
+              name: git-credentials
+              key: gitea_username
+            passwordSecret:
+              name: git-credentials
+              key: gitea_password
+      script:
+        image: registry.intra.k8s.test/template-source-fetcher:3.11.3-alpine3.17-1
+        command: [bash]
+        source: |
+          set -euo pipefail
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "Copy base folder /source/apps/base/{{inputs.parameters.app_name}}"
+          cp -Rv /source/apps/base/{{inputs.parameters.app_name}} /work/base
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "Copy overlay folder /source/apps/vagrant/{{inputs.parameters.app_name}}"
+          cp -Rv /source/apps/vagrant/{{inputs.parameters.app_name}} /work/overlay
+          echo "----------------------------------------------------------------------------------------------------"
+          python /opt/list_images.py -i /source/apps/base/{{inputs.parameters.app_name}}/build -o /work/images.json
+        volumeMounts:
+          - name: work
+            mountPath: /work
+      volumes:
+        - name: work
+          emptyDir: {}
+      outputs:
+        artifacts:
+        - name: app_source_base
+          path: /source/apps/base/{{inputs.parameters.app_name}}
+        - name: app_source_overlay
+          path: /source/apps/vagrant/{{inputs.parameters.app_name}}
+        #- name: app_images
+        #  path: /work/images.json
+        #  archive:
+        #    none: {}
+        parameters:
+        - name: app_images
+          valueFrom:
+            path: /work/images.json
+
+    - name: source-from-rsync
+      inputs:
+        parameters:
+        - name: app_name
+      script:
+        image: registry.intra.k8s.test/template-source-fetcher:3.11.3-alpine3.17-1
+        command: [bash]
+        source: |
+          set -euo pipefail
+          echo "----------------------------------------------------------------------------------------------------"
+          /opt/rsync_fetch.sh /rsync-source/ssh_config /rsync-source/id_rsa source:/opt/provision/apps /work/ ""
+          echo "----------------------------------------------------------------------------------------------------"
+          python /opt/list_images.py -i /work/apps/base/{{inputs.parameters.app_name}}/build -o /work/images.json
+          echo "----------------------------------------------------------------------------------------------------"
+        volumeMounts:
+        - name: work
+          mountPath: /work
+        - name: rsync-source
+          mountPath: /rsync-source
+      volumes:
+      - name: work
+        emptyDir: {}
+      - name: rsync-source
+        secret:
+          secretName: rsync-source
+      outputs:
+        artifacts:
+        - name: app_source_base
+          path: /work/apps/base/{{inputs.parameters.app_name}}
+        - name: app_source_overlay
+          path: /work/apps/vagrant/{{inputs.parameters.app_name}}
+        #- name: app_images
+        #  path: /tmp/{{inputs.parameters.app_name}}_images.json
+        #  archive:
+        #    none: {}
+        parameters:
+        - name: app_images
+          valueFrom:
+            path: /work/images.json
+
+
+    - name: build-image
+      inputs:
+        parameters:
+        - name: build_folder
+        - name: image_name
+        - name: image_tag
+        artifacts:
+        - name: app_source_base
+          path: /source/base
+      script:
+        image: registry.intra.k8s.test/template-source-fetcher:3.11.3-alpine3.17-1
+        command: [sh]
+        source: |
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "build_folder : {{inputs.parameters.build_folder}}"
+          echo "image_name : {{inputs.parameters.image_name}}"
+          echo "image_tag : {{inputs.parameters.image_tag}}"
+          echo "----------------------------------------------------------------------------------------------------"
+          build_path="/source/base/build/{{inputs.parameters.build_folder}}"
+          echo "build_path : $build_path"
+          find $build_path
+          echo "----------------------------------------------------------------------------------------------------"
+
+    - name: deploy
+      inputs:
+        artifacts:
+        - name: app_source_base
+          path: /source/base
+        - name: app_source_overlay
+          path: /source/overlay
+      script:
+        image: registry.intra.k8s.test/template-source-fetcher:3.11.3-alpine3.17-1
+        command: [sh]
+        source: |          
+          echo "----------------------------------------------------------------------------------------------------"
+          find /source/base
+          echo "----------------------------------------------------------------------------------------------------"
+          find /source/overlay
+          echo "----------------------------------------------------------------------------------------------------"
