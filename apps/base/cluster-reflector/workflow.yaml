@@ -165,7 +165,6 @@ spec:
           valueFrom:
             path: /work/images.json
 
-
     - name: build-image
       inputs:
         parameters:
@@ -175,19 +174,67 @@ spec:
         artifacts:
         - name: app_source_base
           path: /source/base
-      script:
-        image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
-        command: [sh]
-        source: |
+      initContainers:
+      - name: create-volume
+        image: registry.lan/kaniko-image-builder:v1.9.2-debug
+        command:
+        - "sh"
+        - "-c"
+        - |
+          set -euo pipefail
           echo "----------------------------------------------------------------------------------------------------"
-          echo "build_folder : {{inputs.parameters.build_folder}}"
-          echo "image_name : {{inputs.parameters.image_name}}"
-          echo "image_tag : {{inputs.parameters.image_tag}}"
+          echo "Copy /kaniko to temp volume"
+          cp -av /kaniko /tmp/
           echo "----------------------------------------------------------------------------------------------------"
-          build_path="/source/base/build/{{inputs.parameters.build_folder}}"
-          echo "build_path : $build_path"
-          find $build_path
-          echo "----------------------------------------------------------------------------------------------------"
+          echo "Inject cluster-ca in kaniko certs"
+          cat /etc/ssl/cluster/ca.cert >> /tmp/kaniko/ssl/certs/ca-certificates.crt
+        volumeMounts:
+        - name: cluster-ca
+          mountPath: /etc/ssl/cluster/ca.cert
+          subPath: ca.crt
+        - name: tmp
+          mountPath: /tmp
+      container:
+        image: registry.lan/kaniko-image-builder:v1.9.2-debug
+        command: ["/kaniko/executor"]
+        args:
+          - --cache
+          - --cache-copy-layers
+          - --cache-repo=registry.lan/{{inputs.parameters.image_name}}-cache
+          - --reproducible
+          - --context=/source/base/build/{{inputs.parameters.build_folder}}
+          - --destination=registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}}
+          - --verbosity=info
+        volumeMounts:
+        - name: docker-config
+          mountPath: /kaniko/.docker/config.json
+          subPath: .dockerconfigjson
+        - name: tmp
+          mountPath: /kaniko
+          subPath: kaniko
+        resources:
+          requests:
+            cpu: 0.5
+            memory: 1024Mi
+          limits:
+            cpu: 1
+            memory: 1024Mi
+        securityContext:
+          capabilities:
+            add:
+              - CAP_SETGID
+              - CAP_SETUID
+          runAsNonRoot: false
+          runAsUser: 0
+      volumes:
+      - name: cluster-ca
+        secret:
+          secretName: cluster-ca
+      - name: docker-config
+        secret:
+          secretName: docker-config
+      - name: tmp
+        emptyDir: {}
 
     - name: deploy
       inputs:

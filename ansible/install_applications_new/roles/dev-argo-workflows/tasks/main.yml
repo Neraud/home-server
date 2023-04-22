@@ -41,7 +41,6 @@
     mv /tmp/argo-linux-amd64 /usr/local/bin/argo && \
     argo version
   when: argo_cli_version not in argo_current_cli.stdout
-  register: test
 
 - name: Enable Argo CLI autocompletion
   ansible.builtin.copy:
