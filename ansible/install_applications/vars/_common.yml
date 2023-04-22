@@ -26,8 +26,8 @@ busybox:
     tag: "{{ _busybox_var_loader.base_image.tag }}"
 
 docker_private_registry:
-  url: "{{ docker_registry.domain }}"
-  api_url: https://{{ docker_registry.domain }}
-  ca_path: "{{ docker_private_registry_ca_path | default('') }}"
+  url: "{{ docker_private_registry_domain }}"
+  api_url: "https://{{ docker_private_registry_domain }}"
+  ca_path: "{{ docker_private_registry_ca_path }}"
   username: "{{ docker_registry_kube_registry_username }}"
   password: "{{ docker_registry_kube_registry_password }}"

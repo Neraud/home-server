@@ -32,6 +32,7 @@ secretGenerator:
 
 resources:
 - namespace.yaml
+- ../../_common/deploy
 - networkpolicy.yaml
 - serviceaccount.yaml
 - pvc.yaml

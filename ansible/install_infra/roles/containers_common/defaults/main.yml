@@ -1,3 +1,9 @@
 ---
-containers_trusted_registries: []
-containers_auth_repositories: []
+containers_trusted_registries:
+  - url: "{{ docker_private_registry_domain }}"
+    ca_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+
+containers_auth_repositories:
+  - url: "{{ docker_private_registry_domain }}"
+    username: "{{ private_registry_username }}"
+    password: "{{ private_registry_password }}"

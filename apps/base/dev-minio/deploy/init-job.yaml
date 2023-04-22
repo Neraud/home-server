@@ -29,7 +29,7 @@ spec:
                   name: custom-scripts
       containers:
         - name: minio-make-bucket
-          image: "registry.intra.k8s.test/minio-mc:RELEASE.2023-04-12T02-21-51Z"
+          image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/initialize" ]
           env:
@@ -50,7 +50,7 @@ spec:
               cpu: 200m
               memory: 128Mi
         - name: minio-make-user
-          image: "registry.intra.k8s.test/minio-mc:RELEASE.2023-04-12T02-21-51Z"
+          image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/add-user" ]
           env:
@@ -71,7 +71,7 @@ spec:
               cpu: 200m
               memory: 128Mi
         - name: minio-make-policy
-          image: "registry.intra.k8s.test/minio-mc:RELEASE.2023-04-12T02-21-51Z"
+          image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/add-policy" ]
           env:
@@ -92,7 +92,7 @@ spec:
               cpu: 200m
               memory: 128Mi
         - name: minio-make-svcacct
-          image: "registry.intra.k8s.test/minio-mc:RELEASE.2023-04-12T02-21-51Z"
+          image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "/custom/add-svcacct"]
           env:

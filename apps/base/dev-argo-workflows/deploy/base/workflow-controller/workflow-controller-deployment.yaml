@@ -22,7 +22,7 @@ spec:
       serviceAccountName: argo
       containers:
         - name: workflow-controller
-          image: "registry.intra.k8s.test/argo-workflow-controller:v3.4.7"
+          image: "registry.lan/argo-workflow-controller:v3.4.7"
           securityContext:
             readOnlyRootFilesystem: true
             runAsNonRoot: true

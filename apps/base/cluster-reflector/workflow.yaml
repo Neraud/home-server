@@ -92,7 +92,7 @@ spec:
               name: git-credentials
               key: gitea_password
       script:
-        image: registry.intra.k8s.test/template-source-fetcher:3.11.3-alpine3.17-1
+        image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
         command: [bash]
         source: |
           set -euo pipefail
@@ -130,7 +130,7 @@ spec:
         parameters:
         - name: app_name
       script:
-        image: registry.intra.k8s.test/template-source-fetcher:3.11.3-alpine3.17-1
+        image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
         command: [bash]
         source: |
           set -euo pipefail
@@ -176,7 +176,7 @@ spec:
         - name: app_source_base
           path: /source/base
       script:
-        image: registry.intra.k8s.test/template-source-fetcher:3.11.3-alpine3.17-1
+        image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
         command: [sh]
         source: |
           echo "----------------------------------------------------------------------------------------------------"
@@ -197,7 +197,7 @@ spec:
         - name: app_source_overlay
           path: /source/overlay
       script:
-        image: registry.intra.k8s.test/template-source-fetcher:3.11.3-alpine3.17-1
+        image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
         command: [sh]
         source: |          
           echo "----------------------------------------------------------------------------------------------------"

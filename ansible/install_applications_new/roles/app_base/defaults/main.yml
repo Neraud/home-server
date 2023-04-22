@@ -8,8 +8,8 @@ restic_apps_backup_repository:
   enabled: False
 
 docker_private_registry:
-  domain: "registry.intra.{{ web_base_domain }}"
-  api_url: https://registry.intra.{{ web_base_domain }}
+  domain: "{{ docker_private_registry_domain }}"
+  api_url: "https://{{ docker_private_registry_domain }}"
   ca_path: "{{ docker_private_registry_ca_path }}"
   username: "{{ docker_registry_kube_registry_username }}"
   password: "{{ docker_registry_kube_registry_password }}"

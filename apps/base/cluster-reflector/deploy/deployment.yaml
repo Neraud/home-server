@@ -28,7 +28,7 @@ spec:
             readOnlyRootFilesystem: false
             runAsNonRoot: true
             runAsUser: 1000
-          image: "registry.intra.k8s.test/kubernetes-reflector:7.0.151"
+          image: "registry.lan/kubernetes-reflector:7.0.151"
           imagePullPolicy: IfNotPresent
           env:
             - name: ES_Serilog__MinimumLevel__Default

@@ -21,7 +21,7 @@ spec:
       serviceAccountName: argo-server
       containers:
         - name: argo-server
-          image: "registry.intra.k8s.test/argo-workflow-cli:v3.4.7"
+          image: "registry.lan/argo-workflow-cli:v3.4.7"
           securityContext:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
