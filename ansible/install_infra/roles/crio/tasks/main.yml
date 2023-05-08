@@ -72,7 +72,9 @@
     state: absent
   loop:
     - 100-crio-bridge.conf
+    - 100-crio-bridge.conflist
     - 200-loopback.conf
+    - 200-loopback.conflist
 
 - name: Enable crictl autocompletion
   ansible.builtin.copy:
