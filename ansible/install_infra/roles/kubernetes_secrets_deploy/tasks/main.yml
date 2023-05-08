@@ -13,31 +13,19 @@
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
 
-- name: Read the cluster CA file
-  ansible.builtin.slurp:
-    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
-  register: cluster_ca_file
-
-- name: Expose the cluster CA
+- name: Deploy the cluster CA
   kubernetes.core.k8s:
     definition: "{{ lookup('template', 'cluster-ca-secret.yaml.j2') }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
 
-- name: Read the ingress TLS cert
-  ansible.builtin.slurp:
-    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.crt"
-  register: ingress_tls_cert_file
-
-- name: Read the ingress TLS key
-  ansible.builtin.slurp:
-    src: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.key"
-  register: ingress_tls_key_file
-
-- name: Deploy TLS secret
+- name: Deploy custom pki TLS secrets
   kubernetes.core.k8s:
-    definition: "{{ lookup('template', 'tls-secret.yaml.j2') }}"
+    definition: "{{ lookup('template', 'opensslpki-tls-secrets.yaml.j2') }}"
     state: present
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
+  loop: "{{ openssl_custom_cert_secrets }}"
+  loop_control:
+    label: "{{ item.secret_name }}"

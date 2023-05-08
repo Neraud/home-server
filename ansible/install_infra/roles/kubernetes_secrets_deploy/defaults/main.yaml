@@ -5,3 +5,13 @@ docker_private_registry:
   ca_path: "{{ docker_private_registry_ca_path }}"
   username: "{{ docker_registry_kube_registry_username }}"
   password: "{{ docker_registry_kube_registry_password }}"
+
+openssl_custom_cert_secrets:
+- secret_name: "ingress"
+  ca_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+  cert_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.crt"
+  key_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.key"
+  allowed_full_namespaces:
+  - .*
+  allowed_cert_namespaces:
+  - .*
