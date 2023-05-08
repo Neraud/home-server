@@ -11,7 +11,7 @@ secretGenerator:
   - config/rsync/id_rsa
   behavior: replace
 - name: git-credentials
-  env: config/git-credentials.env
+  env: config/git-credentials.secret.env
   behavior: replace
 
 resources:

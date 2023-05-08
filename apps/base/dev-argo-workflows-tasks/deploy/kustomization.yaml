@@ -19,7 +19,7 @@ secretGenerator:
   - config/rsync/ssh_config
   - config/rsync/id_rsa
 - name: git-credentials
-  env: config/git-credentials.env
+  env: config/git-credentials.secret.env
 
 resources:
 - namespace.yaml
