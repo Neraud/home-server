@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-server-http-ingress
+  namespace: argocd
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Dev
+    gethomepage.dev/name: Argo CD
+    gethomepage.dev/description: Declarative, GitOps continuous delivery tool for Kubernetes
+    gethomepage.dev/icon: arggocd # Typo in https://github.com/walkxcode/dashboard-icons/blob/main/png/arggocd.png
+    gethomepage.dev/pod-selector: "app.kubernetes.io/part-of: argocd"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - argo-cd.dev.intra.k8s.test
+      secretName: ingress-tls
+      #secretName: argocd-secret # do not change, this is provided by Argo CD
+  rules:
+  - host: argo-cd.dev.intra.k8s.test
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-server
+            port:
+              name: https

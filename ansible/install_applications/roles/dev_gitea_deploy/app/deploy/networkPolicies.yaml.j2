@@ -61,3 +61,7 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: dev-argo-workflows-tasks
+        # Allow from argo cd
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: dev-argo-cd

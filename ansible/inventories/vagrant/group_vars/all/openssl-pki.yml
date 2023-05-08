@@ -249,3 +249,11 @@ openssl_custom_pki:
         organization_name: Test
         organizational_unit_name: Test
         email_address: user@mail.net
+      - name: "argocd"
+        common_name: "argocd-server.dev-argo-cd.svc.cluster.local"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        organizational_unit_name: Test
+        email_address: user@mail.net

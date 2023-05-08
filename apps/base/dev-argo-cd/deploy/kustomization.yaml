@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dev-argo-cd
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+- name: argocd-cm
+  env: config/argocd.env
+  files:
+  - config/dex.config
+  behavior: replace
+
+secretGenerator:
+- name: argocd-secret
+  env: config/argocd.secret.env
+  behavior: replace
+- name: private-repo
+  env: config/private-repo.secret.env
+  type: Opaque
+  options:
+    labels:
+      argocd.argoproj.io/secret-type: repository
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- base
+- cluster-rbac
+- crds

@@ -14,6 +14,7 @@ openldap_ldap_structure_groups_ou_dns:
   grafana_roles: "ou=grafana_roles,{{ openldap_ldap_basedn }}"
   jellyfin_roles: "ou=jellyfin_roles,{{ openldap_ldap_basedn }}"
   gitea_roles: "ou=gitea_roles,{{ openldap_ldap_basedn }}"
+  argo_roles: "ou=argo_roles,{{ openldap_ldap_basedn }}"
   nextcloud_roles: "ou=nextcloud_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
@@ -78,6 +79,11 @@ openldap_ldap_groups:
     members:
       - user_ldap
       - argo
+  - id: argo
+    description: argo
+    ou: app_groups
+    members:
+      - user_ldap
   - id: homeassistant
     description: HomeAssistant
     ou: app_groups
@@ -148,6 +154,13 @@ openldap_ldap_groups:
   - id: admin
     description: Gitea Admin
     ou: gitea_roles
+    members:
+      - user_ldap
+
+  # Roles for Argo
+  - id: admin
+    description: Argo Admin
+    ou: argo_roles
     members:
       - user_ldap
 

@@ -7,7 +7,7 @@
     
     - set_fact:
         argo_workflows_installed: "{{ argo_workflows_cli_status.rc == 0 }}"
-        argocd_installed: false # TODO
+        argo_cd_installed: false # TODO
     
     - name: "Build and deploy {{ app_name }} manually"
       block:
@@ -32,9 +32,9 @@
           state: present
           kubeconfig: "{{ kubeconfig_path }}"
           context: "{{ kubeconfig_context }}"
-      when: not (argo_workflows_installed and argocd_installed)
+      when: not (argo_workflows_installed and argo_cd_installed)
     
     - name: "Build and deploy {{ app_name }} with argo"
       ansible.builtin.include_tasks: build-argo.yml
-      when: argo_workflows_installed and argocd_installed
+      when: argo_workflows_installed and argo_cd_installed
     

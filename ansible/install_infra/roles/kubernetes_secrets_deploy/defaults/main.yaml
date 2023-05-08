@@ -15,3 +15,11 @@ openssl_custom_cert_secrets:
   - .*
   allowed_cert_namespaces:
   - .*
+- secret_name: "argocd"
+  ca_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
+  cert_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/argocd/server.crt"
+  key_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/argocd/server.key"
+  allowed_full_namespaces:
+  - dev-argo-cd
+  allowed_cert_namespaces:
+  - dev-argo-workflows-tasks

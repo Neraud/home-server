@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+resources:
+- ../../../base/dev-argo-cd/deploy
+
+configMapGenerator:
+- name: argocd-cm
+  env: config/argocd.env
+  behavior: merge
+
+secretGenerator:
+- name: argocd-secret
+  env: config/argocd.secret.env
+  behavior: replace
+
+patches:
+- path: argocd-application-controller-statefulset-resources.yaml
+- path: argocd-applicationset-controller-deployment-resources.yaml
+- path: argocd-dex-server-deployment-resources.yaml
+- path: argocd-notifications-controller-deployment-resources.yaml
+- path: argocd-redis-deployment-resources.yaml
+- path: argocd-repo-server-deployment-resources.yaml
