@@ -12,6 +12,10 @@ configMapGenerator:
   files:
   - config/dex.config
   behavior: replace
+- name: argocd-rbac-cm
+  files:
+  - config/policy.csv
+  behavior: replace
 
 secretGenerator:
 - name: argocd-secret
@@ -30,3 +34,4 @@ resources:
 - base
 - cluster-rbac
 - crds
+- project

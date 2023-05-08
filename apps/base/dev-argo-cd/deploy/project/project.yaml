@@ -1,0 +1,42 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: k8s-cluster
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: K8S cluster
+
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - '*'
+
+  # Permit applications to deploy in all namespaces in the same cluster
+  destinations:
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+
+  # Allow all cluster-scoped resources from being created
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+
+  # Enables namespace orphaned resource monitoring.
+  orphanedResources:
+    warn: false
+
+  roles:
+  # A role which provides read-only access to all applications in the project
+  - name: read-only
+    description: Read-only privileges to k8s-cluster
+    policies:
+    - p, proj:k8s-cluster:read-only, applications, get, k8s-cluster/*, allow
+
+  # A role which provides sync privileges to all applications in the project, e.g. to provide sync privileges to a CI system
+  - name: ci-role
+    description: Sync privileges for all applications in k8s-cluster
+    policies:
+    - p, proj:k8s-cluster:ci-role, applications, get, k8s-cluster/*, allow
+    - p, proj:k8s-cluster:ci-role, applications, sync, k8s-cluster/*, allow
+    - p, proj:k8s-cluster:ci-role, applications, override, k8s-cluster/*, allow

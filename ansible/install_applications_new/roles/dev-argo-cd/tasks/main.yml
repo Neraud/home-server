@@ -3,3 +3,55 @@
   ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
   vars:
     app_name: dev-argo-cd
+
+# In case we redeploy ArgoCD, the old version can still be available before the new one stats
+# Wait a bit to make sure the old one has been terminated
+- name: Wait a bit ...
+  ansible.builtin.pause:
+    seconds: 10
+
+- name: Wait for ArgoCD Server to be available
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    namespace: "dev-argo-cd"
+    name: argocd-server
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_wait
+  until: k8s_wait.resources[0].status.readyReplicas | default(0) > 0
+  retries: 30
+  delay: 5
+
+- name: Get existing tokens for k8s-cluster > ci-role
+  ansible.builtin.shell: |
+    set -euo pipefail
+    export KUBECONFIG={{ kubeconfig_path }}
+    argocd login --core
+    argocd proj role list-tokens k8s-cluster ci-role
+  args:
+    executable: /bin/bash
+  changed_when: false
+  register: argocd_existing_token
+
+- name: Create ci-token token for k8s-cluster > ci-role
+  ansible.builtin.shell: |
+    set -euo pipefail
+    export KUBECONFIG={{ kubeconfig_path }}
+    argocd login --core
+    argocd proj role create-token k8s-cluster ci-role --id ci-token --token-only
+  args:
+    executable: /bin/bash
+  register: argocd_generate_token
+  when: "'ci-token' not in argocd_existing_token.stdout"
+
+- name: Inject ci-token in secret
+  kubernetes.core.k8s:
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+    kind: Secret
+    namespace: dev-argo-cd
+    name: argocd-ci-token
+    definition:
+      data:
+        ARGOCD_AUTH_TOKEN: "{{ argocd_generate_token.stdout_lines[-1] | b64encode }}"
+  when: "'ci-token' not in argocd_existing_token.stdout"
