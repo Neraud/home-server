@@ -1,14 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: WorkflowTemplate
 metadata:
-  generateName: cluster-reflector-build-and-deploy-
+  name: app-build-and-deploy
+  generateName: app-build-and-deploy-
 spec:
-  entrypoint: build-and-deploy-from-rsync
   serviceAccountName: executor
-  arguments:
-    parameters:
-      - name: app_name
-        value: cluster-reflector
+  #arguments:
+  #  parameters:
+  #    - name: app_name
+  #      value: todo
+  #    - name: git_repo
+  #      value: todo
+  #    - name: git_branch
+  #      value: todo
   templates:
     - name: build-and-deploy-from-git
       steps:
@@ -18,6 +22,10 @@ spec:
             parameters:
             - name: app_name
               value: "{{workflow.parameters.app_name}}"
+            - name: git_repo
+              value: "{{workflow.parameters.git_repo}}"
+            - name: git_branch
+              value: "{{workflow.parameters.git_branch}}"
       - - name: build-images-from-git
           template: build-image
           arguments:
@@ -33,13 +41,14 @@ spec:
               from: "{{steps.source-from-git.outputs.artifacts.app_source_base}}"
           withParam: "{{steps.source-from-git.outputs.parameters.app_images}}"
       - - name: deploy-from-git
-          template: deploy
+          template: deploy-from-git
           arguments:
+            parameters:
+            - name: app_name
+              value: "{{workflow.parameters.app_name}}"
             artifacts:
-            - name: app_source_base
-              from: "{{steps.source-from-git.outputs.artifacts.app_source_base}}"
-            - name: app_source_overlay
-              from: "{{steps.source-from-git.outputs.artifacts.app_source_overlay}}"
+            - name: apps_source
+              from: "{{steps.source-from-git.outputs.artifacts.apps_source}}"
 
     - name: build-and-deploy-from-rsync
       steps:
@@ -64,24 +73,27 @@ spec:
               from: "{{steps.source-from-rsync.outputs.artifacts.app_source_base}}"
           withParam: "{{steps.source-from-rsync.outputs.parameters.app_images}}"
       - - name: deploy-from-rsync
-          template: deploy
+          template: deploy-from-rsync
           arguments:
+            parameters:
+            - name: app_name
+              value: "{{workflow.parameters.app_name}}"
             artifacts:
-            - name: app_source_base
-              from: "{{steps.source-from-rsync.outputs.artifacts.app_source_base}}"
-            - name: app_source_overlay
-              from: "{{steps.source-from-rsync.outputs.artifacts.app_source_overlay}}"
+            - name: apps_source
+              from: "{{steps.source-from-rsync.outputs.artifacts.apps_source}}"
 
     - name: source-from-git
       inputs:
         parameters:
         - name: app_name
+        - name: git_repo
+        - name: git_branch
         artifacts:
         - name: argo-source
           path: /source
           git:
-            repo: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
-            branch: dev/gitops
+            repo: "{{inputs.parameters.git_repo}}"
+            branch: "{{inputs.parameters.git_branch}}"
             depth: 1
             disableSubmodules: false
             singleBranch: true
@@ -114,8 +126,10 @@ spec:
         artifacts:
         - name: app_source_base
           path: /source/apps/base/{{inputs.parameters.app_name}}
-        - name: app_source_overlay
-          path: /source/apps/vagrant/{{inputs.parameters.app_name}}
+        - name: apps_source
+          path: /source/apps
+        #- name: app_source_overlay
+        #  path: /source/apps/vagrant/{{inputs.parameters.app_name}}
         #- name: app_images
         #  path: /work/images.json
         #  archive:
@@ -154,8 +168,10 @@ spec:
         artifacts:
         - name: app_source_base
           path: /work/apps/base/{{inputs.parameters.app_name}}
-        - name: app_source_overlay
-          path: /work/apps/vagrant/{{inputs.parameters.app_name}}
+        - name: apps_source
+          path: /work/apps
+        #- name: app_source_overlay
+        #  path: /work/apps/vagrant/{{inputs.parameters.app_name}}
         #- name: app_images
         #  path: /tmp/{{inputs.parameters.app_name}}_images.json
         #  archive:
@@ -236,19 +252,28 @@ spec:
       - name: tmp
         emptyDir: {}
 
-    - name: deploy
+    - name: deploy-from-git
       inputs:
-        artifacts:
-        - name: app_source_base
-          path: /source/base
-        - name: app_source_overlay
-          path: /source/overlay
+        parameters:
+        - name: app_name
       script:
         image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
         command: [sh]
-        source: |          
+        source: |
+          echo "TODO"
+
+    - name: deploy-from-rsync
+      inputs:
+        artifacts:
+        - name: apps_source
+          path: /source/apps
+        parameters:
+        - name: app_name
+      script:
+        image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
+        command: [sh]
+        source: |
+          echo "TODO"
           echo "----------------------------------------------------------------------------------------------------"
-          find /source/base
-          echo "----------------------------------------------------------------------------------------------------"
-          find /source/overlay
+          find /source
           echo "----------------------------------------------------------------------------------------------------"
