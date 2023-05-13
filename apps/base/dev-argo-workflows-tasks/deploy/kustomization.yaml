@@ -24,9 +24,6 @@ secretGenerator:
 resources:
 - namespace.yaml
 - ../../_common/deploy
-- argocd-server-tls-cert.yaml
-- argocd-ci-token.yaml
-- service-account.yaml
-- role.yaml
-- role-binding.yaml
+- executor-rbac
 - templates
+- argocd
