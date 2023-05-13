@@ -15,5 +15,4 @@ namespace: dev-argo-workflows
 resources:
 - namespace.yaml
 - ../../_common/deploy
-- base
-- cluster-install
+- namespace-install

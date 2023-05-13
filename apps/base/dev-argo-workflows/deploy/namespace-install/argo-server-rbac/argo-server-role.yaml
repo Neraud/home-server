@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
-  name: argo-server-cluster-role
+  name: argo-server-role
 rules:
   - apiGroups:
       - ""
@@ -54,7 +54,7 @@ rules:
       - workfloweventbindings
       - workflowtemplates
       - cronworkflows
-      - clusterworkflowtemplates
+      - cronworkflows/finalizers
     verbs:
       - create
       - get
