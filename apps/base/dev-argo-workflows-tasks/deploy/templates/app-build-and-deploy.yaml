@@ -16,20 +16,22 @@ spec:
   templates:
     - name: build-and-deploy-from-git
       steps:
-      - - name: source-from-git
-          template: source-from-git
+      - - name: base-source-from-git
+          template: base-source-from-git
           arguments:
             parameters:
             - name: app_name
               value: "{{workflow.parameters.app_name}}"
-            - name: git_repo
-              value: "{{workflow.parameters.git_repo}}"
-            - name: git_branch
-              value: "{{workflow.parameters.git_branch}}"
+            - name: base_git_repo
+              value: "{{workflow.parameters.base_git_repo}}"
+            - name: base_git_branch
+              value: "{{workflow.parameters.base_git_branch}}"
       - - name: build-images-from-git
           template: build-image
           arguments:
             parameters:
+            - name: app_name
+              value: "{{workflow.parameters.app_name}}"
             - name: build_folder
               value: "{{item.folder}}"
             - name: image_name
@@ -37,18 +39,15 @@ spec:
             - name: image_tag
               value: "{{item.image_tag}}"
             artifacts:
-            - name: app_source_base
-              from: "{{steps.source-from-git.outputs.artifacts.app_source_base}}"
-          withParam: "{{steps.source-from-git.outputs.parameters.app_images}}"
+            - name: apps_source_base
+              from: "{{steps.base-source-from-git.outputs.artifacts.apps_source_base}}"
+          withParam: "{{steps.base-source-from-git.outputs.parameters.app_images}}"
       - - name: deploy-from-git
           template: deploy-from-git
           arguments:
             parameters:
             - name: app_name
               value: "{{workflow.parameters.app_name}}"
-            artifacts:
-            - name: apps_source
-              from: "{{steps.source-from-git.outputs.artifacts.apps_source}}"
 
     - name: build-and-deploy-from-rsync
       steps:
@@ -62,6 +61,8 @@ spec:
           template: build-image
           arguments:
             parameters:
+            - name: app_name
+              value: "{{workflow.parameters.app_name}}"
             - name: build_folder
               value: "{{item.folder}}"
             - name: image_name
@@ -69,8 +70,8 @@ spec:
             - name: image_tag
               value: "{{item.image_tag}}"
             artifacts:
-            - name: app_source_base
-              from: "{{steps.source-from-rsync.outputs.artifacts.app_source_base}}"
+            - name: apps_source_base
+              from: "{{steps.source-from-rsync.outputs.artifacts.apps_source_base}}"
           withParam: "{{steps.source-from-rsync.outputs.parameters.app_images}}"
       - - name: deploy-from-rsync
           template: deploy-from-rsync
@@ -79,21 +80,23 @@ spec:
             - name: app_name
               value: "{{workflow.parameters.app_name}}"
             artifacts:
-            - name: apps_source
-              from: "{{steps.source-from-rsync.outputs.artifacts.apps_source}}"
+            - name: apps_source_base
+              from: "{{steps.source-from-rsync.outputs.artifacts.apps_source_base}}"
+            - name: apps_source_overlay
+              from: "{{steps.source-from-rsync.outputs.artifacts.apps_source_overlay}}"
 
-    - name: source-from-git
+    - name: base-source-from-git
       inputs:
         parameters:
         - name: app_name
-        - name: git_repo
-        - name: git_branch
+        - name: base_git_repo
+        - name: base_git_branch
         artifacts:
         - name: argo-source
           path: /source
           git:
-            repo: "{{inputs.parameters.git_repo}}"
-            branch: "{{inputs.parameters.git_branch}}"
+            repo: "{{inputs.parameters.base_git_repo}}"
+            branch: "{{inputs.parameters.base_git_branch}}"
             depth: 1
             disableSubmodules: false
             singleBranch: true
@@ -112,9 +115,6 @@ spec:
           echo "Copy base folder /source/apps/base/{{inputs.parameters.app_name}}"
           cp -Rv /source/apps/base/{{inputs.parameters.app_name}} /work/base
           echo "----------------------------------------------------------------------------------------------------"
-          echo "Copy overlay folder /source/apps/vagrant/{{inputs.parameters.app_name}}"
-          cp -Rv /source/apps/vagrant/{{inputs.parameters.app_name}} /work/overlay
-          echo "----------------------------------------------------------------------------------------------------"
           python /opt/list_images.py -i /source/apps/base/{{inputs.parameters.app_name}}/build -o /work/images.json
         volumeMounts:
           - name: work
@@ -124,16 +124,8 @@ spec:
           emptyDir: {}
       outputs:
         artifacts:
-        - name: app_source_base
-          path: /source/apps/base/{{inputs.parameters.app_name}}
-        - name: apps_source
-          path: /source/apps
-        #- name: app_source_overlay
-        #  path: /source/apps/vagrant/{{inputs.parameters.app_name}}
-        #- name: app_images
-        #  path: /work/images.json
-        #  archive:
-        #    none: {}
+        - name: apps_source_base
+          path: /source/apps/base
         parameters:
         - name: app_images
           valueFrom:
@@ -166,16 +158,10 @@ spec:
           secretName: rsync-source
       outputs:
         artifacts:
-        - name: app_source_base
-          path: /work/apps/base/{{inputs.parameters.app_name}}
-        - name: apps_source
-          path: /work/apps
-        #- name: app_source_overlay
-        #  path: /work/apps/vagrant/{{inputs.parameters.app_name}}
-        #- name: app_images
-        #  path: /tmp/{{inputs.parameters.app_name}}_images.json
-        #  archive:
-        #    none: {}
+        - name: apps_source_base
+          path: /work/apps/base
+        - name: apps_source_overlay
+          path: /work/apps/vagrant
         parameters:
         - name: app_images
           valueFrom:
@@ -184,12 +170,13 @@ spec:
     - name: build-image
       inputs:
         parameters:
+        - name: app_name
         - name: build_folder
         - name: image_name
         - name: image_tag
         artifacts:
-        - name: app_source_base
-          path: /source/base
+        - name: apps_source_base
+          path: /source/apps/base
       initContainers:
       - name: create-volume
         image: registry.lan/kaniko-image-builder:v1.9.2-debug
@@ -218,7 +205,7 @@ spec:
           - --cache-copy-layers
           - --cache-repo=registry.lan/{{inputs.parameters.image_name}}-cache
           - --reproducible
-          - --context=/source/base/build/{{inputs.parameters.build_folder}}
+          - --context=/source/apps/base/{{inputs.parameters.app_name}}/build/{{inputs.parameters.build_folder}}
           - --destination=registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}}
           - --verbosity=info
         volumeMounts:
@@ -257,23 +244,127 @@ spec:
         parameters:
         - name: app_name
       script:
-        image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
-        command: [sh]
+        image: registry.lan/argocd:v2.7.1
+        command: [bash]
+        env:
+        - name: ARGOCD_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: "argocd-ci-token"
+              key: ARGOCD_AUTH_TOKEN
+        - name: ARGOCD_SERVER
+          value: "argocd-server.dev-argo-cd.svc.cluster.local"
+        - name: ARGOCD_OPTS
+          value: "--server-crt /etc/ssl/argocd/server.crt"
         source: |
-          echo "TODO"
+          #!/bin/bash
+          set -euo pipefail
+
+          if [[ -z $ARGOCD_AUTH_TOKEN ]] ; then
+            echo "ARGOCD_AUTH_TOKEN must be specified"
+            exit 1
+          fi
+
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "Running as ArgoCD User:"
+          argocd account get-user-info
+
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "ArgoCD app:"
+          argocd app get {{inputs.parameters.app_name}}
+                                        
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "ArgoCD app sync:"
+          argocd app sync {{inputs.parameters.app_name}} --prune --preview-changes --assumeYes
+          
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "Waiting for app to become healthy"
+          argocd app wait {{inputs.parameters.app_name}} --health
+        volumeMounts:
+        - name: argocd-server-cert
+          mountPath: /etc/ssl/argocd/server.crt
+          subPath: tls.crt
+        - name: tmp-volume
+          mountPath: /tmp
+          subPath: tmp
+        - name: tmp-volume
+          mountPath: /.config
+          subPath: config
+      volumes:
+      - name: argocd-server-cert
+        secret:
+          secretName: argocd-server-cert
+      - name: tmp-volume
+        emptyDir: {}
 
     - name: deploy-from-rsync
       inputs:
-        artifacts:
-        - name: apps_source
-          path: /source/apps
         parameters:
         - name: app_name
+        artifacts:
+        - name: apps_source_base
+          path: /source/apps/base
+        - name: apps_source_overlay
+          path: /source/apps/overlay
       script:
-        image: registry.lan/template-source-fetcher:3.11.3-alpine3.17-1
-        command: [sh]
+        image: registry.lan/argocd:v2.7.1
+        command: [bash]
+        env:
+        - name: ARGOCD_AUTH_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: "argocd-ci-token"
+              key: ARGOCD_AUTH_TOKEN
+        - name: ARGOCD_SERVER
+          value: "argocd-server.dev-argo-cd.svc.cluster.local"
+        - name: ARGOCD_OPTS
+          value: "--server-crt /etc/ssl/argocd/server.crt"
         source: |
-          echo "TODO"
+          #!/bin/bash
+          set -euo pipefail
+
+          if [[ -z $ARGOCD_AUTH_TOKEN ]] ; then
+            echo "ARGOCD_AUTH_TOKEN must be specified"
+            exit 1
+          fi
+
+          #echo "----------------------------------------------------------------------------------------------------"
+          # TODO : use server-side argocd diff/sync
+          # diff already works with argocd:v2.7.1, but sync isn't supported, so we keep a manual generation
+          # see https://github.com/argoproj/argo-cd/issues/10936
+          echo "Generate manifests with Kustomize"
+          mkdir /tmp/manifests
+          kustomize build /source/apps/overlay/{{inputs.parameters.app_name}}/deploy > /tmp/manifests/manifest.yaml
           echo "----------------------------------------------------------------------------------------------------"
-          find /source
+
           echo "----------------------------------------------------------------------------------------------------"
+          echo "Running as ArgoCD User:"
+          argocd account get-user-info
+
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "ArgoCD app:"
+          argocd app get {{inputs.parameters.app_name}}
+                                        
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "ArgoCD app sync:"
+          argocd app sync {{inputs.parameters.app_name}} --local /tmp/manifests/ --prune --preview-changes --assumeYes
+          
+          echo "----------------------------------------------------------------------------------------------------"
+          echo "Waiting for app to become healthy"
+          argocd app wait {{inputs.parameters.app_name}} --health
+        volumeMounts:
+        - name: argocd-server-cert
+          mountPath: /etc/ssl/argocd/server.crt
+          subPath: tls.crt
+        - name: tmp-volume
+          mountPath: /tmp
+          subPath: tmp
+        - name: tmp-volume
+          mountPath: /.config
+          subPath: config
+      volumes:
+      - name: argocd-server-cert
+        secret:
+          secretName: argocd-server-cert
+      - name: tmp-volume
+        emptyDir: {}
