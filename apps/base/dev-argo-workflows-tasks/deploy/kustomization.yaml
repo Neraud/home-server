@@ -24,6 +24,8 @@ secretGenerator:
 resources:
 - namespace.yaml
 - ../../_common/deploy
+- argo-server-rbac
+- workflow-controller-rbac
 - executor-rbac
 - templates
 - argocd
