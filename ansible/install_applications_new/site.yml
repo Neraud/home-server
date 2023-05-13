@@ -12,6 +12,9 @@
     - role: dev-argo-workflows
       tags: kubernetes-app-dev-argo-workflows
       when: argo_workflows_enabled | bool
+    - role: dev-argo-events
+      tags: kubernetes-app-dev-argo-events
+      when: argo_events_enabled | bool
     - role: dev-argo-cd
       tags: kubernetes-app-dev-argo-cd
       when: argo_cd_enabled | bool

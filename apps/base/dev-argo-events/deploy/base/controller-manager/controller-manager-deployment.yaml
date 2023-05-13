@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-manager
+  labels:
+    app.kubernetes.io/name: argo-events
+    app.kubernetes.io/component: controller-manager
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argo-events
+      app.kubernetes.io/component: controller-manager
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: argo-events
+        app.kubernetes.io/component: controller-manager
+    spec:
+      serviceAccountName: argo-events-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 9731
+      containers:
+        - name: controller-manager
+          image: "registry.lan/argo-events:v1.8.0"
+          imagePullPolicy: IfNotPresent
+          args:
+            - controller
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: ARGO_EVENTS_IMAGE
+              value: "registry.lan/argo-events:v1.8.0"
+          volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+              readOnly: true
+            - mountPath: /etc/argo-events
+              name: controller-config-volume
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8081
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 64Mi
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: /etc/localtime
+        - name: controller-config-volume
+          configMap:
+            name: argo-events-controller-config
+      nodeSelector:
+        capability/general-purpose: 'yes'
