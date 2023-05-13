@@ -15,3 +15,6 @@
     - role: dev-argo-cd
       tags: kubernetes-app-dev-argo-cd
       when: argo_cd_enabled | bool
+    - role: dev-argo-workflows-tasks
+      tags: kubernetes-app-dev-argo-workflows-tasks
+      when: argo_workflows_tasks_enabled | bool

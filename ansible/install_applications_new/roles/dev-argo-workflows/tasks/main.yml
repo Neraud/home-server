@@ -4,11 +4,6 @@
   vars:
     app_name: dev-argo-workflows
 
-- name: Build and deploy Argo Workflows tasks
-  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
-  vars:
-    app_name: dev-argo-workflows-tasks
-
 # In case we redeploy Argo Workflows, the old version can still be available before the new one stats
 # Wait a bit to make sure the old one has been terminated
 - name: Wait a bit ...
