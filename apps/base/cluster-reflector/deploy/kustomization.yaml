@@ -13,6 +13,7 @@ namespace: cluster-reflector
 
 resources:
 - namespace.yaml
+- ../../_common/deploy
 - serviceaccount.yaml
 - clusterRole.yaml
 - clusterRoleBinding.yaml

@@ -2,13 +2,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   namespace: dev-argo-workflows-tasks
-  generateName: cluster-reflector-build-and-deploy-
+  generateName: dev-argo-cd-build-and-deploy-
 spec:
   entrypoint: build-and-deploy-from-rsync
   arguments:
     parameters:
       - name: app_name
-        value: cluster-reflector
+        value: dev-argo-cd
       - name: base_git_repo
         value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
       - name: base_git_branch
