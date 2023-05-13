@@ -118,6 +118,9 @@ spec:
           value: "\"{{ gitea.smtp.displayName }}\" <{{ gitea.smtp.from }}>"
         - name: GITEA__mailer__SUBJECT_PREFIX
           value: "{{ gitea.smtp.subject_prefix }}"
+          
+        - name: GITEA__webhook__ALLOWED_HOST_LIST
+          value: "private,*.cluster.local"
 
         - name: GITEA_ADMIN_USERNAME
           value: "{{ gitea.admin.username }}"

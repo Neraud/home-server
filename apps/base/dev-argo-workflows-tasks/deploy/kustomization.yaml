@@ -27,5 +27,8 @@ resources:
 - argo-server-rbac
 - workflow-controller-rbac
 - executor-rbac
+- argo-events-rbac
+- argo-events-sensor-rbac
+- events
 - templates
 - argocd
