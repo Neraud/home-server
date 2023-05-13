@@ -72,6 +72,7 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 gitea.dev.intra.k8s.test
 192.168.100.101 minio.dev.intra.k8s.test
 192.168.100.101 argo-workflows.dev.intra.k8s.test
+192.168.100.101 argo-cd.dev.intra.k8s.test
 
 192.168.100.101 sickchill.dl.intra.k8s.test
 192.168.100.101 deluge.dl.intra.k8s.test
@@ -152,6 +153,12 @@ The following services are deployed :
 | [SABnzbd](https://sabnzbd.org/)                                  | <https:/sabnzbd.dl.intra.k8s.test>                   | Binary newsreader                                                 |
 
 Once the Vagrant environment is started, you can easily list all the service URLs on the [Homepage dashboard](https://homepage.tool.k8s.test/).
+
+TODO argo doc
+
+TODO minio doc
+
+
 
 ### Kubernetes dashboard
 
