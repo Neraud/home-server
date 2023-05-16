@@ -23,6 +23,6 @@ patches:
   - patch: |-
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: dev-argo-workflows-tasks
+        value: dev-argo-tasks
     target:
       kind: Deployment

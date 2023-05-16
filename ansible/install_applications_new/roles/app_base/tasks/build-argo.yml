@@ -9,7 +9,7 @@
 - name: Deploy with Argo
   ansible.builtin.shell: |
     export KUBECONFIG={{ kubeconfig_path }}
-    argo submit -n dev-argo-workflows-tasks {{ app_overlay_path }}/workflow.yaml --wait
+    argo submit -n dev-argo-tasks {{ app_overlay_path }}/workflow.yaml --wait
 
 - name: Check if Argo Event is deployed
   kubernetes.core.k8s_info:

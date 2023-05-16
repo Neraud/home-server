@@ -9,7 +9,7 @@ labels:
     pairs:
       app.kubernetes.io/part-of: argo-workflows-tasks
 
-namespace: dev-argo-workflows-tasks
+namespace: dev-argo-tasks
 
 secretGenerator:
 - name: minio-credentials

@@ -60,7 +60,7 @@ spec:
         # Allow from argo workflows tasks
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: dev-argo-workflows-tasks
+              kubernetes.io/metadata.name: dev-argo-tasks
         # Allow from argo cd
         - namespaceSelector:
             matchLabels:

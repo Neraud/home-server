@@ -14,10 +14,10 @@
     context: "{{ kubeconfig_context }}"
   register: argo_cd_status
 
-- name: Check if Argo Workflows tasks is deployed
+- name: Check if Argo tasks is deployed
   kubernetes.core.k8s_info:
     kind: Namespace
-    name: dev-argo-workflows-tasks
+    name: dev-argo-tasks
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
   register: argo_workflows_tasks_status

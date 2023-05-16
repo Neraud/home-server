@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  namespace: dev-argo-workflows-tasks
+  namespace: dev-argo-tasks
   generateName: cluster-reflector-build-and-deploy-
 spec:
   entrypoint: build-and-deploy-from-rsync

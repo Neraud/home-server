@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
   name: dev-argo-cd
-  namespace: dev-argo-workflows-tasks
+  namespace: dev-argo-tasks
 spec:
   template:
     serviceAccountName: operate-workflow-sa
@@ -34,7 +34,7 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                namespace: dev-argo-workflows-tasks
+                namespace: dev-argo-tasks
                 generateName: dev-argo-cd-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-rsync

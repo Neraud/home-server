@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: dev-argo-workflows
-  namespace: dev-argo-workflows-tasks
+  name: dev-minio
+  namespace: dev-argo-tasks
 spec:
   template:
     serviceAccountName: operate-workflow-sa
@@ -23,7 +23,7 @@ spec:
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
             value:
-              - "apps/dev-argo-workflows/.*"
+              - "apps/dev-minio/.*"
   triggers:
     - template:
         name: argo-workflow-trigger
@@ -34,14 +34,14 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                namespace: dev-argo-workflows-tasks
-                generateName: dev-argo-workflows-build-and-deploy-
+                namespace: dev-argo-tasks
+                generateName: dev-minio-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-rsync
                 arguments:
                   parameters:
                     - name: app_name
-                      value: dev-argo-workflows
+                      value: dev-minio
                     - name: git_repo
                       value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
                     - name: git_branch

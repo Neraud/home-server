@@ -19,10 +19,10 @@ spec:
             matchLabels:
               app.kubernetes.io/name: minio
               app.kubernetes.io/component: init-job
-        # Allow from argo workflows tasks
+        # Allow from argo tasks
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: dev-argo-workflows-tasks
+              kubernetes.io/metadata.name: dev-argo-tasks
     # Allow from the ingress controller
     - ports:
         - port: 9001
