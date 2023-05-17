@@ -11,15 +11,15 @@ openssl_custom_cert_secrets:
   ca_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
   cert_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.crt"
   key_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.key"
-  allowed_full_namespaces:
-  - .*
-  allowed_cert_namespaces:
-  - .*
+  kubernetes_replicator:
+    push_full_to_namespaces:
+    - .*
 - secret_name: "argocd"
   ca_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
   cert_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/argocd/server.crt"
   key_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/argocd/server.key"
-  allowed_full_namespaces:
-  - dev-argo-cd
-  allowed_cert_namespaces:
-  - dev-argo-workflows-tasks
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - dev-argo-cd
+    pull_cert_namespaces:
+    - dev-argo-tasks

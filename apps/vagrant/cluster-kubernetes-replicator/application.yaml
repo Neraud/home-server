@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cluster-reflector
+  name: cluster-kubernetes-replicator
   namespace: dev-argo-cd
   # Add this finalizer ONLY if you want these to cascade delete.
   finalizers:
@@ -14,11 +14,11 @@ spec:
   source:
     repoURL: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
     targetRevision: dev/gitops
-    path: apps/vagrant/cluster-reflector/deploy
+    path: apps/vagrant/cluster-kubernetes-replicator/deploy
   
   destination:
     server: https://kubernetes.default.svc
-    namespace: cluster-reflector
+    namespace: cluster-kubernetes-replicator
 
   syncPolicy:
     syncOptions:

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: cluster-reflector
+  name: cluster-kubernetes-replicator
   namespace: dev-argo-tasks
 spec:
   template:
@@ -23,7 +23,7 @@ spec:
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
             value:
-              - "apps/cluster-reflector/.*"
+              - "apps/cluster-kubernetes-replicator/.*"
   triggers:
     - template:
         name: argo-workflow-trigger
@@ -35,13 +35,13 @@ spec:
               kind: Workflow
               metadata:
                 namespace: dev-argo-tasks
-                generateName: cluster-reflector-build-and-deploy-
+                generateName: cluster-kubernetes-replicator-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-rsync
                 arguments:
                   parameters:
                     - name: app_name
-                      value: cluster-reflector
+                      value: cluster-kubernetes-replicator
                     - name: git_repo
                       value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
                     - name: git_branch

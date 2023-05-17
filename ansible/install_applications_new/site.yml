@@ -3,9 +3,9 @@
   hosts: controller
   gather_facts: no
   roles:
-    - role: cluster-reflector
-      tags: kubernetes-app-cluster-reflector
-      when: reflector_enabled | bool
+    - role: cluster-kubernetes-replicator
+      tags: kubernetes-app-cluster-kubernetes-replicator
+      when: kubernetes_replicator_enabled | bool
     - role: dev-minio
       tags: kubernetes-app-dev-minio
       when: minio_enabled | bool

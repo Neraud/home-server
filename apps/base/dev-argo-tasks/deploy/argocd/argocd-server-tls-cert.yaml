@@ -3,4 +3,4 @@ kind: Secret
 metadata:
   name: argocd-server-cert
   annotations:
-    reflector.v1.k8s.emberstack.com/reflects: "cluster-secrets/opensslpki-argocd-cert"
+    replicator.v1.mittwald.de/replicate-from: "cluster-secrets/opensslpki-argocd-cert"

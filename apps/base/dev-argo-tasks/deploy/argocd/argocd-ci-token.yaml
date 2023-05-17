@@ -3,5 +3,5 @@ kind: Secret
 metadata:
   name: argocd-ci-token
   annotations:
-    reflector.v1.k8s.emberstack.com/reflects: "dev-argo-cd/argocd-ci-token"
+    replicator.v1.mittwald.de/replicate-from: "dev-argo-cd/argocd-ci-token"
 type: Opaque

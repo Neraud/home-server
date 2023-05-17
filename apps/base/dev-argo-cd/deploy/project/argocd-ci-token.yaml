@@ -3,8 +3,8 @@ kind: Secret
 metadata:
   name: argocd-ci-token
   annotations:
-    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "dev-argo-workflows-tasks"
+    replicator.v1.mittwald.de/replication-allowed: "true"
+    replicator.v1.mittwald.de/replication-allowed-namespaces: "dev-argo-tasks"
 type: Opaque
 
 # The token is created using the argocd cli and is injected here by ansible
