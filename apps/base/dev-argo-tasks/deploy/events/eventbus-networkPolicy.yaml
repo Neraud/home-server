@@ -12,6 +12,14 @@ spec:
 
   ingress:
     - ports:
+        - port: 6222
+      from:
+        # Allow clustering from replicas
+        - podSelector:
+            matchLabels:
+              controller: eventbus-controller
+              eventbus-name: default
+    - ports:
         - port: 4222
       from:
         # Allow from webhook
