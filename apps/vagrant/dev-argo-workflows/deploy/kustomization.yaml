@@ -7,3 +7,13 @@ resources:
 patches:
 - path: argo-server-deployment-resources.yaml
 - path: workflow-controller-deployment-resources.yaml
+- target:
+    kind: Ingress
+    name: argo-server
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: argo-workflows.dev.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: argo-workflows.dev.intra.k8s.test

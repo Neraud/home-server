@@ -21,10 +21,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - argo-workflows.dev.intra.k8s.test
+      - argo-workflows.dev.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: argo-workflows.dev.intra.k8s.test
+  - host: argo-workflows.dev.intra.web_domain_name
     http:
       paths:
       - path: /

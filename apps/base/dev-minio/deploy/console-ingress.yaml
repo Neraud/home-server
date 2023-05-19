@@ -16,10 +16,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - minio.dev.intra.k8s.test
+      - minio.dev.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: minio.dev.intra.k8s.test
+  - host: minio.dev.intra.web_domain_name
     http:
       paths:
       - path: /

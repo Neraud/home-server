@@ -16,11 +16,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - argo-cd.dev.intra.k8s.test
+      - argo-cd.dev.intra.web_domain_name
       secretName: ingress-tls
-      #secretName: argocd-secret # do not change, this is provided by Argo CD
   rules:
-  - host: argo-cd.dev.intra.k8s.test
+  - host: argo-cd.dev.intra.web_domain_name
     http:
       paths:
       - path: /

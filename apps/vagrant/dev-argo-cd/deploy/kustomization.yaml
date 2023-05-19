@@ -24,3 +24,23 @@ patches:
 - path: argocd-notifications-controller-deployment-resources.yaml
 - path: argocd-redis-deployment-resources.yaml
 - path: argocd-repo-server-deployment-resources.yaml
+- target:
+    kind: Ingress
+    name: argocd-server-grpc-ingress
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: argo-cd-api.dev.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: argo-cd-api.dev.intra.k8s.test
+- target:
+    kind: Ingress
+    name: argocd-server-http-ingress
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: argo-cd.dev.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: argo-cd.dev.intra.k8s.test

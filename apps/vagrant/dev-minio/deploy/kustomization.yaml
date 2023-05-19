@@ -19,3 +19,13 @@ resources:
 patches:
 - path: deployment-resources.yaml
 - path: pvc-resources.yaml
+- target:
+    kind: Ingress
+    name: minio-console
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: minio.dev.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: minio.dev.intra.k8s.test
