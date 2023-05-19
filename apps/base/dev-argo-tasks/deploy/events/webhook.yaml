@@ -3,6 +3,7 @@ kind: EventSource
 metadata:
   name: webhook
 spec:
+  eventBusName: default
   template:
     nodeSelector:
       capability/general-purpose: 'yes'

@@ -4,6 +4,7 @@ metadata:
   name: cluster-kubernetes-replicator
   namespace: dev-argo-tasks
 spec:
+  eventBusName: default
   template:
     serviceAccountName: operate-workflow-sa
   dependencies:

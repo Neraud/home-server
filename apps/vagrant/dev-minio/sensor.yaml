@@ -4,6 +4,7 @@ metadata:
   name: dev-minio
   namespace: dev-argo-tasks
 spec:
+  eventBusName: default
   template:
     serviceAccountName: operate-workflow-sa
   dependencies:
