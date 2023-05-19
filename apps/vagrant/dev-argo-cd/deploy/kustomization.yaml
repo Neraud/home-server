@@ -10,6 +10,8 @@ resources:
 configMapGenerator:
 - name: argocd-cm
   env: config/argocd.env
+  files:
+  - config/dex.config
   behavior: merge
 
 secretGenerator:

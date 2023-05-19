@@ -9,8 +9,6 @@ generatorOptions:
 configMapGenerator:
 - name: argocd-cm
   env: config/argocd.env
-  files:
-  - config/dex.config
   behavior: replace
 - name: argocd-rbac-cm
   files:
