@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
 - ../../../base/dev-argo-events/deploy
+
+patches:
+- path: controller-manager-deployment-resources.yaml

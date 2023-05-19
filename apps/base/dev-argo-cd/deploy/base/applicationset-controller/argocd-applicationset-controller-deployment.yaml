@@ -93,6 +93,13 @@ spec:
                 key: applicationsetcontroller.enable.progressive.syncs
                 name: argocd-cmd-params-cm
                 optional: true
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
           volumeMounts:
           - mountPath: /app/config/ssh
             name: ssh-known-hosts

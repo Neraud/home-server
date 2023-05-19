@@ -3,7 +3,6 @@ kind: EventSource
 metadata:
   name: webhook
 spec:
-  eventBusName: default
   template:
     container:
       resources:
@@ -13,14 +12,3 @@ spec:
         limits:
           cpu: 50m
           memory: 32Mi
-    nodeSelector:
-      capability/general-purpose: 'yes'
-  service:
-    ports:
-      - port: 12000
-        targetPort: 12000
-  webhook:
-    git:
-      port: "12000"
-      endpoint: /git
-      method: POST

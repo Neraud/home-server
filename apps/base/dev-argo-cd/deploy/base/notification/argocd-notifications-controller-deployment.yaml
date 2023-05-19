@@ -42,6 +42,13 @@ spec:
           image: registry.lan/argocd:v2.7.1
           imagePullPolicy: IfNotPresent
           name: argocd-notifications-controller
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
           volumeMounts:
             - name: tls-certs
               mountPath: /app/config/tls

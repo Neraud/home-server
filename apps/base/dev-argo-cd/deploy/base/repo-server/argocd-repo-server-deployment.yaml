@@ -169,6 +169,13 @@ spec:
             port: 8084
           initialDelaySeconds: 5
           periodSeconds: 10
+        resources:
+          requests:
+            cpu: 25m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 128Mi
         securityContext:
           runAsNonRoot: true
           readOnlyRootFilesystem: true

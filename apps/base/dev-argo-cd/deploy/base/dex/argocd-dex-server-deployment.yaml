@@ -49,6 +49,13 @@ spec:
                 name: argocd-cmd-params-cm
                 key: dexserver.disable.tls
                 optional: true
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            cpu: 50m
+            memory: 64Mi
         securityContext:
           capabilities:
             drop:

@@ -162,6 +162,13 @@ spec:
             port: 8082
           initialDelaySeconds: 5
           periodSeconds: 10
+        resources:
+          requests:
+            cpu: 75m
+            memory: 256Mi
+          limits:
+            cpu: 350m
+            memory: 256Mi
         securityContext:
           runAsNonRoot: true
           readOnlyRootFilesystem: true

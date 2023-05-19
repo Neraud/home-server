@@ -16,3 +16,7 @@ secretGenerator:
 
 resources:
 - ../../../base/dev-argo-tasks/deploy
+
+patches:
+- path: eventbus-resources.yaml
+- path: webhook-resources.yaml

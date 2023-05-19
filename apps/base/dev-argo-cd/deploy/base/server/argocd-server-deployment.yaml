@@ -246,6 +246,13 @@ spec:
             port: 8080
           initialDelaySeconds: 3
           periodSeconds: 30
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true

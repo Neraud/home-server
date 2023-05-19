@@ -7,6 +7,16 @@ spec:
   eventBusName: default
   template:
     serviceAccountName: operate-workflow-sa
+    container:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 25m
+          memory: 32Mi
+    nodeSelector:
+      capability/general-purpose: 'yes'
   dependencies:
     - name: git-dep
       eventSourceName: webhook
