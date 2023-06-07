@@ -47,6 +47,7 @@
   ansible.builtin.shell: |
     set -euo pipefail
     export KUBECONFIG={{ kubeconfig_path }}
+    kubectl config set-context --current --namespace=dev-argo-cd
     argocd login --core
     argocd proj role list-tokens k8s-cluster ci-role
   args:
@@ -58,6 +59,7 @@
   ansible.builtin.shell: |
     set -euo pipefail
     export KUBECONFIG={{ kubeconfig_path }}
+    kubectl config set-context --current --namespace=dev-argo-cd
     argocd login --core
     argocd proj role create-token k8s-cluster ci-role --id ci-token --token-only
   args:
