@@ -10,9 +10,9 @@ spec:
       resources:
         requests:
           cpu: 20m
-          memory: 32Mi
+          memory: 48Mi
         limits:
           cpu: 50m
-          memory: 32Mi
+          memory: 48Mi
     nodeSelector:
       capability/general-purpose: 'yes'

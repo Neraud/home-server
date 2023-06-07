@@ -217,7 +217,7 @@ spec:
           subPath: kaniko
         resources:
           requests:
-            cpu: 0.5
+            cpu: 250m
             memory: 1024Mi
           limits:
             cpu: 1
