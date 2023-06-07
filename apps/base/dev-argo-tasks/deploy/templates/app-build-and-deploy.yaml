@@ -223,12 +223,12 @@ spec:
             cpu: 1
             memory: 1024Mi
         securityContext:
-          capabilities:
-            add:
-              - CAP_SETGID
-              - CAP_SETUID
-          runAsNonRoot: false
+          # Some commands in Dockerfile fail without privileged :/
+          privileged: true
+          allowPrivilegeEscalation: true
           runAsUser: 0
+          runAsNonRoot: false
+          readOnlyRootFilesystem: false
       volumes:
       - name: cluster-ca
         secret:
