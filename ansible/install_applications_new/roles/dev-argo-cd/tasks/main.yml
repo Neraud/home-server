@@ -22,6 +22,27 @@
   retries: 30
   delay: 5
 
+- name: Get currently installed Argo CLI version
+  ansible.builtin.command: argocd version --short
+  failed_when: false
+  changed_when: false
+  register: argo_cd_current_cli
+
+- name: Install Argo CLI
+  ansible.builtin.shell: |
+    curl -sL -o /usr/local/bin/argocd "https://github.com/argoproj/argo-cd/releases/download/{{ argo_cd_cli_version }}/argocd-linux-amd64"
+    chmod +x /usr/local/bin/argocd && \
+    argocd version
+  when: argo_cd_cli_version not in argo_cd_current_cli.stdout
+
+- name: Enable Argo CLI autocompletion
+  ansible.builtin.copy:
+    dest: /etc/bash_completion.d/argocd
+    content: |
+      # argocd completion
+      source <(argo completion bash)
+    mode: 0644
+
 - name: Get existing tokens for k8s-cluster > ci-role
   ansible.builtin.shell: |
     set -euo pipefail
