@@ -45,3 +45,6 @@
     mode: 0644
   loop: "{{ kubernetes_users }}"
   when: item.install_autocomplete | default('no') | bool
+
+- name: Install and configure KSOPS
+  ansible.builtin.include_tasks: ksops.yml

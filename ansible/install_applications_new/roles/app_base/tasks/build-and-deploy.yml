@@ -49,7 +49,7 @@
 
   - name: "Deploy {{ app_name }} manually"
     kubernetes.core.k8s:
-      definition: "{{ lookup('kubernetes.core.kustomize', dir=app_deploy_path) }}"
+      definition: "{{ lookup('ansible.builtin.pipe', 'SOPS_AGE_KEY_FILE={{ sops_age_key_file }} kustomize build --enable-alpha-plugins --enable-exec ' + app_deploy_path) }}"
       state: present
       kubeconfig: "{{ kubeconfig_path }}"
       context: "{{ kubeconfig_context }}"

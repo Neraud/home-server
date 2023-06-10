@@ -39,7 +39,7 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 9001
-          image: registry.lan/argocd:v2.7.1
+          image: registry.lan/argocd:v2.7.1-ksops
           imagePullPolicy: IfNotPresent
           name: argocd-notifications-controller
           resources:

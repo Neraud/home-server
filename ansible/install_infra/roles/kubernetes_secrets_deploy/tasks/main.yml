@@ -29,3 +29,10 @@
   loop: "{{ openssl_custom_cert_secrets }}"
   loop_control:
     label: "{{ item.secret_name }}"
+
+- name: Deploy SOPS secret
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'sops-secret.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"

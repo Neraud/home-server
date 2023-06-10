@@ -21,7 +21,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: argocd-repo-server
-        image: registry.lan/argocd:v2.7.1
+        image: registry.lan/argocd:v2.7.1-ksops
         imagePullPolicy: IfNotPresent
         args:
           - /usr/local/bin/argocd-repo-server
@@ -152,6 +152,8 @@ spec:
             value: /helm-working-dir
           - name: HELM_DATA_HOME
             value: /helm-working-dir
+          - name: SOPS_AGE_KEY_FILE
+            value: /home/argocd/.sops/key.txt
         ports:
         - containerPort: 8081
         - containerPort: 8084
@@ -202,13 +204,17 @@ spec:
           name: helm-working-dir
         - mountPath: /home/argocd/cmp-server/plugins
           name: plugins
+        - name: sops-key
+          readOnly: true
+          mountPath: "/home/argocd/.sops/key.txt"
+          subPath: "key.txt"
       initContainers:
       - command:
         - /bin/cp
         - -n
         - /usr/local/bin/argocd
         - /var/run/argocd/argocd-cmp-server
-        image: registry.lan/argocd:v2.7.1
+        image: registry.lan/argocd:v2.7.1-ksops
         name: copyutil
         securityContext:
           runAsNonRoot: true
@@ -253,6 +259,9 @@ spec:
           name: var-files
         - emptyDir: {}
           name: plugins
+        - name: sops-key
+          secret:
+            secretName: sops-key
       nodeSelector:
         capability/general-purpose: 'yes'
       affinity:

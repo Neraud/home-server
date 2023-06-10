@@ -18,3 +18,5 @@ app_gitops_path: "{{ role_path }}/../../../../apps/base/{{ app_name }}"
 app_build_path: "{{ app_gitops_path }}/build"
 app_overlay_path: "{{ role_path }}/../../../../apps/vagrant/{{ app_name }}"
 app_deploy_path: "{{ app_overlay_path }}/deploy"
+
+sops_age_key_file: /path/to/key.txt

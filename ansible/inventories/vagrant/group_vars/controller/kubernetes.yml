@@ -3,6 +3,11 @@ kubeconfig_path: "{{ controller_working_dir }}/.kube/config"
 kubeconfig_context: kubernetes-admin@kubernetes_vagrant
 kubectl_params: "--kubeconfig {{ kubeconfig_path }} --context {{ kubeconfig_context }}"
 
+sops_age_key_file: /root/.sops/key.txt
+sops_age_key_content: |
+  # public key: age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn
+  AGE-SECRET-KEY-1NE82LZT79C2YRS7DYLUQ9KYVMPURJEXW709WQ638H79JJUYU8DKSWCRGF0
+
 kubernetes_nfs_storage:
   nfs-multimedia:
     nfs_server: "{{ hostvars[groups.controller[0]].ansible_host }}"

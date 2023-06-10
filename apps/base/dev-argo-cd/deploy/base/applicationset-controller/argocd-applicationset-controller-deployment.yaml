@@ -20,7 +20,7 @@ spec:
       containers:
         - args:
             - /usr/local/bin/argocd-applicationset-controller
-          image: registry.lan/argocd:v2.7.1
+          image: registry.lan/argocd:v2.7.1-ksops
           imagePullPolicy: IfNotPresent
           name: argocd-applicationset-controller
           ports:

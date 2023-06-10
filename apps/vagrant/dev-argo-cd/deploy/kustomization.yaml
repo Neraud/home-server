@@ -14,10 +14,8 @@ configMapGenerator:
   - config/dex.config
   behavior: merge
 
-secretGenerator:
-- name: argocd-secret
-  env: config/argocd.secret.env
-  behavior: replace
+generators:
+- argocd-secret-generator.yaml
 
 patches:
 - path: argocd-application-controller-statefulset-resources.yaml

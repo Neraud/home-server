@@ -20,7 +20,7 @@ spec:
       serviceAccountName: argocd-dex-server
       initContainers:
       - name: copyutil
-        image: registry.lan/argocd:v2.7.1
+        image: registry.lan/argocd:v2.7.1-ksops
         imagePullPolicy: IfNotPresent
         command: [/bin/cp, -n, /usr/local/bin/argocd, /shared/argocd-dex]
         volumeMounts:

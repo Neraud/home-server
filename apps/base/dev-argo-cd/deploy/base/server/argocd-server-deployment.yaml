@@ -20,7 +20,7 @@ spec:
       serviceAccountName: argocd-server
       containers:
       - name: argocd-server
-        image: registry.lan/argocd:v2.7.1
+        image: registry.lan/argocd:v2.7.1-ksops
         imagePullPolicy: IfNotPresent
         args:
           - /usr/local/bin/argocd-server

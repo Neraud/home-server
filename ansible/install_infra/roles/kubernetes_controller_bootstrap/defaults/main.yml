@@ -8,3 +8,8 @@ kubernetes_users:
   - name: "{{ standard_user.name }}"
     home: "{{ standard_user.home }}"
     install_autocomplete: yes
+
+sops_version: 3.7.3
+ksops_version: 4.2.1
+sops_age_key_file: /path/to/key.txt
+sops_age_key_content: CHANGEME

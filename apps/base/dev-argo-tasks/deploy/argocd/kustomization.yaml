@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - argocd-server-tls-cert.yaml
 - argocd-ci-token.yaml
+- sops-key.yaml

@@ -202,7 +202,7 @@ spec:
         command: ["/kaniko/executor"]
         args:
           - --cache
-          - --cache-copy-layers
+          #- --cache-copy-layers # kaniko does not support caching copy layers in multistage builds
           - --cache-repo=registry.lan/{{inputs.parameters.image_name}}-cache
           - --reproducible
           - --context=/source/apps/base/{{inputs.parameters.app_name}}/build/{{inputs.parameters.build_folder}}
@@ -218,10 +218,10 @@ spec:
         resources:
           requests:
             cpu: 250m
-            memory: 1024Mi
+            memory: 1536Mi
           limits:
             cpu: 1
-            memory: 1024Mi
+            memory: 2048Mi
         securityContext:
           # Some commands in Dockerfile fail without privileged :/
           privileged: true
@@ -244,7 +244,7 @@ spec:
         parameters:
         - name: app_name
       script:
-        image: registry.lan/argocd:v2.7.1
+        image: registry.lan/argocd:v2.7.1-ksops
         command: [bash]
         env:
         - name: ARGOCD_AUTH_TOKEN
@@ -307,7 +307,7 @@ spec:
         - name: apps_source_overlay
           path: /source/apps/overlay
       script:
-        image: registry.lan/argocd:v2.7.1
+        image: registry.lan/argocd:v2.7.1-ksops
         command: [bash]
         env:
         - name: ARGOCD_AUTH_TOKEN
@@ -319,6 +319,8 @@ spec:
           value: "argocd-server.dev-argo-cd.svc.cluster.local"
         - name: ARGOCD_OPTS
           value: "--server-crt /etc/ssl/argocd/server.crt"
+        - name: SOPS_AGE_KEY_FILE
+          value: "/home/argocd/.sops/key.txt"
         source: |
           #!/bin/bash
           set -euo pipefail
@@ -334,7 +336,7 @@ spec:
           # see https://github.com/argoproj/argo-cd/issues/10936
           echo "Generate manifests with Kustomize"
           mkdir /tmp/manifests
-          kustomize build /source/apps/overlay/{{inputs.parameters.app_name}}/deploy > /tmp/manifests/manifest.yaml
+          kustomize build --enable-alpha-plugins --enable-exec /source/apps/overlay/{{inputs.parameters.app_name}}/deploy > /tmp/manifests/manifest.yaml
           echo "----------------------------------------------------------------------------------------------------"
 
           echo "----------------------------------------------------------------------------------------------------"
@@ -362,9 +364,16 @@ spec:
         - name: tmp-volume
           mountPath: /.config
           subPath: config
+        - name: sops-key
+          readOnly: true
+          mountPath: "/home/argocd/.sops/key.txt"
+          subPath: "key.txt"
       volumes:
       - name: argocd-server-cert
         secret:
           secretName: argocd-server-cert
+      - name: sops-key
+        secret:
+          secretName: sops-key
       - name: tmp-volume
         emptyDir: {}
