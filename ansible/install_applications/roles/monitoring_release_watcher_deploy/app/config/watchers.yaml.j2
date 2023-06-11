@@ -66,9 +66,9 @@ watchers:
   # Apps : Auth #
   ###############
   - type: docker_registry
-    repo: {{ lemonldap.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ lemonldap.base_image.name }}
-    tag: {{ lemonldap.base_image.tag }}
+    repo: "registry-1.docker.io"
+    image: "coudot/lemonldap-ng"
+    tag: "2.16.1"
     excludes:
       - latest
       - ^1\.

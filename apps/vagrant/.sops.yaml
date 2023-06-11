@@ -1,3 +1,9 @@
 creation_rules:
+- path_regex: "auth-lemonldap/deploy/config/lmConf\\.json$"
+  encrypted_regex: "^(managerPassword|SMTPAuthPass)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
+
+# Default Kubernetes manifest encryption
 - unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
   age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"

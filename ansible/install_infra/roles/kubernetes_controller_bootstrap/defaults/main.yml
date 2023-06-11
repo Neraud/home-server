@@ -12,4 +12,5 @@ kubernetes_users:
 sops_version: 3.7.3
 ksops_version: 4.2.1
 sops_age_key_file: /path/to/key.txt
+# Generate using : age-keygen -o key.txt
 sops_age_key_content: CHANGEME

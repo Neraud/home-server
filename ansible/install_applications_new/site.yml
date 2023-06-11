@@ -3,21 +3,10 @@
   hosts: controller
   gather_facts: no
   roles:
-    - role: cluster-kubernetes-replicator
-      tags: kubernetes-app-cluster-kubernetes-replicator
-      when: kubernetes_replicator_enabled | bool
-    - role: dev-minio
-      tags: kubernetes-app-dev-minio
-      when: minio_enabled | bool
-    - role: dev-argo-workflows
-      tags: kubernetes-app-dev-argo-workflows
-      when: argo_workflows_enabled | bool
-    - role: dev-argo-events
-      tags: kubernetes-app-dev-argo-events
-      when: argo_events_enabled | bool
-    - role: dev-argo-cd
-      tags: kubernetes-app-dev-argo-cd
-      when: argo_cd_enabled | bool
-    - role: dev-argo-tasks
-      tags: kubernetes-app-dev-argo-tasks
-      when: argo_tasks_enabled | bool
+    - { role: cluster-kubernetes-replicator, tags: kubernetes-app-cluster-kubernetes-replicator, when: kubernetes_replicator_enabled | bool }
+    - { role: dev-minio,                     tags: kubernetes-app-dev-minio,                     when: minio_enabled | bool }
+    - { role: dev-argo-workflows,            tags: kubernetes-app-dev-argo-workflows,            when: argo_workflows_enabled | bool }
+    - { role: dev-argo-events,               tags: kubernetes-app-dev-argo-events,               when: argo_events_enabled | bool }
+    - { role: dev-argo-cd,                   tags: kubernetes-app-dev-argo-cd,                   when: argo_cd_enabled | bool }
+    - { role: dev-argo-tasks,                tags: kubernetes-app-dev-argo-tasks,                when: argo_tasks_enabled | bool }
+    - { role: auth-lemonldap,                tags: kubernetes-app-auth-lemonldap,                when: lemonldap_enabled | bool }

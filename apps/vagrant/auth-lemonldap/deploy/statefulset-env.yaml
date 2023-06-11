@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lemonldap
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: lemonldap
+        env:
+        - name: SSODOMAIN
+          value: "k8s.test"
+        - name: PORTAL_HOSTNAME
+          value: "lemonldap.auth.k8s.test"
+        - name: MANAGER_HOSTNAME
+          value: "lemonldap.auth.intra.k8s.test"

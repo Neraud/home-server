@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lemonldap
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: lemonldap
+      app.kubernetes.io/component: lemonldap
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: lemonldap
+        app.kubernetes.io/component: lemonldap
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/lemonldap-ng:2.16.1-custom"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /var/lib/lemonldap-ng-pv/sessions/lock
+            mkdir -p /var/lib/lemonldap-ng-pv/psessions/lock
+            mkdir -p /var/lib/lemonldap-ng-pv/notifications
+            chown -R www-data:www-data /var/lib/lemonldap-ng-pv
+        volumeMounts:
+        - name: lemonldap-data
+          mountPath: /var/lib/lemonldap-ng-pv
+      containers:
+      - name: lemonldap
+        image: "registry.lan/lemonldap-ng:2.16.1-custom"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 9000
+          name: fastcgi
+        env:
+        - name: SSODOMAIN
+          value: "web_domain_name"
+        - name: FASTCGI_LISTEN_PORT
+          value: "9000"
+        - name: PORTAL_HOSTNAME
+          value: "lemonldap.auth.web_domain_name"
+        - name: MANAGER_HOSTNAME
+          value: "lemonldap.auth.intra.web_domain_name"
+        - name: LOGLEVEL
+          value: "info"
+        securityContext:
+          # lemnldap requires root and a writable root filesystem
+          #runAsNonRoot: true
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "384Mi"
+          limits:
+            cpu: "150m"
+            memory: "384Mi"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: lemonldap-data
+          mountPath: /var/lib/lemonldap-ng-pv
+        - name: lmconf-volume
+          mountPath: /var/lib/lemonldap-ng/conf/lmConf-2.json
+          subPath: lmConf.json
+        - name: cluster-ca-volume
+          mountPath: /var/lib/lemonldap-ng/server-certs/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: lemonldap-data
+        persistentVolumeClaim:
+          claimName: lemonldap-data
+      - name: lmconf-volume
+        secret:
+          secretName: lemonldap-lmconf
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

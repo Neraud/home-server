@@ -1,0 +1,586 @@
+{
+    "cfgAuthor": "Neraud",
+    "cfgNum": 2,
+    "cfgDate": "1627287638",
+    "cfgVersion": "2.0.13",
+
+    "portal": "https://lemonldap.auth.web_domain_name/",
+
+    "applicationList": {
+        "2administration": {
+            "catname": "Administration",
+            "manager": {
+                "options": {
+                    "description": "Configure LemonLDAP::NG WebSSO",
+                    "display": "auto",
+                    "logo": "configure.png",
+                    "name": "WebSSO Manager",
+                    "uri": "https://lemonldap.auth.intra.web_domain_name/manager.html"
+                },
+                "type": "application"
+            },
+            "notifications": {
+                "options": {
+                    "description": "Explore WebSSO notifications",
+                    "display": "auto",
+                    "logo": "database.png",
+                    "name": "Notifications explorer",
+                    "uri": "https://lemonldap.auth.intra.web_domain_name/notifications.html"
+                },
+                "type": "application"
+            },
+            "sessions": {
+                "options": {
+                    "description": "Explore WebSSO sessions",
+                    "display": "auto",
+                    "logo": "database.png",
+                    "name": "Sessions explorer",
+                    "uri": "https://lemonldap.auth.intra.web_domain_name/sessions.html"
+                },
+                "type": "application"
+            },
+            "type": "category"
+        },
+        "3documentation": {
+            "catname": "Documentation",
+            "localdoc": {
+                "options": {
+                    "description": "Documentation supplied with LemonLDAP::NG",
+                    "display": "on",
+                    "logo": "help.png",
+                    "name": "Local documentation",
+                    "uri": "https://lemonldap.auth.intra.web_domain_name/manager/doc/"
+                },
+                "type": "application"
+            },
+            "officialwebsite": {
+                "options": {
+                    "description": "Official LemonLDAP::NG Website",
+                    "display": "on",
+                    "logo": "network.png",
+                    "name": "Official Website",
+                    "uri": "http://lemonldap-ng.org/"
+                },
+                "type": "application"
+            },
+            "type": "category"
+        }
+    },
+
+    "portalDisplayLogout": 1,
+    "portalDisplayChangePassword": "$_auth =~ /^(LDAP|DBI|Demo)$/",
+    "portalDisplayAppslist": 1,
+    "portalDisplayLoginHistory": 1,
+    "portalDisplayOidcConsents": "$_oidcConnectedRP",
+
+    "portalMainLogo": "common/logos/logo_llng_400px.png",
+    "showLanguages": 1,
+    "portalSkin": "bootstrap",
+    "portalSkinBackground": "1280px-Cedar_Breaks_National_Monument_partially.jpg",
+    "portalSkinRules": {},
+
+    "portalCheckLogins": 1,
+    "portalDisplayResetPassword": 1,
+    "passwordResetAllowedRetries": 3,
+    "portalDisplayRegister": 1,
+
+    "portalRequireOldPassword": 1,
+    "hideOldPassword": 0,
+    "mailOnPasswordChange": 1,
+
+    "portalUserAttr": "_user",
+    "portalOpenLinkInNewWindow": 0,
+    "portalAntiFrame": 1,
+    "portalPingInterval": 60000,
+    "portalErrorOnExpiredSession": 1,
+    "portalErrorOnMailNotFound": 0,
+
+    "captcha_login_enabled": 0,
+    "captcha_mail_enabled": 1,
+    "captcha_register_enabled": 1,
+    "captcha_size": 6,
+
+
+    "authentication": "LDAP",
+    "userDB": "LDAP",
+    "passwordDB": "LDAP",
+    "registerDB": "LDAP",
+
+    "ldapAuthnLevel": 1,
+    "ldapExportedVars": {
+        "uid": "uid",
+        "mail": "mail",
+        "cn": "cn"
+    },
+
+    "ldapServer": "ldap+tls://openldap.auth-openldap.svc.cluster.local/cafile=/var/lib/lemonldap-ng/server-certs/ca.crt",
+    "ldapPort": 389,
+    "ldapBase": "dc=ldap,dc=domain",
+    "managerDn": "cn=readonly,dc=ldap,dc=domain",
+    "managerPassword": "changeme",
+    "ldapTimeout": 30,
+    "ldapVersion": 3,
+    "ldapRaw": "",
+
+    "LDAPFilter": "",
+    "AuthLDAPFilter": "(&(uid=$user)(objectClass=inetOrgPerson))",
+    "mailLDAPFilter": "(&(mail=$mail)(objectClass=inetOrgPerson))",
+    "ldapSearchDeref": "find",
+
+    "ldapGroupBase": "ou=sso_groups,dc=ldap,dc=domain",
+    "ldapGroupObjectClass": "groupOfUniqueNames",
+    "ldapGroupAttributeName": "uniqueMember",
+    "ldapGroupAttributeNameUser": "dn",
+    "ldapGroupAttributeNameSearch": "cn",
+    "ldapGroupDecodeSearchedValue": 0,
+    "ldapGroupRecursive": 0,
+    "ldapGroupAttributeNameGroup": "dn",
+
+    "ldapPpolicyControl": 1,
+    "ldapSetPassword": 0,
+    "ldapChangePasswordAsUser": 1,
+    "ldapPwdEnc": "utf-8",
+    "ldapUsePasswordResetAttribute": 1,
+    "ldapPasswordResetAttribute": "pwdReset",
+    "ldapPasswordResetAttributeValue": "TRUE",
+    "ldapAllowResetExpiredPassword": 1,
+
+    "whatToTrace": "_whatToTrace",
+    "hiddenAttributes": "_password",
+
+    "cookieName": "lemonldap",
+    "domain": "web_domain_name",
+    "cda": 0,
+    "securedCookie": 0,
+    "httpOnly": 1,
+    "cookieExpiration": 0,
+
+    "storePassword": 0,
+    "timeout": 72000,
+    "timeoutActivity": 0,
+    "timeoutActivityInterval": 60,
+    "grantSessionRules": {},
+
+    "globalStorage": "Apache::Session::File",
+    "globalStorageOptions": {
+        "Directory": "/var/lib/lemonldap-ng-pv/sessions",
+        "generateModule": "Lemonldap::NG::Common::Apache::Session::Generate::SHA256",
+        "LockDirectory": "/var/lib/lemonldap-ng-pv/sessions/lock"
+    },
+    "localSessionStorage": "Cache::FileCache",
+    "localSessionStorageOptions": {
+        "cache_depth": 3,
+        "cache_root": "/tmp",
+        "default_expires_in": 600,
+        "directory_umask": "007",
+        "namespace": "lemonldap-ng-sessions"
+    },
+
+    "singleSession": 0,
+    "singleIP": 0,
+    "singleUserByIP": 0,
+    "singleSessionUserByIP": 0,
+    "notifyDeleted": 1,
+    "notifyOther": 0,
+
+    "persistentStorage": "Apache::Session::File",
+    "persistentStorageOptions": {
+        "Directory": "/var/lib/lemonldap-ng-pv/psessions",
+        "LockDirectory": "/var/lib/lemonldap-ng-pv/psessions/lock"
+    },
+
+    "reloadUrls": {
+        "localhost": "https://lemonldap.auth.intra.web_domain_name/reload"
+    },
+    "reloadTimeout": 5,
+
+
+    "stayConnected": 0,
+    "portalStatus": 0,
+    "upgradeSession": 1,
+
+    "wsdlServer": 0,
+    "restSessionServer": 0,
+    "restConfigServer": 0,
+    "soapSessionServer": 0,
+    "soapConfigServer": 0,
+    "exportedAttr": "",
+
+    "loginHistoryEnabled": 1,
+    "successLoginNumber": 5,
+    "failedLoginNumber": 5,
+    "sessionDataToRemember": {},
+
+    "notification": 1,
+    "notificationServer": 0,
+    "oldNotifFormat": 0,
+    "notificationStorage": "File",
+    "notificationStorageOptions": {
+        "dirName": "/var/lib/lemonldap-ng-pv/notifications"
+    },
+    "notificationWildcard": "allusers",
+    "notificationXSLTfile": "",
+
+    "mailSubject": "",
+    "mailBody": "",
+    "mailConfirmSubject": "",
+    "mailConfirmBody": "",
+    "mailUrl": "https://lemonldap.auth.web_domain_name/resetpwd",
+
+    "mailTimeout": 0,
+    "randomPasswordRegexp": "[A-Z]{3}[a-z]{5}.\\d{2}",
+
+    "registerUrl": "https://lemonldap.auth.web_domain_name/register",
+    "registerTimeout": 0,
+    "registerConfirmSubject": "",
+    "registerDoneSubject": "",
+
+    "autoSigninRules": {},
+
+    "checkState": 0,
+    "checkStateSecret": "",
+
+
+    "available2FSelfRegistration": "TOTP,U2F,Yubikey",
+    "available2F": "UTOTP,TOTP,U2F,REST,Mail2F,Ext2F,Yubikey",
+    "max2FDevices": 10,
+    "max2FDevicesNameLength": 20,
+    "sfEngine": "::2F::Engines::Default",
+    "sfRequired": 0,
+
+
+    "utotp2fActivation": 0,
+    "utotp2fAuthnLevel": 4,
+
+    "totp2fActivation": 1,
+    "totp2fSelfRegistration": 1,
+    "totp2fAuthnLevel": 4,
+    "totp2fIssuer": "web_domain_name",
+    "totp2fInterval": 30,
+    "totp2fRange": 1,
+    "totp2fDigits": 6,
+    "totp2fDisplayExistingSecret": 0,
+    "totp2fUserCanChangeKey": 0,
+    "totp2fUserCanRemoveKey": 1,
+
+    "u2fActivation": 0,
+    "u2fSelfRegistration": 0,
+    "u2fAuthnLevel": 4,
+    "u2fUserCanRemoveKey": 1,
+
+    "mail2fActivation": 0,
+    "mail2fCodeRegex": "\\d{6}",
+    "mail2fTimeout": 120,
+    "mail2fSubject": "",
+    "mail2fBody": "",
+    "mail2fAuthnLevel": 2,
+    "mail2fLogo": "",
+
+    "ext2fActivation": 0,
+    "ext2FSendCommand": "",
+    "ext2FValidateCommand": "",
+    "ext2fAuthnLevel": 2,
+    "ext2fLogo": "",
+
+    "rest2fActivation": 0,
+    "rest2fInitUrl": "http://disabled",
+    "rest2fInitArgs": {},
+    "rest2fVerifyUrl": "",
+    "rest2fVerifyArgs": {},
+    "rest2fAuthnLevel": 2,
+    "rest2fLogo": "",
+
+    "yubikey2fActivation": 0,
+    "yubikey2fSelfRegistration": 0,
+    "yubikey2fAuthnLevel": 4,
+    "yubikey2fClientID": "",
+    "yubikey2fSecretKey": "",
+    "yubikey2fNonce": "",
+    "yubikey2fUrl": "",
+    "yubikey2fPublicIDSize": 12,
+    "yubikey2fUserCanRemoveKey": 1,
+
+
+    "customFunctions": "",
+    "multiValuesSeparator": "; ",
+    "nginxCustomHandlers": {},
+    "logoutServices": {},
+
+    "mailSessionKey": "mail",
+    "SMTPServer": "zonemta.infra-zonemta.svc.cluster.local",
+    "SMTPPort": 587,
+    "SMTPAuthUser": "smtp",
+    "SMTPAuthPass": "changeme",
+    "SMTPTLS": "starttls",
+    "SMTPTLSOpts": {
+        "SSL_ca_file": "/var/lib/lemonldap-ng/server-certs/ca.crt"
+    },
+    "mailFrom": "noreply@web_domain_name",
+    "mailReplyTo": "noreply@web_domain_name",
+    "mailCharset": "utf-8",
+
+    "userControl": "^[\\w\\.\\-@]+$",
+    "portalForceAuthn": 0,
+    "portalForceAuthnInterval": 5,
+
+    "trustedDomains": "",
+    "useSafeJail": 1,
+    "checkXSS": 1,
+    "bruteForceProtection": 0,
+    "bruteForceProtectionTempo": 30,
+    "bruteForceProtectionMaxFailed": 3,
+    "bruteForceProtectionMaxAge": 300,
+    "requireToken": 1,
+    "formTimeout": 120,
+    "tokenUseGlobalStorage": 0,
+    "lwpOpts": {},
+    "lwpSslOpts": {},
+
+    "cspDefault": "'self'",
+    "cspImg": "'self' data:",
+    "cspScript": "'self'",
+    "cspStyle": "'self'",
+    "cspFont": "'self'",
+    "cspFormAction": "'self'",
+    "cspConnect": "'self'",
+
+    "https": -1,
+    "port": -1,
+    "useRedirectOnForbidden": 0,
+    "useRedirectOnError": 1,
+    "maintenance": 0,
+
+    "jsRedirect": 0,
+    "noAjaxHook": 0,
+    "skipRenewConfirmation": 0,
+
+    "infoFormMethod": "get",
+    "confirmFormMethod": "post",
+    "redirectFormMethod": "get",
+    "activeTimer": 1,
+
+    "exportedVars": {},
+    "macros": {
+        "_whatToTrace": "$_auth eq 'SAML' ? \"$_user\\@$_idpConfKey\" : $_auth eq 'OpenIDConnect' ? \"$_user\\@$_oidcConnectedRP\" : \"$_user\"",
+        "UA": "$ENV{HTTP_USER_AGENT}"
+    },
+    "groups": {},
+    "locationRules": {
+        "*.infra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'infra')"
+        },
+        "ntfy.infra.web_domain_name": {
+            "default": "skip"
+        },
+        "*.infra.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'infra')"
+        },
+        "*.auth.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'infra')"
+        },
+        "*.log.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'infra')"
+        },
+        "*.monitoring.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'infra')"
+        },
+        "*.dev.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'dev')"
+        },
+        "gitea.dev.intra.web_domain_name": {
+            "default": "skip"
+        },
+        "*.dl.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'dl')"
+        },
+        "*.home.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'home')"
+        },
+        "*.home.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'home')"
+        },
+        "homeassistant.home.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'home')",
+            "(?#00-HomeAssistant_API)^/api/": "skip",
+            "(?#00-HomeAssistant_OAuth)^/auth/token": "skip"
+        },
+        "*.stream.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'stream')"
+        },
+        "jellyfin.stream.intra.web_domain_name": {
+            "default": "skip"
+        },
+        "*.web.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'web')"
+        },
+        "*.tool.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'tool')"
+        },
+        "*.tool.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'tool')"
+        },
+        "syncthing.tool.intra.web_domain_name": {
+            "default": "groupMatch($hGroups, 'cn', 'syncthing')"
+        },
+        "nextcloud.tool.intra.web_domain_name": {
+            "default": "skip"
+        }
+    },
+    "exportedHeaders": {
+        "*.infra.web_domain_name": {},
+        "ntfy.infra.web_domain_name": {},
+        "*.infra.intra.web_domain_name": {},
+        "*.auth.intra.web_domain_name": {},
+        "*.log.intra.web_domain_name": {},
+        "*.monitoring.intra.web_domain_name": {},
+        "*.dev.intra.web_domain_name": {},
+        "gitea.dev.intra.web_domain_name": {},
+        "*.dl.intra.web_domain_name": {},
+        "*.home.web_domain_name": {},
+        "*.home.intra.web_domain_name": {},
+        "homeassistant.home.web_domain_name": {},
+        "*.stream.intra.web_domain_name": {},
+        "jellyfin.stream.intra.web_domain_name": {},
+        "*.web.web_domain_name": {},
+        "*.tool.web_domain_name": {},
+        "*.tool.intra.web_domain_name": {},
+        "syncthing.tool.intra.web_domain_name": {},
+        "nextcloud.tool.intra.web_domain_name": {}
+    },
+    "vhostOptions": {
+        "*.infra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "ntfy.infra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.infra.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.auth.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.log.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.monitoring.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.dev.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "gitea.dev.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.dl.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.home.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.home.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "homeassistant.home.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.stream.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "jellyfin.stream.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.web.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.tool.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "*.tool.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "syncthing.tool.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        },
+        "nextcloud.tool.intra.web_domain_name": {
+            "vhostType": "Main",
+            "vhostPort": -1,
+            "vhostMaintenance": 0,
+            "vhostAuthnLevel": 1,
+            "vhostHttps": -1
+        }
+    }
+
+}

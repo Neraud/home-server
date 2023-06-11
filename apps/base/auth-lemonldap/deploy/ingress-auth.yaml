@@ -2,18 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: lemonldap-auth
-  namespace: {{ lemonldap.namespace }}
-  labels:
-    {{ lemonldap.labels_def | to_nice_yaml() | indent(4) }}
-    {{ lemonldap.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - lemonldap.auth.{{ web_base_domain }}
+      - lemonldap.auth.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: lemonldap.auth.{{ web_base_domain }}
+  - host: lemonldap.auth.web_domain_name
     http:
       paths:
       - path: /
