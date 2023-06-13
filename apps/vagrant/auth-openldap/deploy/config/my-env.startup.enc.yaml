@@ -1,0 +1,73 @@
+# This is the default image startup configuration file
+# this file define environment variables used during the container **first start** in **startup files**.
+# This file is deleted right after startup files are processed for the first time,
+# after that all these values will not be available in the container environment.
+# This helps to keep your container configuration secret.
+# more information : https://github.com/osixia/docker-light-baseimage
+# Required and used for new ldap server only
+LDAP_ORGANISATION: k8s.test
+LDAP_DOMAIN: k8s.test
+#if empty automatically set from LDAP_DOMAIN
+LDAP_BASE_DN: dc=k8s,dc=test
+LDAP_ADMIN_PASSWORD: ENC[AES256_GCM,data:2Sc0Txz/Nuc=,iv:j8EUOz1z/fCdeWKEiSUiW0wXgkgYNWyb73+hTJ0d6Ek=,tag:N7PiyMxBJUWgYINuiT5I1A==,type:str]
+LDAP_CONFIG_PASSWORD: ENC[AES256_GCM,data:iFSru+hF+FM=,iv:AXuRqGicR9gL1NQgo4/QrU4+Za0vpTxLyHVH5NYf0v0=,tag:JlXQKLlEgwD2u5z18Z4tLQ==,type:str]
+LDAP_READONLY_USER: true
+LDAP_READONLY_USER_USERNAME: readonly
+LDAP_READONLY_USER_PASSWORD: ENC[AES256_GCM,data:68MOmBw0clQ=,iv:zFN9CPnic25bgoxC01rJM+HR02wj3EOVWsW0bAi9vC8=,tag:PWH2uhxufqDM8tlmR0r6fw==,type:str]
+LDAP_RFC2307BIS_SCHEMA: false
+# Backend
+LDAP_BACKEND: mdb
+# Tls
+LDAP_TLS: true
+LDAP_TLS_CRT_FILENAME: tls.crt
+LDAP_TLS_KEY_FILENAME: tls.key
+LDAP_TLS_DH_PARAM_FILENAME: dhparam.pem
+LDAP_TLS_CA_CRT_FILENAME: ca.crt
+LDAP_TLS_ENFORCE: true
+LDAP_TLS_CIPHER_SUITE: SECURE256:+SECURE128:-VERS-TLS-ALL:+VERS-TLS1.2:-RSA:-DHE-DSS:-CAMELLIA-128-CBC:-CAMELLIA-256-CBC
+LDAP_TLS_VERIFY_CLIENT: allow
+# Replication
+LDAP_REPLICATION: false
+# variables $LDAP_BASE_DN, $LDAP_ADMIN_PASSWORD, $LDAP_CONFIG_PASSWORD
+# are automaticaly replaced at run time
+# if you want to add replication to an existing ldap
+# adapt LDAP_REPLICATION_CONFIG_SYNCPROV and LDAP_REPLICATION_DB_SYNCPROV to your configuration
+# avoid using $LDAP_BASE_DN, $LDAP_ADMIN_PASSWORD and $LDAP_CONFIG_PASSWORD variables
+LDAP_REPLICATION_CONFIG_SYNCPROV: binddn="cn=admin,cn=config" bindmethod=simple credentials=$LDAP_CONFIG_PASSWORD searchbase="cn=config" type=refreshAndPersist retry="60 +" timeout=1 starttls=critical
+LDAP_REPLICATION_DB_SYNCPROV: binddn="cn=admin,$LDAP_BASE_DN" bindmethod=simple credentials=$LDAP_ADMIN_PASSWORD searchbase="$LDAP_BASE_DN" type=refreshAndPersist interval=00:00:00:10 retry="60 +" timeout=1 starttls=critical
+LDAP_REPLICATION_HOSTS:
+    # The order must be the same on all ldap servers
+    - ldap://ldap.example.org
+    - ldap://ldap2.example.org
+# Do not change the ldap config
+# - If set to true with an existing database, config will remain unchanged. Image tls and replication config will not be run.
+#   The container can be started with LDAP_ADMIN_PASSWORD and LDAP_CONFIG_PASSWORD empty or filled with fake data.
+# - If set to true when bootstrapping a new database, bootstap ldif and schema will not be added and tls and replication config will not be run.
+KEEP_EXISTING_CONFIG: false
+# Remove config after setup
+LDAP_REMOVE_CONFIG_AFTER_SETUP: true
+# ssl-helper environment variables prefix
+# ssl-helper first search config from LDAP_SSL_HELPER_* variables, before SSL_HELPER_* variables.
+LDAP_SSL_HELPER_PREFIX: ldap
+# Do not perform any chown to fix file ownership 
+DISABLE_CHOWN: false
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBOZzN2Tmp3M1hYU3NsazJ0
+            YjdGeVNybWRNZTdDV0JRUHRScE8rM04vWGpBCmwydFNGLzhvUEs3VEc3SnZjSVd5
+            dm1ST1B1d1Q5UEhmcE1OMUwwT1dSWU0KLS0tIG1EQ3RTdit4Z1JXYmxLeDB6UzNy
+            a3JyVnpwSDZiNUV1SEJWakc3eVRmRlUKurBH02rzzWyuHR9e2jTcc8mmRrZbepKA
+            JwgUOlp+34C6F5q8MRSpEt69Ptj/DamIhYONfrMAdzSd1sl9uBPwXA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2023-06-13T20:49:33Z"
+    mac: ENC[AES256_GCM,data:0xEwlIyVQieWE9v6CFgG+ZTtw17pOFyS0ruCNHpaCvX9nsY3PfHDn/Bu/BnxQ0td0guGOHxihCXQyN+KOpTT4U0tOZndNTLdAgy4s1GA3jpXJNBvw/0jCkr8M/9TSIo4xttSAVqcNOXx5VboQ+zBpGtDJWiHf9z8hXPiQEy1+Xo=,iv:F1Nv8WXzTZFAFjnROwQqZDs5F+IKiS+m+aSgaJG9P8Q=,tag:ZJM1kCHI8PvaoXUjzQP5cg==,type:str]
+    pgp: []
+    encrypted_regex: ^(LDAP_ADMIN_PASSWORD|LDAP_CONFIG_PASSWORD|LDAP_READONLY_USER_PASSWORD)$
+    version: 3.7.3

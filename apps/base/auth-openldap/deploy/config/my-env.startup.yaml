@@ -7,17 +7,17 @@
 # more information : https://github.com/osixia/docker-light-baseimage
 
 # Required and used for new ldap server only
-LDAP_ORGANISATION: {{ openldap.ldap.organisation }}
-LDAP_DOMAIN: {{ openldap.ldap.domain }}
+LDAP_ORGANISATION: ldap.organization
+LDAP_DOMAIN: ldap.domain
 #if empty automatically set from LDAP_DOMAIN
-LDAP_BASE_DN: {{ openldap.ldap.basedn }}
+LDAP_BASE_DN: dc=ldap,dc=domain
 
-LDAP_ADMIN_PASSWORD: {{ openldap.ldap.admin_password }}
-LDAP_CONFIG_PASSWORD: {{ openldap.ldap.config_password }}
+LDAP_ADMIN_PASSWORD: changeme
+LDAP_CONFIG_PASSWORD: changeme
 
-LDAP_READONLY_USER: {{ openldap.ldap.readonly_user_enabled | ternary('true', 'false') }}
-LDAP_READONLY_USER_USERNAME: {{ openldap.ldap.readonly_user_username }}
-LDAP_READONLY_USER_PASSWORD: {{ openldap.ldap.readonly_user_password }}
+LDAP_READONLY_USER: true
+LDAP_READONLY_USER_USERNAME: readonly
+LDAP_READONLY_USER_PASSWORD: changeme
 
 LDAP_RFC2307BIS_SCHEMA: false
 
@@ -26,8 +26,8 @@ LDAP_BACKEND: mdb
 
 # Tls
 LDAP_TLS: true
-LDAP_TLS_CRT_FILENAME: server.crt
-LDAP_TLS_KEY_FILENAME: server.key
+LDAP_TLS_CRT_FILENAME: tls.crt
+LDAP_TLS_KEY_FILENAME: tls.key
 LDAP_TLS_DH_PARAM_FILENAME: dhparam.pem
 LDAP_TLS_CA_CRT_FILENAME: ca.crt
 

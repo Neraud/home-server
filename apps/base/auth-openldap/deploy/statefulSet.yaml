@@ -2,45 +2,42 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: openldap
-  namespace: {{ openldap.namespace }}
-  labels:
-    {{ openldap.labels_def | to_nice_yaml() | indent(4) }}
-    {{ openldap.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ openldap.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/component: openldap
+      app.kubernetes.io/name: openldap
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ openldap.labels_def | to_nice_yaml() | indent(8) }}
-        {{ openldap.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/component: openldap
+        app.kubernetes.io/name: openldap
     spec:
       containers:
       - name: openldap
-        image: "{{ openldap.private_image | image_full_name }}"
+        image: "registry.lan/openldap:1.5.0-amd64"
         imagePullPolicy: Always
         args: ["--copy-service"]
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: openldap-data-pv-claim
+        - name: openldap-data
           subPath: data
           mountPath: /var/lib/ldap
-        - name: openldap-data-pv-claim
+        - name: openldap-data
           subPath: conf
           mountPath: /etc/ldap/slapd.d
         - name: config-volume
           mountPath: /container/environment/01-custom
         - name: certs-volume
           mountPath: /container/service/slapd/assets/certs
-        - name: openldap-data-pv-claim
+        - name: openldap-data
           subPath: run
           mountPath: /container/run
         ports:
@@ -61,15 +58,18 @@ spec:
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ openldap.container.requests_cpu }}"
-            memory: "{{ openldap.container.requests_memory }}"
+            cpu: "50m"
+            memory: "128Mi"
           limits:
-            cpu: "{{ openldap.container.limits_cpu }}"
-            memory: "{{ openldap.container.limits_memory }}"
+            cpu: "150m"
+            memory: "128Mi"
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: openldap-data
+        persistentVolumeClaim:
+          claimName: openldap-data
       - name: config-volume
         secret:
           secretName: openldap-config
@@ -80,12 +80,3 @@ spec:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
-  volumeClaimTemplates:
-  - metadata:
-      name: openldap-data-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ openldap.container.storage.data }}

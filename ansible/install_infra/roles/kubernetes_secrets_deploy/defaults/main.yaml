@@ -13,6 +13,13 @@ openssl_custom_cert_secrets:
   kubernetes_replicator:
     push_full_to_namespaces:
     - .*
+- secret_name: "openldap"
+  pki_name: cluster
+  cert_name: ldap
+  include_dhparam: true
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - auth-openldap
 - secret_name: "argocd"
   pki_name: cluster
   cert_name: argocd

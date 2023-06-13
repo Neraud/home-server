@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/auth-openldap/deploy
+
+generators:
+- secret-generator.yaml
+
+patches:
+- path: statefulset-resources.yaml
+- path: service-ip.yaml
+- path: pvc-resources.yaml
