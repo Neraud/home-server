@@ -8,16 +8,14 @@ docker_private_registry:
 
 openssl_custom_cert_secrets:
 - secret_name: "ingress"
-  ca_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
-  cert_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.crt"
-  key_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ingress/server.key"
+  pki_name: cluster
+  cert_name: ingress
   kubernetes_replicator:
     push_full_to_namespaces:
     - .*
 - secret_name: "argocd"
-  ca_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
-  cert_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/argocd/server.crt"
-  key_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/argocd/server.key"
+  pki_name: cluster
+  cert_name: argocd
   kubernetes_replicator:
     pull_full_namespaces:
     - dev-argo-cd
