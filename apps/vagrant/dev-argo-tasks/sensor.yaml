@@ -30,7 +30,7 @@ spec:
           - path: body.ref
             type: string
             value:
-              - refs/heads/main
+              - refs/heads/develop
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
             value:
@@ -56,6 +56,6 @@ spec:
                     - name: base_git_repo
                       value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
                     - name: base_git_branch
-                      value: dev/gitops
+                      value: develop
                 workflowTemplateRef:
                   name: app-build-and-deploy

@@ -13,7 +13,7 @@ spec:
 
   source:
     repoURL: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
-    targetRevision: dev/gitops
+    targetRevision: develop
     path: apps/vagrant/auth-lemonldap/deploy
   
   destination:
