@@ -48,14 +48,14 @@ spec:
                 namespace: dev-argo-tasks
                 generateName: dev-argo-tasks-build-and-deploy-
               spec:
-                entrypoint: build-and-deploy-from-rsync
+                entrypoint: build-and-deploy-from-git
                 arguments:
                   parameters:
                     - name: app_name
                       value: dev-argo-tasks
-                    - name: git_repo
+                    - name: base_git_repo
                       value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
-                    - name: git_branch
+                    - name: base_git_branch
                       value: dev/gitops
                 workflowTemplateRef:
                   name: app-build-and-deploy
