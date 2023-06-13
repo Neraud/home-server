@@ -34,7 +34,7 @@ spec:
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
             value:
-              - "apps/dev-minio/.*"
+              - "apps/(base|vagrant)/ev-minio/.*"
   triggers:
     - template:
         name: argo-workflow-trigger

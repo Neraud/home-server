@@ -34,7 +34,7 @@ spec:
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
             value:
-              - "apps/dev-argo-tasks/.*"
+              - "apps/(base|vagrant)/dev-argo-tasks/.*"
   triggers:
     - template:
         name: argo-workflow-trigger

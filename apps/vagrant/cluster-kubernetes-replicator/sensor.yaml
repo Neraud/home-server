@@ -34,7 +34,7 @@ spec:
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
             value:
-              - "apps/cluster-kubernetes-replicator/.*"
+              - "apps/(base|vagrant)/cluster-kubernetes-replicator/.*"
   triggers:
     - template:
         name: argo-workflow-trigger
