@@ -10,10 +10,10 @@ spec:
     container:
       resources:
         requests:
-          cpu: 10m
+          cpu: 5m
           memory: 32Mi
         limits:
-          cpu: 25m
+          cpu: 100m # With lower than 75m, the workflow isn't triggered
           memory: 32Mi
     nodeSelector:
       capability/general-purpose: 'yes'
