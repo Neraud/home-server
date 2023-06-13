@@ -1,7 +1,7 @@
 ---
 - name: Generate application backup script
   ansible.builtin.template:
-    src: "{{ role_path }}/../app_base_deploy/templates/app_backup.sh.j2"
+    src: "{{ role_path }}/../app_base/templates/app_backup.sh.j2"
     dest: "{{ restic_backup_apps_scripts_dir }}/{{ app_backup.name }}.sh"
     mode: 0700
   delegate_to: "{{ groups['apps_backup_controller'][0] }}"
