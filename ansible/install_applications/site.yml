@@ -47,10 +47,6 @@
   tags: kubernetes-app-infra-gandi-livedns
   when: gandi_livedns_enabled | bool
 
-- import_playbook: app-auth-phpldapadmin.yml
-  tags: kubernetes-app-auth-phpldapadmin
-  when: phpldapadmin_enabled | bool
-
 - import_playbook: app-logging-elasticsearch.yml
   tags: kubernetes-app-logging-elasticsearch
   when: elasticsearch_enabled | bool

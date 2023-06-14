@@ -2,32 +2,50 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: phpldapadmin
-  namespace: {{ phpldapadmin.namespace }}
-  labels:
-    {{ phpldapadmin.labels_def | to_nice_yaml() | indent(4) }}
-    {{ phpldapadmin.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ phpldapadmin.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/component: phpldapadmin
+      app.kubernetes.io/name: phpldapadmin
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ phpldapadmin.labels_def | to_nice_yaml() | indent(8) }}
-        {{ phpldapadmin.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/component: phpldapadmin
+        app.kubernetes.io/name: phpldapadmin
     spec:
       containers:
-      - image: "{{ phpldapadmin.private_image | image_full_name }}"
+      - name: phpldapadmin
+        image: "registry.lan/phpldapadmin:7.3.33-apache-buster-1.2.6.6"
         imagePullPolicy: Always
-        name: phpldapadmin
         ports:
         - name: http
           containerPort: 8080
+        env:
+        # http://phpldapadmin.sourceforge.net/wiki/index.php/Server:server:host
+        - name: LDAP_HOST
+          value: ldaps://openldap.auth-openldap.svc.cluster.local:636
+        - name: LDAP_PORT
+          value: "0"
+        - name: LDAP_BASE
+          valueFrom:
+            secretKeyRef:
+              name: phpldapadmin-env
+              key: LDAP_BASE
+        - name: LDAP_BIND_ID
+          valueFrom:
+            secretKeyRef:
+              name: phpldapadmin-env
+              key: LDAP_BIND_ID
+        - name: LDAP_BIND_PASS
+          valueFrom:
+            secretKeyRef:
+              name: phpldapadmin-env
+              key: LDAP_BIND_PASS
         securityContext:
           runAsNonRoot: true
           runAsUser: 33 # www-data
@@ -39,11 +57,11 @@ spec:
             port: http
         resources:
           requests:
-            cpu: "{{ phpldapadmin.container.requests_cpu }}"
-            memory: "{{ phpldapadmin.container.requests_memory }}"
+            cpu: "50m"
+            memory: "256Mi"
           limits:
-            cpu: "{{ phpldapadmin.container.limits_cpu }}"
-            memory: "{{ phpldapadmin.container.limits_memory }}"
+            cpu: "250m"
+            memory: "256Mi"
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -64,8 +82,8 @@ spec:
         hostPath:
           path: /etc/localtime
       - name: config-volume
-        secret:
-          secretName: phpldapadmin-config
+        configMap:
+          name: phpldapadmin-config
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca

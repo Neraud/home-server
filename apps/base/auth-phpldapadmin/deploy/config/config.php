@@ -576,13 +576,12 @@ $servers->setValue('server','force_may',array('uidNumber','gidNumber','sambaSID'
 
 $servers->newServer('ldap_pla');
 $servers->setValue('server','name','openldap');
-# http://phpldapadmin.sourceforge.net/wiki/index.php/Server:server:host
-$servers->setValue('server','host','ldaps://{{ phpldapadmin.ldap_servername }}:636');
-$servers->setValue('server','port',0);
-$servers->setValue('server','base',array('{{ phpldapadmin.basedn }}'));
+$servers->setValue('server','host',getenv('LDAP_HOST'));
+$servers->setValue('server','port',getenv('LDAP_PORT'));
+$servers->setValue('server','base',array(getenv('LDAP_BASE')));
 $servers->setValue('login','auth_type','cookie');
-$servers->setValue('login','bind_id','{{ phpldapadmin.bind_id }}');
-$servers->setValue('login','bind_pass','{{ phpldapadmin.bind_password }}');
+$servers->setValue('login','bind_id',getenv('LDAP_BIND_ID'));
+$servers->setValue('login','bind_pass',getenv('LDAP_BIND_PASS'));
 $servers->setValue('server','tls',false);
 
 ?>
