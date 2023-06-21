@@ -18,7 +18,7 @@
           replicas: 1
       longhorn_volumes:
         - volume_name: openldap-data
-          pvc_name: openldap-data-pv-claim-openldap-0
+          pvc_name: openldap-data
   tags: backup
 
 - name: Wait for OpenLDAP to be available
