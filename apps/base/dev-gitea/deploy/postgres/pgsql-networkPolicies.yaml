@@ -1,0 +1,21 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-pgsql
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: gitea
+      app.kubernetes.io/component: pgsql
+
+  ingress:
+    # Allow from gitea
+    - ports:
+        - port: pgsql
+      from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: gitea
+              app.kubernetes.io/component: gitea

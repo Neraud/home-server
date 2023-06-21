@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pgsql-data
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: longhorn-high-durability
+  resources:
+    requests:
+      storage: "512Mi"

@@ -1,0 +1,40 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-gitea
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: gitea
+      app.kubernetes.io/component: gitea
+
+  ingress:
+    - ports:
+        - port: http
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+        # Allow from prometheus
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring-prometheus
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus
+              app.kubernetes.io/component: prometheus
+              app.kubernetes.io/instance: k8s
+        # Allow from argo workflows tasks
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: dev-argo-tasks
+        # Allow from argo cd
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: dev-argo-cd
