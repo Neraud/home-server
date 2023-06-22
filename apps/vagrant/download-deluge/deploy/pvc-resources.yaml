@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: deluge-data
+spec:
+  resources:
+    requests:
+      storage: "256Mi"

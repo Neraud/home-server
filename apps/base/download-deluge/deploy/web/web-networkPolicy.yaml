@@ -1,0 +1,35 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-deluge-web
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: deluge
+      app.kubernetes.io/component: deluge-web
+
+  ingress:
+    # Allow http from the ingress controller
+    - ports:
+        - port: webui
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow http from the homepage (to enable the widget)
+    - ports:
+        - port: webui
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: tool-homepage
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homepage
+              app.kubernetes.io/component: homepage

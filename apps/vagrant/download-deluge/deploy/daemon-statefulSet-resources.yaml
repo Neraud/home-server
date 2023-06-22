@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: deluge-daemon
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: deluge-daemon
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi

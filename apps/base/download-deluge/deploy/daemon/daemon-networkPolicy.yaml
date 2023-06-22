@@ -1,0 +1,21 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-deluge-daemon
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: deluge
+      app.kubernetes.io/component: deluge-daemon
+
+  ingress:
+    # Allow from deluge-web
+    - ports:
+        - port: daemon
+      from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: deluge
+              app.kubernetes.io/component: deluge-web

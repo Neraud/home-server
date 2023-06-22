@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: download-deluge
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: deluge
+      app.kubernetes.io/version: 2.1.1
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+- name: deluge-auth
+  files: 
+  - config/auth
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- pvc.yaml
+- daemon
+- web

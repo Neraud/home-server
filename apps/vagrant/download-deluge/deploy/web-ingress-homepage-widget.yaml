@@ -1,0 +1,6 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: deluge-web
+  annotations:
+    gethomepage.dev/widget.password: "Passw0rd"

@@ -13,3 +13,4 @@
     - { role: auth-lemonldap,                tags: kubernetes-app-auth-lemonldap,                when: lemonldap_enabled | bool }
     - { role: auth-phpldapadmin,             tags: kubernetes-app-auth-phpldapadmin,             when: phpldapadmin_enabled | bool }
     - { role: dev-gitea,                     tags: kubernetes-app-dev-gitea,                     when: gitea_enabled | bool }
+    - { role: download-deluge,               tags: kubernetes-app-download-deluge,               when: deluge_enabled | bool }
