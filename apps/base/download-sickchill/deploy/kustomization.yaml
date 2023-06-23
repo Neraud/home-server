@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: download-sickchill
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: sickchill
+      app.kubernetes.io/component: sickchill
+      app.kubernetes.io/version: 2023.1.2-3.11.2-slim-bullseye
+
+secretGenerator:
+- name: sickchill-config
+  files: 
+  - config_delta.ini=config/config_delta.secret.ini
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- nfs-download-pv.yaml
+- nfs-download-pvc.yaml
+- nfs-multimedia-pv.yaml
+- nfs-multimedia-pvc.yaml
+- networkPolicy.yaml
+- service.yaml
+- ingress.yaml
+- pvc.yaml
+- statefulSet.yaml

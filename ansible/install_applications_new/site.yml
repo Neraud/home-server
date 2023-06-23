@@ -16,3 +16,4 @@
     - { role: download-deluge,               tags: kubernetes-app-download-deluge,               when: deluge_enabled | bool }
     - { role: download-pyload,               tags: kubernetes-app-download-pyload,               when: pyload_enabled | bool }
     - { role: download-sabnzbd,              tags: kubernetes-app-download-sabnzbd,              when: sabnzbd_enabled | bool }
+    - { role: download-sickchill,            tags: kubernetes-app-download-sickchill,            when: sickchill_enabled | bool }

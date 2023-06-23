@@ -177,9 +177,9 @@ watchers:
     release: 12.1.10
   - name: Sickchill Baseimage
     type: docker_registry
-    repo: {{ sickchill.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ sickchill.base_image.name }}
-    tag: {{ sickchill.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/python
+    tag: 3.11.2-slim-bullseye
     includes:
       - 3\.[0-9]+\.[0-9]+-slim-bullseye
     excludes:
@@ -188,7 +188,7 @@ watchers:
       - ^3\.11\.[0]-.*
   - type: pypi
     package: sickchill
-    version: {{ sickchill.version }}
+    version: 2023.1.2
 
   
   ###############

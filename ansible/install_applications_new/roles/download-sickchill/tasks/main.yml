@@ -1,0 +1,22 @@
+---
+
+- name: Build and deploy download-sickchill
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: download-sickchill
+
+- name: Deploy sickchill backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: download-sickchill
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "download-sickchill"
+      apps_to_stop:
+        - name: sickchill
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: sickchill-data
+          pvc_name: sickchill-data
+  tags: backup
