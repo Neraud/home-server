@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homeassistant
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: HomeAssistant
+    gethomepage.dev/description: Home automation
+    gethomepage.dev/icon: home-assistant
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=homeassistant"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - homeassistant.home.web_domain_name
+      secretName: ingress-tls
+  rules:
+  - host: homeassistant.home.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: homeassistant
+            port:
+              number: 80

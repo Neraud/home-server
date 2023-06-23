@@ -35,10 +35,12 @@ spec:
         # Allow from homeassistant
         - namespaceSelector:
             matchLabels:
-              name: {{ homeassistant.namespace }}
+              app.kubernetes.io/name: home-homeassistant
           podSelector:
             matchLabels:
-              {{ homeassistant.labels_def | to_nice_yaml() | indent(14) }}
+              app.kubernetes.io/name: homeassistant
+              app.kubernetes.io/component: homeassistant
+
 
         {#
         # Allow from roomassistant

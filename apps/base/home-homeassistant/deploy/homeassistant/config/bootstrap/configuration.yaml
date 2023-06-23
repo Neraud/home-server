@@ -1,0 +1,112 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Vagrant
+  
+  external_url: https://homeassistant.home.k8s.test
+  internal_url: https://homeassistant.home.k8s.test
+
+  # Location required to calculate the time the sun rises and sets
+  latitude: 0
+  longitude: 0
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: UTC
+  # Customization file
+  customize: !include customize.yaml
+
+  # https://www.home-assistant.io/docs/authentication/providers/
+  auth_providers:
+    # the native provider is required the first time HomeAssistant is accessed.
+    # Once the first user has been created, it can be disabled
+    - type: homeassistant
+    - type: command_line
+      command: /opt/ldap-auth/ldap-auth.sh
+      args: ["/opt/ldap-auth/config.cfg"]
+      meta: true
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  use_x_forwarded_for: true
+  trusted_proxies: 10.244.0.0/16
+
+recorder:
+  db_url: !secret recorder_mysql_url
+
+# https://home-assistant.io/components/mqtt/
+mqtt:
+  # https://home-assistant.io/docs/mqtt/broker/#run-your-own
+  broker: mosquitto.home-mosquitto.svc.cluster.local
+  port: 8883
+  username: !secret mqtt_username
+  password: !secret mqtt_password
+  certificate: /etc/ssl/cluster/ca.cert
+  discovery: true
+  sensor:
+    # Test sensor for manual MQTT
+    - name: Test MQTT sensor
+      state_topic: "test/test_sensor"
+
+    # Test sensor for RoomAssistant
+    # Manually configuring the sensor is not required, as RoomAssistant exposes the configuration via Discovery.
+    #- name: Test RoomAssistant
+    #  state_topic: "homeassistant/sensor/example-room/example-script/state"
+    #  unit_of_measurement: '%'
+    #  value_template: "{{ value_json.value }}"
+
+notify:
+  - name: email_user
+    platform: smtp
+    server: zonemta.infra-zonemta.svc.cluster.local
+    port: 587
+    timeout: 15
+    sender: noreply@k8s.test
+    sender_name: HomeAssistant
+    encryption: starttls
+    verify_ssl: False
+    username: !secret smtp_username
+    password: !secret smtp_password
+    recipient:
+      - !secret smtp_recipient_user
+  - name: ntfy_info
+    platform: rest
+    resource: http://ntfy.infra-ntfy.svc.cluster.local:8080
+    method: POST_JSON
+    authentication: basic
+    username: !secret ntfy_username
+    password: !secret ntfy_password
+    data:
+      topic: home
+      priority: 3 # info
+    title_param_name: title
+    message_param_name: message
+  - name: ntfy_high
+    platform: rest
+    resource: http://ntfy.infra-ntfy.svc.cluster.local:8080
+    method: POST_JSON
+    authentication: basic
+    username: !secret ntfy_username
+    password: !secret ntfy_password
+    data:
+      topic: home
+      priority: 4 # high
+    title_param_name: title
+    message_param_name: message
+
+
+# Track the sun
+sun:
+
+# Text to speech
+tts:
+  - platform: google_translate
+    service_name: google_say
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml

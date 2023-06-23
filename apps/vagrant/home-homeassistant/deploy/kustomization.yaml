@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/home-homeassistant/deploy
+
+configMapGenerator:
+- name: homeassistant-config
+  files:
+  - config/homeassistant/ldap-auth-config.cfg
+  behavior: replace
+- name: homeassistant-config-bootstrap
+  files:
+  - config/homeassistant/bootstrap/automations.yaml
+  - config/homeassistant/bootstrap/configuration.yaml
+  - config/homeassistant/bootstrap/customize.yaml
+  - config/homeassistant/bootstrap/groups.yaml
+  - config/homeassistant/bootstrap/scripts.yaml
+  behavior: replace
+
+generators:
+- mysql-secret-generator.yaml
+- homeassistant-secret-generator.yaml
+
+patches:
+- path: mysql-pvc-resources.yaml
+- path: mysql-statefulSet-resources.yaml
+- path: homeassistant-pvc-resources.yaml
+- path: homeassistant-statefulSet-resources.yaml
+- target:
+    kind: Ingress
+    name: homeassistant
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: homeassistant.home.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: homeassistant.home.k8s.test

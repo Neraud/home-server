@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: homeassistant
+      app.kubernetes.io/component: homeassistant
+      app.kubernetes.io/version: 2023.3.6-custom
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: homeassistant-config
+  files:
+  - config/ldap-auth-config.cfg
+- name: homeassistant-config-bootstrap
+  files:
+  - config/bootstrap/automations.yaml
+  - config/bootstrap/configuration.yaml
+  - config/bootstrap/customize.yaml
+  - config/bootstrap/groups.yaml
+  - config/bootstrap/scripts.yaml
+
+secretGenerator:
+- name: homeassistant-secret-bootstrap
+  files:
+  - config/bootstrap/secrets.yaml
+
+resources:
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- pvc.yaml
+- statefulSet.yaml
