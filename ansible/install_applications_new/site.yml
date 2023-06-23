@@ -15,3 +15,4 @@
     - { role: dev-gitea,                     tags: kubernetes-app-dev-gitea,                     when: gitea_enabled | bool }
     - { role: download-deluge,               tags: kubernetes-app-download-deluge,               when: deluge_enabled | bool }
     - { role: download-pyload,               tags: kubernetes-app-download-pyload,               when: pyload_enabled | bool }
+    - { role: download-sabnzbd,              tags: kubernetes-app-download-sabnzbd,              when: sabnzbd_enabled | bool }

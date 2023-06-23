@@ -2,10 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sabnzbd
-  namespace: {{ sabnzbd.namespace }}
-  labels:
-    {{ sabnzbd.labels_def | to_nice_yaml() | indent(4) }}
-    {{ sabnzbd.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Download
@@ -13,24 +9,22 @@ metadata:
     gethomepage.dev/description: Binary newsreader
     gethomepage.dev/icon: sabnzbd
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=sabnzbd"
-{% if homepage.config.sabnzbd.enabled %}
     # https://gethomepage.dev/en/services/sabnzbd/
     gethomepage.dev/widget.type: "sabnzbd"
     gethomepage.dev/widget.url: "http://sabnzbd.download-sabnzbd.svc.cluster.local:80"
     gethomepage.dev/widget.fields: '["rate", "queue", "timeleft"]'
-    gethomepage.dev/widget.key: "{{ homepage.config.sabnzbd.apikey }}"
-{% endif %}
+    gethomepage.dev/widget.key: "changeme"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - sabnzbd.dl.intra.{{ web_base_domain }}
+      - sabnzbd.dl.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: sabnzbd.dl.intra.{{ web_base_domain }}
+  - host: sabnzbd.dl.intra.web_domain_name
     http:
       paths:
-      - path: {{ '/' if sabnzbd.context_root == '' else sabnzbd.context_root }}
+      - path: /
         pathType: Prefix
         backend:
           service:

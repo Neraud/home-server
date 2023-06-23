@@ -2,27 +2,24 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: sabnzbd
-  namespace: {{ sabnzbd.namespace }}
-  labels:
-    {{ sabnzbd.labels_def | to_nice_yaml() | indent(4) }}
-    {{ sabnzbd.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ sabnzbd.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: sabnzbd
+      app.kubernetes.io/component: sabnzbd
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ sabnzbd.labels_def | to_nice_yaml() | indent(8) }}
-        {{ sabnzbd.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: sabnzbd
+        app.kubernetes.io/component: sabnzbd
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.private_image | image_full_name }}"
+        image: "registry.lan/sabnzbd-busybox:1.36.0"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -31,11 +28,11 @@ spec:
             mkdir -p /opt/sabnzbd/data
             chown -R 1000:1000 /opt/sabnzbd/data
         volumeMounts:
-        - name: sabnzbd-config-pv-claim
+        - name: sabnzbd-data
           mountPath: /opt/sabnzbd
       containers:
       - name: sabnzbd
-        image: "{{ sabnzbd.private_image | image_full_name }}"
+        image: "registry.lan/sabnzbd:3.7.2-3.11.2-slim-bullseye"
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -47,22 +44,22 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ '/' if sabnzbd.context_root == '' else sabnzbd.context_root }}
+            path: /
             port: http
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ sabnzbd.container.requests_cpu }}"
-            memory: "{{ sabnzbd.container.requests_memory }}"
+            cpu: 200m
+            memory: 256Mi
           limits:
-            cpu: "{{ sabnzbd.container.limits_cpu }}"
-            memory: "{{ sabnzbd.container.limits_memory }}"
+            cpu: 500m
+            memory: 256Mi
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: sabnzbd-config-pv-claim
+        - name: sabnzbd-data
           mountPath: /opt/sabnzbd-data
           subPath: data
         - name: sabnzbd-download
@@ -73,9 +70,12 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: sabnzbd-data
+        persistentVolumeClaim:
+          claimName: sabnzbd-data
       - name: sabnzbd-config
-        configMap:
-          name: sabnzbd-config
+        secret:
+          secretName: sabnzbd-config
       - name: sabnzbd-download
         persistentVolumeClaim:
           claimName: nfs-download
@@ -83,12 +83,3 @@ spec:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
-  volumeClaimTemplates:
-  - metadata:
-      name: sabnzbd-config-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ sabnzbd.container.storage.config }}
