@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: download-pyload
+  namespace: dev-argo-tasks
+spec:
+  eventBusName: default
+  template:
+    serviceAccountName: operate-workflow-sa
+    container:
+      resources:
+        requests:
+          cpu: 5m
+          memory: 32Mi
+        limits:
+          cpu: 100m # With lower than 75m, the workflow isn't triggered
+          memory: 32Mi
+    nodeSelector:
+      capability/general-purpose: 'yes'
+  dependencies:
+    - name: git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/download-pyload/.*"
+  triggers:
+    - template:
+        name: argo-workflow-trigger
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: download-pyload-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: download-pyload
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy

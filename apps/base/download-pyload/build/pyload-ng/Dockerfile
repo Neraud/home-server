@@ -1,7 +1,4 @@
-ARG from_image
-FROM $from_image AS builder
-
-ARG pyload_version
+FROM docker.io/library/python:3.11.2-slim-bullseye AS builder
 
 # Install build requirements
 RUN apt-get update && \
@@ -13,10 +10,10 @@ RUN python3 -m venv /opt/venv
 # Make sure we use the virtualenv
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip3 install --pre pyload-ng[plugins]==${pyload_version}
+RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev68
 
 
-FROM $from_image
+FROM docker.io/library/python:3.11.2-slim-bullseye
 
 # Install requirements
 # non-free is needed for unrar

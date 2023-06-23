@@ -144,9 +144,9 @@ watchers:
       - ^1\..*
   - name: Pyload Baseimage
     type: docker_registry
-    repo: {{ pyload.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ pyload.base_image.name }}
-    tag: {{ pyload.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/python
+    tag: 3.11.2-slim-bullseye
     includes:
       - 3\.[0-9]+\.[0-9]+-slim-bullseye
     excludes:
@@ -154,7 +154,7 @@ watchers:
       - ^3\.1[0]\..*
   - type: pypi
     package: pyload-ng
-    version: {{ pyload.version }}
+    version: 0.5.0b3.dev68
   - name: SABnzbd Baseimage
     type: docker_registry
     repo: {{ sabnzbd.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}

@@ -187,10 +187,6 @@
   tags: kubernetes-app-download-sickchill
   when: sickchill_enabled | bool
 
-- import_playbook: app-download-pyload.yml
-  tags: kubernetes-app-download-pyload
-  when: pyload_enabled | bool
-
 - import_playbook: app-download-sabnzbd.yml
   tags: kubernetes-app-download-sabnzbd
   when: sabnzbd_enabled | bool
