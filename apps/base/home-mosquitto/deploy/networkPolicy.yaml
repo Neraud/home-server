@@ -2,16 +2,13 @@ kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
   name: allow-to-mosquitto
-  namespace: {{ mosquitto.namespace }}
-  labels:
-    {{ mosquitto.labels_def | to_nice_yaml() | indent(4) }}
-    {{ mosquitto.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      {{ mosquitto.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: mosquitto
+      app.kubernetes.io/component: mosquitto
 
   ingress:
     - ports:
@@ -27,10 +24,10 @@ spec:
         # Allow from the ingress controller
         - namespaceSelector:
             matchLabels:
-              {{ ingress_nginx.namespace_labels_def | to_nice_yaml() | indent(14) }}
+              app.kubernetes.io/name: ingress-nginx
           podSelector:
             matchLabels:
-              {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
+              app.kubernetes.io/name: ingress-nginx
         
         # Allow from homeassistant
         - namespaceSelector:
@@ -41,25 +38,23 @@ spec:
               app.kubernetes.io/name: homeassistant
               app.kubernetes.io/component: homeassistant
 
-
-        {#
         # Allow from roomassistant
-        # Not used, roomassistant uses the host network and uses the ingress
         - namespaceSelector:
             matchLabels:
-              name: {{ roomassistant.namespace }}
+              app.kubernetes.io/name: home-roomassistant
           podSelector:
             matchLabels:
-              {{ roomassistant.labels_def | to_nice_yaml() | indent(14) }}
-        #}
+              app.kubernetes.io/name: roomassistant
+              app.kubernetes.io/component: roomassistant
 
         # Allow from zigbee2mqtt
         - namespaceSelector:
             matchLabels:
-              name: {{ zigbee2mqtt.namespace }}
+              app.kubernetes.io/name: home-zigbee2mqtt
           podSelector:
             matchLabels:
-              {{ zigbee2mqtt.labels_def | to_nice_yaml() | indent(14) }}
+              app.kubernetes.io/name: zigbee2mqtt
+              app.kubernetes.io/component: zigbee2mqtt
 
         # Allow from frigate
         - namespaceSelector:

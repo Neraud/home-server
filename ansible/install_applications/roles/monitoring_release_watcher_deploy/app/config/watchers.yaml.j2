@@ -224,9 +224,9 @@ watchers:
       - ^8\.0\.[1-2][0-9]-debian$
       - ^8\.0\.3[0]-debian$
   - type: docker_registry
-    repo: {{ mosquitto.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ mosquitto.base_image.name }}
-    tag: {{ mosquitto.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/eclipse-mosquitto:
+    tag: 2.0.15-openssl
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*-openssl"
     excludes:

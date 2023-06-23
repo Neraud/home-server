@@ -28,3 +28,9 @@ openssl_custom_cert_secrets:
     - dev-argo-cd
     pull_cert_namespaces:
     - dev-argo-tasks
+- secret_name: "mqtt"
+  pki_name: cluster
+  cert_name: mqtt
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - home-mosquitto

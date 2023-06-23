@@ -50,7 +50,7 @@ zigbee2mqtt:
   serial_device: "{{ zigbee2mqtt_serial_device | mandatory }}"
   network_key: "{{ zigbee2mqtt_network_key | mandatory }}"
   mqtt:
-    servername: "{{ mosquitto.servername }}"
+    servername: "mosquitto.home-mosquitto.svc.cluster.local"
     port: 8883
     user: "{{ zigbee2mqtt_mqtt_user | default('zigbee2mqtt') }}"
     password: "{{ zigbee2mqtt_mqtt_password | default('clear_password') }}"

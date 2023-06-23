@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: home-mosquitto
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: mosquitto
+      app.kubernetes.io/component: mosquitto
+      app.kubernetes.io/version: 2.0.15-openssl
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: mosquitto-config
+  files:
+  - config/mosquitto.conf
+  - config/passwd
+
+secretGenerator:
+- name: mosquitto-env
+  env: config/mosquitto.secret.env
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- networkPolicy.yaml
+- service.yaml
+- pvc.yaml
+- secret-certs.yaml
+- statefulSet.yaml
