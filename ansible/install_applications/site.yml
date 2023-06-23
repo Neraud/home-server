@@ -151,10 +151,6 @@
   tags: kubernetes-app-home-roomassistant
   when: roomassistant_enabled | bool
 
-- import_playbook: app-home-esphome.yml
-  tags: kubernetes-app-home-esphome
-  when: esphome_enabled | bool
-
 - import_playbook: app-home-zwavejsui.yml
   tags: kubernetes-app-home-zwavejsui
   when: zwavejsui_enabled | bool

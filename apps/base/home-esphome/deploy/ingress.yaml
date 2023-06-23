@@ -2,14 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: esphome
-  namespace: {{ esphome.namespace }}
-  labels:
-    {{ esphome.labels_def | to_nice_yaml() | indent(4) }}
-    {{ esphome.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
-{% if esphome.context_root != "" %}
-    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
-{% endif %}
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Home
     gethomepage.dev/name: ESPHome
@@ -20,13 +13,13 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - esphome.home.intra.{{ web_base_domain }}
+      - esphome.home.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: esphome.home.intra.{{ web_base_domain }}
+  - host: esphome.home.intra.web_domain_name
     http:
       paths:
-      - path: {{ '/' if esphome.context_root == '' else esphome.context_root + '/?(.*)' }}
+      - path: /
         pathType: Prefix
         backend:
           service:

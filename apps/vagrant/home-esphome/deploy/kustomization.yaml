@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/home-esphome/deploy
+
+patches:
+- path: pvc-resources.yaml
+- path: statefulSet-resources.yaml
+- target:
+    kind: Ingress
+    name: esphome
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: esphome.home.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: esphome.home.intra.k8s.test

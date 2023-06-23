@@ -1,5 +1,4 @@
-ARG from_image
-FROM $from_image
+FROM docker.io/esphome/esphome:2023.3.2
 
 RUN echo "Create esp user" && \
     groupadd -g 1000 esp && \

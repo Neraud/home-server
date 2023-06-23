@@ -17,3 +17,4 @@
     - { role: download-pyload,               tags: kubernetes-app-download-pyload,               when: pyload_enabled | bool }
     - { role: download-sabnzbd,              tags: kubernetes-app-download-sabnzbd,              when: sabnzbd_enabled | bool }
     - { role: download-sickchill,            tags: kubernetes-app-download-sickchill,            when: sickchill_enabled | bool }
+    - { role: home-esphome,                  tags: kubernetes-app-home-esphome,                  when: esphome_enabled | bool }
