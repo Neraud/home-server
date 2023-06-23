@@ -2,27 +2,24 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: frigate
-  namespace: {{ frigate.namespace }}
-  labels:
-    {{ frigate.labels_def | to_nice_yaml() | indent(4) }}
-    {{ frigate.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ frigate.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: frigate
+      app.kubernetes.io/component: frigate
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ frigate.labels_def | to_nice_yaml() | indent(8) }}
-        {{ frigate.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: frigate
+        app.kubernetes.io/component: frigate
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.private_image | image_full_name }}"
+        image: "registry.lan/frigate-busybox:1.36.0"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -37,34 +34,30 @@ spec:
               cp /frigate-config/config/config_base.yml /frigate-config/config/config.yml
             fi
         volumeMounts:
-        - name: frigate-config-pv-claim
+        - name: frigate-data
           mountPath: /frigate-config
         - name: frigate-config
           mountPath: /config/config_base.yml
           subPath: config_base.yml
       containers:
       - name: frigate
-        image: "{{ frigate.private_image | image_full_name }}"
+        image: "registry.lan/frigate:0.11.1"
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
           name: http
         - containerPort: 1935
           name: rtmp
-        env:
-        - name: FRIGATE_MQTT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: frigate
-              key: mqtt_password
+        envFrom:
+          - secretRef:
+              name: frigate-env
         # Frigate needs to run as root
         securityContext:
           #runAsNonRoot: true
           #runAsUser: 1000
           #readOnlyRootFilesystem: true
-{% if frigate.container.mount_usb %}
-          privileged: true
-{% endif %}
+          # To mount USB :
+          #privileged: true
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -72,35 +65,36 @@ spec:
             port: http
         resources:
           requests:
-            cpu: "{{ frigate.container.requests_cpu }}"
-            memory: "{{ frigate.container.requests_memory }}"
+            cpu: 100m
+            memory: 384Mi
           limits:
-            cpu: "{{ frigate.container.limits_cpu }}"
-            memory: "{{ frigate.container.limits_memory }}"
-{% if frigate.container.limits_gpu %}
-            {{ frigate.container.limits_gpu | to_nice_yaml() | indent(12) }}
-{% endif %}
+            cpu: 250m
+            memory: 384Mi
+            # To use a gpu limit
+            #gpu.intel.com/i915: 1
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: frigate-config-pv-claim
+        - name: frigate-data
           mountPath: /config
           subPath: config
         - name: frigate-media
           mountPath: /media
         - name: tmp-volume
           mountPath: /tmp
-{% if frigate.container.mount_usb %}
-        - mountPath: /dev/bus/usb
-          name: usb
-{% endif %}
+        # To mount USB :
+        #- mountPath: /dev/bus/usb
+        #  name: usb
         - name: dshm
           mountPath: /dev/shm
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: frigate-data
+        persistentVolumeClaim:
+          claimName: frigate-data
       - name: frigate-config
         configMap:
           name: frigate-config
@@ -109,28 +103,15 @@ spec:
           claimName: nfs-nvr
       - name: tmp-volume
         emptyDir: {}
-{% if frigate.container.mount_usb %}
-      - name: usb
-        hostPath:
-          path: /dev/bus/usb
-{% endif %}
+      # To mount USB :
+      #- name: usb
+      #  hostPath:
+      #    path: /dev/bus/usb
       - name: dshm
         emptyDir:
           medium: Memory
-          sizeLimit: {{ frigate.container.shm_size }}
+          sizeLimit: 64Mi
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
-{% if frigate.container.node_selectors %}
-        {{ frigate.container.node_selectors | to_nice_yaml() | indent(8) }}
-{% endif %}
-  volumeClaimTemplates:
-  - metadata:
-      name: frigate-config-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ frigate.container.storage.config }}

@@ -62,7 +62,8 @@ spec:
         # Allow from frigate
         - namespaceSelector:
             matchLabels:
-              name: {{ frigate.namespace }}
+              name: home-frigate
           podSelector:
             matchLabels:
-              {{ frigate.labels_def | to_nice_yaml() | indent(14) }}
+              app.kubernetes.io/name: frigate
+              app.kubernetes.io/component: frigate

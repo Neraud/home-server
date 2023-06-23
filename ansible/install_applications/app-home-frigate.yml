@@ -1,6 +1,0 @@
----
-- name: Provision home-frigate
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: home_frigate_deploy

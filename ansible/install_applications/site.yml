@@ -159,10 +159,6 @@
   tags: kubernetes-app-home-zigbee2mqtt
   when: zigbee2mqtt_enabled | bool
 
-- import_playbook: app-home-frigate.yml
-  tags: kubernetes-app-home-frigate
-  when: frigate_enabled | bool
-
 - import_playbook: app-home-homeassistant.yml
   tags: kubernetes-app-home-homeassistant
   when: homeassistant_enabled | bool

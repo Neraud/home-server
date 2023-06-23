@@ -28,6 +28,9 @@ creation_rules:
   encrypted_regex: "^(web_password|api_key|sab_password|email_password)$"
   age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
 
+- path_regex: "home-frigate/deploy/config/frigate.secret.env"
+  encrypted_regex: "^(FRIGATE_MQTT_PASSWORD)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
 
 # Default Kubernetes manifest encryption
 - unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
