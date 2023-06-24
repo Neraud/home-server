@@ -155,10 +155,6 @@
   tags: kubernetes-app-home-zigbee2mqtt
   when: zigbee2mqtt_enabled | bool
 
-- import_playbook: app-home-nodered.yml
-  tags: kubernetes-app-home-nodered
-  when: nodered_enabled | bool
-
 - import_playbook: app-stream-airsonic.yml
   tags: kubernetes-app-stream-airsonic
   when: airsonic_enabled | bool

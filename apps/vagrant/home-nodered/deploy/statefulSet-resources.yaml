@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nodered
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: nodered
+        resources:
+          requests:
+            cpu: 25m
+            memory: 256Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi

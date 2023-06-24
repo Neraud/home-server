@@ -101,7 +101,6 @@ module.exports = {
     // The following property can be used in place of 'httpAdminRoot' and 'httpNodeRoot',
     // to apply the same root to both parts.
     //httpRoot: '/red',
-    {% if nodered.context_root != '' %}httpRoot: '{{ nodered.context_root }}',{% endif %}
 
     // When httpAdminRoot is used to move the UI to a different root path, the
     // following property can be used to identify a directory of static content
@@ -129,11 +128,11 @@ module.exports = {
             maxAge: 120, // in seconds
         },
         ldapOptions: {
-            url: 'ldaps://{{ nodered.ldap.servername }}:636',
-            bindDN: '{{ nodered.ldap.manager_dn }}',
-            bindCredentials: '{{ nodered.ldap.manager_password }}',
-            searchBase: '{{ nodered.ldap.users_dn }}',
-            searchFilter: '(&(cn={{ '{{username}}' }})(objectClass=inetOrgPerson)(memberOf={{ nodered.ldap.group }}))',
+            url: 'ldaps://openldap.auth-openldap.svc.cluster.local:636',
+            bindDN: 'cn=readonly,dc=ldap,dc=domain',
+            bindCredentials: 'changeme',
+            searchBase: 'ou=users,dc=ldap,dc=domain',
+            searchFilter: '(&(cn={{username}})(objectClass=inetOrgPerson)(memberOf=cn=homeassistant,ou=app_groups,dc=ldap,dc=domain))',
             searchAttributes: ['dn', 'displayName'],
             tlsOptions: {
                 ca: [require('fs').readFileSync('/etc/ssl/cluster/ca.cert')],

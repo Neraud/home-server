@@ -2,27 +2,24 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: nodered
-  namespace: {{ nodered.namespace }}
-  labels:
-    {{ nodered.labels_def | to_nice_yaml() | indent(4) }}
-    {{ nodered.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ nodered.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: nodered
+      app.kubernetes.io/component: nodered
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ nodered.labels_def | to_nice_yaml() | indent(8) }}
-        {{ nodered.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: nodered
+        app.kubernetes.io/component: nodered
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.private_image | image_full_name }}"
+        image: "registry.lan/nodered-busybox:1.36.0"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -37,24 +34,24 @@ spec:
             fi
             chown -R 1001:1001 /nodered/data
         volumeMounts:
-        - name: nodered-pv-claim
+        - name: nodered-data
           mountPath: /nodered
         - name: nodered-bootstrap
           mountPath: /nodered-bootstrap
       containers:
       - name: nodered
-        image: "{{ nodered.private_image | image_full_name }}"
+        image: "registry.lan/nodered:3.0.2-18-minimal-custom"
         imagePullPolicy: Always
         ports:
         - containerPort: 1880
           name: nodered
         resources:
           requests:
-            cpu: "{{ nodered.container.requests_cpu }}"
-            memory: "{{ nodered.container.requests_memory }}"
+            cpu: 25m
+            memory: 256Mi
           limits:
-            cpu: "{{ nodered.container.limits_cpu }}"
-            memory: "{{ nodered.container.limits_memory }}"
+            cpu: 200m
+            memory: 256Mi
         securityContext:
           runAsNonRoot: true
           runAsUser: 1001 # node-red
@@ -62,7 +59,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: "{{ '/' if nodered.context_root == '' else nodered.context_root }}"
+            path: /
             port: nodered
           initialDelaySeconds: 3
           periodSeconds: 5
@@ -70,7 +67,7 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: nodered-pv-claim
+        - name: nodered-data
           mountPath: /data
           subPath: data
         - name: nodered-config
@@ -85,9 +82,12 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: nodered-data
+        persistentVolumeClaim:
+          claimName: nodered-data
       - name: nodered-config
-        configMap:
-          name: nodered
+        secret:
+          secretName: nodered-config
       - name: nodered-bootstrap
         configMap:
           name: nodered-bootstrap
@@ -98,12 +98,3 @@ spec:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
-  volumeClaimTemplates:
-  - metadata:
-      name: nodered-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ nodered.container.storage.data }}

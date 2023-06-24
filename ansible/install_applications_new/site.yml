@@ -21,3 +21,4 @@
     - { role: home-frigate,                  tags: kubernetes-app-home-frigate,                  when: frigate_enabled | bool }
     - { role: home-homeassistant,            tags: kubernetes-app-home-homeassistant,            when: homeassistant_enabled | bool }
     - { role: home-mosquitto,                tags: kubernetes-app-home-mosquitto,                when: mosquitto_enabled | bool }
+    - { role: home-nodered,                  tags: kubernetes-app-home-nodered,                  when: nodered_enabled | bool }
