@@ -263,9 +263,9 @@ watchers:
       - '[0-9]+\.[0-9]+\.[0-9]+'
   # TODO : support NPM for nodered.additional_modules.node_red_contrib_stoptimer
   - type: docker_registry
-    repo: {{ roomassistant.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ roomassistant.base_image.name }}
-    tag: {{ roomassistant.base_image.tag }}
+    repo: registry-1.docker.io
+    image: mkerix/room-assistant
+    tag: 2.20.0
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:

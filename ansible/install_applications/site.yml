@@ -143,10 +143,6 @@
   tags: kubernetes-app-infra-unifi
   when: unifi_enabled | bool
 
-- import_playbook: app-home-roomassistant.yml
-  tags: kubernetes-app-home-roomassistant
-  when: roomassistant_enabled | bool
-
 - import_playbook: app-home-zwavejsui.yml
   tags: kubernetes-app-home-zwavejsui
   when: zwavejsui_enabled | bool

@@ -1,0 +1,22 @@
+---
+
+- name: Build and deploy home-roomassistant
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: home-roomassistant
+
+- name: Deploy home-roomassistant backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: home-roomassistant
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "home-roomassistant"
+      apps_to_stop:
+        - name: roomassistant
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: roomassistant-data
+          pvc_name: roomassistant-data
+  tags: backup

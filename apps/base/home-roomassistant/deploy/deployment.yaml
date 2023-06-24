@@ -2,29 +2,29 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: roomassistant
-  namespace: {{ roomassistant.namespace }}
-  labels:
-    {{ roomassistant.labels_def | to_nice_yaml() | indent(4) }}
-    {{ roomassistant.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ roomassistant.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: roomassistant
+      app.kubernetes.io/component: roomassistant
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ roomassistant.labels_def | to_nice_yaml() | indent(8) }}
-        {{ roomassistant.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: roomassistant
+        app.kubernetes.io/component: roomassistant
     spec:
       containers:
       - name: roomassistant
-        image: "{{ roomassistant.private_image | image_full_name }}"
+        image: "registry.lan/room-assistant:2.20.0-custom"
         imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: roomassistant-env
         env:
         - name: NODE_LOG_LEVEL
           value: info
@@ -41,11 +41,11 @@ spec:
             - NET_ADMIN
         resources:
           requests:
-            cpu: "{{ roomassistant.container.requests_cpu }}"
-            memory: "{{ roomassistant.container.requests_memory }}"
+            cpu: 50m
+            memory: 256Mi
           limits:
-            cpu: "{{ roomassistant.container.limits_cpu }}"
-            memory: "{{ roomassistant.container.limits_memory }}"
+            cpu: 100m
+            memory: 256Mi
         readinessProbe:
           httpGet:
             scheme: HTTP
