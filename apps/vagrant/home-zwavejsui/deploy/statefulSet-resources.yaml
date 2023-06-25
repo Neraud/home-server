@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zwavejsui
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: zwavejsui
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 128Mi

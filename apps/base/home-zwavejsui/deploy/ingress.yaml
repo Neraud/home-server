@@ -2,16 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: zwavejsui
-  namespace: {{ zwavejsui.namespace }}
-  labels:
-    {{ zwavejsui.labels_def | to_nice_yaml() | indent(4) }}
-    {{ zwavejsui.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
-{% if zwavejsui.context_root != "" %}
-    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-External-Path /zwave;
-{% endif %}
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Home
     gethomepage.dev/name: Z-Wave JS UI
@@ -22,13 +13,13 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - zwavejsui.home.intra.{{ web_base_domain }}
+      - zwavejsui.home.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: zwavejsui.home.intra.{{ web_base_domain }}
+  - host: zwavejsui.home.intra.web_domain_name
     http:
       paths:
-      - path: {{ '/' if zwavejsui.context_root == '' else zwavejsui.context_root + '/?(.*)' }}
+      - path: /
         pathType: Prefix
         backend:
           service:

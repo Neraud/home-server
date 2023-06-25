@@ -2,53 +2,47 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: zwavejsui
-  namespace: {{ zwavejsui.namespace }}
-  labels:
-    {{ zwavejsui.labels_def | to_nice_yaml() | indent(4) }}
-    {{ zwavejsui.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ zwavejsui.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: zwavejsui
+      app.kubernetes.io/component: zwavejsui
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ zwavejsui.labels_def | to_nice_yaml() | indent(8) }}
-        {{ zwavejsui.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: zwavejsui
+        app.kubernetes.io/component: zwavejsui
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.private_image | image_full_name }}"
+        image: "registry.lan/zwavejsui-busybox:1.36.0"
         imagePullPolicy: Always
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /opt/zwavejsui/store
-            chown 1000:1000 /opt/zwavejsui/store
+            chown -R 1000:1000 /opt/zwavejsui/store
             cp /opt/zwavejsui/store/settings_bootstrap.json /opt/zwavejsui/store/settings.json
             chown 1000:1000 /opt/zwavejsui/store/settings.json
         volumeMounts:
-        - name: config-volume
+        - name: zwavejsui-config
           mountPath: /opt/zwavejsui/store/settings_bootstrap.json
           subPath: settings.json
-        - name: zwavejsui-pv-claim
+        - name: zwavejsui-data
           mountPath: /opt/zwavejsui
       containers:
       - name: zwavejsui
-        image: "{{ zwavejsui.private_image | image_full_name }}"
+        image: "registry.lan/zwave-js-ui:8.11.1"
         imagePullPolicy: Always
-        env:
-        - name: SESSION_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: zwavejsui-secret
-              key: session-secret
+        envFrom:
+        - secretRef:
+            name: zwavejsui-env
         ports:
         - name: http
           containerPort: 8091
@@ -68,11 +62,11 @@ spec:
           timeoutSeconds: 2
         resources:
           requests:
-            cpu: "{{ zwavejsui.container.requests_cpu }}"
-            memory: "{{ zwavejsui.container.requests_memory }}"
+            cpu: 100m
+            memory: 128Mi
           limits:
-            cpu: "{{ zwavejsui.container.limits_cpu }}"
-            memory: "{{ zwavejsui.container.limits_memory }}"
+            cpu: 250m
+            memory: 128Mi
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000 # node
@@ -81,29 +75,20 @@ spec:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
-        - name: zwavejsui-pv-claim
+        - name: zwavejsui-data
           mountPath: /usr/src/app/store
           subPath: store
-        - name: config-volume
-          mountPath: /usr/src/app/store/users.json
-          subPath: users.json
       volumes:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: config-volume
+      - name: zwavejsui-data
+        persistentVolumeClaim:
+          claimName: zwavejsui-data
+      - name: zwavejsui-config
         secret:
-          secretName: zwavejsui-secret
+          secretName: zwavejsui-config
       imagePullSecrets:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
-  volumeClaimTemplates:
-  - metadata:
-      name: zwavejsui-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ zwavejsui.container.storage.data }}
