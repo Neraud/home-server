@@ -1,0 +1,22 @@
+---
+
+- name: Build and deploy home-zigbee2mqtt
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: home-zigbee2mqtt
+
+- name: Deploy home-zigbee2mqtt backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: home-zigbee2mqtt
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "home-zigbee2mqtt"
+      apps_to_stop:
+        - name: zigbee2mqtt
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: zigbee2mqtt-data
+          pvc_name: zigbee2mqtt-data
+  tags: backup

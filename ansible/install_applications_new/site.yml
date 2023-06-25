@@ -23,3 +23,4 @@
     - { role: home-mosquitto,                tags: kubernetes-app-home-mosquitto,                when: mosquitto_enabled | bool }
     - { role: home-nodered,                  tags: kubernetes-app-home-nodered,                  when: nodered_enabled | bool }
     - { role: home-roomassistant,            tags: kubernetes-app-home-roomassistant,            when: roomassistant_enabled | bool }
+    - { role: home-zigbee2mqtt,              tags: kubernetes-app-home-zigbee2mqtt,              when: zigbee2mqtt_enabled | bool }

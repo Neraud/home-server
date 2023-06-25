@@ -296,9 +296,9 @@ watchers:
       - ^8\.[0-9]\..*
       - ^8\.1[0]\..*
   - type: docker_registry
-    repo: {{ zigbee2mqtt.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ zigbee2mqtt.base_image.name }}
-    tag: {{ zigbee2mqtt.base_image.tag }}
+    repo: registry-1.docker.io
+    image: koenkk/zigbee2mqtt
+    tag: 1.30.3
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*$
     excludes:
