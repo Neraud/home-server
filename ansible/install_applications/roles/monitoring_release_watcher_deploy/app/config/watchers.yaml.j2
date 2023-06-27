@@ -344,9 +344,9 @@ watchers:
       - 0\.[0-8]\.
       - 0\.9\.[0-5]$
   - type: docker_registry
-    repo: {{ blocky.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ blocky.base_image.name }}
-    tag: {{ blocky.base_image.tag }}
+    repo: ghcr.io
+    image: 0xerr0r/blocky
+    tag: v0.21
     includes:
       - 'v[0-9]+\.[0-9]+'
     excludes:
@@ -354,9 +354,9 @@ watchers:
       - v0\.1[0-9]$
   - name: Blocky PostgreSQL
     type: docker_registry
-    repo: {{ blocky_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ blocky_pgsql.base_image.name }}
-    tag: {{ blocky_pgsql.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/postgres
+    tag: 15.2-alpine3.17
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
@@ -366,9 +366,9 @@ watchers:
       - ^15\.[0-1]\..*
   - name: "Blocky Redis"
     type: docker_registry
-    repo: {{ blocky_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ blocky_redis.base_image.name }}
-    tag: {{ blocky_redis.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/redis
+    tag: 7.0.8-alpine3.17
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
     excludes:

@@ -1,6 +1,0 @@
----
-- name: Provision infra-blocky
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_blocky_deploy

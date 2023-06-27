@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blocky
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: blocky
+      app.kubernetes.io/component: blocky
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: blocky
+        app.kubernetes.io/component: blocky
+    spec:
+      containers:
+      - name: blocky
+        image: "registry.lan/blocky:v0.21"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4000
+          name: http
+        - name: dns
+          containerPort: 53
+          protocol: TCP
+        - name: dns-udp
+          containerPort: 53
+          protocol: UDP
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 100 # blocky
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: blocky-config
+          mountPath: /app/config.yml
+          subPath: config.yml
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: blocky-config
+        secret:
+          secretName: blocky-config
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

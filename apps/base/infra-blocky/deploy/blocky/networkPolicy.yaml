@@ -1,0 +1,38 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-blocky
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: blocky
+      app.kubernetes.io/component: blocky
+
+  ingress:
+    - ports:
+        - port: http
+      from:
+        # Allow from prometheus
+        - namespaceSelector:
+            matchLabels:
+              name: monitoring-prometheus
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/component: prometheus
+              app.kubernetes.io/instance: k8s
+              app.kubernetes.io/name: prometheus
+        # Allow from olivetin
+        - namespaceSelector:
+            matchLabels:
+              name: tool-olivetin
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: olivetin
+              app.kubernetes.io/component: olivetin
+    # Allow dns / dns-udp from all
+    - ports:
+        - port: dns
+        - port: dns-udp
+          protocol: UDP

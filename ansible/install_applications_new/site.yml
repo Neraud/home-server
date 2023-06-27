@@ -25,3 +25,4 @@
     - { role: home-roomassistant,            tags: kubernetes-app-home-roomassistant,            when: roomassistant_enabled | bool }
     - { role: home-zigbee2mqtt,              tags: kubernetes-app-home-zigbee2mqtt,              when: zigbee2mqtt_enabled | bool }
     - { role: home-zwavejsui,                tags: kubernetes-app-home-zwavejsui,                when: zwavejsui_enabled | bool }
+    - { role: infra-blocky,                  tags: kubernetes-app-infra-blocky,                  when: blocky_enabled | bool }
