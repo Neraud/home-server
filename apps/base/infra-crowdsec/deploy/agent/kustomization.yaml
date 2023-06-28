@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: crowdsec
+      app.kubernetes.io/component: agent
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: agent-env
+  envs:
+  - config/agent.env
+
+resources:
+- networkPolicy.yaml
+- service-metrics.yaml
+- daemonSet.yaml

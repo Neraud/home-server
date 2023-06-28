@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crowdsec-lapi-metrics
+  labels:
+    crowdsec-role: lapi
+    prometheus-target: crowdsec-lapi
+spec:
+  ports:
+  - name: metrics
+    port: 6060
+    targetPort: metrics
+  selector:
+    app.kubernetes.io/name: crowdsec
+    app.kubernetes.io/component: lapi

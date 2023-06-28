@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lapi-lb
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 1.2.3.4
+  externalTrafficPolicy: Local
+  ports:
+  - name: lapi
+    port: 8080
+    targetPort: lapi
+  selector:
+    app.kubernetes.io/name: crowdsec
+    app.kubernetes.io/component: lapi

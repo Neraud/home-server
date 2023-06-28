@@ -26,3 +26,4 @@
     - { role: home-zigbee2mqtt,              tags: kubernetes-app-home-zigbee2mqtt,              when: zigbee2mqtt_enabled | bool }
     - { role: home-zwavejsui,                tags: kubernetes-app-home-zwavejsui,                when: zwavejsui_enabled | bool }
     - { role: infra-blocky,                  tags: kubernetes-app-infra-blocky,                  when: blocky_enabled | bool }
+    - { role: infra-crowdsec,                tags: kubernetes-app-infra-crowdsec,                when: crowdsec_enabled | bool }
