@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-registry-lb
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 1.2.3.4
+  externalTrafficPolicy: Local
+  ports:
+    - port: 443
+      name: https
+      targetPort: https
+  selector:
+    app.kubernetes.io/name: docker-registry
+    app.kubernetes.io/component: registry

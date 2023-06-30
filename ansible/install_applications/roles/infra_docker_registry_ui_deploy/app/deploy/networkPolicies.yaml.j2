@@ -25,7 +25,8 @@ spec:
               {{ ingress_nginx.labels_def | to_nice_yaml() | indent(14) }}
         - namespaceSelector:
             matchLabels:
-              name: {{ docker_registry.namespace }}
+              app.kubernetes.io/name: infra-docker-registry
           podSelector:
             matchLabels:
-              {{ docker_registry.labels_def | to_nice_yaml() | indent(14) }}
+              app.kubernetes.io/name: docker-registry
+              app.kubernetes.io/component: registry

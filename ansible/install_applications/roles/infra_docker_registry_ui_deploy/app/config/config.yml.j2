@@ -4,7 +4,7 @@ listen_addr: 0.0.0.0:8000
 base_path: {{ docker_registry_ui.context_root }}
 
 # Registry URL with schema and port.
-registry_url: https://{{ docker_registry.servername }}
+registry_url: docker-registry.infra-docker-registry.svc.cluster.local
 # Verify TLS certificate when using https.
 verify_tls: true
 

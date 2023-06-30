@@ -2,28 +2,25 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: docker-registry
-  namespace: {{ docker_registry.namespace }}
-  labels:
-    {{ docker_registry.labels_def | to_nice_yaml() | indent(4) }}
-    {{ docker_registry.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
-  replicas: {{ docker_registry.container.replicas }}
+  replicas: 1
   selector:
     matchLabels:
-      {{ docker_registry.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: docker-registry
+      app.kubernetes.io/component: registry
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ docker_registry.labels_def | to_nice_yaml() | indent(8) }}
-        {{ docker_registry.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: docker-registry
+        app.kubernetes.io/component: registry
     spec:
       initContainers:
       - name: create-data-dir
-        image: "{{ busybox.public_image | image_full_name }}"
+        image: "docker.io/library/busybox:1.36.0"
         # Don't always pull to avoid issues when restarting (eg: dockerhub limit)
         imagePullPolicy: IfNotPresent
         command:
@@ -39,7 +36,7 @@ spec:
           mountPath: /var/lib/registry
       containers:
       - name: docker-registry
-        image: "{{ docker_registry.base_image | image_full_name }}"
+        image: "docker.io/library/registry:2.8.1"
         # Don't always pull to avoid issues when restarting (eg: dockerhub limit)
         imagePullPolicy: IfNotPresent
         ports:
@@ -60,21 +57,21 @@ spec:
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ docker_registry.container.requests_cpu }}"
-            memory: "{{ docker_registry.container.requests_memory }}"
+            cpu: 50m
+            memory: 256Mi
           limits:
-            cpu: "{{ docker_registry.container.limits_cpu }}"
-            memory: "{{ docker_registry.container.limits_memory }}"
+            cpu: 500m
+            memory: 512Mi
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
         - name: docker-registry-data
           mountPath: /var/lib/registry
-        - name: docker-registry-config
+        - name: docker-registry
           mountPath: /etc/docker/registry/config.yml
           subPath: config.yml
-        - name: docker-registry-auth
+        - name: docker-registry
           mountPath: /etc/docker/registry/htpasswd
           subPath: htpasswd
         - name: certs-volume
@@ -83,12 +80,9 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: docker-registry-config
-        configMap:
-          name: docker-registry-config
-      - name: docker-registry-auth
+      - name: docker-registry
         secret:
-          secretName: docker-registry-auth
+          secretName: docker-registry
       - name: certs-volume
         secret:
           secretName: docker-registry-certs

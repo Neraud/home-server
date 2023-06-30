@@ -51,6 +51,10 @@ creation_rules:
   encrypted_regex: "^(Authorization)$"
   age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
 
+- path_regex: "infra-docker-registry/deploy/config/config.secret.yml"
+  encrypted_regex: "^(secret|Authorization)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
 # Default Kubernetes manifest encryption
 - unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
   age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"

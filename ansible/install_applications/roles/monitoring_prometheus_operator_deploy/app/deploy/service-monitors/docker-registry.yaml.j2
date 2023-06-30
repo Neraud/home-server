@@ -1,9 +1,6 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  labels:
-    {{ docker_registry.labels_def | to_nice_yaml() | indent(4) }}
-    {{ docker_registry.labels_desc | to_nice_yaml() | indent(4) }}
   name: docker-registry
   namespace: {{ prometheus.namespace }}
 spec:
@@ -19,7 +16,7 @@ spec:
     path: /metrics
   namespaceSelector:
     matchNames:
-    - {{ docker_registry.namespace }}
+    - infra-docker-registry
   selector:
     matchLabels:
       prometheus-target: docker-registry

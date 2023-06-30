@@ -431,9 +431,9 @@ watchers:
       - latest
       - v1\.0\.0
   - type: docker_registry
-    repo: {{ docker_registry.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ docker_registry.base_image.name }}
-    tag: {{ docker_registry.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/registry
+    tag: 2.8.1
     includes:
       - "[2-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:

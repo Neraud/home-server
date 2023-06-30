@@ -13,6 +13,12 @@ openssl_custom_cert_secrets:
   kubernetes_replicator:
     push_full_to_namespaces:
     - .*
+- secret_name: "docker-registry"
+  pki_name: cluster
+  cert_name: docker-registry
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - infra-docker-registry
 - secret_name: "openldap"
   pki_name: cluster
   cert_name: ldap

@@ -2,10 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: docker-registry
-  namespace: {{ docker_registry.namespace }}
-  labels:
-    {{ docker_registry.labels_def | to_nice_yaml() | indent(4) }}
-    {{ docker_registry.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
@@ -14,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - registry.intra.{{ web_base_domain }}
+      - registry.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: registry.intra.{{ web_base_domain }}
+  - host: registry.intra.web_domain_name
     http:
       paths:
       - path: /

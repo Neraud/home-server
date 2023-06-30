@@ -1,8 +1,4 @@
 ---
-- import_playbook: app-infra-docker-registry.yml
-  tags: kubernetes-app-infra-docker-registry
-  when: docker_registry_enabled | bool
-
 - import_playbook: app-infra-intel-gpu-plugin.yml
   tags: kubernetes-app-infra-intel-gpu-plugin
   when: intel_gpu_plugin_enabled | bool
