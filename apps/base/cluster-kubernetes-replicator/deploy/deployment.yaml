@@ -22,8 +22,8 @@ spec:
       containers:
       - name: kubernetes-replicator
         securityContext: {}
-        image: registry.lan/kubernetes-replicator:v2.8.0
-        imagePullPolicy: Always
+        image: quay.io/mittwald/kubernetes-replicator:v2.8.0
+        imagePullPolicy: IfNotPresent
         args: []
         ports:
         - name: health
