@@ -33,3 +33,4 @@
     - { role: cluster-intel-gpu-plugin,         tags: kubernetes-app-cluster-intel-gpu-plugin,         when: intel_gpu_plugin_enabled | bool }
     - { role: infra-kubernetes-metrics-server,  tags: kubernetes-app-infra-kubernetes-metrics-server,  when: kubernetes_metrics_server_enabled | bool }
     - { role: infra-kubernetes-dashboard,       tags: kubernetes-app-infra-kubernetes-dashboard,       when: kubernetes_dashboard_enabled | bool }
+    - { role: infra-mailhog,                    tags: kubernetes-app-infra-mailhog,                    when: mailhog_enabled | bool }

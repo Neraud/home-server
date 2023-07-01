@@ -1,6 +1,0 @@
----
-- name: Provision infra-mailhog
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_mailhog_deploy

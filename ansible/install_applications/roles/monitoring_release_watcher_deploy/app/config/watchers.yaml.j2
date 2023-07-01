@@ -424,9 +424,9 @@ watchers:
       - controller-v?1\.[0-6]\..*
       - .*beta.*
   - type: docker_registry
-    repo: {{ mailhog.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ mailhog.base_image.name }}
-    tag: {{ mailhog.base_image.tag }}
+    repo: registry-1.docker.io
+    image: mailhog/mailhog
+    tag: v1.0.1
     excludes:
       - latest
       - v1\.0\.0

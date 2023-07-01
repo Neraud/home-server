@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: infra-mailhog
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: mailhog
+      app.kubernetes.io/component: mailhog
+      app.kubernetes.io/version: v1.0.1
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- deployment.yaml

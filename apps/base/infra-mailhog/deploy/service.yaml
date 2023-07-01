@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mailhog
+spec:
+  ports:
+    - port: 1025
+      name: smtp
+      targetPort: smtp
+    - port: 8025
+      name: http
+      targetPort: http
+  selector:
+    app.kubernetes.io/name: mailhog
+    app.kubernetes.io/component: mailhog
