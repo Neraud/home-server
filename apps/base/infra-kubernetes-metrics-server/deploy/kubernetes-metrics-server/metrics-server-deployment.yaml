@@ -1,16 +1,13 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: metrics-server
-  namespace: {{ kubernetes_metrics_server.namespace }}
-  labels:
-    {{ kubernetes_metrics_server.labels_def | to_nice_yaml() | indent(4) }}
-    {{ kubernetes_metrics_server.labels_desc | to_nice_yaml() | indent(4) }}
+  namespace: infra-kubernetes-metrics-server
 spec:
   selector:
     matchLabels:
-      {{ kubernetes_metrics_server.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: metrics-server
+      app.kubernetes.io/component: metrics-server
   strategy:
     rollingUpdate:
       maxUnavailable: 0
@@ -18,8 +15,8 @@ spec:
     metadata:
       name: metrics-server
       labels:
-        {{ kubernetes_metrics_server.labels_def | to_nice_yaml() | indent(8) }}
-        {{ kubernetes_metrics_server.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: metrics-server
+        app.kubernetes.io/component: metrics-server
     spec:
       containers:
       - args:
@@ -31,7 +28,7 @@ spec:
         - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
         - --kubelet-use-node-status-port
         - --metric-resolution=15s
-        image: "{{ kubernetes_metrics_server.private_image | image_full_name }}"
+        image: "registry.lan/metrics-server:v0.6.3"
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
@@ -55,11 +52,11 @@ spec:
           periodSeconds: 10
         resources:
           requests:
-            cpu: "{{ kubernetes_metrics_server.container.requests_cpu }}"
-            memory: "{{ kubernetes_metrics_server.container.requests_memory }}"
+            cpu: 25m
+            memory: 128Mi
           limits:
-            cpu: "{{ kubernetes_metrics_server.container.limits_cpu }}"
-            memory: "{{ kubernetes_metrics_server.container.limits_memory }}"
+            cpu: 100m
+            memory: 256Mi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true

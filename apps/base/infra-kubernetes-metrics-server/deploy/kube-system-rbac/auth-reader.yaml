@@ -4,8 +4,6 @@ kind: RoleBinding
 metadata:
   name: metrics-server-auth-reader
   namespace: kube-system
-  labels:
-    {{ kubernetes_metrics_server.labels_def | to_nice_yaml() | indent(4) }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -13,4 +11,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: metrics-server
-    namespace: {{ kubernetes_metrics_server.namespace }}
+    namespace: infra-kubernetes-metrics-server

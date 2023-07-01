@@ -1,8 +1,4 @@
 ---
-- import_playbook: app-infra-kubernetes-metrics-server.yml
-  tags: kubernetes-app-infra-kubernetes-metrics-server
-  when: kubernetes_metrics_server_enabled | bool
-
 - import_playbook: app-infra-reloader.yml
   tags: kubernetes-app-infra-reloader
   when: reloader_enabled | bool

@@ -1,6 +1,0 @@
----
-- name: Provision infra-kubernetes-metrics-server
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_kubernetes_metrics_server_deploy
