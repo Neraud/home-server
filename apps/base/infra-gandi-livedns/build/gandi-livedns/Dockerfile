@@ -1,5 +1,4 @@
-ARG from_image
-FROM $from_image
+FROM docker.io/library/alpine:3.17.3
 
 ENV REFRESH_INTERVAL=600
 ENV SET_IPV4="yes"

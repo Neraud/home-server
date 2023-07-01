@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gandi-livedns
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: gandi-livedns
+            resources:
+              requests:
+                cpu: 25m
+                memory: 16Mi
+              limits:
+                  cpu: 50m
+                  memory: 16Mi

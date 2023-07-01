@@ -59,6 +59,10 @@ creation_rules:
   encrypted_regex: "^(registry_password|event_listener_token)$"
   age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
 
+- path_regex: "infra-gandi-livedns/deploy/config/gandi-livedns.secret.env"
+  encrypted_regex: "^(APIKEY|DOMAIN)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
 # Default Kubernetes manifest encryption
 - unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
   age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
