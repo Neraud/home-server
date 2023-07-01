@@ -2,7 +2,7 @@
 galaxy_info:
   author: "Neraud"
   license: MIT
-  description: "Deploy application infra-dashboard"
+  description: "Deploy application infra-kubernetes-dashboard"
   min_ansible_version: 2.7
   platforms:
     - name: Debian
@@ -11,4 +11,4 @@ galaxy_info:
         - buster
 
 dependencies:
-  - { role: app_base_deploy }
+  - { role: app_base }

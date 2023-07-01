@@ -2,17 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: dashboard
-  namespace: {{ kubernetes_dashboard.namespace }}
-  labels:
-    {{ kubernetes_dashboard.labels_def | to_nice_yaml() | indent(4) }}
-    {{ kubernetes_dashboard.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-{% if kubernetes_dashboard.context_root != "" %}
-    nginx.ingress.kubernetes.io/rewrite-target: "/$1"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^({{ kubernetes_dashboard.context_root }})$ $1/ permanent;
-{% endif %}
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Cluster Management
     gethomepage.dev/name: Dashboard Kubernetes
@@ -22,13 +13,13 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - kube.infra.intra.{{ web_base_domain }}
+      - kube.infra.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: kube.infra.intra.{{ web_base_domain }}
+  - host: kube.infra.intra.web_domain_name
     http:
       paths:
-      - path: {{ '/' if kubernetes_dashboard.context_root == '' else kubernetes_dashboard.context_root + '/?(.*)' }}
+      - path: /
         pathType: Prefix
         backend:
           service:
