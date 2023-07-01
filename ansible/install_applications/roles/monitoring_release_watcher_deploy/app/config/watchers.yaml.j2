@@ -335,9 +335,9 @@ watchers:
       - .*beta.*
       - .*rc.*
   - type: docker_registry
-    repo: {{ docker_registry_ui.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ docker_registry_ui.base_image.name }}
-    tag: {{ docker_registry_ui.base_image.tag }}
+    repo: registry-1.docker.io
+    image: quiq/docker-registry-ui
+    tag: 0.9.6
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:

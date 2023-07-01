@@ -1,6 +1,0 @@
----
-- name: Provision infra-docker-registry-ui
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_docker_registry_ui_deploy

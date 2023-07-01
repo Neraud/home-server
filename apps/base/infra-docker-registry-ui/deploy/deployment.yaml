@@ -2,27 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: docker-registry-ui
-  namespace: {{ docker_registry_ui.namespace }}
-  labels:
-    {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(4) }}
-    {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: docker-registry-ui
+      app.kubernetes.io/component: docker-registry-ui
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ docker_registry_ui.labels_def | to_nice_yaml() | indent(8) }}
-        {{ docker_registry_ui.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: docker-registry-ui
+        app.kubernetes.io/component: docker-registry-ui
     spec:
       containers:
       - name: docker-registry-ui
-        image: "{{ docker_registry_ui.private_image | image_full_name }}"
+        image: "registry.lan/docker-registry-ui:0.9.6"
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
@@ -35,17 +32,17 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ docker_registry_ui.context_root }}
+            path: /
             port: http
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ docker_registry_ui.container.requests_cpu }}"
-            memory: "{{ docker_registry_ui.container.requests_memory }}"
+            cpu: 25m
+            memory: 32Mi
           limits:
-            cpu: "{{ docker_registry_ui.container.limits_cpu }}"
-            memory: "{{ docker_registry_ui.container.limits_memory }}"
+            cpu: 200m
+            memory: 32Mi
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -63,8 +60,8 @@ spec:
         hostPath:
           path: /etc/localtime
       - name: docker-registry-ui-config
-        configMap:
-          name: docker-registry-ui-config
+        secret:
+          secretName: docker-registry-ui-config
       - name: data-volume
         emptyDir: {}
       - name: cluster-ca-volume

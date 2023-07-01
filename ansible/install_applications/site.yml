@@ -23,10 +23,6 @@
   tags: kubernetes-app-infra-mailhog
   when: mailhog_enabled | bool
 
-- import_playbook: app-infra-docker-registry-ui.yml
-  tags: kubernetes-app-infra-docker-registry-ui
-  when: docker_registry_ui_enabled | bool
-
 - import_playbook: app-infra-ntfy.yml
   tags: kubernetes-app-infra-ntfy
   when: ntfy_enabled | bool
