@@ -7,10 +7,6 @@
   tags: kubernetes-app-infra-zonemta
   when: zonemta_enabled | bool
 
-- import_playbook: app-infra-ntfy.yml
-  tags: kubernetes-app-infra-ntfy
-  when: ntfy_enabled | bool
-
 - import_playbook: app-logging-elasticsearch.yml
   tags: kubernetes-app-logging-elasticsearch
   when: elasticsearch_enabled | bool

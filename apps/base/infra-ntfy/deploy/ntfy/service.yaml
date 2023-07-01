@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ntfy
+spec:
+  ports:
+    - port: 8080
+      name: http
+      targetPort: http
+  selector:
+    app.kubernetes.io/name: ntfy
+    app.kubernetes.io/component: ntfy

@@ -1,0 +1,22 @@
+---
+
+- name: Build and deploy infra-ntfy
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: infra-ntfy
+
+- name: Deploy NTFY backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: infra-ntfy
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "infra-ntfy"
+      apps_to_stop:
+        - name: ntfy
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: ntfy-data
+          pvc_name: ntfy-data
+  tags: backup
