@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reloader
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: reloader
+      app.kubernetes.io/component: reloader
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: reloader
+        app.kubernetes.io/component: reloader
+    spec:
+      containers:
+      - name: reloader
+        image: "registry.lan/reloader:v1.0.18"
+        imagePullPolicy: Always
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            cpu: 50m
+            memory: 64Mi
+      serviceAccountName: reloader
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

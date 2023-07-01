@@ -2,9 +2,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: reloader-role-binding
-  labels:
-    {{ reloader.labels_def | to_nice_yaml() | indent(4) }}
-    {{ reloader.labels_desc | to_nice_yaml() | indent(4) }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -12,4 +9,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: reloader
-    namespace: {{ reloader.namespace }}
+    namespace: cluster-reloader

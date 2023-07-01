@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: cluster-reloader
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: reloader
+      app.kubernetes.io/component: reloader
+      app.kubernetes.io/version: v1.0.18
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- serviceAccount.yaml
+- clusterRole.yaml
+- clusterRoleBinding.yaml
+- deployment.yaml

@@ -5,6 +5,7 @@
   roles:
     - { role: cluster-kubernetes-replicator,    tags: kubernetes-app-cluster-kubernetes-replicator,    when: kubernetes_replicator_enabled | bool }
     - { role: infra-docker-registry,            tags: kubernetes-app-infra-docker-registry,            when: docker_registry_enabled | bool }
+    - { role: cluster-reloader,                 tags: kubernetes-app-cluster-reloader,                 when: reloader_enabled | bool }
     - { role: dev-minio,                        tags: kubernetes-app-dev-minio,                        when: minio_enabled | bool }
     - { role: dev-argo-workflows,               tags: kubernetes-app-dev-argo-workflows,               when: argo_workflows_enabled | bool }
     - { role: dev-argo-events,                  tags: kubernetes-app-dev-argo-events,                  when: argo_events_enabled | bool }
