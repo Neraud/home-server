@@ -2,27 +2,24 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: intel-gpu-plugin
-  namespace: {{ intel_gpu_plugin.namespace }}
-  labels:
-    {{ intel_gpu_plugin.labels_def | to_nice_yaml() | indent(4) }}
-    {{ intel_gpu_plugin.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ intel_gpu_plugin.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: intel-gpu-plugin
+      app.kubernetes.io/component: intel-gpu-plugin
   updateStrategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        {{ intel_gpu_plugin.labels_def | to_nice_yaml() | indent(8) }}
-        {{ intel_gpu_plugin.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: intel-gpu-plugin
+        app.kubernetes.io/component: intel-gpu-plugin
     spec:
       containers:
       - name: intel-gpu-plugin
-        image: "{{ intel_gpu_plugin.private_image | image_full_name }}"
+        image: "registry.lan/intel-gpu-plugin:0.26.0"
         imagePullPolicy: Always
         env:
           - name: NODE_NAME

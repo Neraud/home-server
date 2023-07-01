@@ -30,3 +30,4 @@
     - { role: infra-crowdsec,                tags: kubernetes-app-infra-crowdsec,                when: crowdsec_enabled | bool }
     - { role: infra-docker-registry-ui,      tags: kubernetes-app-infra-docker-registry-ui,      when: docker_registry_ui_enabled | bool }
     - { role: infra-gandi-livedns,           tags: kubernetes-app-infra-gandi-livedns,           when: gandi_livedns_enabled | bool }
+    - { role: cluster-intel-gpu-plugin,      tags: kubernetes-app-cluster-intel-gpu-plugin,      when: intel_gpu_plugin_enabled | bool }

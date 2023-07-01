@@ -1,6 +1,0 @@
----
-- name: Provision infra-intel-gpu-plugin
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_intel_gpu_plugin_deploy

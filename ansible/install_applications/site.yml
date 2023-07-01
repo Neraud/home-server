@@ -1,8 +1,4 @@
 ---
-- import_playbook: app-infra-intel-gpu-plugin.yml
-  tags: kubernetes-app-infra-intel-gpu-plugin
-  when: intel_gpu_plugin_enabled | bool
-
 - import_playbook: app-infra-kubernetes-metrics-server.yml
   tags: kubernetes-app-infra-kubernetes-metrics-server
   when: kubernetes_metrics_server_enabled | bool

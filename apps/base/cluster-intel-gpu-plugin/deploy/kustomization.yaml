@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: cluster-intel-gpu-plugin
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: intel-gpu-plugin
+      app.kubernetes.io/component: intel-gpu-plugin
+      app.kubernetes.io/version: 0.26.0
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- daemonSet.yaml
