@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{ zonemta.labels_def | to_nice_yaml() | indent(4) }}
-    {{ zonemta.labels_desc | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/component: server
   name: zonemta
   namespace: {{ prometheus.namespace }}
 spec:
@@ -12,7 +12,7 @@ spec:
     port: metrics
   namespaceSelector:
     matchNames:
-    - {{ zonemta.namespace }}
+    - infra-zonemta
   selector:
     matchLabels:
       prometheus-target: zonemta

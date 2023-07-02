@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zonemta
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zonemta
+      app.kubernetes.io/component: server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: zonemta
+        app.kubernetes.io/component: server
+    spec:
+      initContainers:
+      - name: wait-for-requirements
+        image: "registry.lan/zonemta-busybox:1.36.0"
+        imagePullPolicy: Always
+        command: 
+          - "sh"
+          - "-c"
+          - |
+            echo "Waiting for MongoDB"
+            timeout 120s sh -c "while ! nc -z -w 0 mongo 27017 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+            ret=$?
+            echo "return : $ret"
+            if [ $ret -eq 0 ] ; then
+              echo "MongoDB Server has started"
+            else
+              echo "FAILED : MongoDB Server isn't available"
+              exit 1
+            fi
+
+            echo "Waiting for Redis"
+            timeout 120s sh -c "while ! nc -z -w 0 redis 6379 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+            ret=$?
+            echo "return : $ret"
+            if [ $ret -eq 0 ] ; then
+              echo "Redis Server has started"
+            else
+              echo "FAILED : Redis Server isn't available"
+              exit 1
+            fi
+      containers:
+      - name: zonemta
+        image: "registry.lan/zonemta:3.5.1-node-19.8.1-alpine3.17"
+        imagePullPolicy: Always
+        env:
+        - name: NODE_OPTIONS
+          value: --max-old-space-size=32
+        ports:
+        - containerPort: 1587
+          name: smtp
+        - containerPort: 12080
+          name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          tcpSocket:
+            port: smtp
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 25m
+            memory: 160Mi
+          limits:
+            cpu: 100m
+            memory: 160Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: zonemta-config
+          mountPath: /opt/zone-mta/config
+        - name: zonemta-certs
+          mountPath: /opt/zone-mta/certs
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: zonemta-config
+        secret:
+          secretName: zonemta-config
+      - name: zonemta-certs
+        secret:
+          secretName: zonemta-certs
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

@@ -1,0 +1,11 @@
+[default]
+preferIPv6=false
+ignoreIPv6=true
+processes=1
+connections=5
+pool="default"
+
+# If you want to send messages for this zone to next MTA instead of actual MX, then
+# uncomment following lines and change values
+host = "mailhog.infra-mailhog.svc.cluster.local"
+port = 1025

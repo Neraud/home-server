@@ -1,0 +1,21 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-mongodb
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: zonemta
+      app.kubernetes.io/component: mongo
+
+  ingress:
+    # Allow from zonemta
+    - ports:
+        - port: mongo
+      from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: zonemta
+              app.kubernetes.io/component: server

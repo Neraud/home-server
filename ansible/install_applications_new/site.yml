@@ -37,3 +37,4 @@
     - { role: infra-mailhog,                    tags: kubernetes-app-infra-mailhog,                    when: mailhog_enabled | bool }
     - { role: infra-ntfy,                       tags: kubernetes-app-infra-ntfy,                       when: ntfy_enabled | bool }
     - { role: infra-unifi,                      tags: kubernetes-app-infra-unifi,                      when: unifi_enabled | bool }
+    - { role: infra-zonemta,                    tags: kubernetes-app-infra-zonemta,                    when: zonemta_enabled | bool }

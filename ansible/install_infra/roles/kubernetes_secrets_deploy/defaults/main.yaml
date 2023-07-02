@@ -19,6 +19,12 @@ openssl_custom_cert_secrets:
   kubernetes_replicator:
     pull_full_namespaces:
     - infra-docker-registry
+- secret_name: "smtp"
+  pki_name: cluster
+  cert_name: smtp
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - infra-zonemta
 - secret_name: "openldap"
   pki_name: cluster
   cert_name: ldap

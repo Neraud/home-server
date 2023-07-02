@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: zonemta
+      app.kubernetes.io/component: mongo
+      app.kubernetes.io/version: 6.0.5-jammy
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: mongo-init
+  files:
+  - create-user.js=config/create-user.secret.js
+- name: mongo-env
+  envs:
+  - config/mongo.secret.env
+
+resources:
+- networkPolicy.yaml
+- service.yaml
+- pvc.yaml
+- statefulset.yaml

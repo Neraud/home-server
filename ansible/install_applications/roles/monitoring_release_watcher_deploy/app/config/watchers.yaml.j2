@@ -465,17 +465,17 @@ watchers:
       - ^v?7\.[0-2]\.
   - name: ZoneMTA
     type: github_tag
-    repo: {{ zonemta.repo.name }}
-    tag : {{ zonemta.repo.release }}
+    repo: zone-eu/zone-mta
+    tag : v3.5.1
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - ^v[1-2]\.
   - name: "ZoneMTA Redis"
     type: docker_registry
-    repo: {{ zonemta_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ zonemta_redis.base_image.name }}
-    tag: {{ zonemta_redis.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/redis
+    tag: 7.0.10-alpine3.17
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
     excludes:
@@ -484,9 +484,9 @@ watchers:
       - ^7\.0\.[0-9]-.*
   - name: "ZoneMTA Mongo"
     type: docker_registry
-    repo: {{ zonemta_mongo.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ zonemta_mongo.base_image.name }}
-    tag: {{ zonemta_mongo.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/mongo
+    tag: 6.0.5-jammy
     includes:
       - '[0-9]+\.[0-9]+.[0-9]+-.*'
     excludes:
@@ -497,9 +497,9 @@ watchers:
       - ^6\.0\.[0-4]-.*
   - name: "ZoneMTA Node"
     type: docker_registry
-    repo: {{ zonemta.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ zonemta.base_image.name }}
-    tag: {{ zonemta.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/node
+    tag: 19.8.1-alpine3.17
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
