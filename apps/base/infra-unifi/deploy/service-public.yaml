@@ -3,10 +3,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: unifi-frontend
-  namespace: {{ unifi.namespace }}
-  labels:
-    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
-    {{ unifi.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   ports:
   # Port used for controller GUI/API as seen in a web browser
@@ -14,4 +10,5 @@ spec:
     port: 443
     targetPort: https-crtl
   selector:
-    {{ unifi.labels_def | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: unifi
+    app.kubernetes.io/component: unifi

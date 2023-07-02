@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-private-tcp
+  annotations:
+    metallb.universe.tf/allow-shared-ip: unifi-private
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 1.2.3.4
+  externalTrafficPolicy: Local
+  ports:
+  # Port used for device and controller communication.
+  - name: http-crtl
+    port: 8080
+    targetPort: http-crtl
+    protocol: TCP
+  # Port used for controller GUI/API as seen in a web browser
+  - name: https-crtl
+    port: 8443
+    targetPort: https-crtl
+  # Port used for HTTP portal redirection.
+  - name: http-portal
+    port: 8880
+    targetPort: http-portal
+    protocol: TCP
+  # Port used for HTTPS portal redirection.
+  - name: https-portal
+    port: 8843
+    targetPort: https-portal
+    protocol: TCP
+  # Port used for UniFi mobile speed test.
+  - name: speed-test
+    port: 6789
+    targetPort: speed-test
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: unifi
+    app.kubernetes.io/component: unifi

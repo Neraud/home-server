@@ -1,0 +1,22 @@
+---
+
+- name: Build and deploy infra-unifi
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: infra-unifi
+
+- name: Deploy Unifi backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: infra-unifi
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "infra-unifi"
+      apps_to_stop:
+        - name: unifi
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: unifi-data
+          pvc_name: unifi-data
+  tags: backup
