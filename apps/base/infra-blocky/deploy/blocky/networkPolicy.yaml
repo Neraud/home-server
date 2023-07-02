@@ -17,7 +17,7 @@ spec:
         # Allow from prometheus
         - namespaceSelector:
             matchLabels:
-              name: monitoring-prometheus
+              kubernetes.io/metadata.name: monitoring-prometheus
           podSelector:
             matchLabels:
               app.kubernetes.io/component: prometheus
@@ -26,7 +26,7 @@ spec:
         # Allow from olivetin
         - namespaceSelector:
             matchLabels:
-              name: tool-olivetin
+              kubernetes.io/metadata.name: tool-olivetin
           podSelector:
             matchLabels:
               app.kubernetes.io/name: olivetin

@@ -24,7 +24,7 @@ spec:
         # Allow from the ingress controller
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              kubernetes.io/metadata.name: ingress-nginx
           podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
@@ -32,7 +32,7 @@ spec:
         # Allow from homeassistant
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: home-homeassistant
+              kubernetes.io/metadata.name: home-homeassistant
           podSelector:
             matchLabels:
               app.kubernetes.io/name: homeassistant
@@ -41,7 +41,7 @@ spec:
         # Allow from roomassistant
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: home-roomassistant
+              kubernetes.io/metadata.name: home-roomassistant
           podSelector:
             matchLabels:
               app.kubernetes.io/name: roomassistant
@@ -50,7 +50,7 @@ spec:
         # Allow from zigbee2mqtt
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: home-zigbee2mqtt
+              kubernetes.io/metadata.name: home-zigbee2mqtt
           podSelector:
             matchLabels:
               app.kubernetes.io/name: zigbee2mqtt
@@ -59,7 +59,7 @@ spec:
         # Allow from frigate
         - namespaceSelector:
             matchLabels:
-              name: home-frigate
+              kubernetes.io/metadata.name: home-frigate
           podSelector:
             matchLabels:
               app.kubernetes.io/name: frigate

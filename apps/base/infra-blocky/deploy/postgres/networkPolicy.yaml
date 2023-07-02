@@ -22,7 +22,7 @@ spec:
         # Allow from grafana
         - namespaceSelector:
             matchLabels:
-              name: monitoring-grafana
+              kubernetes.io/metadata.name: monitoring-grafana
           podSelector:
             matchLabels:
               app.kubernetes.io/name: grafana

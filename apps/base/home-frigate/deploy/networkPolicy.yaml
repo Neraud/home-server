@@ -17,7 +17,7 @@ spec:
       from:
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              kubernetes.io/metadata.name: ingress-nginx
           podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
@@ -29,7 +29,7 @@ spec:
       from:
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: home-homeassistant
+              kubernetes.io/metadata.name: home-homeassistant
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: homeassistant

@@ -16,13 +16,13 @@ spec:
       from:
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              kubernetes.io/metadata.name: ingress-nginx
           podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: infra-docker-registry
+              kubernetes.io/metadata.name: infra-docker-registry
           podSelector:
             matchLabels:
               app.kubernetes.io/name: docker-registry

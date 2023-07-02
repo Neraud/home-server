@@ -17,7 +17,7 @@ spec:
         # Allow from the ingress controller
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx
+              kubernetes.io/metadata.name: ingress-nginx
           podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
@@ -25,7 +25,7 @@ spec:
         # Allow from sabnzbd
         - namespaceSelector:
             matchLabels:
-              app.kubernetes.io/name: download-sabnzbd
+              kubernetes.io/metadata.name: download-sabnzbd
           podSelector:
             matchLabels:
               app.kubernetes.io/name: sabnzbd
