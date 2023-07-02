@@ -16,8 +16,8 @@ generatorOptions:
 secretGenerator:
 - name: docker-registry
   files:
-  - config.yml=config/config.secret.yml
-  - htpasswd=config/htpasswd.secret
+  - secret/config.yml
+  - secret/htpasswd
 
 resources:
 - namespace.yaml

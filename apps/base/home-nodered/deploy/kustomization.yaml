@@ -21,7 +21,7 @@ configMapGenerator:
 secretGenerator:
 - name: nodered-config
   files:
-  - settings.js=config/settings.secret.js
+  - secret/settings.js
 
 resources:
 - namespace.yaml

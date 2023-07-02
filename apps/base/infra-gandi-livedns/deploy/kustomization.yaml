@@ -16,7 +16,7 @@ generatorOptions:
 secretGenerator:
 - name: gandi-livedns-env
   envs:
-  - config/gandi-livedns.secret.env
+  - secret/gandi-livedns.env
 
 resources:
 - namespace.yaml

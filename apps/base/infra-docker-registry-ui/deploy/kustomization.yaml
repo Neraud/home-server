@@ -16,7 +16,7 @@ generatorOptions:
 secretGenerator:
 - name: docker-registry-ui-config
   files:
-  - config.yml=config/config.secret.yml
+  - secret/config.yml
 
 resources:
 - namespace.yaml

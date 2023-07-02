@@ -14,25 +14,25 @@ generatorOptions:
 secretGenerator:
 - name: zonemta-config
   files:
-  - config/api.toml
-  - dbs.toml=config/dbs.secret.toml
-  - config/dns.toml
-  - config/domains.toml
-  - config/interface_feeder.toml
-  - config/log.toml
-  - config/plugin_default-headers.toml
-  - config/plugin_delivery-counters.toml
-  - config/plugin_dkim.toml
-  - config/plugin_email-bounce.toml
-  - config/plugin_image-hashes.toml
-  - config/plugin_loop-breaker.toml
-  - plugin_simple-auth.toml=config/plugin_simple-auth.secret.toml
-  - config/plugin_zonemta-limiter.toml
-  - config/pools.toml
-  - config/queue.toml
-  - config/zone_bounces.toml
-  - config/zone_default.toml
-  - config/zonemta.toml
+  - secret/api.toml
+  - secret/dbs.toml
+  - secret/dns.toml
+  - secret/domains.toml
+  - secret/interface_feeder.toml
+  - secret/log.toml
+  - secret/plugin_default-headers.toml
+  - secret/plugin_delivery-counters.toml
+  - secret/plugin_dkim.toml
+  - secret/plugin_email-bounce.toml
+  - secret/plugin_image-hashes.toml
+  - secret/plugin_loop-breaker.toml
+  - secret/plugin_simple-auth.toml
+  - secret/plugin_zonemta-limiter.toml
+  - secret/pools.toml
+  - secret/queue.toml
+  - secret/zone_bounces.toml
+  - secret/zone_default.toml
+  - secret/zonemta.toml
 
 resources:
 - networkPolicy.yaml

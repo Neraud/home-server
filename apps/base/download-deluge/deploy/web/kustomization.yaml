@@ -14,10 +14,10 @@ configMapGenerator:
 
 secretGenerator:
 - name: deluge-web-env
-  env: config/web.secret.env
+  env: secret/web.env
 - name: deluge-web-secret
   files: 
-  - hostlist.conf=config/hostlist.secret.conf
+  - secret/hostlist.conf
 
 resources:
 - web-networkPolicy.yaml

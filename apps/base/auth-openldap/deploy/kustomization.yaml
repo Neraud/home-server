@@ -16,8 +16,8 @@ generatorOptions:
 secretGenerator:
 - name: openldap-config
   files:
-  - config/my-env.yaml
-  - config/my-env.startup.yaml
+  - secret/my-env.yaml
+  - secret/my-env.startup.yaml
 
 resources:
 - namespace.yaml

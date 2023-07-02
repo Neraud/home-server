@@ -21,10 +21,10 @@ configMapGenerator:
 secretGenerator:
 - name: lapi-env
   envs:
-  - config/lapi.secret.env
+  - secret/lapi.env
 - name: lapi-config
   files:
-  - notification_elasticsearch.yaml=config/notification_elasticsearch.secret.yaml
+  - secret/notification_elasticsearch.yaml
 
 resources:
 - networkPolicy.yaml

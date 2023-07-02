@@ -14,7 +14,7 @@ generatorOptions:
 secretGenerator:
 - name: redis-config
   files:
-  - redis.conf=config/redis.secret.conf
+  - secret/redis.conf
 
 resources:
 - networkPolicy.yaml

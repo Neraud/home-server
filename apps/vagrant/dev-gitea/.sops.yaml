@@ -1,0 +1,11 @@
+creation_rules:
+- path_regex: "gitea\\.env"
+  encrypted_regex: "^(GITEA_ADMIN_PASSWORD|GITEA__mailer__PASSWD|GITEA_LDAP_BIND_PASSWORD)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+- path_regex: "pgsql\\.env"
+  encrypted_regex: "^(POSTGRES_PASSWORD)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
+# Default Kubernetes manifest encryption
+- unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"

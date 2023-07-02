@@ -14,10 +14,10 @@ generatorOptions:
 secretGenerator:
 - name: mongo-init
   files:
-  - create-user.js=config/create-user.secret.js
+  - secret/create-user.js
 - name: mongo-env
   envs:
-  - config/mongo.secret.env
+  - secret/mongo.env
 
 resources:
 - networkPolicy.yaml

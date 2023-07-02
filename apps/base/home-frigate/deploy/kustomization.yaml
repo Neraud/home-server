@@ -20,7 +20,7 @@ configMapGenerator:
 
 secretGenerator:
 - name: frigate-env
-  env: config/frigate.secret.env
+  env: secret/frigate.env
 
 resources:
 - namespace.yaml

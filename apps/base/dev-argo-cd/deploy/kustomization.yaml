@@ -17,10 +17,10 @@ configMapGenerator:
 
 secretGenerator:
 - name: argocd-secret
-  env: config/argocd.secret.env
+  env: secret/argocd.env
   behavior: replace
 - name: private-repo
-  env: config/private-repo.secret.env
+  env: secret/private-repo.env
   type: Opaque
   options:
     labels:

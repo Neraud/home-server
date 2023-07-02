@@ -13,13 +13,13 @@ namespace: dev-argo-tasks
 
 secretGenerator:
 - name: minio-credentials
-  env: config/minio-credentials.secret.env
+  env: secret/minio-credentials.env
 - name: rsync-source
   files:
-  - config/rsync/ssh_config
-  - config/rsync/id_rsa
+  - secret/rsync/ssh_config
+  - secret/rsync/id_rsa
 - name: git-credentials
-  env: config/git-credentials.secret.env
+  env: secret/git-credentials.env
 
 resources:
 - namespace.yaml

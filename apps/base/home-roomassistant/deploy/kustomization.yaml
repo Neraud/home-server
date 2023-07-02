@@ -21,7 +21,7 @@ configMapGenerator:
 secretGenerator:
 - name: roomassistant-env
   envs:
-  - config/roomassistant.secret.env
+  - secret/roomassistant.env
 
 resources:
 - namespace.yaml

@@ -15,7 +15,7 @@ generatorOptions:
 secretGenerator:
 - name: blocky-config
   files:
-  - config.yml=config/config.secret.yml
+  - secret/config.yml
 
 resources:
 - networkPolicy.yaml

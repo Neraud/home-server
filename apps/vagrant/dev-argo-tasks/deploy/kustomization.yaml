@@ -1,18 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-secretGenerator:
-- name: minio-credentials
-  env: config/minio-credentials.secret.env
-  behavior: replace
-- name: rsync-source
-  files:
-  - config/rsync/ssh_config
-  - config/rsync/id_rsa
-  behavior: replace
-- name: git-credentials
-  env: config/git-credentials.secret.env
-  behavior: replace
+generators:
+- secret-generator.yaml
 
 resources:
 - ../../../base/dev-argo-tasks/deploy

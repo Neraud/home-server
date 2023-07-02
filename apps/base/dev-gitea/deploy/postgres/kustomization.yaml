@@ -14,7 +14,7 @@ generatorOptions:
 
 secretGenerator:
 - name: pgsql-env
-  env: config/pgsql.secret.env
+  env: secret/pgsql.env
 
 resources:
 - pgsql-networkPolicies.yaml

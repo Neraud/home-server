@@ -14,7 +14,7 @@ generatorOptions:
 secretGenerator:
 - name: ntfy-alertmanager-config
   files:
-  - config.scfg=config/alertmanager-config.secret.scfg
+  - secret/config.scfg
 
 resources:
 - networkPolicy.yaml

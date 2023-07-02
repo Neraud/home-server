@@ -16,7 +16,7 @@ generatorOptions:
 secretGenerator:
 - name: lemonldap-lmconf
   files:
-  - config/lmConf.json
+  - secret/lmConf.json
 
 resources:
 - namespace.yaml

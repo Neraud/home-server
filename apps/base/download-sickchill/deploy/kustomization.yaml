@@ -13,7 +13,7 @@ labels:
 secretGenerator:
 - name: sickchill-config
   files: 
-  - config_delta.ini=config/config_delta.secret.ini
+  - secret/config_delta.ini
 
 resources:
 - namespace.yaml

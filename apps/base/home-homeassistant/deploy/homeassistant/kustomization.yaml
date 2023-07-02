@@ -26,7 +26,7 @@ configMapGenerator:
 secretGenerator:
 - name: homeassistant-secret-bootstrap
   files:
-  - config/bootstrap/secrets.yaml
+  - secret/bootstrap/secrets.yaml
 
 resources:
 - ingress.yaml

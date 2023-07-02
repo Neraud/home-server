@@ -13,8 +13,8 @@ labels:
 secretGenerator:
 - name: sabnzbd-config
   files: 
-  - autoProcessMedia_delta.cfg=config/autoProcessMedia_delta.secret.cfg
-  - sabnzbd_delta.ini=config/sabnzbd_delta.secret.ini
+  - secret/autoProcessMedia_delta.cfg
+  - secret/sabnzbd_delta.ini
 
 resources:
 - namespace.yaml

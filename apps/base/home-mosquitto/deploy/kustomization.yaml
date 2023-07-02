@@ -21,7 +21,7 @@ configMapGenerator:
 
 secretGenerator:
 - name: mosquitto-env
-  env: config/mosquitto.secret.env
+  env: secret/mosquitto.env
 
 resources:
 - namespace.yaml

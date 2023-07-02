@@ -18,7 +18,7 @@ configMapGenerator:
 
 secretGenerator:
 - name: gitea-env
-  env: config/gitea.secret.env
+  env: secret/gitea.env
 
 resources:
 - gitea-networkPolicies.yaml

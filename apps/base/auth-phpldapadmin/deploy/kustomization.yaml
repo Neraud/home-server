@@ -21,7 +21,7 @@ configMapGenerator:
 
 secretGenerator:
 - name: phpldapadmin-env
-  env: config/phpldapadmin.env
+  env: secret/phpldapadmin.env
 
 resources:
 - namespace.yaml

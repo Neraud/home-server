@@ -1,9 +1,0 @@
-#!/bin/sh
-set -e ; # Have script exit in the event of a failed command.
-
-source /config/add-user
-
-# Create the users
-echo argo > $MINIO_ACCESSKEY_SECRETKEY_TMP
-echo Passw0rd >> $MINIO_ACCESSKEY_SECRETKEY_TMP
-createUser readwrite

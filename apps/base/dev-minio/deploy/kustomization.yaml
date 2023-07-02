@@ -23,12 +23,12 @@ configMapGenerator:
 secretGenerator:
 - name: custom-scripts
   files:
-  - config/custom_scripts/initialize
-  - config/custom_scripts/add-user
-  - config/custom_scripts/add-policy
-  - config/custom_scripts/add-svcacct
+  - secret/custom_scripts/initialize
+  - secret/custom_scripts/add-user
+  - secret/custom_scripts/add-policy
+  - secret/custom_scripts/add-svcacct
 - name: minio
-  env: config/root-credentials.secret.env
+  env: secret/root-credentials.env
 
 resources:
 - namespace.yaml

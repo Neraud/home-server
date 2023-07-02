@@ -10,7 +10,7 @@ labels:
 
 secretGenerator:
 - name: mysql-env
-  env: config/mysql.secret.env
+  env: secret/mysql.env
 
 resources:
 - networkPolicy.yaml

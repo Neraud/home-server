@@ -19,7 +19,7 @@ configMapGenerator:
 secretGenerator:
 - name: ntfy-init
   files: 
-  - manage_users.sh=config/manage_users.secret.sh
+  - secret/manage_users.sh
 
 resources:
 - ingress.yaml

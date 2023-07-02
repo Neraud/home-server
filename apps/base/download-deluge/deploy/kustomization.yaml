@@ -15,7 +15,7 @@ generatorOptions:
 secretGenerator:
 - name: deluge-auth
   files: 
-  - config/auth
+  - secret/auth
 
 resources:
 - namespace.yaml

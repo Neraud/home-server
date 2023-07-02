@@ -16,10 +16,10 @@ generatorOptions:
 secretGenerator:
 - name: zwavejsui-config
   files:
-  - settings.json=config/settings.secret.json
+  - secret/settings.json
 - name: zwavejsui-env
   envs:
-  - config/zwavejsui.secret.env
+  - secret/zwavejsui.env
 
 resources:
 - namespace.yaml

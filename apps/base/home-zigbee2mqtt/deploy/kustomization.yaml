@@ -21,7 +21,7 @@ configMapGenerator:
 secretGenerator:
 - name: zigbee2mqtt-env
   envs:
-  - config/zigbee2mqtt.secret.env
+  - secret/zigbee2mqtt.env
 
 resources:
 - namespace.yaml

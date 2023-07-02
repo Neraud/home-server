@@ -12,7 +12,7 @@ labels:
 
 secretGenerator:
 - name: pyload-env
-  env: config/pyload.secret.env
+  env: secret/pyload.env
 
 resources:
 - namespace.yaml
