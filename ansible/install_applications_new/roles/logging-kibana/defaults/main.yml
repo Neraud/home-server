@@ -1,0 +1,8 @@
+---
+kibana_enabled: true
+
+kibana_elasticsearch_user: kibana
+kibana_elasticsearch_password: password
+
+kibana_export_saved_script_path: "{{ standard_user.home }}/tools/kibana_save_objects.py"
+kibana_export_saved_output_dir: "{{ standard_user.home }}/kibana_saved_objects"

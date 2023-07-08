@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: logging-kibana
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: kibana
+      app.kubernetes.io/component: kibana
+      app.kubernetes.io/version: 2.6.0
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: kibana-env
+  env: config/opensearch.env
+
+secretGenerator:
+- name: kibana-config
+  files:
+  - secret/opensearch_dashboards.yml
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- pvc.yaml
+- statefulSet.yaml

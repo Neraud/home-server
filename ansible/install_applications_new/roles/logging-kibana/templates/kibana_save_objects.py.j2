@@ -6,12 +6,12 @@ import os
 import shutil
 from base64 import b64encode
 
-kibana_root_url = "http://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_http_port }}{{ kibana.context_root }}"
-output_dir = "{{ kibana.export_saved.output_dir }}"
+kibana_root_url = "http://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_http_port }}"
+output_dir = "{{ kibana_export_saved_output_dir }}"
 
 headers = {
     "Host": "kibana.log.intra.{{ web_base_domain }}",
-    "Authorization": "Basic %s" % b64encode(b"{{ kibana.elasticsearch.user }}:{{ kibana.elasticsearch.password }}").decode("ascii")
+    "Authorization": "Basic %s" % b64encode(b"{{ kibana_elasticsearch_user }}:{{ kibana_elasticsearch_password }}").decode("ascii")
 }
 
 types = ["visualization", "dashboard", "search", "index-pattern", "timelion-sheet"]

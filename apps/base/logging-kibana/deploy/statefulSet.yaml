@@ -2,26 +2,23 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: kibana
-  namespace: {{ kibana.namespace }}
-  labels:
-    {{ kibana.labels_def | to_nice_yaml() | indent(4) }}
-    {{ kibana.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ kibana.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: kibana
+      app.kubernetes.io/component: kibana
   template:
     metadata:
       labels:
-        {{ kibana.labels_def | to_nice_yaml() | indent(8) }}
-        {{ kibana.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: kibana
+        app.kubernetes.io/component: kibana
     spec:
       initContainers:
       - name: create-data-dir
-        image: "{{ busybox.private_image | image_full_name }}"
+        image: "registry.lan/kibana-busybox:1.36.0"
         imagePullPolicy: Always
         command:
           - "sh"
@@ -32,28 +29,16 @@ spec:
         securityContext:
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: kibana-data-pv-claim
+        - name: kibana-data
           mountPath: /kibana-data
-      volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
-      - name: kibana-config
-        configMap:
-          name: kibana
-      - name: cluster-ca-volume
-        secret:
-          secretName: cluster-ca
-      - name: tmp-volume
-        emptyDir: {}
       containers:
       - name: kibana
-        image: "{{ kibana.private_image | image_full_name }}"
+        image: "registry.lan/opensearch-dashboards:2.6.0"
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ '/' if kibana.context_root == '' else kibana.context_root + '/?(.*)' }}
+            path: /
             port: http
           initialDelaySeconds: 3
           periodSeconds: 5
@@ -62,14 +47,14 @@ spec:
           readOnlyRootFilesystem: true
         resources:
           requests:
-            cpu: "{{ kibana.container.requests_cpu }}"
-            memory: "{{ kibana.container.requests_memory }}"
+            cpu: 50m
+            memory: 256Mi
           limits:
-            cpu: "{{ kibana.container.limits_cpu }}"
-            memory: "{{ kibana.container.limits_memory }}"
-        env:
-        - name: NODE_OPTIONS
-          value: "--max-old-space-size={{ kibana.nodejs_max_memory }}"
+            cpu: 500m
+            memory: 256Mi
+        envFrom:
+        - configMapRef:
+            name: kibana-env
         ports:
         - name: http
           containerPort: 5601
@@ -80,7 +65,7 @@ spec:
         - name: kibana-config
           mountPath: /usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
           subPath: opensearch_dashboards.yml
-        - name: kibana-data-pv-claim
+        - name: kibana-data
           mountPath: /usr/share/opensearch-dashboards/data
           subPath: data
         - name: cluster-ca-volume
@@ -90,9 +75,12 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
+      - name: kibana-data
+        persistentVolumeClaim:
+          claimName: kibana-data
       - name: kibana-config
-        configMap:
-          name: kibana
+        secret:
+          secretName: kibana-config
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
@@ -102,12 +90,3 @@ spec:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
-  volumeClaimTemplates:
-  - metadata:
-      name: kibana-data-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_longhorn_low_durability_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ kibana.container.storage.data }}

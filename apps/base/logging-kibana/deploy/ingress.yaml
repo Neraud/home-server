@@ -2,10 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kibana
-  namespace: {{ kibana.namespace }}
-  labels:
-    {{ kibana.labels_def | to_nice_yaml() | indent(4) }}
-    {{ kibana.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Monitoring
@@ -17,13 +13,13 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - kibana.log.intra.{{ web_base_domain }}
+      - kibana.log.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host:  kibana.log.intra.{{ web_base_domain }}
+  - host:  kibana.log.intra.web_domain_name
     http:
       paths:
-      - path: {{ '/' if kibana.context_root == '' else kibana.context_root + '/?(.*)' }}
+      - path: /
         pathType: Prefix
         backend:
           service:
