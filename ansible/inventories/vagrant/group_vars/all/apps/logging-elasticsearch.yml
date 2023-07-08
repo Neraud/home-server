@@ -39,16 +39,16 @@ elasticsearch_internal_users:
       - grafana
 
 elasticsearch_admin_user_user: admin
-elasticsearch_admin_user_password: password
+elasticsearch_admin_user_password: Passw0rd
 
 elasticsearch_ldap_group: "cn=elasticsearch,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"
 elasticsearch_ldap_roles_dn: "{{ openldap.ldap.structure_groups_ou_dns['elasticsearch_roles'] }}"
 
 elasticsearch_exporter_user: exporter
-elasticsearch_exporter_password: password
+elasticsearch_exporter_password: Passw0rd
 
 elasticsearch_crowdsec_user: crowdsec
-elasticsearch_crowdsec_password: password
+elasticsearch_crowdsec_password: Passw0rd
 
 elasticsearch_grafana_user: grafana
-elasticsearch_grafana_password: password
+elasticsearch_grafana_password: Passw0rd
