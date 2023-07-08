@@ -42,3 +42,4 @@
     - { role: logging-fluentbit,                tags: kubernetes-app-logging-fluentbit,                when: fluentbit_enabled | bool }
     - { role: logging-fluentd,                  tags: kubernetes-app-logging-fluentd,                  when: fluentd_enabled | bool }
     - { role: logging-kibana,                   tags: kubernetes-app-logging-kibana,                   when: kibana_enabled | bool }
+    - { role: stream-airsonic,                  tags: kubernetes-app-stream-airsonic,                  when: airsonic_enabled | bool }

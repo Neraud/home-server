@@ -2,10 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: airsonic
-  namespace: {{ airsonic.namespace }}
-  labels:
-    {{ airsonic.labels_def | to_nice_yaml() | indent(4) }}
-    {{ airsonic.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Stream
@@ -17,13 +13,13 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - airsonic.stream.intra.{{ web_base_domain }}
+      - airsonic.stream.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: airsonic.stream.intra.{{ web_base_domain }}
+  - host: airsonic.stream.intra.web_domain_name
     http:
       paths:
-      - path: {{ '/' if airsonic.context_root == '' else airsonic.context_root }}
+      - path: /
         pathType: Prefix
         backend:
           service:

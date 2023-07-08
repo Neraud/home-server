@@ -1,6 +1,0 @@
----
-- name: Provision stream-airsonic
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: stream_airsonic_deploy

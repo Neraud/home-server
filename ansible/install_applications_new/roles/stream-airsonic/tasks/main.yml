@@ -1,0 +1,22 @@
+---
+
+- name: Build and deploy stream-airsonic
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: stream-airsonic
+
+- name: Deploy Airsonic backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: stream-airsonic
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "stream-airsonic"
+      apps_to_stop:
+        - name: airsonic
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: airsonic-data
+          pvc_name: airsonic-data
+  tags: backup

@@ -648,9 +648,9 @@ watchers:
   # Apps : Stream #
   #################
   - type: docker_registry
-    repo: {{ airsonic.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ airsonic.base_image.name }}
-    tag: {{ airsonic.base_image.tag }}
+    repo: ghcr.io
+    image: airsonic-advanced/airsonic-advanced
+    tag: edge-11.0.0-SNAPSHOT.20220625052932
     includes:
       - .*-SNAPSHOT.*
     excludes:

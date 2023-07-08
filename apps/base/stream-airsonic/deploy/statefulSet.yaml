@@ -2,27 +2,24 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: airsonic
-  namespace: {{ airsonic.namespace }}
-  labels:
-    {{ airsonic.labels_def | to_nice_yaml() | indent(4) }}
-    {{ airsonic.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ airsonic.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: airsonic
+      app.kubernetes.io/component: airsonic
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ airsonic.labels_def | to_nice_yaml() | indent(8) }}
-        {{ airsonic.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: airsonic
+        app.kubernetes.io/component: airsonic
     spec:
       initContainers:
       - name: create-folders
-        image: "{{ busybox.private_image | image_full_name }}"
+        image: "registry.lan/airsonic-busybox:1.36.0"
         command:
           - "sh"
           - "-c"
@@ -32,22 +29,41 @@ spec:
             mkdir -p /airsonic/playlists
             chown -R 1000:1000 /airsonic/playlists
         volumeMounts:
-        - name: airsonic-data-pv-claim
+        - name: airsonic-data
           mountPath: /airsonic
       - name: inject-properties
-        image: "{{ busybox.private_image | image_full_name }}"
+        image: "registry.lan/airsonic-busybox:1.36.0"
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000
-        command: [ "sh", "/config/inject_properties.sh" ]
+        command:
+          - "sh"
+          - "-c"
+          - |
+            SOURCE=/config/airsonic.delta.properties
+            TARGET=/airsonic/data/airsonic.properties
+            PROPERTIES_TO_DEPLOY="^(Ldap|Smtp)"
+
+            if [ ! -f "${TARGET}" ]; then
+                echo "airsonic.properties doesn't exist yet, deploying the delta as is"
+                cp ${SOURCE} ${TARGET}
+            else
+                echo "airsonic.properties exists, merging the delta"
+                mv ${TARGET} ${TARGET}.orig
+                grep -Ev "${PROPERTIES_TO_DEPLOY}" ${TARGET}.orig >${TARGET}
+                grep -E "${PROPERTIES_TO_DEPLOY}" ${SOURCE} >>${TARGET}
+            fi
+
+            chmod 775 ${TARGET}
+            echo "Finished"
         volumeMounts:
-        - name: airsonic-data-pv-claim
+        - name: airsonic-data
           mountPath: /airsonic/data
           subPath: data
-        - name: airsonic-config
+        - name: airsonic-inject-config
           mountPath: /config
       - name: inject-certificates
-        image: "{{ airsonic.private_image | image_full_name }}"
+        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20220625052932"
         command:
           - "sh"
           - "-c"
@@ -65,20 +81,14 @@ spec:
           subPath: ca.crt
       containers:
       - name: airsonic
-        image: "{{ airsonic.private_image | image_full_name }}"
+        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20220625052932"
         imagePullPolicy: Always        
         ports:
         - containerPort: 4040
           name: airsonic
-        env:
-        - name: AIRSONIC_PORT
-          value: "4040"
-        - name: CONTEXT_PATH
-          value: "{{ '/' if airsonic.context_root == '' else airsonic.context_root }}"
-{% if airsonic.extra_java_opts | default([]) | length > 0 %}
-        - name: JAVA_OPTS
-          value: "{{ airsonic.extra_java_opts | join(' ') }}"
-{% endif %}
+        envFrom:
+        - configMapRef:
+            name: airsonic-env
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000
@@ -86,17 +96,17 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ airsonic.context_root }}/rest/ping
+            path: /rest/ping
             port: airsonic
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ airsonic.container.requests_cpu }}"
-            memory: "{{ airsonic.container.requests_memory }}"
+            cpu: 200m
+            memory: 512Mi
           limits:
-            cpu: "{{ airsonic.container.limits_cpu }}"
-            memory: "{{ airsonic.container.limits_memory }}"
+            cpu: "1"
+            memory: 512Mi
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
@@ -104,17 +114,17 @@ spec:
         - name: keystore-volume
           mountPath: /opt/java/openjdk/lib/security/cacerts
           subPath: cacerts
-        - name: airsonic-data-pv-claim
+        - name: airsonic-data
           mountPath: /var/airsonic
           subPath: data
-        - name: airsonic-data-pv-claim
+        - name: airsonic-data
           mountPath: /var/playlists
           subPath: playlists
         - name: airsonic-multimedia
           mountPath: /mnt/multimedia
-        # airsonic-config is not used by the container directly
+        # airsonic-inject-config is not used by the container directly
         # But mounting it enables the use of the reloader
-        - name: airsonic-config
+        - name: airsonic-inject-config
           mountPath: /config
         - name: tmp-volume
           mountPath: /tmp
@@ -124,9 +134,12 @@ spec:
       - name: tz-config
         hostPath:
           path: /etc/localtime
-      - name: airsonic-config
-        configMap:
-          name: airsonic-config
+      - name: airsonic-data
+        persistentVolumeClaim:
+          claimName: airsonic-data
+      - name: airsonic-inject-config
+        secret:
+          secretName: airsonic-inject-config
           defaultMode: 0555
       - name: airsonic-multimedia
         persistentVolumeClaim:
@@ -144,12 +157,3 @@ spec:
       - name: docker-config
       nodeSelector:
         capability/general-purpose: 'yes'
-  volumeClaimTemplates:
-  - metadata:
-      name: airsonic-data-pv-claim
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ kubernetes_longhorn_high_durability_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ airsonic.container.storage.data }}
