@@ -46,3 +46,9 @@ openssl_custom_cert_secrets:
   kubernetes_replicator:
     pull_full_namespaces:
     - home-mosquitto
+- secret_name: "elasticsearch"
+  pki_name: cluster
+  cert_name: elasticsearch
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - logging-elasticsearch

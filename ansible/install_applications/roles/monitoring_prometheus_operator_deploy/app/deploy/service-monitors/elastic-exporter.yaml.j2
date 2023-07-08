@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{ elasticsearch_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ elasticsearch_exporter.labels_desc | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/component: exporter
   name: elastic-exporter
   namespace: {{ prometheus.namespace }}
 spec:
@@ -12,7 +12,7 @@ spec:
     port: metrics
   namespaceSelector:
     matchNames:
-    - {{ elasticsearch.namespace }}
+    - logging-elasticsearch
   selector:
     matchLabels:
       prometheus-target: elastic-exporter

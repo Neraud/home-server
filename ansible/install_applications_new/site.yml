@@ -38,3 +38,4 @@
     - { role: infra-ntfy,                       tags: kubernetes-app-infra-ntfy,                       when: ntfy_enabled | bool }
     - { role: infra-unifi,                      tags: kubernetes-app-infra-unifi,                      when: unifi_enabled | bool }
     - { role: infra-zonemta,                    tags: kubernetes-app-infra-zonemta,                    when: zonemta_enabled | bool }
+    - { role: logging-elasticsearch,            tags: kubernetes-app-logging-elasticsearch,            when: elasticsearch_enabled | bool }

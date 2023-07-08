@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: elasticsearch
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - elasticsearch.log.intra.web_domain_name
+      secretName: ingress-tls
+  rules:
+  - host: elasticsearch.log.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: elasticsearch
+            port:
+              name: web

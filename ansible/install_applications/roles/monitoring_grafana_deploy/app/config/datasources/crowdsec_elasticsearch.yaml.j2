@@ -5,7 +5,7 @@ datasources:
     uid: crowdsec-elasticsearch
     access: proxy
     database: '[crowdsec-]YYYY-MM-DD'
-    url: https://{{ elasticsearch.servername }}:9200
+    url: https://elasticsearch.logging-elasticsearch.svc.cluster.local:9200
     basicAuth: true
     basicAuthUser: {{ elasticsearch_grafana_user }}
     editable: false

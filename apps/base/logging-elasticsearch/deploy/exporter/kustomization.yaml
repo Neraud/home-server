@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: exporter
+      app.kubernetes.io/version: 1.1.0
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: exporter-env
+  files:
+  - secret/exporter.env
+
+resources:
+- networkPolicy.yaml
+- service-prometheus.yaml
+- deployment.yaml

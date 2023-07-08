@@ -53,7 +53,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: {{ '/' if kibana.context_root == '' else elasticsearch.context_root + '/?(.*)' }}
+            path: {{ '/' if kibana.context_root == '' else kibana.context_root + '/?(.*)' }}
             port: http
           initialDelaySeconds: 3
           periodSeconds: 5

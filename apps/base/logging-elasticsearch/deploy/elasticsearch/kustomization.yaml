@@ -1,0 +1,41 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: elasticsearch
+      app.kubernetes.io/instance: k8s-logs
+      app.kubernetes.io/version: 2.6.0
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: elasticsearch-env
+  envs:
+  - config/elasticsearch.env
+- name: elasticsearch-config
+  files:
+  - config/opensearch.yml
+
+secretGenerator:
+- name: elasticsearch-security
+  files:
+  - secret/security/action_groups.yml
+  - secret/security/config.yml
+  - secret/security/internal_users.yml
+  - secret/security/nodes_dn.yml
+  - secret/security/roles_mapping.yml
+  - secret/security/roles.yml
+  - secret/security/tenants.yml
+  - secret/security/whitelist.yml
+
+resources:
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- pvc.yaml
+- secret-certs.yaml
+- statefulSet.yaml

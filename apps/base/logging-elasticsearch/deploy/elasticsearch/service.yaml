@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: elasticsearch
+spec:
+  clusterIP: None
+  ports:
+    - port: 9200
+      name: web
+    - port: 9300
+      name: transport
+  selector:
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/component: elasticsearch
+    app.kubernetes.io/instance: k8s-logs

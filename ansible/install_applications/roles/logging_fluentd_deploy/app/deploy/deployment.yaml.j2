@@ -46,7 +46,7 @@ spec:
           name: metrics
         env:
           - name:  FLUENT_OPENSEARCH_HOST
-            value: "{{ elasticsearch.servername }}"
+            value: "elasticsearch.logging-elasticsearch.svc.cluster.local"
           - name:  FLUENT_OPENSEARCH_PORT
             value: "9200"
           - name: FLUENT_OPENSEARCH_SCHEME

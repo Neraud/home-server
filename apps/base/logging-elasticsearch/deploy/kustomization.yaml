@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: logging-elasticsearch
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: elasticsearch
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- elasticsearch
+- exporter
