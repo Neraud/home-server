@@ -2,25 +2,23 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: fluent-bit
-  namespace: {{ fluentbit.namespace }}
   labels:
-    {{ fluentbit.labels_def | to_nice_yaml() | indent(4) }}
-    {{ fluentbit.labels_desc | to_nice_yaml() | indent(4) }}
     kubernetes.io/cluster-service: "true"
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ fluentbit.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: fluent-bit
+      app.kubernetes.io/component: fluent-bit
       kubernetes.io/cluster-service: "true"
   updateStrategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        {{ fluentbit.labels_def | to_nice_yaml() | indent(8) }}
-        {{ fluentbit.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: fluent-bit
+        app.kubernetes.io/component: fluent-bit
         kubernetes.io/cluster-service: "true"
       annotations:
         prometheus.io/scrape: "true"
@@ -29,21 +27,19 @@ spec:
     spec:
       containers:
       - name: fluent-bit
-        image: "{{ fluentbit.private_image | image_full_name }}"
+        image: "registry.lan/fluent-bit:2.0.9"
         imagePullPolicy: Always
         ports:
         - containerPort: 2020
           name: metrics
+        envFrom:
+        - secretRef:
+            name: fluent-bit-env
         env:
         - name: FLUENT_FLUENTD_HOST
-          value: "{{ fluentd.servername }}"
+          value: "fluentd.logging-fluentd.svc.cluster.local"
         - name: FLUENT_FLUENTD_PORT
           value: "24224"
-        - name: FLUENT_FLUENTD_SHARED_KEY
-          valueFrom:
-            secretKeyRef:
-              name: fluent-bit-secret
-              key: fluentd_shared_key
         securityContext:
           # Run as root to be able to read host logs
           #runAsNonRoot: true
@@ -70,11 +66,11 @@ spec:
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ fluentbit.container.requests_cpu }}"
-            memory: "{{ fluentbit.container.requests_memory }}"
+            cpu: 50m
+            memory: 16Mi
           limits:
-            cpu: "{{ fluentbit.container.limits_cpu }}"
-            memory: "{{ fluentbit.container.limits_memory }}"
+            cpu: 500m
+            memory: 64Mi
       terminationGracePeriodSeconds: 10
       volumes:
       - name: tz-config

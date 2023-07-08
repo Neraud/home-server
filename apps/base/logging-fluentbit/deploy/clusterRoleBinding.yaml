@@ -9,4 +9,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: fluent-bit
-    namespace: {{ fluentbit.namespace }}
+    namespace: logging-fluentbit

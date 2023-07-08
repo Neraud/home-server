@@ -1,0 +1,52 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: logging-fluentbit
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: fluent-bit
+      app.kubernetes.io/component: fluent-bit
+      app.kubernetes.io/version: 2.0.9
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: fluent-bit-config
+  files:
+  - config/fluent-bit.conf
+  - config/includes/filter-kubernetes.conf
+  - config/includes/input-fail2ban.conf
+  - config/includes/input-kubernetes.conf
+  - config/includes/input-nginx.conf
+  - config/includes/input-ufw.conf
+  - config/includes/output-fluentd.conf
+  - config/parsers/apache.conf
+  - config/parsers/docker.conf
+  - config/parsers/fail2ban.conf
+  - config/parsers/json.conf
+  - config/parsers/nginx.conf
+  - config/parsers/nginx_custom.conf
+  - config/parsers/nginx_ingress.conf
+  - config/parsers/syslog.conf
+  - config/parsers/ufw.conf
+  - config/scripts/kubernetes_dedot.lua
+  - config/scripts/nginx_site_extractor.lua
+
+secretGenerator:
+- name: fluent-bit-env
+  envs: 
+  - secret/fluentbit.env
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- networkPolicy.yaml
+- service-account.yaml
+- clusterRole.yaml
+- clusterRoleBinding.yaml
+- service-prometheus.yaml
+- secret-certs.yaml
+- daemonSet.yaml
