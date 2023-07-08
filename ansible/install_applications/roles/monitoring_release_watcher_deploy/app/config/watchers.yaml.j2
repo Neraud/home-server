@@ -554,9 +554,9 @@ watchers:
       - ^[0-1]\.
       - ^2\.0\.[0-8]
   - type: docker_registry
-    repo: {{ fluentd.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ fluentd.base_image.name }}
-    tag: {{ fluentd.base_image.tag }}
+    repo: registry-1.docker.io
+    image: fluent/fluentd
+    tag: v1.16.0-debian-amd64-1.0
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+-debian-amd64.*
     excludes:
@@ -564,35 +564,35 @@ watchers:
       - v1\.1[0-5]\..*
   - type: github_tag
     repo: fluent/fluent-plugin-opensearch
-    tag: v{{ fluentd.plugins.opensearch.version }}
+    tag: v1.0.10
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - v1\.[0-8]\..*
   - type: github_tag
     repo: fluent/fluent-plugin-prometheus
-    tag: v{{ fluentd.plugins.prometheus.version }}
+    tag: v2.0.3
     includes:
       - 'v[0-9]+\.[0-9]+\.[0-9]+'
     excludes:
       - 'v1\.[0-9]+\..*'
   - type: github_tag
     repo: bungoume/fluent-plugin-ua-parser
-    tag: v{{ fluentd.plugins.ua_parser.version }}
+    tag: v1.2.0
     includes:
       - 'v[0-9]+\.[0-9]+\.[0-9]+'
     excludes:
       - 'v0\..*'
   - type: github_tag
     repo: ua-parser/uap-core 
-    tag: v{{ fluentd.plugins.uap_core.version }}
+    tag: v0.16.0
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - v0\.[0-6]\..*
   - type: github_tag
     repo: y-ken/fluent-plugin-geoip
-    tag: v{{ fluentd.plugins.geoip.version }}
+    tag: v1.3.2
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:

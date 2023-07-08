@@ -58,3 +58,9 @@ openssl_custom_cert_secrets:
   kubernetes_replicator:
     pull_full_namespaces:
     - logging-fluentbit
+- secret_name: "fluentd"
+  pki_name: cluster
+  cert_name: fluentd
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - logging-fluentd

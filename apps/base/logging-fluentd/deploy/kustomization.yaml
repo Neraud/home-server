@@ -1,0 +1,42 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: logging-fluentd
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: fluent
+      app.kubernetes.io/component: fluent
+      app.kubernetes.io/version: v1.16.0-debian-amd64-1.0-custom
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: fluentd-env
+  env: config/fluentd.env
+- name: fluentd-config
+  files:
+  - config/fluent.conf
+  - config/includes/filter_fail2ban_geoip.conf
+  - config/includes/filter_nginx_access_geoip.conf
+  - config/includes/filter_nginx_access_useragent.conf
+  - config/includes/input_forward.conf
+  - config/includes/input_prometheus.conf
+  - config/includes/output_00_ignore_self_logs.conf
+  - config/includes/output_50_opensearch.conf
+
+secretGenerator:
+- name: fluentd-env
+  envs: 
+  - secret/fluentd.env
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- networkPolicy.yaml
+- service.yaml
+- service-prometheus.yaml
+- secret-certs.yaml
+- deployment.yaml

@@ -1,8 +1,4 @@
 ---
-- import_playbook: app-logging-fluentd.yml
-  tags: kubernetes-app-logging-fluentd
-  when: fluentd_enabled | bool
-
 - import_playbook: app-logging-kibana.yml
   tags: kubernetes-app-logging-kibana
   when: kibana_enabled | bool

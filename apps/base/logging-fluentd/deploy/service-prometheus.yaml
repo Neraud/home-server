@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fluentd-prometheus
+  labels:
+    prometheus-target: fluentd
+spec:
+  ports:
+  - port: 24231
+    name: metrics
+    targetPort: metrics
+  selector:
+    app.kubernetes.io/name: fluent
+    app.kubernetes.io/component: fluent

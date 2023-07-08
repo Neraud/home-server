@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{ fluentd.labels_def | to_nice_yaml() | indent(4) }}
-    {{ fluentd.labels_desc | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: fluent
+    app.kubernetes.io/component: fluent
   name: fluentd
   namespace: {{ prometheus.namespace }}
 spec:
@@ -13,7 +13,7 @@ spec:
     path: /metrics
   namespaceSelector:
     matchNames:
-    - {{ fluentd.namespace }}
+    - logging-fluentd
   selector:
     matchLabels:
       prometheus-target: fluentd
