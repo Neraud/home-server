@@ -1,0 +1,22 @@
+---
+
+- name: Build and deploy stream-jellyfin
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: stream-jellyfin
+
+- name: Deploy Jellyfin backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: stream-jellyfin
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "stream-jellyfin"
+      apps_to_stop:
+        - name: jellyfin
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: jellyfin-data
+          pvc_name: jellyfin-data
+  tags: backup

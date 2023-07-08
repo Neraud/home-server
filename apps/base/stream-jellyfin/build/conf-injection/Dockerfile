@@ -1,5 +1,4 @@
-ARG from_image
-FROM $from_image
+FROM docker.io/library/python:3.11.1-alpine3.17
 
 RUN pip3 install xmltodict
 

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: stream-jellyfin.nfs-multimedia
+  labels:
+    app_namespace: stream-jellyfin
+    detail: multimedia
+spec:
+  capacity:
+    storage: 1Mi
+  accessModes: [ "ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany" ]
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nas-nfs
+  nfs:
+    server: 1.2.3.4
+    path: /path/to/folder

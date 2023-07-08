@@ -600,6 +600,10 @@ The default `user_ldap` account (from OpenLDAP) also has access.
 Jellyfin is deployed and configured.
 The default `user_ldap` account (from OpenLDAP) has admin access.
 
+If the web console refuses to load, check the browser's console.
+
+If it shows `http request succeeded, but found a different server Id than what was expected`, clear your browser's data for the jellyfin domain.
+
 ### Airsonic
 
 Airsonic is deployed and configured to look for music on the NAS share by default.

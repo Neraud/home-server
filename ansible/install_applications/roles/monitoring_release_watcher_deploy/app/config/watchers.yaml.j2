@@ -658,9 +658,9 @@ watchers:
       - .*-SNAPSHOT.20220[1-5].*
 
   - type: docker_registry
-    repo: {{ jellyfin.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ jellyfin.base_image.name }}
-    tag: {{ jellyfin.base_image.tag }}
+    repo: registry-1.docker.io
+    image: jellyfin/jellyfin
+    tag: 10.8.9-amd64
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
@@ -668,9 +668,9 @@ watchers:
       - ^10\.8\.[0-8]-.*
   - name: Jellyfin inject conf
     type: docker_registry
-    repo: {{ jellyfin.conf_injection_base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ jellyfin.conf_injection_base_image.name }}
-    tag: {{ jellyfin.conf_injection_base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/python
+    tag: 3.11.1-alpine3.17
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
@@ -680,21 +680,19 @@ watchers:
       - 3\.10\.[0-7]-.*
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anidb
-    tag: {{ jellyfin.plugins.anidb.version }}
+    tag: v7
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anilist
-    tag: {{ jellyfin.plugins.anilist.version }}
+    tag: v5
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anisearch
-    tag: {{ jellyfin.plugins.anisearch.version }}
+    tag: v4
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-ldapauth
-    tag: {{ jellyfin.plugins.ldapauth.version }}
+    tag: v16
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-tvdb
-    tag: {{ jellyfin.plugins.thetvdb.version }}
-  
-    
+    tag: v9
 
   ################
   # Apps : Tools #

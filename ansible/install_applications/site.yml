@@ -78,7 +78,3 @@
 - import_playbook: app-tool-syncthing.yml
   tags: kubernetes-app-tool-syncthing
   when: syncthing_enabled | bool
-
-- import_playbook: app-stream-jellyfin.yml
-  tags: kubernetes-app-stream-jellyfin
-  when: jellyfin_enabled | bool
