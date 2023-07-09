@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+        app.kubernetes.io/name: miniflux
+        app.kubernetes.io/component: reminiflux
+        app.kubernetes.io/part-of: miniflux
+        app.kubernetes.io/version: 153dc9464cef69f7c29bff1d680cfa0013b5e281
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+resources:
+- networkPolicy.yaml
+- ingress.yaml
+- service.yaml
+- deployment.yaml

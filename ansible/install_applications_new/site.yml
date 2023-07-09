@@ -45,3 +45,4 @@
     - { role: stream-airsonic,                  tags: kubernetes-app-stream-airsonic,                  when: airsonic_enabled | bool }
     - { role: stream-jellyfin,                  tags: kubernetes-app-stream-jellyfin,                  when: jellyfin_enabled | bool }
     - { role: tool-homepage,                    tags: kubernetes-app-tool-homepage,                    when: homepage_enabled | bool }
+    - { role: tool-miniflux,                    tags: kubernetes-app-tool-miniflux,                    when: miniflux_enabled | bool }
