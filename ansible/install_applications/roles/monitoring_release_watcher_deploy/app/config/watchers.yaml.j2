@@ -699,9 +699,9 @@ watchers:
   ################
   - name: Homepage
     type: docker_registry
-    repo: {{ homepage.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ homepage.base_image.name }}
-    tag: {{ homepage.base_image.tag }}
+    repo: ghcr.io
+    image: benphelps/homepage
+    tag: v0.6.10
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:

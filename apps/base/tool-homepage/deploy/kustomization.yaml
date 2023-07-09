@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: tool-homepage
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: homepage
+      app.kubernetes.io/component: homepage
+      app.kubernetes.io/version: v0.6.10
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: homepage-config
+  files:
+  - secret/bookmarks.yaml
+  - secret/docker.yaml
+  - secret/kubernetes.yaml
+  - secret/services.yaml
+  - secret/settings.yaml
+  - secret/widgets.yaml
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- rbac.yaml
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- deployment.yaml

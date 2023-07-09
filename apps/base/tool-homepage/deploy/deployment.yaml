@@ -2,29 +2,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homepage
-  namespace: {{ homepage.namespace }}
-  labels:
-    {{ homepage.labels_def | to_nice_yaml() | indent(4) }}
-    {{ homepage.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ homepage.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: homepage
+      app.kubernetes.io/component: homepage
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ homepage.labels_def | to_nice_yaml() | indent(8) }}
-        {{ homepage.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: homepage
+        app.kubernetes.io/component: homepage
     spec:
       serviceAccountName: homepage
       automountServiceAccountToken: true
       containers:
       - name: homepage
-        image: "{{ homepage.private_image | image_full_name }}"
+        image: "registry.lan/homepage:v0.6.10"
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -38,11 +35,11 @@ spec:
           readOnlyRootFilesystem: true
         resources:
           requests:
-            cpu: "{{ homepage.container.requests_cpu }}"
-            memory: "{{ homepage.container.requests_memory }}"
+            cpu: 25m
+            memory: 128Mi
           limits:
-            cpu: "{{ homepage.container.limits_cpu }}"
-            memory: "{{ homepage.container.limits_memory }}"
+            cpu: 100m
+            memory: 256Mi
         readinessProbe:
           httpGet:
             scheme: HTTP

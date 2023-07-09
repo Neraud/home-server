@@ -2,10 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: homepage
-  namespace: {{ homepage.namespace }}
-  labels:
-    {{ homepage.labels_def | to_nice_yaml() | indent(4) }}
-    {{ homepage.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Tools
@@ -17,10 +13,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - homepage.tool.{{ web_base_domain }}
+      - homepage.tool.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: homepage.tool.{{ web_base_domain }}
+  - host: homepage.tool.web_domain_name
     http:
       paths:
       - path: /

@@ -1,33 +1,6 @@
 ---
-# To avoid loops inside homepage
-_homepage_var_loader:
-  base_image:
-    repo: "ghcr.io" 
-    name: "benphelps/homepage"
-    tag: "v0.6.10"
-
+# TODO : delete when all apps that are using homepage.* are migrated to kustomize
 homepage:
-  enabled: "{{ homepage_enabled | default(True) }}"
-
-  namespace: "tool-homepage"
-  base_image: "{{ _homepage_var_loader.base_image }}"
-  private_image:
-    repo: "{{ docker_private_registry.url }}"
-    name: "homepage-{{ _homepage_var_loader.base_image.name | regex_replace('.*/', '') }}"
-    tag: "{{ _homepage_var_loader.base_image.tag }}"
-
-  labels_def:
-    app.kubernetes.io/name: homepage
-    app.kubernetes.io/component: homepage
-
-  labels_desc:
-    app.kubernetes.io/version: "{{ _homepage_var_loader.base_image.tag }}"
-
-  container:
-    requests_cpu: "{{ homepage_container_requests_cpu | default('25m') }}"
-    requests_memory: "{{ homepage_container_requests_memory | default('128Mi') }}"
-    limits_cpu: "{{ homepage_container_limits_cpu | default('100m') }}"
-    limits_memory: "{{ homepage_container_limits_memory | default('256Mi') }}"
 
   config:
     title: "{{ homepage_config_title | default('') }}"
