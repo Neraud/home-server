@@ -40,7 +40,8 @@ spec:
       from:
         - namespaceSelector:
             matchLabels:
-              name: {{ grafana.namespace }}
+              kubernetes.io/metadata.name: monitoring-grafana
           podSelector:
             matchLabels:
-              {{ grafana.labels_def | to_nice_yaml() | indent(14) }}
+              app.kubernetes.io/name: grafana
+              app.kubernetes.io/component: grafana

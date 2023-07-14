@@ -35,11 +35,3 @@
 - import_playbook: app-monitoring-apcups-exporter.yml
   tags: kubernetes-app-monitoring-apcups-exporter
   when: apcups_exporter_enabled | bool
-
-- import_playbook: app-monitoring-grafana.yml
-  tags: kubernetes-app-monitoring-grafana
-  when: grafana_enabled | bool
-
-- import_playbook: app-monitoring-crowdsec-external.yml
-  tags: kubernetes-app-monitoring-crowdsec-external
-  when: crowdsec_external_enabled | bool

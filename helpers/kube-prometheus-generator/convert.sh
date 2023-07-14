@@ -58,19 +58,19 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-serviceAccount.yaml $BLACKBOX
 
 echo "===================================================================================================="
 echo "Converting Grafana"
-GRAFANA_ROOT=$OUT_CONVERTED_ROOT/monitoring_grafana_deploy/app/deploy
-GRAFANA_DASHBOARDS_ROOT=$OUT_CONVERTED_ROOT/monitoring_grafana_deploy/app/config/dashboards/kube-prometheus
+GRAFANA_ROOT=$OUT_CONVERTED_ROOT/apps/base/monitoring-grafana/deploy
+GRAFANA_DASHBOARDS_ROOT=$GRAFANA_ROOT/config/dashboards/kube-prometheus
 mkdir -p $GRAFANA_ROOT
 mkdir -p $GRAFANA_DASHBOARDS_ROOT
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardDatasources.yaml $GRAFANA_ROOT/datasources-secret.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardDefinitions.yaml $GRAFANA_ROOT/dashboardProviders-configMap.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardSources.yaml $GRAFANA_ROOT/dashboards-configMap.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-deployment.yaml $GRAFANA_ROOT/statefulSet.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-networkPolicy.yaml $GRAFANA_ROOT/networkPolicies.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-serviceAccount.yaml $GRAFANA_ROOT/serviceAccount.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-service.yaml $GRAFANA_ROOT/service.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardDatasources.yaml $GRAFANA_ROOT/datasources-secret.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardDefinitions.yaml $GRAFANA_ROOT/dashboardProviders-configMap.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-dashboardSources.yaml $GRAFANA_ROOT/dashboards-configMap.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-deployment.yaml $GRAFANA_ROOT/statefulSet.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-networkPolicy.yaml $GRAFANA_ROOT/networkPolicy.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-serviceAccount.yaml $GRAFANA_ROOT/serviceAccount.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/grafana-service.yaml $GRAFANA_ROOT/service.yaml
 echo "Extract dashboards"
-python3 extract_dashboards.py $GRAFANA_ROOT/dashboardProviders-configMap.yaml.j2 $GRAFANA_DASHBOARDS_ROOT
+python3 extract_dashboards.py $GRAFANA_ROOT/dashboardProviders-configMap.yaml $GRAFANA_DASHBOARDS_ROOT
 
 echo "===================================================================================================="
 echo "Converting Kube state metrics"

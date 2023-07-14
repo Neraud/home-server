@@ -1,6 +1,0 @@
----
-- name: Provision monitoring-crowdsec-external
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: monitoring_crowdsec_external_deploy

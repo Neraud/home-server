@@ -1,0 +1,96 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: monitoring-grafana
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/component: grafana
+      app.kubernetes.io/version: 9.4.7
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+- name: grafana-env
+  env: config/grafana.env
+- name: grafana-dashboard-providers
+  files:
+  - config/dashboard-providers.yaml
+# Split dashboards to avoid the error: Too long: must have at most 1048576 bytes
+- name: grafana-dashboards-kube-prometheus-1
+  files:
+  - config/dashboards/kube-prometheus/alertmanager-overview.json
+  - config/dashboards/kube-prometheus/apiserver.json
+  - config/dashboards/kube-prometheus/cluster-total.json
+  - config/dashboards/kube-prometheus/controller-manager.json
+  - config/dashboards/kube-prometheus/grafana-overview.json
+  - config/dashboards/kube-prometheus/k8s-resources-cluster.json
+  - config/dashboards/kube-prometheus/k8s-resources-namespace.json
+  - config/dashboards/kube-prometheus/k8s-resources-node.json
+  - config/dashboards/kube-prometheus/k8s-resources-pod.json
+  - config/dashboards/kube-prometheus/k8s-resources-workload.json
+  - config/dashboards/kube-prometheus/k8s-resources-workloads-namespace.json
+  - config/dashboards/kube-prometheus/kubelet.json
+- name: grafana-dashboards-kube-prometheus-2
+  files:
+  - config/dashboards/kube-prometheus/namespace-by-pod.json
+  - config/dashboards/kube-prometheus/namespace-by-workload.json
+  - config/dashboards/kube-prometheus/node-cluster-rsrc-use.json
+  - config/dashboards/kube-prometheus/node-rsrc-use.json
+  - config/dashboards/kube-prometheus/nodes-darwin.json
+  - config/dashboards/kube-prometheus/nodes.json
+  - config/dashboards/kube-prometheus/persistentvolumesusage.json
+  - config/dashboards/kube-prometheus/pod-total.json
+  - config/dashboards/kube-prometheus/pods.json
+  - config/dashboards/kube-prometheus/prometheus-remote-write.json
+  - config/dashboards/kube-prometheus/prometheus.json
+  - config/dashboards/kube-prometheus/proxy.json
+  - config/dashboards/kube-prometheus/scheduler.json
+  - config/dashboards/kube-prometheus/workload-total.json
+- name: grafana-dashboards-custom
+  files:
+  - config/dashboards/custom/apcups.json
+  - config/dashboards/custom/backup_jobs.json
+  - config/dashboards/custom/backup_restic_repo_maintenance.json
+  - config/dashboards/custom/backup_tasks_detail.json
+  - config/dashboards/custom/blackbox-exporter.json
+  - config/dashboards/custom/blocky-query.json
+  - config/dashboards/custom/blocky.json
+  - config/dashboards/custom/crowdsec_bans.json
+  - config/dashboards/custom/crowdsec_details_per_machine.json
+  - config/dashboards/custom/crowdsec_insight.json
+  - config/dashboards/custom/crowdsec_lapi_metrics.json
+  - config/dashboards/custom/crowdsec_overview.json
+  - config/dashboards/custom/elastic-search-exporter.json
+  - config/dashboards/custom/gitea.json
+  - config/dashboards/custom/ingress-nginx-request-handling-performance.json
+  - config/dashboards/custom/ingress-nginx.json
+  - config/dashboards/custom/keepalived.json
+  - config/dashboards/custom/longhorn.json
+  - config/dashboards/custom/nginx-sites.json
+  - config/dashboards/custom/nginx.json
+  - config/dashboards/custom/release-watcher.json
+  - config/dashboards/custom/zone-mta.json
+
+secretGenerator:
+- name: grafana-config
+  files: 
+  - secret/ldap.toml
+- name: grafana-datasources
+  files: 
+  - secret/datasources/blocky_postgresql.yaml
+  - secret/datasources/crowdsec_elasticsearch.yaml
+  - secret/datasources/prometheus.yaml
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- serviceAccount.yaml
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- pvc.yaml
+- statefulSet.yaml
