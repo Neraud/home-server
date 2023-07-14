@@ -59,10 +59,6 @@
   tags: kubernetes-app-tool-paperless
   when: paperless_enabled | bool
 
-- import_playbook: app-tool-olivetin.yml
-  tags: kubernetes-app-tool-olivetin
-  when: olivetin_enabled | bool
-
 - import_playbook: app-tool-syncthing.yml
   tags: kubernetes-app-tool-syncthing
   when: syncthing_enabled | bool

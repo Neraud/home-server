@@ -2,10 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: olivetin
-  namespace: {{ olivetin.namespace }}
-  labels:
-    {{ olivetin.labels_def | to_nice_yaml() | indent(4) }}
-    {{ olivetin.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Tools
@@ -17,13 +13,13 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - olivetin.tool.intra.{{ web_base_domain }}
+      - olivetin.tool.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: olivetin.tool.intra.{{ web_base_domain }}
+  - host: olivetin.tool.intra.web_domain_name
     http:
       paths:
-      - path: {{ '/' if olivetin.context_root == '' else olivetin.context_root }}
+      - path: /
         pathType: Prefix
         backend:
           service:

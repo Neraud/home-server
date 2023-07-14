@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: tool-olivetin
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: olivetin
+      app.kubernetes.io/component: olivetin
+      app.kubernetes.io/version: 2023.03.25-amd64-custom
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: olivetin-config
+  files:
+  - config/config.yaml
+  - config/images.csv
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- deployment.yaml

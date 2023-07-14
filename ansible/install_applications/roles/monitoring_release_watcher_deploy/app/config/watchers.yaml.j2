@@ -864,9 +864,9 @@ watchers:
       - ^1[0-4]\..*
   - name: OliveTin
     type: docker_registry
-    repo: {{ _olivetin_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ _olivetin_var_loader.base_image.name }}
-    tag: {{ _olivetin_var_loader.base_image.tag }}
+    repo: registry-1.docker.io
+    image: jamesread/olivetin
+    tag: 2023.03.25-amd64
     includes:
       - 20[0-9][0-9]\.[0-9][0-9]\.[0-9][0-9]-amd64
     excludes:

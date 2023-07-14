@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/tool-olivetin/deploy
+
+configMapGenerator:
+- name: olivetin-config
+  files:
+  - config/config.yaml
+  - config/images.csv
+  behavior: replace
+
+patches:
+- path: deployment-resources.yaml
+- target:
+    kind: Ingress
+    name: olivetin
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: olivetin.tool.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: olivetin.tool.intra.k8s.test

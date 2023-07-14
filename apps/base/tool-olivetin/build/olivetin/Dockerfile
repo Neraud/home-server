@@ -1,5 +1,4 @@
-ARG from_image
-FROM $from_image
+FROM docker.io/jamesread/olivetin:2023.03.25-amd64
 
 USER root
 

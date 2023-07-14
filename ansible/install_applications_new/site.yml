@@ -47,3 +47,4 @@
     - { role: tool-homepage,                    tags: kubernetes-app-tool-homepage,                    when: homepage_enabled | bool }
     - { role: tool-miniflux,                    tags: kubernetes-app-tool-miniflux,                    when: miniflux_enabled | bool }
     - { role: tool-nextcloud,                   tags: kubernetes-app-tool-nextcloud,                   when: nextcloud_enabled | bool }
+    - { role: tool-olivetin,                    tags: kubernetes-app-tool-olivetin,                    when: olivetin_enabled | bool }

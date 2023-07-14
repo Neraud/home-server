@@ -2,27 +2,24 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: olivetin
-  namespace: {{ olivetin.namespace }}
-  labels:
-    {{ olivetin.labels_def | to_nice_yaml() | indent(4) }}
-    {{ olivetin.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ olivetin.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: olivetin
+      app.kubernetes.io/component: olivetin
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ olivetin.labels_def | to_nice_yaml() | indent(8) }}
-        {{ olivetin.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: olivetin
+        app.kubernetes.io/component: olivetin
     spec:
       containers:
       - name: olivetin
-        image: "{{ olivetin.private_image | image_full_name }}"
+        image: "registry.lan/olivetin:2023.03.25-amd64-custom"
         imagePullPolicy: Always
         ports:
         - containerPort: 1337
@@ -40,11 +37,11 @@ spec:
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ olivetin.container.requests_cpu }}"
-            memory: "{{ olivetin.container.requests_memory }}"
+            cpu: 35m
+            memory: 32Mi
           limits:
-            cpu: "{{ olivetin.container.limits_cpu }}"
-            memory: "{{ olivetin.container.limits_memory }}"
+            cpu: 75m
+            memory: 32Mi
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

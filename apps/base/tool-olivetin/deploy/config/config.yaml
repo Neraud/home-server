@@ -1,0 +1,20 @@
+# Listen on all addresses available, port 1337
+listenAddressSingleHTTPFrontend: 0.0.0.0:1337 
+
+# Choose from INFO (default), WARN and DEBUG
+logLevel: "INFO"
+
+# Actions (buttons) to show up on the WebUI:
+actions:
+-   icon: <img src = "customIcons/blocky.svg" width = "48px" />
+    shell: curl -s http://blocky-prometheus.infra-blocky:4000/api/blocking/status
+    title: Blocky status
+-   arguments:
+    -   default: 5
+        name: duration
+        title: Duration (in minutes)
+        type: int
+    icon: <img src = "customIcons/blocky.svg" width = "48px" />
+    shell: curl -s http://blocky-prometheus.infra-blocky:4000/api/blocking/disable?duration={{
+        duration }}m
+    title: Blocky disable
