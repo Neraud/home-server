@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-prometheus
+  labels:
+    prometheus-target: syncthing-discovery
+spec:
+  ports:
+  - port: 8081
+    name: metrics
+    targetPort: metrics
+  selector:
+    app.kubernetes.io/name: syncthing
+    app.kubernetes.io/component: discovery

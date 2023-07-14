@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: discovery
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: discovery
+        resources:
+          requests:
+            cpu: 50m
+            memory: 32Mi
+          limits:
+            cpu: 200m
+            memory: 32Mi

@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: syncthing-sync-udp
+  annotations:
+    metallb.universe.tf/allow-shared-ip: syncthing-sync
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 1.2.3.4
+  externalTrafficPolicy: Local
+  ports:
+    - name: transfer-udp
+      port: 22000
+      targetPort: transfer-udp
+      protocol: UDP
+    - name: discovery
+      port: 21027
+      targetPort: discovery
+      protocol: UDP
+  selector:
+    app.kubernetes.io/name: syncthing
+    app.kubernetes.io/component: syncthing

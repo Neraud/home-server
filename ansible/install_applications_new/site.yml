@@ -49,3 +49,4 @@
     - { role: tool-nextcloud,                   tags: kubernetes-app-tool-nextcloud,                   when: nextcloud_enabled | bool }
     - { role: tool-olivetin,                    tags: kubernetes-app-tool-olivetin,                    when: olivetin_enabled | bool }
     - { role: tool-paperless,                   tags: kubernetes-app-tool-paperless,                   when: paperless_enabled | bool }
+    - { role: tool-syncthing,                   tags: kubernetes-app-tool-syncthing,                   when: syncthing_enabled | bool }

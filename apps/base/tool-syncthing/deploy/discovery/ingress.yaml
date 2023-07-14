@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: discovery
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - syncthing-discovery.tool.intra.web_domain_name
+      secretName: ingress-tls
+  rules:
+  - host: syncthing-discovery.tool.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: discovery
+            port:
+              number: 8080

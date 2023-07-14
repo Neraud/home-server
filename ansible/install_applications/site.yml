@@ -54,7 +54,3 @@
 - import_playbook: app-monitoring-crowdsec-external.yml
   tags: kubernetes-app-monitoring-crowdsec-external
   when: crowdsec_external_enabled | bool
-
-- import_playbook: app-tool-syncthing.yml
-  tags: kubernetes-app-tool-syncthing
-  when: syncthing_enabled | bool
