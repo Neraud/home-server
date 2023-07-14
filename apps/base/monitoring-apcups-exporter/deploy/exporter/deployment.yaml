@@ -2,25 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: apcups-exporter
-  namespace: {{ apcups_exporter.namespace }}
-  labels:
-    {{ apcups_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ apcups_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      {{ apcups_exporter.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: apcups-exporter
+      app.kubernetes.io/component: apcups-exporter
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        {{ apcups_exporter.labels_def | to_nice_yaml() | indent(8) }}
-        {{ apcups_exporter.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: apcups-exporter
+        app.kubernetes.io/component: apcups-exporter
     spec:
       containers:
       - name: apcups-exporter
-        image: "{{ apcups_exporter.private_image | image_full_name }}"
+        image: "registry.lan/apcupsd-exporter:3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.15.1"
         imagePullPolicy: Always
         env:
         - name: APCUPS_ADDR
@@ -41,11 +38,11 @@ spec:
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ apcups_exporter.container.requests_cpu }}"
-            memory: "{{ apcups_exporter.container.requests_memory }}"
+            cpu: 50m
+            memory: 32Mi
           limits:
-            cpu: "{{ apcups_exporter.container.limits_cpu }}"
-            memory: "{{ apcups_exporter.container.limits_memory }}"
+            cpu: 100m
+            memory: 32Mi
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

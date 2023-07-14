@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{ apcups_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ apcups_exporter.labels_desc | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: apcups-exporter
+    app.kubernetes.io/component: apcups-exporter
   name: apcups-exporter
   namespace: {{ prometheus.namespace }}
 spec:
@@ -12,7 +12,7 @@ spec:
     port: metrics
   namespaceSelector:
     matchNames:
-    - {{ apcups_exporter.namespace }}
+    - monitoring-apcups-exporter
   selector:
     matchLabels:
       prometheus-target: apcups-exporter

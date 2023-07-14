@@ -1,0 +1,10 @@
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: apcupsd
+spec:
+  ports:
+  - name: metrics
+    port: 3551
+    targetPort: metrics

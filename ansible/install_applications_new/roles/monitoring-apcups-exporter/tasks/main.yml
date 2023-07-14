@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy monitoring-apcups-exporter
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: monitoring-apcups-exporter

@@ -50,3 +50,4 @@
     - { role: tool-olivetin,                    tags: kubernetes-app-tool-olivetin,                    when: olivetin_enabled | bool }
     - { role: tool-paperless,                   tags: kubernetes-app-tool-paperless,                   when: paperless_enabled | bool }
     - { role: tool-syncthing,                   tags: kubernetes-app-tool-syncthing,                   when: syncthing_enabled | bool }
+    - { role: monitoring-apcups-exporter,       tags: kubernetes-app-monitoring-apcups-exporter,       when: apcups_exporter_enabled | bool }

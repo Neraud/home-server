@@ -1,7 +1,4 @@
 ---
-- import_playbook: app-logging-kibana.yml
-  tags: kubernetes-app-logging-kibana
-  when: kibana_enabled | bool
 
 - import_playbook: app-monitoring-kubernetes.yml
   tags: kubernetes-app-monitoring-kubernetes
@@ -38,10 +35,6 @@
 - import_playbook: app-monitoring-apcups-exporter.yml
   tags: kubernetes-app-monitoring-apcups-exporter
   when: apcups_exporter_enabled | bool
-
-- import_playbook: app-monitoring-prometheus-operator.yml
-  tags: kubernetes-app-monitoring-prometheus-operator
-  when: prometheus_operator_enabled | bool
 
 - import_playbook: app-monitoring-blackbox-exporter.yml
   tags: kubernetes-app-monitoring-blackbox-exporter
