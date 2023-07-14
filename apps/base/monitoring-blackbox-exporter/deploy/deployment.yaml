@@ -2,29 +2,26 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: blackbox-exporter
-  namespace: {{ blackbox_exporter.namespace }}
-  labels:
-    {{ blackbox_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ blackbox_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ blackbox_exporter.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/component: exporter
+      app.kubernetes.io/name: blackbox-exporter
   template:
     metadata:
       annotations:
         kubectl.kubernetes.io/default-container: blackbox-exporter
       labels:
-        {{ blackbox_exporter.labels_def | to_nice_yaml() | indent(8) }}
-        {{ blackbox_exporter.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/component: exporter
+        app.kubernetes.io/name: blackbox-exporter
     spec:
       automountServiceAccountToken: true
       containers:
       - args:
         - --config.file=/etc/blackbox_exporter/config.yml
         - --web.listen-address=:19115
-        image: "{{ blackbox_exporter.private_image | image_full_name }}"
+        image: registry.lan/blackbox-exporter:v0.23.0
         name: blackbox-exporter
         readinessProbe:
           httpGet:
@@ -38,13 +35,13 @@ spec:
           name: http
         resources:
           limits:
-            cpu: {{ blackbox_exporter.container.limits_cpu }}
-            memory: {{ blackbox_exporter.container.limits_memory }}
+            cpu: 50m
+            memory: 40Mi
           requests:
-            cpu: {{ blackbox_exporter.container.requests_cpu }}
-            memory: {{ blackbox_exporter.container.requests_memory }}
+            cpu: 25m
+            memory: 20Mi
         securityContext:
-{% if blackbox_exporter.enable_icmp_module %}
+          # NET_RAW and root are Required for the icmp module
           capabilities:
             add:
             - NET_RAW
@@ -52,11 +49,6 @@ spec:
             - ALL
           readOnlyRootFilesystem: true
           runAsNonRoot: false
-{% else %}
-          runAsNonRoot: true
-          runAsUser: 65534
-{% endif %}
-          readOnlyRootFilesystem: true
         volumeMounts:
         - mountPath: /etc/blackbox_exporter/
           name: config
@@ -64,15 +56,15 @@ spec:
       - args:
         - --webhook-url=http://localhost:19115/-/reload
         - --volume-dir=/etc/blackbox_exporter/
-        image: "{{ blackbox_exporter_configmap_reload.private_image | image_full_name }}"
+        image: registry.lan/blackbox-exporter-configmap-reload:v0.5.0
         name: module-configmap-reloader
         resources:
           limits:
-            cpu: {{ blackbox_exporter_configmap_reload.container.limits_cpu }}
-            memory: {{ blackbox_exporter_configmap_reload.container.limits_memory }}
+            cpu: 20m
+            memory: 40Mi
           requests:
-            cpu: {{ blackbox_exporter_configmap_reload.container.requests_cpu }}
-            memory: {{ blackbox_exporter_configmap_reload.container.requests_memory }}
+            cpu: 10m
+            memory: 20Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -81,7 +73,6 @@ spec:
           readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 65534
-          readOnlyRootFilesystem: true
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: FallbackToLogsOnError
         volumeMounts:
@@ -93,7 +84,7 @@ spec:
         - --secure-listen-address=:9115
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:19115/
-        image: "{{ blackbox_exporter_rbac_proxy.private_image | image_full_name }}"
+        image: registry.lan/blackbox-exporter-kube-rbac-proxy:v0.14.0
         imagePullPolicy: Always
         name: kube-rbac-proxy
         ports:
@@ -110,11 +101,11 @@ spec:
         #    - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
         resources:
           limits:
-            cpu: {{ blackbox_exporter_rbac_proxy.container.limits_cpu }}
-            memory: {{ blackbox_exporter_rbac_proxy.container.limits_memory }}
+            cpu: 20m
+            memory: 40Mi
           requests:
-            cpu: {{ blackbox_exporter_rbac_proxy.container.requests_cpu }}
-            memory: {{ blackbox_exporter_rbac_proxy.container.requests_memory }}
+            cpu: 10m
+            memory: 20Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -124,7 +115,6 @@ spec:
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
-          readOnlyRootFilesystem: true
       imagePullSecrets:
       - name: docker-config
       nodeSelector:

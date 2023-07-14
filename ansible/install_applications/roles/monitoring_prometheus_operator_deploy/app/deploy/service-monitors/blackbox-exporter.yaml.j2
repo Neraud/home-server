@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{ blackbox_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ blackbox_exporter.labels_desc | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: blackbox-exporter
+    app.kubernetes.io/component: exporter
   name: blackbox-exporter
   namespace: {{ prometheus.namespace }}
 spec:
@@ -17,7 +17,7 @@ spec:
       insecureSkipVerify: true
   namespaceSelector:
     matchNames:
-    - {{ blackbox_exporter.namespace }}
+    - monitoring-blackbox-exporter
   selector:
     matchLabels:
       prometheus-target: blackbox-exporter

@@ -46,15 +46,15 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/alertmanager-service.yaml $ALERTMANAGER_ROOT/se
 
 echo "===================================================================================================="
 echo "Converting Blackbox Exporter"
-BLACKBOX_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring_blackbox_exporter_deploy/app/deploy
+BLACKBOX_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/apps/base/monitoring-blackbox-exporter/deploy
 mkdir -p $BLACKBOX_EXPORTER_ROOT
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRole.yaml $BLACKBOX_EXPORTER_ROOT/clusterRole.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRoleBinding.yaml $BLACKBOX_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-configuration.yaml $BLACKBOX_EXPORTER_ROOT/configuration.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-deployment.yaml $BLACKBOX_EXPORTER_ROOT/deployment.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-networkPolicy.yaml $BLACKBOX_EXPORTER_ROOT/networkPolicies.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-service.yaml $BLACKBOX_EXPORTER_ROOT/service.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-serviceAccount.yaml $BLACKBOX_EXPORTER_ROOT/serviceAccount.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRole.yaml $BLACKBOX_EXPORTER_ROOT/clusterRole.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-clusterRoleBinding.yaml $BLACKBOX_EXPORTER_ROOT/clusterRoleBinding.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-configuration.yaml $BLACKBOX_EXPORTER_ROOT/configuration.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-deployment.yaml $BLACKBOX_EXPORTER_ROOT/deployment.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-networkPolicy.yaml $BLACKBOX_EXPORTER_ROOT/networkPolicy.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-service.yaml $BLACKBOX_EXPORTER_ROOT/service.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/blackbox-exporter-serviceAccount.yaml $BLACKBOX_EXPORTER_ROOT/serviceAccount.yaml
 
 echo "===================================================================================================="
 echo "Converting Grafana"

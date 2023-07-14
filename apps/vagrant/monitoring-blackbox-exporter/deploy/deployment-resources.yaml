@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blackbox-exporter
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: blackbox-exporter
+        resources:
+          limits:
+            cpu: 50m
+            memory: 40Mi
+          requests:
+            cpu: 25m
+            memory: 20Mi
+      - name: module-configmap-reloader
+        resources:
+          limits:
+            cpu: 20m
+            memory: 40Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+      - name: kube-rbac-proxy
+        resources:
+          limits:
+            cpu: 20m
+            memory: 40Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi

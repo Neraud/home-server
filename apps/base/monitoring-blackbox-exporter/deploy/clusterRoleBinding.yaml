@@ -2,10 +2,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: blackbox-exporter
-  namespace: {{ blackbox_exporter.namespace }}
-  labels:
-    {{ blackbox_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ blackbox_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -13,4 +9,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: blackbox-exporter
-  namespace: {{ blackbox_exporter.namespace }}
+  namespace: monitoring-blackbox-exporter

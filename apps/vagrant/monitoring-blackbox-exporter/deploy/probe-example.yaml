@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: probe-example
+spec:
+  interval: 30s
+  module: icmp_ip4
+  prober:
+    path: /probe
+    url: blackbox-exporter.monitoring-blackbox-exporter.svc.cluster.local:19115
+  targets:
+    staticConfig:
+      static:
+      - 1.2.3.4

@@ -36,10 +36,6 @@
   tags: kubernetes-app-monitoring-apcups-exporter
   when: apcups_exporter_enabled | bool
 
-- import_playbook: app-monitoring-blackbox-exporter.yml
-  tags: kubernetes-app-monitoring-blackbox-exporter
-  when: blackbox_exporter_enabled | bool
-
 - import_playbook: app-monitoring-grafana.yml
   tags: kubernetes-app-monitoring-grafana
   when: grafana_enabled | bool
