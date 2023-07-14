@@ -29,9 +29,16 @@ spec:
             mkdir -p /mnt/nextcloud-app/custom_apps
             mkdir -p /mnt/nextcloud-app/themes
             chown -R 33:33 /mnt/nextcloud-app/*
+
+            mkdir -p /mnt/nextcloud-data/data
+            # Requires no_root_squash on the NFS export
+            chown 33:33 /mnt/nextcloud-data/data
+            chmod 0770 /mnt/nextcloud-data/data
         volumeMounts:
         - name: nextcloud-app
           mountPath: /mnt/nextcloud-app
+        - name: nextcloud-data
+          mountPath: /mnt/nextcloud-data
       - name: wait-for-requirements
         image: "registry.lan/nextcloud-busybox:1.36.0"
         imagePullPolicy: Always

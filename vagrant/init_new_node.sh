@@ -146,7 +146,7 @@ __EOF__
 	cat <<EOF >/etc/exports
 /opt/mock_nas/Multimedia $network_cidr(rw)
 /opt/mock_nas/Download $network_cidr(rw)
-/opt/mock_nas/Nextcloud $network_cidr(rw)
+/opt/mock_nas/Nextcloud $network_cidr(rw,no_root_squash)
 /opt/mock_nas/NVR $network_cidr(rw)
 /opt/mock_nas/Paperless $network_cidr(rw)
 /opt/mock_nas/Syncthing $network_cidr(rw)
