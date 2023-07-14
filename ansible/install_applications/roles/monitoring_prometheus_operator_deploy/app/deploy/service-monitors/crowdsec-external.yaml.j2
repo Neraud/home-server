@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{ crowdsec_external.labels_def | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: crowdsec-external
+    app.kubernetes.io/component: crowdsec-external
   name: crowdsec-external
   namespace: {{ prometheus.namespace }}
 spec:
@@ -14,7 +15,7 @@ spec:
     - crowdsec-role
   namespaceSelector:
     matchNames:
-    - {{ crowdsec_external.namespace }}
+    - monitoring-crowdsec-external
   selector:
     matchLabels:
       prometheus-target: crowdsec-external

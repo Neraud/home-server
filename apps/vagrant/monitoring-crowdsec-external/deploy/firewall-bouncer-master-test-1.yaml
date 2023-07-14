@@ -1,0 +1,25 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: crowdsec-external-firewall-bouncer-master-test-1
+subsets:
+- addresses:
+  - ip: 192.168.100.11
+  ports:
+  - name: metrics
+    port: 60601
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: crowdsec-external-firewall-bouncer-master-test-1
+  labels:
+    crowdsec-role: bouncer
+    prometheus-target: crowdsec-external
+spec:
+  ports:
+  - name: metrics
+    port: 60601
+    targetPort: metrics
