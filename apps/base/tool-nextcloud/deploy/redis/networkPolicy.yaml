@@ -1,0 +1,21 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-redis
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: nextcloud
+      app.kubernetes.io/component: redis
+
+  ingress:
+    # Allow from nextcloud
+    - ports:
+        - port: redis
+      from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: nextcloud
+              app.kubernetes.io/component: nextcloud

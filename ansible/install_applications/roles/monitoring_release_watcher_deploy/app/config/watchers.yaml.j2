@@ -755,9 +755,9 @@ watchers:
       - 1\.23\.[0-2]-.*
   - name: Nextcloud
     type: docker_registry
-    repo: {{ nextcloud.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ nextcloud.base_image.name }}
-    tag: {{ nextcloud.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/nextcloud
+    tag: 25.0.5-apache
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-apache
     excludes:
@@ -766,44 +766,44 @@ watchers:
       - ^2[0-4]\..*
   - name: Nextcloud Calendar
     type: github_release
-    repo: {{ nextcloud.applications.calendar.repo }}
-    release: {{ nextcloud.applications.calendar.version }}
+    repo: nextcloud-releases/calendar
+    release: v4.3.1
     excludes:
       - .*(alpha|beta|rc).*
       - ^v[0-3]\..*
   - name: Nextcloud Contacts
     type: github_release
-    repo: {{ nextcloud.applications.contacts.repo }}
-    release: {{ nextcloud.applications.contacts.version }}
+    repo: nextcloud-releases/contacts
+    release: v5.2.0
     excludes:
       - .*(alpha|beta|rc).*
       - ^v[0-4]\..*
   - name: Nextcloud Notes
     type: github_release
-    repo: {{ nextcloud.applications.notes.repo }}
-    release: {{ nextcloud.applications.notes.version }}
+    repo: nextcloud/notes
+    release: v4.7.2
     excludes:
       - .*(alpha|beta|rc).*
       - ^v[0-3]\..*
   - name: Nextcloud Tasks
     type: github_release
-    repo: {{ nextcloud.applications.tasks.repo }}
-    release: {{ nextcloud.applications.tasks.version }}
+    repo: nextcloud/tasks
+    release: v0.14.5
     excludes:
       - .*(alpha|beta|rc).*
       - ^v0\.[0-9]\..*
       - ^v0\.1[0-3]\..*
   - name: Nextcloud Two Factor Totp
     type: github_release
-    repo: {{ nextcloud.applications.twofactor_totp.repo }}
-    release: {{ nextcloud.applications.twofactor_totp.version }}
+    repo: nextcloud-releases/twofactor_totp
+    release: v6.4.1
     excludes:
       - .*(alpha|beta|rc).*
   - name: "Nextcloud MySQL"
     type: docker_registry
-    repo: {{ nextcloud_mysql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ nextcloud_mysql.base_image.name }}
-    tag: {{ nextcloud_mysql.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/mysql
+    tag: 8.0.32-debian
     includes:
       - ^[0-9]\.[0-9]+\.[0-9]+-debian
     excludes:
@@ -814,9 +814,9 @@ watchers:
       - ^8\.0\.3[0]-.*
   - name: "Nextcloud Redis"
     type: docker_registry
-    repo: {{ nextcloud_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ nextcloud_redis.base_image.name }}
-    tag: {{ nextcloud_redis.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/redis
+    tag: 7.0.10-alpine3.17
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
     excludes:
@@ -827,7 +827,7 @@ watchers:
     type: github_commit
     repo: Neraud/caldav-recurring-task-scheduler
     branch: main
-    commit: {{ nextcloud_task_rescheduler.repo.version }}
+    commit: 1b6cb6e328c895459573326a3868030bd099c215
   - name: Paperless-ngx
     type: docker_registry
     repo: {{ _paperless_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}

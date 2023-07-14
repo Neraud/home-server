@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: task-rescheduler
+spec:
+  schedule: "0 6 * * *"
+  startingDeadlineSeconds: 600
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: nextcloud
+            app.kubernetes.io/component: caldav-recurring-task-scheduler
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: task-rescheduler
+            image: "registry.lan/caldav-recurring-task-scheduler:1b6cb6e328c895459573326a3868030bd099c215-3.10.5-alpine3.16"
+            imagePullPolicy: Always
+            env:
+            - name: CONFIG_PATH
+              value: "/data/config.yaml"
+            - name: LOG_LEVEL
+              value: "INFO"
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000 # app
+              runAsGroup: 1000 # app
+              readOnlyRootFilesystem: true
+            resources:
+              requests:
+                cpu: 25m
+                memory: 64Mi
+              limits:
+                cpu: 100m
+                memory: 64Mi
+            volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+              readOnly: true
+            - name: task-rescheduler-secret
+              mountPath: /data/config.yaml
+              subPath: config.yaml
+          volumes:
+          - name: tz-config
+            hostPath:
+              path: /etc/localtime
+          - name: task-rescheduler-secret
+            secret:
+              secretName: task-rescheduler
+          imagePullSecrets:
+          - name: docker-config
+          nodeSelector:
+            capability/general-purpose: 'yes'
