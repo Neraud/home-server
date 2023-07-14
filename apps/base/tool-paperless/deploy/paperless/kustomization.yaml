@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/component: paperless
+      app.kubernetes.io/part-of: paperless
+      app.kubernetes.io/version: 1.13.0-custom
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: paperless-env
+  envs:
+  - secret/paperless.env
+
+resources:
+- nfs-papers-pvc.yaml
+- nfs-papers-pv.yaml
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- pvc.yaml
+- statefulSet.yaml

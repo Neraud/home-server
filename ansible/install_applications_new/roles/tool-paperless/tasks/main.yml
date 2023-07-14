@@ -1,0 +1,38 @@
+---
+
+- name: Build and deploy tool-paperless
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: tool-paperless
+
+- name: Deploy Paperless backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: tool-paperless
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "tool-paperless"
+      apps_to_stop:
+        - name: paperless
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: paperless-data
+          pvc_name: paperless-data
+  tags: backup
+
+- name: Deploy Paperless pgsql backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: tool-paperless_pgsql
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "tool-paperless"
+      apps_to_stop:
+        - name: pgsql
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: paperless-pgsql
+          pvc_name: pgsql-data
+  tags: backup

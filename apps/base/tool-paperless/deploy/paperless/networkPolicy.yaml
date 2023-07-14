@@ -1,0 +1,35 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-paperless
+spec:
+  types: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/component: paperless
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: web
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow http from the homepage (to enable the widget)
+    - ports:
+        - port: web
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: tool-homepage
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homepage
+              app.kubernetes.io/component: homepage

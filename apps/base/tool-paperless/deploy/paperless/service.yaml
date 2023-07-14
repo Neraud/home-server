@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: paperless
+spec:
+  ports:
+  - port: 8000
+    name: web
+    targetPort: web
+  selector:
+    app.kubernetes.io/name: paperless
+    app.kubernetes.io/component: paperless

@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: paperless
+spec:
+  template:
+    spec:
+      containers:
+      - name: paperless
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: web
+            httpHeaders:
+              - name: Host
+                value: "paperless.tool.intra.k8s.test"

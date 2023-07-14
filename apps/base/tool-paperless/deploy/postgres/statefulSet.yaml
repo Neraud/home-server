@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pgsql
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: paperless
+      app.kubernetes.io/component: pgsql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: paperless
+        app.kubernetes.io/component: pgsql
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/paperless-postgres:15.2-alpine3.17"
+        imagePullPolicy: Always
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /var/lib/postgresql/data
+            chown -R 70:70 /var/lib/postgresql/data
+        volumeMounts:
+        - name: pgsql-data
+          mountPath: /var/lib/postgresql
+      containers:
+      - name: pgsql
+        image: "registry.lan/paperless-postgres:15.2-alpine3.17"
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: pgsql-env
+        ports:
+        - containerPort: 5432
+          name: pgsql
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 70 # postgres
+          readOnlyRootFilesystem: true
+        readinessProbe:
+           exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U $POSTGRES_USER -d $POSTGRES_DB -h 127.0.0.1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: pgsql-data
+          mountPath: /var/lib/postgresql/data
+          subPath: data
+        - name: run-volume
+          mountPath: /var/run/postgresql/
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: pgsql-data
+        persistentVolumeClaim:
+          claimName: pgsql-data
+      - name: run-volume
+        emptyDir: {}
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

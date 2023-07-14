@@ -830,9 +830,9 @@ watchers:
     commit: 1b6cb6e328c895459573326a3868030bd099c215
   - name: Paperless-ngx
     type: docker_registry
-    repo: {{ _paperless_var_loader.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ _paperless_var_loader.base_image.name }}
-    tag: {{ _paperless_var_loader.base_image.tag }}
+    repo: ghcr.io
+    image: paperless-ngx/paperless-ngx
+    tag: 1.13.0
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -842,9 +842,9 @@ watchers:
       - ^1\.1[0-2]\..*
   - name: "Paperless Redis"
     type: docker_registry
-    repo: {{ paperless_redis.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ paperless_redis.base_image.name }}
-    tag: {{ paperless_redis.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/redis
+    tag: 7.0.10-alpine3.17
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
     excludes:
@@ -853,9 +853,9 @@ watchers:
       - ^7\.0\.[0-7]-.*
   - name: Paperless PostgreSQL
     type: docker_registry
-    repo: {{ paperless_pgsql.base_image.repo | regex_replace('^docker.io$', 'registry-1.docker.io') | default('registry-1.docker.io') }}
-    image: {{ paperless_pgsql.base_image.name }}
-    tag: {{ paperless_pgsql.base_image.tag }}
+    repo: registry-1.docker.io
+    image: library/postgres
+    tag: 15.2-alpine3.17
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
