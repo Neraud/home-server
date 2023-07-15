@@ -54,3 +54,4 @@
     - { role: monitoring-blackbox-exporter,     tags: kubernetes-app-monitoring-blackbox-exporter,     when: blackbox_exporter_enabled | bool }
     - { role: monitoring-crowdsec-external,     tags: kubernetes-app-monitoring-crowdsec-external,     when: crowdsec_external_enabled | bool }
     - { role: monitoring-grafana,               tags: kubernetes-app-monitoring-grafana,               when: grafana_enabled | bool }
+    - { role: monitoring-keepalived-exporter,   tags: kubernetes-app-monitoring-keepalived-exporter,   when: keepalived_exporter_enabled | bool }
