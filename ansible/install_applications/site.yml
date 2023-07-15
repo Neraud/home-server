@@ -1,9 +1,4 @@
 ---
-
-- import_playbook: app-monitoring-kubernetes.yml
-  tags: kubernetes-app-monitoring-kubernetes
-  when: kubernetes_monitoring_enabled | bool
-
 - import_playbook: app-monitoring-node-exporter.yml
   tags: kubernetes-app-monitoring-node-exporter
   when: node_exporter_enabled | bool
