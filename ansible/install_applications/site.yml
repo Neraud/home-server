@@ -7,10 +7,6 @@
   tags: kubernetes-app-monitoring-node-exporter-external
   when: node_exporter_external_enabled | bool
 
-- import_playbook: app-monitoring-nginx-log-exporter.yml
-  tags: kubernetes-app-monitoring-nginx-log-exporter
-  when: nginx_log_exporter_enabled | bool
-
 - import_playbook: app-monitoring-release-watcher.yml
   tags: kubernetes-app-monitoring-release-watcher
   when: release_watcher_enabled | bool

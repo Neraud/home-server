@@ -2,25 +2,22 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nginx-log-exporter
-  namespace: {{ nginx_log_exporter.namespace }}
-  labels:
-    {{ nginx_log_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ nginx_log_exporter.labels_desc | to_nice_yaml() | indent(4) }}
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
-      {{ nginx_log_exporter.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: nginx-log-exporter
+      app.kubernetes.io/component: nginx-log-exporter
   template:
     metadata:
       labels:
-        {{ nginx_log_exporter.labels_def | to_nice_yaml() | indent(8) }}
-        {{ nginx_log_exporter.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: nginx-log-exporter
+        app.kubernetes.io/component: nginx-log-exporter
     spec:
       containers:
       - name: nginx-log-exporter
-        image: "{{ nginx_log_exporter.private_image | image_full_name }}"
+        image: registry.lan/nginxlog-exporter:v1.10.0-amd64
         imagePullPolicy: Always
         args:
         - -config-file
@@ -41,17 +38,17 @@ spec:
           readOnlyRootFilesystem: true
         resources:
           requests:
-            cpu: "{{ nginx_log_exporter.container.requests_cpu }}"
-            memory: "{{ nginx_log_exporter.container.requests_memory }}"
+            cpu: 20m
+            memory: 48Mi
           limits:
-            cpu: "{{ nginx_log_exporter.container.limits_cpu }}"
-            memory: "{{ nginx_log_exporter.container.limits_memory }}"
+            cpu: 100m
+            memory: 48Mi
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime
           readOnly: true
         - name: host-nginx-logs
-          mountPath: {{ nginx_log_exporter.container.logs_mount_point }}
+          mountPath: /mnt/nginx/logs
           readOnly: true
         - mountPath: /etc/prometheus-nginxlog-exporter.yaml
           name: nginx-log-exporter-config

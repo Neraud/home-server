@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-log-exporter
+spec:
+  template:
+    spec:
+      containers:
+      - name: nginx-log-exporter
+        resources:
+          requests:
+            cpu: 20m
+            memory: 48Mi
+          limits:
+            cpu: 100m
+            memory: 48Mi

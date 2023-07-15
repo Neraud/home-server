@@ -2,8 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{ nginx_log_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ nginx_log_exporter.labels_desc | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: nginx-log-exporter
+    app.kubernetes.io/component: nginx-log-exporter
   name: nginx-log-exporter
   namespace: {{ prometheus.namespace }}
 spec:
@@ -39,7 +39,7 @@ spec:
       regex: 'nginxlog_http_upstream_.*'
   namespaceSelector:
     matchNames:
-    - {{ nginx_log_exporter.namespace }}
+    - monitoring-nginx-log-exporter
   selector:
     matchLabels:
       prometheus-target: nginx-log-exporter
