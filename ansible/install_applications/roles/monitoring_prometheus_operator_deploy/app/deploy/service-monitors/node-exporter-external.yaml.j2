@@ -2,7 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    {{ node_exporter_external.labels_def | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: node-exporter-external
+    app.kubernetes.io/component: node-exporter-external
   name: node-exporter-external
   namespace: {{ prometheus.namespace }}
 spec:
@@ -20,7 +21,7 @@ spec:
       targetLabel: instance
   namespaceSelector:
     matchNames:
-    - {{ node_exporter_external.namespace }}
+    - monitoring-node-exporter-external
   selector:
     matchLabels:
       prometheus-target: node-exporter-external

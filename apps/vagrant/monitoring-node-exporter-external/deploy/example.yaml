@@ -1,0 +1,25 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-exporter-external-example
+  labels:
+    node-exporter-external-name: example
+    prometheus-target: node-exporter-external
+spec:
+  ports:
+  - name: metrics
+    port: 9100
+    targetPort: metrics
+
+---
+
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: node-exporter-external-example
+subsets:
+- addresses:
+  - ip: 1.2.3.4
+  ports:
+  - name: metrics
+    port: 9100
