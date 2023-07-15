@@ -2,21 +2,18 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: node-exporter
-  namespace: {{ node_exporter.namespace }}
-  labels:
-    {{ node_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ node_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      {{ node_exporter.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/component: node-exporter
+      app.kubernetes.io/name: node-exporter
   template:
     metadata:
       annotations:
         kubectl.kubernetes.io/default-container: node-exporter
       labels:
-        {{ node_exporter.labels_def | to_nice_yaml() | indent(8) }}
-        {{ node_exporter.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/component: node-exporter
+        app.kubernetes.io/name: node-exporter
     spec:
       automountServiceAccountToken: true
       containers:
@@ -31,7 +28,7 @@ spec:
         - --collector.netclass.ignored-devices=^(veth.*|[a-f0-9]{15})$
         - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
         - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
-        image: "{{ node_exporter.private_image | image_full_name }}"
+        image: registry.lan/node-exporter:v1.5.0
         imagePullPolicy: Always
         name: node-exporter
         readinessProbe:
@@ -43,11 +40,11 @@ spec:
           periodSeconds: 5
         resources:
           limits:
-            cpu: {{ node_exporter.container.limits_cpu }}
-            memory: {{ node_exporter.container.limits_memory }}
+            cpu: 250m
+            memory: 180Mi
           requests:
-            cpu: {{ node_exporter.container.requests_cpu }}
-            memory: {{ node_exporter.container.requests_memory }}
+            cpu: 102m
+            memory: 180Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -78,7 +75,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: "{{ node_exporter_rbac_proxy.private_image | image_full_name }}"
+        image: registry.lan/node-exporter-kube-rbac-proxy:v0.14.0
         imagePullPolicy: Always
         name: kube-rbac-proxy
         ports:
@@ -96,11 +93,11 @@ spec:
         #    - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
         resources:
           limits:
-            cpu: {{ node_exporter_rbac_proxy.container.limits_cpu }}
-            memory: {{ node_exporter_rbac_proxy.container.limits_memory }}
+            cpu: 20m
+            memory: 40Mi
           requests:
-            cpu: {{ node_exporter_rbac_proxy.container.requests_cpu }}
-            memory: {{ node_exporter_rbac_proxy.container.requests_memory }}
+            cpu: 10m
+            memory: 20Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -110,7 +107,6 @@ spec:
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
-          readOnlyRootFilesystem: true
       hostNetwork: true
       hostPID: true
       imagePullSecrets:

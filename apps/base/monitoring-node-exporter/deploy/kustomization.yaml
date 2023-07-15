@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: monitoring-node-exporter
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: node-exporter
+      app.kubernetes.io/component: node-exporter
+      app.kubernetes.io/version: v1.5.0
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- serviceAccount.yaml
+- clusterRole.yaml
+- clusterRoleBinding.yaml
+- networkPolicy.yaml
+- service.yaml
+- daemonSet.yaml

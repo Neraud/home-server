@@ -85,14 +85,14 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_MET
 
 echo "===================================================================================================="
 echo "Converting NodeExporter"
-NODE_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/monitoring_node_exporter_deploy/app/deploy
+NODE_EXPORTER_ROOT=$OUT_CONVERTED_ROOT/apps/base/monitoring-node-exporter/deploy
 mkdir -p $NODE_EXPORTER_ROOT
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/clusterRoleBinding.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/clusterRole.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-daemonset.yaml $NODE_EXPORTER_ROOT/daemonSet.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-networkPolicy.yaml $NODE_EXPORTER_ROOT/networkPolicies.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-serviceAccount.yaml $NODE_EXPORTER_ROOT/serviceAccount.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/service.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRoleBinding.yaml $NODE_EXPORTER_ROOT/clusterRoleBinding.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-clusterRole.yaml $NODE_EXPORTER_ROOT/clusterRole.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-daemonset.yaml $NODE_EXPORTER_ROOT/daemonSet.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-networkPolicy.yaml $NODE_EXPORTER_ROOT/networkPolicy.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-serviceAccount.yaml $NODE_EXPORTER_ROOT/serviceAccount.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/node-exporter-service.yaml $NODE_EXPORTER_ROOT/service.yaml
 
 echo "===================================================================================================="
 echo "Converting Prometheus"
