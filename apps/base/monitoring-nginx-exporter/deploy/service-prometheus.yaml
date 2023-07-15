@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-exporter-prometheus
+  labels:
+    prometheus-target: nginx-exporter
+spec:
+  ports:
+    - port: 9113
+      name: metrics
+      targetPort: metrics
+  selector:
+    app.kubernetes.io/name: nginx-exporter
+    app.kubernetes.io/component: nginx-exporter

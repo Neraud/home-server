@@ -2,23 +2,20 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nginx-exporter
-  namespace: {{ nginx_exporter.namespace }}
-  labels:
-    {{ nginx_exporter.labels_def | to_nice_yaml() | indent(4) }}
-    {{ nginx_exporter.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   selector:
     matchLabels:
-      {{ nginx_exporter.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: nginx-exporter
+      app.kubernetes.io/component: nginx-exporter
   template:
     metadata:
       labels:
-        {{ nginx_exporter.labels_def | to_nice_yaml() | indent(8) }}
-        {{ nginx_exporter.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: nginx-exporter
+        app.kubernetes.io/component: nginx-exporter
     spec:
       containers:
       - name: nginx-exporter
-        image: "{{ nginx_exporter.private_image | image_full_name }}"
+        image: registry.lan/nginx-prometheus-exporter:0.11.0
         imagePullPolicy: Always
         args:
         - -nginx.scrape-uri
@@ -44,11 +41,11 @@ spec:
           periodSeconds: 5
         resources:
           requests:
-            cpu: "{{ nginx_exporter.container.requests_cpu }}"
-            memory: "{{ nginx_exporter.container.requests_memory }}"
+            cpu: 20m
+            memory: 32Mi
           limits:
-            cpu: "{{ nginx_exporter.container.limits_cpu }}"
-            memory: "{{ nginx_exporter.container.limits_memory }}"
+            cpu: 100m
+            memory: 32Mi
         volumeMounts:
         - name: tz-config
           mountPath: /etc/localtime

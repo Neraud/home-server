@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy monitoring-nginx-exporter
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: monitoring-nginx-exporter
