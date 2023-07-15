@@ -4,8 +4,8 @@ metadata:
   name: kube-state-metrics
   namespace: {{ prometheus.namespace }}
   labels:
-    {{ kube_state_metrics.labels_def | to_nice_yaml() | indent(4) }}
-    {{ kube_state_metrics.labels_desc | to_nice_yaml() | indent(4) }}
+    app.kubernetes.io/name: kube-state-metrics
+    app.kubernetes.io/component: kube-state-metrics
 spec:
   endpoints:
   - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
@@ -38,7 +38,7 @@ spec:
   jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
-    - {{ kube_state_metrics.namespace }}
+    - monitoring-kube-state-metrics
   selector:
     matchLabels:
       prometheus-target: kube-state-metrics

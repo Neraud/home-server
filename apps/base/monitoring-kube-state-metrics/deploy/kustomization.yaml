@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: monitoring-kube-state-metrics
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/component: kube-state-metrics
+      app.kubernetes.io/version: v2.8.2
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- serviceAccount.yaml
+- clusterRole.yaml
+- clusterRoleBinding.yaml
+- networkPolicy.yaml
+- role.yaml
+- roleBinding.yaml
+- service.yaml
+- deployment.yaml

@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy monitoring-kube-state-metrics
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: monitoring-kube-state-metrics

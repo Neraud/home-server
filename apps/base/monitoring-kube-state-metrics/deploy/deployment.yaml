@@ -2,20 +2,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kube-state-metrics
-  namespace: {{ kube_state_metrics.namespace }}
-  labels:
-    {{ kube_state_metrics.labels_def | to_nice_yaml() | indent(4) }}
-    {{ kube_state_metrics.labels_desc | to_nice_yaml() | indent(4) }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{ kube_state_metrics.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/component: kube-state-metrics
   template:
     metadata:
       labels:
-        {{ kube_state_metrics.labels_def | to_nice_yaml() | indent(8) }}
-        {{ kube_state_metrics.labels_desc | to_nice_yaml() | indent(8) }}
+        app.kubernetes.io/name: kube-state-metrics
+        app.kubernetes.io/component: kube-state-metrics
     spec:
       automountServiceAccountToken: true
       containers:
@@ -24,37 +21,44 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: "{{ kube_state_metrics.private_image | image_full_name }}"
+        image: registry.lan/kube-state-metrics:v2.8.2
         imagePullPolicy: Always
         name: kube-state-metrics
+        resources:
+          limits:
+            cpu: 100m
+            memory: 96Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
         securityContext:
-          runAsGroup: 65532
           allowPrivilegeEscalation: false
           capabilities:
             drop:
             - ALL
           readOnlyRootFilesystem: true
           runAsUser: 65534
+          runAsGroup: 65532
         #readinessProbe:
         # As we bind to 127.0.0.1, we can't add probes to this container
-        resources:
-          requests:
-            cpu: "{{ kube_state_metrics.container.requests_cpu }}"
-            memory: "{{ kube_state_metrics.container.requests_memory }}"
-          limits:
-            cpu: "{{ kube_state_metrics.container.limits_cpu }}"
-            memory: "{{ kube_state_metrics.container.limits_memory }}"
       - args:
         - --logtostderr
         - --secure-listen-address=:8443
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:8081/
-        image: "{{ kube_state_metrics_rbac_proxy.private_image | image_full_name }}"
+        image: registry.lan/kube-state-metrics-kube-rbac-proxy:v0.14.0
         imagePullPolicy: Always
         name: kube-rbac-proxy-main
         ports:
         - containerPort: 8443
           name: https-main
+        resources:
+          limits:
+            cpu: 250m
+            memory: 64Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
 #        readinessProbe:
 #          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
 #          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
@@ -75,25 +79,24 @@ spec:
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
-          readOnlyRootFilesystem: true
-        resources:
-          limits:
-            cpu: {{ kube_state_metrics_rbac_proxy.container.limits_cpu }}
-            memory: {{ kube_state_metrics_rbac_proxy.container.limits_memory }}
-          requests:
-            cpu: {{ kube_state_metrics_rbac_proxy.container.requests_cpu }}
-            memory: {{ kube_state_metrics_rbac_proxy.container.requests_memory }}
       - args:
         - --logtostderr
         - --secure-listen-address=:9443
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:8082/
-        image: "{{ kube_state_metrics_rbac_proxy.private_image | image_full_name }}"
+        image: registry.lan/kube-state-metrics-kube-rbac-proxy:v0.14.0
         imagePullPolicy: Always
         name: kube-rbac-proxy-self
         ports:
         - containerPort: 9443
           name: https-self
+        resources:
+          limits:
+            cpu: 250m
+            memory: 64Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
 #        readinessProbe:
 #          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
 #          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
@@ -114,14 +117,6 @@ spec:
           runAsGroup: 65532
           runAsNonRoot: true
           runAsUser: 65532
-          readOnlyRootFilesystem: true
-        resources:
-          limits:
-            cpu: {{ kube_state_metrics_rbac_proxy.container.limits_cpu }}
-            memory: {{ kube_state_metrics_rbac_proxy.container.limits_memory }}
-          requests:
-            cpu: {{ kube_state_metrics_rbac_proxy.container.requests_cpu }}
-            memory: {{ kube_state_metrics_rbac_proxy.container.requests_memory }}
       imagePullSecrets:
       - name: docker-config
       nodeSelector:

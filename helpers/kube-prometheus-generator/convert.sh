@@ -74,14 +74,14 @@ python3 extract_dashboards.py $GRAFANA_ROOT/dashboardProviders-configMap.yaml $G
 
 echo "===================================================================================================="
 echo "Converting Kube state metrics"
-KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/monitoring_kube_state_metrics_deploy/app/deploy
+KUBE_STATE_METRICS_ROOT=$OUT_CONVERTED_ROOT/apps/base/monitoring-kube-state-metrics/deploy
 mkdir -p $KUBE_STATE_METRICS_ROOT
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-deployment.yaml $KUBE_STATE_METRICS_ROOT/deployment.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-networkPolicy.yaml $KUBE_STATE_METRICS_ROOT/networkPolicies.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/serviceAccount.yaml.j2
-mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/service.yaml.j2
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRoleBinding.yaml $KUBE_STATE_METRICS_ROOT/clusterRoleBinding.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-clusterRole.yaml $KUBE_STATE_METRICS_ROOT/clusterRole.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-deployment.yaml $KUBE_STATE_METRICS_ROOT/deployment.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-networkPolicy.yaml $KUBE_STATE_METRICS_ROOT/networkPolicy.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-serviceAccount.yaml $KUBE_STATE_METRICS_ROOT/serviceAccount.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/kube-state-metrics-service.yaml $KUBE_STATE_METRICS_ROOT/service.yaml
 
 echo "===================================================================================================="
 echo "Converting NodeExporter"
