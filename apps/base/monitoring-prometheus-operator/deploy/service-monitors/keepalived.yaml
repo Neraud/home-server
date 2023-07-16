@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: keepalived-exporter
+    app.kubernetes.io/component: keepalived-exporter
+  name: keepalived-exporter
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+  namespaceSelector:
+    matchNames:
+    - monitoring-keepalived-exporter
+  selector:
+    matchLabels:
+      prometheus-target: keepalived-exporter

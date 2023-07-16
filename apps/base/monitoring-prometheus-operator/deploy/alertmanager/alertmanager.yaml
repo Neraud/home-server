@@ -1,0 +1,45 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  name: k8s
+spec:
+  image: registry.lan/alertmanager:v0.25.0
+  imagePullSecrets:
+  - name: docker-config
+  podMetadata:
+    labels:
+      app.kubernetes.io/name: alertmanager
+      app.kubernetes.io/component: alertmanager
+      app.kubernetes.io/instance: k8s
+  nodeSelector:
+    kubernetes.io/os: linux
+    capability/general-purpose: 'yes'
+  replicas: 1
+  externalUrl: https://alertmanager.monitoring.intra.web_domain_name/
+  secrets:  # The Secrets are mounted into /etc/alertmanager/secrets/<secret-name>
+  - cluster-ca
+  resources:
+    requests:
+      cpu: 25m
+      memory: 128Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+  securityContext:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+    # TODO : readOnlyRootFilesystem is present in the CRD, but it doesn't get injected at the container level
+    # I guess this section is only applied at the POD level.
+    #readOnlyRootFilesystem: true
+  serviceAccountName: alertmanager-k8s
+  storage:
+    volumeClaimTemplate:
+      metadata:
+        name: alertmanager-k8s-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: longhorn-low-durability
+        resources:
+          requests:
+            storage: 16Mi

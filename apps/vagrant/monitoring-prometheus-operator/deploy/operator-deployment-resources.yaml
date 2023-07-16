@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-operator
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: prometheus-operator
+        args:
+        - --kubelet-service=kube-system/kubelet
+        - --config-reloader-cpu-request=25m
+        - --config-reloader-memory-request=25Mi
+        - --config-reloader-cpu-limit=50m
+        - --config-reloader-memory-limit=25Mi
+        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.64.0
+        resources:
+          limits:
+            cpu: 50m
+            memory: 200Mi
+          requests:
+            cpu: 25m
+            memory: 100Mi
+      - name: kube-rbac-proxy
+        resources:
+          limits:
+            cpu: 20m
+            memory: 40Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi

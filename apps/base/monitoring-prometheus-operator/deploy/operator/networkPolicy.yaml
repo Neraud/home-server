@@ -1,22 +1,19 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-to-release-watcher
-  namespace: {{ release_watcher.namespace }}
-  labels:
-    {{ release_watcher.labels_def | to_nice_yaml() | indent(4) }}
-    {{ release_watcher.labels_desc | to_nice_yaml() | indent(4) }}
+  name: allow-to-prometheus-operator
 spec:
   types: [Ingress]
 
   podSelector:
     matchLabels:
-      {{ release_watcher.labels_def | to_nice_yaml() | indent(6) }}
+      app.kubernetes.io/name: prometheus-operator
+      app.kubernetes.io/component: controller
 
   ingress:
     # Allow from prometheus
     - ports:
-        - port: metrics
+        - port: https
       from:
         - namespaceSelector:
             matchLabels:

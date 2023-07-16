@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alertmanager
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Monitoring
+    gethomepage.dev/name: AlertManager
+    gethomepage.dev/description: Alert manager for Prometheus
+    gethomepage.dev/icon: prometheus
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=alertmanager"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - ntfy.infra.web_domain_name
+      secretName: ingress-tls
+  rules:
+  - host: alertmanager.monitoring.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: alertmanager-k8s
+            port:
+              number: 9093

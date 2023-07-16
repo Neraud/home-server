@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: crowdsec
+    app.kubernetes.io/component: agent
+  name: crowdsec-agent
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+    path: /metrics
+    relabelings:
+    # Crowdsec dashboards use a "machine" label, populate it with the node name for agents
+    - action: replace
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: machine
+  targetLabels:
+    - crowdsec-role
+  namespaceSelector:
+    matchNames:
+    - infra-crowdsec
+  selector:
+    matchLabels:
+      prometheus-target: crowdsec-agent

@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/instance: k8s
+      app.kubernetes.io/part-of: prometheus
+      app.kubernetes.io/version: v2.43.0
+
+resources:
+- serviceAccount.yaml
+- clusterRole-allNamespaces.yaml
+- clusterRoleBinding-allNamespaces.yaml
+- clusterRole.yaml
+- clusterRoleBinding.yaml
+- roleConfig.yaml
+- roleBindingConfig.yaml
+- ingress.yaml
+- networkPolicy.yaml
+- service.yaml
+- prometheus.yaml

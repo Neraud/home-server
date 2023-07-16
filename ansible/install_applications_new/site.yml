@@ -61,3 +61,4 @@
     - { role: monitoring-nginx-log-exporter,     tags: kubernetes-app-monitoring-nginx-log-exporter,     when: nginx_log_exporter_enabled | bool }
     - { role: monitoring-node-exporter,          tags: kubernetes-app-monitoring-node-exporter,          when: node_exporter_enabled | bool }
     - { role: monitoring-node-exporter-external, tags: kubernetes-app-monitoring-node-exporter-external, when: node_exporter_external_enabled | bool }
+    - { role: monitoring-prometheus-operator,    tags: kubernetes-app-monitoring-prometheus-operator,    when: prometheus_operator_enabled | bool }

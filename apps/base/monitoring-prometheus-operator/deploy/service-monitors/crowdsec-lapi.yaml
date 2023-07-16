@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: crowdsec
+    app.kubernetes.io/component: lapi
+  name: crowdsec-lapi
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+    path: /metrics
+  targetLabels:
+    - crowdsec-role
+  namespaceSelector:
+    matchNames:
+    - infra-crowdsec
+  selector:
+    matchLabels:
+      prometheus-target: crowdsec-lapi

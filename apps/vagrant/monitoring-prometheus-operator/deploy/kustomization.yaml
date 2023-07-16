@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generators:
+- secret-generator.yaml
+
+resources:
+- ../../../base/monitoring-prometheus-operator/deploy
+
+patches:
+- path: alertmanager-resources.yaml
+- path: alertmanager-config.yaml
+- path: operator-deployment-resources.yaml
+- path: prometheus-resources.yaml
+- path: prometheus-config.yaml
+- target:
+    kind: Ingress
+    name: alertmanager
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: alertmanager.monitoring.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: alertmanager.monitoring.intra.k8s.test
+- target:
+    kind: Ingress
+    name: prometheus
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: prometheus.monitoring.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: prometheus.monitoring.intra.k8s.test

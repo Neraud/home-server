@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: fluent
+    app.kubernetes.io/component: fluent
+  name: fluentd
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - logging-fluentd
+  selector:
+    matchLabels:
+      prometheus-target: fluentd

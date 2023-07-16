@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/component: server
+  name: zonemta
+spec:
+  endpoints:
+  - interval: 30s
+    port: metrics
+  namespaceSelector:
+    matchNames:
+    - infra-zonemta
+  selector:
+    matchLabels:
+      prometheus-target: zonemta
