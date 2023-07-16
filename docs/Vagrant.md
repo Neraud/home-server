@@ -107,58 +107,56 @@ For more information, take a look at the [authentication and authorization page]
 
 The following services are deployed :
 
-| Service                                                          | Test URL                                             | Description                                                       |
-| ---------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------- |
-| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | <https://kube.infra.intra.k8s.test/>                 | Kubernetes dashboard                                              |
-| [Longhorn Management UI](https://github.com/longhorn/longhorn-ui)| <https://longhorn.infra.intra.k8s.test>              | Longhorn Managmeent UI                                            |
-| [Docker Registry](https://docs.docker.com/registry/deploying/)   | -                                                    | Docker Registry                                                   |
-| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui) | <https://docker-registry-ui.infra.intra.k8s.test>    | Web UI for Docker Registry                                        |
-| [OpenLDAP](https://www.openldap.org/)                            | -                                                    | Open source Lightweight Directory Access Protocol                 |
-| [LemonDAP](https://lemonldap-ng.org/welcome/)                    | <https://lemonldap.auth.intra.k8s.test/manager.html> | Web Single Sign On and Access Management Free Software            |
-| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | <https://phpldapadmin.auth.intra.k8s.test/>          | Web-based LDAP browser                                            |
-| [Crowdsec](https://www.crowdsec.net/)                            | -                                                    | Collaborative malicious activity detection and remediation tool   |
-| [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | -                                                    | Modern outbound SMTP relay                                        |
-| [MailHog](https://github.com/mailhog/MailHog)                    | <https://mailhog.infra.intra.k8s.test/>              | MailHog is an email testing tool for developers                   |
-| [Blocky](https://0xerr0r.github.io/blocky/)                      | -                                                    | DNS proxy and ad-blocker for the local network                    |
-| [Ntfy](https://ntfy.sh/)                                         | <https://ntfy.infra.k8s.test>                        | Send push notifications to your phone or desktop via PUT/POST     |
-| [Prometheus](https://prometheus.io/)                             | <https://prometheus.monitoring.intra.k8s.test>       | Monitoring solution                                               |
-| [AlertManager](https://github.com/prometheus/alertmanager)       | <https://alertmanager.monitoring.intra.k8s.test>     | Alert manager for Prometheus                                      |
-| [Grafana](https://grafana.com/)                                  | <https://grafana.monitoring.intra.k8s.test>          | Platform for beautiful analytics and monitoring                   |
-| [Fluent Bit](https://fluentbit.io/)                              | -                                                    | Lightweight log Processor and Forwarder                           |
-| [FluentD](https://www.fluentd.org/)                              | -                                                    | Log Processor and Forwarder                                       |
-| [ElasticSearch](https://www.elastic.co/products/elasticsearch)   | <https://elasticsearch.log.intra.k8s.test>           | Distributed, RESTful search and analytics engine                  |
-| [Kibana](https://www.elastic.co/products/kibana)                 | <https://kibana.log.intra.k8s.test>                  | Visualize your Elasticsearch data                                 |
-| [Unifi Controller](https://unifi-sdn.ubnt.com/)                  | <https://unifi.infra.intra>                          | Controller for Unifi devices                                      |
-| [HomeAssistant](https://www.home-assistant.io/)                  | <https://homeassistant.home.k8s.test>                | Home automation                                                   |
-| [ESPHome](https://esphome.io/index.html)                         | <https://esphome.home.intra>                         | System to control your ESP8266/ESP32                              |
-| [Z-Wave JS UI](https://zwave-js.github.io/zwavejsui/)            | <https://zwavejsui.home.intra.k8s.test>              | Fully configurable Zwave Gateway and Control Panel                |
-| [Zigbee2MQTT](https://www.zigbee2mqtt.io/)                       | <https://zigbee2mqtt.home.intra.k8s.test>            | Zigbee to MQTT bridge, get rid of your proprietary Zigbee bridges |
-| [Frigate](https://blakeblackshear.github.io/frigate/)            | <https://frigate.home.intra.k8s.test>                | Local NVR designed for Home Assistant with AI object detection    |
-| [Node-RED](https://nodered.org/)                                 | <https://nodered.home.intra.k8s.test>                | Flow-based programming for the IoT                                |
-| [Mosquitto](https://mosquitto.org/)                              | <mqtts://home.k8s.test>                              | MQTT broker                                                       |
-| [RoomAssistant](https://github.com/mKeRix/room-assistant)        | -                                                    | Presence tracking                                                 |
-| [Homepage](https://gethomepage.dev/)                             | <https://homepage.tool.k8s.test/>                    | A highly customizable homepage with service API integrations      |
-| [Miniflux](https://miniflux.app/)                                | <https://miniflux.tool.k8s.test/>                    | Miniflux is a minimalist and opinionated feed reader              |
-| [Reminiflux](https://github.com/reminiflux/reminiflux)           | <https://miniflux.tool.k8s.test/reminiflux/>         | Alternative web frontend for miniflux                             |
-| [Nextcloud](https://nextcloud.com/)                              | <https://nextcloud.tool.intra.k8s.test>              | The self-hosted productivity platform that keeps you in control   |
-| [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)   | <https://paperless.tool.intra.k8s.test>              | Scan & OCR documents                                              |
-| [OliveTin](https://docs.olivetin.app/)                           | <https://olivetin.tool.intra.k8s.test>               | Access to predefined shell commands from a web interface.         |
-| [Syncthing](https://syncthing.net/)                              | <https://syncthing.tool.intra.k8s.test/>             | Continuous file synchronization                                   |
-| [Gitea](https://gitea.io/)                                       | <https://gitea.dev.intra.k8s.test>                   | Lightweight code hosting solution written in Go.                  |
-| [Jellyfin](https://jellyfin.org/)                                | <https://jellyfin.stream.intra.k8s.test>             | Video streaming                                                   |
-| [Airsonic](https://airsonic.github.io/)                          | <https://airsonic.stream.intra>                      | Music streaming                                                   |
-| [Sickchill](https://sickchill.github.io/)                        | <https://sickchill.dl.intra.k8s.test>                | Automatic Video Library Manager for TV Shows.                     |
-| [Deluge](https://deluge-torrent.org/)                            | <https://deluge.dl.intra.k8s.test>                   | Torrent client                                                    |
-| [pyload](https://pyload.net/)                                    | <https://pyload.dl.intra.k8s.test>                   | HTTP download manager                                             |
-| [SABnzbd](https://sabnzbd.org/)                                  | <https:/sabnzbd.dl.intra.k8s.test>                   | Binary newsreader                                                 |
+| Service                                                           | Test URL                                             | Description                                                       |
+| ----------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------- |
+| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/)  | <https://kube.infra.intra.k8s.test/>                 | Kubernetes dashboard                                              |
+| [Longhorn Management UI](https://github.com/longhorn/longhorn-ui) | <https://longhorn.infra.intra.k8s.test>              | Longhorn Managmeent UI                                            |
+| [Docker Registry](https://docs.docker.com/registry/deploying/)    | -                                                    | Docker Registry                                                   |
+| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui)  | <https://docker-registry-ui.infra.intra.k8s.test>    | Web UI for Docker Registry                                        |
+| [OpenLDAP](https://www.openldap.org/)                             | -                                                    | Open source Lightweight Directory Access Protocol                 |
+| [LemonDAP](https://lemonldap-ng.org/welcome/)                     | <https://lemonldap.auth.intra.k8s.test/manager.html> | Web Single Sign On and Access Management Free Software            |
+| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)              | <https://phpldapadmin.auth.intra.k8s.test/>          | Web-based LDAP browser                                            |
+| [Gitea](https://gitea.io/)                                        | <https://gitea.dev.intra.k8s.test>                   | Painless self-hosted Git service                                  |
+| [MinIO](https://www.crowdsec.net/)                                | <https://minio.dev.intra.k8s.test>                   | S3 compatible object store                                        |
+| [Argo Events](https://www.crowdsec.net/)                          | -                                                    | Event-driven workflow automation framework for Kubernetes         |
+| [Argo Workflows](https://www.crowdsec.net/)                       | <https://argo-workflows.dev.intra.k8s.test>          | Kubernetes-native workflow engine                                 |
+| [ArgoCD](https://www.crowdsec.net/)                               | <https://argocd.dev.intra.k8s.test>                  | Declarative, GitOps continuous delivery tool for Kubernetes       |
+| [Crowdsec](https://www.crowdsec.net/)                             | -                                                    | Collaborative malicious activity detection and remediation tool   |
+| [ZoneMTA](https://github.com/zone-eu/zone-mta)                    | -                                                    | Modern outbound SMTP relay                                        |
+| [MailHog](https://github.com/mailhog/MailHog)                     | <https://mailhog.infra.intra.k8s.test/>              | MailHog is an email testing tool for developers                   |
+| [Blocky](https://0xerr0r.github.io/blocky/)                       | -                                                    | DNS proxy and ad-blocker for the local network                    |
+| [Ntfy](https://ntfy.sh/)                                          | <https://ntfy.infra.k8s.test>                        | Send push notifications to your phone or desktop via PUT/POST     |
+| [Prometheus](https://prometheus.io/)                              | <https://prometheus.monitoring.intra.k8s.test>       | Monitoring solution                                               |
+| [AlertManager](https://github.com/prometheus/alertmanager)        | <https://alertmanager.monitoring.intra.k8s.test>     | Alert manager for Prometheus                                      |
+| [Grafana](https://grafana.com/)                                   | <https://grafana.monitoring.intra.k8s.test>          | Platform for beautiful analytics and monitoring                   |
+| [Fluent Bit](https://fluentbit.io/)                               | -                                                    | Lightweight log Processor and Forwarder                           |
+| [FluentD](https://www.fluentd.org/)                               | -                                                    | Log Processor and Forwarder                                       |
+| [ElasticSearch](https://www.elastic.co/products/elasticsearch)    | <https://elasticsearch.log.intra.k8s.test>           | Distributed, RESTful search and analytics engine                  |
+| [Kibana](https://www.elastic.co/products/kibana)                  | <https://kibana.log.intra.k8s.test>                  | Visualize your Elasticsearch data                                 |
+| [Unifi Controller](https://unifi-sdn.ubnt.com/)                   | <https://unifi.infra.intra>                          | Controller for Unifi devices                                      |
+| [HomeAssistant](https://www.home-assistant.io/)                   | <https://homeassistant.home.k8s.test>                | Home automation                                                   |
+| [ESPHome](https://esphome.io/index.html)                          | <https://esphome.home.intra>                         | System to control your ESP8266/ESP32                              |
+| [Z-Wave JS UI](https://zwave-js.github.io/zwavejsui/)             | <https://zwavejsui.home.intra.k8s.test>              | Fully configurable Zwave Gateway and Control Panel                |
+| [Zigbee2MQTT](https://www.zigbee2mqtt.io/)                        | <https://zigbee2mqtt.home.intra.k8s.test>            | Zigbee to MQTT bridge, get rid of your proprietary Zigbee bridges |
+| [Frigate](https://blakeblackshear.github.io/frigate/)             | <https://frigate.home.intra.k8s.test>                | Local NVR designed for Home Assistant with AI object detection    |
+| [Node-RED](https://nodered.org/)                                  | <https://nodered.home.intra.k8s.test>                | Flow-based programming for the IoT                                |
+| [Mosquitto](https://mosquitto.org/)                               | <mqtts://home.k8s.test>                              | MQTT broker                                                       |
+| [RoomAssistant](https://github.com/mKeRix/room-assistant)         | -                                                    | Presence tracking                                                 |
+| [Homepage](https://gethomepage.dev/)                              | <https://homepage.tool.k8s.test/>                    | A highly customizable homepage with service API integrations      |
+| [Miniflux](https://miniflux.app/)                                 | <https://miniflux.tool.k8s.test/>                    | Miniflux is a minimalist and opinionated feed reader              |
+| [Reminiflux](https://github.com/reminiflux/reminiflux)            | <https://miniflux.tool.k8s.test/reminiflux/>         | Alternative web frontend for miniflux                             |
+| [Nextcloud](https://nextcloud.com/)                               | <https://nextcloud.tool.intra.k8s.test>              | The self-hosted productivity platform that keeps you in control   |
+| [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)    | <https://paperless.tool.intra.k8s.test>              | Scan & OCR documents                                              |
+| [OliveTin](https://docs.olivetin.app/)                            | <https://olivetin.tool.intra.k8s.test>               | Access to predefined shell commands from a web interface.         |
+| [Syncthing](https://syncthing.net/)                               | <https://syncthing.tool.intra.k8s.test/>             | Continuous file synchronization                                   |
+| [Jellyfin](https://jellyfin.org/)                                 | <https://jellyfin.stream.intra.k8s.test>             | Video streaming                                                   |
+| [Airsonic](https://airsonic.github.io/)                           | <https://airsonic.stream.intra>                      | Music streaming                                                   |
+| [Sickchill](https://sickchill.github.io/)                         | <https://sickchill.dl.intra.k8s.test>                | Automatic Video Library Manager for TV Shows.                     |
+| [Deluge](https://deluge-torrent.org/)                             | <https://deluge.dl.intra.k8s.test>                   | Torrent client                                                    |
+| [pyload](https://pyload.net/)                                     | <https://pyload.dl.intra.k8s.test>                   | HTTP download manager                                             |
+| [SABnzbd](https://sabnzbd.org/)                                   | <https:/sabnzbd.dl.intra.k8s.test>                   | Binary newsreader                                                 |
 
 Once the Vagrant environment is started, you can easily list all the service URLs on the [Homepage dashboard](https://homepage.tool.k8s.test/).
-
-TODO argo doc
-
-TODO minio doc
-
-
 
 ### Kubernetes dashboard
 
@@ -427,7 +425,7 @@ The deployment also prepares and configures a MySQL database to use for HomeAssi
 
 Z-Wave JS UI is not automatically installed for Vagrant. It requires access to a ZWave serial device (most probably exposed on a TCP port via ser2net).
 
-If configured and deployed, it can be accessed using `user_local` / `Passw0rd` on the web ui.
+If configured and deployed, it can be accessed using `admin` / `zwave` on the web ui.
 
 It can be added as an integration in Home Assistant using the following URL : `ws://zwavejsui.home-zwave-js-ui.svc.cluster.local:3000`.
 
@@ -594,6 +592,35 @@ Gitea is installed and configured.
 
 A default local admin account is created : `admin_local` / `Passw0rd`.
 The default `user_ldap` account (from OpenLDAP) also has access.
+
+### MinIO
+
+MinIO is deployed and configured with a local admin account : `admin_local` / `Passw0rd`.
+
+It is used by Argo Workflows :
+
+* bucket `argo-artifacts`
+* User `argo` / `Passw0rd`
+
+### Argo Events
+
+Argo events is deployed, and can be accessed via the Argo Workflows UI.
+
+In the `dev-argo-tasks` namespace, the following resources are deployed:
+
+* the EventBus
+* a webhook to receive events from Gitea (the webhook configuration on Gitea's side is configured manually)
+* each application deploys a sensor to trigger the deployment
+
+### Argo Workflows
+
+Argo Workflows is deployed, and a workflows template to build and deploy an application is prepared.
+
+### ArgoCD
+
+ArgoCD id deployed. Authentication uses LDAP.
+
+In the `dev-argo-tasks` namespace, each application deploys an ArgoCD Application.
 
 ### Jellyfin
 
