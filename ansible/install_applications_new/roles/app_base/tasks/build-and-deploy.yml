@@ -25,7 +25,7 @@
 - set_fact:
     argo_workflows_installed: "{{ argo_workflows_cli_status.rc == 0 }}"
     argo_workflows_tasks_installed: "{{ argo_workflows_tasks_status.resources | length > 0 }}"
-    argo_cd_installed: "{{ argo_cd_status.resources | length > 0 and argo_cd_status.resources[0].status.readyReplicas > 0 }}"
+    argo_cd_installed: "{{ argo_cd_status.resources | length > 0 and argo_cd_status.resources[0].status.readyReplicas | default(0) > 0 }}"
 
 - set_fact:
     argo_fully_installed: "{{ argo_workflows_installed and argo_workflows_tasks_installed and argo_cd_installed}}"
