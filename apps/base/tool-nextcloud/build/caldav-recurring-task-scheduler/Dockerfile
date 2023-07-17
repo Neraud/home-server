@@ -19,6 +19,9 @@ RUN chmod +x /opt/caldav_recurring_task_scheduler/entrypoint.sh
 
 USER app
 
+# Workaround for https://github.com/yaml/pyyaml/issues/601 to avoid "AttributeError: cython_sources"
+RUN python3 -m pip install "Cython<3.0" "pyyaml==6.0" --no-build-isolation
+
 RUN python3 -m pip install /opt/caldav_recurring_task_scheduler
 
 ENTRYPOINT [ "/opt/caldav_recurring_task_scheduler/entrypoint.sh" ]
