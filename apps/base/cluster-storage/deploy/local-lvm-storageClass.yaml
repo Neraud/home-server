@@ -1,6 +1,6 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: {{ kubernetes_local_lvm_storage_class_name }}
+  name: local-lvm
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer

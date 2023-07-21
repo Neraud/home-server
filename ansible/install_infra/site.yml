@@ -117,7 +117,6 @@
   roles:
     - kubernetes_node_join
     - kubernetes_node_postinstall
-    - { role: kubernetes_storage_local, tags: kubernetes-storage }
     - kubernetes_metallb_prepare
     - kubernetes_longhorn_prepare
 
@@ -127,4 +126,3 @@
     - kubernetes_secrets_deploy
     - kubernetes_metallb_deploy
     - kubernetes_nginx_ingress_deploy
-    - kubernetes_storage_classes
