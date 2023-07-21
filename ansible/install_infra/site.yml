@@ -124,4 +124,3 @@
   hosts: controller
   roles:
     - kubernetes_secrets_deploy
-    - kubernetes_metallb_deploy
