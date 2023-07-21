@@ -1,0 +1,10 @@
+watchers:
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: quiq/docker-registry-ui
+    tag: 0.9.6
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
+    excludes:
+      - 0\.[0-8]\.
+      - 0\.9\.[0-5]$

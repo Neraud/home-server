@@ -1,0 +1,29 @@
+watchers:
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: nodered/node-red
+    tag: 3.0.2-18-minimal
+    includes:
+      - '[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-minimal'
+    excludes:
+      - ^[1-2]\.
+      - ^3\.0\.[0-1]-.*
+      - .*-1[0-6]-minimal$
+  - type: github_tag
+    repo: vesse/node-ldapauth-fork
+    tag: v5.0.5
+    includes:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+    excludes:
+      - '.*-rc.*'
+  - type: github_tag
+    repo: zachowj/node-red-contrib-home-assistant-websocket 
+    tag: v0.48.1
+    includes:
+      - 'v[0-9]+\.[0-9]+\.[0-9]+'
+  - type: github_tag
+    repo: biddster/node-red-contrib-time-range-switch
+    tag: 1.2.0
+    includes:
+      - '[0-9]+\.[0-9]+\.[0-9]+'
+  # TODO : support NPM for nodered.additional_modules.node_red_contrib_stoptimer

@@ -1,0 +1,13 @@
+watchers:
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: mkerix/room-assistant
+    tag: 2.20.0
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
+    excludes:
+      - .*arm32
+      - .*beta.*
+      - ^[0-1]\..*
+      - ^2\.[0-9]\..*
+      - ^2\.1[0-9]\..*

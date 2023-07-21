@@ -1,0 +1,35 @@
+watchers:
+  - name: Syncthing
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: syncthing/syncthing
+    tag: 1.23.2
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - ^1\.[0-9]\.
+      - ^1\.1[0-9]\.
+      - ^1\.2[0-2]\.
+  - name: Syncthing conf injection
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: library/python
+    tag: 3.11.2-alpine3.17
+    includes:
+      - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
+    excludes:
+      - .*-alpine3\.[0-9]$
+      - .*-alpine3\.1[0-6]
+      - 3\.[0-9]\..*
+      - 3\.1[0]\..*
+  - name: Syncthing Discovery
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: syncthing/discosrv
+    tag: 1.18.6
+    includes:
+      - ^[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - ^1\.[0-9]\.
+      - ^1\.1[0-7]\.
+      - ^1\.18\.[0-5]

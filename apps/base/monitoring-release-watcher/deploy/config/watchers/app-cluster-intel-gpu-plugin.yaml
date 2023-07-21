@@ -1,0 +1,11 @@
+watchers:
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: intel/intel-gpu-plugin
+    tag: 0.26.0
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+"
+    excludes:
+      - .*-rc.*
+      - 0\.1[0-9]\..*
+      - 0\.2[0-5]\..*

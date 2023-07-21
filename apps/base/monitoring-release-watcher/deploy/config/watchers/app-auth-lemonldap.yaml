@@ -1,0 +1,10 @@
+watchers:
+  - type: docker_registry
+    repo: "registry-1.docker.io"
+    image: "coudot/lemonldap-ng"
+    tag: "2.16.1"
+    excludes:
+      - latest
+      - ^1\.
+      - ^2\.0\..*
+      - ^2\.1[0-5]\..*

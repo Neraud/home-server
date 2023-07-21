@@ -1,0 +1,11 @@
+watchers:
+  - name: Homepage
+    type: docker_registry
+    repo: ghcr.io
+    image: benphelps/homepage
+    tag: v0.6.10
+    includes:
+      - ^v[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - ^v0\.[0-5]\.
+      - ^v0\.6\.[0-9]

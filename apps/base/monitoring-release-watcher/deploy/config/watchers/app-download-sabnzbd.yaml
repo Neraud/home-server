@@ -1,0 +1,21 @@
+watchers:
+  - name: SABnzbd Baseimage
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: library/python
+    tag: 3.11.2-slim-bullseye
+    includes:
+      - 3\.[0-9]+\.[0-9]+-slim-bullseye
+    excludes:
+      - ^3\.[0-9]\..*
+      - ^3\.1[0]\..*
+  - name: SABnzbd
+    type: github_release
+    repo: sabnzbd/sabnzbd
+    release: 3.7.2
+    excludes:
+      - .*(RC|Alpha|Beta).*
+  - name: SABnzbd nzbToMedia
+    type: github_release
+    repo: clinton-hall/nzbToMedia
+    release: 12.1.10

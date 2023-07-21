@@ -1,0 +1,7 @@
+watchers:
+  - type: github_release
+    repo: longhorn/longhorn
+    release: v1.4.1
+    excludes:
+      - .*(alpha|beta|rc).*
+      - v1\.[0-3]\..*
