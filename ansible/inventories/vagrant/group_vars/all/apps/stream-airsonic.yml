@@ -1,2 +1,0 @@
----
-airsonic_ldap_group: "cn=airsonic,{{ openldap.ldap.structure_groups_ou_dns['app_groups'] }}"

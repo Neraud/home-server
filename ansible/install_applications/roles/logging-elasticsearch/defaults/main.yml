@@ -10,14 +10,6 @@ elasticsearch_crowdsec_policy_delete_age: '7d'
 # Use the node certificate as an admin user
 #elasticsearch_admin_user_cn: "CN=elasticsearch.logging-elasticsearch.svc.cluster.local,O=Test,L=Paris,ST=France,C=FR"
 
-#elasticsearch_internal_users:
-#  - name: userName
-#    password: clear_password
-#    reserved: True
-#    backend_roles:
-#      - role_1
-#      - role_2
-
 #elasticsearch_role_mappings:
 #  - name: all_access
 #    description: "Maps admin to all_access"

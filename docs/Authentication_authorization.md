@@ -171,7 +171,7 @@ Beware, using the "Forgotten password" feature will convert an LDAP account to a
 
 Using the security plugin of OpenSearch enables to use LDAP authentication and authorization.
 
-Technical accounts are stored in the internal database (see `elasticsearch_internal_users` in `ansible/inventories/vagrant/group_vars/all/apps/logging-elasticsearch`)
+Technical accounts are stored in the internal database (see `apps/vagrant/logging-elasticsearch/deploy/secret/elasticsearch/security/internal_users.yml`)
 
 User accounts are stored in LDAP, using the `app_groups` `elasticsearch`.
 Roles are using dedicated LDAP groups, under a dedicated `elasticsearch_roles` ou, and are mapped to elasticsearch roles.
