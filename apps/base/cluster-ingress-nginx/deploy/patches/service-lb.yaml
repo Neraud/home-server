@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 1.2.3.4
+  externalTrafficPolicy: Local
+  ports:
+  - name: http
+    appProtocol: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: https
+    appProtocol: http
+    port: 443
+    protocol: TCP
+    targetPort: https
+  - name: ldaps
+    port: 636
+    protocol: TCP
+    targetPort: 636
+  - name: mqtt
+    port: 1883
+    protocol: TCP
+    targetPort: 1883

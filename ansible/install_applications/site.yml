@@ -5,6 +5,7 @@
   roles:
     - { role: cluster-kubernetes-replicator,     tags: kubernetes-app-cluster-kubernetes-replicator,     when: kubernetes_replicator_enabled | bool }
     - { role: cluster-storage,                   tags: kubernetes-app-cluster-storage,                   when: storage_enabled | bool }
+    - { role: cluster-ingress-nginx,             tags: kubernetes-app-cluster-ingress-nginx,             when: ingress_nginx_enabled | bool }
     - { role: cluster-longhorn,                  tags: kubernetes-app-cluster-longhorn,                  when: longhorn_enabled | bool }
     - { role: infra-docker-registry,             tags: kubernetes-app-infra-docker-registry,             when: docker_registry_enabled | bool }
     - { role: cluster-intel-gpu-plugin,          tags: kubernetes-app-cluster-intel-gpu-plugin,          when: intel_gpu_plugin_enabled | bool }

@@ -318,51 +318,51 @@ subjects:
   name: ingress-nginx-admission
   namespace: ingress-nginx
 ---
-#apiVersion: v1
-#data:
-#  allow-snippet-annotations: "true"
-#kind: ConfigMap
-#metadata:
-#  labels:
-#    app.kubernetes.io/component: controller
-#    app.kubernetes.io/instance: ingress-nginx
-#    app.kubernetes.io/name: ingress-nginx
-#    app.kubernetes.io/part-of: ingress-nginx
-#    app.kubernetes.io/version: 1.7.0
-#  name: ingress-nginx-controller
-#  namespace: ingress-nginx
+apiVersion: v1
+data:
+  allow-snippet-annotations: "true"
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.7.0
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
 ---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  labels:
-#    app.kubernetes.io/component: controller
-#    app.kubernetes.io/instance: ingress-nginx
-#    app.kubernetes.io/name: ingress-nginx
-#    app.kubernetes.io/part-of: ingress-nginx
-#    app.kubernetes.io/version: 1.7.0
-#  name: ingress-nginx-controller
-#  namespace: ingress-nginx
-#spec:
-#  ipFamilies:
-#  - IPv4
-#  ipFamilyPolicy: SingleStack
-#  ports:
-#  - appProtocol: http
-#    name: http
-#    port: 80
-#    protocol: TCP
-#    targetPort: http
-#  - appProtocol: https
-#    name: https
-#    port: 443
-#    protocol: TCP
-#    targetPort: https
-#  selector:
-#    app.kubernetes.io/component: controller
-#    app.kubernetes.io/instance: ingress-nginx
-#    app.kubernetes.io/name: ingress-nginx
-#  type: NodePort
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.7.0
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - appProtocol: http
+    name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - appProtocol: https
+    name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+  type: NodePort
 ---
 apiVersion: v1
 kind: Service
@@ -399,7 +399,6 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
-  replicas: {{ kubernetes_nginx_ingress_controller_replicas }}
   minReadySeconds: 0
   revisionHistoryLimit: 10
   selector:
@@ -423,8 +422,6 @@ spec:
         - --controller-class=k8s.io/ingress-nginx
         - --ingress-class=nginx
         - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
-        - --tcp-services-configmap=ingress-nginx/ingress-nginx-tcp-services
-        - --udp-services-configmap=ingress-nginx/ingress-nginx-udp-services
         - --validating-webhook=:8443
         - --validating-webhook-certificate=/usr/local/certificates/cert
         - --validating-webhook-key=/usr/local/certificates/key

@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy cluster-ingress-nginx
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: cluster-ingress-nginx
