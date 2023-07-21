@@ -39,7 +39,6 @@ metadata:
     app.kubernetes.io/version: v1.4.1
 data:
   default-setting.yaml: |-
-    create-default-disk-labeled-nodes: true
 ---
 # Source: longhorn/templates/storageclass.yaml
 apiVersion: v1
@@ -3723,7 +3722,6 @@ metadata:
     app.kubernetes.io/instance: longhorn
     app.kubernetes.io/version: v1.4.1
     app: longhorn-manager
-    prometheus-target: longhorn-manager
   name: longhorn-backend
   namespace: longhorn-system
 spec:
@@ -3947,10 +3945,6 @@ spec:
           secretName: longhorn-grpc-tls
           optional: true
       serviceAccountName: longhorn-service-account
-      tolerations:
-      - key: "specific-worker-type"
-        operator: Exists
-        effect: NoSchedule
   updateStrategy:
     rollingUpdate:
       maxUnavailable: "100%"
@@ -4088,8 +4082,6 @@ spec:
             fieldRef:
               fieldPath: spec.nodeName
       serviceAccountName: longhorn-service-account
-      nodeSelector:
-        capability/general-purpose: 'yes'
 ---
 # Source: longhorn/templates/deployment-ui.yaml
 apiVersion: apps/v1
@@ -4103,7 +4095,7 @@ metadata:
   name: longhorn-ui
   namespace: longhorn-system
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: longhorn-ui
@@ -4153,8 +4145,6 @@ spec:
         name: nginx-config
       - emptyDir: {}
         name: var-run
-      nodeSelector:
-        capability/general-purpose: 'yes'
 ---
 # Source: longhorn/templates/deployment-webhook.yaml
 apiVersion: apps/v1
@@ -4215,8 +4205,6 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
       serviceAccountName: longhorn-service-account
-      nodeSelector:
-        capability/general-purpose: 'yes'
 ---
 # Source: longhorn/templates/deployment-webhook.yaml
 apiVersion: apps/v1
@@ -4288,8 +4276,6 @@ spec:
             fieldRef:
               fieldPath: spec.nodeName
       serviceAccountName: longhorn-service-account
-      nodeSelector:
-        capability/general-purpose: 'yes'
 ---
 # Source: longhorn/templates/validate-psp-install.yaml
 #

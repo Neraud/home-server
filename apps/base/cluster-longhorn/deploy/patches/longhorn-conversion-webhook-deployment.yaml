@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: longhorn-conversion-webhook
+  namespace: longhorn-system
+spec:
+  template:
+    spec:
+      nodeSelector:
+        capability/general-purpose: 'yes'

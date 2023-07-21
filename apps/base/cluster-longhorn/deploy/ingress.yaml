@@ -17,10 +17,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - longhorn.infra.intra.{{ web_base_domain }}
+      - longhorn.infra.intra.web_domain_name
       secretName: ingress-tls
   rules:
-  - host: longhorn.infra.intra.{{ web_base_domain }}
+  - host: longhorn.infra.intra.web_domain_name
     http:
       paths:
       - pathType: Prefix

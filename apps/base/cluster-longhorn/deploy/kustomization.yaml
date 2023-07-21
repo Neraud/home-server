@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: longhorn-system
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: longhorn-default-setting
+  namespace: longhorn-system
+  files:
+  - config/default-setting.yaml
+  behavior: replace
+
+resources:
+- longhorn.yaml
+- ingress.yaml
+- longhorn-high-durability-storageClass.yaml
+- longhorn-low-durability-storageClass.yaml
+
+patches:
+  - path: patches/longhorn-backend-service.yaml
+  - path: patches/longhorn-admission-webhook-deployment.yaml
+  - path: patches/longhorn-conversion-webhook-deployment.yaml
+  - path: patches/longhorn-manager-daemonSet.yaml
+  - path: patches/longhorn-recovery-backend-deployment.yaml
+  - path: patches/longhorn-ui-deployment.yaml
