@@ -11,7 +11,7 @@ spec:
   tls:
     - hosts:
       - registry.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: registry.intra.web_domain_name
     http:

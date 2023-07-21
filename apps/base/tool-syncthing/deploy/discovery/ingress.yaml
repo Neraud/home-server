@@ -7,7 +7,7 @@ spec:
   tls:
     - hosts:
       - syncthing-discovery.tool.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: syncthing-discovery.tool.intra.web_domain_name
     http:

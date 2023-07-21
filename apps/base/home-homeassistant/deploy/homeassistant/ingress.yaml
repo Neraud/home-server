@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - homeassistant.home.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: homeassistant.home.web_domain_name
     http:

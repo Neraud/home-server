@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - prometheus.monitoring.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: prometheus.monitoring.intra.web_domain_name
     http:

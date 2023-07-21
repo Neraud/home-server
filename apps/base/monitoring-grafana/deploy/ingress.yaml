@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - grafana.monitoring.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: grafana.monitoring.intra.web_domain_name
     http:

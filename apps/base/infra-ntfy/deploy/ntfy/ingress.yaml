@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - ntfy.infra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: ntfy.infra.web_domain_name
     http:

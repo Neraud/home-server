@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - zwavejsui.home.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: zwavejsui.home.intra.web_domain_name
     http:

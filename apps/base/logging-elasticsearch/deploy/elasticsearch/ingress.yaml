@@ -9,7 +9,7 @@ spec:
   tls:
     - hosts:
       - elasticsearch.log.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: elasticsearch.log.intra.web_domain_name
     http:

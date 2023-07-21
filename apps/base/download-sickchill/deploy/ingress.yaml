@@ -17,7 +17,7 @@ spec:
   tls:
     - hosts:
       - sickchill.dl.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: sickchill.dl.intra.web_domain_name
     http:

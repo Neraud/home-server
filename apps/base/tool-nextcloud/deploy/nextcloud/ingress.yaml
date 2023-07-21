@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - nextcloud.tool.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: nextcloud.tool.intra.web_domain_name
     http:

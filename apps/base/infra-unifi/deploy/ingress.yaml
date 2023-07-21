@@ -15,7 +15,7 @@ spec:
   tls:
     - hosts:
       - unifi.infra.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: unifi.infra.intra.web_domain_name
     http:

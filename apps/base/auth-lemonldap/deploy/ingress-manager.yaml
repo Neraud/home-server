@@ -15,7 +15,7 @@ spec:
   tls:
     - hosts:
       - lemonldap.auth.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: lemonldap.auth.intra.web_domain_name
     http:

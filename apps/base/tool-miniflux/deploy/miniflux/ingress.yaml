@@ -19,7 +19,7 @@ spec:
   tls:
     - hosts:
       - miniflux.tool.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: miniflux.tool.web_domain_name
     http:

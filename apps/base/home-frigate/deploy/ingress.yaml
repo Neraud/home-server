@@ -15,7 +15,7 @@ spec:
   tls:
     - hosts:
       - frigate.home.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: frigate.home.intra.web_domain_name
     http:

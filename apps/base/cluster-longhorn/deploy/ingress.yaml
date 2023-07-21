@@ -18,7 +18,7 @@ spec:
   tls:
     - hosts:
       - longhorn.infra.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: longhorn.infra.intra.web_domain_name
     http:

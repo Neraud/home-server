@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - zigbee2mqtt.home.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: zigbee2mqtt.home.intra.web_domain_name
     http:

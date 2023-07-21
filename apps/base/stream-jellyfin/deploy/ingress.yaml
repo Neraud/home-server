@@ -18,7 +18,7 @@ spec:
   tls:
     - hosts:
       - jellyfin.stream.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: jellyfin.stream.intra.web_domain_name
     http:

@@ -22,7 +22,7 @@ spec:
   tls:
     - hosts:
       - argo-workflows.dev.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: argo-workflows.dev.intra.web_domain_name
     http:

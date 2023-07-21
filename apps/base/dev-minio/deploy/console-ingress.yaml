@@ -17,7 +17,7 @@ spec:
   tls:
     - hosts:
       - minio.dev.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: minio.dev.intra.web_domain_name
     http:

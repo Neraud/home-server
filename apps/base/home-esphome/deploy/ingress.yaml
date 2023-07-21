@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
       - esphome.home.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: esphome.home.intra.web_domain_name
     http:

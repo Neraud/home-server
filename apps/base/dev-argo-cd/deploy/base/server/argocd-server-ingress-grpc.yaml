@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
       - argo-cd-api.dev.intra.web_domain_name
-      secretName: ingress-tls
+      secretName: opensslpki-ingress-tls
   rules:
   - host: argo-cd-api.dev.intra.web_domain_name
     http:
