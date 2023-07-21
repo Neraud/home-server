@@ -1,25 +1,12 @@
 #!/usr/bin/env bash
 
-if [ ! -d release-watcher ]; then
-    git clone https://github.com/Neraud/release-watcher
+if [ -d out ]; then
+    rm -R out
 fi
+mkdir out
 
-if [ -d tmp ]; then
-    rm -R tmp
-fi
-mkdir tmp
-
-cd release-watcher
-git pull
-podman build -t release-watcher-helper .
-
-cd ..
-source /opt/ansible_venv/bin/activate
-# The vagrant inventory is only used to avoid "AnsibleUndefinedVariable" errors.
-# It's not really used, as the only variables we need are set in ansible/install_applications/vars/*.yml
-ansible-playbook -i ../../ansible/inventories/vagrant/inventory.ini ./generate-watchers-config.yml
-
-# We could also generate the configuration from a running cluster :
-#kubectl --namespace=monitoring-release-watcher get ConfigMap release-watcher-config -o jsonpath='{.data.watchers\.yaml}' >./tmp/watchers.yaml
-
-podman run -v $(pwd):/data release-watcher-helper
+podman run \
+    -v ./config.yaml:/data/config.yaml \
+    -v ../../apps/base/monitoring-release-watcher/deploy/config/watchers.yaml:/data/watchers.yaml \
+    -v ./out:/data/out \
+    ghcr.io/neraud/release-watcher:latest

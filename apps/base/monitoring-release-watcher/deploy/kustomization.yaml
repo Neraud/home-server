@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: monitoring-release-watcher
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: release-watcher
+      app.kubernetes.io/component: release-watcher
+      app.kubernetes.io/version: v1.0.0
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: release-watcher-watchers
+  files:
+  - config/watchers.yaml
+
+secretGenerator:
+- name: release-watcher
+  files: 
+  - secret/config.yaml
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- networkPolicy.yaml
+- service-prometheus.yaml
+- deployment.yaml

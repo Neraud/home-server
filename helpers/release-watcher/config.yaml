@@ -19,9 +19,11 @@ common:
 
 sources:
   - type: file
-    path: tmp/watchers.yaml
+    path: watchers.yaml
 
 outputs:
   - type: yaml_file
-    path: tmp/out.yaml
+    path: out/out.yaml
     displayUpToDate: no
+  - type: prometheus_file
+    path: /path/to/out.prom
