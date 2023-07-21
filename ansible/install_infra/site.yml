@@ -109,7 +109,6 @@
 - name: Deploy CNI
   hosts: controller
   roles:
-    - kubernetes_master_cni_calico_deploy
     - kubernetes_master_cni_multus_deploy
 
 - name: Provision Kubernetes nodes

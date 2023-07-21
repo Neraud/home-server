@@ -8,12 +8,12 @@ metadata:
   name: calico-kube-controllers
   namespace: kube-system
   labels:
-    app.kubernetes.io/name: calico-kube-controllers
+    k8s-app: calico-kube-controllers
 spec:
   maxUnavailable: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: calico-kube-controllers
+      k8s-app: calico-kube-controllers
 ---
 # Source: calico/templates/calico-kube-controllers.yaml
 apiVersion: v1
@@ -4404,11 +4404,11 @@ metadata:
   name: calico-node
   namespace: kube-system
   labels:
-    app.kubernetes.io/name: calico-node
+    k8s-app: calico-node
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: calico-node
+      k8s-app: calico-node
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
@@ -4416,7 +4416,7 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: calico-node
+        k8s-app: calico-node
     spec:
       nodeSelector:
         kubernetes.io/os: linux
@@ -4568,9 +4568,6 @@ spec:
             # Auto-detect the BGP IP address.
             - name: IP
               value: "autodetect"
-            # Skip wireguard interface
-            - name: IP_AUTODETECTION_METHOD
-              value: skip-interface=wg.*,k8sbr*
             # Enable IPIP
             - name: CALICO_IPV4POOL_IPIP
               value: "Always"
@@ -4601,8 +4598,8 @@ spec:
             # The default IPv4 pool to create on startup if none exists. Pod IPs will be
             # chosen from this range. Changing this value after installation will have
             # no effect. This should fall within `--cluster-cidr`.
-            - name: CALICO_IPV4POOL_CIDR
-              value: "{{ kubernetes_pod_network_cidr }}"
+            # - name: CALICO_IPV4POOL_CIDR
+            #   value: "192.168.0.0/16"
             # Disable file logging so `kubectl logs` works.
             - name: CALICO_DISABLE_FILE_LOGGING
               value: "true"
@@ -4727,13 +4724,13 @@ metadata:
   name: calico-kube-controllers
   namespace: kube-system
   labels:
-    app.kubernetes.io/name: calico-kube-controllers
+    k8s-app: calico-kube-controllers
 spec:
   # The controllers can only have a single active instance.
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: calico-kube-controllers
+      k8s-app: calico-kube-controllers
   strategy:
     type: Recreate
   template:
@@ -4741,7 +4738,7 @@ spec:
       name: calico-kube-controllers
       namespace: kube-system
       labels:
-        app.kubernetes.io/name: calico-kube-controllers
+        k8s-app: calico-kube-controllers
     spec:
       nodeSelector:
         kubernetes.io/os: linux

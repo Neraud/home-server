@@ -3,6 +3,7 @@
   hosts: controller
   gather_facts: no
   roles:
+    - { role: cluster-calico,                    tags: kubernetes-app-cluster-calico,                    when: calico_enabled | bool }
     - { role: cluster-kubernetes-replicator,     tags: kubernetes-app-cluster-kubernetes-replicator,     when: kubernetes_replicator_enabled | bool }
     - { role: cluster-storage,                   tags: kubernetes-app-cluster-storage,                   when: storage_enabled | bool }
     - { role: cluster-metallb,                   tags: kubernetes-app-cluster-metallb,                   when: metallb_enabled | bool }
