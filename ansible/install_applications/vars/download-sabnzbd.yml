@@ -1,6 +1,0 @@
----
-# TODO : delete when all apps that are using deluge_web.* are migrated to kustomize
-sabnzbd:
-  user: "{{ sabnzbd_user | default('sabnzbd') }}"
-  password: "{{ sabnzbd_password | default('clear_password') }}"
-  api_key: "{{ sabnzbd_api_key | default('abcdefghijklmnopqrstuvwxyz123456') }}"

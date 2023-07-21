@@ -1,4 +1,0 @@
----
-# TODO : delete when all apps that are using deluge_web.* are migrated to kustomize
-deluge_web:
-  password: "{{ deluge_web_password | default('clear_password') }}"
