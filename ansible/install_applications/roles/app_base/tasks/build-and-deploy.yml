@@ -32,11 +32,17 @@
 
 - name: "Build and deploy {{ app_name }} manually"
   block:
+  - name: Check if {{ app_name }} has images to build
+    ansible.builtin.stat:
+      path: "{{ app_build_path }}"
+    register: has_images_to_build
+
   - name: "Find {{ app_name }} images to build"
     ansible.builtin.find:
       paths: "{{ app_build_path }}"
       recurse: no
       file_type: directory
+    when: has_images_to_build.stat.exists
     register: images_to_build
   
   - name: "Build each {{ app_name }} image manually"
@@ -46,6 +52,7 @@
       label: "{{ item.path | basename }}"
     vars:
       image_build_path: "{{ item.path }}"
+    when: has_images_to_build.stat.exists
 
   - name: "Deploy {{ app_name }} manually"
     kubernetes.core.k8s:
