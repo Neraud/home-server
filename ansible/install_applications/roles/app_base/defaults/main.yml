@@ -20,3 +20,5 @@ app_overlay_path: "{{ role_path }}/../../../../apps/vagrant/{{ app_name }}"
 app_deploy_path: "{{ app_overlay_path }}/deploy"
 
 sops_age_key_file: /path/to/key.txt
+
+app_deploymen_method: "ansible" # or "argo"

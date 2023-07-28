@@ -60,8 +60,8 @@
       state: present
       kubeconfig: "{{ kubeconfig_path }}"
       context: "{{ kubeconfig_context }}"
-  when: not argo_fully_installed
+  when: app_deploymen_method == "ansible" or not argo_fully_installed
 
 - name: "Build and deploy {{ app_name }} with argo"
   ansible.builtin.include_tasks: build-argo.yml
-  when: argo_fully_installed
+  when: app_deploymen_method == "argo" and argo_fully_installed
