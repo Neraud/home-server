@@ -55,11 +55,7 @@
     when: has_images_to_build.stat.exists
 
   - name: "Deploy {{ app_name }} manually"
-    kubernetes.core.k8s:
-      definition: "{{ lookup('ansible.builtin.pipe', 'SOPS_AGE_KEY_FILE={{ sops_age_key_file }} kustomize build --enable-alpha-plugins --enable-exec ' + app_deploy_path) }}"
-      state: present
-      kubeconfig: "{{ kubeconfig_path }}"
-      context: "{{ kubeconfig_context }}"
+    ansible.builtin.include_tasks: deploy-manual.yml
   when: app_deploymen_method == "ansible" or not argo_fully_installed
 
 - name: "Build and deploy {{ app_name }} with argo"
