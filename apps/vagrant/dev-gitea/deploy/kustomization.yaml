@@ -4,6 +4,11 @@ kind: Kustomization
 resources:
 - ../../../base/dev-gitea/deploy
 
+configMapGenerator:
+- name: gitea-env
+  env: config/gitea.env
+  behavior: merge
+
 generators:
 - gitea-secret-generator.yaml
 - pgsql-secret-generator.yaml
