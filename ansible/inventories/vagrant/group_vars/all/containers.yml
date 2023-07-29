@@ -2,21 +2,5 @@
 docker_private_registry_domain: registry.lan
 docker_private_registry_ca_path: "/etc/containers/certs.d/{{ docker_private_registry_domain }}/ca.crt"
 
-# TODO : delete once every deployment is using the new registry.lan domain
-containers_trusted_registries:
-  - url: "registry.intra.{{ web_base_domain }}"
-    ca_path: "{{ custom_ssl_pki_generation_root_dir }}/web/ca.crt"
-  - url: "{{ docker_private_registry_domain }}"
-    ca_path: "{{ custom_ssl_pki_generation_root_dir }}/cluster/ca.crt"
-
 private_registry_username: docker
 private_registry_password: Passw0rd
-
-# TODO : delete once every deployment is using the new registry.lan domain
-containers_auth_repositories:
-  - url: "registry.intra.{{ web_base_domain }}"
-    username: "{{ private_registry_username }}"
-    password: "{{ private_registry_password }}"
-  - url: "{{ docker_private_registry_domain }}"
-    username: "{{ private_registry_username }}"
-    password: "{{ private_registry_password }}"
