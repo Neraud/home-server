@@ -4,3 +4,19 @@
   ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
   vars:
     app_name: auth-lemonldap
+
+- name: Deploy auth-lemonldap backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: auth-lemonldap
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "auth-lemonldap"
+      apps_to_stop:
+        - name: lemonldap
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: lemonldap-data
+          pvc_name: lemonldap-data
+  tags: backup
