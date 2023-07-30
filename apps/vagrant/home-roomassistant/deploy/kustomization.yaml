@@ -12,3 +12,6 @@ configMapGenerator:
 
 generators:
 - secret-generator.yaml
+
+patches:
+- path: deployment-resources.yaml
