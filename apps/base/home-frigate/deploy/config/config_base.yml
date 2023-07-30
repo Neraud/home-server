@@ -16,7 +16,7 @@ mqtt:
   client_id: frigate
   
   # Optional: user
-  user: "{FRIGATE_MQTT_USER}"
+  user: "frigate"
   
   # Optional: password
   # NOTE: Environment variables that begin with 'FRIGATE_' may be referenced in {}.
