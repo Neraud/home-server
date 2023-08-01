@@ -1,0 +1,2768 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: git
+  namespace: dev-argo-tasks
+spec:
+  eventBusName: default
+  template:
+    serviceAccountName: operate-workflow-sa
+    container:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
+    nodeSelector:
+      capability/general-purpose: 'yes'
+  dependencies:
+    - name: auth-lemonldap-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/auth-lemonldap/.*"
+    - name: auth-openldap-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/auth-openldap/.*"
+    - name: auth-phpldapadmin-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/auth-phpldapadmin/.*"
+    - name: cluster-calico-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-calico/.*"
+    - name: cluster-ingress-nginx-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-ingress-nginx/.*"
+    - name: cluster-intel-gpu-plugin-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-intel-gpu-plugin/.*"
+    - name: cluster-kubernetes-replicator-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-kubernetes-replicator/.*"
+    - name: cluster-longhorn-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-longhorn/.*"
+    - name: cluster-metallb-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-metallb/.*"
+    - name: cluster-metallb-config-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-metallb-config/.*"
+    - name: cluster-multus-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-multus/.*"
+    - name: cluster-reloader-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-reloader/.*"
+    - name: cluster-storage-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/cluster-storage/.*"
+    - name: dev-argo-cd-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/dev-argo-cd/.*"
+    - name: dev-argo-events-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/dev-argo-events/.*"
+    - name: dev-argo-tasks-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/dev-argo-tasks/.*"
+    - name: dev-argo-workflows-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/dev-argo-workflows/.*"
+    - name: dev-gitea-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/dev-gitea/.*"
+    - name: dev-minio-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/dev-minio/.*"
+    - name: download-deluge-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/download-deluge/.*"
+    - name: download-pyload-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/download-pyload/.*"
+    - name: download-sabnzbd-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/download-sabnzbd/.*"
+    - name: download-sickchill-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/download-sickchill/.*"
+    - name: home-esphome-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/home-esphome/.*"
+    - name: home-frigate-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/home-frigate/.*"
+    - name: home-homeassistant-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/home-homeassistant/.*"
+    - name: home-mosquitto-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/home-mosquitto/.*"
+    - name: home-nodered-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/home-nodered/.*"
+    - name: home-roomassistant-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/home-roomassistant/.*"
+    - name: home-zigbee2mqtt-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/home-zigbee2mqtt/.*"
+    - name: home-zwavejsui-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/home-zwavejsui/.*"
+    - name: infra-blocky-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-blocky/.*"
+    - name: infra-crowdsec-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-crowdsec/.*"
+    - name: infra-docker-registry-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-docker-registry/.*"
+    - name: infra-docker-registry-ui-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-docker-registry-ui/.*"
+    - name: infra-gandi-livedns-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-gandi-livedns/.*"
+    - name: infra-kubernetes-dashboard-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-kubernetes-dashboard/.*"
+    - name: infra-kubernetes-metrics-server-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-kubernetes-metrics-server/.*"
+    - name: infra-mailhog-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-mailhog/.*"
+    - name: infra-ntfy-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-ntfy/.*"
+    - name: infra-unifi-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-unifi/.*"
+    - name: infra-zonemta-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/infra-zonemta/.*"
+    - name: logging-elasticsearch-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/logging-elasticsearch/.*"
+    - name: logging-fluentbit-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/logging-fluentbit/.*"
+    - name: logging-fluentd-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/logging-fluentd/.*"
+    - name: logging-kibana-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/logging-kibana/.*"
+    - name: monitoring-apcups-exporter-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-apcups-exporter/.*"
+    - name: monitoring-blackbox-exporter-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-blackbox-exporter/.*"
+    - name: monitoring-crowdsec-external-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-crowdsec-external/.*"
+    - name: monitoring-grafana-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-grafana/.*"
+    - name: monitoring-keepalived-exporter-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-keepalived-exporter/.*"
+    - name: monitoring-kube-state-metrics-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-kube-state-metrics/.*"
+    - name: monitoring-kubernetes-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-kubernetes/.*"
+    - name: monitoring-nginx-exporter-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-nginx-exporter/.*"
+    - name: monitoring-nginx-log-exporter-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-nginx-log-exporter/.*"
+    - name: monitoring-node-exporter-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-node-exporter/.*"
+    - name: monitoring-node-exporter-external-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-node-exporter-external/.*"
+    - name: monitoring-prometheus-operator-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-prometheus-operator/.*"
+    - name: monitoring-release-watcher-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/monitoring-release-watcher/.*"
+    - name: stream-airsonic-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/stream-airsonic/.*"
+    - name: stream-jellyfin-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/stream-jellyfin/.*"
+    - name: tool-homepage-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/tool-homepage/.*"
+    - name: tool-miniflux-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/tool-miniflux/.*"
+    - name: tool-nextcloud-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/tool-nextcloud/.*"
+    - name: tool-olivetin-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/tool-olivetin/.*"
+    - name: tool-paperless-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/tool-paperless/.*"
+    - name: tool-syncthing-git-dep
+      eventSourceName: webhook
+      eventName: git
+      filters:
+        data:
+          - path: header.X-Gitea-Event
+            type: string
+            value:
+              - push
+          - path: body.ref
+            type: string
+            value:
+              - refs/heads/develop
+          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
+            type: string
+            value:
+              - "apps/(base|vagrant)/tool-syncthing/.*"
+  triggers:
+    - template:
+        name: auth-lemonldap-argo-workflow-trigger
+        conditions: auth-lemonldap-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: auth-lemonldap-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: auth-lemonldap
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: auth-openldap-argo-workflow-trigger
+        conditions: auth-openldap-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: auth-openldap-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: auth-openldap
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: auth-phpldapadmin-argo-workflow-trigger
+        conditions: auth-phpldapadmin-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: auth-phpldapadmin-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: auth-phpldapadmin
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-calico-argo-workflow-trigger
+        conditions: cluster-calico-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-calico-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-calico
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-ingress-nginx-argo-workflow-trigger
+        conditions: cluster-ingress-nginx-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-ingress-nginx-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-ingress-nginx
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-intel-gpu-plugin-argo-workflow-trigger
+        conditions: cluster-intel-gpu-plugin-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-intel-gpu-plugin-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-intel-gpu-plugin
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-kubernetes-replicator-argo-workflow-trigger
+        conditions: cluster-kubernetes-replicator-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-kubernetes-replicator-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-kubernetes-replicator
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-longhorn-argo-workflow-trigger
+        conditions: cluster-longhorn-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-longhorn-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-longhorn
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-metallb-argo-workflow-trigger
+        conditions: cluster-metallb-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-metallb-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-metallb
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-metallb-config-argo-workflow-trigger
+        conditions: cluster-metallb-config-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-metallb-config-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-metallb-config
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-multus-argo-workflow-trigger
+        conditions: cluster-multus-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-multus-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-multus
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-reloader-argo-workflow-trigger
+        conditions: cluster-reloader-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-reloader-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-reloader
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: cluster-storage-argo-workflow-trigger
+        conditions: cluster-storage-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: cluster-storage-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: cluster-storage
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: dev-argo-cd-argo-workflow-trigger
+        conditions: dev-argo-cd-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: dev-argo-cd-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: dev-argo-cd
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: dev-argo-events-argo-workflow-trigger
+        conditions: dev-argo-events-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: dev-argo-events-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: dev-argo-events
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: dev-argo-tasks-argo-workflow-trigger
+        conditions: dev-argo-tasks-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: dev-argo-tasks-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: dev-argo-tasks
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: dev-argo-workflows-argo-workflow-trigger
+        conditions: dev-argo-workflows-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: dev-argo-workflows-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: dev-argo-workflows
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: dev-gitea-argo-workflow-trigger
+        conditions: dev-gitea-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: dev-gitea-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: dev-gitea
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: dev-minio-argo-workflow-trigger
+        conditions: dev-minio-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: dev-minio-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: dev-minio
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: download-deluge-argo-workflow-trigger
+        conditions: download-deluge-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: download-deluge-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: download-deluge
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: download-pyload-argo-workflow-trigger
+        conditions: download-pyload-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: download-pyload-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: download-pyload
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: download-sabnzbd-argo-workflow-trigger
+        conditions: download-sabnzbd-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: download-sabnzbd-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: download-sabnzbd
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: download-sickchill-argo-workflow-trigger
+        conditions: download-sickchill-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: download-sickchill-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: download-sickchill
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: home-esphome-argo-workflow-trigger
+        conditions: home-esphome-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: home-esphome-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: home-esphome
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: home-frigate-argo-workflow-trigger
+        conditions: home-frigate-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: home-frigate-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: home-frigate
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: home-homeassistant-argo-workflow-trigger
+        conditions: home-homeassistant-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: home-homeassistant-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: home-homeassistant
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: home-mosquitto-argo-workflow-trigger
+        conditions: home-mosquitto-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: home-mosquitto-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: home-mosquitto
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: home-nodered-argo-workflow-trigger
+        conditions: home-nodered-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: home-nodered-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: home-nodered
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: home-roomassistant-argo-workflow-trigger
+        conditions: home-roomassistant-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: home-roomassistant-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: home-roomassistant
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: home-zigbee2mqtt-argo-workflow-trigger
+        conditions: home-zigbee2mqtt-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: home-zigbee2mqtt-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: home-zigbee2mqtt
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: home-zwavejsui-argo-workflow-trigger
+        conditions: home-zwavejsui-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: home-zwavejsui-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: home-zwavejsui
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-blocky-argo-workflow-trigger
+        conditions: infra-blocky-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-blocky-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-blocky
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-crowdsec-argo-workflow-trigger
+        conditions: infra-crowdsec-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-crowdsec-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-crowdsec
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-docker-registry-argo-workflow-trigger
+        conditions: infra-docker-registry-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-docker-registry-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-docker-registry
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-docker-registry-ui-argo-workflow-trigger
+        conditions: infra-docker-registry-ui-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-docker-registry-ui-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-docker-registry-ui
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-gandi-livedns-argo-workflow-trigger
+        conditions: infra-gandi-livedns-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-gandi-livedns-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-gandi-livedns
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-kubernetes-dashboard-argo-workflow-trigger
+        conditions: infra-kubernetes-dashboard-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-kubernetes-dashboard-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-kubernetes-dashboard
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-kubernetes-metrics-server-argo-workflow-trigger
+        conditions: infra-kubernetes-metrics-server-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-kubernetes-metrics-server-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-kubernetes-metrics-server
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-mailhog-argo-workflow-trigger
+        conditions: infra-mailhog-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-mailhog-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-mailhog
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-ntfy-argo-workflow-trigger
+        conditions: infra-ntfy-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-ntfy-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-ntfy
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-unifi-argo-workflow-trigger
+        conditions: infra-unifi-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-unifi-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-unifi
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: infra-zonemta-argo-workflow-trigger
+        conditions: infra-zonemta-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: infra-zonemta-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: infra-zonemta
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: logging-elasticsearch-argo-workflow-trigger
+        conditions: logging-elasticsearch-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: logging-elasticsearch-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: logging-elasticsearch
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: logging-fluentbit-argo-workflow-trigger
+        conditions: logging-fluentbit-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: logging-fluentbit-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: logging-fluentbit
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: logging-fluentd-argo-workflow-trigger
+        conditions: logging-fluentd-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: logging-fluentd-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: logging-fluentd
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: logging-kibana-argo-workflow-trigger
+        conditions: logging-kibana-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: logging-kibana-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: logging-kibana
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-apcups-exporter-argo-workflow-trigger
+        conditions: monitoring-apcups-exporter-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-apcups-exporter-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-apcups-exporter
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-blackbox-exporter-argo-workflow-trigger
+        conditions: monitoring-blackbox-exporter-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-blackbox-exporter-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-blackbox-exporter
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-crowdsec-external-argo-workflow-trigger
+        conditions: monitoring-crowdsec-external-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-crowdsec-external-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-crowdsec-external
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-grafana-argo-workflow-trigger
+        conditions: monitoring-grafana-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-grafana-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-grafana
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-keepalived-exporter-argo-workflow-trigger
+        conditions: monitoring-keepalived-exporter-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-keepalived-exporter-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-keepalived-exporter
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-kube-state-metrics-argo-workflow-trigger
+        conditions: monitoring-kube-state-metrics-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-kube-state-metrics-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-kube-state-metrics
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-kubernetes-argo-workflow-trigger
+        conditions: monitoring-kubernetes-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-kubernetes-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-kubernetes
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-nginx-exporter-argo-workflow-trigger
+        conditions: monitoring-nginx-exporter-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-nginx-exporter-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-nginx-exporter
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-nginx-log-exporter-argo-workflow-trigger
+        conditions: monitoring-nginx-log-exporter-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-nginx-log-exporter-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-nginx-log-exporter
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-node-exporter-argo-workflow-trigger
+        conditions: monitoring-node-exporter-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-node-exporter-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-node-exporter
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-node-exporter-external-argo-workflow-trigger
+        conditions: monitoring-node-exporter-external-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-node-exporter-external-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-node-exporter-external
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-prometheus-operator-argo-workflow-trigger
+        conditions: monitoring-prometheus-operator-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-prometheus-operator-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-prometheus-operator
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: monitoring-release-watcher-argo-workflow-trigger
+        conditions: monitoring-release-watcher-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: monitoring-release-watcher-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: monitoring-release-watcher
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: stream-airsonic-argo-workflow-trigger
+        conditions: stream-airsonic-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: stream-airsonic-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: stream-airsonic
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: stream-jellyfin-argo-workflow-trigger
+        conditions: stream-jellyfin-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: stream-jellyfin-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: stream-jellyfin
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: tool-homepage-argo-workflow-trigger
+        conditions: tool-homepage-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: tool-homepage-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: tool-homepage
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: tool-miniflux-argo-workflow-trigger
+        conditions: tool-miniflux-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: tool-miniflux-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: tool-miniflux
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: tool-nextcloud-argo-workflow-trigger
+        conditions: tool-nextcloud-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: tool-nextcloud-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: tool-nextcloud
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: tool-olivetin-argo-workflow-trigger
+        conditions: tool-olivetin-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: tool-olivetin-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: tool-olivetin
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: tool-paperless-argo-workflow-trigger
+        conditions: tool-paperless-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: tool-paperless-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: tool-paperless
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy
+    - template:
+        name: tool-syncthing-argo-workflow-trigger
+        conditions: tool-syncthing-git-dep
+        argoWorkflow:
+          operation: submit
+          source:
+            resource:
+              apiVersion: argoproj.io/v1alpha1
+              kind: Workflow
+              metadata:
+                namespace: dev-argo-tasks
+                generateName: tool-syncthing-build-and-deploy-
+              spec:
+                entrypoint: build-and-deploy-from-git
+                arguments:
+                  parameters:
+                    - name: app_name
+                      value: tool-syncthing
+                    - name: base_git_repo
+                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+                    - name: base_git_branch
+                      value: develop
+                workflowTemplateRef:
+                  name: app-build-and-deploy

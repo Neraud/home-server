@@ -11,18 +11,3 @@
     export KUBECONFIG={{ kubeconfig_path }}
     argo submit -n dev-argo-tasks {{ app_overlay_path }}/workflow.yaml --wait
 
-- name: Check if Argo Event is deployed
-  kubernetes.core.k8s_info:
-    kind: CustomResourceDefinition
-    name: sensors.argoproj.io
-    kubeconfig: "{{ kubeconfig_path }}"
-    context: "{{ kubeconfig_context }}"
-  register: argo_sensors_crd_status
-
-- name: Configure Argo Event sensor
-  kubernetes.core.k8s:
-    definition: "{{ lookup('file', app_overlay_path + '/sensor.yaml') }}"
-    state: present
-    kubeconfig: "{{ kubeconfig_path }}"
-    context: "{{ kubeconfig_context }}"
-  when: argo_sensors_crd_status.resources | length > 0

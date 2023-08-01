@@ -1,7 +1,20 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+sensor_file_path=$SCRIPT_DIR/deploy/sensor.yaml
+
+echo "Listing applications"
+app_list=$(find $SCRIPT_DIR/.. -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
+
+echo "Found $(echo $app_list | wc -w) apps"
+
+
+echo "Generate sensor"
+cat <<EOF > $sensor_file_path
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
-  name: download-sickchill
+  name: git
   namespace: dev-argo-tasks
 spec:
   eventBusName: default
@@ -10,15 +23,21 @@ spec:
     container:
       resources:
         requests:
-          cpu: 5m
+          cpu: 10m
           memory: 32Mi
         limits:
-          cpu: 100m # With lower than 75m, the workflow isn't triggered
-          memory: 32Mi
+          cpu: 100m
+          memory: 128Mi
     nodeSelector:
       capability/general-purpose: 'yes'
   dependencies:
-    - name: git-dep
+EOF
+
+
+echo " - generate dependencies"
+for app in $app_list ; do
+    cat <<EOF >> $sensor_file_path
+    - name: $app-git-dep
       eventSourceName: webhook
       eventName: git
       filters:
@@ -34,10 +53,21 @@ spec:
           - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
             type: string
             value:
-              - "apps/(base|vagrant)/download-sickchill/.*"
+              - "apps/(base|vagrant)/$app/.*"
+EOF
+done
+
+
+echo " - generate triggers"
+cat <<EOF >> $sensor_file_path
   triggers:
+EOF
+
+for app in $app_list ; do
+    cat <<EOF >> $sensor_file_path
     - template:
-        name: argo-workflow-trigger
+        name: $app-argo-workflow-trigger
+        conditions: $app-git-dep
         argoWorkflow:
           operation: submit
           source:
@@ -46,16 +76,18 @@ spec:
               kind: Workflow
               metadata:
                 namespace: dev-argo-tasks
-                generateName: download-sickchill-build-and-deploy-
+                generateName: $app-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
                 arguments:
                   parameters:
                     - name: app_name
-                      value: download-sickchill
+                      value: $app
                     - name: base_git_repo
                       value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
                     - name: base_git_branch
                       value: develop
                 workflowTemplateRef:
                   name: app-build-and-deploy
+EOF
+done
