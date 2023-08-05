@@ -7,6 +7,7 @@ resources:
 patches:
 - path: nfs-syncthing-pv-nfs.yaml
 - path: discovery-statefulSet-resources.yaml
+- path: discovery-pvc-resources.yaml
 - path: syncthing-sync-tcp-lb-ip.yaml
 - path: syncthing-sync-udp-lb-ip.yaml
 - path: syncthing-statefulSet-resources.yaml
