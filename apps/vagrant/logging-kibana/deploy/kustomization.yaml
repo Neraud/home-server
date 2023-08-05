@@ -13,6 +13,7 @@ generators:
 - secret-generator.yaml
 
 patches:
+- path: pvc-resources.yaml
 - path: statefulSet-resources.yaml
 - target:
     kind: Ingress
