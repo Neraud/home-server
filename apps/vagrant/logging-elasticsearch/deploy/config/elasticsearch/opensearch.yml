@@ -14,7 +14,7 @@ plugins.security.allow_unsafe_democertificates: false
 plugins.security.allow_default_init_securityindex: true
 plugins.security.authcz.admin_dn:
   # Use the node certificate as an admin user
-  - CN=elasticsearch.logging-elasticsearch.svc.cluster.local,OU=ChangeMe,O=ChangeMe,L=Paris,ST=France,C=FR
+  - CN=elasticsearch.logging-elasticsearch.svc.cluster.local,OU=Test,O=Test,L=Paris,ST=France,C=FR
 
 plugins.security.audit.type: internal_opensearch
 plugins.security.enable_snapshot_restore_privilege: true

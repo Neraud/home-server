@@ -9,6 +9,10 @@ configMapGenerator:
   envs:
   - config/elasticsearch/elasticsearch.env
   behavior: merge
+- name: elasticsearch-config
+  files:
+  - config/elasticsearch/opensearch.yml
+  behavior: merge
 
 generators:
 - elasticsearch-secret-generator.yaml
