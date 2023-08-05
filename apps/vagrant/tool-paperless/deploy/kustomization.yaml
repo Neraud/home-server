@@ -17,6 +17,7 @@ patches:
 - path: redis-statefulSet-resources.yaml
 - path: paperless-statefulSet-resources.yaml
 - path: paperless-statefulSet-probe.yaml
+- path: paperless-ingress-homepage-widget.yaml
 - target:
     kind: Ingress
     name: paperless
