@@ -13,7 +13,7 @@ generatorOptions:
  disableNameSuffixHash: true
 
 secretGenerator:
-- name: task-rescheduler-config
+- name: task-rescheduler
   files:
   - secret/config.yaml
 
