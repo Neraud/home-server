@@ -57,6 +57,14 @@
   - name: "Deploy {{ app_name }} manually"
     ansible.builtin.include_tasks: deploy-manual.yml
   when: app_deploymen_method == "ansible" or not argo_fully_installed
+  
+- name: Configure {{ app_name }} Argo CD application
+  kubernetes.core.k8s:
+    definition: "{{ lookup('file', app_overlay_path + '/application.yaml') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  when: argo_cd_installed
 
 - name: "Build and deploy {{ app_name }} with argo"
   ansible.builtin.include_tasks: build-argo.yml

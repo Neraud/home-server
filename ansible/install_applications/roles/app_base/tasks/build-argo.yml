@@ -1,11 +1,4 @@
 ---
-- name: Configure Argo CD application
-  kubernetes.core.k8s:
-    definition: "{{ lookup('file', app_overlay_path + '/application.yaml') }}"
-    state: present
-    kubeconfig: "{{ kubeconfig_path }}"
-    context: "{{ kubeconfig_context }}"
-
 - name: Deploy with Argo
   ansible.builtin.shell: |
     export KUBECONFIG={{ kubeconfig_path }}
