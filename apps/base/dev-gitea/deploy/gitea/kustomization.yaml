@@ -21,7 +21,7 @@ secretGenerator:
   env: secret/gitea.env
 
 resources:
-- gitea-networkPolicies.yaml
+- gitea-networkPolicy.yaml
 - gitea-service.yaml
 - gitea-ingress.yaml
 - gitea-pvc.yaml

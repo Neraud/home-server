@@ -17,7 +17,7 @@ secretGenerator:
   env: secret/pgsql.env
 
 resources:
-- pgsql-networkPolicies.yaml
+- pgsql-networkPolicy.yaml
 - pgsql-service.yaml
 - pgsql-pvc.yaml
 - pgsql-statefulSet.yaml

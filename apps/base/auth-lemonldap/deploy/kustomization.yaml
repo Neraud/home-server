@@ -23,7 +23,7 @@ resources:
 - ../../_common/deploy
 - ingress-auth.yaml
 - ingress-manager.yaml
-- networkPolicies.yaml
+- networkPolicy.yaml
 - service-handler.yaml
 - service.yaml
 - pvc.yaml

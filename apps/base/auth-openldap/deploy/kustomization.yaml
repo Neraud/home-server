@@ -22,7 +22,7 @@ secretGenerator:
 resources:
 - namespace.yaml
 - ../../_common/deploy
-- networkPolicies.yaml
+- networkPolicy.yaml
 - secret-certs.yaml
 - service.yaml
 - pvc.yaml
