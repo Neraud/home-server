@@ -10,8 +10,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: lemonldap
       app.kubernetes.io/component: lemonldap
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

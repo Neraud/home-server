@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: paperless
       app.kubernetes.io/component: redis
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

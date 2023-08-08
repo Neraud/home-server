@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: gitea
       app.kubernetes.io/component: pgsql
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

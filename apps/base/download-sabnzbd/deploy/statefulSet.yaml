@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: sabnzbd
       app.kubernetes.io/component: sabnzbd
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

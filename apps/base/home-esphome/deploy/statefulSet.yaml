@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: esphome
       app.kubernetes.io/component: esphome
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

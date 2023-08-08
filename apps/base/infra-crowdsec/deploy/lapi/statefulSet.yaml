@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: crowdsec
       app.kubernetes.io/component: lapi
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

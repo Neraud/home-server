@@ -7,8 +7,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: homeassistant
       app.kubernetes.io/component: mysql
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

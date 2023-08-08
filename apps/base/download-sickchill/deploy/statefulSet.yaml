@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: sickchill
       app.kubernetes.io/component: sickchill
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

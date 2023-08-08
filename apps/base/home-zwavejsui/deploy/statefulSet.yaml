@@ -10,8 +10,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: zwavejsui
       app.kubernetes.io/component: zwavejsui
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

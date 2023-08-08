@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: zonemta
       app.kubernetes.io/component: redis
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

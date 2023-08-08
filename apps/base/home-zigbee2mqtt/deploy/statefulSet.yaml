@@ -10,8 +10,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: zigbee2mqtt
       app.kubernetes.io/component: zigbee2mqtt
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

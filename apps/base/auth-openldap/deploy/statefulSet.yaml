@@ -10,8 +10,6 @@ spec:
     matchLabels:
       app.kubernetes.io/component: openldap
       app.kubernetes.io/name: openldap
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

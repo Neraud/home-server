@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: frigate
       app.kubernetes.io/component: frigate
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

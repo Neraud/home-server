@@ -9,8 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: deluge
       app.kubernetes.io/component: deluge-daemon
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
