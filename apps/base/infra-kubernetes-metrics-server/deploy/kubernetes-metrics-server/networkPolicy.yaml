@@ -4,7 +4,7 @@ metadata:
   name: allow-to-metrics-server
   namespace: infra-kubernetes-metrics-server
 spec:
-  types: [Ingress]
+  policyTypes: [Ingress]
 
   podSelector:
     matchLabels:

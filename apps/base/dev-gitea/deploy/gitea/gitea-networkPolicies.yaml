@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: allow-to-gitea
 spec:
-  types: [Ingress]
+  policyTypes: [Ingress]
 
   podSelector:
     matchLabels:
