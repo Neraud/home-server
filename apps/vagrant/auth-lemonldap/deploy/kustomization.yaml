@@ -8,8 +8,8 @@ generators:
 - secret-generator.yaml
 
 patches:
-- path: statefulset-env.yaml
-- path: statefulset-resources.yaml
+- path: statefulSet-env.yaml
+- path: statefulSet-resources.yaml
 - path: service-handler-ip.yaml
 - path: pvc-resources.yaml
 - target:
