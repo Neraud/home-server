@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-sensor_file_path=$SCRIPT_DIR/deploy/sensor.yaml
+sensor_file_path=$SCRIPT_DIR/deploy/sensors/sensor.yaml
 
 echo "Listing applications"
 app_list=$(find $SCRIPT_DIR/.. -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
