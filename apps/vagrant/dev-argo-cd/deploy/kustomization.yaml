@@ -24,6 +24,7 @@ patches:
 - path: argocd-notifications-controller-deployment-resources.yaml
 - path: argocd-redis-deployment-resources.yaml
 - path: argocd-repo-server-deployment-resources.yaml
+- path: argocd-server-deployment-resources.yaml
 - target:
     kind: Ingress
     name: argocd-server-grpc-ingress
