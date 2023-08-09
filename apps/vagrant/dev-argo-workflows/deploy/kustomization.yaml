@@ -6,6 +6,7 @@ resources:
 
 patches:
 - path: argo-server-deployment-resources.yaml
+- path: workflow-controller-configmap-patch.yaml
 - path: workflow-controller-deployment-resources.yaml
 - target:
     kind: Ingress
