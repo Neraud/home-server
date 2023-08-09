@@ -79,6 +79,9 @@ for app in $app_list ; do
                 generateName: $app-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: $app-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name

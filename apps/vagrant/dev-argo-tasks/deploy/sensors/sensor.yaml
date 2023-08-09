@@ -1172,6 +1172,9 @@ spec:
                 generateName: auth-lemonldap-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: auth-lemonldap-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1196,6 +1199,9 @@ spec:
                 generateName: auth-openldap-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: auth-openldap-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1220,6 +1226,9 @@ spec:
                 generateName: auth-phpldapadmin-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: auth-phpldapadmin-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1244,6 +1253,9 @@ spec:
                 generateName: cluster-calico-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-calico-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1268,6 +1280,9 @@ spec:
                 generateName: cluster-ingress-nginx-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-ingress-nginx-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1292,6 +1307,9 @@ spec:
                 generateName: cluster-intel-gpu-plugin-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-intel-gpu-plugin-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1316,6 +1334,9 @@ spec:
                 generateName: cluster-kubernetes-replicator-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-kubernetes-replicator-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1340,6 +1361,9 @@ spec:
                 generateName: cluster-longhorn-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-longhorn-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1364,6 +1388,9 @@ spec:
                 generateName: cluster-metallb-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-metallb-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1388,6 +1415,9 @@ spec:
                 generateName: cluster-metallb-config-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-metallb-config-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1412,6 +1442,9 @@ spec:
                 generateName: cluster-multus-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-multus-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1436,6 +1469,9 @@ spec:
                 generateName: cluster-reloader-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-reloader-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1460,6 +1496,9 @@ spec:
                 generateName: cluster-storage-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: cluster-storage-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1484,6 +1523,9 @@ spec:
                 generateName: dev-argo-cd-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: dev-argo-cd-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1508,6 +1550,9 @@ spec:
                 generateName: dev-argo-events-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: dev-argo-events-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1532,6 +1577,9 @@ spec:
                 generateName: dev-argo-tasks-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: dev-argo-tasks-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1556,6 +1604,9 @@ spec:
                 generateName: dev-argo-workflows-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: dev-argo-workflows-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1580,6 +1631,9 @@ spec:
                 generateName: dev-gitea-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: dev-gitea-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1604,6 +1658,9 @@ spec:
                 generateName: dev-minio-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: dev-minio-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1628,6 +1685,9 @@ spec:
                 generateName: download-deluge-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: download-deluge-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1652,6 +1712,9 @@ spec:
                 generateName: download-pyload-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: download-pyload-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1676,6 +1739,9 @@ spec:
                 generateName: download-sabnzbd-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: download-sabnzbd-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1700,6 +1766,9 @@ spec:
                 generateName: download-sickchill-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: download-sickchill-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1724,6 +1793,9 @@ spec:
                 generateName: home-esphome-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: home-esphome-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1748,6 +1820,9 @@ spec:
                 generateName: home-frigate-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: home-frigate-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1772,6 +1847,9 @@ spec:
                 generateName: home-homeassistant-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: home-homeassistant-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1796,6 +1874,9 @@ spec:
                 generateName: home-mosquitto-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: home-mosquitto-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1820,6 +1901,9 @@ spec:
                 generateName: home-nodered-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: home-nodered-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1844,6 +1928,9 @@ spec:
                 generateName: home-roomassistant-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: home-roomassistant-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1868,6 +1955,9 @@ spec:
                 generateName: home-zigbee2mqtt-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: home-zigbee2mqtt-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1892,6 +1982,9 @@ spec:
                 generateName: home-zwavejsui-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: home-zwavejsui-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1916,6 +2009,9 @@ spec:
                 generateName: infra-blocky-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-blocky-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1940,6 +2036,9 @@ spec:
                 generateName: infra-crowdsec-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-crowdsec-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1964,6 +2063,9 @@ spec:
                 generateName: infra-docker-registry-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-docker-registry-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -1988,6 +2090,9 @@ spec:
                 generateName: infra-docker-registry-ui-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-docker-registry-ui-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2012,6 +2117,9 @@ spec:
                 generateName: infra-gandi-livedns-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-gandi-livedns-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2036,6 +2144,9 @@ spec:
                 generateName: infra-kubernetes-dashboard-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-kubernetes-dashboard-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2060,6 +2171,9 @@ spec:
                 generateName: infra-kubernetes-metrics-server-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-kubernetes-metrics-server-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2084,6 +2198,9 @@ spec:
                 generateName: infra-mailhog-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-mailhog-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2108,6 +2225,9 @@ spec:
                 generateName: infra-ntfy-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-ntfy-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2132,6 +2252,9 @@ spec:
                 generateName: infra-unifi-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-unifi-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2156,6 +2279,9 @@ spec:
                 generateName: infra-zonemta-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: infra-zonemta-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2180,6 +2306,9 @@ spec:
                 generateName: logging-elasticsearch-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: logging-elasticsearch-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2204,6 +2333,9 @@ spec:
                 generateName: logging-fluentbit-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: logging-fluentbit-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2228,6 +2360,9 @@ spec:
                 generateName: logging-fluentd-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: logging-fluentd-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2252,6 +2387,9 @@ spec:
                 generateName: logging-kibana-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: logging-kibana-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2276,6 +2414,9 @@ spec:
                 generateName: monitoring-apcups-exporter-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-apcups-exporter-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2300,6 +2441,9 @@ spec:
                 generateName: monitoring-blackbox-exporter-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-blackbox-exporter-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2324,6 +2468,9 @@ spec:
                 generateName: monitoring-crowdsec-external-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-crowdsec-external-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2348,6 +2495,9 @@ spec:
                 generateName: monitoring-grafana-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-grafana-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2372,6 +2522,9 @@ spec:
                 generateName: monitoring-keepalived-exporter-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-keepalived-exporter-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2396,6 +2549,9 @@ spec:
                 generateName: monitoring-kube-state-metrics-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-kube-state-metrics-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2420,6 +2576,9 @@ spec:
                 generateName: monitoring-kubernetes-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-kubernetes-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2444,6 +2603,9 @@ spec:
                 generateName: monitoring-nginx-exporter-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-nginx-exporter-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2468,6 +2630,9 @@ spec:
                 generateName: monitoring-nginx-log-exporter-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-nginx-log-exporter-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2492,6 +2657,9 @@ spec:
                 generateName: monitoring-node-exporter-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-node-exporter-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2516,6 +2684,9 @@ spec:
                 generateName: monitoring-node-exporter-external-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-node-exporter-external-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2540,6 +2711,9 @@ spec:
                 generateName: monitoring-prometheus-operator-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-prometheus-operator-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2564,6 +2738,9 @@ spec:
                 generateName: monitoring-release-watcher-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: monitoring-release-watcher-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2588,6 +2765,9 @@ spec:
                 generateName: stream-airsonic-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: stream-airsonic-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2612,6 +2792,9 @@ spec:
                 generateName: stream-jellyfin-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: stream-jellyfin-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2636,6 +2819,9 @@ spec:
                 generateName: tool-homepage-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: tool-homepage-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2660,6 +2846,9 @@ spec:
                 generateName: tool-miniflux-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: tool-miniflux-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2684,6 +2873,9 @@ spec:
                 generateName: tool-nextcloud-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: tool-nextcloud-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2708,6 +2900,9 @@ spec:
                 generateName: tool-olivetin-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: tool-olivetin-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2732,6 +2927,9 @@ spec:
                 generateName: tool-paperless-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: tool-paperless-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
@@ -2756,6 +2954,9 @@ spec:
                 generateName: tool-syncthing-build-and-deploy-
               spec:
                 entrypoint: build-and-deploy-from-git
+                synchronization:
+                  mutex:
+                    name: tool-syncthing-build-and-deploy
                 arguments:
                   parameters:
                     - name: app_name
