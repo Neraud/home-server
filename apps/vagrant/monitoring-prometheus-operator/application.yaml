@@ -18,7 +18,7 @@ spec:
   
   destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring-prometheus-operator
+    namespace: monitoring-prometheus
 
   syncPolicy:
     syncOptions:
