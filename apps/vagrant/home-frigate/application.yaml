@@ -23,3 +23,5 @@ spec:
   syncPolicy:
     syncOptions:
     - PruneLast=true # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
+    # ServerSideApply to avoid issues with large annotations (see https://www.arthurkoziel.com/fixing-argocd-crd-too-long-error/)
+    - ServerSideApply=true
