@@ -68,8 +68,8 @@ spec:
 #            - /bin/sh
 #            - -c 
 #            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://127.0.0.1:8443/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
-          initialDelaySeconds: 3
-          periodSeconds: 5
+#          initialDelaySeconds: 3
+#          periodSeconds: 5
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -106,8 +106,8 @@ spec:
 #            - /bin/sh
 #            - -c 
 #            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://127.0.0.1:9443/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
-          initialDelaySeconds: 3
-          periodSeconds: 5
+#          initialDelaySeconds: 3
+#          periodSeconds: 5
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
