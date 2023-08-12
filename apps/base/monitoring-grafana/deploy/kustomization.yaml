@@ -53,6 +53,7 @@ configMapGenerator:
 - name: grafana-dashboards-custom
   files:
   - config/dashboards/custom/apcups.json
+  - config/dashboards/custom/argo_cd.json
   - config/dashboards/custom/argo_workflows.json
   - config/dashboards/custom/backup_jobs.json
   - config/dashboards/custom/backup_restic_repo_maintenance.json
