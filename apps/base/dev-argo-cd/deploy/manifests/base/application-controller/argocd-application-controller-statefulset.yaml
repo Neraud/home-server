@@ -5,8 +5,6 @@ metadata:
     app.kubernetes.io/name: argocd-application-controller
     app.kubernetes.io/part-of: argocd
     app.kubernetes.io/component: application-controller
-  annotations:
-    reloader.stakater.com/auto: "true"
   name: argocd-application-controller
 spec:
   selector:
@@ -151,8 +149,8 @@ spec:
                 name: argocd-cmd-params-cm
                 key: controller.kubectl.parallelism.limit
                 optional: true
-        image: registry.lan/argocd:v2.7.1-ksops
-        imagePullPolicy: IfNotPresent
+        image: quay.io/argoproj/argocd:latest
+        imagePullPolicy: Always
         name: argocd-application-controller
         ports:
         - containerPort: 8082
@@ -162,13 +160,6 @@ spec:
             port: 8082
           initialDelaySeconds: 5
           periodSeconds: 10
-        resources:
-          requests:
-            cpu: 75m
-            memory: 384Mi
-          limits:
-            cpu: 350m
-            memory: 384Mi
         securityContext:
           runAsNonRoot: true
           readOnlyRootFilesystem: true
@@ -185,8 +176,6 @@ spec:
         - name: argocd-home
           mountPath: /home/argocd
       serviceAccountName: argocd-application-controller
-      nodeSelector:
-        capability/general-purpose: 'yes'
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

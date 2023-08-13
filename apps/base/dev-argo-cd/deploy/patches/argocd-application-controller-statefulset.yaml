@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: argocd-application-controller
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  template:
+    spec:
+      containers:
+      - name: argocd-application-controller
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 75m
+            memory: 384Mi
+          limits:
+            cpu: 350m
+            memory: 384Mi
+      nodeSelector:
+        capability/general-purpose: 'yes'

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-repo-server
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  template:
+    spec:
+      containers:
+      - name: argocd-repo-server
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: SOPS_AGE_KEY_FILE
+            value: /home/argocd/.sops/key.txt
+        resources:
+          requests:
+            cpu: 25m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 128Mi
+        volumeMounts:
+        - name: sops-key
+          readOnly: true
+          mountPath: "/home/argocd/.sops/key.txt"
+          subPath: "key.txt"
+      volumes:
+        - name: sops-key
+          secret:
+            secretName: sops-key
+      nodeSelector:
+        capability/general-purpose: 'yes'

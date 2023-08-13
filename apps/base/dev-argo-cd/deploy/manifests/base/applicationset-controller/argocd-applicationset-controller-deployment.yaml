@@ -5,8 +5,6 @@ metadata:
     app.kubernetes.io/name: argocd-applicationset-controller
     app.kubernetes.io/part-of: argocd
     app.kubernetes.io/component: applicationset-controller
-  annotations:
-    reloader.stakater.com/auto: "true"
   name: argocd-applicationset-controller
 spec:
   selector:
@@ -20,8 +18,8 @@ spec:
       containers:
         - args:
             - /usr/local/bin/argocd-applicationset-controller
-          image: registry.lan/argocd:v2.7.1-ksops
-          imagePullPolicy: IfNotPresent
+          image: quay.io/argoproj/argocd:latest
+          imagePullPolicy: Always
           name: argocd-applicationset-controller
           ports:
           - containerPort: 7000
@@ -93,13 +91,6 @@ spec:
                 key: applicationsetcontroller.enable.progressive.syncs
                 name: argocd-cmd-params-cm
                 optional: true
-          resources:
-            requests:
-              cpu: 25m
-              memory: 64Mi
-            limits:
-              cpu: 50m
-              memory: 64Mi
           volumeMounts:
           - mountPath: /app/config/ssh
             name: ssh-known-hosts
@@ -121,8 +112,6 @@ spec:
             seccompProfile:
               type: RuntimeDefault
       serviceAccountName: argocd-applicationset-controller
-      nodeSelector:
-        capability/general-purpose: 'yes'
       volumes:
       - configMap:
           name: argocd-ssh-known-hosts-cm

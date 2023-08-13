@@ -5,8 +5,6 @@ metadata:
     app.kubernetes.io/name: argocd-server
     app.kubernetes.io/part-of: argocd
     app.kubernetes.io/component: server
-  annotations:
-    reloader.stakater.com/auto: "true"
   name: argocd-server
 spec:
   selector:
@@ -20,8 +18,8 @@ spec:
       serviceAccountName: argocd-server
       containers:
       - name: argocd-server
-        image: registry.lan/argocd:v2.7.1-ksops
-        imagePullPolicy: IfNotPresent
+        image: quay.io/argoproj/argocd:latest
+        imagePullPolicy: Always
         args:
           - /usr/local/bin/argocd-server
         env:
@@ -246,13 +244,6 @@ spec:
             port: 8080
           initialDelaySeconds: 3
           periodSeconds: 30
-        resources:
-          requests:
-            cpu: 25m
-            memory: 64Mi
-          limits:
-            cpu: 100m
-            memory: 64Mi
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
@@ -262,8 +253,6 @@ spec:
             - ALL
           seccompProfile:
             type: RuntimeDefault
-      nodeSelector:
-        capability/general-purpose: 'yes'
       volumes:
       - emptyDir: {}
         name: plugins-home

@@ -13,4 +13,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argocd-server
-  namespace: dev-argo-cd
+  namespace: argocd

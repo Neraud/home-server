@@ -23,8 +23,8 @@ spec:
       serviceAccountName: argocd-redis        
       containers:
       - name: redis
-        image: registry.lan/argocd-redis:7.0.11-alpine
-        imagePullPolicy: IfNotPresent
+        image: redis:7.0.11-alpine
+        imagePullPolicy: Always
         args:
         - "--save"
         - ""
@@ -32,20 +32,11 @@ spec:
         - "no"
         ports:
         - containerPort: 6379
-        resources:
-          requests:
-            cpu: 25m
-            memory: 64Mi
-          limits:
-            cpu: 50m
-            memory: 64Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
             drop:
             - ALL
-      nodeSelector:
-        capability/general-purpose: 'yes'
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
