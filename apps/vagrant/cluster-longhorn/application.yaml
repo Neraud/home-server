@@ -8,6 +8,10 @@ metadata:
   #  - resources-finalizer.argocd.argoproj.io
   labels:
     app.kubernetes.io/name: longhorn
+  annotations:
+    # Disable reconcile to avoid reconcile loops.
+    # FIXME should be fixed using ignoreResourceUpdates
+    argocd.argoproj.io/skip-reconcile: "true"
 spec:
   project: k8s-cluster
 
