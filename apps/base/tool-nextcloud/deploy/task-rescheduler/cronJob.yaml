@@ -36,16 +36,17 @@ spec:
                 cpu: 100m
                 memory: 64Mi
             volumeMounts:
-            - name: tz-config
+            - name: cluster-config
               mountPath: /etc/localtime
+              subPath: localtime
               readOnly: true
             - name: task-rescheduler-secret
               mountPath: /data/config.yaml
               subPath: config.yaml
           volumes:
-          - name: tz-config
-            hostPath:
-              path: /etc/localtime
+          - name: cluster-config
+            configMap:
+              name: cluster-config
           - name: task-rescheduler-secret
             secret:
               secretName: task-rescheduler

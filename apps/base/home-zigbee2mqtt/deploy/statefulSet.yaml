@@ -60,8 +60,9 @@ spec:
           runAsUser: 1000 # node
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: zigbee2mqtt-data
           mountPath: /app/data
@@ -70,9 +71,9 @@ spec:
           mountPath: /etc/ssl/cluster/ca.cert
           subPath: ca.crt
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: zigbee2mqtt-data
         persistentVolumeClaim:
           claimName: zigbee2mqtt-data

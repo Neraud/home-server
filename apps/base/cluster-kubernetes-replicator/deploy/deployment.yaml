@@ -45,12 +45,13 @@ spec:
             cpu: 25m
             memory: 32Mi
         volumeMounts:
-          - name: tz-config
-            mountPath: /etc/localtime
-            readOnly: true
+        - name: cluster-config
+          mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
       nodeSelector:
         capability/general-purpose: 'yes'
       volumes:
-        - name: tz-config
-          hostPath:
-            path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config

@@ -55,8 +55,9 @@ spec:
         - containerPort: 8123
           name: homeassistant
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: homeassistant-data
           mountPath: /config
@@ -97,9 +98,9 @@ spec:
             cpu: 250m
             memory: 512Mi
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: homeassistant-data
         persistentVolumeClaim:
           claimName: homeassistant-data

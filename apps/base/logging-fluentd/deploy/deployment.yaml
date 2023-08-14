@@ -66,8 +66,9 @@ spec:
             cpu: 500m
             memory: 256Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: fluentd-config
           mountPath: /fluentd/etc/fluent.conf
@@ -82,9 +83,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: fluentd-config
         configMap:
           name: fluentd-config

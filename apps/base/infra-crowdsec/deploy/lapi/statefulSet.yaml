@@ -111,8 +111,9 @@ spec:
             cpu: 400m
             memory: 128Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: crowdsec-ca-certs
           mountPath: /etc/ssl/crowdsec
@@ -127,9 +128,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: crowdsec-db
         persistentVolumeClaim:
           claimName: crowdsec-db

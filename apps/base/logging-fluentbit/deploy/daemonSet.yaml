@@ -45,8 +45,9 @@ spec:
           #runAsNonRoot: true
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: varlog
           mountPath: /var/log
@@ -73,9 +74,9 @@ spec:
             memory: 64Mi
       terminationGracePeriodSeconds: 10
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: varlog
         hostPath:
           path: /var/log

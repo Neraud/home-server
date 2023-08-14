@@ -44,8 +44,9 @@ spec:
             cpu: 100m
             memory: 48Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: host-nginx-logs
           mountPath: /mnt/nginx/logs
@@ -54,9 +55,9 @@ spec:
           name: nginx-log-exporter-config
           subPath: prometheus-nginxlog-exporter.yaml
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: host-nginx-logs
         hostPath:
           path: /var/log/nginx

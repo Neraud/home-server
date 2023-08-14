@@ -43,8 +43,9 @@ spec:
             cpu: 75m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: olivetin-config
           mountPath: /etc/OliveTin/config.yaml
@@ -55,9 +56,9 @@ spec:
         - name: images-volume
           mountPath: /var/www/olivetin/customIcons
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: olivetin-config
         configMap:
           name: olivetin-config

@@ -50,16 +50,17 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: blocky-config
           mountPath: /app/config.yml
           subPath: config.yml
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: blocky-config
         secret:
           secretName: blocky-config

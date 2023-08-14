@@ -30,8 +30,9 @@ spec:
           #runAsNonRoot: true
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: devfs
           mountPath: /dev/dri
@@ -42,9 +43,9 @@ spec:
         - name: kubeletsockets
           mountPath: /var/lib/kubelet/device-plugins
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: devfs
         hostPath:
           path: /dev/dri

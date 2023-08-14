@@ -62,8 +62,9 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: nodered-data
           mountPath: /data
@@ -77,9 +78,9 @@ spec:
       securityContext:
         fsGroup: 1001 # node-red group inside the container
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: nodered-data
         persistentVolumeClaim:
           claimName: nodered-data

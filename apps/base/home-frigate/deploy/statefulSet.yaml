@@ -71,8 +71,9 @@ spec:
             # To use a gpu limit
             #gpu.intel.com/i915: 1
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: frigate-data
           mountPath: /config
@@ -87,9 +88,9 @@ spec:
         - name: dshm
           mountPath: /dev/shm
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: frigate-data
         persistentVolumeClaim:
           claimName: frigate-data

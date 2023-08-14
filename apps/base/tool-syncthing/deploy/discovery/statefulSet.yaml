@@ -63,15 +63,17 @@ spec:
             cpu: 200m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: discovery-data
           mountPath: /var/stdiscosrv
           subPath: stdiscosrv
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: discovery-data
         persistentVolumeClaim:
           claimName: discovery-data

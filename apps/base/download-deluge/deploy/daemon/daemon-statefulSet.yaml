@@ -55,8 +55,9 @@ spec:
             cpu: 500m
             memory: 256Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: deluge-data
           mountPath: /home/deluge/.config/deluge
@@ -69,9 +70,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: deluge-data
         persistentVolumeClaim:
           claimName: deluge-data

@@ -70,8 +70,10 @@ spec:
           runAsUser: 1000
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: syncthing-data
           mountPath: /var/syncthing/config
           subPath: config
@@ -86,8 +88,10 @@ spec:
           runAsUser: 1000
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: syncthing-data
           mountPath: /var/syncthing/config
           subPath: config
@@ -125,17 +129,19 @@ spec:
             cpu: 250m
             memory: 64Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: syncthing-data
           mountPath: /var/syncthing/config
           subPath: config
         - name: syncthing-volume
           mountPath: /data
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: syncthing-data
         persistentVolumeClaim:
           claimName: syncthing-data

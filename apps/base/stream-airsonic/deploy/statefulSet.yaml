@@ -106,8 +106,9 @@ spec:
             cpu: "1"
             memory: 512Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: keystore-volume
           mountPath: /opt/java/openjdk/lib/security/cacerts
@@ -129,9 +130,9 @@ spec:
         - name: transcode-volume
           mountPath: /var/airsonic/transcode
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: airsonic-data
         persistentVolumeClaim:
           claimName: airsonic-data

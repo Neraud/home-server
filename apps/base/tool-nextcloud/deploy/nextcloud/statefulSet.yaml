@@ -95,8 +95,9 @@ spec:
             cpu: 750m
             memory: 512Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: nextcloud-app
           mountPath: /usr/src/nextcloud/config
@@ -122,9 +123,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: nextcloud-app
         persistentVolumeClaim:
           claimName: nextcloud-app

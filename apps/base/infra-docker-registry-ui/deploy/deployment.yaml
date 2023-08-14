@@ -44,8 +44,9 @@ spec:
             cpu: 200m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: docker-registry-ui-config
           mountPath: /opt/config.yml
@@ -56,9 +57,9 @@ spec:
           mountPath: /etc/ssl/certs/ca-certificates.crt
           subPath: ca.crt
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: docker-registry-ui-config
         secret:
           secretName: docker-registry-ui-config

@@ -60,8 +60,9 @@ spec:
             cpu: 100m
             memory: 64Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: mosquitto-config
           mountPath: /mosquitto/config/
@@ -73,9 +74,9 @@ spec:
       securityContext:
         fsGroup: 1883 # mosquitto group inside the container
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: mosquitto-data
         persistentVolumeClaim:
           claimName: mosquitto-data

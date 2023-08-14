@@ -59,8 +59,9 @@ spec:
         - name: http
           containerPort: 5601
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: kibana-config
           mountPath: /usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
@@ -72,9 +73,9 @@ spec:
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: kibana-data
         persistentVolumeClaim:
           claimName: kibana-data

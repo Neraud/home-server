@@ -95,8 +95,9 @@ spec:
             cpu: 250m
             memory: 1Gi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: keystore-volume
           mountPath: /etc/ssl/certs/java
@@ -107,9 +108,9 @@ spec:
         - name: tmp-run-volume
           mountPath: /var/run/unifi
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: unifi-data
         persistentVolumeClaim:
           claimName: unifi-data

@@ -70,16 +70,17 @@ spec:
           runAsUser: 1000 # node
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: zwavejsui-data
           mountPath: /usr/src/app/store
           subPath: store
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: zwavejsui-data
         persistentVolumeClaim:
           claimName: zwavejsui-data

@@ -76,17 +76,18 @@ spec:
             cpu: 100m
             memory: 160Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: zonemta-config
           mountPath: /opt/zone-mta/config
         - name: zonemta-certs
           mountPath: /opt/zone-mta/certs
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: zonemta-config
         secret:
           secretName: zonemta-config

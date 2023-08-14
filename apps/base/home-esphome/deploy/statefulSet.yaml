@@ -54,8 +54,9 @@ spec:
             cpu: 250m
             memory: 512Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: esphome-data
           mountPath: /config
@@ -63,9 +64,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: esphome-data
         persistentVolumeClaim:
           claimName: esphome-data

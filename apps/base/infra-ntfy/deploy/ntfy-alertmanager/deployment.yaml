@@ -46,16 +46,17 @@ spec:
             cpu: 40m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: ntfy-alertmanager-config
           mountPath: /etc/ntfy-alertmanager/config.scfg
           subPath: config.scfg
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: ntfy-alertmanager-config
         secret:
           secretName: ntfy-alertmanager-config

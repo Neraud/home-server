@@ -54,8 +54,9 @@ spec:
             cpu: 500m
             memory: 256Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: sabnzbd-data
           mountPath: /opt/sabnzbd-data
@@ -65,9 +66,9 @@ spec:
         - name: sabnzbd-config
           mountPath: /tmp/config
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: sabnzbd-data
         persistentVolumeClaim:
           claimName: sabnzbd-data

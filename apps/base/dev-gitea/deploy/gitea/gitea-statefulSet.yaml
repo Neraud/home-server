@@ -95,8 +95,9 @@ spec:
             cpu: 250m
             memory: 256Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: gitea-data
           mountPath: /var/lib/gitea
@@ -115,9 +116,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: gitea-init
         configMap:
           name: gitea-init

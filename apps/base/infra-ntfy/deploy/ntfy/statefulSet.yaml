@@ -45,8 +45,9 @@ spec:
           runAsGroup: 65534
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: ntfy-data
           mountPath: /var/cache/ntfy
@@ -88,8 +89,9 @@ spec:
             cpu: 100m
             memory: 64Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: ntfy-data
           mountPath: /var/cache/ntfy
@@ -101,9 +103,9 @@ spec:
           mountPath: /etc/ntfy/server.yml
           subPath: server.yml
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: ntfy-data
         persistentVolumeClaim:
           claimName: ntfy-data

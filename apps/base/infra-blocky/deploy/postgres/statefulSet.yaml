@@ -56,8 +56,9 @@ spec:
             cpu: 150m
             memory: 128Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: pgsql-data
           mountPath: /var/lib/postgresql/data
@@ -70,9 +71,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: pgsql-data
         persistentVolumeClaim:
           claimName: pgsql-data

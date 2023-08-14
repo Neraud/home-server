@@ -79,8 +79,10 @@ spec:
             # To use a gpu limit
             #gpu.intel.com/i915: 1
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: jellyfin-data
           mountPath: /config
           subPath: config
@@ -96,9 +98,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: jellyfin-data
         persistentVolumeClaim:
           claimName: jellyfin-data

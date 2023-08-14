@@ -48,17 +48,18 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: homepage-config
           mountPath: /app/config
         - name: logs-volume
           mountPath: /app/config/logs
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: homepage-config
         secret:
           secretName: homepage-config

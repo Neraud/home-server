@@ -61,8 +61,9 @@ spec:
             cpu: 75m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: redis-config
           mountPath: /usr/local/etc/redis/redis.conf
@@ -71,9 +72,9 @@ spec:
           mountPath: /data
           subPath: data
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: redis-data
         persistentVolumeClaim:
           claimName: redis-data

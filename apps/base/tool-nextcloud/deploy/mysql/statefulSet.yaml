@@ -53,8 +53,9 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: mysql-data
           mountPath: /var/lib/mysql
@@ -71,9 +72,9 @@ spec:
             cpu: 200m
             memory: 512Mi
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: mysql-data
         persistentVolumeClaim:
           claimName: mysql-data

@@ -63,8 +63,9 @@ spec:
             cpu: "250m"
             memory: "256Mi"
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: config-volume
           mountPath: /opt/phpldapadmin/config/config.php
@@ -78,9 +79,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: config-volume
         configMap:
           name: phpldapadmin-config

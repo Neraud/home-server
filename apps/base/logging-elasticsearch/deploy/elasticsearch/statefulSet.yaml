@@ -50,8 +50,9 @@ spec:
             cpu: 750m
             memory: 1Gi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: elasticsearch-data
           mountPath: /usr/share/opensearch/data
@@ -101,9 +102,9 @@ spec:
         securityContext:
           privileged: true
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: elasticsearch-data
         persistentVolumeClaim:
           claimName: elasticsearch-data

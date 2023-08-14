@@ -58,8 +58,9 @@ spec:
             cpu: 750m
             memory: 1G
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: paperless-data
           mountPath: /usr/src/paperless/data
@@ -76,9 +77,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: paperless-data
         persistentVolumeClaim:
           claimName: paperless-data
