@@ -21,7 +21,7 @@ spec:
       containers:
       - name: roomassistant
         image: "registry.lan/room-assistant:2.20.0-custom"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
             name: roomassistant-env

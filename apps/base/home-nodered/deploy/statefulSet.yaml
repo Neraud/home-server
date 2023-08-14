@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/nodered-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -39,7 +39,7 @@ spec:
       containers:
       - name: nodered
         image: "registry.lan/nodered:3.0.2-18-minimal-custom"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 1880
           name: nodered

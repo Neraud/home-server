@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/crowdsec-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -44,7 +44,7 @@ spec:
           mountPath: /mnt/crowdsec
       - name: fix-permissions
         image: "registry.lan/crowdsec:v1.4.6-debian"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -59,7 +59,7 @@ spec:
       containers:
       - name: lapi
         image: "registry.lan/crowdsec:v1.4.6-debian"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: lapi-env

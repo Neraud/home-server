@@ -20,7 +20,7 @@ spec:
       containers:
       - name: reminiflux
         image: "registry.lan/reminiflux:1.23.4-alpine-153dc9464cef69f7c29bff1d680cfa0013b5e281"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         env:
         - name: NGINX_PORT
           value: "8080"

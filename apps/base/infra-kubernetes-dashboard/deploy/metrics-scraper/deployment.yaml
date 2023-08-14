@@ -21,7 +21,7 @@ spec:
       containers:
         - name: dashboard-metrics-scraper
           image: "registry.lan/kubernetes-metrics-scraper:v1.0.6"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8000

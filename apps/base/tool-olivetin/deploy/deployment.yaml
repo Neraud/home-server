@@ -20,7 +20,7 @@ spec:
       containers:
       - name: olivetin
         image: "registry.lan/olivetin:2023.03.25-amd64-custom"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 1337
           name: http

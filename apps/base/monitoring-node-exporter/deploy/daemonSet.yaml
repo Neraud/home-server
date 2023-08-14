@@ -29,7 +29,7 @@ spec:
         - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
         - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
         image: registry.lan/node-exporter:v1.5.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: node-exporter
         readinessProbe:
           httpGet:
@@ -76,7 +76,7 @@ spec:
             fieldRef:
               fieldPath: status.podIP
         image: registry.lan/node-exporter-kube-rbac-proxy:v0.14.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy
         ports:
         - containerPort: 9100

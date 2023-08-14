@@ -20,7 +20,7 @@ spec:
       containers:
       - name: docker-registry-ui
         image: "registry.lan/docker-registry-ui:0.9.6"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
           name: http

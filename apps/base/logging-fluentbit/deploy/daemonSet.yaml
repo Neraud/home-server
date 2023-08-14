@@ -28,7 +28,7 @@ spec:
       containers:
       - name: fluent-bit
         image: "registry.lan/fluent-bit:2.0.9"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 2020
           name: metrics

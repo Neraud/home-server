@@ -16,7 +16,7 @@ spec:
       containers:
       - name: nginx-exporter
         image: registry.lan/nginx-prometheus-exporter:0.11.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         args:
         - -nginx.scrape-uri
         - http://$(NODE_IP):81/status

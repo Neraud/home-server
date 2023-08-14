@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/deluge-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -31,7 +31,7 @@ spec:
       containers:
       - name: deluge-daemon
         image: "registry.lan/deluge-daemon:2.1.1_1.2.14-alpine"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 58846
           name: daemon

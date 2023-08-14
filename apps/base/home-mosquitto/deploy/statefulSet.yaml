@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/mosquitto-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -31,7 +31,7 @@ spec:
       containers:
       - name: mosquitto
         image: "registry.lan/mosquitto:2.0.15-openssl"
-        imagePullPolicy: Always     
+        imagePullPolicy: IfNotPresent     
         envFrom:
           - secretRef:
               name: mosquitto-env   

@@ -17,7 +17,7 @@ spec:
           containers:
           - name: task-rescheduler
             image: "registry.lan/caldav-recurring-task-scheduler:1b6cb6e328c895459573326a3868030bd099c215-3.10.5-alpine3.16"
-            imagePullPolicy: Always
+            imagePullPolicy: IfNotPresent
             env:
             - name: CONFIG_PATH
               value: "/data/config.yaml"

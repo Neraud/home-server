@@ -19,7 +19,7 @@ spec:
       containers:
       - name: openldap
         image: "registry.lan/openldap:1.5.0-amd64"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         args: ["--copy-service"]
         volumeMounts:
         - name: tz-config

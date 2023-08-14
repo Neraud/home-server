@@ -19,7 +19,7 @@ spec:
       initContainers:
       - name: create-tmp-folder
         image: "registry.lan/fluentd-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -35,7 +35,7 @@ spec:
       containers:
       - name: fluentd
         image: "registry.lan/fluentd:v1.16.0-debian-amd64-1.0-custom"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 24224
           name: fluentd

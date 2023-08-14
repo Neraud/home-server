@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-data-dir
         image: "registry.lan/zonemta-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -34,7 +34,7 @@ spec:
       containers:
       - name: mongo
         image: "registry.lan/zonemta-mongo:6.0.5-jammy"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
             name: mongo-env

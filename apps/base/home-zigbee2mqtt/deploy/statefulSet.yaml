@@ -19,7 +19,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/zigbee2mqtt-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -32,7 +32,7 @@ spec:
       containers:
       - name: zigbee2mqtt
         image: "registry.lan/zigbee2mqtt:1.30.3"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: zigbee2mqtt-env

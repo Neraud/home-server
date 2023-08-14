@@ -16,7 +16,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/homeassistant-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -29,7 +29,7 @@ spec:
       containers:
       - name: mysql
         image: "registry.lan/homeassistant-mysql:8.0.32-debian"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
           - secretRef:
               name: mysql-env

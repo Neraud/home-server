@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/gitea-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -30,7 +30,7 @@ spec:
           mountPath: /opt/gitea-data
       - name: prepare-certs
         image: "registry.lan/gitea:1.19.0-rootless"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -52,7 +52,7 @@ spec:
       containers:
       - name: gitea
         image: "registry.lan/gitea:1.19.0-rootless"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         args: [ "/usr/local/bin/init_and_start.sh" ]
         envFrom:
           - configMapRef:

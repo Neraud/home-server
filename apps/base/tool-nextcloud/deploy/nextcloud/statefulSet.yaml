@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/nextcloud-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -39,7 +39,7 @@ spec:
           mountPath: /mnt/nextcloud-data
       - name: wait-for-requirements
         image: "registry.lan/nextcloud-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: 
           - "sh"
           - "-c"
@@ -68,7 +68,7 @@ spec:
       containers:
       - name: nextcloud
         image: "registry.lan/nextcloud:25.0.5-apache-custom"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
             name: nextcloud-env

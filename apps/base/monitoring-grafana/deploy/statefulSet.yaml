@@ -20,7 +20,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/grafana-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"

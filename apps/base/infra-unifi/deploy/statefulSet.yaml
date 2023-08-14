@@ -16,7 +16,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/unifi:v7.3.83"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -47,7 +47,7 @@ spec:
       containers:
       - name: unifi
         image: "registry.lan/unifi:v7.3.83"
-        imagePullPolicy: Always        
+        imagePullPolicy: IfNotPresent        
         ports:
         # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
         - name: stun

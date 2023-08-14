@@ -16,7 +16,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/nextcloud-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -33,7 +33,7 @@ spec:
         - --transaction-isolation=READ-COMMITTED
         - --log-bin
         - --binlog-format=ROW
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
             name: mysql-env

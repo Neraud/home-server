@@ -26,7 +26,7 @@ spec:
         - --config-reloader-memory-limit=25Mi
         - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.64.0
         image: registry.lan/prometheus-operator:v0.64.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: prometheus-operator
         ports:
         - containerPort: 8080

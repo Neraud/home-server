@@ -19,7 +19,7 @@ spec:
       initContainers:
       - name: create-data-dir
         image: "registry.lan/kibana-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -34,7 +34,7 @@ spec:
       containers:
       - name: kibana
         image: "registry.lan/opensearch-dashboards:2.6.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
             scheme: HTTP

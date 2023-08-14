@@ -80,7 +80,7 @@ spec:
       containers:
       - name: airsonic
         image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20220625052932"
-        imagePullPolicy: Always        
+        imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 4040
           name: airsonic

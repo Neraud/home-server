@@ -18,7 +18,7 @@ spec:
       containers:
       - name: redis
         image: "registry.lan/nextcloud-redis:7.0.10-alpine3.17"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
         - redis-server
         - /usr/local/etc/redis/redis.conf

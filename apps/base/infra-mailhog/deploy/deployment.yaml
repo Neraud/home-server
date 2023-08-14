@@ -19,7 +19,7 @@ spec:
       containers:
       - name: mailhog
         image: "registry.lan/mailhog:v1.0.1"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 1025
           name: smtp

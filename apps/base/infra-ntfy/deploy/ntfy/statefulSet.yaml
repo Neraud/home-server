@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-data-dir
         image: "registry.lan/ntfy-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -35,7 +35,7 @@ spec:
           mountPath: /app/data
       - name: manage-users
         image: "registry.lan/ntfy:v2.3.1-amd64"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "/opt/manage_users.sh"
@@ -63,7 +63,7 @@ spec:
       containers:
       - name: ntfy
         image: "registry.lan/ntfy:v2.3.1-amd64"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         args: ["serve"]
         ports:
         - containerPort: 8080

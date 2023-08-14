@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/paperless-postgres:15.2-alpine3.17"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -31,7 +31,7 @@ spec:
       containers:
       - name: pgsql
         image: "registry.lan/paperless-postgres:15.2-alpine3.17"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
             name: pgsql-env

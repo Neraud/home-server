@@ -22,7 +22,7 @@ spec:
       containers:
       - name: elasticsearch
         image: "registry.lan/opensearch:2.6.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9300
           name: transport
@@ -81,7 +81,7 @@ spec:
       initContainers:
       - name: fix-permissions
         image: "registry.lan/elasticsearch-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ["sh", "-c", "chown -R 1000:1000 /usr/share/opensearch/data"]
         securityContext:
           privileged: true
@@ -90,13 +90,13 @@ spec:
           mountPath: /usr/share/opensearch/data
       - name: increase-vm-max-map
         image: "registry.lan/elasticsearch-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ["sysctl", "-w", "vm.max_map_count=262144"]
         securityContext:
           privileged: true
       - name: increase-fd-ulimit
         image: "registry.lan/elasticsearch-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ["sh", "-c", "ulimit -n 65536"]
         securityContext:
           privileged: true

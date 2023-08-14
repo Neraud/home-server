@@ -18,7 +18,7 @@ spec:
       containers:
       - name: apcups-exporter
         image: "registry.lan/apcupsd-exporter:3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.15.1"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         env:
         - name: APCUPS_ADDR
           value: apcupsd.monitoring-apcups-exporter:3551

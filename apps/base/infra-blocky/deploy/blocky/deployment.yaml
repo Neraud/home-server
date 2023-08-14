@@ -21,7 +21,7 @@ spec:
       containers:
       - name: blocky
         image: "registry.lan/blocky:v0.21"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 4000
           name: http

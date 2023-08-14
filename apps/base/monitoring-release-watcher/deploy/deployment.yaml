@@ -20,7 +20,7 @@ spec:
       containers:
       - name: release-watcher
         image: registry.lan/release-watcher:v1.0.1
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
           name: metrics

@@ -19,7 +19,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/lemonldap-ng:2.16.1-custom"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -34,7 +34,7 @@ spec:
       containers:
       - name: lemonldap
         image: "registry.lan/lemonldap-ng:2.16.1-custom"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
           name: http

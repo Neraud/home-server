@@ -17,7 +17,7 @@ spec:
           containers:
           - name: gandi-livedns
             image: "registry.lan/gandi-livedns:1.0.0-alpine-3.17.3"
-            imagePullPolicy: Always
+            imagePullPolicy: IfNotPresent
             envFrom:
             - secretRef:
                 name: gandi-livedns-env

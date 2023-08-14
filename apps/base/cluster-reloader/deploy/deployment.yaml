@@ -18,7 +18,7 @@ spec:
       containers:
       - name: reloader
         image: "registry.lan/reloader:v1.0.18"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         securityContext:
           runAsNonRoot: true
           runAsUser: 1000

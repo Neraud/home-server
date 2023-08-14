@@ -20,7 +20,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/homeassistant-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -50,7 +50,7 @@ spec:
       containers:
       - name: homeassistant
         image: "registry.lan/homeassistant:2023.3.6-custom"
-        imagePullPolicy: Always        
+        imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 8123
           name: homeassistant

@@ -22,7 +22,7 @@ spec:
       containers:
       - name: homepage
         image: "registry.lan/homepage:v0.6.10"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
           name: http

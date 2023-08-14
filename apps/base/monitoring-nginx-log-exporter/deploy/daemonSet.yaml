@@ -18,7 +18,7 @@ spec:
       containers:
       - name: nginx-log-exporter
         image: registry.lan/nginxlog-exporter:v1.10.0-amd64
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         args:
         - -config-file
         - /etc/prometheus-nginxlog-exporter.yaml

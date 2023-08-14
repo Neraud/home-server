@@ -29,7 +29,7 @@ spec:
         - --kubelet-use-node-status-port
         - --metric-resolution=15s
         image: "registry.lan/metrics-server:v0.6.3"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
           httpGet:

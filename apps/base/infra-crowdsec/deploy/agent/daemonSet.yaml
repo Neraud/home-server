@@ -20,7 +20,7 @@ spec:
       initContainers:
       - name: wait-for-requirements
         image: "registry.lan/crowdsec-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: 
           - "sh"
           - "-c"
@@ -38,7 +38,7 @@ spec:
       containers:
       - name: agent
         image: "registry.lan/crowdsec:v1.4.6-debian"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: agent-env

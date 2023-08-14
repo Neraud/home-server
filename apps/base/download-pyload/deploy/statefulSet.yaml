@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/pyload-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -31,7 +31,7 @@ spec:
       containers:
       - name: pyload
         image: "registry.lan/pyload-ng:0.5.0b3.dev68-3.11.2-slim-bullseye"
-        imagePullPolicy: Always        
+        imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 8000
           name: webui

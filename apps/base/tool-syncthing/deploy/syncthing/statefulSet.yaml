@@ -18,7 +18,7 @@ spec:
       initContainers:
       - name: create-folders
         image: "registry.lan/syncthing-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -32,7 +32,7 @@ spec:
       # So we cheat by adding a dummy NIC in the container with the LB IP
       - name: create-dummy-nic
         image: "registry.lan/syncthing-busybox:1.36.0"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -53,7 +53,7 @@ spec:
             - NET_ADMIN
       - name: init-syncthing-config
         image: "registry.lan/syncthing:1.23.2"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
@@ -77,7 +77,7 @@ spec:
           subPath: config
       - name: configure-syncthing
         image: "registry.lan/syncthing-conf-injection:3.11.2-alpine3.17"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: syncthing-conf-injection-env
