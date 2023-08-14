@@ -27,7 +27,7 @@ spec:
               fieldRef:
                 fieldPath: spec.nodeName
         securityContext:
-          #runAsNonRoot: true
+          runAsNonRoot: false
           readOnlyRootFilesystem: true
         volumeMounts:
         - name: cluster-config
