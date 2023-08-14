@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gitea
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: gitea
+        resources:
+          requests:
+            cpu: 25m
+            memory: 256Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi

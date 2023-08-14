@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/monitoring-grafana/deploy
+
+generators:
+- secret-generator.yaml
+
+patches:
+- path: pvc-resources.yaml
+- path: statefulSet-resources.yaml
+- target:
+    kind: Ingress
+    name: grafana
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: grafana.monitoring.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: grafana.monitoring.intra.k8s.test

@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: unifi
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: unifi
+      app.kubernetes.io/component: unifi
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: unifi
+        app.kubernetes.io/component: unifi
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/unifi:v7.3.83"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /unifi/data
+            mkdir -p /unifi/log
+            chown -R 999:999 /unifi/*
+        volumeMounts:
+        - name: unifi-data
+          mountPath: /unifi
+      - name: inject-certificates
+        image: "registry.lan/unifi:v7.3.83"
+        command:
+          - "sh"
+          - "-c"
+          - |
+            cp /etc/ssl/certs/java/cacerts /etc/ssl/certs/java_target/cacerts
+            /usr/bin/keytool \
+              -importcert -noprompt \
+              -keystore /etc/ssl/certs/java_target/cacerts -storepass changeit \
+              -alias cluster -file /etc/ssl/cluster/ca.crt
+        volumeMounts:
+        - name: keystore-volume
+          mountPath: /etc/ssl/certs/java_target
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      containers:
+      - name: unifi
+        image: "registry.lan/unifi:v7.3.83"
+        imagePullPolicy: IfNotPresent        
+        ports:
+        # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+        - name: stun
+          containerPort: 3478 # Port used for STUN.
+          protocol: UDP
+        - name: http-crtl
+          containerPort: 8080 # Port used for device and controller communication.
+          protocol: TCP
+        - name: https-crtl
+          containerPort: 8443 # Port used for controller GUI/API as seen in a web browser
+          protocol: TCP
+        - name: http-portal
+          containerPort: 8880 # Port used for HTTP portal redirection.
+          protocol: TCP
+        - name: https-portal
+          containerPort: 8843 # Port used for HTTPS portal redirection.
+          protocol: TCP
+        - name: speed-test
+          containerPort: 6789 # Port used for UniFi mobile speed test.
+          protocol: TCP
+        - name: ap-discovery
+          containerPort: 10001 # 	Port used for AP discovery
+          protocol: UDP
+        env:
+        - name: RUNAS_UID0
+          value: "false"
+        - name: JVM_MAX_HEAP_SIZE
+          value: "512M"
+        readinessProbe:
+          httpGet:
+            scheme: HTTPS
+            path: /
+            port: https-crtl
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999  # unifi
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 25m
+            memory: 1Gi
+          limits:
+            cpu: 250m
+            memory: 1Gi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: keystore-volume
+          mountPath: /etc/ssl/certs/java
+        - name: unifi-data
+          mountPath: /unifi
+        - name: tmp-volume
+          mountPath: /tmp
+        - name: tmp-run-volume
+          mountPath: /var/run/unifi
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: unifi-data
+        persistentVolumeClaim:
+          claimName: unifi-data
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: keystore-volume
+        emptyDir: {}
+      - name: tmp-volume
+        emptyDir: {}
+      - name: tmp-run-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kibana-data
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: longhorn-low-durability
+  resources:
+    requests:
+      storage: 64Mi

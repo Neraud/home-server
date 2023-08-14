@@ -1,0 +1,116 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-job
+  labels:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/component: init-job
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: minio
+        app.kubernetes.io/component: init-job
+    spec:
+      restartPolicy: OnFailure
+      
+      volumes:
+        - name: minio-configuration
+          projected:
+            sources:
+              - configMap:
+                  name: init-scripts
+              - secret:
+                  name: minio
+        - name: minio-custom-scripts
+          projected:
+            sources:
+              - secret:
+                  name: custom-scripts
+      containers:
+        - name: minio-make-bucket
+          image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
+          imagePullPolicy: IfNotPresent
+          command: [ "/bin/sh", "/custom/initialize" ]
+          env:
+            - name: MINIO_ENDPOINT
+              value: minio
+            - name: MINIO_PORT
+              value: "9000"
+          volumeMounts:
+            - name: minio-configuration
+              mountPath: /config
+            - name: minio-custom-scripts
+              mountPath: /custom
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+        - name: minio-make-user
+          image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
+          imagePullPolicy: IfNotPresent
+          command: [ "/bin/sh", "/custom/add-user" ]
+          env:
+            - name: MINIO_ENDPOINT
+              value: minio
+            - name: MINIO_PORT
+              value: "9000"
+          volumeMounts:
+            - name: minio-configuration
+              mountPath: /config
+            - name: minio-custom-scripts
+              mountPath: /custom
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+        - name: minio-make-policy
+          image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
+          imagePullPolicy: IfNotPresent
+          command: [ "/bin/sh", "/custom/add-policy" ]
+          env:
+            - name: MINIO_ENDPOINT
+              value: minio
+            - name: MINIO_PORT
+              value: "9000"
+          volumeMounts:
+            - name: minio-configuration
+              mountPath: /config
+            - name: minio-custom-scripts
+              mountPath: /custom
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+        - name: minio-make-svcacct
+          image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "/custom/add-svcacct"]
+          env:
+            - name: MINIO_ENDPOINT
+              value: minio
+            - name: MINIO_PORT
+              value: "9000"
+          volumeMounts:
+            - name: minio-configuration
+              mountPath: /config
+            - name: minio-custom-scripts
+              mountPath: /custom
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+      nodeSelector:
+        capability/general-purpose: 'yes'

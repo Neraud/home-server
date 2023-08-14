@@ -1,6 +1,0 @@
----
-- name: Provision tool-homepage
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: tool_homepage_deploy

@@ -1,0 +1,35 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-mailhog
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: mailhog
+      app.kubernetes.io/component: mailhog
+
+  ingress:
+    # Allow http from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow smtp from zonemta
+    - ports:
+        - port: smtp
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: infra-zonemta
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: zonemta
+              app.kubernetes.io/component: server

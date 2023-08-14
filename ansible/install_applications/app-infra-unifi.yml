@@ -1,6 +1,0 @@
----
-- name: Provision infra-unifi
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_unifi_deploy

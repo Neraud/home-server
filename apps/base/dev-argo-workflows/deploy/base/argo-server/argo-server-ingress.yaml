@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-server
+  labels:
+    app.kubernetes.io/name: argo-workflows
+    app.kubernetes.io/component: argo-server
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    # To make Server-Sent Events work (see http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering):
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Accel-Buffering: no";
+    
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Dev
+    gethomepage.dev/name: Argo Workflows
+    gethomepage.dev/description: Open source container-native workflow engine for orchestrating parallel jobs on Kubernetes
+    gethomepage.dev/icon: argocd
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name: argo-workflows"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - argo-workflows.dev.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: argo-workflows.dev.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argo-server
+            port:
+              name: web

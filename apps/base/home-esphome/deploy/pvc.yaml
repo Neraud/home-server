@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: esphome-data
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: longhorn-high-durability
+  resources:
+    requests:
+      storage: "128Mi"

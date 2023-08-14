@@ -1,0 +1,18 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-metrics-server
+  namespace: infra-kubernetes-metrics-server
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: metrics-server
+      app.kubernetes.io/component: metrics-server
+
+  ingress:
+    # Allow from everywhere
+    # (needed for both `kubectl top` and the kubernetes-dashboard)
+    - ports:
+        - port: https

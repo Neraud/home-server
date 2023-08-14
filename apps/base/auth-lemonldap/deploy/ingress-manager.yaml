@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lemonldap-manager
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Auth
+    gethomepage.dev/name: LemonLDAP
+    gethomepage.dev/description: Web Single Sign On and Access Management
+    gethomepage.dev/icon: lemonldapng
+    gethomepage.dev/href: https://lemonldap.auth.intra.web_domain_name/manager.html
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=lemonldap"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - lemonldap.auth.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: lemonldap.auth.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: lemonldap
+            port:
+              name: http

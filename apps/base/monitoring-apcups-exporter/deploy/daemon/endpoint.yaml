@@ -1,0 +1,11 @@
+
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: apcupsd
+subsets:
+- addresses:
+  - ip: 1.2.3.4
+  ports:
+  - name: metrics
+    port: 3551

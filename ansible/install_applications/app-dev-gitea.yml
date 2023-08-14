@@ -1,6 +1,0 @@
----
-- name: Provision dev-gitea
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: dev_gitea_deploy

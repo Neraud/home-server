@@ -1,0 +1,41 @@
+---
+
+- name: Build and deploy tool-nextcloud
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: tool-nextcloud
+
+- name: Deploy Nextcloud backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: tool-nextcloud
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "tool-nextcloud"
+      apps_to_stop:
+        - name: nextcloud
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: nextcloud-app
+          pvc_name: nextcloud-app
+  tags: backup
+
+- name: Deploy Nextcloud PGSQL backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: tool-nextcloud_mysql
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "tool-nextcloud"
+      apps_to_stop:
+        - name: nextcloud
+          type: statefulset
+          replicas: 1
+        - name: mysql
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: nextcloud-mysql
+          pvc_name: mysql-data
+  tags: backup

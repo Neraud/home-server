@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jellyfin
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Stream
+    gethomepage.dev/name: Jellyfin
+    gethomepage.dev/description: Media streaming
+    gethomepage.dev/icon: jellyfin
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=jellyfin"
+    # https://gethomepage.dev/en/services/jellyfin/
+    gethomepage.dev/widget.type: "jellyfin"
+    gethomepage.dev/widget.url: "http://jellyfin.stream-jellyfin.svc.cluster.local"
+    gethomepage.dev/widget.key: "changeme"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - jellyfin.stream.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: jellyfin.stream.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jellyfin
+            port:
+              number: 80

@@ -1,0 +1,136 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-exporter
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: node-exporter
+      app.kubernetes.io/name: node-exporter
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: node-exporter
+      labels:
+        app.kubernetes.io/component: node-exporter
+        app.kubernetes.io/name: node-exporter
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - --web.listen-address=127.0.0.1:9100
+        - --path.sysfs=/host/sys
+        - --path.rootfs=/host/root
+        - --path.udev.data=/host/root/run/udev/data
+        - --no-collector.wifi
+        #- --no-collector.hwmon
+        - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|run/k3s/containerd/.+|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
+        - --collector.netclass.ignored-devices=^(veth.*|[a-f0-9]{15})$
+        - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
+        - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
+        image: registry.lan/node-exporter:v1.5.0
+        imagePullPolicy: IfNotPresent
+        name: node-exporter
+        readinessProbe:
+          httpGet:
+            path: /
+            host: 127.0.0.1
+            port: 9100
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          limits:
+            cpu: 250m
+            memory: 180Mi
+          requests:
+            cpu: 102m
+            memory: 180Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            add:
+            - SYS_TIME
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - mountPath: /host/sys
+          mountPropagation: HostToContainer
+          name: sys
+          readOnly: true
+        - mountPath: /host/root
+          mountPropagation: HostToContainer
+          name: root
+          readOnly: true
+        - mountPath: /var/lib/node_exporter/textfile_collector
+          name: textfile-collector-volume
+          readOnly: true
+      - args:
+        - --logtostderr
+        - --secure-listen-address=[$(IP)]:9100
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - --upstream=http://127.0.0.1:9100/
+        env:
+        - name: IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        image: registry.lan/node-exporter-kube-rbac-proxy:v0.14.0
+        imagePullPolicy: IfNotPresent
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 9100
+          hostPort: 9100
+          name: https
+        #readinessProbe:
+        #  # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+        #  # We can't use tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+        #  # We can't use exec -> it randomly fails with an issue to find /bin/sh (which indeed isn't in the container)"
+        #  exec:
+        #    command:
+        #    - /bin/sh
+        #    - -c 
+        #    - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+        resources:
+          limits:
+            cpu: 20m
+            memory: 40Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+      hostNetwork: true
+      hostPID: true
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+      serviceAccountName: node-exporter
+      tolerations:
+      - operator: Exists
+      volumes:
+      - hostPath:
+          path: /sys
+        name: sys
+      - hostPath:
+          path: /
+        name: root
+      - name: textfile-collector-volume
+        hostPath:
+          path: /var/lib/node_exporter/textfile_collector
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 10%
+    type: RollingUpdate

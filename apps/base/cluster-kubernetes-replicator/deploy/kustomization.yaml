@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: kubernetes-replicator
+      app.kubernetes.io/component: replicator
+      app.kubernetes.io/version: "v2.8.0"
+      app.kubernetes.io/part-of: replicator
+
+namespace: cluster-kubernetes-replicator
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- service-account.yaml
+- cluster-role.yaml
+- cluster-role-binding.yaml
+- deployment.yaml

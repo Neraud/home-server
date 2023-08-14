@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app.kubernetes.io/component: blocky
+    app.kubernetes.io/name: blocky
+  name: blocky
+spec:
+  endpoints:
+  - interval: 30s
+    port: http
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+    - infra-blocky
+  selector:
+    matchLabels:
+      prometheus-target: blocky

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: longhorn-backend
+  namespace: longhorn-system
+  labels:
+    prometheus-target: longhorn-manager

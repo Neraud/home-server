@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- nas-nfs-storageClass.yaml
+- local-lvm-storageClass.yaml
+- local-lvm-volumes/elasticsearch-k8s-data.yaml

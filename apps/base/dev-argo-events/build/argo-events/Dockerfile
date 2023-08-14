@@ -1,0 +1,1 @@
+FROM quay.io/argoproj/argo-events:v1.8.0

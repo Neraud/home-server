@@ -1,0 +1,22 @@
+---
+
+- name: Build and deploy home-esphome
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: home-esphome
+
+- name: Deploy home-esphome backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: home-esphome
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "home-esphome"
+      apps_to_stop:
+        - name: esphome
+          type: statefulset
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: esphome-data
+          pvc_name: esphome-data
+  tags: backup

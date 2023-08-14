@@ -1,0 +1,5 @@
+watchers:
+  - type: github_commit
+    repo: prometheus-operator/kube-prometheus
+    branch: main
+    commit: b076db6e884885fe96db2283cfce680a0145de47

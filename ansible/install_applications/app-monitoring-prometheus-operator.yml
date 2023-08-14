@@ -1,6 +1,0 @@
----
-- name: Provision monitoring-prometheus-operator
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: monitoring_prometheus_operator_deploy

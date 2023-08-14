@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: k8s
+spec:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 400m
+      memory: 1536Mi
+    requests:
+      cpu: 100m
+      memory: 1024Mi
+  storage:
+    volumeClaimTemplate:
+      metadata:
+        name: prometheus-k8s-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: longhorn-low-durability
+        resources:
+          requests:
+            storage: 4Gi

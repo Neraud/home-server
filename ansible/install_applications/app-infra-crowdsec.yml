@@ -1,6 +1,0 @@
----
-- name: Provision infra-crowdsec
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_crowdsec_deploy

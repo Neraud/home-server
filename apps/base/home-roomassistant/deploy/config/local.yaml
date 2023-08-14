@@ -1,0 +1,30 @@
+global:
+  instanceName: changeme-room
+  apiPort: 6415
+  integrations:
+    - homeAssistant
+    #- bluetoothLowEnergy
+    - shell
+
+cluster:
+  autoDiscovery: False
+
+homeAssistant:
+  # With host networking, using the internal kubernetes service name (mqtt://mosquitto.home-mosquitto.svc.cluster.local:1883) doesn't work
+  mqttUrl: mqtt://192.168.100.100:1883
+
+#bluetoothLowEnergy:
+#  tagOverrides:
+#      abcdefghijkl:
+#        name: Device Name
+#  timeout: 30
+#  whitelist:
+#  - abcdefghijkl
+
+shell:
+  sensors:
+  -   command: echo $(($RANDOM%100))
+      cron: '*/30 * * * * *'
+      icon: mdi:dice-3-outline
+      name: Random
+      unitOfMeasurement: '%'

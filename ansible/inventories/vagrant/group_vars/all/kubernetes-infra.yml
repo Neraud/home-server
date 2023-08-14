@@ -12,15 +12,12 @@ kubernetes_dns_lb_ip: 192.168.100.23
 kubernetes_unifi_private_lb_ip: 192.168.100.24
 kubernetes_syncthing_lb_ip: 192.168.100.25
 kubernetes_crowdsec_lapi_ip: 192.168.100.26
+kubernetes_docker_registry_lb_ip: 192.168.100.27
 kubernetes_ingress_http_port: 80
 kubernetes_ingress_https_port: 443
 kubernetes_lemonLdap_handler_port: 9000
 kubernetes_openldap_port: 636
 kubernetes_ingress_mqtt_port: 1883
-
-kubernetes_local_lvm_storage_class_name: local-lvm
-kubernetes_longhorn_low_durability_storage_class_name: longhorn-low-durability
-kubernetes_longhorn_high_durability_storage_class_name: longhorn-high-durability
 
 kubernetes_k8s_bridge_name: k8s-bridge
 kubernetes_k8s_bridge_namespace: kube-system

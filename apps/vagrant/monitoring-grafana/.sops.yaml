@@ -1,0 +1,14 @@
+creation_rules:
+- path_regex: "grafana\\.env"
+  encrypted_regex: "^(GF_SECURITY_ADMIN_PASSWORD)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+- path_regex: "datasources/blocky_postgresql\\.yaml"
+  encrypted_regex: "^(password)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+- path_regex: "datasources/crowdsec_elasticsearch\\.yaml"
+  encrypted_regex: "^(basicAuthPassword)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
+# Default Kubernetes manifest encryption
+- unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"

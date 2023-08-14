@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ingress-nginx
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: ingress-nginx-controller
+  namespace: ingress-nginx
+  envs:
+  - config/ingress-nginx-controller.env
+  behavior: replace
+
+resources:
+- deploy.yaml
+- ingress-nginx-tcp-services-configMap.yaml
+- ingress-nginx-udp-services-configMap.yaml
+- service-prometheus.yaml
+
+patches:
+- path: patches/service-lb.yaml
+- patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/args/-
+      value: --tcp-services-configmap=ingress-nginx/ingress-nginx-tcp-services
+    - op: add
+      path: /spec/template/spec/containers/0/args/-
+      value: --udp-services-configmap=ingress-nginx/ingress-nginx-udp-services
+  target:
+    kind: Deployment
+    name: ingress-nginx-controller

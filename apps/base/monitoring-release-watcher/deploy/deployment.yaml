@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-watcher
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: release-watcher
+      app.kubernetes.io/component: release-watcher
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: release-watcher
+        app.kubernetes.io/component: release-watcher
+    spec:
+      containers:
+      - name: release-watcher
+        image: registry.lan/release-watcher:v1.0.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # User app
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 64Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: release-watcher-config
+          mountPath: /data/config.yaml
+          subPath: config.yaml
+        - name: release-watcher-watchers
+          mountPath: /data/watchers
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: release-watcher-config
+        secret:
+          secretName: release-watcher
+      - name: release-watcher-watchers
+        configMap:
+          name: release-watcher-watchers
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

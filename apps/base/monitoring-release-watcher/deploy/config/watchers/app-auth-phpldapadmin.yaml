@@ -1,0 +1,15 @@
+watchers:
+  - name: phpLDAPadmin-php
+    type: docker_registry
+    repo: "registry-1.docker.io"
+    image: php
+    tag: 7.3.33-apache-buster
+    includes:
+      - "7.3.[0-9]+-apache-buster"
+    excludes:
+      - "7.3.[0-9]-apache-buster"
+      - "7.3.[0-2][0-9]-apache-buster"
+      - "7.3.3[0-2]-apache-buster"
+  - type: github_tag
+    repo: leenooks/phpLDAPadmin
+    tag: 1.2.6.6

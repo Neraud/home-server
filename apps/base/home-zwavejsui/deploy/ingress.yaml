@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zwavejsui
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: Z-Wave JS UI
+    gethomepage.dev/description: Fully configurable Zwave to MQTT Gateway and Control Panel
+    gethomepage.dev/icon: zwavejs2mqtt
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=zwavejsui"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - zwavejsui.home.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: zwavejsui.home.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: zwavejsui
+            port:
+              name: http

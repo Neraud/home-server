@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kibana
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: kibana
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi

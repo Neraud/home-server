@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argocd-ci-token
+  annotations:
+    replicator.v1.mittwald.de/replication-allowed: "true"
+    replicator.v1.mittwald.de/replication-allowed-namespaces: "dev-argo-tasks"
+type: Opaque
+
+# The token is created using the argocd cli and is injected here by ansible
+#data:
+#  ARGOCD_AUTH_TOKEN: xxx

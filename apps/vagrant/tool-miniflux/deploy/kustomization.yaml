@@ -1,0 +1,41 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/tool-miniflux/deploy
+
+configMapGenerator:
+- name: miniflux-env
+  env: config/miniflux.env
+  behavior: merge
+
+generators:
+- pgsql-secret-generator.yaml
+- miniflux-secret-generator.yaml
+
+patches:
+- path: miniflux-deployment-resources.yaml
+- path: miniflux-ingress-homepage-widget.yaml
+- target:
+    kind: Ingress
+    name: miniflux
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: miniflux.tool.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: miniflux.tool.k8s.test
+- path: reminiflux-deployment-resources.yaml
+- target:
+    kind: Ingress
+    name: reminiflux
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: miniflux.tool.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: miniflux.tool.k8s.test
+- path: pgsql-statefulSet-resources.yaml
+- path: pgsql-pvc-resources.yaml

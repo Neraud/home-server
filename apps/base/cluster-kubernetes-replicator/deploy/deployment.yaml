@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-replicator
+  labels:
+    app.kubernetes.io/name: kubernetes-replicator
+    app.kubernetes.io/instance: replicator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kubernetes-replicator
+      app.kubernetes.io/instance: replicator
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kubernetes-replicator
+        app.kubernetes.io/instance: replicator
+    spec:
+      serviceAccountName: kubernetes-replicator
+      securityContext: {}
+      containers:
+      - name: kubernetes-replicator
+        securityContext: {}
+        image: quay.io/mittwald/kubernetes-replicator:v2.8.0
+        imagePullPolicy: IfNotPresent
+        args: []
+        ports:
+        - name: health
+          containerPort: 9102
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: health
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: health
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 25m
+            memory: 32Mi
+        volumeMounts:
+          - name: tz-config
+            mountPath: /etc/localtime
+            readOnly: true
+      nodeSelector:
+        capability/general-purpose: 'yes'
+      volumes:
+        - name: tz-config
+          hostPath:
+            path: /etc/localtime

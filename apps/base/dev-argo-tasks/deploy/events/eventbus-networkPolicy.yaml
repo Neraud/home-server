@@ -1,0 +1,33 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-eventbus
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      controller: eventbus-controller
+      eventbus-name: default
+
+  ingress:
+    - ports:
+        - port: 6222
+      from:
+        # Allow clustering from replicas
+        - podSelector:
+            matchLabels:
+              controller: eventbus-controller
+              eventbus-name: default
+    - ports:
+        - port: 4222
+      from:
+        # Allow from webhook
+        - podSelector:
+            matchLabels:
+              controller: eventsource-controller
+              eventsource-name: webhook
+        # Allow from all sources
+        - podSelector:
+            matchLabels:
+              controller: sensor-controller

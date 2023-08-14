@@ -1,6 +1,0 @@
----
-- name: Provision monitoring-release-watcher
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: monitoring_release_watcher_deploy

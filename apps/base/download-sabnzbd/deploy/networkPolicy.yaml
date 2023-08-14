@@ -1,0 +1,47 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-sabnzbd
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: sabnzbd
+      app.kubernetes.io/component: sabnzbd
+
+  ingress:
+    # Allow http from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow http from the homepage (to enable the widget)
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: tool-homepage
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homepage
+              app.kubernetes.io/component: homepage
+
+    # Allow from sickchill
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: download-sickchill
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: sickchill
+              app.kubernetes.io/component: sickchill

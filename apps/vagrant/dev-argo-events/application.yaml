@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-argo-events
+  namespace: dev-argo-cd
+  # Add this finalizer ONLY if you want these to cascade delete.
+  #finalizers:
+  #  - resources-finalizer.argocd.argoproj.io
+  labels:
+    app.kubernetes.io/name: argo-events
+  annotations:
+    # Disable reconcile to avoid reconcile loops.
+    # FIXME should be fixed using ignoreResourceUpdates
+    argocd.argoproj.io/skip-reconcile: "true"
+spec:
+  project: k8s-cluster
+
+  source:
+    repoURL: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+    targetRevision: develop
+    path: apps/vagrant/dev-argo-events/deploy
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev-argo-events
+
+  syncPolicy:
+    syncOptions:
+    - PruneLast=true # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
+    # ServerSideApply to avoid issues with large annotations (see https://www.arthurkoziel.com/fixing-argocd-crd-too-long-error/)
+    - ServerSideApply=true

@@ -1,0 +1,25 @@
+The various dashboards here are usually initialiazed from a remote source, and customized.
+
+kube-prometheus is generated with helpers\prometheus-mixin-generator
+
+mixin-generator is generated with helpers\prometheus-mixin-generator
+
+blackbox-exporter.json : from https://grafana.com/grafana/dashboards/7587
+
+elastic-search-exporter.json : https://raw.githubusercontent.com/justwatchcom/elasticsearch_exporter/master/examples/grafana/dashboard.json
+(adapted as we haven't updated the node_exporter to add the cluster)
+
+ingress-nginx.json : https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+
+release-watcher.json : https://github.com/Neraud/release-watcher/blob/master/example/grafana/release_watcher_dashboard.json
+
+blocky.json : adapted from https://raw.githubusercontent.com/0xERR0R/blocky/development/docs/blocky-grafana.json
+blocky-query.json : adapted from https://raw.githubusercontent.com/0xERR0R/blocky/development/docs/blocky-query-grafana.json (migrated from MySQL to PostgreSQL)
+
+longhorn : adapted from https://grafana.com/grafana/dashboards/13032-longhorn-example-v1-1-0/
+
+crowdsec_* : adapted from https://github.com/crowdsecurity/grafana-dashboards/tree/master/dashboards_v4
+(crowdsec_bans is fully custom)
+
+argo_workflows : https://grafana.com/grafana/dashboards/13927-argoworkflow-metrics/
+argo_cd : https://github.com/argoproj/argo-cd/blob/master/examples/dashboard.json

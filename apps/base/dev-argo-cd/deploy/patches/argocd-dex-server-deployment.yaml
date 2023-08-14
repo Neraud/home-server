@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-dex-server
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: copyutil
+        imagePullPolicy: IfNotPresent
+      containers:
+      - name: dex
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            cpu: 50m
+            memory: 64Mi
+        volumeMounts:
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+      volumes:
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca

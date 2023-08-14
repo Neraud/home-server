@@ -1,0 +1,27 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-lemonldap
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: lemonldap
+      app.kubernetes.io/name: lemonldap
+
+  ingress:
+    # Allow http from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow fastcgi from all
+    - ports:
+        - port: fastcgi

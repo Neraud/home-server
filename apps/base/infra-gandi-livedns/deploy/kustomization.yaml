@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: infra-gandi-livedns
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: gandi-livedns
+      app.kubernetes.io/component: gandi-livedns
+      app.kubernetes.io/version: 1.0.0
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: gandi-livedns-env
+  envs:
+  - secret/gandi-livedns.env
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- cronJob.yaml

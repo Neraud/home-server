@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: blocky
+      app.kubernetes.io/component: pgsql
+      app.kubernetes.io/part-of: blocky
+      app.kubernetes.io/version: 15.2-alpine3.17
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: pgsql-config
+  files:
+  - secret/pg_readonly.sql
+- name: pgsql-env
+  env: secret/pgsql.env
+
+resources:
+- networkPolicy.yaml
+- service.yaml
+- pvc.yaml
+- statefulSet.yaml

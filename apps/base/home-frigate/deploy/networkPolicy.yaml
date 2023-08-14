@@ -1,0 +1,36 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-frigate
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: frigate
+      app.kubernetes.io/component: frigate
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow from homeassistant
+    - ports:
+        - port: http
+        - port: rtmp
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-homeassistant
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homeassistant
+              app.kubernetes.io/component: homeassistant

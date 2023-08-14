@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lapi
+spec:
+  ports:
+  - name: lapi
+    port: 8080
+    targetPort: lapi
+  selector:
+    app.kubernetes.io/name: crowdsec
+    app.kubernetes.io/component: lapi

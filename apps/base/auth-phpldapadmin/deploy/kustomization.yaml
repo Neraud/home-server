@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: auth-phpldapadmin
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: phpldapadmin
+      app.kubernetes.io/component: phpldapadmin
+      app.kubernetes.io/version: 7.3.33-apache-buster-1.2.6.6
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: phpldapadmin-config
+  files:
+  - config/config.php
+  - config/ldap.conf
+
+secretGenerator:
+- name: phpldapadmin-env
+  env: secret/phpldapadmin.env
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- networkPolicy.yaml
+- service.yaml
+- ingress.yaml
+- deployment.yaml

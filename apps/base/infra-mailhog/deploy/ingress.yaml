@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mailhog
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: MailHog
+    gethomepage.dev/description: MailHog is an email testing tool for developers
+    gethomepage.dev/icon: mailhog
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=mailhog"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - mailhog.infra.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: mailhog.infra.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mailhog
+            port:
+              name: http

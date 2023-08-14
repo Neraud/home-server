@@ -1,0 +1,30 @@
+watchers:
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: homeassistant/home-assistant
+    tag: 2023.3.6
+    includes:
+      - ^[0-9][0-9][0-9][0-9]\.[0-9]+\.[0-9]+.*
+    excludes:
+      - .*dev
+      - .*b[0-9]
+      - (latest|stable|beta|dev|rc)
+      - ^202[0-2]\..*
+      - ^2023\.[0-2]\..*
+  - type: github_commit
+    repo: efficiosoft/ldap-auth-sh
+    branch: master
+    commit: 819f9233116e68b5af5a5f45167bcbb4ed412ed4
+  - name: "HomeAssistant MySQL"
+    type: docker_registry
+    repo: registry-1.docker.io
+    image: library/mysql
+    tag: 8.0.32-debian
+    includes:
+      - ^[0-9]\.[0-9]+\.[0-9]+-debian
+    excludes:
+      - .*rc.*
+      - ^[0-7]\..*
+      - ^8\.0\.[0-9]-debian$
+      - ^8\.0\.[1-2][0-9]-debian$
+      - ^8\.0\.3[0]-debian$

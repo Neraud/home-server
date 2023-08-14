@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  ports:
+  - port: 27017
+    name: mongo
+    targetPort: mongo
+  selector:
+    app.kubernetes.io/name: zonemta
+    app.kubernetes.io/component: mongo

@@ -1,0 +1,46 @@
+---
+- name: Build and deploy Argo Workflows
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: dev-argo-workflows
+
+# In case we redeploy Argo Workflows, the old version can still be available before the new one stats
+# Wait a bit to make sure the old one has been terminated
+- name: Wait a bit ...
+  ansible.builtin.pause:
+    seconds: 10
+
+- name: Wait for Argo Workflows Server to be available
+  kubernetes.core.k8s_info:
+    kind: Deployment
+    namespace: "dev-argo-workflows"
+    name: argo-server
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_wait
+  until: k8s_wait.resources[0].status.readyReplicas | default(0) > 0
+  retries: 30
+  delay: 5
+
+- name: Get currently installed Argo CLI version
+  ansible.builtin.command: argo version --short
+  failed_when: false
+  changed_when: false
+  register: argo_current_cli
+
+- name: Install Argo CLI
+  ansible.builtin.shell: |
+    curl -sL -o /tmp/argo-linux-amd64.gz "https://github.com/argoproj/argo-workflows/releases/download/{{ argo_cli_version }}/argo-linux-amd64.gz" && \
+    gunzip /tmp/argo-linux-amd64.gz && \
+    chmod +x /tmp/argo-linux-amd64 && \
+    mv /tmp/argo-linux-amd64 /usr/local/bin/argo && \
+    argo version
+  when: argo_cli_version not in argo_current_cli.stdout
+
+- name: Enable Argo CLI autocompletion
+  ansible.builtin.copy:
+    dest: /etc/bash_completion.d/argo
+    content: |
+      # argo completion
+      source <(argo completion bash)
+    mode: 0644

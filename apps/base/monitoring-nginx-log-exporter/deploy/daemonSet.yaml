@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx-log-exporter
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nginx-log-exporter
+      app.kubernetes.io/component: nginx-log-exporter
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nginx-log-exporter
+        app.kubernetes.io/component: nginx-log-exporter
+    spec:
+      containers:
+      - name: nginx-log-exporter
+        image: registry.lan/nginxlog-exporter:v1.10.0-amd64
+        imagePullPolicy: IfNotPresent
+        args:
+        - -config-file
+        - /etc/prometheus-nginxlog-exporter.yaml
+        ports:
+        - containerPort: 4040
+          name: metrics
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /metrics
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        securityContext:
+          # Run as root to be able to read host logs
+          #runAsNonRoot: true
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 20m
+            memory: 48Mi
+          limits:
+            cpu: 100m
+            memory: 48Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: host-nginx-logs
+          mountPath: /mnt/nginx/logs
+          readOnly: true
+        - mountPath: /etc/prometheus-nginxlog-exporter.yaml
+          name: nginx-log-exporter-config
+          subPath: prometheus-nginxlog-exporter.yaml
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: host-nginx-logs
+        hostPath:
+          path: /var/log/nginx
+      - name: nginx-log-exporter-config
+        configMap:
+          name: nginx-log-exporter-config
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/loadbalancer: 'yes'
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule

@@ -1,0 +1,10 @@
+watchers:
+  - type: docker_registry
+    repo: ghcr.io
+    image: airsonic-advanced/airsonic-advanced
+    tag: edge-11.0.0-SNAPSHOT.20220625052932
+    includes:
+      - .*-SNAPSHOT.*
+    excludes:
+      - .*-SNAPSHOT.202[0-1].*
+      - .*-SNAPSHOT.20220[1-5].*

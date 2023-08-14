@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/download-deluge/deploy
+
+generators:
+- deluge-secret-generator.yaml
+- web-secret-generator.yaml
+
+patches:
+- path: nfs-download-pv-nfs.yaml
+- path: pvc-resources.yaml
+- path: daemon-statefulSet-resources.yaml
+- path: web-statefulSet-resources.yaml
+- path: web-ingress-homepage-widget.yaml
+- target:
+    kind: Ingress
+    name: deluge-web
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: deluge.dl.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: deluge.dl.intra.k8s.test

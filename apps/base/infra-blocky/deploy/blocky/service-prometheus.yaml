@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blocky-prometheus
+  labels:
+    prometheus-target: blocky
+spec:
+  ports:
+  - name: http
+    port: 4000
+  selector:
+    app.kubernetes.io/name: blocky
+    app.kubernetes.io/component: blocky

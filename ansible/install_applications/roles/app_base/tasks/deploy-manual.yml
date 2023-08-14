@@ -1,0 +1,45 @@
+---
+
+- name: Create temporary local kustomization directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: build
+  changed_when: false
+  register: local_kustomization_dir
+
+- name: Link {{ app_name }} base
+  ansible.builtin.file:
+    src: "{{ app_gitops_path }}/base"
+    dest: "{{ local_kustomization_dir.path }}/base"
+    state: link
+  changed_when: false
+
+- name: Copy {{ app_name }} kustomizations
+  ansible.builtin.copy:
+    src: "{{ app_deploy_path }}/"
+    dest: "{{ local_kustomization_dir.path }}/overlay"
+  changed_when: false
+
+- name: Prepare local {{ app_name }} kustomization
+  ansible.builtin.replace:
+    path: "{{ local_kustomization_dir.path }}/overlay/kustomization.yaml"
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.replace }}"
+  changed_when: false
+  loop: "{{ app_kustomization_replacements }}"
+  loop_control:
+    label: "{{ item.regexp }}"
+
+- name: "Deploy {{ app_name }} manually"
+  kubernetes.core.k8s:
+    definition: "{{ lookup('ansible.builtin.pipe', 'SOPS_AGE_KEY_FILE={{ sops_age_key_file }} kustomize build --enable-alpha-plugins --enable-exec ' + local_kustomization_dir.path + '/overlay') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
+- name: Remove local {{ app_name }} kustomization
+  ansible.builtin.file:
+    path: "{{ local_kustomization_dir.path }}"
+    state: absent
+  changed_when: false
+  when: local_kustomization_dir.path is defined

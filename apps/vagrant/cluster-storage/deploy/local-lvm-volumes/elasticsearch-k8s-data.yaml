@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch-k8s-data
+spec:
+  capacity:
+    storage: 4Gi
+  local:
+    path: /dev/data_vg/local_elasticsearch-k8s-data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - master-test-2

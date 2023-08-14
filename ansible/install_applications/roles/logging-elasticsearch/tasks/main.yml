@@ -1,0 +1,92 @@
+---
+
+- name: Build and deploy logging-elasticsearch
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: logging-elasticsearch
+
+- name: Wait for OpenSearch to be available
+  kubernetes.core.k8s_info:
+    kind: StatefulSet
+    namespace: "logging-elasticsearch"
+    name: elasticsearch
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_result
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 3
+
+# On first start, OpenSearch restarts to run its setup process
+# So if the first wait task has waited, we make sure it's really still up a few seconds later
+- name: Wait a bit ...
+  ansible.builtin.pause:
+    seconds: 10
+  when: k8s_result.attempts > 1
+
+- name: Wait for OpenSearch to be available
+  kubernetes.core.k8s_info:
+    kind: StatefulSet
+    namespace: "logging-elasticsearch"
+    name: elasticsearch
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_result
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 3
+
+# Security configuration changes are only taken into account the first time ES is deployed, or after running securityadmin.sh
+# The following tasks ensures that each time something changes in ES deployment, security configurations are properly updated.
+- name: Reconfigure security
+  ansible.builtin.command: kubectl {{ kubectl_params }} \
+    --namespace=logging-elasticsearch exec -it elasticsearch-0 -- \
+    bash /usr/share/opensearch/plugins/opensearch-security/tools/securityadmin.sh \
+    -icl -nhnv \
+    -cd /usr/share/opensearch/plugins/opensearch-security/securityconfig/ \
+    -cacert /usr/share/opensearch/config/certs/ca.crt \
+    -cert /usr/share/opensearch/config/certs/tls.crt \
+    -key /usr/share/opensearch/config/certs/tls.key
+
+- name: Configure index policies
+  ansible.builtin.include_tasks: index_policies.yml
+  loop: "{{ elasticsearch_index_policies }}"
+  loop_control:
+    loop_var: policy_item
+    label: "{{ policy_item.policy_id }}"
+
+- name: Configure index templates
+  ansible.builtin.include_tasks: index_templates.yml
+  loop: "{{ elasticeach_index_templates }}"
+  loop_control:
+    label: "{{ item.name }}"
+
+- name: List existing ElasticSearch indices
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}/*?expand_wildcards=open,hidden"
+    method: GET
+    headers:
+      Host: "elasticsearch.log.intra.{{ web_base_domain }}"
+    validate_certs: no
+    status_code: [200, 404]
+    force_basic_auth: yes
+    user: "{{ elasticsearch_admin_user.user }}"
+    password: "{{ elasticsearch_admin_user.password }}"
+  register: elasticsearch_existing_indices
+
+- name: Update existing indices
+  ansible.builtin.include_tasks: update_existing_indices.yml
+  loop: "{{ elasticsearch_existing_indices.json | dict2items }}"
+  loop_control:
+    loop_var: index_item
+    label: "{{ index_item.key }}"
+
+- name: List indices config
+  ansible.builtin.set_fact:
+    elasticsearch_indices_to_create: "{{ elasticsearch_indices_to_create | default([]) + [ item | basename | regex_replace('\\.json$', '') ] }}"
+  with_fileglob:
+    - "{{ role_path }}/templates/indices/*.json"
+
+- name: Create indices
+  ansible.builtin.include_tasks: create_indices.yml
+  loop: "{{ elasticsearch_indices_to_create | default([]) }}"

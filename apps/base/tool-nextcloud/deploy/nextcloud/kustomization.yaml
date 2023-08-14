@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: nextcloud
+      app.kubernetes.io/component: nextcloud
+      app.kubernetes.io/part-of: nextcloud
+      app.kubernetes.io/version: 25.0.5-apache
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: nextcloud-config
+  files:
+  - config/ldap.conf
+  - config/smtp_custom.config.php
+
+secretGenerator:
+- name: nextcloud-env
+  env: secret/nextcloud.env
+
+resources:
+- networkPolicy.yaml
+- ingress.yaml
+- service.yaml
+- pvc.yaml
+- nfs-nextcloud-pv.yaml
+- nfs-nextcloud-pvc.yaml
+- statefulSet.yaml

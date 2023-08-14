@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gandi-livedns
+spec:
+  schedule: "*/10 * * * *"
+  startingDeadlineSeconds: 600
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: gandi-livedns
+            app.kubernetes.io/component: gandi-livedns
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: gandi-livedns
+            image: "registry.lan/gandi-livedns:1.0.0-alpine-3.17.3"
+            imagePullPolicy: IfNotPresent
+            envFrom:
+            - secretRef:
+                name: gandi-livedns-env
+            env:
+            - name: REFRESH_INTERVAL
+              value: "0"
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1000 # gandi
+              runAsGroup: 1000 # gandi
+              readOnlyRootFilesystem: true
+            resources:
+              requests:
+                cpu: 25m
+                memory: 16Mi
+              limits:
+                  cpu: 50m
+                  memory: 16Mi
+            volumeMounts:
+            - name: tz-config
+              mountPath: /etc/localtime
+              readOnly: true
+          volumes:
+          - name: tz-config
+            hostPath:
+              path: /etc/localtime
+          imagePullSecrets:
+          - name: docker-config
+          nodeSelector:
+            capability/general-purpose: 'yes'

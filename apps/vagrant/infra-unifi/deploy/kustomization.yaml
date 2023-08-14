@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/infra-unifi/deploy
+
+patches:
+- path: statefulSet-resources.yaml
+- path: pvc-resources.yaml
+- path: service-private-tcp-lb-ip.yaml
+- path: service-private-udp-lb-ip.yaml
+- target:
+    kind: Ingress
+    name: unifi
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: unifi.infra.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: unifi.infra.intra.k8s.test

@@ -1,0 +1,29 @@
+---
+- name: Install SOPS requirements
+  ansible.builtin.apt:
+    pkg: age
+    state: present
+
+- name: Install SOPS
+  ansible.builtin.apt:
+    deb: https://github.com/mozilla/sops/releases/download/v{{ sops_version }}/sops_{{ sops_version }}_amd64.deb
+    state: present
+
+- name: Install ksops
+  ansible.builtin.unarchive:
+    src: https://github.com/viaduct-ai/kustomize-sops/releases/download/v{{ ksops_version }}/ksops_{{ ksops_version }}_Linux_x86_64.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+    include: ksops
+
+- name: Ensure SOPS folder exists
+  ansible.builtin.file:
+    path: "{{ sops_age_key_file | dirname }}"
+    state: directory
+    mode: 0500
+
+- name: Deploy SOPS age key
+  ansible.builtin.copy:
+    dest: "{{ sops_age_key_file }}"
+    content: "{{ sops_age_key_content }}"
+    mode: 0600

@@ -1,0 +1,38 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-alertmanager-k8s
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: alertmanager
+      app.kubernetes.io/component: alertmanager
+      app.kubernetes.io/instance: k8s
+
+  ingress:
+    - ports:
+        - port: web
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    - ports:
+        - port: web
+        - port: reloader-web
+      from:
+        # Allow from prometheus
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring-prometheus
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/component: prometheus
+              app.kubernetes.io/instance: k8s
+              app.kubernetes.io/name: prometheus

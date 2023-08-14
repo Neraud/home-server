@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpldapadmin
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: phpldapadmin
+      app.kubernetes.io/name: phpldapadmin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: phpldapadmin
+        app.kubernetes.io/name: phpldapadmin
+    spec:
+      containers:
+      - name: phpldapadmin
+        image: "registry.lan/phpldapadmin:7.3.33-apache-buster-1.2.6.6"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          containerPort: 8080
+        env:
+        # http://phpldapadmin.sourceforge.net/wiki/index.php/Server:server:host
+        - name: LDAP_HOST
+          value: ldaps://openldap.auth-openldap.svc.cluster.local:636
+        - name: LDAP_PORT
+          value: "0"
+        - name: LDAP_BASE
+          valueFrom:
+            secretKeyRef:
+              name: phpldapadmin-env
+              key: LDAP_BASE
+        - name: LDAP_BIND_ID
+          valueFrom:
+            secretKeyRef:
+              name: phpldapadmin-env
+              key: LDAP_BIND_ID
+        - name: LDAP_BIND_PASS
+          valueFrom:
+            secretKeyRef:
+              name: phpldapadmin-env
+              key: LDAP_BIND_PASS
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 33 # www-data
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "256Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: config-volume
+          mountPath: /opt/phpldapadmin/config/config.php
+          subPath: config.php
+        - name: config-volume
+          mountPath: /etc/ldap/ldap.conf
+          subPath: ldap.conf
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: config-volume
+        configMap:
+          name: phpldapadmin-config
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

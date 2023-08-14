@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ntfy
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: ntfy
+    gethomepage.dev/description: Send push notifications to your phone or desktop via PUT/POST
+    gethomepage.dev/icon: ntfy
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=ntfy"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - ntfy.infra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: ntfy.infra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ntfy
+            port:
+              name: http

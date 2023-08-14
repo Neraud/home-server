@@ -1,6 +1,0 @@
----
-- name: Provision monitoring-blackbox-exporter
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: monitoring_blackbox_exporter_deploy

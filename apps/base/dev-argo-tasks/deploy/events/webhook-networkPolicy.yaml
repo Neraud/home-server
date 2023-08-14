@@ -1,0 +1,23 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-webhook
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      controller: eventsource-controller
+      eventsource-name: webhook
+  ingress:
+    # Allow from gitea
+    - ports:
+        - port: 12000
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: dev-gitea
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: gitea
+              app.kubernetes.io/component: gitea

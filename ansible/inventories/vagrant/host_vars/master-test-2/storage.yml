@@ -1,7 +1,7 @@
 ---
 local_lvm_storage:
   elasticsearch-k8s-data:
-    capacity: 4G
+    capacity: 4Gi
     filesystem: ext4
     reclaim_policy: Retain
     labels:

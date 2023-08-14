@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-registry-ui
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: docker-registry-ui
+      app.kubernetes.io/component: docker-registry-ui
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: docker-registry-ui
+        app.kubernetes.io/component: docker-registry-ui
+    spec:
+      containers:
+      - name: docker-registry-ui
+        image: "registry.lan/docker-registry-ui:0.9.6"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 65534 # nobody
+          runAsGroup: 65534 # nobody
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+          limits:
+            cpu: 200m
+            memory: 32Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: docker-registry-ui-config
+          mountPath: /opt/config.yml
+          subPath: config.yml
+        - name: data-volume
+          mountPath: /opt/data
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/certs/ca-certificates.crt
+          subPath: ca.crt
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: docker-registry-ui-config
+        secret:
+          secretName: docker-registry-ui-config
+      - name: data-volume
+        emptyDir: {}
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

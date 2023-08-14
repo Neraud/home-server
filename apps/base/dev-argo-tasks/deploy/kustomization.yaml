@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/part-of: argo-workflows-tasks
+
+namespace: dev-argo-tasks
+
+secretGenerator:
+- name: minio-credentials
+  env: secret/minio-credentials.env
+- name: rsync-source
+  files:
+  - secret/rsync/ssh_config
+  - secret/rsync/id_rsa
+- name: git-credentials
+  env: secret/git-credentials.env
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- argo-server-rbac
+- workflow-controller-rbac
+- executor-rbac
+- argo-events-rbac
+- argo-events-sensor-rbac
+- events
+- argocd

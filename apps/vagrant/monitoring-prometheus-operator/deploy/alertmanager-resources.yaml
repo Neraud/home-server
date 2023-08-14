@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  name: k8s
+spec:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 25m
+      memory: 128Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+  storage:
+    volumeClaimTemplate:
+      metadata:
+        name: alertmanager-k8s-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: longhorn-low-durability
+        resources:
+          requests:
+            storage: 16Mi

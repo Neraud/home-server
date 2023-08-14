@@ -1,11 +1,7 @@
 ---
 openldap_ldap_servername: openldap.auth-openldap.svc.cluster.local
-openldap_ldap_organisation: "{{ domain_name }}"
-openldap_ldap_domain: "{{ web_base_domain }}"
 openldap_ldap_basedn: "dc=k8s,dc=test"
 openldap_ldap_admin_password: Passw0rd
-openldap_ldap_config_password: Passw0rd
-openldap_ldap_readonly_user_password: Passw0rd
 
 openldap_ldap_structure_groups_ou_dns:
   sso_groups: "ou=sso_groups,{{ openldap_ldap_basedn }}"
@@ -14,6 +10,7 @@ openldap_ldap_structure_groups_ou_dns:
   grafana_roles: "ou=grafana_roles,{{ openldap_ldap_basedn }}"
   jellyfin_roles: "ou=jellyfin_roles,{{ openldap_ldap_basedn }}"
   gitea_roles: "ou=gitea_roles,{{ openldap_ldap_basedn }}"
+  argo_roles: "ou=argo_roles,{{ openldap_ldap_basedn }}"
   nextcloud_roles: "ou=nextcloud_roles,{{ openldap_ldap_basedn }}"
 
 openldap_ldap_users:
@@ -22,6 +19,11 @@ openldap_ldap_users:
     password: Passw0rd
     email: user@mail.net
     displayName: User LDAP
+  - id: argo
+    sn: Argo
+    password: Passw0rd
+    email: argo@mail.net
+    displayName: Argo
 
 openldap_ldap_groups:
   # SSO Groups, used to filter access via LemonLDAP
@@ -69,6 +71,12 @@ openldap_ldap_groups:
   # App Groups, used to filter access on each app
   - id: gitea
     description: gitea
+    ou: app_groups
+    members:
+      - user_ldap
+      - argo
+  - id: argo
+    description: argo
     ou: app_groups
     members:
       - user_ldap
@@ -142,6 +150,13 @@ openldap_ldap_groups:
   - id: admin
     description: Gitea Admin
     ou: gitea_roles
+    members:
+      - user_ldap
+
+  # Roles for Argo
+  - id: admin
+    description: Argo Admin
+    ou: argo_roles
     members:
       - user_ldap
 

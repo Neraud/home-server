@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argocd-ci-token
+  annotations:
+    replicator.v1.mittwald.de/replicate-from: "dev-argo-cd/argocd-ci-token"
+type: Opaque

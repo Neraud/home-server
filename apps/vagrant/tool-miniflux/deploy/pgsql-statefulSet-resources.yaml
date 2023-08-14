@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pgsql
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: pgsql
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi

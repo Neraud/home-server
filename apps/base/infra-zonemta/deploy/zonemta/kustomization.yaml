@@ -1,0 +1,42 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: zonemta
+      app.kubernetes.io/component: server
+      app.kubernetes.io/version: 3.5.1-node-19.8.1-alpine3.17
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: zonemta-config
+  files:
+  - secret/api.toml
+  - secret/dbs.toml
+  - secret/dns.toml
+  - secret/domains.toml
+  - secret/interface_feeder.toml
+  - secret/log.toml
+  - secret/plugin_default-headers.toml
+  - secret/plugin_delivery-counters.toml
+  - secret/plugin_dkim.toml
+  - secret/plugin_email-bounce.toml
+  - secret/plugin_image-hashes.toml
+  - secret/plugin_loop-breaker.toml
+  - secret/plugin_simple-auth.toml
+  - secret/plugin_zonemta-limiter.toml
+  - secret/pools.toml
+  - secret/queue.toml
+  - secret/zone_bounces.toml
+  - secret/zone_default.toml
+  - secret/zonemta.toml
+
+resources:
+- networkPolicy.yaml
+- service.yaml
+- service-prometheus.yaml
+- certs-secret.yaml
+- deployment.yaml

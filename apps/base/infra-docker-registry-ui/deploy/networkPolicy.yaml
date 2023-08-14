@@ -1,0 +1,29 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-docker-registry-ui
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: docker-registry-ui
+      app.kubernetes.io/component: docker-registry-ui
+
+  ingress:
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: infra-docker-registry
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: docker-registry
+              app.kubernetes.io/component: registry

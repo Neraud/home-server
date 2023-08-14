@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: airsonic
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: airsonic
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: "1"
+            memory: 512Mi

@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sabnzbd
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sabnzbd
+      app.kubernetes.io/component: sabnzbd
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sabnzbd
+        app.kubernetes.io/component: sabnzbd
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/sabnzbd-busybox:1.36.0"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/sabnzbd/data
+            chown -R 1000:1000 /opt/sabnzbd/data
+        volumeMounts:
+        - name: sabnzbd-data
+          mountPath: /opt/sabnzbd
+      containers:
+      - name: sabnzbd
+        image: "registry.lan/sabnzbd:3.7.2-3.11.2-slim-bullseye"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: sabnzbd-data
+          mountPath: /opt/sabnzbd-data
+          subPath: data
+        - name: sabnzbd-download
+          mountPath: /mnt/download
+        - name: sabnzbd-config
+          mountPath: /tmp/config
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: sabnzbd-data
+        persistentVolumeClaim:
+          claimName: sabnzbd-data
+      - name: sabnzbd-config
+        secret:
+          secretName: sabnzbd-config
+      - name: sabnzbd-download
+        persistentVolumeClaim:
+          claimName: nfs-download
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

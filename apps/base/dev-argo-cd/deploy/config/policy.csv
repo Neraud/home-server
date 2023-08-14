@@ -1,0 +1,2 @@
+# "argocd app sync --local" requires clusters get permission
+p, proj:k8s-cluster:ci-role, clusters, get, *, allow

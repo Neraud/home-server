@@ -1,0 +1,16 @@
+creation_rules:
+- path_regex: "services\\.yaml"
+  encrypted_regex: "^(none)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+- path_regex: "settings\\.yaml"
+  encrypted_regex: "^(none)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
+# Widgets.yaml is a top-level array, and isn't supported as yaml. We force binary (in .sops.config), and we can't configure an encrypted_regex
+#- path_regex: "widgets\\.yaml"
+#  encrypted_regex: "^(password)$"
+#  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
+# Default Kubernetes manifest encryption
+- unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"

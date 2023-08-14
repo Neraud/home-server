@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: home-zigbee2mqtt
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: zigbee2mqtt
+      app.kubernetes.io/component: zigbee2mqtt
+      app.kubernetes.io/version: 1.30.3
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: zigbee2mqtt-env
+  envs:
+  - config/zigbee2mqtt.env
+
+secretGenerator:
+- name: zigbee2mqtt-env
+  envs:
+  - secret/zigbee2mqtt.env
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- networkPolicy.yaml
+- service.yaml
+- ingress.yaml
+- pvc.yaml
+- statefulSet.yaml

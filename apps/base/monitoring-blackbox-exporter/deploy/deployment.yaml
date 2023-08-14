@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blackbox-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: exporter
+      app.kubernetes.io/name: blackbox-exporter
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: blackbox-exporter
+      labels:
+        app.kubernetes.io/component: exporter
+        app.kubernetes.io/name: blackbox-exporter
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - --config.file=/etc/blackbox_exporter/config.yml
+        - --web.listen-address=:19115
+        image: registry.lan/blackbox-exporter:v0.23.0
+        name: blackbox-exporter
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        ports:
+        - containerPort: 19115
+          name: http
+        resources:
+          limits:
+            cpu: 50m
+            memory: 40Mi
+          requests:
+            cpu: 25m
+            memory: 20Mi
+        securityContext:
+          # NET_RAW and root are Required for the icmp module
+          capabilities:
+            add:
+            - NET_RAW
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: false
+        volumeMounts:
+        - mountPath: /etc/blackbox_exporter/
+          name: config
+          readOnly: true
+      - args:
+        - --webhook-url=http://localhost:19115/-/reload
+        - --volume-dir=/etc/blackbox_exporter/
+        image: registry.lan/blackbox-exporter-configmap-reload:v0.5.0
+        name: module-configmap-reloader
+        resources:
+          limits:
+            cpu: 20m
+            memory: 40Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 65534
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /etc/blackbox_exporter/
+          name: config
+          readOnly: true
+      - args:
+        - --logtostderr
+        - --secure-listen-address=:9115
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - --upstream=http://127.0.0.1:19115/
+        image: registry.lan/blackbox-exporter-kube-rbac-proxy:v0.14.0
+        imagePullPolicy: IfNotPresent
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 9115
+          name: https
+        #readinessProbe:
+        #  # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+        #  # We can't use tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+        #  # We can't use exec -> it randomly fails with an issue to find /bin/sh (which indeed isn't in the container)"
+        #  exec:
+        #    command:
+        #    - /bin/sh
+        #    - -c 
+        #    - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://$IP:9100/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+        resources:
+          limits:
+            cpu: 20m
+            memory: 40Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        kubernetes.io/os: linux
+        capability/general-purpose: 'yes'
+      serviceAccountName: blackbox-exporter
+      volumes:
+      - configMap:
+          name: blackbox-exporter-configuration
+        name: config

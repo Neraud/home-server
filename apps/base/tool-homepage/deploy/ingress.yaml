@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homepage
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/name: Homepage
+    gethomepage.dev/description: A modern, secure, highly customizable application dashboard
+    gethomepage.dev/icon: homepage
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=homepage"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - homepage.tool.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: homepage.tool.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: homepage
+            port:
+              name: http

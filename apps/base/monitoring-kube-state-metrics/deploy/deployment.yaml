@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-state-metrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/component: kube-state-metrics
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kube-state-metrics
+        app.kubernetes.io/component: kube-state-metrics
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - --host=127.0.0.1
+        - --port=8081
+        - --telemetry-host=127.0.0.1
+        - --telemetry-port=8082
+        image: registry.lan/kube-state-metrics:v2.8.2
+        imagePullPolicy: IfNotPresent
+        name: kube-state-metrics
+        resources:
+          limits:
+            cpu: 100m
+            memory: 96Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsUser: 65534
+          runAsGroup: 65532
+        #readinessProbe:
+        # As we bind to 127.0.0.1, we can't add probes to this container
+      - args:
+        - --logtostderr
+        - --secure-listen-address=:8443
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - --upstream=http://127.0.0.1:8081/
+        image: registry.lan/kube-state-metrics-kube-rbac-proxy:v0.14.0
+        imagePullPolicy: IfNotPresent
+        name: kube-rbac-proxy-main
+        ports:
+        - containerPort: 8443
+          name: https-main
+        resources:
+          limits:
+            cpu: 250m
+            memory: 64Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
+#        readinessProbe:
+#          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+#          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+#          # We can't use wget on an SSL endpoint, it leaks ssl_client defunct processes
+#          exec:
+#            command:
+#            - /bin/sh
+#            - -c 
+#            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://127.0.0.1:8443/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+#          initialDelaySeconds: 3
+#          periodSeconds: 5
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+      - args:
+        - --logtostderr
+        - --secure-listen-address=:9443
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - --upstream=http://127.0.0.1:8082/
+        image: registry.lan/kube-state-metrics-kube-rbac-proxy:v0.14.0
+        imagePullPolicy: IfNotPresent
+        name: kube-rbac-proxy-self
+        ports:
+        - containerPort: 9443
+          name: https-self
+        resources:
+          limits:
+            cpu: 250m
+            memory: 64Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
+#        readinessProbe:
+#          # We can't use httpGet -> we'll get a 401 and the probe will think it's down
+#          # We can't use a tcpSocket -> it floods the logs with "TLS handshake error from ...: EOF"
+#          # We can't use wget on an SSL endpoint, it leaks ssl_client defunct processes
+#          exec:
+#            command:
+#            - /bin/sh
+#            - -c 
+#            - "test \"$(wget --server-response --spider --quiet --no-check-certificate https://127.0.0.1:9443/ 2>&1 | awk 'NR==1 {print $2}')\" == \"401\""
+#          initialDelaySeconds: 3
+#          periodSeconds: 5
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        kubernetes.io/os: linux
+        capability/general-purpose: 'yes'
+      securityContext:
+        runAsNonRoot: true
+        runAsGroup: 65532
+        runAsUser: 65532
+      serviceAccountName: kube-state-metrics

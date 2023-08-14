@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: syncthing
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: syncthing
+      app.kubernetes.io/component: syncthing
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: syncthing
+        app.kubernetes.io/component: syncthing
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/syncthing-busybox:1.36.0"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /data/config
+            chown 1000:1000 /data/config
+        volumeMounts:
+        - name: syncthing-data
+          mountPath: /data
+      # Syncthing advertises its intefaces, but we can't advertise the LoadBalancer IP by default
+      # So we cheat by adding a dummy NIC in the container with the LB IP
+      - name: create-dummy-nic
+        image: "registry.lan/syncthing-busybox:1.36.0"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            echo "Creating dummy nic eth9"
+            ip link add eth9 type dummy
+            ip addr add $SYNCTHING_LB_IP/32 brd + dev eth9
+            ip link set dev eth9 up
+            echo "Dummy nic eth9 created :"
+            ip addr show eth9
+        env:
+        - name: SYNCTHING_LB_IP
+          value: 1.2.3.4
+        securityContext:
+          capabilities:
+            add:
+            # Required to add a dummy nic
+            - NET_ADMIN
+      - name: init-syncthing-config
+        image: "registry.lan/syncthing:1.23.2"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            echo "Preparing Syncthing configuration"
+            if [ ! -f /var/syncthing/config/config.xml ] ; then
+              echo "Syncthing has never been run, generating default conf"
+              /bin/syncthing generate --home=/var/syncthing/config
+            else
+              echo "Configuration already exists, nothing to do"
+            fi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: syncthing-data
+          mountPath: /var/syncthing/config
+          subPath: config
+      - name: configure-syncthing
+        image: "registry.lan/syncthing-conf-injection:3.11.2-alpine3.17"
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: syncthing-conf-injection-env
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: syncthing-data
+          mountPath: /var/syncthing/config
+          subPath: config
+      containers:
+      - name: syncthing
+        image: "registry.lan/syncthing:1.23.2"
+        ports:
+        - containerPort: 8384
+          name: web
+        - name: transfer-tcp
+          containerPort: 22000
+          protocol: TCP
+        #- name: transfer-udp
+        #  containerPort: 22000
+        #  protocol: UDP
+        - containerPort: 21027
+          name: discovery
+          protocol: UDP
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: web
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 64Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+        - name: syncthing-data
+          mountPath: /var/syncthing/config
+          subPath: config
+        - name: syncthing-volume
+          mountPath: /data
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: syncthing-data
+        persistentVolumeClaim:
+          claimName: syncthing-data
+      - name: syncthing-volume
+        persistentVolumeClaim:
+          claimName: nfs-syncthing
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

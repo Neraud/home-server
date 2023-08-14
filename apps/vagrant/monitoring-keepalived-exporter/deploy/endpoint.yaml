@@ -1,0 +1,20 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: keepalived-exporter
+subsets:
+- addresses:
+  - ip: 192.168.100.11
+  ports:
+  - name: metrics
+    port: 9165
+- addresses:
+  - ip: 192.168.100.12
+  ports:
+  - name: metrics
+    port: 9165
+- addresses:
+  - ip: 192.168.100.13
+  ports:
+  - name: metrics
+    port: 9165

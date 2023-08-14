@@ -1,0 +1,35 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-zwavejsui
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: zwavejsui
+      app.kubernetes.io/component: zwavejsui
+
+  ingress:
+    # Allow http from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow ws from HomeAssistant
+    - ports:
+        - port: ws
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-homeassistant
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homeassistant
+              app.kubernetes.io/component: homeassistant

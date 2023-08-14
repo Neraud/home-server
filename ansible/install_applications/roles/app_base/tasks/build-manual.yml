@@ -1,0 +1,56 @@
+---
+- name: "[{{ image_build_path | basename }}] Load build variables"
+  set_fact:
+    build_variables: "{{ lookup('file', image_build_path + '/vars.yaml') | from_yaml }}"
+
+- name: "[{{ image_build_path | basename }}] Generate image_full_name"
+  set_fact:
+    image_full_name: "{{ docker_private_registry.domain }}/{{ build_variables.image_name }}:{{ build_variables.image_tag }}"
+
+- name: "[{{ image_build_path | basename }}] Gather info on remote image"
+  ansible.builtin.uri:
+    url: "{{ docker_private_registry.api_url }}/v2/{{ build_variables.image_name }}/manifests/{{ build_variables.image_tag }}"
+    url_username: "{{ docker_private_registry.username }}"
+    url_password: "{{ docker_private_registry.password }}"
+    ca_path: "{{ docker_private_registry.ca_path }}"
+    status_code: [200, 404]
+    headers:
+      Accept: application/vnd.docker.distribution.manifest.v2+json
+  register: private_image_remote_info
+
+- name: "[{{ image_build_path | basename }}] Extract remote image id"
+  set_fact:
+    private_image_remote_id: >-
+      {% if private_image_remote_info.status == 200 and 'json' in private_image_remote_info -%}
+        {{ private_image_remote_info.json.config.digest | regex_replace('sha256:', '') }}
+      {%- endif %}
+
+- name: "[{{ image_build_path | basename }}] Gather info on local image"
+  containers.podman.podman_image_info:
+    name: "{{ image_full_name }}"
+  register: image_local_info
+
+- name: "[{{ image_build_path | basename }}] Extract local image id"
+  set_fact:
+    image_local_id: >-
+      {% if image_local_info.images -%}
+        {{ image_local_info.images[0].Id }}
+      {%- endif %}
+
+- name: "[{{ image_build_path | basename }}] Build container image"
+  containers.podman.podman_image:
+    name: "{{ image_full_name }}"
+    path: "{{ image_build_path }}"
+  when: not image_local_id or force_build | default('no') | bool
+
+# Always push, in case we had a failure during a previous push
+- name: "[{{ image_build_path | basename }}] Push to private registry"
+  containers.podman.podman_image:
+    name: "{{ image_full_name }}"
+    pull: no
+    push: yes
+  # TODO : With multiple registry replicas, blob uploads can happen across multiple pods and sometimes fail with "upload resumed at wrong offest"
+  # workaround : retry :/
+  register: push_res
+  retries: 5
+  until: push_res is success

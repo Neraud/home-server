@@ -1,0 +1,13 @@
+watchers:
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: opensearchproject/opensearch-dashboards
+    tag: 2.6.0
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
+    excludes:
+      - latest
+      - .*-(rc|beta).*
+      - ^0\..*
+      - ^1\..*
+      - ^2\.[0-5]\..*

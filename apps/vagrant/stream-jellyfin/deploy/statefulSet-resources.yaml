@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jellyfin
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: jellyfin
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: "1"
+            memory: 512Mi
+          # To use a gpu limit
+          #gpu.intel.com/i915: 1

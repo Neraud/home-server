@@ -1,0 +1,75 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-elasticsearch
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/component: elasticsearch
+      app.kubernetes.io/instance: k8s-logs
+
+  ingress:
+    - ports:
+        - port: web
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+        # Allow from the prometheus_exporter
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: elasticsearch
+              app.kubernetes.io/component: exporter
+
+        # Allow from kibana
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: logging-kibana
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: kibana
+              app.kubernetes.io/component: kibana
+
+        # Allow from fluentd
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: logging-fluentd
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: fluent
+              app.kubernetes.io/component: fluent
+
+        # Allow from crowdsec LAPI
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: infra-crowdsec
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: crowdsec
+              app.kubernetes.io/component: lapi
+
+        # Allow from grafana
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring-grafana
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: grafana
+              app.kubernetes.io/component: grafana
+
+    # Allow from elasticsearch nodes
+    - ports:
+        - port: inter-node
+      from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: elasticsearch
+              app.kubernetes.io/component: elasticsearch

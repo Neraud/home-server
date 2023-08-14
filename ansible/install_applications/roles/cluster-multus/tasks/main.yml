@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy cluster-multus
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: cluster-multus

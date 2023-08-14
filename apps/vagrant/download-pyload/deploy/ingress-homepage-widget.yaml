@@ -1,0 +1,7 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pyload
+  annotations:
+    gethomepage.dev/widget.username: "user_local"
+    gethomepage.dev/widget.password: "Passw0rd"

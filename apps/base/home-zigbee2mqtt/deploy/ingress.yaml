@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zigbee2mqtt
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: Zigbee2MQTT
+    gethomepage.dev/description: Zigbee to MQTT bridge, get rid of your proprietary Zigbee bridges
+    gethomepage.dev/icon: zigbee2mqtt
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=zigbee2mqtt"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - zigbee2mqtt.home.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: zigbee2mqtt.home.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: zigbee2mqtt
+            port:
+              name: http

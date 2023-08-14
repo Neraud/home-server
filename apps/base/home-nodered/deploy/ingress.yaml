@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nodered
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Home
+    gethomepage.dev/name: NodeRED
+    gethomepage.dev/description: Flow-based programming for the IoT
+    gethomepage.dev/icon: nodered
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=nodered"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - nodered.home.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: nodered.home.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nodered
+            port:
+              number: 80

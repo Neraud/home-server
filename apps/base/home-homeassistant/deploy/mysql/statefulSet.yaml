@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: homeassistant
+      app.kubernetes.io/component: mysql
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: homeassistant
+        app.kubernetes.io/component: mysql
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/homeassistant-busybox:1.36.0"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /mysql-data/mysql
+            chown -R 1000:1000 /mysql-data/mysql
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /mysql-data
+      containers:
+      - name: mysql
+        image: "registry.lan/homeassistant-mysql:8.0.32-debian"
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - secretRef:
+              name: mysql-env
+        ports:
+        - containerPort: 3306
+          name: mysql
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random uid
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}"
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+          subPath: mysql
+        - name: tmp-volume
+          mountPath: /tmp
+        - name: run-volume
+          mountPath: /var/run/mysqld
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 200m
+            memory: 512Mi
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: mysql-data
+        persistentVolumeClaim:
+          claimName: mysql-data
+      - name: tmp-volume
+        emptyDir: {}
+      - name: run-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

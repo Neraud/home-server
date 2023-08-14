@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kibana
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Monitoring
+    gethomepage.dev/name: OpenSearch Dashboards
+    gethomepage.dev/description: Visualize your Elasticsearch data
+    gethomepage.dev/icon: opensearch
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=kibana"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - kibana.log.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host:  kibana.log.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kibana
+            port:
+              number: 5601

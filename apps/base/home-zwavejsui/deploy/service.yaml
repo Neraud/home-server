@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zwavejsui
+spec:
+  ports:
+  - name: http
+    port: 8091
+    targetPort: http
+  - name: ws
+    port: 3000
+    targetPort: ws
+  selector:
+    app.kubernetes.io/name: zwavejsui
+    app.kubernetes.io/component: zwavejsui

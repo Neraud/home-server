@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: keepalived-exporter
+  labels:
+    prometheus-target: keepalived-exporter
+spec:
+  ports:
+  - name: metrics
+    port: 9165
+    targetPort: metrics

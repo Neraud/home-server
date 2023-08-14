@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: airsonic
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Stream
+    gethomepage.dev/name: Airsonic
+    gethomepage.dev/description: Music streaming
+    gethomepage.dev/icon: airsonic
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=airsonic"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - airsonic.stream.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: airsonic.stream.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: airsonic
+            port:
+              number: 80

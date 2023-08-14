@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: syncthing
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: create-dummy-nic
+        env:
+        - name: SYNCTHING_LB_IP
+          value: 192.168.100.25

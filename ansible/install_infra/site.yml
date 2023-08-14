@@ -106,26 +106,15 @@
     - podman
     - kubernetes_controller_bootstrap
 
-- name: Deploy CNI
-  hosts: controller
-  roles:
-    - kubernetes_master_cni_calico_deploy
-    - kubernetes_master_cni_multus_deploy
-
 - name: Provision Kubernetes nodes
   hosts: kubernetes_nodes
   roles:
     - kubernetes_node_join
     - kubernetes_node_postinstall
-    - { role: kubernetes_storage_local, tags: kubernetes-storage }
     - kubernetes_metallb_prepare
     - kubernetes_longhorn_prepare
 
 - name: Provision Kubernetes infra applications
   hosts: controller
   roles:
-    - kubernetes_metallb_deploy
-    - kubernetes_nginx_ingress_deploy
-    - kubernetes_storage_classes
-    - kubernetes_longhorn_deploy
-    - apcups_kubernetes
+    - kubernetes_secrets_deploy

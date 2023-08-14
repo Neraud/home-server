@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sickchill
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "900"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "900"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "900"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Download
+    gethomepage.dev/name: SickChill
+    gethomepage.dev/description: Automatic Video Library Manager for TV Shows
+    gethomepage.dev/icon: sickchill
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=sickchill"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - sickchill.dl.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: sickchill.dl.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sickchill
+            port:
+              number: 80

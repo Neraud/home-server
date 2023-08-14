@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy home-roomassistant
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: home-roomassistant

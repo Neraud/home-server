@@ -1,0 +1,8 @@
+watchers:
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: mailhog/mailhog
+    tag: v1.0.1
+    excludes:
+      - latest
+      - v1\.0\.0

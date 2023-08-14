@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+spec:
+  ports:
+  - port: 5601
+  selector:
+    app.kubernetes.io/name: kibana
+    app.kubernetes.io/component: kibana

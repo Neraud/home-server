@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy infra-docker-registry-ui
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: infra-docker-registry-ui

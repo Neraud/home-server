@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pyload
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Download
+    gethomepage.dev/name: PyLoad-NG
+    gethomepage.dev/description: HTTP download manager
+    gethomepage.dev/icon: pyload
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=pyload"
+    # https://gethomepage.dev/en/services/pyload/
+    gethomepage.dev/widget.type: "pyload"
+    gethomepage.dev/widget.url: "http://pyload.download-pyload.svc.cluster.local:8000"
+    gethomepage.dev/widget.fields: '["speed", "active", "queue", "total"]'
+    gethomepage.dev/widget.username: "changeme"
+    gethomepage.dev/widget.password: "changeme"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - pyload.dl.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: pyload.dl.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pyload
+            port:
+              number: 8000

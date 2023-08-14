@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: homeassistant
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: homeassistant
+      app.kubernetes.io/component: homeassistant
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: homeassistant
+        app.kubernetes.io/component: homeassistant
+      annotations:
+        k8s.v1.cni.cncf.io/networks: "kube-system/k8s-bridge"
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/homeassistant-busybox:1.36.0"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            if [ -d /homeassistant-config/config ] ; then
+              echo "HomeAssistant config folder already exists, ignoring bootstrap"
+            else
+              echo "HomeAssistant config folder doesn't exist, injecting bootstrap"
+              mkdir -p /homeassistant-config/config
+              cp -vRL /homeassistant-config-bootstrap/* /homeassistant-config/config/
+              cp -vRL /homeassistant-secret-bootstrap/* /homeassistant-config/config/
+            fi
+            mkdir -p /homeassistant-config/.cache
+            mkdir -p /homeassistant-config/.config
+            mkdir -p /homeassistant-config/.local
+            chown -R 1000:1000 /homeassistant-config/config
+            chown -R 1000:1000 /homeassistant-config/.cache
+            chown -R 1000:1000 /homeassistant-config/.config
+            chown -R 1000:1000 /homeassistant-config/.local
+        volumeMounts:
+        - name: homeassistant-data
+          mountPath: /homeassistant-config
+        - name: homeassistant-config-bootstrap
+          mountPath: /homeassistant-config-bootstrap
+        - name: homeassistant-secret-bootstrap
+          mountPath: /homeassistant-secret-bootstrap
+      containers:
+      - name: homeassistant
+        image: "registry.lan/homeassistant:2023.3.6-custom"
+        imagePullPolicy: IfNotPresent        
+        ports:
+        - containerPort: 8123
+          name: homeassistant
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: homeassistant-data
+          mountPath: /config
+          subPath: config
+        - name: homeassistant-data
+          mountPath: /home/homeassistant/.cache
+          subPath: .cache
+        - name: homeassistant-data
+          mountPath: /home/homeassistant/.config
+          subPath: .config
+        - name: homeassistant-data
+          mountPath: /home/homeassistant/.local
+          subPath: .local
+        - name: homeassistant-config
+          mountPath: /opt/ldap-auth/config.cfg
+          subPath: ldap-auth-config.cfg
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.cert
+          subPath: ca.crt
+        - name: run-volume
+          mountPath: /run/udev
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # homeassistant
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: homeassistant
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 250m
+            memory: 512Mi
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: homeassistant-data
+        persistentVolumeClaim:
+          claimName: homeassistant-data
+      - name: homeassistant-config
+        configMap:
+          name: homeassistant-config
+      - name: homeassistant-config-bootstrap
+        configMap:
+          name: homeassistant-config-bootstrap
+      - name: homeassistant-secret-bootstrap
+        secret:
+          secretName: homeassistant-secret-bootstrap
+      - name: homeassistant-socat-config
+        configMap:
+          name: homeassistant-socat-config
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: run-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homepage
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: homepage
+      app.kubernetes.io/component: homepage
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: homepage
+        app.kubernetes.io/component: homepage
+    spec:
+      serviceAccountName: homepage
+      automountServiceAccountToken: true
+      containers:
+      - name: homepage
+        image: "registry.lan/homepage:v0.6.10"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+          name: http
+        env:
+        - name: LOG_LEVEL
+          value: "debug"
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # node
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 25m
+            memory: 128Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /api/healthcheck
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: homepage-config
+          mountPath: /app/config
+        - name: logs-volume
+          mountPath: /app/config/logs
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: homepage-config
+        secret:
+          secretName: homepage-config
+      - name: logs-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

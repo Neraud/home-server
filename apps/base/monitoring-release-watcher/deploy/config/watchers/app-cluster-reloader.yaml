@@ -1,0 +1,13 @@
+watchers:
+  - type: docker_registry
+    repo: registry-1.docker.io
+    image: stakater/reloader
+    tag: v1.0.18
+    includes:
+      - v[0-9]+\.[0-9]+\.[0-9]+
+    excludes:
+      - .*SNAPSHOT.*
+      - ^PR-.*
+      - dev
+      - v0\.
+      - v1\.0\.[0-9]$

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: olivetin
+spec:
+  ports:
+  - port: 1337
+    name: http
+    targetPort: http
+  selector:
+    app.kubernetes.io/name: olivetin
+    app.kubernetes.io/component: olivetin

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: unifi
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: unifi
+        env:
+        - name: JVM_MAX_HEAP_SIZE
+          value: "512M"
+        resources:
+          requests:
+            cpu: 25m
+            memory: 1Gi
+          limits:
+            cpu: 250m
+            memory: 1Gi

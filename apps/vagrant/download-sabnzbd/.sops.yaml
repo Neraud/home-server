@@ -1,0 +1,8 @@
+creation_rules:
+- path_regex: "sabnzbd_delta\\.ini"
+  encrypted_regex: "^(password|email_pwd|api_key)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
+# Default Kubernetes manifest encryption
+- unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"

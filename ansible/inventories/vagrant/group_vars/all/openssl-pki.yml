@@ -161,10 +161,13 @@ openssl_custom_pki:
     locality_name: Paris
     organization_name: Test
     organizational_unit_name: Test
-    ca_common_name: "cluster.local"
+    ca_common_name: "cluster.local" # TODO use .lan TLD
     certs:
       - name: "docker-registry"
-        common_name: "{{ docker_registry_servername }}"
+        common_name: "docker-registry.infra-docker-registry.svc.cluster.local"
+        san:
+          - "{{ docker_private_registry_domain }}"
+          - "docker-registry.infra-docker-registry.svc.cluster.local"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris
@@ -207,7 +210,7 @@ openssl_custom_pki:
         generate_dh_param_enabled: true
         generate_dh_param_size: 1024
       - name: "smtp"
-        common_name: "{{ zonemta_smtp_servername }}"
+        common_name: "zonemta.infra-zonemta.svc.cluster.local"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris
@@ -215,7 +218,7 @@ openssl_custom_pki:
         organizational_unit_name: Test
         email_address: user@mail.net
       - name: "fluentd"
-        common_name: "{{ fluentd_servername }}"
+        common_name: "fluentd.logging-fluentd.svc.cluster.local"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris
@@ -223,7 +226,7 @@ openssl_custom_pki:
         organizational_unit_name: Test
         email_address: user@mail.net
       - name: "fluentbit"
-        common_name: "{{ fluentbit_servername }}"
+        common_name: "fluentbit.logging-fluentbit.svc.cluster.local"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris
@@ -231,7 +234,7 @@ openssl_custom_pki:
         organizational_unit_name: Test
         email_address: user@mail.net
       - name: "elasticsearch"
-        common_name: "{{ elasticsearch_servername }}"
+        common_name: "elasticsearch.logging-elasticsearch.svc.cluster.local"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris
@@ -239,7 +242,15 @@ openssl_custom_pki:
         organizational_unit_name: Test
         email_address: user@mail.net
       - name: "mqtt"
-        common_name: "{{ mosquitto_default_listener_servername }}"
+        common_name: "mosquitto.home-mosquitto.svc.cluster.local"
+        country_name: FR
+        state_or_province_name: France
+        locality_name: Paris
+        organization_name: Test
+        organizational_unit_name: Test
+        email_address: user@mail.net
+      - name: "argocd"
+        common_name: "argocd-server.dev-argo-cd.svc.cluster.local"
         country_name: FR
         state_or_province_name: France
         locality_name: Paris

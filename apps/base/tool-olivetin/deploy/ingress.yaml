@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: olivetin
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/name: OliveTin
+    gethomepage.dev/description: OliveTin gives safe and simple access to predefined shell commands from a web interface
+    gethomepage.dev/icon: olivetin
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=olivetin"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - olivetin.tool.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: olivetin.tool.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: olivetin
+            port:
+              name: http

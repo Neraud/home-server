@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: download-pyload.nfs-download
+spec:
+  nfs:
+    server: 192.168.100.11
+    path: /opt/mock_nas/Download

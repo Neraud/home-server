@@ -1,0 +1,28 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-syncthing
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: syncthing
+      app.kubernetes.io/component: syncthing
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: web
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow from everywhere
+    - ports:
+        - port: transfer-tcp
+        - port: discovery

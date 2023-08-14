@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: syncthing
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Files
+    gethomepage.dev/name: Syncthing
+    gethomepage.dev/description: Syncthing is a continuous file synchronization program
+    gethomepage.dev/icon: syncthing
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=syncthing"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - syncthing.tool.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: syncthing.tool.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: syncthing-web
+            port:
+              number: 8384

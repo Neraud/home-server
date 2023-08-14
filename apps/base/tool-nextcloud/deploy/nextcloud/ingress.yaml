@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Files
+    gethomepage.dev/name: Nextcloud
+    gethomepage.dev/description: The self-hosted productivity platform that keeps you in control
+    gethomepage.dev/icon: nextcloud
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=nextcloud"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - nextcloud.tool.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: nextcloud.tool.intra.web_domain_name
+    http:
+      paths:
+      - path: '/'
+        pathType: Prefix
+        backend:
+          service:
+            name: nextcloud
+            port:
+              name: web

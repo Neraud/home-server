@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apcups-exporter
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apcups-exporter
+      app.kubernetes.io/component: apcups-exporter
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apcups-exporter
+        app.kubernetes.io/component: apcups-exporter
+    spec:
+      containers:
+      - name: apcups-exporter
+        image: "registry.lan/apcupsd-exporter:3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.15.1"
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: APCUPS_ADDR
+          value: apcupsd.monitoring-apcups-exporter:3551
+        ports:
+        - containerPort: 9162
+          name: metrics
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random UID
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: metrics
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 50m
+            memory: 32Mi
+          limits:
+            cpu: 100m
+            memory: 32Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

@@ -1,0 +1,25 @@
+---
+
+- name: Build and deploy tool-miniflux
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: tool-miniflux
+
+- name: Deploy Miniflux PGSQL backup script
+  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+  vars:
+    app_backup:
+      name: tool-miniflux_pgsql
+      repository: "{{ restic_apps_backup_repository }}"
+      namespace: "tool-miniflux"
+      apps_to_stop:
+        - name: pgsql
+          type: statefulset
+          replicas: 1
+        - name: miniflux
+          type: deployment
+          replicas: 1
+      longhorn_volumes:
+        - volume_name: miniflux-pgsql
+          pvc_name: pgsql-data
+  tags: backup

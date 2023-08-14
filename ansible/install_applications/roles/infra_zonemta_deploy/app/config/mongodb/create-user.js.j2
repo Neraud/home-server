@@ -1,8 +1,0 @@
-
-db.createUser(
-  {
-    user: "{{ zonemta_mongo.user }}",
-    pwd: "{{ zonemta_mongo.password }}",
-    roles: [ { role: "readWrite", db: "{{ zonemta_mongo.database }}" } ]
-  }
-)

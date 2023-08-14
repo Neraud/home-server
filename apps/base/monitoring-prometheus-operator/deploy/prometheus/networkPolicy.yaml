@@ -1,0 +1,46 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-prometheus-k8s
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/instance: k8s
+
+  ingress:
+    # Allow from the ingress controller
+    - ports:
+        - port: web
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow from alertmanager
+    - ports:
+        - port: web
+      from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: alertmanager
+              app.kubernetes.io/component: alertmanager
+              app.kubernetes.io/instance: k8s
+
+    # Allow from grafana
+    - ports:
+        - port: web
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring-grafana
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: grafana
+              app.kubernetes.io/component: grafana

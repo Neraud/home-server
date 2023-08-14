@@ -1,0 +1,26 @@
+---
+
+- name: Build and deploy download-deluge
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: download-deluge
+
+# TODO : we can't mount a Longhorn RWX volume to back it up :/
+#- name: Deploy Deluge backup script
+#  ansible.builtin.import_tasks: ../../app_base/tasks/backup.yml
+#  vars:
+#    app_backup:
+#      name: download-deluge
+#      repository: "{{ restic_apps_backup_repository }}"
+#      namespace: "download-deluge"
+#      apps_to_stop:
+#        - name: deluge-daemon
+#          type: statefulset
+#          replicas: 1
+#        - name: deluge-web
+#          type: statefulset
+#          replicas: 1
+#      longhorn_volumes:
+#        - volume_name: deluge-data
+#          pvc_name: deluge-data
+#  tags: backup

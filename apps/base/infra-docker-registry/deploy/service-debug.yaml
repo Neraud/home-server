@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: docker-registry-debug
+  labels:
+    prometheus-target: docker-registry
+spec:
+  ports:
+    - port: 5001
+      name: debug
+      targetPort: debug
+  selector:
+    app.kubernetes.io/name: docker-registry
+    app.kubernetes.io/component: registry

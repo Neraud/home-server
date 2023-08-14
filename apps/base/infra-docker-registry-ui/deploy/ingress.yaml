@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docker-registry-ui
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: Docker Registry UI
+    gethomepage.dev/description: Web UI for Docker Registry
+    gethomepage.dev/icon: docker
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=docker-registry-ui"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - docker-registry-ui.infra.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: docker-registry-ui.infra.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: docker-registry-ui
+            port:
+              name: http

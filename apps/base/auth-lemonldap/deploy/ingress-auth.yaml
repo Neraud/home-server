@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lemonldap-auth
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - lemonldap.auth.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: lemonldap.auth.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: lemonldap
+            port:
+              name: http

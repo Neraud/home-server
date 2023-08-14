@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: openldap
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: openldap
+      app.kubernetes.io/name: openldap
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: openldap
+        app.kubernetes.io/name: openldap
+    spec:
+      containers:
+      - name: openldap
+        image: "registry.lan/openldap:1.5.0-amd64"
+        imagePullPolicy: IfNotPresent
+        args: ["--copy-service"]
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: openldap-data
+          subPath: data
+          mountPath: /var/lib/ldap
+        - name: openldap-data
+          subPath: conf
+          mountPath: /etc/ldap/slapd.d
+        - name: config-volume
+          mountPath: /container/environment/01-custom
+        - name: certs-volume
+          mountPath: /container/service/slapd/assets/certs
+        - name: openldap-data
+          subPath: run
+          mountPath: /container/run
+        ports:
+        - containerPort: 389
+          name: ldap
+        - containerPort: 636
+          name: ldaps
+        securityContext:
+          # See README.MD for details
+          #runAsNonRoot: true
+          #runAsUser: 999 # openldap
+          #runAsGroup: 999 # openldap
+          #readOnlyRootFilesystem: true
+        readinessProbe:
+          tcpSocket:
+            port: ldap
+          initialDelaySeconds: 60
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "128Mi"
+          limits:
+            cpu: "150m"
+            memory: "128Mi"
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: openldap-data
+        persistentVolumeClaim:
+          claimName: openldap-data
+      - name: config-volume
+        secret:
+          secretName: openldap-config
+      - name: certs-volume
+        secret:
+          secretName: openldap-certs
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

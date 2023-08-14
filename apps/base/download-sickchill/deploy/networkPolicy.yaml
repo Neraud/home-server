@@ -1,0 +1,32 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-sickchill
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: sickchill
+      app.kubernetes.io/component: sickchill
+
+  ingress:
+    - ports:
+        - port: sickchill
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+        # Allow from sabnzbd
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: download-sabnzbd
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: sabnzbd
+              app.kubernetes.io/component: sabnzbd

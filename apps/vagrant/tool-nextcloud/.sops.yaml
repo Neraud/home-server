@@ -1,0 +1,14 @@
+creation_rules:
+- path_regex: "mysql\\.env"
+  encrypted_regex: "^(MYSQL_PASSWORD|MYSQL_ROOT_PASSWORD)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+- path_regex: "nextcloud\\.env"
+  encrypted_regex: "^(NEXTCLOUD_ADMIN_PASSWORD|MYSQL_PASSWORD|REDIS_HOST_PASSWORD|SMTP_PASSWORD|NEXTCLOUD_LDAP_AGENT_PASSWORD)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+- path_regex: "task-rescheduler-config\\.yaml"
+  encrypted_regex: "^(users)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+
+# Default Kubernetes manifest encryption
+- unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"

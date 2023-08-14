@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kube-system
+
+resources:
+# Don't deploy the common manifest, we don't want to apply NetworkPolicies to the kube-system namespace
+#- ../../_common/deploy
+- kube-controller-manager.yaml
+- kube-dns.yaml
+- kube-proxy.yaml
+- kube-scheduler.yaml

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: frigate
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: frigate
+        resources:
+          requests:
+            cpu: 25m
+            memory: 256Mi
+          limits:
+            cpu: 250m
+            memory: 512Mi
+            # To use a gpu limit
+            #gpu.intel.com/i915: 1
+      # To use a node with a TPU
+      #nodeSelector:
+      #  capability/tpu: "yes"

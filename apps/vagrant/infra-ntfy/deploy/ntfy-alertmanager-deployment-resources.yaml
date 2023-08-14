@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ntfy-alertmanager
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: ntfy-alertmanager
+        resources:
+          requests:
+            cpu: 20m
+            memory: 32Mi
+          limits:
+            cpu: 40m
+            memory: 32Mi

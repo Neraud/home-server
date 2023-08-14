@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gitea
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Dev
+    gethomepage.dev/name: Gitea
+    gethomepage.dev/description: Lightweight code hosting solution
+    gethomepage.dev/icon: gitea
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=gitea"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - gitea.dev.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: gitea.dev.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gitea
+            port:
+              name: http

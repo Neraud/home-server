@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sabnzbd
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Download
+    gethomepage.dev/name: SABnzbd
+    gethomepage.dev/description: Binary newsreader
+    gethomepage.dev/icon: sabnzbd
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=sabnzbd"
+    # https://gethomepage.dev/en/services/sabnzbd/
+    gethomepage.dev/widget.type: "sabnzbd"
+    gethomepage.dev/widget.url: "http://sabnzbd.download-sabnzbd.svc.cluster.local:80"
+    gethomepage.dev/widget.fields: '["rate", "queue", "timeleft"]'
+    gethomepage.dev/widget.key: "changeme"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - sabnzbd.dl.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: sabnzbd.dl.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sabnzbd
+            port:
+              number: 80

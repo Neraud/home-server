@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: infra-docker-registry
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: docker-registry
+      app.kubernetes.io/component: registry
+      app.kubernetes.io/version: 2.8.1
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: docker-registry
+  files:
+  - secret/config.yml
+  - secret/htpasswd
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- networkPolicy.yaml
+- certs-secret.yaml
+- service.yaml
+- service-debug.yaml
+- service-lb.yaml
+- ingress.yaml
+- pvc.yaml
+- deployment.yaml

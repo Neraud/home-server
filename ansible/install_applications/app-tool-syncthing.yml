@@ -1,6 +1,0 @@
----
-- name: Provision tool-syncthing
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: tool_syncthing_deploy

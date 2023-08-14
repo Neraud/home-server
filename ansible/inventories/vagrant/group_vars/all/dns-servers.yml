@@ -10,7 +10,11 @@ dns_static_hosts:
     ip: 192.168.100.14
 
 dns_static_domains:
-  # Add our web domains to the list, so that we can go to the vip directly
+  # Generic LB domains
+  - name: "{{ docker_private_registry_domain }}"
+    ip: "{{ kubernetes_docker_registry_lb_ip }}"
+    
+  # Web domains, so that we can go to the vip directly
   - name: "auth.{{ web_base_domain }}"
     ip: "{{ nginx_keepalived_instance_public_virtual_ip }}"
   - name: "auth.intra.{{ web_base_domain }}"

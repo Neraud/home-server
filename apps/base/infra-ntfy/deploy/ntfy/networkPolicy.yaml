@@ -1,0 +1,38 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-ntfy
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: ntfy
+      app.kubernetes.io/component: ntfy
+
+  ingress:
+    - ports:
+        - port: http
+      from:
+        # Allow from the ingress controller
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+        # Allow from ntfy-alertmanager
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ntfy
+              app.kubernetes.io/component: ntfy-alertmanager
+
+        # Allow from homeassistant
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-homeassistant
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homeassistant
+              app.kubernetes.io/component: homeassistant

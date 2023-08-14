@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: nextcloud
+      app.kubernetes.io/component: caldav-recurring-task-scheduler
+      app.kubernetes.io/part-of: nextcloud
+      app.kubernetes.io/version: 1b6cb6e328c895459573326a3868030bd099c215-3.10.5-alpine3.16
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: task-rescheduler
+  files:
+  - secret/config.yaml
+
+resources:
+- cronJob.yaml

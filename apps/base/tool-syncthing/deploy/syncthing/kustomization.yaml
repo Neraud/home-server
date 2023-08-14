@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: syncthing
+      app.kubernetes.io/component: syncthing
+      app.kubernetes.io/version: 1.23.2
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+configMapGenerator:
+- name: syncthing-conf-injection-env
+  envs:
+  - config/syncthing-conf-injection.env
+
+resources:
+- nfs-syncthing-pvc.yaml
+- nfs-syncthing-pv.yaml
+- ingress.yaml
+- networkPolicy.yaml
+- service-sync-tcp.yaml
+- service-sync-udp.yaml
+- service-web.yaml
+- pvc.yaml
+- statefulSet.yaml

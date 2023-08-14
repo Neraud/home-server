@@ -1,0 +1,6 @@
+---
+- name: Deploy with Argo
+  ansible.builtin.shell: |
+    export KUBECONFIG={{ kubeconfig_path }}
+    argo submit -n dev-argo-tasks {{ app_overlay_path }}/workflow.yaml --wait
+

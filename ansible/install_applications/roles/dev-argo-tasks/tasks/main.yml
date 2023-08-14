@@ -1,0 +1,5 @@
+---
+- name: Build and deploy Argo tasks
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: dev-argo-tasks

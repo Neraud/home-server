@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/infra-crowdsec/deploy
+
+generators:
+- lapi-secret-generator.yaml
+
+patches:
+- path: agent-daemonSet-resources.yaml
+- path: lapi-pvc-db-resources.yaml
+- path: lapi-pvc-config-resources.yaml
+- path: lapi-statefulSet-resources.yaml
+- path: lapi-service-lb-ip.yaml

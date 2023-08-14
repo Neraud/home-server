@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lapi
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: lapi
+        resources:
+          requests:
+            cpu: 150m
+            memory: 128Mi
+          limits:
+            cpu: 400m
+            memory: 128Mi

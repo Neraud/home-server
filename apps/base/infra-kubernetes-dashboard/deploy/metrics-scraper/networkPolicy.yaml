@@ -1,0 +1,25 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-dashboard-metrics-scraper
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kubernetes-dashboard
+      app.kubernetes.io/component: metrics-scraper
+
+  ingress:
+    # Allow from kubernetes-dashboard
+    - ports:
+        - port: 8000
+    # Unfortunatly, the selector below has an issue.
+    # When kubernetes-dashboard and dashboard-metrics-scraper are on different nodes, the dashboard can't access the metrics
+    # Log: "Metric client health check failed: the server is currently unable to handle the request (get services dashboard-metrics-scraper). Retrying in 30 seconds."
+    # It also generates a prometheus alert : KubeAPIErrorsHigh
+    #  from:
+    #    - podSelector:
+    #        matchLabels:
+    #          app.kubernetes.io/name: kubernetes-dashboard
+    #          app.kubernetes.io/component: dashboard

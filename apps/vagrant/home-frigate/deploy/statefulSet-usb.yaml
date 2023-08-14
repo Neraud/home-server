@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: frigate
+spec:
+  template:
+    spec:
+      containers:
+      - name: frigate
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /dev/bus/usb
+          name: usb
+      volumes:
+      - name: usb
+        hostPath:
+          path: /dev/bus/usb

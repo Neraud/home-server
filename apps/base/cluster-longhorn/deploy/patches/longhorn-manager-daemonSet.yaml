@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: longhorn-manager
+  namespace: longhorn-system
+spec:
+  template:
+    spec:
+      tolerations:
+      - key: "specific-worker-type"
+        operator: Exists
+        effect: NoSchedule

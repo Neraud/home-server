@@ -1,6 +1,0 @@
----
-- name: Provision monitoring-kubernetes
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: monitoring_kubernetes_deploy

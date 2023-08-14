@@ -1,6 +1,0 @@
----
-- name: Provision download-pyload
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: download_pyload_deploy

@@ -1,4 +1,3 @@
-
 # HomeServer Provisioning
 
 This project contains the playbook to provision my home servers.
@@ -25,11 +24,12 @@ The underlying hardware is detailed on a [dedicated page](docs/Hardware_detail.m
 
 | Type      | Cores | CPU Model                                                                                                                                |  RAM  | Storage   |
 | --------- | :---: | ---------------------------------------------------------------------------------------------------------------------------------------- | :---: | --------- |
-| master-1  |  2/4  | [Intel i5-6260U](https://ark.intel.com/products/91160/Intel-Core-i5-6260U-Processor-4M-Cache-up-to-2-90-GHz-)                            |  32G  | SSD 500G  |
-| master-2  |  4/8  | [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) |  32G  | SSD 500G  |
-| master-3  |  4/8  | [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) |  32G  | SSD 500G  |
+| master-1  | 8/16  | [AMD Ryzen 7 5700G](https://www.amd.com/en/products/apu/amd-ryzen-7-5700g)                                                               |  32G  | SSD 1T    |
+| master-2  | 8/16  | [AMD Ryzen 7 5700G](https://www.amd.com/en/products/apu/amd-ryzen-7-5700g)                                                               |  32G  | SSD 1T    |
+| master-3  | 8/16  | [AMD Ryzen 7 5700G](https://www.amd.com/en/products/apu/amd-ryzen-7-5700g)                                                               |  32G  | SSD 1T    |
+| node-1    |  4/8  | [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) |  32G  | SSD 500G  |
+| node-2    |  4/8  | [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) |  32G  | SSD 500G  |
 | node-home |  4/4  | [Intel Atom x5 Z8350](https://ark.intel.com/products/93361/Intel-Atom-x5-Z8350-Processor-2M-Cache-up-to-1-92-GHz-)                       |  2G   | Flash 32G |
-| node-1    | 8/16  | [AMD Ryzen 7 5700G](https://www.amd.com/en/products/apu/amd-ryzen-7-5700g)                                                               |  32G  | SSD 1T    |
 
 ## High availability
 
@@ -51,6 +51,11 @@ The following services are deployed :
 | [OpenLDAP](https://www.openldap.org/)                            | Open source Lightweight Directory Access Protocol               |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | Web Single Sign On and Access Management Free Software          |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | Web-based LDAP browser                                          |
+| [Gitea](https://gitea.io/)                                       | Painless self-hosted Git service                                |
+| [MinIO](https://www.crowdsec.net/)                               | S3 compatible object store                                      |
+| [Argo Events](https://www.crowdsec.net/)                         | Event-driven workflow automation framework for Kubernetes       |
+| [Argo Workflows](https://www.crowdsec.net/)                      | Kubernetes-native workflow engine                               |
+| [ArgoCD](https://www.crowdsec.net/)                              | Declarative, GitOps continuous delivery tool for Kubernetes     |
 | [Crowdsec](https://www.crowdsec.net/)                            | Collaborative malicious activity detection and remediation tool |
 | [ZoneMTA](https://github.com/zone-eu/zone-mta)                   | Modern outbound SMTP relay                                      |
 | [MailHog](https://github.com/mailhog/MailHog)                    | MailHog is an email testing tool for developers                 |
@@ -84,6 +89,17 @@ The following services are deployed :
 | [Deluge](https://deluge-torrent.org/)                            | Torrent client                                                  |
 | [pyload](https://pyload.net/)                                    | HTTP download manager                                           |
 | [SABnzbd](https://sabnzbd.org/)                                  | Binary newsreader                                               |
+
+## DevOps
+
+Ansible is used to deploy the infrastructure:
+
+![DevOps - Infrastucture](docs/diagrams/DevOps_Infrastructure_-_High_level.png "DevOps - Infrastucture")
+
+Once everything is configured, applications are deployed automatically using the argo suite:
+
+![DevOps - Applications High level](docs/diagrams/DevOps_Applications_-_High_level.png "DevOps - Applications High level")
+DevOps tools are deployed in the cluster. See the dedicated [DevOps](docs/DevOps.md) documentation for more details.
 
 ## Backups
 

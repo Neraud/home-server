@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: olivetin
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: olivetin
+      app.kubernetes.io/component: olivetin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: olivetin
+        app.kubernetes.io/component: olivetin
+    spec:
+      containers:
+      - name: olivetin
+        image: "registry.lan/olivetin:2023.03.25-amd64-custom"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 1337
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # olivetin
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: 35m
+            memory: 32Mi
+          limits:
+            cpu: 75m
+            memory: 32Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: olivetin-config
+          mountPath: /etc/OliveTin/config.yaml
+          subPath: config.yaml
+        - name: olivetin-config
+          mountPath: /etc/OliveTin/images.csv
+          subPath: images.csv
+        - name: images-volume
+          mountPath: /var/www/olivetin/customIcons
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: olivetin-config
+        configMap:
+          name: olivetin-config
+      - name: images-volume
+        emptyDir: {}
+      nodeSelector:
+        capability/general-purpose: 'yes'

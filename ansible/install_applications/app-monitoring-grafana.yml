@@ -1,6 +1,0 @@
----
-- name: Provision monitoring-grafana
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: monitoring_grafana_deploy

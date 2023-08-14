@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/download-sabnzbd/deploy
+
+generators:
+- secret-generator.yaml
+
+patches:
+- path: nfs-download-pv-nfs.yaml
+- path: pvc-resources.yaml
+- path: statefulSet-resources.yaml
+- path: ingress-homepage-widget.yaml
+- target:
+    kind: Ingress
+    name: sabnzbd
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: sabnzbd.dl.intra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: sabnzbd.dl.intra.k8s.test

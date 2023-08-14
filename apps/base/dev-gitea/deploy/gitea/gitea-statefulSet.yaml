@@ -1,0 +1,138 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: gitea
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gitea
+      app.kubernetes.io/component: gitea
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: gitea
+        app.kubernetes.io/component: gitea
+    spec:
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/gitea-busybox:1.36.0"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /opt/gitea-data/data
+            chown -R 1000:1000 /opt/gitea-data/
+        volumeMounts:
+        - name: gitea-data
+          mountPath: /opt/gitea-data
+      - name: prepare-certs
+        image: "registry.lan/gitea:1.19.0-rootless"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            echo "Refreshing certs"
+            update-ca-certificates
+            echo "Copying generated certs in the volume"
+            cp -R /etc/ssl/certs/* /etc/ssl/certs-target/
+        securityContext:
+          runAsNonRoot: false
+          runAsUser: 0
+          readOnlyRootFilesystem: false
+        volumeMounts:
+        - name: cluster-ca-volume
+          mountPath: /usr/local/share/ca-certificates/cluster_ca.crt
+          subPath: ca.crt
+        - name: certs-volume
+          mountPath: /etc/ssl/certs-target
+      containers:
+      - name: gitea
+        image: "registry.lan/gitea:1.19.0-rootless"
+        imagePullPolicy: IfNotPresent
+        args: [ "/usr/local/bin/init_and_start.sh" ]
+        envFrom:
+          - configMapRef:
+              name: gitea-env
+          - secretRef:
+              name: gitea-env
+        env:
+        - name: GITEA__database__USER
+          valueFrom:
+            secretKeyRef:
+              name: pgsql-env
+              key: POSTGRES_USER
+        - name: GITEA__database__NAME
+          valueFrom:
+            secretKeyRef:
+              name: pgsql-env
+              key: POSTGRES_DB
+        - name: GITEA__database__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: pgsql-env
+              key: POSTGRES_PASSWORD
+        ports:
+        - containerPort: 3000
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # git
+          readOnlyRootFilesystem: true
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: http
+        resources:
+          requests:
+            cpu: 25m
+            memory: 256Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: gitea-data
+          mountPath: /var/lib/gitea
+          subPath: data
+        - name: gitea-init
+          mountPath: /usr/local/bin/init_and_start.sh
+          subPath: init_and_start.sh
+        - name: cluster-ca-volume
+          mountPath: /usr/local/share/ca-certificates/cluster_ca.crt
+          subPath: ca.crt
+        - name: cluster-ca-volume
+          mountPath: /etc/ssl/cluster/ca.crt
+          subPath: ca.crt
+        - name: certs-volume
+          mountPath: /etc/ssl/certs
+        - name: tmp-volume
+          mountPath: /tmp
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: gitea-init
+        configMap:
+          name: gitea-init
+          defaultMode: 0555
+      - name: gitea-data
+        persistentVolumeClaim:
+          claimName: gitea-data
+      - name: cluster-ca-volume
+        secret:
+          secretName: cluster-ca
+      - name: tmp-volume
+        emptyDir: {}
+      - name: certs-volume
+        emptyDir: {}
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/general-purpose: 'yes'

@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  labels:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/component: minio
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: minio
+      app.kubernetes.io/component: minio
+  template:
+    metadata:
+      name: minio
+      labels:
+        app.kubernetes.io/name: minio
+        app.kubernetes.io/component: minio
+      annotations:
+        checksum/secrets: d87c78420fe45b8bbc33ea021e315e622ab1732053e0a5e64acfb8c1495434ae
+        checksum/config: 236055d88f10ff4f2b41fafd202cb6e588bfff751bb1a953d222d645f2a70cc0
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+      serviceAccountName: minio-sa
+      containers:
+        - name: minio
+          image: "registry.lan/minio:RELEASE.2023-04-13T03-08-07Z"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/sh"
+            - "-ce"
+            - "/usr/bin/docker-entrypoint.sh minio server /export -S /etc/minio/certs/ --address :9000 --console-address :9001"
+          volumeMounts:
+            - name: minio-user
+              mountPath: "/tmp/credentials"
+              readOnly: true
+            - name: export
+              mountPath: /export
+          ports:
+            - name: http
+              containerPort: 9000
+            - name: http-console
+              containerPort: 9001
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio
+                  key: rootUser
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio
+                  key: rootPassword
+            - name: MINIO_PROMETHEUS_AUTH_TYPE
+              value: "public"
+          readinessProbe:
+            httpGet:
+              port: http-console
+              scheme: HTTP
+              path: /
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 25m
+              memory: 384Mi
+            limits:
+              cpu: 200m
+              memory: 512Mi
+      volumes:
+        - name: export
+          persistentVolumeClaim:
+            claimName: minio
+        - name: minio-user
+          secret:
+            secretName: minio
+      nodeSelector:
+        capability/general-purpose: 'yes'

@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy infra-gandi-livedns
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: infra-gandi-livedns

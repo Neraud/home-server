@@ -1,0 +1,66 @@
+---
+docker_private_registry:
+  domain: "{{ docker_private_registry_domain }}"
+  api_url: "https://{{ docker_private_registry_domain }}"
+  ca_path: "{{ docker_private_registry_ca_path }}"
+  username: "{{ docker_registry_kube_registry_username }}"
+  password: "{{ docker_registry_kube_registry_password }}"
+
+openssl_custom_cert_secrets:
+- secret_name: "ingress"
+  pki_name: cluster
+  cert_name: ingress
+  kubernetes_replicator:
+    push_full_to_namespaces:
+    - .*
+- secret_name: "docker-registry"
+  pki_name: cluster
+  cert_name: docker-registry
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - infra-docker-registry
+- secret_name: "smtp"
+  pki_name: cluster
+  cert_name: smtp
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - infra-zonemta
+- secret_name: "openldap"
+  pki_name: cluster
+  cert_name: ldap
+  include_dhparam: true
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - auth-openldap
+- secret_name: "argocd"
+  pki_name: cluster
+  cert_name: argocd
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - dev-argo-cd
+    pull_cert_namespaces:
+    - dev-argo-tasks
+- secret_name: "mqtt"
+  pki_name: cluster
+  cert_name: mqtt
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - home-mosquitto
+- secret_name: "elasticsearch"
+  pki_name: cluster
+  cert_name: elasticsearch
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - logging-elasticsearch
+- secret_name: "fluentbit"
+  pki_name: cluster
+  cert_name: fluentbit
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - logging-fluentbit
+- secret_name: "fluentd"
+  pki_name: cluster
+  cert_name: fluentd
+  kubernetes_replicator:
+    pull_full_namespaces:
+    - logging-fluentd

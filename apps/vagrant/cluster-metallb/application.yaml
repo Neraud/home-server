@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cluster-metallb
+  namespace: dev-argo-cd
+  # Add this finalizer ONLY if you want these to cascade delete.
+  #finalizers:
+  #  - resources-finalizer.argocd.argoproj.io
+  labels:
+    app.kubernetes.io/name: metallb
+spec:
+  project: k8s-cluster
+
+  source:
+    repoURL: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
+    targetRevision: develop
+    path: apps/vagrant/cluster-metallb/deploy
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: metallb-system
+
+  syncPolicy:
+    syncOptions:
+    - PruneLast=true # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
+    # ServerSideApply to avoid issues with large annotations (see https://www.arthurkoziel.com/fixing-argocd-crd-too-long-error/)
+    - ServerSideApply=true
+
+  # Ignore caBundle in CRDs, they are managed by MetalLB and will always appear as changed
+  # See : https://github.com/metallb/metallb/issues/1681#issuecomment-1312620526
+  ignoreDifferences:
+  - group: "apiextensions.k8s.io"
+    kind: CustomResourceDefinition
+    name: bgppeers.metallb.io
+    jsonPointers:
+    - /spec/conversion/webhook/clientConfig/caBundle
+  - group: "apiextensions.k8s.io"
+    kind: CustomResourceDefinition
+    name: addresspools.metallb.io
+    jsonPointers:
+    - /spec/conversion/webhook/clientConfig/caBundle

@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: roomassistant
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: roomassistant
+      app.kubernetes.io/component: roomassistant
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: roomassistant
+        app.kubernetes.io/component: roomassistant
+    spec:
+      containers:
+      - name: roomassistant
+        image: "registry.lan/room-assistant:2.20.0-custom"
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - secretRef:
+            name: roomassistant-env
+        env:
+        - name: NODE_LOG_LEVEL
+          value: info
+        ports:
+        - containerPort: 6415
+          name: http
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # node
+          readOnlyRootFilesystem: true
+          capabilities:
+            add:
+            - NET_RAW
+            - NET_ADMIN
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            cpu: 100m
+            memory: 256Mi
+        readinessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /status
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        volumeMounts:
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: roomassistant-config
+          mountPath: /room-assistant/config
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /etc/localtime
+      - name: roomassistant-config
+        configMap:
+          name: roomassistant-config
+      # Host network required for bluetooth
+      hostNetwork: true
+      imagePullSecrets:
+      - name: docker-config
+      nodeSelector:
+        capability/home: 'yes'
+      tolerations:
+      - key: "specific-worker-type"
+        operator: "Equal"
+        value: "home-only"
+        effect: "NoSchedule"

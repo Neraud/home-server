@@ -1,6 +1,0 @@
----
-- name: Provision infra-zonemta
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: infra_zonemta_deploy

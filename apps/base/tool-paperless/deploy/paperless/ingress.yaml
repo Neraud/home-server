@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: paperless
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Files
+    gethomepage.dev/name: Paperless
+    gethomepage.dev/description: Scan & OCR documents
+    gethomepage.dev/icon: paperless
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=paperless"
+    # https://gethomepage.dev/en/services/paperlessngx/
+    gethomepage.dev/widget.type: "paperlessngx"
+    gethomepage.dev/widget.url: "http://paperless.tool-paperless.svc.cluster.local:8000"
+    gethomepage.dev/widget.fields: '["total", "inbox"]'
+    gethomepage.dev/widget.username: "changeme"
+    gethomepage.dev/widget.password: "changeme"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - paperless.tool.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: paperless.tool.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: paperless
+            port:
+              name: web

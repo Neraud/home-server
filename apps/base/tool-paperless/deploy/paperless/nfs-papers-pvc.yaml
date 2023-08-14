@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-papers
+spec:
+  accessModes: [ "ReadWriteMany" ]
+  storageClassName: nas-nfs
+  resources:
+    requests:
+      storage: 1Mi
+  selector:
+    matchLabels:
+      app_namespace: tool-paperless
+      detail: papers

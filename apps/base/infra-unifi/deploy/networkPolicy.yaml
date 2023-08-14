@@ -1,0 +1,45 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-unifi
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: unifi
+      app.kubernetes.io/component: unifi
+
+  ingress:
+    # Allow http from the ingress controller
+    - ports:
+        - port: http
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+
+    # Allow http from the homepage (to enable the widget)
+    - ports:
+        - port: https
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: tool-homepage
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: homepage
+              app.kubernetes.io/component: homepage
+
+    # Allow private ports from everywhere
+    - ports:
+        - port: stun
+        - port: http-crtl
+        - port: https-crtl
+        - port: http-portal
+        - port: https-portal
+        - port: speed-test
+        - port: ap-discovery

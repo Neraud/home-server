@@ -1,0 +1,114 @@
+---
+
+- name: Build and deploy logging-kibana
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: logging-kibana
+
+- name: Create Kibana saved objects exporter dir
+  ansible.builtin.file:
+    path: "{{ kibana_export_saved_script_path | dirname }}"
+    state: directory
+    owner: "{{ standard_user.name }}"
+    group: "{{ standard_user.name }}"
+    mode: 0755
+
+- name: Generate Kibana saved objects exporter
+  ansible.builtin.template:
+    src: kibana_save_objects.py.j2
+    dest: "{{ kibana_export_saved_script_path }}"
+    owner: "{{ standard_user.name }}"
+    group: "{{ standard_user.name }}"
+    mode: 0755
+
+- name: Wait for OpenSearch Dashboards to be available
+  kubernetes.core.k8s_info:
+    kind: StatefulSet
+    namespace: "logging-kibana"
+    name: kibana
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+  register: k8s_result
+  until: k8s_result.resources[0].status.readyReplicas | default(0) > 0
+  retries: 60
+  delay: 10
+
+- name: List Kibana saved objects
+  ansible.builtin.set_fact:
+    kibana_config_saved_objects_files: "{{ kibana_config_saved_objects_files | default([]) + [ item ] }}"
+  with_fileglob:
+    - "{{ role_path }}/templates/saved_objects/*.json*"
+
+- name: Read Kibana saved objects
+  ansible.builtin.set_fact:
+    kibana_config_contents: "{{ kibana_config_contents | default([]) + [ (lookup(item | regex_search('.j2$') | ternary('template','file'), item) | from_json) ] }}"
+  with_items: "{{ kibana_config_saved_objects_files }}"
+
+- name: Check if objects already exist
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    method: GET
+    headers:
+      Host: "kibana.log.intra.{{ web_base_domain }}"
+    return_content: yes
+    status_code:
+      - 200
+      - 404
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ kibana_elasticsearch_user }}"
+    password: "{{ kibana_elasticsearch_password }}"
+  register: existing_kibana_saved_objects
+  with_together:
+    - "{{ kibana_config_saved_objects_files }}"
+    - "{{ kibana_config_contents }}"
+  loop_control:
+    label: "{{ item.0 }} -> {{ item.1.id }}"
+
+- name: Create missing objects
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    method: POST
+    headers:
+      Host: "kibana.log.intra.{{ web_base_domain }}"
+      osd-xsrf: osd-xsrf
+    body:
+      attributes: "{{ item.1.attributes }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ kibana_elasticsearch_user }}"
+    password: "{{ kibana_elasticsearch_password }}"
+  with_together:
+    - "{{ kibana_config_saved_objects_files }}"
+    - "{{ kibana_config_contents }}"
+    - "{{ existing_kibana_saved_objects.results }}"
+  loop_control:
+    label: "{{ item.0 }} -> {{ item.1.id }}"
+  changed_when: True
+  when: item.2.status == 404
+
+- name: Updating changed objects
+  ansible.builtin.uri:
+    url: "https://{{ kubernetes_nginx_ingress_lb_ip }}:{{ kubernetes_ingress_https_port }}/api/saved_objects/{{ item.1.type }}/{{ item.1.id }}"
+    method: PUT
+    headers:
+      Host: "kibana.log.intra.{{ web_base_domain }}"
+      osd-xsrf: osd-xsrf
+    body:
+      attributes: "{{ item.1.attributes }}"
+    body_format: json
+    validate_certs: no
+    force_basic_auth: yes
+    user: "{{ kibana_elasticsearch_user }}"
+    password: "{{ kibana_elasticsearch_password }}"
+  with_together:
+    - "{{ kibana_config_saved_objects_files }}"
+    - "{{ kibana_config_contents }}"
+    - "{{ existing_kibana_saved_objects.results }}"
+  loop_control:
+    label: "{{ item.0 }} -> {{ item.1.id }}"
+  changed_when: True
+  when:
+    - item.2.status == 200
+    - item.2.json.attributes != item.1.attributes

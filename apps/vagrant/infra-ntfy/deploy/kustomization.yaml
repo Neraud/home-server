@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../../base/infra-ntfy/deploy
+
+configMapGenerator:
+- name: ntfy-config
+  files:
+  - config/server-url.yml
+  behavior: merge
+
+generators:
+- ntfy-secret-generator.yaml
+- ntfy-alertmanager-secret-generator.yaml
+
+patches:
+- path: ntfy-statefulSet-resources.yaml
+- path: ntfy-alertmanager-deployment-resources.yaml
+- path: ntfy-pvc-resources.yaml
+- target:
+    kind: Ingress
+    name: ntfy
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: ntfy.infra.k8s.test
+    - op: replace
+      path: /spec/rules/0/host
+      value: ntfy.infra.k8s.test

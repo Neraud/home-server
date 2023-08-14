@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-state-metrics
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: kube-state-metrics
+        resources:
+          limits:
+            cpu: 100m
+            memory: 96Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+      - name: kube-rbac-proxy-main
+        resources:
+          limits:
+            cpu: 250m
+            memory: 64Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi
+      - name: kube-rbac-proxy-self
+        resources:
+          limits:
+            cpu: 250m
+            memory: 64Mi
+          requests:
+            cpu: 25m
+            memory: 32Mi

@@ -1,0 +1,71 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dev-argo-cd
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+- name: argocd-cm
+  env: config/argocd.env
+  behavior: replace
+- name: argocd-rbac-cm
+  files:
+  - config/policy.csv
+  behavior: replace
+
+secretGenerator:
+- name: argocd-secret
+  env: secret/argocd.env
+  behavior: replace
+- name: private-repo
+  env: secret/private-repo.env
+  type: Opaque
+  options:
+    labels:
+      argocd.argoproj.io/secret-type: repository
+
+resources:
+- namespace.yaml
+- ../../_common/deploy
+- sops-key.yaml
+- manifests/cluster-install
+- argocd-server-tls-secret.yaml
+- argocd-server-ingress-grpc.yaml
+- argocd-server-ingress-http.yaml
+- project
+
+patches:
+- path: patches/argocd-application-controller-statefulset.yaml
+- path: patches/argocd-applicationset-controller-deployment.yaml
+- path: patches/argocd-dex-server-deployment.yaml
+- path: patches/argocd-notifications-controller-deployment.yaml
+- path: patches/argocd-redis-deployment.yaml
+- path: patches/argocd-repo-server-deployment.yaml
+- path: patches/argocd-server-deployment.yaml
+- target:
+    kind: ClusterRoleBinding
+    name: argocd-application-controller
+  patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: dev-argo-cd
+- target:
+    kind: ClusterRoleBinding
+    name: argocd-server
+  patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: dev-argo-cd
+
+images:
+- name: quay.io/argoproj/argocd
+  newName: registry.lan/argocd
+  newTag: v2.8.0-ksops
+- name: ghcr.io/dexidp/dex
+  newName: registry.lan/dex
+  newTag: v2.37.0
+- name: redis
+  newName: registry.lan/argocd-redis
+  newTag: 7.0.11-alpine

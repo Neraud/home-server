@@ -1,6 +1,0 @@
----
-- name: Provision tool-miniflux
-  hosts: controller
-  gather_facts: no
-  roles:
-    - role: tool_miniflux_deploy

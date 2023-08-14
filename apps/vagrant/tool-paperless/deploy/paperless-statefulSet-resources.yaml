@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: paperless
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: paperless
+        resources:
+          requests:
+            cpu: 75m
+            memory: 256Mi
+          limits:
+            cpu: 750m
+            memory: 1G

@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: blocky
+      app.kubernetes.io/component: blocky
+      app.kubernetes.io/part-of: blocky
+      app.kubernetes.io/version: v0.21
+
+generatorOptions:
+ disableNameSuffixHash: true
+
+secretGenerator:
+- name: blocky-config
+  files:
+  - secret/config.yml
+
+resources:
+- networkPolicy.yaml
+- service-dns-tcp.yaml
+- service-dns-udp.yaml
+- service-prometheus.yaml
+- deployment.yaml

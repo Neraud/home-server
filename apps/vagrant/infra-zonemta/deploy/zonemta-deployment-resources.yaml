@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zonemta
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: zonemta
+        env:
+        - name: NODE_OPTIONS
+          value: --max-old-space-size=32
+        resources:
+          requests:
+            cpu: 25m
+            memory: 160Mi
+          limits:
+            cpu: 100m
+            memory: 160Mi

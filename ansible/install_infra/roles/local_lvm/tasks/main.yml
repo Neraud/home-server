@@ -6,7 +6,7 @@
     resizefs: yes
     state: present
     active: yes
-    size: "{{ item.value.capacity }}"
+    size: "{{ item.value.capacity | regex_replace('Mi$', 'm') | regex_replace('Gi$', 'g') | regex_replace('Ti$', 't') }}" # Use lower case unit (eg: 'g' for 'Gi')
   loop: "{{ local_lvm_storage | default({}) | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
