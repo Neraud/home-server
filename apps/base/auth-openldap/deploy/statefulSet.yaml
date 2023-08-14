@@ -46,10 +46,13 @@ spec:
           name: ldaps
         securityContext:
           # See README.MD for details
-          #runAsNonRoot: true
+          runAsNonRoot: false
           #runAsUser: 999 # openldap
           #runAsGroup: 999 # openldap
-          #readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: true
+          seccompProfile:
+            type: RuntimeDefault
         readinessProbe:
           tcpSocket:
             port: ldap
