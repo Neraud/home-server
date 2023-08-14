@@ -20,6 +20,7 @@ resources:
 - longhorn-low-durability-storageClass.yaml
 
 patches:
+  - path: patches/namespace.yaml
   - path: patches/longhorn-backend-service.yaml
   - path: patches/longhorn-admission-webhook-deployment.yaml
   - path: patches/longhorn-conversion-webhook-deployment.yaml
