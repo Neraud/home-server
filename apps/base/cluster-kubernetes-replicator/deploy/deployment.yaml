@@ -18,10 +18,8 @@ spec:
         app.kubernetes.io/instance: replicator
     spec:
       serviceAccountName: kubernetes-replicator
-      securityContext: {}
       containers:
       - name: kubernetes-replicator
-        securityContext: {}
         image: quay.io/mittwald/kubernetes-replicator:v2.8.0
         imagePullPolicy: IfNotPresent
         args: []
@@ -29,6 +27,16 @@ spec:
         - name: health
           containerPort: 9102
           protocol: TCP
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000 # random uid
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+              - ALL
         livenessProbe:
           httpGet:
             path: /healthz
