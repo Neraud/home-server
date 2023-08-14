@@ -70,8 +70,8 @@ spec:
           mountPath: /etc/localtime
           readOnly: true
         - name: fluentd-config
-          mountPath: /fluentd/etc/
-          subpath: fluent.conf
+          mountPath: /fluentd/etc/fluent.conf
+          subPath: fluent.conf
         - name: fluentd-config
           mountPath: /fluentd/etc/conf.d
         - name: certs-volume
