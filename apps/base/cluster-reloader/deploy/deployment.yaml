@@ -24,6 +24,12 @@ spec:
           runAsUser: 1000
           runAsGroup: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
             cpu: 25m
