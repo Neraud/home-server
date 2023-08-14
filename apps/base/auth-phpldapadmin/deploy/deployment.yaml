@@ -50,6 +50,12 @@ spec:
           runAsNonRoot: true
           runAsUser: 33 # www-data
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
