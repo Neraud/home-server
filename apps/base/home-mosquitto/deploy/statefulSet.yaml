@@ -15,16 +15,28 @@ spec:
         app.kubernetes.io/name: mosquitto
         app.kubernetes.io/component: mosquitto
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1883 # mosquitto
+        fsGroup: 1883
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/mosquitto-busybox:1.36.0"
+        image: "registry.lan/mosquitto:2.0.15-openssl"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /mosquitto/data
-            chown -R 1883:1883 /mosquitto
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: mosquitto-data
           mountPath: /mosquitto
@@ -41,9 +53,11 @@ spec:
         - containerPort: 8883
           name: mqtts
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1883 # mosquitto
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           exec:
             command:
@@ -71,8 +85,6 @@ spec:
         - name: mosquitto-data
           mountPath: /mosquitto/data
           subPath: data
-      securityContext:
-        fsGroup: 1883 # mosquitto group inside the container
       volumes:
       - name: cluster-config
         configMap:
