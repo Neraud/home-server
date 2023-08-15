@@ -18,6 +18,13 @@ spec:
         app.kubernetes.io/name: blocky
         app.kubernetes.io/component: blocky
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 100 # blocky
+        fsGroup: 100
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: blocky
         image: "registry.lan/blocky:v0.21"
@@ -32,9 +39,13 @@ spec:
           containerPort: 53
           protocol: UDP
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 100 # blocky
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+            add:
+            - NET_BIND_SERVICE
         resources:
           requests:
             cpu: 25m
