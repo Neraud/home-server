@@ -18,22 +18,13 @@ spec:
         app.kubernetes.io/name: docker-registry
         app.kubernetes.io/component: registry
     spec:
-      initContainers:
-      - name: create-data-dir
-        image: "docker.io/library/busybox:1.36.0"
-        # Don't always pull to avoid issues when restarting (eg: dockerhub limit)
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /var/lib/registry/docker
-            chown -R 1000:1000 /var/lib/registry/*
-        securityContext:
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - name: docker-registry-data
-          mountPath: /var/lib/registry
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # random uid
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: docker-registry
         image: "docker.io/library/registry:2.8.1"
@@ -45,9 +36,11 @@ spec:
         - containerPort: 5001
           name: debug
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTPS
