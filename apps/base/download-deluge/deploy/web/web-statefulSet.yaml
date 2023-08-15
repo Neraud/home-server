@@ -15,16 +15,28 @@ spec:
         app.kubernetes.io/name: deluge
         app.kubernetes.io/component: deluge-web
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # deluge
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/deluge-busybox:1.36.0"
+        image: "registry.lan/deluge-web:2.1.1_1.2.14-alpine"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /opt/deluge/config
-            chown -R 1000:1000 /opt/deluge/config
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: deluge-data
           mountPath: /opt/deluge
@@ -41,9 +53,11 @@ spec:
         - secretRef:
             name: deluge-web-env
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # deluge
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
