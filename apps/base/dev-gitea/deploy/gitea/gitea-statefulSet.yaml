@@ -15,16 +15,28 @@ spec:
         app.kubernetes.io/name: gitea
         app.kubernetes.io/component: gitea
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # git
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/gitea-busybox:1.36.0"
+        image: "registry.lan/gitea:1.19.0-rootless"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /opt/gitea-data/data
-            chown -R 1000:1000 /opt/gitea-data/
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: gitea-data
           mountPath: /opt/gitea-data
@@ -37,18 +49,18 @@ spec:
           - |
             echo "Refreshing certs"
             update-ca-certificates
-            echo "Copying generated certs in the volume"
-            cp -R /etc/ssl/certs/* /etc/ssl/certs-target/
         securityContext:
-          runAsNonRoot: false
-          runAsUser: 0
           readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: cluster-ca-volume
           mountPath: /usr/local/share/ca-certificates/cluster_ca.crt
           subPath: ca.crt
         - name: certs-volume
-          mountPath: /etc/ssl/certs-target
+          mountPath: /etc/ssl/certs
       containers:
       - name: gitea
         image: "registry.lan/gitea:1.19.0-rootless"
@@ -79,9 +91,11 @@ spec:
         - containerPort: 3000
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # git
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
