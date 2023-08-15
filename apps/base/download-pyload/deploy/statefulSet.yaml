@@ -15,6 +15,13 @@ spec:
         app.kubernetes.io/name: pyload
         app.kubernetes.io/component: pyload
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # pyload
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
         image: "registry.lan/pyload-busybox:1.36.0"
@@ -24,7 +31,12 @@ spec:
           - "-c"
           - |
             mkdir -p /pyload-config/config
-            chown -R 1000:1000 /pyload-config/config
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: pyload-data
           mountPath: /pyload-config
@@ -36,9 +48,11 @@ spec:
         - containerPort: 8000
           name: webui
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # pyload
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
