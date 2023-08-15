@@ -18,6 +18,13 @@ spec:
         app.kubernetes.io/component: phpldapadmin
         app.kubernetes.io/name: phpldapadmin
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 33 # www-data
+        fsGroup: 33
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: phpldapadmin
         image: "registry.lan/phpldapadmin:7.3.33-apache-buster-1.2.6.6"
@@ -47,12 +54,8 @@ spec:
               name: phpldapadmin-env
               key: LDAP_BIND_PASS
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 33 # www-data
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
-          seccompProfile:
-            type: RuntimeDefault
           capabilities:
             drop:
               - ALL
