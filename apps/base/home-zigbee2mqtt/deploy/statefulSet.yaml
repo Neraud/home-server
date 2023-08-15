@@ -16,16 +16,28 @@ spec:
         app.kubernetes.io/name: zigbee2mqtt
         app.kubernetes.io/component: zigbee2mqtt
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # node
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/zigbee2mqtt-busybox:1.36.0"
+        image: "registry.lan/zigbee2mqtt:1.30.3"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /app/data
-            chown 1000:1000 /app/data
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: zigbee2mqtt-data
           mountPath: /app
@@ -56,9 +68,11 @@ spec:
             cpu: 250m
             memory: 128Mi
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # node
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: cluster-config
           mountPath: /etc/localtime
