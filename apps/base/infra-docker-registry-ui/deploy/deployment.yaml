@@ -17,6 +17,13 @@ spec:
         app.kubernetes.io/name: docker-registry-ui
         app.kubernetes.io/component: docker-registry-ui
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534 # nobody
+        fsGroup: 65534
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: docker-registry-ui
         image: "registry.lan/docker-registry-ui:0.9.6"
@@ -25,10 +32,11 @@ spec:
         - containerPort: 8000
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 65534 # nobody
-          runAsGroup: 65534 # nobody
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
