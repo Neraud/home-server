@@ -4,8 +4,7 @@ metadata:
   name: argo-server
 spec:
   selector:
-    app.kubernetes.io/name: argo-workflows
-    app.kubernetes.io/component: argo-server
+    app: argo-server
   ports:
     - name: web
       port: 2746

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workflow-controller
+  labels:
+    app.kubernetes.io/name: argo-workflows
+    app.kubernetes.io/component: workflow-controller
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argo-workflows
+      app.kubernetes.io/component: workflow-controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: argo-workflows
+        app.kubernetes.io/component: workflow-controller
+    spec:
+      containers:
+        - name: workflow-controller
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 64Mi
+      nodeSelector:
+        capability/general-purpose: 'yes'
