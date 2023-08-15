@@ -15,9 +15,16 @@ spec:
         app.kubernetes.io/name: crowdsec
         app.kubernetes.io/component: lapi
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534 # nobody
+        fsGroup: 65534
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/crowdsec-busybox:1.36.0"
+        image: "registry.lan/crowdsec:v1.4.6-debian"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -27,12 +34,15 @@ spec:
             mkdir -p /mnt/crowdsec-db/data
             
             # We can't use the secret directly in the main container, files must be owned by nobody
-            mkdir /mnt/crowdsec-config/crowdsec/notifications/
+            mkdir -p /mnt/crowdsec-config/crowdsec/notifications/
             cp /mnt/crowdsec/profiles.yaml /mnt/crowdsec-config/crowdsec/
             cp /mnt/crowdsec_secret/notification_elasticsearch.yaml /mnt/crowdsec-config/crowdsec/notifications/elasticsearch.yaml
-            
-            chown -R 65534:65534 /mnt/crowdsec-config/crowdsec
-            chown -R 65534:65534 /mnt/crowdsec-db/data
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: crowdsec-config
           mountPath: /mnt/crowdsec-config
@@ -52,7 +62,12 @@ spec:
             # Copy plugins under TMP and chown them
             # Fixes "api server init: unable to run local API: while loading plugin: plugin at /usr/local/lib/crowdsec/plugins/notification-email is not owned by user 'nobody'"
             cp -R /usr/local/lib/crowdsec/plugins /tmp/
-            chown -R 65534:65534 /tmp/
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: tmp-volume
           mountPath: /tmp
@@ -71,11 +86,11 @@ spec:
         - containerPort: 6060
           name: metrics
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 65534 # nobody
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
-          privileged: false
+          capabilities:
+            drop:
+              - ALL
         livenessProbe:
           failureThreshold: 3
           periodSeconds: 10
