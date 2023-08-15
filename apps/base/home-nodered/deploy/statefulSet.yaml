@@ -15,9 +15,16 @@ spec:
         app.kubernetes.io/name: nodered
         app.kubernetes.io/component: nodered
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001 # node-red
+        fsGroup: 1001
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/nodered-busybox:1.36.0"
+        image: "registry.lan/nodered:3.0.2-18-minimal-custom"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -30,7 +37,12 @@ spec:
               mkdir -p /nodered/data
               cp -RL /nodered-bootstrap/* /nodered/data/
             fi
-            chown -R 1001:1001 /nodered/data
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: nodered-data
           mountPath: /nodered
@@ -51,9 +63,11 @@ spec:
             cpu: 200m
             memory: 256Mi
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1001 # node-red
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -75,8 +89,6 @@ spec:
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.cert
           subPath: ca.crt
-      securityContext:
-        fsGroup: 1001 # node-red group inside the container
       volumes:
       - name: cluster-config
         configMap:
