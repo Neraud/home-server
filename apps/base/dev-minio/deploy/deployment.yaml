@@ -29,10 +29,13 @@ spec:
         checksum/config: 236055d88f10ff4f2b41fafd202cb6e588bfff751bb1a953d222d645f2a70cc0
     spec:
       securityContext:
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
 
       serviceAccountName: minio-sa
       containers:
@@ -43,6 +46,12 @@ spec:
             - "/bin/sh"
             - "-ce"
             - "/usr/bin/docker-entrypoint.sh minio server /export -S /etc/minio/certs/ --address :9000 --console-address :9001"
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           volumeMounts:
             - name: cluster-config
               mountPath: /etc/localtime

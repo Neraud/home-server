@@ -13,6 +13,14 @@ spec:
         app.kubernetes.io/component: init-job
     spec:
       restartPolicy: OnFailure
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534 # nobody
+        runAsGroup: 65534
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
       
       volumes:
         - name: minio-configuration
@@ -27,17 +35,32 @@ spec:
             sources:
               - secret:
                   name: custom-scripts
+        - name: tmp-volume
+          emptyDir: {}
+
       containers:
         - name: minio-make-bucket
           image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/initialize" ]
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           env:
             - name: MINIO_ENDPOINT
               value: minio
             - name: MINIO_PORT
               value: "9000"
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /etc/minio
+              subPath: minio
+            - name: tmp-volume
+              mountPath: /tmp
+              subPath: tmp
             - name: minio-configuration
               mountPath: /config
             - name: minio-custom-scripts
@@ -53,12 +76,24 @@ spec:
           image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/add-user" ]
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           env:
             - name: MINIO_ENDPOINT
               value: minio
             - name: MINIO_PORT
               value: "9000"
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /etc/minio
+              subPath: minio
+            - name: tmp-volume
+              mountPath: /tmp
+              subPath: tmp
             - name: minio-configuration
               mountPath: /config
             - name: minio-custom-scripts
@@ -74,12 +109,24 @@ spec:
           image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/add-policy" ]
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           env:
             - name: MINIO_ENDPOINT
               value: minio
             - name: MINIO_PORT
               value: "9000"
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /etc/minio
+              subPath: minio
+            - name: tmp-volume
+              mountPath: /tmp
+              subPath: tmp
             - name: minio-configuration
               mountPath: /config
             - name: minio-custom-scripts
@@ -95,12 +142,24 @@ spec:
           image: "registry.lan/minio-mc:RELEASE.2023-04-12T02-21-51Z"
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "/custom/add-svcacct"]
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           env:
             - name: MINIO_ENDPOINT
               value: minio
             - name: MINIO_PORT
               value: "9000"
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /etc/minio
+              subPath: minio
+            - name: tmp-volume
+              mountPath: /tmp
+              subPath: tmp
             - name: minio-configuration
               mountPath: /config
             - name: minio-custom-scripts
