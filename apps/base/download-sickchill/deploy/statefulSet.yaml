@@ -15,16 +15,28 @@ spec:
         app.kubernetes.io/name: sickchill
         app.kubernetes.io/component: sickchill
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # sickchill
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/sickchill-busybox:1.36.0"
+        image: "registry.lan/sickchill:2023.1.2-3.11.2-slim-bullseye"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /data/sickchill/data
-            chown -R 1000:1000 /data/sickchill/data
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: sickchill-data
           mountPath: /data/sickchill
@@ -36,9 +48,11 @@ spec:
         - containerPort: 8081
           name: sickchill
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
