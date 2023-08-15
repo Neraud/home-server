@@ -50,7 +50,7 @@ spec:
             cpu: 10m
             memory: 32Mi
           limits:
-            cpu: 25m
+            cpu: 50m
             memory: 32Mi
         volumeMounts:
         - name: cluster-config
