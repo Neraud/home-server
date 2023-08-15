@@ -15,9 +15,14 @@ spec:
         app.kubernetes.io/name: frigate
         app.kubernetes.io/component: frigate
     spec:
+      securityContext:
+        # Frigate needs to run as root
+        runAsNonRoot: false
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/frigate-busybox:1.36.0"
+        image: "registry.lan/frigate:0.11.1"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -49,10 +54,8 @@ spec:
         envFrom:
           - secretRef:
               name: frigate-env
-        # Frigate needs to run as root
+        
         securityContext:
-          #runAsNonRoot: true
-          #runAsUser: 1000
           #readOnlyRootFilesystem: true
           # To mount USB :
           #privileged: true
