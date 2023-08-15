@@ -20,6 +20,9 @@ spec:
           args: 
             - server
             - --auth-mode=server
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
           resources:
             requests:
               cpu: 50m

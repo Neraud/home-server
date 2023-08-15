@@ -21,6 +21,9 @@ spec:
       containers:
         - name: workflow-controller
           imagePullPolicy: IfNotPresent
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
           resources:
             requests:
               cpu: 50m
