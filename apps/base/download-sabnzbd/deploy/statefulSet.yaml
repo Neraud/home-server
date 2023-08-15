@@ -15,16 +15,28 @@ spec:
         app.kubernetes.io/name: sabnzbd
         app.kubernetes.io/component: sabnzbd
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # sabnzbd
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/sabnzbd-busybox:1.36.0"
+        image: "registry.lan/sabnzbd:3.7.2-3.11.2-slim-bullseye"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /opt/sabnzbd/data
-            chown -R 1000:1000 /opt/sabnzbd/data
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: sabnzbd-data
           mountPath: /opt/sabnzbd
@@ -36,9 +48,11 @@ spec:
         - containerPort: 8080
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
