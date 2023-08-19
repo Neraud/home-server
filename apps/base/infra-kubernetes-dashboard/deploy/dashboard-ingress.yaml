@@ -25,4 +25,4 @@ spec:
           service:
             name: kubernetes-dashboard
             port:
-              name: https
+              number: 443
