@@ -13,6 +13,13 @@ spec:
             app.kubernetes.io/name: nextcloud
             app.kubernetes.io/component: caldav-recurring-task-scheduler
         spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000 # username
+            fsGroup: 1000
+            fsGroupChangePolicy: "OnRootMismatch"
+            seccompProfile:
+              type: RuntimeDefault
           restartPolicy: Never
           containers:
           - name: task-rescheduler
@@ -24,10 +31,11 @@ spec:
             - name: LOG_LEVEL
               value: "INFO"
             securityContext:
-              runAsNonRoot: true
-              runAsUser: 1000 # app
-              runAsGroup: 1000 # app
               readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
             resources:
               requests:
                 cpu: 25m

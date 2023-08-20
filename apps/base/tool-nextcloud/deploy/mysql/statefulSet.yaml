@@ -13,19 +13,13 @@ spec:
         app.kubernetes.io/name: nextcloud
         app.kubernetes.io/component: mysql
     spec:
-      initContainers:
-      - name: create-folders
-        image: "registry.lan/nextcloud-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /mnt/mysql-data/mysql
-            chown -R 1000:1000 /mnt/mysql-data/mysql
-        volumeMounts:
-        - name: mysql-data
-          mountPath: /mnt/mysql-data
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # random uid
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: mysql
         image: "registry.lan/nextcloud-mysql:8.0.32-debian"
@@ -41,9 +35,11 @@ spec:
         - containerPort: 3306
           name: mysql
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # random uid
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           exec:
             command:
