@@ -16,20 +16,14 @@ spec:
         app.kubernetes.io/name: grafana
         app.kubernetes.io/component: grafana
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 472 # grafana
+        fsGroup: 472
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       automountServiceAccountToken: false
-      initContainers:
-      - name: create-folders
-        image: "registry.lan/grafana-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /grafana/data
-            chown -R 472:472 /grafana/data
-        volumeMounts:
-        - name: grafana-storage
-          mountPath: /grafana
       containers:
       - image: "registry.lan/grafana:9.4.7"
         name: grafana
@@ -53,13 +47,11 @@ spec:
             cpu: 50m
             memory: 96Mi
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 472 # grafana
+          readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
           capabilities:
             drop:
-            - ALL
-          readOnlyRootFilesystem: true
+              - ALL
         volumeMounts:
         - name: cluster-config
           mountPath: /etc/localtime
