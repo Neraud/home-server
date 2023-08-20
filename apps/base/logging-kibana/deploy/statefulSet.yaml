@@ -16,21 +16,13 @@ spec:
         app.kubernetes.io/name: kibana
         app.kubernetes.io/component: kibana
     spec:
-      initContainers:
-      - name: create-data-dir
-        image: "registry.lan/kibana-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /kibana-data/data
-            chown -R 1000:1000 /kibana-data/*
-        securityContext:
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - name: kibana-data
-          mountPath: /kibana-data
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # opensearch-dashboards
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: kibana
         image: "registry.lan/opensearch-dashboards:2.6.0"
@@ -43,8 +35,11 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
-          runAsNonRoot: true
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
             cpu: 50m
