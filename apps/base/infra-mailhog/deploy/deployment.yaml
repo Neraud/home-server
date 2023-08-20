@@ -16,6 +16,13 @@ spec:
         app.kubernetes.io/name: mailhog
         app.kubernetes.io/component: mailhog
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # mailhog
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: mailhog
         image: "registry.lan/mailhog:v1.0.1"
@@ -26,10 +33,11 @@ spec:
         - containerPort: 8025
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           tcpSocket:
             port: smtp
