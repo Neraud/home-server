@@ -16,6 +16,13 @@ spec:
         app.kubernetes.io/name: ntfy
         app.kubernetes.io/component: ntfy-alertmanager
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534 # nobody
+        fsGroup: 65534
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: ntfy-alertmanager
         image: "registry.lan/ntfy-alertmanager:0.2.0"
@@ -27,10 +34,11 @@ spec:
         - containerPort: 8080
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 65534 # nobody
-          runAsGroup: 65534
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
