@@ -16,19 +16,31 @@ spec:
         app.kubernetes.io/name: fluent
         app.kubernetes.io/component: fluent
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999 # fluent
+        fsGroup: 999
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-tmp-folder
-        image: "registry.lan/fluentd-busybox:1.36.0"
+        image: "registry.lan/fluentd:v1.16.0-debian-amd64-1.0-custom"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             # To avoid ruby errors like : /tmp is world-writable: /tmp
-            # Create /tmp/app, make sure it's nor world-writable, and use the TMPDIR env var in the main container
+            # Create /tmp/app, make sure it's not world-writable, and use the TMPDIR env var in the main container
             mkdir -p /tmp/app
-            chown 999 /tmp/app
             chmod 700 /tmp/app
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: tmp-volume
           mountPath: /tmp
@@ -47,9 +59,11 @@ spec:
         - secretRef:
             name: fluentd-env
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 999 # fluent
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           # Using a tcpSocket on the fluentd port generates TLS errors
           httpGet:
