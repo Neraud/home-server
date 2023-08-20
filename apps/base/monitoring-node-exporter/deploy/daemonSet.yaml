@@ -117,6 +117,8 @@ spec:
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
+        seccompProfile:
+          type: RuntimeDefault
       serviceAccountName: node-exporter
       tolerations:
       - operator: Exists
