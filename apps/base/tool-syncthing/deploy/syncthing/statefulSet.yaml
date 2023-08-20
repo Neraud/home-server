@@ -15,23 +15,18 @@ spec:
         app.kubernetes.io/name: syncthing
         app.kubernetes.io/component: syncthing
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # username
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
-      - name: create-folders
-        image: "registry.lan/syncthing-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /data/config
-            chown 1000:1000 /data/config
-        volumeMounts:
-        - name: syncthing-data
-          mountPath: /data
       # Syncthing advertises its intefaces, but we can't advertise the LoadBalancer IP by default
       # So we cheat by adding a dummy NIC in the container with the LB IP
       - name: create-dummy-nic
-        image: "registry.lan/syncthing-busybox:1.36.0"
+        image: "registry.lan/syncthing:1.23.2"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -47,7 +42,13 @@ spec:
         - name: SYNCTHING_LB_IP
           value: 1.2.3.4
         securityContext:
+          runAsNonRoot: false
+          runAsUser: 0
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
           capabilities:
+            drop:
+              - ALL
             add:
             # Required to add a dummy nic
             - NET_ADMIN
@@ -66,12 +67,16 @@ spec:
               echo "Configuration already exists, nothing to do"
             fi
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: syncthing-data
           mountPath: /var/syncthing/config
           subPath: config
@@ -86,8 +91,10 @@ spec:
           runAsUser: 1000
           readOnlyRootFilesystem: true
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: syncthing-data
           mountPath: /var/syncthing/config
           subPath: config
@@ -107,9 +114,11 @@ spec:
           name: discovery
           protocol: UDP
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -125,17 +134,19 @@ spec:
             cpu: 250m
             memory: 64Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: syncthing-data
           mountPath: /var/syncthing/config
           subPath: config
         - name: syncthing-volume
           mountPath: /data
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: syncthing-data
         persistentVolumeClaim:
           claimName: syncthing-data

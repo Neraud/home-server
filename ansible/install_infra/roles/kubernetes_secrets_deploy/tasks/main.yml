@@ -13,6 +13,13 @@
     kubeconfig: "{{ kubeconfig_path }}"
     context: "{{ kubeconfig_context }}"
 
+- name: Deploy default cluster config
+  kubernetes.core.k8s:
+    definition: "{{ lookup('template', 'cluster-config.yaml.j2') }}"
+    state: present
+    kubeconfig: "{{ kubeconfig_path }}"
+    context: "{{ kubeconfig_context }}"
+
 - name: Deploy the cluster CA
   kubernetes.core.k8s:
     definition: "{{ lookup('template', 'cluster-ca-secret.yaml.j2') }}"

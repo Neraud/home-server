@@ -15,22 +15,23 @@ spec:
         app.kubernetes.io/name: jellyfin
         app.kubernetes.io/component: jellyfin
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # jellyfin
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
-      - name: create-folders
-        image: "registry.lan/jellyfin-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /jellyfin/config
-            chown 1000:1000 /jellyfin/config
-        volumeMounts:
-        - name: jellyfin-data
-          mountPath: /jellyfin
       - name: inject-conf
         image: "registry.lan/jellyfin-conf-injection:3.11.1-alpine3.17"
         imagePullPolicy: IfNotPresent
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: jellyfin-inject-config
           mountPath: /config-source
@@ -46,6 +47,12 @@ spec:
           - |
             cp /etc/ssl/certs/ca-certificates.crt /tmp-cert
             cat /etc/ssl/cluster/ca.crt >> /tmp-cert/ca-certificates.crt
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
@@ -59,9 +66,11 @@ spec:
         - containerPort: 8096
           name: jellyfin
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -79,8 +88,10 @@ spec:
             # To use a gpu limit
             #gpu.intel.com/i915: 1
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
         - name: jellyfin-data
           mountPath: /config
           subPath: config
@@ -96,9 +107,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: jellyfin-data
         persistentVolumeClaim:
           claimName: jellyfin-data

@@ -15,6 +15,13 @@ spec:
         app.kubernetes.io/name: paperless
         app.kubernetes.io/component: pgsql
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 70 # postgres
+        fsGroup: 70
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
         image: "registry.lan/paperless-postgres:15.2-alpine3.17"
@@ -24,7 +31,12 @@ spec:
           - "-c"
           - |
             mkdir -p /var/lib/postgresql/data
-            chown -R 70:70 /var/lib/postgresql/data
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: pgsql-data
           mountPath: /var/lib/postgresql
@@ -39,9 +51,11 @@ spec:
         - containerPort: 5432
           name: pgsql
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 70 # postgres
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
            exec:
               command:
@@ -56,8 +70,9 @@ spec:
             cpu: 250m
             memory: 256Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: pgsql-data
           mountPath: /var/lib/postgresql/data
@@ -67,9 +82,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: pgsql-data
         persistentVolumeClaim:
           claimName: pgsql-data

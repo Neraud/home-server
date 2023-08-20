@@ -1,1 +1,5 @@
-Manifests from <https://github.com/argoproj/argo-workflows/tree/v3.4.7/manifests>
+# Argo Events Deployment
+
+## Sources
+
+`manifests` comes from the <https://github.com/argoproj/argo-events/tree/v1.8.0/manifests>

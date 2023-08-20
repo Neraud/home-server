@@ -15,25 +15,22 @@ spec:
         app.kubernetes.io/name: airsonic
         app.kubernetes.io/component: airsonic
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # random uid
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
-      - name: create-folders
-        image: "registry.lan/airsonic-busybox:1.36.0"
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /airsonic/data
-            chown -R 1000:1000 /airsonic/data
-            mkdir -p /airsonic/playlists
-            chown -R 1000:1000 /airsonic/playlists
-        volumeMounts:
-        - name: airsonic-data
-          mountPath: /airsonic
       - name: inject-properties
-        image: "registry.lan/airsonic-busybox:1.36.0"
+        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20220625052932"
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         command:
           - "sh"
           - "-c"
@@ -71,6 +68,12 @@ spec:
               -importcert -noprompt \
               -keystore /opt/java/openjdk/lib/security_target/cacerts -storepass changeit \
               -alias cluster -file /etc/ssl/cluster/ca.crt
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: keystore-volume
           mountPath: /opt/java/openjdk/lib/security_target
@@ -88,9 +91,11 @@ spec:
         - configMapRef:
             name: airsonic-env
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -106,8 +111,9 @@ spec:
             cpu: "1"
             memory: 512Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: keystore-volume
           mountPath: /opt/java/openjdk/lib/security/cacerts
@@ -129,9 +135,9 @@ spec:
         - name: transcode-volume
           mountPath: /var/airsonic/transcode
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: airsonic-data
         persistentVolumeClaim:
           claimName: airsonic-data

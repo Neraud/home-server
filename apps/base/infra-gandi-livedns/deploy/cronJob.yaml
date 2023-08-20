@@ -13,6 +13,13 @@ spec:
             app.kubernetes.io/name: gandi-livedns
             app.kubernetes.io/component: gandi-livedns
         spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000 # gandi
+            fsGroup: 1000
+            fsGroupChangePolicy: "OnRootMismatch"
+            seccompProfile:
+              type: RuntimeDefault
           restartPolicy: Never
           containers:
           - name: gandi-livedns
@@ -25,10 +32,11 @@ spec:
             - name: REFRESH_INTERVAL
               value: "0"
             securityContext:
-              runAsNonRoot: true
-              runAsUser: 1000 # gandi
-              runAsGroup: 1000 # gandi
               readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
             resources:
               requests:
                 cpu: 25m
@@ -37,13 +45,14 @@ spec:
                   cpu: 50m
                   memory: 16Mi
             volumeMounts:
-            - name: tz-config
+            - name: cluster-config
               mountPath: /etc/localtime
+              subPath: localtime
               readOnly: true
           volumes:
-          - name: tz-config
-            hostPath:
-              path: /etc/localtime
+          - name: cluster-config
+            configMap:
+              name: cluster-config
           imagePullSecrets:
           - name: docker-config
           nodeSelector:

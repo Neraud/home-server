@@ -15,6 +15,13 @@ spec:
         app.kubernetes.io/name: apcups-exporter
         app.kubernetes.io/component: apcups-exporter
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # random UID
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: apcups-exporter
         image: "registry.lan/apcupsd-exporter:3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.15.1"
@@ -26,9 +33,11 @@ spec:
         - containerPort: 9162
           name: metrics
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # random UID
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -44,13 +53,14 @@ spec:
             cpu: 100m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       imagePullSecrets:
       - name: docker-config
       nodeSelector:

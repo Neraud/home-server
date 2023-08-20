@@ -25,6 +25,14 @@ spec:
         prometheus.io/port: "2020"
         prometheus.io/path: /api/v1/metrics/prometheus
     spec:
+      securityContext:
+        # Run as root to be able to read host logs
+        runAsNonRoot: false
+        runAsUser: 0
+        fsGroup: 0
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: fluent-bit
         image: "registry.lan/fluent-bit:2.0.9"
@@ -41,12 +49,15 @@ spec:
         - name: FLUENT_FLUENTD_PORT
           value: "24224"
         securityContext:
-          # Run as root to be able to read host logs
-          #runAsNonRoot: true
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: varlog
           mountPath: /var/log
@@ -73,9 +84,9 @@ spec:
             memory: 64Mi
       terminationGracePeriodSeconds: 10
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: varlog
         hostPath:
           path: /var/log

@@ -17,6 +17,13 @@ spec:
         app.kubernetes.io/name: olivetin
         app.kubernetes.io/component: olivetin
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # olivetin
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: olivetin
         image: "registry.lan/olivetin:2023.03.25-amd64-custom"
@@ -25,9 +32,11 @@ spec:
         - containerPort: 1337
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # olivetin
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -43,8 +52,9 @@ spec:
             cpu: 75m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: olivetin-config
           mountPath: /etc/OliveTin/config.yaml
@@ -55,9 +65,9 @@ spec:
         - name: images-volume
           mountPath: /var/www/olivetin/customIcons
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: olivetin-config
         configMap:
           name: olivetin-config

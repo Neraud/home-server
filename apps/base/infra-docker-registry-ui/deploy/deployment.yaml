@@ -17,6 +17,13 @@ spec:
         app.kubernetes.io/name: docker-registry-ui
         app.kubernetes.io/component: docker-registry-ui
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534 # nobody
+        fsGroup: 65534
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: docker-registry-ui
         image: "registry.lan/docker-registry-ui:0.9.6"
@@ -25,10 +32,11 @@ spec:
         - containerPort: 8000
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 65534 # nobody
-          runAsGroup: 65534 # nobody
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -44,8 +52,9 @@ spec:
             cpu: 200m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: docker-registry-ui-config
           mountPath: /opt/config.yml
@@ -56,9 +65,9 @@ spec:
           mountPath: /etc/ssl/certs/ca-certificates.crt
           subPath: ca.crt
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: docker-registry-ui-config
         secret:
           secretName: docker-registry-ui-config

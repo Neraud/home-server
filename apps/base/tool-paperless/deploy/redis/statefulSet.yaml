@@ -15,21 +15,13 @@ spec:
         app.kubernetes.io/name: paperless
         app.kubernetes.io/component: redis
     spec:
-      initContainers:
-      - name: create-data-dir
-        image: "registry.lan/paperless-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /data-volume/data
-            chown -R 999:1000 /data-volume/*
-        securityContext:
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - name: redis-data
-          mountPath: /data-volume
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999 # redis
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: redis
         image: "registry.lan/paperless-redis:7.0.10-alpine3.17"
@@ -41,10 +33,11 @@ spec:
         - containerPort: 6379
           name: redis
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 999
-          runAsGroup: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           exec:
             command:
@@ -61,8 +54,9 @@ spec:
             cpu: 75m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: redis-config
           mountPath: /usr/local/etc/redis/redis.conf
@@ -71,9 +65,9 @@ spec:
           mountPath: /data
           subPath: data
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: redis-data
         persistentVolumeClaim:
           claimName: redis-data

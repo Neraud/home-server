@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/name: Dashboard Kubernetes
+    gethomepage.dev/icon: kubernetes-dashboard
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=kubernetes-dashboard"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - kube.infra.intra.web_domain_name
+      secretName: opensslpki-ingress-tls
+  rules:
+  - host: kube.infra.intra.web_domain_name
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kubernetes-dashboard
+            port:
+              number: 443

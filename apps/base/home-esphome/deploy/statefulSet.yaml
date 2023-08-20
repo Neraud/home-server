@@ -17,16 +17,28 @@ spec:
       annotations:
         k8s.v1.cni.cncf.io/networks: "kube-system/k8s-bridge"
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # esp
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/esphome-busybox:1.36.0"
+        image: "registry.lan/esphome:2023.3.2"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /esphome/config
-            chown -R 1000:1000 /esphome/config
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: esphome-data
           mountPath: /esphome
@@ -38,9 +50,11 @@ spec:
         - containerPort: 6052
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # esp
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -54,8 +68,9 @@ spec:
             cpu: 250m
             memory: 512Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: esphome-data
           mountPath: /config
@@ -63,9 +78,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: esphome-data
         persistentVolumeClaim:
           claimName: esphome-data

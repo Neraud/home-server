@@ -32,6 +32,8 @@ spec:
     # TODO : readOnlyRootFilesystem is present in the CRD, but it doesn't get injected at the container level
     # I guess this section is only applied at the POD level.
     #readOnlyRootFilesystem: true
+    seccompProfile:
+      type: RuntimeDefault
   serviceAccountName: alertmanager-k8s
   storage:
     volumeClaimTemplate:

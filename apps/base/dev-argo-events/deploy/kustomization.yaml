@@ -15,4 +15,29 @@ namespace: dev-argo-events
 resources:
 - namespace.yaml
 - ../../_common/deploy
-- namespace-install
+- manifests/namespace-install
+
+images:
+- name: quay.io/argoproj/argo-events
+  newName: registry.lan/argo-events
+  newTag: v1.8.0
+
+patches:
+- path: patches/controller-manager-deployment.yaml
+- path: patches/controller-manager-deployment-namespaced.yaml
+  target:
+    kind: Deployment
+    name: controller-manager
+- patch: |
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: controller-manager
+    spec:
+      template:
+        spec:
+          containers:
+            - name: controller-manager
+              env:
+                - name: ARGO_EVENTS_IMAGE
+                  value: registry.lan/argo-events:v1.8.0

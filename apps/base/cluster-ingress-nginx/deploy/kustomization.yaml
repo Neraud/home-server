@@ -21,6 +21,7 @@ resources:
 
 patches:
 - path: patches/service-lb.yaml
+- path: patches/namespace-labels.yaml
 - patch: |-
     - op: add
       path: /spec/template/spec/containers/0/args/-

@@ -15,19 +15,13 @@ spec:
         app.kubernetes.io/name: paperless
         app.kubernetes.io/component: paperless
     spec:
-      initContainers:
-      - name: create-folders
-        image: "registry.lan/paperless-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /mnt/paperless-data/data
-            chown -R 1000:1000 /mnt/paperless-data/data
-        volumeMounts:
-        - name: paperless-data
-          mountPath: /mnt/paperless-data
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # paperless
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: paperless
         image: "registry.lan/paperless-ngx:1.13.0-custom"
@@ -39,9 +33,11 @@ spec:
         - containerPort: 8000
           name: web
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # paperless
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -58,8 +54,9 @@ spec:
             cpu: 750m
             memory: 1G
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: paperless-data
           mountPath: /usr/src/paperless/data
@@ -76,9 +73,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: paperless-data
         persistentVolumeClaim:
           claimName: paperless-data

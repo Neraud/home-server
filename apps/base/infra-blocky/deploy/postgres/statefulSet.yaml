@@ -15,19 +15,13 @@ spec:
         app.kubernetes.io/name: blocky
         app.kubernetes.io/component: pgsql
     spec:
-      initContainers:
-      - name: create-folders
-        image: "registry.lan/blocky-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /var/lib/postgresql/data
-            chown -R 70:70 /var/lib/postgresql/data
-        volumeMounts:
-        - name: pgsql-data
-          mountPath: /var/lib/postgresql
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 70 # postgres
+        fsGroup: 70
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: pgsql
         image: "registry.lan/blocky-postgres:15.2-alpine3.17"
@@ -39,9 +33,11 @@ spec:
         - containerPort: 5432
           name: pgsql
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 70 # postgres
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
            exec:
               command:
@@ -56,8 +52,9 @@ spec:
             cpu: 150m
             memory: 128Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: pgsql-data
           mountPath: /var/lib/postgresql/data
@@ -70,9 +67,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: pgsql-data
         persistentVolumeClaim:
           claimName: pgsql-data

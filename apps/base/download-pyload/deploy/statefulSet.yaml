@@ -15,16 +15,28 @@ spec:
         app.kubernetes.io/name: pyload
         app.kubernetes.io/component: pyload
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # pyload
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/pyload-busybox:1.36.0"
+        image: "registry.lan/pyload-ng:0.5.0b3.dev68-3.11.2-slim-bullseye"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /pyload-config/config
-            chown -R 1000:1000 /pyload-config/config
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: pyload-data
           mountPath: /pyload-config
@@ -36,9 +48,11 @@ spec:
         - containerPort: 8000
           name: webui
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # pyload
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -62,8 +76,9 @@ spec:
             cpu: 500m
             memory: 256Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: pyload-data
           mountPath: /config
@@ -74,9 +89,9 @@ spec:
         - name: tmp-volume
           mountPath: /tmp
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: pyload-data
         persistentVolumeClaim:
           claimName: pyload-data

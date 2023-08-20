@@ -1,0 +1,6 @@
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: --managed-namespace
+- op: add
+  path: /spec/template/spec/containers/0/args/-
+  value: dev-argo-tasks

@@ -18,6 +18,13 @@ spec:
         app.kubernetes.io/name: roomassistant
         app.kubernetes.io/component: roomassistant
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # node
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: roomassistant
         image: "registry.lan/room-assistant:2.20.0-custom"
@@ -32,10 +39,11 @@ spec:
         - containerPort: 6415
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # node
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
           capabilities:
+            drop:
+              - ALL
             add:
             - NET_RAW
             - NET_ADMIN
@@ -54,15 +62,16 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: roomassistant-config
           mountPath: /room-assistant/config
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: roomassistant-config
         configMap:
           name: roomassistant-config

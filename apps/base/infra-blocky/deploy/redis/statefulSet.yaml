@@ -15,6 +15,13 @@ spec:
         app.kubernetes.io/name: blocky
         app.kubernetes.io/component: redis
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999 # redis
+        fsGroup: 1000 # redis (yes, uid != gid)
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: redis
         image: "registry.lan/blocky-redis:7.0.8-alpine3.17"
@@ -26,10 +33,11 @@ spec:
         - containerPort: 6379
           name: redis
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 999
-          runAsGroup: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           exec:
             command:
@@ -46,8 +54,9 @@ spec:
             cpu: 75m
             memory: 32Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: redis-config
           mountPath: /usr/local/etc/redis/redis.conf
@@ -55,9 +64,9 @@ spec:
         - name: data-volume
           mountPath: /data
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: redis-config
         secret:
           secretName: redis-config

@@ -15,4 +15,21 @@ namespace: dev-argo-workflows
 resources:
 - namespace.yaml
 - ../../_common/deploy
-- namespace-install
+- manifests/namespace-install
+- argo-server-networkPolicy.yaml
+- argo-server-ingress.yaml
+- workflow-controller-networkPolicy.yaml
+- workflow-controller-service-metrics.yaml
+
+patches:
+- path: patches/argo-server-deployment.yaml
+- path: patches/workflow-controller-deployment.yaml
+- path: patches/workflow-controller-configmap.yaml
+- path: patches/argo-server-deployment-namespaced.yaml
+  target:
+    kind: Deployment
+    name: argo-server
+- path: patches/workflow-controller-deployment-namespaced.yaml
+  target:
+    kind: Deployment
+    name: workflow-controller

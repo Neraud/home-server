@@ -53,8 +53,11 @@ spec:
           value: "info"
         securityContext:
           # lemnldap requires root and a writable root filesystem
-          #runAsNonRoot: true
-          #readOnlyRootFilesystem: true
+          runAsNonRoot: false
+          readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: true
+          seccompProfile:
+            type: RuntimeDefault
         readinessProbe:
           httpGet:
             scheme: HTTP
@@ -70,8 +73,9 @@ spec:
             cpu: "150m"
             memory: "384Mi"
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: lemonldap-data
           mountPath: /var/lib/lemonldap-ng-pv
@@ -82,9 +86,9 @@ spec:
           mountPath: /var/lib/lemonldap-ng/server-certs/ca.crt
           subPath: ca.crt
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: lemonldap-data
         persistentVolumeClaim:
           claimName: lemonldap-data

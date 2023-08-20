@@ -22,8 +22,9 @@ spec:
         imagePullPolicy: IfNotPresent
         args: ["--copy-service"]
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: openldap-data
           subPath: data
@@ -45,10 +46,13 @@ spec:
           name: ldaps
         securityContext:
           # See README.MD for details
-          #runAsNonRoot: true
+          runAsNonRoot: false
           #runAsUser: 999 # openldap
           #runAsGroup: 999 # openldap
-          #readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
+          allowPrivilegeEscalation: true
+          seccompProfile:
+            type: RuntimeDefault
         readinessProbe:
           tcpSocket:
             port: ldap
@@ -62,9 +66,9 @@ spec:
             cpu: "150m"
             memory: "128Mi"
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: openldap-data
         persistentVolumeClaim:
           claimName: openldap-data

@@ -13,16 +13,28 @@ spec:
         app.kubernetes.io/name: homeassistant
         app.kubernetes.io/component: mysql
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999 # mysql
+        fsGroup: 999
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/homeassistant-busybox:1.36.0"
+        image: "registry.lan/homeassistant-mysql:8.0.32-debian"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
           - "-c"
           - |
             mkdir -p /mysql-data/mysql
-            chown -R 1000:1000 /mysql-data/mysql
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: mysql-data
           mountPath: /mysql-data
@@ -31,15 +43,17 @@ spec:
         image: "registry.lan/homeassistant-mysql:8.0.32-debian"
         imagePullPolicy: IfNotPresent
         envFrom:
-          - secretRef:
-              name: mysql-env
+        - secretRef:
+            name: mysql-env
         ports:
         - containerPort: 3306
           name: mysql
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # random uid
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           exec:
             command:
@@ -49,8 +63,9 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: mysql-data
           mountPath: /var/lib/mysql
@@ -67,9 +82,9 @@ spec:
             cpu: 200m
             memory: 512Mi
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: mysql-data
         persistentVolumeClaim:
           claimName: mysql-data

@@ -17,6 +17,13 @@ spec:
         app.kubernetes.io/name: zonemta
         app.kubernetes.io/component: server
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # node
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
       - name: wait-for-requirements
         image: "registry.lan/zonemta-busybox:1.36.0"
@@ -46,6 +53,12 @@ spec:
               echo "FAILED : Redis Server isn't available"
               exit 1
             fi
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
       containers:
       - name: zonemta
         image: "registry.lan/zonemta:3.5.1-node-19.8.1-alpine3.17"
@@ -59,10 +72,11 @@ spec:
         - containerPort: 12080
           name: metrics
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           tcpSocket:
             port: smtp
@@ -76,17 +90,18 @@ spec:
             cpu: 100m
             memory: 160Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - name: zonemta-config
           mountPath: /opt/zone-mta/config
         - name: zonemta-certs
           mountPath: /opt/zone-mta/certs
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: zonemta-config
         secret:
           secretName: zonemta-config

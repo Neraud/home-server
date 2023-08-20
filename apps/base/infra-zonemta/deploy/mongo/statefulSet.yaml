@@ -15,22 +15,13 @@ spec:
         app.kubernetes.io/name: zonemta
         app.kubernetes.io/component: mongo
     spec:
-      initContainers:
-      - name: create-data-dir
-        image: "registry.lan/zonemta-busybox:1.36.0"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /data/db
-            mkdir -p /data/configdb
-            chown -R 1001:1001 /data/*
-        securityContext:
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - name: mongo-data
-          mountPath: /data
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: mongo
         image: "registry.lan/zonemta-mongo:6.0.5-jammy"
@@ -42,10 +33,11 @@ spec:
         - containerPort: 27017
           name: mongo
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1001
-          runAsGroup: 1001
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         # With mongodb 6, the mongo cli has been replaced by mongosh
         # However, mongosh is TOO slow (issue : https://jira.mongodb.org/browse/MONGOSH-1240) and can't be used for our probe
         # (timed at around 20 sec on the vagrant test env)
@@ -67,8 +59,9 @@ spec:
             cpu: 100m
             memory: 384Mi
         volumeMounts:
-        - name: tz-config
+        - name: cluster-config
           mountPath: /etc/localtime
+          subPath: localtime
           readOnly: true
         - mountPath: /tmp
           name: tmp-volume
@@ -81,9 +74,9 @@ spec:
         - name: mongo-init
           mountPath: /docker-entrypoint-initdb.d/
       volumes:
-      - name: tz-config
-        hostPath:
-          path: /etc/localtime
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       - name: mongo-data
         persistentVolumeClaim:
           claimName: mongo-data

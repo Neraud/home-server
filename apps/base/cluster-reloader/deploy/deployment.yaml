@@ -24,6 +24,12 @@ spec:
           runAsUser: 1000
           runAsGroup: 1000
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
             cpu: 25m
@@ -31,6 +37,15 @@ spec:
           limits:
             cpu: 50m
             memory: 64Mi
+        volumeMounts:
+        - name: cluster-config
+          mountPath: /etc/localtime
+          subPath: localtime
+          readOnly: true
+      volumes:
+      - name: cluster-config
+        configMap:
+          name: cluster-config
       serviceAccountName: reloader
       imagePullSecrets:
       - name: docker-config
