@@ -13,20 +13,14 @@ spec:
         app.kubernetes.io/name: unifi
         app.kubernetes.io/component: unifi
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999  # unifi
+        fsGroup: 999
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       initContainers:
-      - name: create-folders
-        image: "registry.lan/unifi:v7.3.83"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /unifi/data
-            mkdir -p /unifi/log
-            chown -R 999:999 /unifi/*
-        volumeMounts:
-        - name: unifi-data
-          mountPath: /unifi
       - name: inject-certificates
         image: "registry.lan/unifi:v7.3.83"
         command:
@@ -38,6 +32,12 @@ spec:
               -importcert -noprompt \
               -keystore /etc/ssl/certs/java_target/cacerts -storepass changeit \
               -alias cluster -file /etc/ssl/cluster/ca.crt
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         volumeMounts:
         - name: keystore-volume
           mountPath: /etc/ssl/certs/java_target
@@ -84,9 +84,11 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 999  # unifi
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
             cpu: 25m
