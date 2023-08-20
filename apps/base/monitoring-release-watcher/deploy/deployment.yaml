@@ -17,6 +17,13 @@ spec:
         app.kubernetes.io/name: release-watcher
         app.kubernetes.io/component: release-watcher
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # User app
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: release-watcher
         image: registry.lan/release-watcher:v1.0.1
@@ -25,9 +32,11 @@ spec:
         - containerPort: 8080
           name: metrics
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # User app
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
