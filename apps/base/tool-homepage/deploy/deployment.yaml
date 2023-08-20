@@ -17,6 +17,13 @@ spec:
         app.kubernetes.io/name: homepage
         app.kubernetes.io/component: homepage
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000 # node
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       serviceAccountName: homepage
       automountServiceAccountToken: true
       containers:
@@ -30,9 +37,11 @@ spec:
         - name: LOG_LEVEL
           value: "debug"
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 1000 # node
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         resources:
           requests:
             cpu: 25m
