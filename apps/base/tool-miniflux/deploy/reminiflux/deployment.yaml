@@ -17,6 +17,13 @@ spec:
         app.kubernetes.io/name: miniflux
         app.kubernetes.io/component: reminiflux
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101 # nginx
+        fsGroup: 101
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: reminiflux
         image: "registry.lan/reminiflux:1.23.4-alpine-153dc9464cef69f7c29bff1d680cfa0013b5e281"
@@ -30,9 +37,11 @@ spec:
         - containerPort: 8080
           name: http
         securityContext:
-          runAsNonRoot: true
-          runAsUser: 101 # nginx
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         readinessProbe:
           httpGet:
             scheme: HTTP
