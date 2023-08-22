@@ -15,6 +15,7 @@ patches:
 - path: pgsql-statefulSet-resources.yaml
 - path: redis-pvc-resources.yaml
 - path: redis-statefulSet-resources.yaml
+- path: paperless-pvc-resources.yaml
 - path: paperless-statefulSet-resources.yaml
 - path: paperless-statefulSet-probe.yaml
 - path: paperless-ingress-homepage-widget.yaml
