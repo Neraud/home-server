@@ -16,6 +16,7 @@ patches:
 - path: redis-statefulSet-resources.yaml
 - path: nextcloud-statefulSet-resources.yaml
 - path: nextcloud-nfs-nextcloud-pv-nfs.yaml
+- path: nextcloud-pvc-resources.yaml
 - target:
     kind: Ingress
     name: nextcloud
