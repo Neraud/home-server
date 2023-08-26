@@ -1,7 +1,7 @@
 watchers:
   - type: pypi
     package: ansible
-    version: 7.4.0
+    version: 8.3.0
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$

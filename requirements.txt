@@ -1,11 +1,11 @@
-ansible==7.4.0
+ansible==8.3.0
 
 # Crypto dependencies
 passlib==1.7.4
 bcrypt==4.0.1
 
 # k8s modules dependencies
-openshift==0.13.1
+openshift==0.13.2
 
 # ldap modules dependencies
 python-ldap==3.4.3
