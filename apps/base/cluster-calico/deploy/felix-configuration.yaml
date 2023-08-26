@@ -1,0 +1,9 @@
+apiVersion: crd.projectcalico.org/v1
+kind: FelixConfiguration
+metadata:
+  name: default
+spec:
+  # TODO : with calico up to 3.25.1, iptablesBackend auto was properly detecting our legacy iptables backend
+  # With 3.26.1, auto tries to switch to nft and it doesn't work
+  # (this can be checked looking at the calico-node-xxx logs : felix/feature_detect_linux.go 410: Looked up iptables command backendMode="nft")
+  iptablesBackend: "legacy"
