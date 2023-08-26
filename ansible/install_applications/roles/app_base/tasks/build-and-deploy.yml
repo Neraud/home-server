@@ -31,7 +31,7 @@
 
   - set_fact:
       argo_fully_installed: "{{ argo_workflows_installed and argo_workflows_tasks_installed and argo_cd_installed}}"
-  tags: [deploy, deploy]
+  tags: [build, deploy]
 
 - name: "Build and deploy {{ app_name }} manually"
   block:
@@ -84,6 +84,6 @@
   ansible.builtin.include_tasks:
     file: build-argo.yml
     apply:
-      tags: [deploy, deploy]
+      tags: [build, deploy]
   when: app_deploymen_method == "argo" and argo_fully_installed
-  tags: [deploy, deploy]
+  tags: [build, deploy]
