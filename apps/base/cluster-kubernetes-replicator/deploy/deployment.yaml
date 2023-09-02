@@ -20,7 +20,7 @@ spec:
       serviceAccountName: kubernetes-replicator
       containers:
       - name: kubernetes-replicator
-        image: quay.io/mittwald/kubernetes-replicator:v2.8.0
+        image: quay.io/mittwald/kubernetes-replicator:v2.9.1
         imagePullPolicy: IfNotPresent
         args: []
         ports:
