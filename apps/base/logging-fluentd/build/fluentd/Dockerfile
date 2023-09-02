@@ -11,8 +11,10 @@ ADD --chown=fluent:fluent https://raw.githubusercontent.com/ua-parser/uap-core/v
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    autoconf \
     libgeoip-dev \
     libmaxminddb-dev \
+    libtool \
     ruby-dev \
     && rm -rf /var/lib/apt/lists/*
 RUN fluent-gem install fluent-plugin-geoip --no-document --version 1.3.2
