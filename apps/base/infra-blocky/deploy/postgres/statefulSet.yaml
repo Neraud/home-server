@@ -22,6 +22,24 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
         seccompProfile:
           type: RuntimeDefault
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/blocky-postgres:15.2-alpine3.17"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /var/lib/postgresql/data
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        volumeMounts:
+        - name: pgsql-data
+          mountPath: /var/lib/postgresql
       containers:
       - name: pgsql
         image: "registry.lan/blocky-postgres:15.2-alpine3.17"
