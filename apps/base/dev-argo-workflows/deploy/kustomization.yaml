@@ -7,7 +7,7 @@ generatorOptions:
 labels:
   - includeSelectors: false
     pairs:
-      app.kubernetes.io/version: "v3.4.7"
+      app.kubernetes.io/version: "v3.4.10"
       app.kubernetes.io/part-of: argo-workflows
 
 namespace: dev-argo-workflows
@@ -33,3 +33,11 @@ patches:
   target:
     kind: Deployment
     name: workflow-controller
+
+images:
+- name: quay.io/argoproj/argocli:latest
+  newName: registry.lan/argo-workflow-cli
+  newTag: v3.4.10
+- name: quay.io/argoproj/workflow-controller:latest
+  newName: registry.lan/argo-workflow-controller
+  newTag: v3.4.10
