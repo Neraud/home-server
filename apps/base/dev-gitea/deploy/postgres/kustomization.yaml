@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: gitea
       app.kubernetes.io/component: pgsql
       app.kubernetes.io/part-of: gitea
-      app.kubernetes.io/version: 15.2-alpine3.17
+      app.kubernetes.io/version: 15.4-alpine3.18
 
 generatorOptions:
  disableNameSuffixHash: true
