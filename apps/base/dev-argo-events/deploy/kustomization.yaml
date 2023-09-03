@@ -7,7 +7,7 @@ generatorOptions:
 labels:
   - includeSelectors: false
     pairs:
-      app.kubernetes.io/version: "v1.8.0"
+      app.kubernetes.io/version: "v1.8.1"
       app.kubernetes.io/part-of: argo-events
 
 namespace: dev-argo-events
@@ -20,7 +20,7 @@ resources:
 images:
 - name: quay.io/argoproj/argo-events
   newName: registry.lan/argo-events
-  newTag: v1.8.0
+  newTag: v1.8.1
 
 patches:
 - path: patches/controller-manager-deployment.yaml
@@ -40,4 +40,4 @@ patches:
             - name: controller-manager
               env:
                 - name: ARGO_EVENTS_IMAGE
-                  value: registry.lan/argo-events:v1.8.0
+                  value: registry.lan/argo-events:v1.8.1
