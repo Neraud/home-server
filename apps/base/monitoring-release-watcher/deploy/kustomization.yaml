@@ -29,6 +29,7 @@ configMapGenerator:
   - config/watchers/app-cluster-metallb.yaml
   - config/watchers/app-cluster-multus.yaml
   - config/watchers/app-cluster-reloader.yaml
+  - config/watchers/app-dev-argo-cd.yaml
   - config/watchers/app-dev-gitea.yaml
   - config/watchers/app-download-deluge.yaml
   - config/watchers/app-download-sabnzbd.yaml
