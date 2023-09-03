@@ -6,7 +6,7 @@ namespace: dev-minio
 labels:
   - includeSelectors: false
     pairs:
-      app.kubernetes.io/version: "RELEASE.2023-04-13T03-08-07Z"
+      app.kubernetes.io/version: "RELEASE.2023-08-31T15-31-16Z"
       app.kubernetes.io/part-of: minio
 
 generatorOptions:
