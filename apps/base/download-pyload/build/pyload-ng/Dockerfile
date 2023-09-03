@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.11.2-slim-bullseye AS builder
+FROM docker.io/library/python:3.11.5-slim-bookworm AS builder
 
 # Install build requirements
 RUN apt-get update && \
@@ -10,10 +10,10 @@ RUN python3 -m venv /opt/venv
 # Make sure we use the virtualenv
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev68
+RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev73
 
 
-FROM docker.io/library/python:3.11.2-slim-bullseye
+FROM docker.io/library/python:3.11.5-slim-bookworm
 
 # Install requirements
 # non-free is needed for unrar

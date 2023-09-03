@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/pyload-ng:0.5.0b3.dev68-3.11.2-slim-bullseye"
+        image: "registry.lan/pyload-ng:0.5.0b3.dev73-3.11.5-slim-bookworm"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -42,7 +42,7 @@ spec:
           mountPath: /pyload-config
       containers:
       - name: pyload
-        image: "registry.lan/pyload-ng:0.5.0b3.dev68-3.11.2-slim-bullseye"
+        image: "registry.lan/pyload-ng:0.5.0b3.dev73-3.11.5-slim-bookworm"
         imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 8000

@@ -36,6 +36,7 @@ configMapGenerator:
   - config/watchers/app-dev-gitea.yaml
   - config/watchers/app-dev-minio.yaml
   - config/watchers/app-download-deluge.yaml
+  - config/watchers/app-download-pyload.yaml
   - config/watchers/app-download-sabnzbd.yaml
   - config/watchers/app-download-sickchill.yaml
   - config/watchers/app-home-esphome.yaml
