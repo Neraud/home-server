@@ -11,8 +11,8 @@ watchers:
       - ^3\.[0-9]\.
       - ^3\.10\.
   - name: PyLoad
-    type: pyload-ng[plugins]
-    package: deluge
+    type: pypi
+    package: pyload-ng
     version: 0.5.0b3.dev73 
     excludes: 
       - ^1\..*
