@@ -18,7 +18,7 @@ watchers:
       - '.*-rc.*'
   - type: github_tag
     repo: zachowj/node-red-contrib-home-assistant-websocket 
-    tag: v0.48.1
+    tag: v0.56.1
     includes:
       - 'v[0-9]+\.[0-9]+\.[0-9]+'
   - type: github_tag
