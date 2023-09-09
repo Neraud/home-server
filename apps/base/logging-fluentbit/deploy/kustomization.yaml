@@ -18,14 +18,12 @@ configMapGenerator:
   files:
   - config/fluent-bit.conf
   - config/includes/filter-kubernetes.conf
-  - config/includes/input-fail2ban.conf
   - config/includes/input-kubernetes.conf
   - config/includes/input-nginx.conf
   - config/includes/input-ufw.conf
   - config/includes/output-fluentd.conf
   - config/parsers/apache.conf
   - config/parsers/docker.conf
-  - config/parsers/fail2ban.conf
   - config/parsers/json.conf
   - config/parsers/nginx.conf
   - config/parsers/nginx_custom.conf
