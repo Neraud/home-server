@@ -1,1 +1,1 @@
-FROM docker.io/opensearchproject/opensearch-dashboards:2.6.0
+FROM public.ecr.aws/opensearchproject/opensearch-dashboards:2.9.0

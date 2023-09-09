@@ -4,7 +4,7 @@ watchers:
     image: opensearchproject/opensearch
     tag: 2.9.0
     includes:
-      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
+      - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - latest
       - .*-rc.*
