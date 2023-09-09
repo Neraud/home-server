@@ -7,7 +7,7 @@ metadata:
     gethomepage.dev/group: Home
     gethomepage.dev/name: NodeRED
     gethomepage.dev/description: Flow-based programming for the IoT
-    gethomepage.dev/icon: nodered
+    gethomepage.dev/icon: node-red
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=nodered"
 spec:
   ingressClassName: nginx
