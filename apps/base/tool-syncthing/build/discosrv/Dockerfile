@@ -1,1 +1,1 @@
-FROM docker.io/syncthing/discosrv:1.18.6
+FROM docker.io/syncthing/discosrv:1.24.0
