@@ -1,4 +1,4 @@
-FROM docker.io/library/node:19.8.1-alpine3.17 as builder
+FROM docker.io/library/node:20.6.0-alpine3.18 as builder
 
 ARG reminiflux_repo=reminiflux/reminiflux
 ARG reminiflux_commit=153dc9464cef69f7c29bff1d680cfa0013b5e281
@@ -11,7 +11,7 @@ RUN npm install
 RUN NODE_OPTIONS=--openssl-legacy-provider PUBLIC_URL="." npm run build
 
 
-FROM docker.io/library/nginx:1.23.4-alpine
+FROM docker.io/library/nginx:1.25.2-alpine3.18
 COPY --from=builder /app/build /usr/share/nginx/html
 ADD 50-custom-configure.sh /docker-entrypoint.d/50-custom-configure.sh
 
