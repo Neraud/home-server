@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: paperless
       app.kubernetes.io/component: paperless
       app.kubernetes.io/part-of: paperless
-      app.kubernetes.io/version: 1.13.0-custom
+      app.kubernetes.io/version: 1.17.4-custom
 
 generatorOptions:
  disableNameSuffixHash: true

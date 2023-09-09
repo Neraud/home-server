@@ -1,1 +1,1 @@
-FROM docker.io/library/postgres:15.2-alpine3.17
+FROM docker.io/library/postgres:15.4-alpine3.18
