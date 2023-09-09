@@ -24,11 +24,12 @@ spec:
         - --path.udev.data=/host/root/run/udev/data
         - --no-collector.wifi
         #- --no-collector.hwmon
+        - --no-collector.btrfs
         - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|run/k3s/containerd/.+|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
         - --collector.netclass.ignored-devices=^(veth.*|[a-f0-9]{15})$
         - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
         - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
-        image: registry.lan/node-exporter:v1.5.0
+        image: registry.lan/node-exporter:v1.6.1
         imagePullPolicy: IfNotPresent
         name: node-exporter
         readinessProbe:
@@ -66,7 +67,6 @@ spec:
           name: textfile-collector-volume
           readOnly: true
       - args:
-        - --logtostderr
         - --secure-listen-address=[$(IP)]:9100
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:9100/
@@ -75,7 +75,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: registry.lan/node-exporter-kube-rbac-proxy:v0.14.0
+        image: registry.lan/node-exporter-kube-rbac-proxy:v0.14.2
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy
         ports:
