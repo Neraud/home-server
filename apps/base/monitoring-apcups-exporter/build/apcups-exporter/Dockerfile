@@ -1,7 +1,7 @@
 ##############
 # Build step #
 ##############
-FROM docker.io/library/golang:1.18.0-alpine3.14 AS build
+FROM docker.io/library/golang:1.21.1-alpine3.18 AS build
 
 ARG archive_url=https://github.com/mdlayher/apcupsd_exporter/archive/3f531e59fc85ebd86ce9806a1336818c5db18bcb.tar.gz
 ARG GO111MODULE=on
@@ -18,7 +18,7 @@ RUN apk add curl git --no-cache && \
 ##############
 # Image step #
 ##############
-FROM docker.io/library/alpine:3.15.1
+FROM docker.io/library/alpine:3.18.3
 
 ENV APCUPS_ADDR ":3551"
 ENV APCUPS_NETWORK "tcp"
