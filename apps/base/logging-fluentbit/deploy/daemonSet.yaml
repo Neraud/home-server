@@ -49,8 +49,10 @@ spec:
         - name: FLUENT_FLUENTD_PORT
           value: "24224"
         securityContext:
+          # privileged to be able to read all host logs
+          privileged: true
+          allowPrivilegeEscalation: true
           readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
           capabilities:
             drop:
               - ALL
