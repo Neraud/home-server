@@ -35,7 +35,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: fluent-bit
-        image: "registry.lan/fluent-bit:2.0.9"
+        image: "registry.lan/fluent-bit:2.1.9"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 2020
