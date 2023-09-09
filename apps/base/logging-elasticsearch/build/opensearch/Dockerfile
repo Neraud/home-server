@@ -1,1 +1,1 @@
-FROM docker.io/opensearchproject/opensearch:2.6.0
+FROM public.ecr.aws/opensearchproject/opensearch:2.9.0
