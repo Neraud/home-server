@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: manage-users
-        image: "registry.lan/ntfy:v2.3.1-amd64"
+        image: "registry.lan/ntfy:v2.7.0-amd64"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -54,7 +54,7 @@ spec:
           subPath: manage_users.sh
       containers:
       - name: ntfy
-        image: "registry.lan/ntfy:v2.3.1-amd64"
+        image: "registry.lan/ntfy:v2.7.0-amd64"
         imagePullPolicy: IfNotPresent
         args: ["serve"]
         ports:
