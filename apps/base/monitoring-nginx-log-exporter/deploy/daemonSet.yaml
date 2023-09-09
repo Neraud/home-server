@@ -20,7 +20,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: nginx-log-exporter
-        image: registry.lan/nginxlog-exporter:v1.10.0-amd64
+        image: registry.lan/nginxlog-exporter:v1.11.0-amd64
         imagePullPolicy: IfNotPresent
         args:
         - -config-file

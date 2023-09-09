@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: quay.io
     image: martinhelmich/prometheus-nginxlog-exporter
-    tag: v1.10.0-amd64
+    tag: v1.11.0-amd64
     includes:
       - ^v[0-9]+\.[0-9]+.[0-9]+-amd64
     excludes:
