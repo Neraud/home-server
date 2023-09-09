@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.11.1-alpine3.17
+FROM docker.io/library/python:3.11.5-alpine3.18
 
 RUN pip3 install xmltodict
 
