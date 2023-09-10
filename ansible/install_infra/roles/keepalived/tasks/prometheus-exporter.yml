@@ -1,17 +1,8 @@
 ---
-- name: Create Keepalived Prometheus Exporter dir
-  ansible.builtin.file:
-    path: "{{ keepalived.exporter.path }}"
-    state: directory
-    mode: 0755
-
-- name: Download Keepalived Prometheus Exporter
-  ansible.builtin.unarchive:
-    src: https://github.com/cafebazaar/keepalived-exporter/releases/download/v{{ keepalived.exporter.version }}/keepalived-exporter-{{ keepalived.exporter.version }}.linux-amd64.tar.gz
-    dest: "{{ keepalived.exporter.path }}"
-    remote_src: yes
-    extra_opts: [--strip-components=1]
-  notify: Restart Keepalived Exporter
+- name: Install Keepalived Prometheus Exporter
+  ansible.builtin.apt:
+    deb: https://github.com/mehdy/keepalived-exporter/releases/download/v{{ keepalived.exporter.version }}/keepalived-exporter-{{ keepalived.exporter.version }}.linux-amd64.deb
+    state: present
 
 - name: Create systemd service
   ansible.builtin.template:

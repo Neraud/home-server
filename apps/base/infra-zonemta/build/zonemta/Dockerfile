@@ -1,9 +1,6 @@
-FROM docker.io/library/node:19.8.1-alpine3.17
+FROM docker.io/library/node:20.6.0-alpine3.18
 
-# Fail with MTA-STS policy check failed for smtp.gmail.com
-#ARG ZONE_MTA_VERSION=3.6.2
-#ARG ZONE_MTA_VERSION=3.6.5
-ARG ZONE_MTA_VERSION=3.5.1
+ARG ZONE_MTA_VERSION=3.6.6
 
 RUN apk add --update \
   make \

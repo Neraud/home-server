@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: elasticsearch
       app.kubernetes.io/component: elasticsearch
       app.kubernetes.io/instance: k8s-logs
-      app.kubernetes.io/version: 2.6.0
+      app.kubernetes.io/version: 2.9.0
 
 generatorOptions:
  disableNameSuffixHash: true

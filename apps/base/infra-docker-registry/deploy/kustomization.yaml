@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: docker-registry
       app.kubernetes.io/component: registry
-      app.kubernetes.io/version: 2.8.1
+      app.kubernetes.io/version: 2.8.2
 
 generatorOptions:
  disableNameSuffixHash: true

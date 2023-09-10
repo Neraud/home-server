@@ -24,8 +24,8 @@ spec:
         - --config-reloader-memory-request=25Mi
         - --config-reloader-cpu-limit=50m
         - --config-reloader-memory-limit=25Mi
-        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.64.0
-        image: registry.lan/prometheus-operator:v0.64.0
+        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.67.1
+        image: registry.lan/prometheus-operator:v0.67.1
         imagePullPolicy: IfNotPresent
         name: prometheus-operator
         ports:
@@ -52,11 +52,10 @@ spec:
             - ALL
           readOnlyRootFilesystem: true
       - args:
-        - --logtostderr
         - --secure-listen-address=:8443
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:8080/
-        image: registry.lan/prometheus-kube-rbac-proxy:v0.14.0
+        image: registry.lan/prometheus-kube-rbac-proxy:v0.14.2
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443

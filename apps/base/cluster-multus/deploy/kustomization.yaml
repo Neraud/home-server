@@ -6,18 +6,11 @@ namespace: kube-system
 generatorOptions:
  disableNameSuffixHash: true
 
-configMapGenerator:
-- name: multus-cni-config
-  namespace: kube-system
-  files:
-  - config/cni-conf.json
-  behavior: replace
-
 resources:
-- multus-daemonset.yaml
+- multus-daemonset-thick.yaml
 - k8s-bridge.yaml
 
 images:
- - name: ghcr.io/k8snetworkplumbingwg/multus-cni:stable
+ - name: ghcr.io/k8snetworkplumbingwg/multus-cni:snapshot-thick
    newName: ghcr.io/k8snetworkplumbingwg/multus-cni
-   newTag: v3.9.3
+   newTag: v4.0.2-thick

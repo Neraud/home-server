@@ -3,19 +3,20 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.11.2-slim-bullseye
+    tag: 3.11.5-slim-bookworm
     includes:
-      - 3\.[0-9]+\.[0-9]+-slim-bullseye
+      - ^[0-9]+\.[0-9]+\.[0-9]+-slim-bookworm
     excludes:
-      - ^3\.[0-9]\..*
-      - ^3\.1[0]\..*
+      - ^2\.
+      - ^3\.[0-9]\.
+      - ^3\.10\.
   - name: SABnzbd
     type: github_release
     repo: sabnzbd/sabnzbd
-    release: 3.7.2
+    release: 4.0.3
     excludes:
       - .*(RC|Alpha|Beta).*
   - name: SABnzbd nzbToMedia
     type: github_release
     repo: clinton-hall/nzbToMedia
-    release: 12.1.10
+    release: 12.1.12

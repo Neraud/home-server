@@ -1,12 +1,12 @@
 watchers:
   - type: docker_registry
-    repo: registry-1.docker.io
+    repo: ghcr.io
     image: esphome/esphome
-    tag: 2023.3.2
+    tag: 2023.8.3
     includes:
       - ^20[0-9]+\.[0-9]+\.[0-9]+.*$
     excludes:
       - .*-(dev|beta).*
       - .*b[0-9]+$
       - ^202[0-2].*
-      - ^2023\.[0-2]\..*
+      - ^2023\.[0-7]\..*

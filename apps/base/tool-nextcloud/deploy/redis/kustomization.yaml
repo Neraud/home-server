@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: nextcloud
       app.kubernetes.io/component: redis
       app.kubernetes.io/part-of: nextcloud
-      app.kubernetes.io/version: 7.0.10-alpine3.17
+      app.kubernetes.io/version: 7.2.1-alpine3.18
 
 generatorOptions:
  disableNameSuffixHash: true

@@ -5,6 +5,7 @@ namespace: kube-system
 
 resources:
 - calico.yaml
+- felix-configuration.yaml
 
 patches:
 - path: patches/calico-node-daemonSet-env.yaml

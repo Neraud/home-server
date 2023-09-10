@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: debug
+  labels:
+    k8s-app: debug
+spec:
+  selector:
+    matchLabels:
+      name: debug
+  template:
+    metadata:
+      labels:
+        name: debug
+    spec:
+      containers:
+      - name: debug
+        image: digitalocean/doks-debug:latest
+        command: [ "sleep", "infinity" ]
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule

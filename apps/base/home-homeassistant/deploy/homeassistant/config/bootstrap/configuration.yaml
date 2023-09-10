@@ -38,27 +38,6 @@ http:
 recorder:
   db_url: !secret recorder_mysql_url
 
-# https://home-assistant.io/components/mqtt/
-mqtt:
-  # https://home-assistant.io/docs/mqtt/broker/#run-your-own
-  broker: mosquitto.home-mosquitto.svc.cluster.local
-  port: 8883
-  username: !secret mqtt_username
-  password: !secret mqtt_password
-  certificate: /etc/ssl/cluster/ca.cert
-  discovery: true
-  sensor:
-    # Test sensor for manual MQTT
-    - name: Test MQTT sensor
-      state_topic: "test/test_sensor"
-
-    # Test sensor for RoomAssistant
-    # Manually configuring the sensor is not required, as RoomAssistant exposes the configuration via Discovery.
-    #- name: Test RoomAssistant
-    #  state_topic: "homeassistant/sensor/example-room/example-script/state"
-    #  unit_of_measurement: '%'
-    #  value_template: "{{ value_json.value }}"
-
 notify:
   - name: email_user
     platform: smtp

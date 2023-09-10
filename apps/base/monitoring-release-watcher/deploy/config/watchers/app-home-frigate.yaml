@@ -1,8 +1,8 @@
 watchers:
   - type: docker_registry
-    repo: registry-1.docker.io
+    repo: ghcr.io
     image: blakeblackshear/frigate
-    tag: 0.11.1
+    tag: 0.12.1
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+$
     excludes:

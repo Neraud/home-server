@@ -20,7 +20,7 @@ spec:
       serviceAccountName: kubernetes-replicator
       containers:
       - name: kubernetes-replicator
-        image: quay.io/mittwald/kubernetes-replicator:v2.8.0
+        image: quay.io/mittwald/kubernetes-replicator:v2.9.1
         imagePullPolicy: IfNotPresent
         args: []
         ports:
@@ -52,14 +52,5 @@ spec:
           limits:
             cpu: 100m
             memory: 32Mi
-        volumeMounts:
-        - name: cluster-config
-          mountPath: /etc/localtime
-          subPath: localtime
-          readOnly: true
       nodeSelector:
         capability/general-purpose: 'yes'
-      volumes:
-      - name: cluster-config
-        configMap:
-          name: cluster-config

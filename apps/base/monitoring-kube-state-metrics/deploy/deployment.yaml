@@ -21,7 +21,7 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: registry.lan/kube-state-metrics:v2.8.2
+        image: registry.lan/kube-state-metrics:v2.9.2
         imagePullPolicy: IfNotPresent
         name: kube-state-metrics
         resources:
@@ -37,16 +37,18 @@ spec:
             drop:
             - ALL
           readOnlyRootFilesystem: true
+          runAsNonRoot: true
           runAsUser: 65534
           runAsGroup: 65532
+          seccompProfile:
+            type: RuntimeDefault
         #readinessProbe:
         # As we bind to 127.0.0.1, we can't add probes to this container
       - args:
-        - --logtostderr
         - --secure-listen-address=:8443
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:8081/
-        image: registry.lan/kube-state-metrics-kube-rbac-proxy:v0.14.0
+        image: registry.lan/kube-state-metrics-kube-rbac-proxy:v0.14.2
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy-main
         ports:
@@ -80,11 +82,10 @@ spec:
           runAsNonRoot: true
           runAsUser: 65532
       - args:
-        - --logtostderr
         - --secure-listen-address=:9443
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:8082/
-        image: registry.lan/kube-state-metrics-kube-rbac-proxy:v0.14.0
+        image: registry.lan/kube-state-metrics-kube-rbac-proxy:v0.14.2
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy-self
         ports:

@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/gitea-postgres:15.2-alpine3.17"
+        image: "registry.lan/gitea-postgres:15.4-alpine3.18"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -42,7 +42,7 @@ spec:
           mountPath: /var/lib/postgresql
       containers:
       - name: pgsql
-        image: "registry.lan/gitea-postgres:15.2-alpine3.17"
+        image: "registry.lan/gitea-postgres:15.4-alpine3.18"
         imagePullPolicy: IfNotPresent
         envFrom:
           - secretRef:

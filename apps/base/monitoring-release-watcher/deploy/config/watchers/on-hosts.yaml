@@ -1,15 +1,15 @@
 watchers:
   - type: pypi
     package: ansible
-    version: 7.4.0
+    version: 8.3.0
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
       - ^[0-6]\..*
       - ^7\.[0-3]\..*
   - type: github_release
-    repo: cafebazaar/keepalived-exporter
-    release: v1.2.0
+    repo: mehdy/keepalived-exporter
+    release: v1.3.2
   - type: github_release
     repo: kubernetes/kubernetes
     release: v1.26.1

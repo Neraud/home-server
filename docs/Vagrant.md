@@ -421,6 +421,25 @@ You can then use the regular account using `Logging in with Command Line Authent
 
 The deployment also prepares and configures a MySQL database to use for HomeAssistant [recorder](https://www.home-assistant.io/components/recorder/).
 
+We used to be able to configure MQTT using `configuration.yaml` and it was perfect and simple. However, it has been removed, and now the MQTT integration has to be manually configured, using the web interface:
+
+* On master-test-1
+  * `cp /etc/ssl/custom/cluster/ca.crt /opt/provision/vagrant/cluster-ca.crt`
+
+* Go to your user profile
+  * Enabled "Advanced Mode"
+
+* Go to Settings > Devices & Services > Add Integration > MQTT
+  * Broker: mosquitto.home-mosquitto.svc.cluster.local
+  * Port: 8883
+  * Username: user
+  * Password: Passw0rd
+  * Advanced Options: Enabled
+  * Submit
+  * Broker certificate validation: Custom
+  * Submit
+  * Upload `home-server-provisioning/vagrant/cluster-ca.crt`
+
 ### Z-Wave JS UI
 
 Z-Wave JS UI is not automatically installed for Vagrant. It requires access to a ZWave serial device (most probably exposed on a TCP port via ser2net).

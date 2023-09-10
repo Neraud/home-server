@@ -1,1 +1,1 @@
-FROM docker.io/blakeblackshear/frigate:0.11.1
+FROM ghcr.io/blakeblackshear/frigate:0.12.1

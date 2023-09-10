@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: paperless
       app.kubernetes.io/component: redis
       app.kubernetes.io/part-of: paperless
-      app.kubernetes.io/version: 7.0.8-alpine3.17
+      app.kubernetes.io/version: 7.2.1-alpine3.18
 
 generatorOptions:
  disableNameSuffixHash: true

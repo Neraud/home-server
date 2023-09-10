@@ -1,4 +1,4 @@
-FROM docker.io/jellyfin/jellyfin:10.8.9-amd64
+FROM docker.io/jellyfin/jellyfin:10.8.10-amd64
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \
@@ -34,13 +34,13 @@ RUN echo "Install jellyfin-plugin-anisearch" && \
 
 RUN echo "Install jellyfin-plugin-ldapauth" && \
     mkdir -p "/opt/jellyfin/plugins/LDAP Authentication" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_16.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_17.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip -d "/opt/jellyfin/plugins/LDAP Authentication" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip
 
 RUN echo "Install jellyfin-plugin-thetvdb" && \
     mkdir -p "/opt/jellyfin/plugins/TheTVDB" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_9.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_10.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip -d "/opt/jellyfin/plugins/TheTVDB" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip
 

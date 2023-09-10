@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.11.2-slim-bullseye
+FROM docker.io/library/python:3.11.5-slim-bookworm
 
 RUN echo "Creating sickchill user" && \
     groupadd --gid 1000 sickchill && \
@@ -12,7 +12,7 @@ USER sickchill
 
 RUN echo "Install sickchill" && \
     python3 -m venv /app/sickchill && \
-    /app/sickchill/bin/pip3 install sickchill==2023.1.2
+    /app/sickchill/bin/pip3 install sickchill==2023.6.27
 
 # Make sure cache is linked to the data dir : See https://github.com/SickChill/SickChill/issues/6010
 #RUN ln -s /data/cache /app/sickchill/lib/python3.9/site-packages/sickchill/gui/slick/cache

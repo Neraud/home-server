@@ -3,3 +3,14 @@ watchers:
     repo: mdlayher/apcupsd_exporter
     branch: main
     commit: 3f531e59fc85ebd86ce9806a1336818c5db18bcb
+  - type: docker_registry
+    name: apcups Base image
+    repo: registry-1.docker.io
+    image: library/alpine
+    tag: 3.18.3
+    includes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
+    excludes:
+      - 3\.[0-9]\..*
+      - 3\.1[0-7]\..*
+      - .*rc.*

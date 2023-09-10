@@ -2,12 +2,14 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: fluent/fluent-bit
-    tag: 2.0.9
+    tag: 2.1.9
     includes:
       - "[1-9]\\.[0-9]+\\.[0-9].*"
     excludes:
       - .*debug.*
       - .*rc.*
       - .*dev.*
+      - .*arm.*
       - ^[0-1]\.
-      - ^2\.0\.[0-8]
+      - ^2\.0\.
+      - ^2\.1\.[0-8]

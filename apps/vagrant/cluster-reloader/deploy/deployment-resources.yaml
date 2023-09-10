@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: reloader
+  name: reloader-reloader
 spec:
   template:
     spec:
       containers:
-      - name: reloader
+      - name: reloader-reloader
         resources:
           requests:
             cpu: 25m

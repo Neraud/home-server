@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: frigate
       app.kubernetes.io/component: frigate
-      app.kubernetes.io/version: 0.11.1
+      app.kubernetes.io/version: 0.12.1
 
 generatorOptions:
  disableNameSuffixHash: true

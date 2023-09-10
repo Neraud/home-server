@@ -7,7 +7,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart={{ keepalived.exporter.path }}/keepalived-exporter
+ExecStart=/usr/bin/keepalived-exporter
 KillMode=process
 
 [Install]

@@ -1,8 +1,8 @@
 watchers:
   - type: docker_registry
-    repo: registry-1.docker.io
+    repo: ghcr.io
     image: stakater/reloader
-    tag: v1.0.18
+    tag: v1.0.40
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -11,3 +11,4 @@ watchers:
       - dev
       - v0\.
       - v1\.0\.[0-9]$
+      - v1\.0\.[0-3][0-9]$

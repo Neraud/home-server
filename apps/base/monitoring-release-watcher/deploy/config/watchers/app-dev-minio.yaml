@@ -1,0 +1,21 @@
+watchers:
+  - type: docker_registry
+    repo: quay.io
+    image: minio/minio
+    tag: RELEASE.2023-09-07T02-05-02Z
+    includes:
+      - ^RELEASE.
+    excludes:
+      - ^RELEASE.202[0-2]-
+      - ^RELEASE.2023-0[0-8]-
+  - name: "MinIO MC"
+    type: docker_registry
+    repo: quay.io
+    image: minio/mc
+    tag: RELEASE.2023-09-07T22-48-55Z
+    includes:
+      - ^RELEASE.
+    excludes:
+      - ^RELEASE.202[0-2]-
+      - ^RELEASE.2023-0[0-8]-
+

@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: redis
-        image: "registry.lan/nextcloud-redis:7.0.10-alpine3.17"
+        image: "registry.lan/nextcloud-redis:7.2.1-alpine3.18"
         imagePullPolicy: IfNotPresent
         command:
         - redis-server

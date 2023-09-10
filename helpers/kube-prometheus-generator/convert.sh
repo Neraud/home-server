@@ -25,6 +25,7 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0probeCustomResourceD
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0prometheusagentCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusagentCustomResourceDefinition.yaml
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0prometheusCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusCustomResourceDefinition.yaml
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0prometheusruleCustomResourceDefinition.yaml $OPERATOR_ROOT/prometheusruleCustomResourceDefinition.yaml
+mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0scrapeconfigCustomResourceDefinition.yaml $OPERATOR_ROOT/scrapeconfigCustomResourceDefinition.yaml
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0servicemonitorCustomResourceDefinition.yaml $OPERATOR_ROOT/servicemonitorCustomResourceDefinition.yaml
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-0thanosrulerCustomResourceDefinition.yaml $OPERATOR_ROOT/thanosrulerCustomResourceDefinition.yaml
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-clusterRoleBinding.yaml $OPERATOR_ROOT/clusterRoleBinding.yaml
@@ -33,6 +34,18 @@ mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-deployment.yaml $OPER
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-networkPolicy.yaml $OPERATOR_ROOT/networkPolicy.yaml
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-serviceAccount.yaml $OPERATOR_ROOT/serviceAccount.yaml
 mv $OUT_TMP_KUBE_PROMETHEUS_ROOT/setup/prometheus-operator-service.yaml $OPERATOR_ROOT/service.yaml
+
+echo "Protect '=' in CRDs"
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/alertmanagerConfigCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/alertmanagerCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/podmonitorCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/probeCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/prometheusagentCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/prometheusCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/prometheusruleCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/scrapeconfigCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/servicemonitorCustomResourceDefinition.yaml
+sed -i -E 's/( +)- =$/\1- \\=/g' $OPERATOR_ROOT/thanosrulerCustomResourceDefinition.yaml
 
 echo "===================================================================================================="
 echo "Converting AlertManager"
