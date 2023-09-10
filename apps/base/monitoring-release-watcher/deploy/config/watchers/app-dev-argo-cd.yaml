@@ -14,7 +14,7 @@ watchers:
     type: docker_registry
     repo: quay.io
     image: argoproj/argocd
-    tag: v2.8.2
+    tag: v2.8.3
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -24,9 +24,9 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: dexidp/dex
-    tag: v2.37.0
+    tag: v2.37.0-distroless
     includes:
-      - v[0-9]+\.[0-9]+\.[0-9]+
+      - v[0-9]+\.[0-9]+\.[0-9]+-distroless
     excludes:
       - v[0-1]\.
       - v2\.[0-9]\.
@@ -36,7 +36,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.2.0-alpine3.18
+    tag: 7.2.1-alpine3.18
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
