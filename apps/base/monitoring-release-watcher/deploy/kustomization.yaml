@@ -16,15 +16,13 @@ generatorOptions:
 configMapGenerator:
 - name: release-watcher-watchers
   files:
-  - config/watchers/common.yaml
-  - config/watchers/on-hosts.yaml
   - config/watchers/app-auth-lemonldap.yaml
   - config/watchers/app-auth-openldap.yaml
   - config/watchers/app-auth-phpldapadmin.yaml
-  - config/watchers/app-auth-pyload.yaml
   - config/watchers/app-cluster-calico.yaml
   - config/watchers/app-cluster-ingress-nginx.yaml
   - config/watchers/app-cluster-intel-gpu-plugin.yaml
+  - config/watchers/app-cluster-kubernetes-replicator.yaml
   - config/watchers/app-cluster-longhorn.yaml
   - config/watchers/app-cluster-metallb.yaml
   - config/watchers/app-cluster-multus.yaml
@@ -42,7 +40,7 @@ configMapGenerator:
   - config/watchers/app-home-esphome.yaml
   - config/watchers/app-home-frigate.yaml
   - config/watchers/app-home-home-assistant.yaml
-  - config/watchers/app-home-home-mosquitto.yaml
+  - config/watchers/app-home-mosquitto.yaml
   - config/watchers/app-home-node-red.yaml
   - config/watchers/app-home-room-assistant.yaml
   - config/watchers/app-home-zigbee2mqtt.yaml
@@ -75,6 +73,8 @@ configMapGenerator:
   - config/watchers/app-tool-olivetin.yaml
   - config/watchers/app-tool-paperless.yaml
   - config/watchers/app-tool-syncthing.yaml
+  - config/watchers/common.yaml
+  - config/watchers/on-hosts.yaml
 
 secretGenerator:
 - name: release-watcher
