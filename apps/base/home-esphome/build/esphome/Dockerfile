@@ -1,4 +1,4 @@
-FROM ghcr.io/esphome/esphome:2023.8.2
+FROM ghcr.io/esphome/esphome:2023.8.3
 
 RUN echo "Create esp user" && \
     groupadd -g 1000 esp && \
