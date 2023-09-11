@@ -14,4 +14,7 @@ spec:
             memory: 128Mi
           limits:
             cpu: 250m
+            # 128Mi is enough for standard operation
+            # It is however not enough to run OTA update of devices
+            # OTA updates seem to be fine with 256Mi
             memory: 128Mi
