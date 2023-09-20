@@ -1,7 +1,7 @@
 #--------------------------------------------#
 #--------Build KSOPS and Kustomize-----------#
 #--------------------------------------------#
-FROM viaductoss/ksops:v4.2.1-amd64 as ksops-builder
+FROM docker.io/viaductoss/ksops:v4.2.1-amd64 as ksops-builder
 
 
 #--------------------------------------------#
