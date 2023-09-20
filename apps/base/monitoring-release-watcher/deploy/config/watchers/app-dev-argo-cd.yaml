@@ -18,8 +18,10 @@ watchers:
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
+      - .*-rc
       - v[0-1]\.
       - v2\.[0-7]\.
+      - v2\.8\.[0-2]
   - name: "ArgoCD Dex"
     type: docker_registry
     repo: ghcr.io

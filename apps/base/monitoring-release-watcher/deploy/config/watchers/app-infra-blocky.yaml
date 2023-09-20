@@ -8,6 +8,7 @@ watchers:
     excludes:
       - v0\.[0-9]$
       - v0\.1[0-9]$
+      - v0\.2[0-1]$
   - name: Blocky PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io

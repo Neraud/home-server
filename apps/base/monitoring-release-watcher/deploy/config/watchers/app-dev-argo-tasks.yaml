@@ -1,15 +1,16 @@
 watchers:
-  - name: "Kaniko executor"
+  - name: "Buildah"
     type: docker_registry
-    repo: gcr.io
-    image: kaniko-project/executor
-    tag: v1.15.0-debug
+    repo: quay.io
+    image: containers/buildah
+    tag: v1.31.0
     includes:
-      - v[0-9]+\.[0-9]+\.[0-9]+-debug
+      - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - v0\.
       - v1\.[0-9]\.
-      - v1\.1[0-4]\.
+      - v1\.[0-2][0-9]\.
+      - v1\.3[0]\.
   - name: "Source fetcher base image"
     type: docker_registry
     repo: registry-1.docker.io
