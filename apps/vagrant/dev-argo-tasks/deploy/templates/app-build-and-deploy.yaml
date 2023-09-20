@@ -73,17 +73,17 @@ spec:
             - name: apps_source_base
               from: "{{steps.source-from-rsync.outputs.artifacts.apps_source_base}}"
           withParam: "{{steps.source-from-rsync.outputs.parameters.app_images}}"
-      - - name: deploy-from-rsync
-          template: deploy-from-rsync
-          arguments:
-            parameters:
-            - name: app_name
-              value: "{{workflow.parameters.app_name}}"
-            artifacts:
-            - name: apps_source_base
-              from: "{{steps.source-from-rsync.outputs.artifacts.apps_source_base}}"
-            - name: apps_source_overlay
-              from: "{{steps.source-from-rsync.outputs.artifacts.apps_source_overlay}}"
+      #- - name: deploy-from-rsync
+      #    template: deploy-from-rsync
+      #    arguments:
+      #      parameters:
+      #      - name: app_name
+      #        value: "{{workflow.parameters.app_name}}"
+      #      artifacts:
+      #      - name: apps_source_base
+      #        from: "{{steps.source-from-rsync.outputs.artifacts.apps_source_base}}"
+      #      - name: apps_source_overlay
+      #        from: "{{steps.source-from-rsync.outputs.artifacts.apps_source_overlay}}"
 
     - name: base-source-from-git
       inputs:
@@ -177,53 +177,36 @@ spec:
         artifacts:
         - name: apps_source_base
           path: /source/apps/base
-      initContainers:
-      - name: create-volume
-        image: registry.lan/kaniko-image-builder:v1.15.0-debug
-        command:
-        - "sh"
-        - "-c"
-        - |
+      script:
+        image: registry.lan/buildah:v1.31.0
+        command: [bash]
+        source: |
           set -euo pipefail
           echo "----------------------------------------------------------------------------------------------------"
-          echo "Copy /kaniko to temp volume"
-          cp -av /kaniko /tmp/
+          echo "Building {{inputs.parameters.build_folder}}"
+          buildah build --format=docker -f Dockerfile -t registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}} /source/apps/base/{{inputs.parameters.app_name}}/build/{{inputs.parameters.build_folder}}
           echo "----------------------------------------------------------------------------------------------------"
-          echo "Inject cluster-ca in kaniko certs"
-          cat /etc/ssl/cluster/ca.cert >> /tmp/kaniko/ssl/certs/ca-certificates.crt
+          echo "Pushing registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}}"
+          buildah push --cert-dir /etc/ssl/cluster/ --retry 5 registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}}
+          echo "----------------------------------------------------------------------------------------------------"
         volumeMounts:
         - name: cluster-ca
-          mountPath: /etc/ssl/cluster/ca.cert
+          mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
-        - name: tmp
-          mountPath: /tmp
-      container:
-        image: registry.lan/kaniko-image-builder:v1.15.0-debug
-        command: ["/kaniko/executor"]
-        args:
-          - --cache
-          #- --cache-copy-layers # kaniko does not support caching copy layers in multistage builds
-          - --cache-repo=registry.lan/{{inputs.parameters.image_name}}-cache
-          - --reproducible
-          - --context=/source/apps/base/{{inputs.parameters.app_name}}/build/{{inputs.parameters.build_folder}}
-          - --destination=registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}}
-          - --verbosity=info
-        volumeMounts:
         - name: docker-config
-          mountPath: /kaniko/.docker/config.json
+          mountPath: /root/.docker/config.json
           subPath: .dockerconfigjson
-        - name: tmp
-          mountPath: /kaniko
-          subPath: kaniko
+        - name: var-lib-containers
+          mountPath: /var/lib/containers
         resources:
           requests:
             cpu: 250m
-            memory: 1536Mi
+            memory: 1024Mi
           limits:
             cpu: 1
-            memory: 2048Mi
+            memory: 1024Mi
         securityContext:
-          # Some commands in Dockerfile fail without privileged :/
+          # Required for Buildah to work
           privileged: true
           allowPrivilegeEscalation: true
           runAsUser: 0
@@ -236,15 +219,16 @@ spec:
       - name: docker-config
         secret:
           secretName: docker-config
-      - name: tmp
-        emptyDir: {}
+      - name: var-lib-containers
+        hostPath:
+          path: /var/lib/containers
 
     - name: deploy-from-git
       inputs:
         parameters:
         - name: app_name
       script:
-        image: registry.lan/argocd:v2.7.1-ksops
+        image: registry.lan/argocd:v2.8.3-ksops
         command: [bash]
         env:
         - name: ARGOCD_AUTH_TOKEN
@@ -307,7 +291,7 @@ spec:
         - name: apps_source_overlay
           path: /source/apps/overlay
       script:
-        image: registry.lan/argocd:v2.7.1-ksops
+        image: registry.lan/argocd:v2.8.3-ksops
         command: [bash]
         env:
         - name: ARGOCD_AUTH_TOKEN
