@@ -1,1 +1,1 @@
-FROM ghcr.io/neraud/release-watcher:v1.0.2
+FROM ghcr.io/neraud/release-watcher:v1.0.3

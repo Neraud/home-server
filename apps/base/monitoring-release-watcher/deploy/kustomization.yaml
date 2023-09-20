@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: release-watcher
       app.kubernetes.io/component: release-watcher
-      app.kubernetes.io/version: v1.0.0
+      app.kubernetes.io/version: v1.0.3
 
 generatorOptions:
  disableNameSuffixHash: true
