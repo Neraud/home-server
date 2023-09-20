@@ -4,6 +4,12 @@ kind: Kustomization
 resources:
 - ../../../base/tool-syncthing/deploy
 
+configMapGenerator:
+- name: syncthing-conf-injection-env
+  behavior: merge
+  envs:
+  - config/syncthing-conf-injection.env
+
 patches:
 - path: nfs-syncthing-pv-nfs.yaml
 - path: discovery-statefulSet-resources.yaml
