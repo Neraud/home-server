@@ -178,7 +178,7 @@ spec:
         - name: apps_source_base
           path: /source/apps/base
       script:
-        image: registry.lan/buildah:v1.23.1
+        image: registry.lan/buildah:v1.31.0
         command: [bash]
         source: |
           set -euo pipefail
@@ -187,7 +187,7 @@ spec:
           buildah build --format=docker -f Dockerfile -t registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}} /source/apps/base/{{inputs.parameters.app_name}}/build/{{inputs.parameters.build_folder}}
           echo "----------------------------------------------------------------------------------------------------"
           echo "Pushing registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}}"
-          buildah push --cert-dir /etc/ssl/cluster/ registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}}
+          buildah push --cert-dir /etc/ssl/cluster/ --retry 5 registry.lan/{{inputs.parameters.image_name}}:{{inputs.parameters.image_tag}}
           echo "----------------------------------------------------------------------------------------------------"
         volumeMounts:
         - name: cluster-ca
