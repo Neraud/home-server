@@ -7,7 +7,7 @@ metadata:
   #finalizers:
   #  - resources-finalizer.argocd.argoproj.io
   labels:
-    app.kubernetes.io/name: gitea
+    app.kubernetes.io/name: kube-state-metrics
 spec:
   project: k8s-cluster
 
