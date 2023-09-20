@@ -11,6 +11,7 @@ watchers:
       - ^0\..*
       - ^1\.[0-9]\..*
       - ^1\.1[0-6]\..*
+      - ^1\.17\.[0-3]
   - name: "Paperless Redis"
     type: docker_registry
     repo: registry-1.docker.io
