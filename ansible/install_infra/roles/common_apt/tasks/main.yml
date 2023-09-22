@@ -11,17 +11,18 @@
     state: present
     filename: "debian"
   with_items:
-    # debian main is already in default sources.list
-    - "deb https://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
-    - "deb-src https://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
+    # debian main non-free-firmware is already in default sources.list
+    - "deb http://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
+    - "deb-src http://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
 
-    # debian-security main is already in default sources.list
-    - "deb https://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
-    - "deb-src https://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
+    # debian-security main non-free-firmware is already in default sources.list
+    - "deb http://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
+    - "deb-src http://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
 
-    # debian-security main is already in default sources.list
-    - "deb https://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
-    - "deb-src https://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
+    # debian-updates main non-free-firmware is already in default sources.list
+    - "deb http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
+    - "deb-src http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
 
-    - "deb https://deb.debian.org/debian {{ ansible_lsb.codename }}-backports main contrib non-free"
+    - "deb http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-proposed-updates contrib main non-free non-free-firmware"
+    - "deb-src http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-proposed-updates contrib main non-free non-free-firmware"
   when: ansible_distribution == 'Debian'
