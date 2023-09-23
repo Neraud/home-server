@@ -5,12 +5,12 @@
   register: iptables_legacy_stat
 
 # Cf https://github.com/kubernetes/kubernetes/issues/71305#issuecomment-479558920
-- name: Force iptables to legacy mode on Buster/Bullseye
+- name: Force iptables to legacy mode on Buster/Bullseye/Bookworm
   community.general.alternatives:
     path: /usr/sbin/iptables-legacy
     name: iptables
   when:
-    - (ansible_lsb.codename == "buster" or ansible_lsb.codename == "bullseye")
+    - (ansible_lsb.codename == "buster" or ansible_lsb.codename == "bullseye" or ansible_lsb.codename == "bookworm")
     - iptables_legacy_stat.stat.exists
 
 - name: Install ufw
