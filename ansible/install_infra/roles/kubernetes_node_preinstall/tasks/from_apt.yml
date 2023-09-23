@@ -1,10 +1,4 @@
 ---
-# TODO : should not be needed after upgrading to Debian 12
-- name: Ensure /etc/apt/keyrings exists
-  ansible.builtin.file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: 0755
 
 - name: Add Kubenetes repo key
   ansible.builtin.get_url:
