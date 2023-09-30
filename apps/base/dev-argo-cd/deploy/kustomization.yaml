@@ -62,7 +62,7 @@ patches:
 images:
 - name: quay.io/argoproj/argocd
   newName: registry.lan/argocd
-  newTag: v2.8.3-ksops
+  newTag: v2.8.4-ksops
 - name: ghcr.io/dexidp/dex
   newName: registry.lan/dex
   newTag: v2.37.0-distroless
