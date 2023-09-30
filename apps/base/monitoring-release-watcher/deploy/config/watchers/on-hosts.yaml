@@ -17,3 +17,6 @@ watchers:
       - .*(alpha|beta|rc).*
       - v1\.[0-1][0-9]\..*
       - v1\.2[0-7]\..*
+  - type: github_release
+    repo: restic/restic
+    release: 0.12.0
