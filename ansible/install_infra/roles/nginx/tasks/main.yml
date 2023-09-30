@@ -21,8 +21,20 @@
 
 - name: Install NGinx
   ansible.builtin.apt:
-    pkg: nginx
+    pkg:
+    - nginx
+    - libnginx-mod-stream
     state: present
+
+- name: Enable modules
+  ansible.builtin.file:
+    src: "/usr/share/nginx/modules-available/{{ item.name }}"
+    dest: "/etc/nginx/modules-enabled/{{ item.enabled_name }}"
+    state: link
+  loop:
+  - name: mod-stream.conf
+    enabled_name: 50-mod-stream.conf
+  notify: Restart NGinx
 
 - name: Disable standard default VH
   ansible.builtin.file:

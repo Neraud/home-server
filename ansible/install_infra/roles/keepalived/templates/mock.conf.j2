@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+# Mock virtual server to make sure Keepalived starts
+# On Debian 11 with version 2.1.5, Keealived starts with an empty configuration
+# On Debian 12 with version 2.2.7, Keealived times out with an empty configuration
+
+virtual_server 127.0.0.1 9998 {
+    lb_algo rr
+    lb_kind NAT
+    protocol TCP
+    real_server 127.0.0.1 9999 {}
+}

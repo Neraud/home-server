@@ -11,8 +11,8 @@
     repo: "{{ item }}"
     state: present
   loop:
-  - "deb [signed-by=/usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/debian/ bullseye main"
-  - "deb-src [signed-by=/usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/debian/ bullseye main"
+  - "deb [signed-by=/usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/debian/ {{ ansible_lsb.codename }} main"
+  - "deb-src [signed-by=/usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/debian/ {{ ansible_lsb.codename }} main"
 
 - name: Install Crowdsec firewall bouncer
   ansible.builtin.apt:
