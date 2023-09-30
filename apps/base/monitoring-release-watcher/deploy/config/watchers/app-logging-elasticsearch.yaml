@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: public.ecr.aws
     image: opensearchproject/opensearch
-    tag: 2.9.0
+    tag: 2.10.0
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -10,7 +10,7 @@ watchers:
       - .*-rc.*
       - ^0\..*
       - ^1\..*
-      - ^2\.[0-8]\..*
+      - ^2\.[0-9]\..*
   - type: docker_registry
     repo: registry-1.docker.io
     image: justwatch/elasticsearch_exporter
