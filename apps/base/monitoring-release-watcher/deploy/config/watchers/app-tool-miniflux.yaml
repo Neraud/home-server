@@ -3,14 +3,14 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: miniflux/miniflux
-    tag: 2.0.47-distroless
+    tag: 2.0.48-distroless
     includes:
       - ^[0-9]+.[0-9]+.[0-9]+-distroless$
     excludes:
       - ^1\..*
       - ^2.0.[0-9]-distroless$
       - ^2.0.[0-3][0-9]-distroless$
-      - ^2.0.4[0-6]-distroless$
+      - ^2.0.4[0-7]-distroless$
   - name: Miniflux PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
