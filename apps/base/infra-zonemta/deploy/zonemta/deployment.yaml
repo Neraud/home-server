@@ -61,7 +61,7 @@ spec:
               - ALL
       containers:
       - name: zonemta
-        image: "registry.lan/zonemta:3.6.6-node-20.6.0-alpine3.18"
+        image: "registry.lan/zonemta:3.6.10-node-20.8.0-alpine3.18"
         imagePullPolicy: IfNotPresent
         env:
         - name: NODE_OPTIONS
