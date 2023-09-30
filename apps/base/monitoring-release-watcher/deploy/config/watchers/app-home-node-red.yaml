@@ -21,6 +21,8 @@ watchers:
     tag: v0.56.1
     includes:
       - 'v[0-9]+\.[0-9]+\.[0-9]+'
+    excludes:
+      - .*-beta.*
   - type: github_tag
     repo: biddster/node-red-contrib-time-range-switch
     tag: 1.2.0
