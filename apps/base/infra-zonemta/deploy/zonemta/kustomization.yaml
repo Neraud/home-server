@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: zonemta
       app.kubernetes.io/component: server
-      app.kubernetes.io/version: 3.6.6-node-20.6.0-alpine3.18
+      app.kubernetes.io/version: 3.6.10-node-20.8.0-alpine3.18
 
 generatorOptions:
  disableNameSuffixHash: true

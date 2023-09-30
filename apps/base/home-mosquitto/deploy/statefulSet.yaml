@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/mosquitto:2.0.17-openssl"
+        image: "registry.lan/mosquitto:2.0.18-openssl"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -42,7 +42,7 @@ spec:
           mountPath: /mosquitto
       containers:
       - name: mosquitto
-        image: "registry.lan/mosquitto:2.0.17-openssl"
+        image: "registry.lan/mosquitto:2.0.18-openssl"
         imagePullPolicy: IfNotPresent     
         envFrom:
           - secretRef:

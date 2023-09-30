@@ -3,11 +3,8 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: benphelps/homepage
-    tag: v0.6.29
+    tag: v0.7.0
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
-      - ^v0\.[0-5]\.
-      - ^v0\.6\.[0-9]$
-      - ^v0\.6\.1[0-9]$
-      - ^v0\.6\.2[0-8]$
+      - ^v0\.[0-6]\.

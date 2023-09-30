@@ -1,1 +1,1 @@
-FROM docker.io/jacobalberty/unifi:v7.4.162
+FROM docker.io/jacobalberty/unifi:v7.5.174

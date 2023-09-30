@@ -13,7 +13,7 @@ watchers:
   - name: SABnzbd
     type: github_release
     repo: sabnzbd/sabnzbd
-    release: 4.0.3
+    release: 4.1.0
     excludes:
       - .*(RC|Alpha|Beta).*
   - name: SABnzbd nzbToMedia

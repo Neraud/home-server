@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: public.ecr.aws
     image: opensearchproject/opensearch-dashboards
-    tag: 2.9.0
+    tag: 2.10.0
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -10,4 +10,4 @@ watchers:
       - .*-(rc|beta).*
       - ^0\..*
       - ^1\..*
-      - ^2\.[0-8]\..*
+      - ^2\.[0-9]\..*

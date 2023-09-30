@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: intel-gpu-plugin
-        image: "registry.lan/intel-gpu-plugin:0.27.1"
+        image: "registry.lan/intel-gpu-plugin:0.28.0"
         imagePullPolicy: IfNotPresent
         env:
           - name: NODE_NAME
