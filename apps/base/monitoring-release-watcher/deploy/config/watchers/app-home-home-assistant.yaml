@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: home-assistant/home-assistant
-    tag: 2023.9.1
+    tag: 2023.9.3
     includes:
       - ^[0-9][0-9][0-9][0-9]\.[0-9]+\.[0-9]+.*
     excludes:
