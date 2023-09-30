@@ -14,7 +14,7 @@ spec:
         - --config-reloader-memory-request=25Mi
         - --config-reloader-cpu-limit=50m
         - --config-reloader-memory-limit=25Mi
-        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.67.1
+        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.68.0
         resources:
           limits:
             cpu: 50m
