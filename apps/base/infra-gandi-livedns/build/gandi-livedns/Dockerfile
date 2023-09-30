@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:3.18.3
+FROM docker.io/library/alpine:3.18.4
 
 ENV REFRESH_INTERVAL=600
 ENV SET_IPV4="yes"
