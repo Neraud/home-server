@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: quay.io
     image: argoproj/argocli
-    tag: v3.4.10
+    tag: v3.4.11
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -14,7 +14,7 @@ watchers:
   - type: docker_registry
     repo: quay.io
     image: argoproj/workflow-controller
-    tag: v3.4.10
+    tag: v3.4.11
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
