@@ -20,3 +20,6 @@ watchers:
   - type: github_release
     repo: restic/restic
     release: v0.16.0
+  - type: github_release
+    repo: rclone/rclone
+    release: v1.64.0
