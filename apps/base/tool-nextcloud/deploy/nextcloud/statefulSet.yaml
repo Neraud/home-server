@@ -86,7 +86,7 @@ spec:
               - ALL
       containers:
       - name: nextcloud
-        image: "registry.lan/nextcloud:25.0.10-apache-custom"
+        image: "registry.lan/nextcloud:26.0.7-apache-custom"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:

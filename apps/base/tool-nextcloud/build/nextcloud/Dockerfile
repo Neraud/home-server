@@ -1,18 +1,16 @@
-FROM docker.io/library/nextcloud:25.0.10-apache
+FROM docker.io/library/nextcloud:26.0.7-apache
 
 ARG supercronic_repo=aptible/supercronic
 ARG supercronic_version=v0.2.26
 ARG supercronic_sha1sum=7a79496cf8ad899b99a719355d4db27422396735
 ARG app_calendar_repo=nextcloud-releases/calendar
-ARG app_calendar_version=v4.4.5
+ARG app_calendar_version=v4.5.1
 ARG app_contacts_repo=nextcloud-releases/contacts
-ARG app_contacts_version=v5.3.2
+ARG app_contacts_version=v5.4.2
 ARG app_notes_repo=nextcloud/notes
 ARG app_notes_version=v4.8.1
 ARG app_tasks_repo=nextcloud/tasks
 ARG app_tasks_version=v0.15.0
-ARG app_twofactor_totp_repo=nextcloud-releases/twofactor_totp
-ARG app_twofactor_totp_version=v6.4.1
 
 # See https://github.com/nextcloud/docker/blob/master/.examples/dockerfiles/cron/apache/Dockerfile
 # Install supervisor
@@ -80,9 +78,6 @@ RUN curl -sL https://github.com/${app_notes_repo}/releases/download/${app_notes_
 # Install Tasks app
 RUN curl -sL https://github.com/${app_tasks_repo}/releases/download/${app_tasks_version}/tasks.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
     chown -R nobody:nogroup /usr/src/nextcloud/apps/tasks
-# Install Two Factor Totp app
-RUN curl -sL https://github.com/${app_twofactor_totp_repo}/releases/download/${app_twofactor_totp_version}/twofactor_totp-${app_twofactor_totp_version}.tar.gz  | tar xz -C /usr/src/nextcloud/apps/ && \
-    chown -R nobody:nogroup /usr/src/nextcloud/apps/twofactor_totp
 
 USER www-data
 
