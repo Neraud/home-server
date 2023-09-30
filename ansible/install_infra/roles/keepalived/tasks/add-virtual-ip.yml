@@ -14,3 +14,10 @@
     mode: 0644
   when: not (keepalived_instance_enabled | default(true))
   notify: Restart Keepalived
+
+- name: Remove mock virtual server
+  ansible.builtin.file:
+    path: "{{ keepalived.include_conf_dir }}/mock.conf"
+    state: absent
+  when: keepalived_instance_enabled | default(true)
+  notify: Restart Keepalived

@@ -35,6 +35,24 @@
     mode: 0644
   notify: Restart Keepalived
 
+- name: Look for keepalived includes
+  ansible.builtin.find:
+    paths: "{{ keepalived.include_conf_dir }}"
+    patterns: '*.conf'
+  register: existing_keepalived_includes
+  
+# On Debian 11 with version 2.1.5, Keealived starts with an empty configuration
+# On Debian 12 with version 2.2.7, Keealived times out with an empty configuration
+# We deploy a mock server temporarily to make sure it properly starts
+# We remove it after virtual ips are configured
+- name: Configure mock virtual server
+  ansible.builtin.template:
+    dest: "{{ keepalived.include_conf_dir }}/mock.conf"
+    src: mock.conf.j2
+    mode: 0644
+  when: existing_keepalived_includes.matched == 0
+  notify: Restart Keepalived
+
 - name: Auto-start Keepalived
   ansible.builtin.service:
     name: keepalived
