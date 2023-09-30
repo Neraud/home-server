@@ -16,7 +16,7 @@ RUN echo "Creating sabnzbd user" && \
 # Install sabnzbd
 RUN mkdir -p /opt/sabnzbd && \
     cd /opt/sabnzbd && \
-    curl -sL https://github.com/sabnzbd/sabnzbd/archive/4.0.3.tar.gz | tar xz --strip-components=1 && \
+    curl -sL https://github.com/sabnzbd/sabnzbd/archive/4.1.0.tar.gz | tar xz --strip-components=1 && \
     pip install -r /opt/sabnzbd/requirements.txt && \
     python tools/make_mo.py
 
