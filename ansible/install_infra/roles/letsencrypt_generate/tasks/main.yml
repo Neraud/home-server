@@ -61,7 +61,7 @@
     dest: "{{ letsencrypt_dir }}/gandi.ini"
     content: |
       # live dns v5 api key
-      dns_api_key={{ letsencrypt_gandi_api_key }}
+      dns_gandi_api_key={{ letsencrypt_gandi_api_key }}
     mode: 0600
   when: letsencrypt_gandi_api_key is defined
 
@@ -69,7 +69,7 @@
   ansible.builtin.command: >
     certbot certonly -n
     {% if item.mode == "standalone" %}--standalone --http-01-address={{ nginx_keepalived_instance_public_virtual_ip }}
-    {% elif item.mode == "dns" %}--authenticator dns --dns-credentials {{ letsencrypt_dir }}/gandi.ini
+    {% elif item.mode == "dns" %}--authenticator dns-gandi --dns-gandi-credentials {{ letsencrypt_dir }}/gandi.ini
     {% endif %}
     -m {{ item.email }}
     {% if not item.live %}--staging{% endif %}
