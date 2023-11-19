@@ -9,7 +9,7 @@ spec:
       namespace: monitoring-prometheus
       port: web
   enableFeatures: []
-  image: registry.lan/prometheus:v2.47.0
+  image: registry.lan/prometheus:v2.47.2
   imagePullSecrets:
   - name: docker-config
   podMetadata:
@@ -38,6 +38,8 @@ spec:
     matchLabels:
       prometheus: k8s
       role: alert-rules
+  scrapeConfigNamespaceSelector: {}
+  scrapeConfigSelector: {}
   securityContext:
     fsGroup: 2000
     runAsNonRoot: true
