@@ -1,4 +1,25 @@
-FROM docker.io/library/python:3.11.5-slim-bookworm
+FROM docker.io/library/python:3.12.0-slim-bookworm AS builder
+
+# Install build requirements
+RUN apt-get update && \
+    apt-get install -y build-essential libffi-dev libssl-dev libcurl4-openssl-dev curl && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m venv /opt/venv
+
+# Make sure we use the virtualenv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install sabnzbd
+RUN mkdir -p /opt/sabnzbd && \
+    cd /opt/sabnzbd && \
+    curl -sL https://github.com/sabnzbd/sabnzbd/archive/4.1.0.tar.gz | tar xz --strip-components=1 && \
+    pip install -r /opt/sabnzbd/requirements.txt && \
+    python tools/make_mo.py
+
+
+
+FROM docker.io/library/python:3.12.0-slim-bookworm
 
 # Install requirements
 # non-free is needed for unrar
@@ -7,18 +28,16 @@ RUN sed -i "s|Components: main|Components: main non-free|g" /etc/apt/sources.lis
     apt-get install -y curl p7zip-full par2 unrar unzip && \
     apt-get install -y ffmpeg && \
     rm -rf /var/lib/apt/lists/*
-#RUN apk add --no-cache openssl unrar unzip p7zip ffmpeg libgomp
 
 RUN echo "Creating sabnzbd user" && \
     groupadd --gid 1000 sabnzbd && \
     useradd --create-home --gid sabnzbd --uid 1000 sabnzbd
 
-# Install sabnzbd
-RUN mkdir -p /opt/sabnzbd && \
-    cd /opt/sabnzbd && \
-    curl -sL https://github.com/sabnzbd/sabnzbd/archive/4.1.0.tar.gz | tar xz --strip-components=1 && \
-    pip install -r /opt/sabnzbd/requirements.txt && \
-    python tools/make_mo.py
+# Make sure we use the virtualenv
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /opt/sabnzbd /opt/sabnzbd
 
 VOLUME [ "/opt/sabnzbd-data" ]
 RUN chown -R sabnzbd:sabnzbd /opt/sabnzbd && \
