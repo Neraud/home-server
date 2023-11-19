@@ -1,4 +1,4 @@
-FROM docker.io/jellyfin/jellyfin:10.8.11-amd64
+FROM docker.io/jellyfin/jellyfin:10.8.12-amd64
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \
@@ -22,7 +22,7 @@ RUN echo "Install jellyfin-plugin-anidb" && \
 
 RUN echo "Install jellyfin-plugin-anilist" && \
     mkdir -p "/opt/jellyfin/plugins/AniList" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/anilist/anilist_5.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/anilist/anilist_7.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip -d "/opt/jellyfin/plugins/AniList" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip
 

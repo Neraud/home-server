@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: jellyfin/jellyfin
-    tag: 10.8.11-amd64
+    tag: 10.8.12-amd64
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
@@ -12,21 +12,20 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.11.5-alpine3.18
+    tag: 3.12.0-alpine3.18
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
       - .*-alpine3\.[0-9]$
       - .*-alpine3\.1[0-7]
       - 3\.[0-9]\..*
-      - 3\.10\..*
-      - 3\.11\.[0-4]-.*
+      - 3\.1[0-1]\..*
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anidb
     tag: v7
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anilist
-    tag: v5
+    tag: v7
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anisearch
     tag: v4
