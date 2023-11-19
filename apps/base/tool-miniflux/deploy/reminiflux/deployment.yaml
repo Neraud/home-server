@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: reminiflux
-        image: "registry.lan/reminiflux:153dc9464cef69f7c29bff1d680cfa0013b5e281-1.25.2-alpine3.18"
+        image: "registry.lan/reminiflux:153dc9464cef69f7c29bff1d680cfa0013b5e281-1.25.3-alpine3.18-slim"
         imagePullPolicy: IfNotPresent
         env:
         - name: NGINX_PORT
