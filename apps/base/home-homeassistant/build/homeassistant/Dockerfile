@@ -1,4 +1,4 @@
-FROM ghcr.io/home-assistant/home-assistant:2023.9.3
+FROM ghcr.io/home-assistant/home-assistant:2023.11.2
 
 ADD entrypoint.sh /opt/entrypoint.sh
 
