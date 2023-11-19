@@ -2,7 +2,7 @@ watchers:
   - name: ZoneMTA
     type: github_tag
     repo: zone-eu/zone-mta
-    tag : v3.6.10
+    tag : v3.6.13
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -11,7 +11,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.2.1-alpine3.18
+    tag: 7.2.3-alpine3.18
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
@@ -22,7 +22,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/mongo
-    tag: 7.0.1-jammy
+    tag: 7.0.3-jammy
     includes:
       - '[0-9]+\.[0-9]+.[0-9]+-.*'
     excludes:
@@ -34,10 +34,11 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/node
-    tag: 20.8.0-alpine3.18
+    tag: 21.2.0-alpine3.18
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*-alpine3.1[0-7]
       - 1[0-9]\..*
-      - 20\.[0-7]\..*
+      - 20\..*
+      - 21\.[0-1]\..*
