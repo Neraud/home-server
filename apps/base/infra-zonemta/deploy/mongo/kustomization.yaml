@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: zonemta
       app.kubernetes.io/component: mongo
-      app.kubernetes.io/version: 7.0.1-jammy
+      app.kubernetes.io/version: 7.0.3-jammy
 
 generatorOptions:
  disableNameSuffixHash: true

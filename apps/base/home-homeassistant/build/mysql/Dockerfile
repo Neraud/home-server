@@ -1,1 +1,1 @@
-FROM docker.io/library/mysql:8.0.34-debian
+FROM docker.io/library/mysql:8.0.35-debian

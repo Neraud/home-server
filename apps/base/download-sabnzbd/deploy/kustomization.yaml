@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: sabnzbd
       app.kubernetes.io/component: sabnzbd
-      app.kubernetes.io/version: 4.1.0-3.11.5-slim-bookworm
+      app.kubernetes.io/version: 4.1.0-3.12.0-slim-bookworm
 
 secretGenerator:
 - name: sabnzbd-config

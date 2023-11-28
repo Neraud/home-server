@@ -3,9 +3,9 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: jamesread/olivetin
-    tag: 2023.03.25-amd64
+    tag: 2023.10.25-amd64
     includes:
       - 20[0-9][0-9]\.[0-9][0-9]\.[0-9][0-9]-amd64
     excludes:
       - ^202[0-2].*
-      - ^2023-0[0-2].*
+      - ^2023-0[0-9].*

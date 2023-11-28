@@ -2383,7 +2383,7 @@
                             "colorMode": null,
                             "colors": [],
                             "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                            "decimals": -1,
+                            "decimals": 3,
                             "link": false,
                             "linkTargetBlank": false,
                             "linkTooltip": "Drill down",
@@ -2391,14 +2391,14 @@
                             "pattern": "Value #A",
                             "thresholds": [],
                             "type": "number",
-                            "unit": "short"
+                            "unit": "iops"
                         },
                         {
                             "alias": "IOPS(Writes)",
                             "colorMode": null,
                             "colors": [],
                             "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                            "decimals": -1,
+                            "decimals": 3,
                             "link": false,
                             "linkTargetBlank": false,
                             "linkTooltip": "Drill down",
@@ -2406,14 +2406,14 @@
                             "pattern": "Value #B",
                             "thresholds": [],
                             "type": "number",
-                            "unit": "short"
+                            "unit": "iops"
                         },
                         {
                             "alias": "IOPS(Reads + Writes)",
                             "colorMode": null,
                             "colors": [],
                             "dateFormat": "YYYY-MM-DD HH:mm:ss",
-                            "decimals": -1,
+                            "decimals": 3,
                             "link": false,
                             "linkTargetBlank": false,
                             "linkTooltip": "Drill down",
@@ -2421,7 +2421,7 @@
                             "pattern": "Value #C",
                             "thresholds": [],
                             "type": "number",
-                            "unit": "short"
+                            "unit": "iops"
                         },
                         {
                             "alias": "Throughput(Read)",

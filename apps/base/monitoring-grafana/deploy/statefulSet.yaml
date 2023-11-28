@@ -18,7 +18,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-      - image: "registry.lan/grafana:9.5.3"
+      - image: "registry.lan/grafana:10.2.0"
         name: grafana
         envFrom:
         - configMapRef:
@@ -35,10 +35,10 @@ spec:
         resources:
           limits:
             cpu: 250m
-            memory: 128Mi
+            memory: 192Mi
           requests:
             cpu: 50m
-            memory: 96Mi
+            memory: 128Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:

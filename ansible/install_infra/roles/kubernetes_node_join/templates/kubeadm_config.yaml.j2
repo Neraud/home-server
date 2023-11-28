@@ -1,0 +1,22 @@
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: JoinConfiguration
+{% if 'kubernetes_masters' in group_names %}
+controlPlane:
+{% if kubernetes_apiserver_ip is defined %}
+  localAPIEndpoint:
+    advertiseAddress: "{{ kubernetes_apiserver_ip }}"
+{% endif %}
+{% endif %}
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: {{ kubernetes_apiserver_bind_ip }}:{{ haproxy_kubernetes_apiserver_port }}
+    token: {{ join_token }}
+    caCertHashes:
+    - {{ k8s_master_ca_hash }}
+nodeRegistration:
+  kubeletExtraArgs:
+    # Make sure kubelet uses the proper IP
+    # On vagrant, this is required to make sure kubelet doesn't use the 1st NAT NIC
+    node-ip: "{{ host_ip }}"
+patches:
+  directory: /etc/kubernetes/patches

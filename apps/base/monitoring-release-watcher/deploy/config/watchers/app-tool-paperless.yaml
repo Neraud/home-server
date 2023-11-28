@@ -16,7 +16,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.2.1-alpine3.18
+    tag: 7.2.3-alpine3.18
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
     excludes:
@@ -27,7 +27,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.4-alpine3.18
+    tag: 15.5-alpine3.18
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:

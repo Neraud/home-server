@@ -1,1 +1,1 @@
-FROM docker.io/crowdsecurity/crowdsec:v1.5.4-debian
+FROM docker.io/crowdsecurity/crowdsec:v1.5.5-debian

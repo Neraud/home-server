@@ -25,7 +25,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-tmp-folder
-        image: "registry.lan/fluentd:v1.16.2-debian-amd64-1.1-custom"
+        image: "registry.lan/fluentd:v1.16.3-debian-amd64-1.0-custom"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -46,7 +46,7 @@ spec:
           mountPath: /tmp
       containers:
       - name: fluentd
-        image: "registry.lan/fluentd:v1.16.2-debian-amd64-1.1-custom"
+        image: "registry.lan/fluentd:v1.16.3-debian-amd64-1.0-custom"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 24224

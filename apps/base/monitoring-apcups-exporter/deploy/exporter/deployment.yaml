@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: apcups-exporter
-        image: "registry.lan/apcupsd-exporter:3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.18.3"
+        image: "registry.lan/apcupsd-exporter:3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.18.4"
         imagePullPolicy: IfNotPresent
         env:
         - name: APCUPS_ADDR

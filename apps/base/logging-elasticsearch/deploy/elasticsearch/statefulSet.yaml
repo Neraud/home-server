@@ -28,7 +28,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: elasticsearch
-        image: "registry.lan/opensearch:2.10.0"
+        image: "registry.lan/opensearch:2.11.0"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9300
@@ -53,10 +53,10 @@ spec:
         resources:
           requests:
             cpu: 250m
-            memory: 1Gi
+            memory: 1280Mi
           limits:
             cpu: 750m
-            memory: 1Gi
+            memory: 1280Mi
         volumeMounts:
         - name: cluster-config
           mountPath: /etc/localtime

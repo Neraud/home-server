@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: inject-conf
-        image: "registry.lan/jellyfin-conf-injection:3.11.5-alpine3.18"
+        image: "registry.lan/jellyfin-conf-injection:3.12.0-alpine3.18"
         imagePullPolicy: IfNotPresent
         securityContext:
           readOnlyRootFilesystem: true
@@ -39,7 +39,7 @@ spec:
           mountPath: /config-target
           subPath: config
       - name: inject-certificate
-        image: "registry.lan/jellyfin-conf-injection:3.11.5-alpine3.18"
+        image: "registry.lan/jellyfin-conf-injection:3.12.0-alpine3.18"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -61,7 +61,7 @@ spec:
           mountPath: /tmp-cert
       containers:
       - name: jellyfin
-        image: "registry.lan/jellyfin:10.8.11-amd64-custom"
+        image: "registry.lan/jellyfin:10.8.12-amd64-custom"
         ports:
         - containerPort: 8096
           name: jellyfin

@@ -1,12 +1,12 @@
 watchers:
   - type: pypi
     package: ansible
-    version: 8.4.0
+    version: 8.6.1
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
       - ^[0-7]\..*
-      - ^8\.[0-3]\..*
+      - ^8\.[0-5]\..*
   - type: github_release
     repo: mehdy/keepalived-exporter
     release: v1.3.2
@@ -19,7 +19,7 @@ watchers:
       - v1\.2[0-7]\..*
   - type: github_release
     repo: restic/restic
-    release: v0.16.0
+    release: v0.16.2
   - type: github_release
     repo: rclone/rclone
-    release: v1.64.0
+    release: v1.64.2

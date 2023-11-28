@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: homeassistant
       app.kubernetes.io/component: mysql
-      app.kubernetes.io/version: 8.0.34-debian
+      app.kubernetes.io/version: 8.0.35-debian
 
 secretGenerator:
 - name: mysql-env

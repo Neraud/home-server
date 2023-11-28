@@ -1,4 +1,6 @@
-FROM docker.io/library/python:3.11.5-slim-bookworm
+# Sickchill fails to start with 3.12.0-slim-bookworm :ModuleNotFoundError: No module named 'pkg_resources'
+
+FROM docker.io/library/python:3.11.6-slim-bookworm
 
 RUN echo "Creating sickchill user" && \
     groupadd --gid 1000 sickchill && \

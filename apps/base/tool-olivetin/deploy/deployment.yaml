@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: olivetin
-        image: "registry.lan/olivetin:2023.03.25-amd64-custom"
+        image: "registry.lan/olivetin:2023.10.25-amd64-custom"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 1337

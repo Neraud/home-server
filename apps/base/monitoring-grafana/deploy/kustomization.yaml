@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: grafana
       app.kubernetes.io/component: grafana
-      app.kubernetes.io/version: 9.5.3
+      app.kubernetes.io/version: 10.2.0
 
 generatorOptions:
   disableNameSuffixHash: true
