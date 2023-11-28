@@ -1,4 +1,7 @@
 ---
+kubernetes_apiserver_bind_ip: "{{ haproxy_kubernetes_keepalived_instance_virtual_ip }}"
+haproxy_kubernetes_apiserver_port: 6444
+
 # See https://kubernetes.io/docs/setup/independent/install-kubeadm/
 kubernetes_master_ufw_applications:
   - name: kubernetes_api_server

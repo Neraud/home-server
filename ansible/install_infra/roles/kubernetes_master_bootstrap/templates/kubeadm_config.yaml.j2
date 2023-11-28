@@ -27,13 +27,11 @@ localAPIEndpoint:
 {% endif %}
 patches:
   directory: /etc/kubernetes/patches
-
----
-
-apiVersion: kubeadm.k8s.io/v1beta3
-kind: JoinConfiguration
-patches:
-  directory: /etc/kubernetes/patches
+nodeRegistration:
+  kubeletExtraArgs:
+    # Make sure kubelet uses the proper IP
+    # On vagrant, this is required to make sure kubelet doesn't use the 1st NAT NIC
+    node-ip: "{{ host_ip }}"
 
 ---
 
