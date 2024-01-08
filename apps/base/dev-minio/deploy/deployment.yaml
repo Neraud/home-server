@@ -40,7 +40,7 @@ spec:
       serviceAccountName: minio-sa
       containers:
         - name: minio
-          image: "registry.lan/minio:RELEASE.2023-11-15T20-43-25Z"
+          image: "registry.lan/minio:RELEASE.2024-01-05T22-17-24Z"
           imagePullPolicy: IfNotPresent
           command:
             - "/bin/sh"
