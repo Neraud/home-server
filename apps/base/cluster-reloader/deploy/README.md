@@ -2,4 +2,4 @@
 
 ## Manifest source
 
-`manifests` is fetched from <https://github.com/stakater/Reloader/tree/v1.0.52/deployments/kubernetes/manifests>
+`manifests` is fetched from <https://github.com/stakater/Reloader/tree/v1.0.60/deployments/kubernetes/manifests>
