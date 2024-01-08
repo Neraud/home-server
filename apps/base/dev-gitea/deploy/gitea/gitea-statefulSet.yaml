@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/gitea:1.21.0-rootless"
+        image: "registry.lan/gitea:1.21.3-rootless"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -41,7 +41,7 @@ spec:
         - name: gitea-data
           mountPath: /opt/gitea-data
       - name: prepare-certs
-        image: "registry.lan/gitea:1.21.0-rootless"
+        image: "registry.lan/gitea:1.21.3-rootless"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -63,7 +63,7 @@ spec:
           mountPath: /etc/ssl/certs
       containers:
       - name: gitea
-        image: "registry.lan/gitea:1.21.0-rootless"
+        image: "registry.lan/gitea:1.21.3-rootless"
         imagePullPolicy: IfNotPresent
         args: [ "/usr/local/bin/init_and_start.sh" ]
         envFrom:
