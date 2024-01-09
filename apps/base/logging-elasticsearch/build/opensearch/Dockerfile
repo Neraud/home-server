@@ -1,1 +1,1 @@
-FROM public.ecr.aws/opensearchproject/opensearch:2.11.0
+FROM public.ecr.aws/opensearchproject/opensearch:2.11.1
