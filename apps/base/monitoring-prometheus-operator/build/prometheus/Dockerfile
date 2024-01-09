@@ -1,1 +1,1 @@
-FROM quay.io/prometheus/prometheus:v2.47.2
+FROM quay.io/prometheus/prometheus:v2.48.1

@@ -9,7 +9,7 @@ spec:
       namespace: monitoring-prometheus
       port: web
   enableFeatures: []
-  image: registry.lan/prometheus:v2.47.2
+  image: registry.lan/prometheus:v2.48.1
   imagePullSecrets:
   - name: docker-config
   podMetadata:

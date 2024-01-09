@@ -3,7 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.13.0
-    operator.prometheus.io/version: 0.69.1
+    operator.prometheus.io/version: 0.70.0
   name: prometheusagents.monitoring.coreos.com
 spec:
   group: monitoring.coreos.com
@@ -631,10 +631,10 @@ spec:
                         x-kubernetes-map-type: atomic
                     type: object
                   bearerToken:
-                    description: "*Warning: this field shouldn't be used because the token value appears in clear-text. Prefer using `authorization`.* \n *Deprecated: this will be removed in a future release.*"
+                    description: "*Warning: this field shouldn't be used because the token value appears in clear-text. Prefer using `authorization`.* \n Deprecated: this will be removed in a future release."
                     type: string
                   bearerTokenFile:
-                    description: "File to read bearer token for accessing apiserver. \n Cannot be set at the same time as `basicAuth`, `authorization`, or `bearerToken`. \n *Deprecated: this will be removed in a future release. Prefer using `authorization`.*"
+                    description: "File to read bearer token for accessing apiserver. \n Cannot be set at the same time as `basicAuth`, `authorization`, or `bearerToken`. \n Deprecated: this will be removed in a future release. Prefer using `authorization`."
                     type: string
                   host:
                     description: Kubernetes API address consisting of a hostname or IP address followed by an optional port number.
@@ -2569,6 +2569,11 @@ spec:
                 - warn
                 - error
                 type: string
+              maximumStartupDurationSeconds:
+                description: Defines the maximum time that the `prometheus` container's startup probe will wait before being considered failed. The startup probe will return success after the WAL replay is complete. If set, the value should be greater than 60 (seconds). Otherwise it will be equal to 600 seconds (15 minutes).
+                format: int32
+                minimum: 60
+                type: integer
               minReadySeconds:
                 description: "Minimum number of seconds for which a newly created Pod should be ready without any of its container crashing for it to be considered available. Defaults to 0 (pod will be considered available as soon as it is ready) \n This is an alpha field from kubernetes 1.22 until 1.24 which requires enabling the StatefulSetMinReadySeconds feature gate."
                 format: int32
@@ -2753,6 +2758,12 @@ spec:
               prometheusExternalLabelName:
                 description: "Name of Prometheus external label used to denote the Prometheus instance name. The external label will _not_ be added when the field is set to the empty string (`\"\"`). \n Default: \"prometheus\""
                 type: string
+              reloadStrategy:
+                description: Defines the strategy used to reload the Prometheus configuration. If not specified, the configuration is reloaded using the /-/reload HTTP endpoint.
+                enum:
+                - HTTP
+                - ProcessSignal
+                type: string
               remoteWrite:
                 description: Defines the list of remote write configurations.
                 items:
@@ -2874,11 +2885,14 @@ spec:
                           x-kubernetes-map-type: atomic
                       type: object
                     bearerToken:
-                      description: "*Warning: this field shouldn't be used because the token value appears in clear-text. Prefer using `authorization`.* \n *Deprecated: this will be removed in a future release.*"
+                      description: "*Warning: this field shouldn't be used because the token value appears in clear-text. Prefer using `authorization`.* \n Deprecated: this will be removed in a future release."
                       type: string
                     bearerTokenFile:
-                      description: "File from which to read bearer token for the URL. \n *Deprecated: this will be removed in a future release. Prefer using `authorization`.*"
+                      description: "File from which to read bearer token for the URL. \n Deprecated: this will be removed in a future release. Prefer using `authorization`."
                       type: string
+                    enableHttp2:
+                      description: Whether to enable HTTP2.
+                      type: boolean
                     headers:
                       additionalProperties:
                         type: string
@@ -3520,7 +3534,7 @@ spec:
                 description: Storage defines the storage used by Prometheus.
                 properties:
                   disableMountSubPath:
-                    description: '*Deprecated: subPath usage will be removed in a future release.*'
+                    description: 'Deprecated: subPath usage will be removed in a future release.'
                     type: boolean
                   emptyDir:
                     description: 'EmptyDirVolumeSource to be used by the StatefulSet. If specified, it takes precedence over `ephemeral` and `volumeClaimTemplate`. More info: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir'
@@ -3820,7 +3834,7 @@ spec:
                             type: string
                         type: object
                       status:
-                        description: '*Deprecated: this field is never set.*'
+                        description: 'Deprecated: this field is never set.'
                         properties:
                           accessModes:
                             description: 'accessModes contains the actual access modes the volume backing the PVC has. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1'
@@ -3917,8 +3931,13 @@ spec:
               topologySpreadConstraints:
                 description: Defines the pod's topology spread constraints if specified.
                 items:
-                  description: TopologySpreadConstraint specifies how to spread matching pods among the given topology.
                   properties:
+                    additionalLabelSelectors:
+                      description: Defines what Prometheus Operator managed labels should be added to labelSelector on the topologySpreadConstraint.
+                      enum:
+                      - OnResource
+                      - OnShard
+                      type: string
                     labelSelector:
                       description: LabelSelector is used to find matching pods. Pods that match this label selector are counted to determine the number of pods in their corresponding topology domain.
                       properties:
