@@ -1,4 +1,4 @@
-FROM docker.io/jamesread/olivetin:2023.10.25-amd64
+FROM docker.io/jamesread/olivetin:2023.12.21-amd64
 
 USER root
 
