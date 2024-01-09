@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: nextcloud
       app.kubernetes.io/component: caldav-recurring-task-scheduler
       app.kubernetes.io/part-of: nextcloud
-      app.kubernetes.io/version: 1b6cb6e328c895459573326a3868030bd099c215-3.12.0-alpine3.18
+      app.kubernetes.io/version: 1b6cb6e328c895459573326a3868030bd099c215-3.12.1-alpine3.19
 
 generatorOptions:
  disableNameSuffixHash: true

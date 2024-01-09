@@ -18,7 +18,7 @@ RUN apk add curl git --no-cache && \
 ##############
 # Image step #
 ##############
-FROM docker.io/library/alpine:3.18.4
+FROM docker.io/library/alpine:3.19.0
 
 ENV APCUPS_ADDR ":3551"
 ENV APCUPS_NETWORK "tcp"

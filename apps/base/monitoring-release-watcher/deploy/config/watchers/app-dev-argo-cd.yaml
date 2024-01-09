@@ -3,25 +3,24 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: viaductoss/ksops
-    tag: v4.2.5-amd64
+    tag: v4.3.0-amd64
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+-amd64
     excludes:
       - v[0-3]\.
-      - v4\.[0-1]\.
-      - v4\.2\.[0-4]
+      - v4\.[0-2]\.
   - name: "ArgoCD"
     type: docker_registry
     repo: quay.io
     image: argoproj/argocd
-    tag: v2.9.1
+    tag: v2.9.3
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*-rc
       - v[0-1]\.
       - v2\.[0-8]\.
-      - v2\.9\.[0]
+      - v2\.9\.[0-2]
   - name: "ArgoCD Dex"
     type: docker_registry
     repo: ghcr.io
@@ -38,10 +37,10 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.2.3-alpine3.18
+    tag: 7.2.3-alpine3.19
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - .*alpine3\.1[0-7]
+      - .*alpine3\.1[0-8]
       - ^[0-6]\.
       - ^7\.[0-1]\.

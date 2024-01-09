@@ -1,1 +1,1 @@
-FROM ghcr.io/benphelps/homepage:v0.7.1
+FROM ghcr.io/gethomepage/homepage:v0.8.4

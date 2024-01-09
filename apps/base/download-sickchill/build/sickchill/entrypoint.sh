@@ -9,4 +9,4 @@ fi
 echo "Starting Sickchill"
 . /app/sickchill/bin/activate
 site_packages_dir=$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')
-${site_packages_dir}/SickChill.py --nolaunch --datadir=/data --port 8081
+python3 ${site_packages_dir}/SickChill.py --nolaunch --datadir=/data --port 8081

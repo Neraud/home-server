@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: k8s
     app.kubernetes.io/name: prometheus
     app.kubernetes.io/part-of: prometheus
-    app.kubernetes.io/version: v2.47.2
+    app.kubernetes.io/version: v2.48.1
     role: alert-rules
 spec:
   groups:

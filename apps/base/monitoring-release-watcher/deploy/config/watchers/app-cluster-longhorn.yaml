@@ -3,5 +3,5 @@ watchers:
     repo: longhorn/longhorn
     release: v1.5.3
     excludes:
-      - .*(alpha|beta|rc).*
+      - .*(alpha|beta|rc|dev).*
       - v1\.[0-4]\..*

@@ -2,9 +2,8 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: nginx/nginx-prometheus-exporter
-    tag: 0.11.0
+    tag: 1.0.0
     includes:
       - ^[0-9]+\.[0-9]+.[0-9]+
     excludes:
-      - ^0\.[0-9]\..*
-      - ^0\.1[0]\..*
+      - ^0\..*

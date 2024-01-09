@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# Copied from https://github.com/nextcloud/docker/blob/master/24/apache/entrypoint.sh
+# Copied from https://github.com/nextcloud/docker/blob/8afd97014cc3445e888a165f8c2d16af7ed036aa/28/apache/entrypoint.sh
 # Changes :
 # - use /usr/src/nextcloud instead of /var/www/html
 # - use config/version-installed.php instead of version.php to check currently installed version
@@ -36,6 +36,39 @@ run_as() {
     else
         sh -c "$1"
     fi
+}
+
+# Execute all executable files in a given directory in alphanumeric order
+run_path() {
+    local hook_folder_path="/docker-entrypoint-hooks.d/$1"
+    local return_code=0
+
+    if ! [ -d "${hook_folder_path}" ]; then
+        echo "=> Skipping the folder \"${hook_folder_path}\", because it doesn't exist"
+        return 0
+    fi
+
+    echo "=> Searching for scripts (*.sh) to run, located in the folder: ${hook_folder_path}"
+
+    (
+        find "${hook_folder_path}" -type f -maxdepth 1 -iname '*.sh' -print | sort | while read -r script_file_path; do
+            if ! [ -x "${script_file_path}" ]; then
+                echo "==> The script \"${script_file_path}\" was skipped, because it didn't have the executable flag"
+                continue
+            fi
+
+            echo "==> Running the script (cwd: $(pwd)): \"${script_file_path}\""
+
+            run_as "${script_file_path}" || return_code="$?"
+
+            if [ "${return_code}" -ne "0" ]; then
+                echo "==> Failed at executing \"${script_file_path}\". Exit code: ${return_code}"
+                exit 1
+            fi
+
+            echo "==> Finished the script: \"${script_file_path}\""
+        done
+    )
 }
 
 # usage: file_env VAR [DEFAULT]
@@ -113,6 +146,11 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
     if version_greater "$image_version" "$installed_version"; then
         echo "Initializing nextcloud $image_version ..."
         if [ "$installed_version" != "0.0.0.0" ]; then
+            if [ "${image_version%%.*}" -gt "$((${installed_version%%.*} + 1))" ]; then
+                echo "Can't start Nextcloud because upgrading from $installed_version to $image_version is not supported."
+                echo "It is only possible to upgrade one major version at a time. For example, if you want to upgrade from version 14 to 16, you will have to upgrade from version 14 to 15, then from 15 to 16."
+                exit 1
+            fi
             echo "Upgrading nextcloud from $installed_version ..."
             run_as 'php /usr/src/nextcloud/occ app:list' | sed -n "/Enabled:/,/Disabled:/p" > /tmp/list_before
         fi
@@ -201,6 +239,8 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
                     fi
 
                     if [ "$install" = true ]; then
+                        run_path pre-installation
+
                         echo "Starting nextcloud installation"
                         max_retries=10
                         try=0
@@ -223,12 +263,16 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
                                 NC_TRUSTED_DOMAIN_IDX=$(($NC_TRUSTED_DOMAIN_IDX+1))
                             done
                         fi
+
+                        run_path post-installation
                     else
                         echo "Please run the web-based installer on first connect!"
                     fi
                 fi
             # Upgrade
             else
+                run_path pre-upgrade
+
                 run_as 'php /usr/src/nextcloud/occ upgrade'
 
                 run_as 'php /usr/src/nextcloud/occ app:list' | sed -n "/Enabled:/,/Disabled:/p" > /tmp/list_after
@@ -236,6 +280,7 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
                 diff /tmp/list_before /tmp/list_after | grep '<' | cut -d- -f2 | cut -d: -f1
                 rm -f /tmp/list_before /tmp/list_after
 
+                run_path post-upgrade
             fi
 
             # Initialization done, reset lock
@@ -249,6 +294,7 @@ if expr "$1" : "apache" 1>/dev/null || [ "$1" = "php-fpm" ] || [ "${NEXTCLOUD_UP
         run_as 'php /usr/src/nextcloud/occ maintenance:update:htaccess'
     fi
 
+    run_path before-starting
 fi
 
 # Deploy custom configurations after Nextcloud is installed

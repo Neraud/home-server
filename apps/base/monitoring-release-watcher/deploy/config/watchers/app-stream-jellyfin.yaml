@@ -2,22 +2,23 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: jellyfin/jellyfin
-    tag: 10.8.12-amd64
+    tag: 10.8.13-amd64
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-amd64$
     excludes:
       - ^10\.[0-7]\..*
       - ^10\.8\.[0-9]-.*
+      - ^10\.8\.1[0-2]-.*
   - name: Jellyfin inject conf
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.12.0-alpine3.18
+    tag: 3.12.1-alpine3.19
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
       - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[0-7]
+      - .*-alpine3\.1[0-8]
       - 3\.[0-9]\..*
       - 3\.1[0-1]\..*
   - type: github_tag
@@ -31,7 +32,7 @@ watchers:
     tag: v4
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-ldapauth
-    tag: v17
+    tag: v18
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-tvdb
     tag: v10
