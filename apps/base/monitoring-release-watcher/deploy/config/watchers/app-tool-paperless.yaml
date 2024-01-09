@@ -3,35 +3,33 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: paperless-ngx/paperless-ngx
-    tag: 1.17.4
+    tag: 2.3.2
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*(beta|rc).*
-      - ^0\..*
-      - ^1\.[0-9]\..*
-      - ^1\.1[0-6]\..*
-      - ^1\.17\.[0-3]
+      - ^[0-1]\..*
+      - ^2\.[0-2]\..*
   - name: "Paperless Redis"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.2.3-alpine3.18
+    tag: 7.2.3-alpine3.19
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*alpine[0-9]+\\.[0-9][0-9]"
     excludes:
-      - .*alpine3\.1[0-7]
+      - .*alpine3\.1[0-8]
       - ^[0-6]\.
       - ^7\.[0-1]\.
   - name: Paperless PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.5-alpine3.18
+    tag: 15.5-alpine3.19
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - .*-alpine3\.1[0-7]
+      - .*-alpine3\.1[0-8]
       - ^[0-9]\..*
       - ^1[0-4]\..*
       - ^15\.[0-3]\..*
