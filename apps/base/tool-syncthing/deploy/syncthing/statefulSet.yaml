@@ -26,7 +26,7 @@ spec:
       # Syncthing advertises its intefaces, but we can't advertise the LoadBalancer IP by default
       # So we cheat by adding a dummy NIC in the container with the LB IP
       - name: create-dummy-nic
-        image: "registry.lan/syncthing:1.26.1"
+        image: "registry.lan/syncthing:1.27.2"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -53,7 +53,7 @@ spec:
             # Required to add a dummy nic
             - NET_ADMIN
       - name: init-syncthing-config
-        image: "registry.lan/syncthing:1.26.1"
+        image: "registry.lan/syncthing:1.27.2"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -81,7 +81,7 @@ spec:
           mountPath: /var/syncthing/config
           subPath: config
       - name: configure-syncthing
-        image: "registry.lan/syncthing-conf-injection:3.12.0-alpine3.18"
+        image: "registry.lan/syncthing-conf-injection:3.12.1-alpine3.19"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -100,7 +100,7 @@ spec:
           subPath: config
       containers:
       - name: syncthing
-        image: "registry.lan/syncthing:1.26.1"
+        image: "registry.lan/syncthing:1.27.2"
         ports:
         - containerPort: 8384
           name: web
