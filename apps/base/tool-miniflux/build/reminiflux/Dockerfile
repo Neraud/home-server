@@ -1,5 +1,5 @@
 # TODO npm install fails on 20.8.0-alpine3.18 / 21.2.0-alpine3.18
-FROM docker.io/library/node:20.6.0-alpine3.18 as builder
+FROM docker.io/library/node:20.6.1-alpine3.18 as builder
 
 ARG reminiflux_repo=reminiflux/reminiflux
 ARG reminiflux_commit=153dc9464cef69f7c29bff1d680cfa0013b5e281
