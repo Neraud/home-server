@@ -1,1 +1,1 @@
-FROM docker.io/nginx/nginx-prometheus-exporter:0.11.0
+FROM docker.io/nginx/nginx-prometheus-exporter:1.0.0
