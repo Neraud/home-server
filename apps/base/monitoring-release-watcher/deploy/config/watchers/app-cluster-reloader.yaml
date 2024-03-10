@@ -2,11 +2,11 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: stakater/reloader
-    tag: v1.0.60
+    tag: v1.0.69
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*(PR-|SNAPSHOT|dev|-ubi|-UBI).*
       - v0\.
       - v1\.0\.[0-9]$
-      - v1\.0\.[0-5][0-9]$
+      - v1\.0\.[0-6][0-9]$
