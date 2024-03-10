@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: docker-registry-ui
       app.kubernetes.io/component: docker-registry-ui
-      app.kubernetes.io/version: 0.9.6
+      app.kubernetes.io/version: 0.9.7
 
 generatorOptions:
  disableNameSuffixHash: true
