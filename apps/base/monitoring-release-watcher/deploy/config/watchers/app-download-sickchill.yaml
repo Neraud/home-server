@@ -3,7 +3,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.11.7-slim-bookworm
+    tag: 3.11.8-slim-bookworm
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-slim-bookworm
     excludes:
@@ -12,4 +12,4 @@ watchers:
       - ^3\.10\.
   - type: pypi
     package: sickchill
-    version: 2024.1.8.post1
+    version: 2024.3.1
