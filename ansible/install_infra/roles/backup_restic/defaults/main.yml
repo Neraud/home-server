@@ -1,5 +1,5 @@
 ---
-restic_version: "0.16.2"
+restic_version: "0.16.4"
 restic_bin_path: /usr/local/bin/restic
 backup_scripts_dir: /opt/backups
 restic_backup_scripts_dir: "{{ backup_scripts_dir }}"
