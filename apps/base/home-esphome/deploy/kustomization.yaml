@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: esphome
       app.kubernetes.io/component: esphome
-      app.kubernetes.io/version: 2023.12.5
+      app.kubernetes.io/version: 2024.2.2
 
 resources:
 - namespace.yaml
