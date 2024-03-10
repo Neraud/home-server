@@ -1,8 +1,6 @@
 # phpldapadmin 1.2.5 doesn't support PHP 7.4
 FROM docker.io/library/php:7.3.33-apache-buster
 
-ARG phpldapadmin_version
-
 # Change apache port
 RUN sed -i 's/Listen 80/Listen 8080/g' /etc/apache2/ports.conf && \
     sed -i 's/<VirtualHost \*:80>/<VirtualHost *:8080>/g' /etc/apache2/sites-enabled/000-default.conf
@@ -28,7 +26,7 @@ RUN apt-get update && \
 # Install phpLDAPadmin
 RUN mkdir -p /opt/phpldapadmin && \
     cd /opt/phpldapadmin && \
-    curl -sL https://github.com/leenooks/phpLDAPadmin/archive/1.2.6.6.tar.gz | tar xz --strip-components=1 && \
+    curl -sL https://github.com/leenooks/phpLDAPadmin/archive/1.2.6.7.tar.gz | tar xz --strip-components=1 && \
     cp /opt/phpldapadmin/config/config.php.example /opt/phpldapadmin/config/config.php && \
     rm -Rf /var/www/html && \
     ln -s /opt/phpldapadmin/htdocs /var/www/html
