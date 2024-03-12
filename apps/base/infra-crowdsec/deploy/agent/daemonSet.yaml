@@ -86,6 +86,8 @@ spec:
           mountPath: /etc/crowdsec
         - name: data-volume
           mountPath: /var/lib/crowdsec/data
+        - name: staging-data-volume
+          mountPath: /staging/var/lib/crowdsec/data
         - name: varlog
           mountPath: /var/log
           readOnly: true
@@ -106,6 +108,8 @@ spec:
       - name: etc-volume
         emptyDir: {}
       - name: data-volume
+        emptyDir: {}
+      - name: staging-data-volume
         emptyDir: {}
       - name: varlog
         hostPath:
