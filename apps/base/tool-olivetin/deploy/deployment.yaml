@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: olivetin
-        image: "registry.lan/olivetin:2023.12.21-amd64-custom"
+        image: "registry.lan/olivetin:2024.03.081-amd64-custom"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 1337
@@ -57,10 +57,10 @@ spec:
           subPath: localtime
           readOnly: true
         - name: olivetin-config
-          mountPath: /etc/OliveTin/config.yaml
+          mountPath: /config/config.yaml
           subPath: config.yaml
         - name: olivetin-config
-          mountPath: /etc/OliveTin/images.csv
+          mountPath: /config/images.csv
           subPath: images.csv
         - name: images-volume
           mountPath: /var/www/olivetin/customIcons
