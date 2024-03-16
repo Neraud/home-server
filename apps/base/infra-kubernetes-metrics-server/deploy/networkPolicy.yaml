@@ -13,6 +13,6 @@ spec:
 
   ingress:
     # Allow from everywhere
-    # (needed for both `kubectl top` and the kubernetes-dashboard)
+    # (needed for `kubectl top`)
     - ports:
         - port: https

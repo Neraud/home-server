@@ -109,7 +109,6 @@ The following services are deployed :
 
 | Service                                                           | Test URL                                             | Description                                                       |
 | ----------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------- |
-| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/)  | <https://kube.infra.intra.k8s.test/>                 | Kubernetes dashboard                                              |
 | [Longhorn Management UI](https://github.com/longhorn/longhorn-ui) | <https://longhorn.infra.intra.k8s.test>              | Longhorn Managmeent UI                                            |
 | [Docker Registry](https://docs.docker.com/registry/deploying/)    | -                                                    | Docker Registry                                                   |
 | [Docker Registry UI](https://github.com/Quiq/docker-registry-ui)  | <https://docker-registry-ui.infra.intra.k8s.test>    | Web UI for Docker Registry                                        |
@@ -157,21 +156,6 @@ The following services are deployed :
 | [SABnzbd](https://sabnzbd.org/)                                   | <https:/sabnzbd.dl.intra.k8s.test>                   | Binary newsreader                                                 |
 
 Once the Vagrant environment is started, you can easily list all the service URLs on the [Homepage dashboard](https://homepage.tool.k8s.test/).
-
-### Kubernetes dashboard
-
-An `admin-user` service account is automatically created by the playbook.
-
-To login, you need to generate a token for this account.
-
-You can do so using a terminal (assuming you start at the project root) :
-
-```shell
-[your_account@your_computer$] cd vagrant
-[your_account@your_computer$] vagrant ssh master
-[vagrant@master$] sudo su - user
-[user@master$] kubectl --namespace=infra-kubernetes-dashboard create token dashboard-admin-user
-```
 
 ### Docker Registry UI
 

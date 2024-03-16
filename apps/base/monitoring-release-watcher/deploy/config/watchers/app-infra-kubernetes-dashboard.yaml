@@ -1,8 +1,0 @@
-watchers:
-  - type: github_release
-    repo: kubernetes/dashboard
-    release: v2.7.0
-    excludes:
-      - .*alpha.*
-      - .*beta.*
-      - .*rc.*
