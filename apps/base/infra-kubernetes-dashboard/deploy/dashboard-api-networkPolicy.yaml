@@ -1,0 +1,23 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-to-dashboard-api
+spec:
+  policyTypes: [Ingress]
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: kubernetes-dashboard
+      app.kubernetes.io/part-of: kubernetes-dashboard
+      app.kubernetes.io/name: kubernetes-dashboard-api
+
+  ingress:
+    - ports:
+        - port: api
+      from:
+        # Allow from kong
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: kong
+              app.kubernetes.io/component: app
+              app.kubernetes.io/instance: "kubernetes-dashboard"

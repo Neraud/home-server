@@ -5,8 +5,6 @@ resources:
 - ../../../base/infra-kubernetes-dashboard/deploy
 
 patches:
-- path: dashboard-deployment-resources.yaml
-- path: scraper-deployment-resources.yaml
 - target:
     kind: Ingress
     name: dashboard

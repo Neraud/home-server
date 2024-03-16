@@ -9,23 +9,38 @@ labels:
       app.kubernetes.io/name: kubernetes-dashboard
 
 resources:
-- manifests/00_dashboard-namespace.yaml
+- namespace.yaml
 - ../../_common/deploy
-- manifests/01_dashboard-serviceaccount.yaml
-- manifests/02_dashboard-service.yaml
-- manifests/03_dashboard-secret.yaml
-- manifests/04_dashboard-configmap.yaml
-- manifests/05_dashboard-rbac.yaml
-- manifests/06_dashboard-deployment.yaml
-- manifests/07_scraper-service.yaml
-- manifests/08_scraper-deployment.yaml
-- dashboard-ingress.yaml
-- dashboard-networkPolicy.yaml
-- scraper-networkPolicy.yaml 
+- manifests.yaml
+- ingress.yaml
+- dashboard-api-networkPolicy.yaml
+- dashboard-auth-networkPolicy.yaml
+- dashboard-kong-networkPolicy.yaml
+- dashboard-metrics-scraper-networkPolicy.yaml
+- dashboard-web-resources.yaml
 - clusterRoleBinding.yaml
 - serviceAccount.yaml
 
 patches:
-- path: patches/namespace.yaml
-- path: patches/dashboard-deployment.yaml
-- path: patches/scraper-deployment.yaml
+- path: patches/dashboard-api-deployment-resources.yaml
+- path: patches/dashboard-api-deployment.yaml
+- path: patches/dashboard-auth-deployment-resources.yaml
+- path: patches/dashboard-auth-deployment.yaml
+- path: patches/dashboard-kong-deployment-resources.yaml
+- path: patches/dashboard-kong-deployment.yaml
+- path: patches/dashboard-metrics-scraper-deployment-resources.yaml
+- path: patches/dashboard-metrics-scraper-deployment.yaml
+- path: patches/dashboard-web-deployment-resources.yaml
+- path: patches/dashboard-web-deployment.yaml
+
+images:
+ - name: kong
+   newName: registry.lan/kubernetesui-kong
+ - name: docker.io/kubernetesui/dashboard-api
+   newName: registry.lan/kubernetesui-dashboard-api
+ - name: docker.io/kubernetesui/dashboard-auth
+   newName: registry.lan/kubernetesui-dashboard-auth
+ - name: docker.io/kubernetesui/dashboard-metrics-scraper
+   newName: registry.lan/kubernetesui-dashboard-metrics-scraper
+ - name: docker.io/kubernetesui/dashboard-web
+   newName: registry.lan/kubernetesui-dashboard-web

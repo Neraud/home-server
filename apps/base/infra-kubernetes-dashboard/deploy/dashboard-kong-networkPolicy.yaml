@@ -1,19 +1,20 @@
 kind: NetworkPolicy
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: allow-to-kubernetes-dashboard
+  name: allow-to-kong
 spec:
   policyTypes: [Ingress]
 
   podSelector:
     matchLabels:
-      app.kubernetes.io/name: kubernetes-dashboard
-      app.kubernetes.io/component: dashboard
+      app.kubernetes.io/name: kong
+      app.kubernetes.io/component: app
+      app.kubernetes.io/instance: "kubernetes-dashboard"
 
   ingress:
     # Allow from the ingress controller
     - ports:
-        - port: 8443
+        - port: proxy-tls
       from:
         - namespaceSelector:
             matchLabels:
