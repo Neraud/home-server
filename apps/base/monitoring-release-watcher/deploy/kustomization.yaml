@@ -50,7 +50,7 @@ configMapGenerator:
   - config/watchers/app-infra-docker-registry-ui.yaml
   - config/watchers/app-infra-docker-registry.yaml
   - config/watchers/app-infra-gandi-livedns.yaml
-  - config/watchers/app-infra-infra-kubernetes-metrics-server.yaml
+  - config/watchers/app-infra-kubernetes-metrics-server.yaml
   - config/watchers/app-infra-mailhog.yaml
   - config/watchers/app-infra-ntfy.yaml
   - config/watchers/app-infra-unifi.yaml
