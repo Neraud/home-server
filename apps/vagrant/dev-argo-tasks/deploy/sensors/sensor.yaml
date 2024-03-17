@@ -630,23 +630,6 @@ spec:
             type: string
             value:
               - "apps/(base|vagrant)/infra-gandi-livedns/.*"
-    - name: infra-kubernetes-dashboard-git-dep
-      eventSourceName: webhook
-      eventName: git
-      filters:
-        data:
-          - path: header.X-Gitea-Event
-            type: string
-            value:
-              - push
-          - path: body.ref
-            type: string
-            value:
-              - refs/heads/develop
-          - path: "[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]"
-            type: string
-            value:
-              - "apps/(base|vagrant)/infra-kubernetes-dashboard/.*"
     - name: infra-kubernetes-metrics-server-git-dep
       eventSourceName: webhook
       eventName: git
@@ -2124,33 +2107,6 @@ spec:
                   parameters:
                     - name: app_name
                       value: infra-gandi-livedns
-                    - name: base_git_repo
-                      value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
-                    - name: base_git_branch
-                      value: develop
-                workflowTemplateRef:
-                  name: app-build-and-deploy
-    - template:
-        name: infra-kubernetes-dashboard-argo-workflow-trigger
-        conditions: infra-kubernetes-dashboard-git-dep
-        argoWorkflow:
-          operation: submit
-          source:
-            resource:
-              apiVersion: argoproj.io/v1alpha1
-              kind: Workflow
-              metadata:
-                namespace: dev-argo-tasks
-                generateName: infra-kubernetes-dashboard-build-and-deploy-
-              spec:
-                entrypoint: build-and-deploy-from-git
-                synchronization:
-                  mutex:
-                    name: infra-kubernetes-dashboard-build-and-deploy
-                arguments:
-                  parameters:
-                    - name: app_name
-                      value: infra-kubernetes-dashboard
                     - name: base_git_repo
                       value: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
                     - name: base_git_branch

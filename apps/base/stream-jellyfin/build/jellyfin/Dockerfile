@@ -1,4 +1,4 @@
-FROM docker.io/jellyfin/jellyfin:10.8.13-amd64
+FROM docker.io/jellyfin/jellyfin:10.8.13-1-amd64
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \

@@ -27,7 +27,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: phpldapadmin
-        image: "registry.lan/phpldapadmin:7.3.33-apache-buster-1.2.6.6"
+        image: "registry.lan/phpldapadmin:7.3.33-apache-buster-1.2.6.7"
         imagePullPolicy: IfNotPresent
         ports:
         - name: http

@@ -3,7 +3,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: syncthing/syncthing
-    tag: 1.27.2
+    tag: 1.27.4
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -14,7 +14,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.12.1-alpine3.19
+    tag: 3.12.2-alpine3.19
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
@@ -25,7 +25,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: syncthing/discosrv
-    tag: 1.27.2
+    tag: 1.27.4
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:

@@ -1,6 +1,6 @@
 # PyLoad fails to start with 3.12.0-slim-bookworm : ModuleNotFoundError: No module named 'imp'
 
-FROM docker.io/library/python:3.11.7-slim-bookworm AS builder
+FROM docker.io/library/python:3.11.8-slim-bookworm AS builder
 
 # Install build requirements
 RUN apt-get update && \
@@ -12,10 +12,10 @@ RUN python3 -m venv /opt/venv
 # Make sure we use the virtualenv
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev77
+RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev81
 
 
-FROM docker.io/library/python:3.11.7-slim-bookworm
+FROM docker.io/library/python:3.11.8-slim-bookworm
 
 # Install requirements
 # non-free is needed for unrar

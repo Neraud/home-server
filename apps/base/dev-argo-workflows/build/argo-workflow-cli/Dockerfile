@@ -1,1 +1,1 @@
-FROM quay.io/argoproj/argocli:v3.5.2
+FROM quay.io/argoproj/argocli:v3.5.5

@@ -8,18 +8,18 @@ labels:
     pairs:
       app.kubernetes.io/name: metrics-server
       app.kubernetes.io/component: metrics-server
-      app.kubernetes.io/version: v0.6.4
+      app.kubernetes.io/version: v0.7.0
 
 resources:
 - namespace.yaml
 - ../../_common/deploy
-- manifests/release
+- manifests/overlays/release
 - networkPolicy.yaml
 
 patches:
 - path: patches/deployment.yaml
 
-# Only workd with patchesJson6902, not with patches (see https://github.com/kubernetes-sigs/kustomize/issues/880#issuecomment-1681184310)
+# Only works with patchesJson6902, not with patches (see https://github.com/kubernetes-sigs/kustomize/issues/880#issuecomment-1681184310)
 patchesJson6902:
 - target:
     kind: RoleBinding

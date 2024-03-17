@@ -47,7 +47,6 @@ The following services are deployed :
 
 | Service                                                          | Description                                                     |
 | ---------------------------------------------------------------- | --------------------------------------------------------------- |
-| [Kubernetes dashboard](https://github.com/kubernetes/dashboard/) | Kubernetes dashboard                                            |
 | [OpenLDAP](https://www.openldap.org/)                            | Open source Lightweight Directory Access Protocol               |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                    | Web Single Sign On and Access Management Free Software          |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)             | Web-based LDAP browser                                          |

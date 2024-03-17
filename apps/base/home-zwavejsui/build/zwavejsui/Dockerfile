@@ -1,1 +1,1 @@
-FROM docker.io/zwavejs/zwave-js-ui:9.6.2
+FROM docker.io/zwavejs/zwave-js-ui:9.9.1

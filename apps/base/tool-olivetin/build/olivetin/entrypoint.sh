@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -f /etc/OliveTin/images.csv ]; then
+if [ -f /config/images.csv ]; then
     echo "Downloading images"
     while IFS= read -r line; do
         fileName=$(echo $line | cut -d";" -f1)
@@ -8,7 +8,7 @@ if [ -f /etc/OliveTin/images.csv ]; then
         url=$(echo $line | cut -d";" -f2-)
         echo " - $fileName from $url"
         curl -s -o $filePath $url
-    done </etc/OliveTin/images.csv
+    done </config/images.csv
 fi
 
 echo "Starting OliveTin"

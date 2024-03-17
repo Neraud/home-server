@@ -28,7 +28,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: elasticsearch
-        image: "registry.lan/opensearch:2.11.1"
+        image: "registry.lan/opensearch:2.12.0"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9300

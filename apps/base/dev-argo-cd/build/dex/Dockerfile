@@ -1,1 +1,1 @@
-FROM ghcr.io/dexidp/dex:v2.37.0-distroless
+FROM ghcr.io/dexidp/dex:v2.38.0-distroless

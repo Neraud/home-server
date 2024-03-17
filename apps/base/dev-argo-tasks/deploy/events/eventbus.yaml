@@ -6,8 +6,7 @@ spec:
   # Default jetsteam values can be found with: kubectl --namespace dev-argo-events get configmap argo-events-controller-config -o yaml
   jetstream:
     version: 2.9.12
-    # Optional, defaults to 3. If it is < 3, set it to 3, that is the minimal requirement.
-    replicas: 3
+    replicas: 1
     settings: |
       # https://docs.nats.io/running-a-nats-service/configuration#jetstream
       # Only configure "max_memory_store" or "max_file_store", do not set "store_dir" as it has been hardcoded.

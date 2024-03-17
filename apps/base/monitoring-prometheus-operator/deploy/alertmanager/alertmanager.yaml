@@ -3,7 +3,7 @@ kind: Alertmanager
 metadata:
   name: k8s
 spec:
-  image: registry.lan/alertmanager:v0.26.0
+  image: registry.lan/alertmanager:v0.27.0
   imagePullSecrets:
   - name: docker-config
   podMetadata:

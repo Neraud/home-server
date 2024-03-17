@@ -4,7 +4,7 @@ metadata:
   name: default
 spec:
   jetstream:
-    replicas: 3
+    replicas: 1
     containerTemplate:
       resources:
         requests:
