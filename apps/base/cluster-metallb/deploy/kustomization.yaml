@@ -13,3 +13,6 @@ secretGenerator:
 resources:
 - metallb-native.yaml
 - service-monitoring.yaml
+
+patches:
+- path: patches/speaker-ignore-exclude-lb.yaml

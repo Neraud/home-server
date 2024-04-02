@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: metallb
+    component: speaker
+  name: speaker
+  namespace: metallb-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: speaker
+        args:
+        - --port=7472
+        - --log-level=info
+        # https://metallb.universe.tf/troubleshooting/#metallb-is-not-advertising-my-service-from-my-control-plane-nodes-or-from-my-single-node-cluster
+        # Fix services not being advertised when pods are running on master nodes (which are automatically labelled node.kubernetes.io/exclude-from-external-load-balancers="" by kubeadm)
+        - --ignore-exclude-lb
