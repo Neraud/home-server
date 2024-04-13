@@ -27,28 +27,16 @@
     - { name: "net.ipv4.ip_forward", value: 1 }
     - { name: "net.bridge.bridge-nf-call-ip6tables", value: 1 }
 
-- name: Add libcontainers repo key
+- name: Add CRI-O repo key
   ansible.builtin.apt_key:
-    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_apt_repository_os }}/Release.key"
+    url: "https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_repo_version }}/deb/Release.key"
     state: present
-    keyring: /usr/share/keyrings/libcontainers-archive-keyring.gpg
-    
-- name: Add libcontainers crio repo key
-  ansible.builtin.apt_key:
-    url: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_apt_repository_version }}/{{ crio_apt_repository_os }}/Release.key"
-    state: present
-    keyring: /usr/share/keyrings/libcontainers-crio-archive-keyring.gpg
+    keyring: /etc/apt/keyrings/cri-o-apt-keyring.gpg
 
-- name: Add libcontainers repo
+- name: Add CRI-O repo
   ansible.builtin.apt_repository:
-    filename: "devel:kubic:libcontainers:stable"
-    repo: "deb [signed-by=/usr/share/keyrings/libcontainers-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/{{ crio_apt_repository_os }}/ /"
-    state: present
-
-- name: Add libcontainers crio repo
-  ansible.builtin.apt_repository:
-    filename: "devel:kubic:libcontainers:stable:cri-o"
-    repo: "deb [signed-by=/usr/share/keyrings/libcontainers-crio-archive-keyring.gpg] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ crio_apt_repository_version }}/{{ crio_apt_repository_os }}/ /"
+    filename: "cri-o"
+    repo: "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_repo_version }}/deb/ /"
     state: present
 
 - name: Pin CRI-O version
@@ -59,11 +47,8 @@
 
 - name: Install CRI-O
   ansible.builtin.apt:
-    pkg: "{{ item }}"
+    pkg: cri-o
     state: present
-  loop:
-    - cri-o
-    - cri-o-runc
 
 # If these files stay there, Multus can use 100-crio-bridge.conf instead of calico on some nodes (race condition ?)
 - name: Remove example CNI configs
@@ -75,6 +60,7 @@
     - 100-crio-bridge.conflist
     - 200-loopback.conf
     - 200-loopback.conflist
+    - 11-crio-ipv4-bridge.conflist
 
 - name: Enable crictl autocompletion
   ansible.builtin.copy:
