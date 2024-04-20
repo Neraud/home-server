@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: home-assistant/home-assistant
-    tag: 2024.3.0
+    tag: 2024.4.3
     includes:
       - ^[0-9][0-9][0-9][0-9]\.[0-9]+\.[0-9]+.*
     excludes:
@@ -10,7 +10,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^202[0-3]\..*
-      - ^2024\.[0-2]\..*
+      - ^2024\.[0-3]\..*
   - type: github_commit
     repo: bob1de/ldap-auth-sh
     branch: master
