@@ -13,7 +13,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 description: "Ensure Longhorn pods have the highest priority to prevent any unexpected eviction by the Kubernetes scheduler under node pressure"
 globalDefault: false
 preemptionPolicy: PreemptLowerPriority
@@ -28,7 +28,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 ---
 # Source: longhorn/templates/serviceaccount.yaml
 apiVersion: v1
@@ -39,7 +39,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 ---
 # Source: longhorn/templates/serviceaccount.yaml
 apiVersion: v1
@@ -50,7 +50,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 ---
 # Source: longhorn/templates/default-setting.yaml
 apiVersion: v1
@@ -61,7 +61,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 data:
   default-setting.yaml: |-
     priority-class: longhorn-critical
@@ -75,7 +75,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 data:
   storageclass.yaml: |
     kind: StorageClass
@@ -94,6 +94,7 @@ data:
       fromBackup: ""
       fsType: "ext4"
       dataLocality: "disabled"
+      unmapMarkSnapChainRemoved: "ignored"
 ---
 # Source: longhorn/templates/crds.yaml
 apiVersion: apiextensions.k8s.io/v1
@@ -105,7 +106,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: backingimagedatasources.longhorn.io
 spec:
@@ -277,7 +278,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: backingimagemanagers.longhorn.io
 spec:
@@ -453,7 +454,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: backingimages.longhorn.io
 spec:
@@ -754,7 +755,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: backups.longhorn.io
 spec:
@@ -950,7 +951,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: backuptargets.longhorn.io
 spec:
@@ -1133,7 +1134,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: backupvolumes.longhorn.io
 spec:
@@ -1300,7 +1301,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: engineimages.longhorn.io
 spec:
@@ -1494,11 +1495,10 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.7.0
-  creationTimestamp: null
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: engines.longhorn.io
 spec:
@@ -1510,6 +1510,7 @@ spec:
     shortNames:
     - lhe
     singular: engine
+  preserveUnknownFields: false
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -1785,6 +1786,11 @@ spec:
                   type: string
                 nullable: true
                 type: object
+              replicaTransitionTimeMap:
+                additionalProperties:
+                  type: string
+                description: ReplicaTransitionTimeMap records the time a replica in ReplicaModeMap transitions from one mode to another (or from not being in the ReplicaModeMap to being in it). This information is sometimes required by other controllers (e.g. the volume controller uses it to determine the correct value for replica.Spec.lastHealthyAt).
+                type: object
               restoreStatus:
                 additionalProperties:
                   properties:
@@ -1869,11 +1875,10 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.7.0
-  creationTimestamp: null
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: instancemanagers.longhorn.io
 spec:
@@ -1885,6 +1890,7 @@ spec:
     shortNames:
     - lhim
     singular: instancemanager
+  preserveUnknownFields: false
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -2005,6 +2011,7 @@ spec:
                         conditions:
                           additionalProperties:
                             type: boolean
+                          nullable: true
                           type: object
                         endpoint:
                           type: string
@@ -2047,6 +2054,7 @@ spec:
                         conditions:
                           additionalProperties:
                             type: boolean
+                          nullable: true
                           type: object
                         endpoint:
                           type: string
@@ -2089,6 +2097,7 @@ spec:
                         conditions:
                           additionalProperties:
                             type: boolean
+                          nullable: true
                           type: object
                         endpoint:
                           type: string
@@ -2141,7 +2150,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: nodes.longhorn.io
 spec:
@@ -2392,7 +2401,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: orphans.longhorn.io
 spec:
@@ -2659,11 +2668,10 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.7.0
-  creationTimestamp: null
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: replicas.longhorn.io
 spec:
@@ -2675,6 +2683,7 @@ spec:
     shortNames:
     - lhr
     singular: replica
+  preserveUnknownFields: false
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -2795,12 +2804,20 @@ spec:
               evictionRequested:
                 type: boolean
               failedAt:
+                description: FailedAt is set when a running replica fails or when a running engine is unable to use a replica for any reason. FailedAt indicates the time the failure occurred. When FailedAt is set, a replica is likely to have useful (though possibly stale) data. A replica with FailedAt set must be rebuilt from a non-failed replica (or it can be used in a salvage if all replicas are failed). FailedAt is cleared before a rebuild or salvage. FailedAt may be later than the corresponding entry in an engine's replicaTransitionTimeMap because it is set when the volume controller acknowledges the change.
                 type: string
               hardNodeAffinity:
                 type: string
               healthyAt:
+                description: HealthyAt is set the first time a replica becomes read/write in an engine after creation or rebuild. HealthyAt indicates the time the last successful rebuild occurred. When HealthyAt is set, a replica is likely to have useful (though possibly stale) data. HealthyAt is cleared before a rebuild. HealthyAt may be later than the corresponding entry in an engine's replicaTransitionTimeMap because it is set when the volume controller acknowledges the change.
                 type: string
               image:
+                type: string
+              lastFailedAt:
+                description: LastFailedAt is always set at the same time as FailedAt. Unlike FailedAt, LastFailedAt is never cleared. LastFailedAt is not a reliable indicator of the state of a replica's data. For example, a replica with LastFailedAt may already be healthy and in use again. However, because it is never cleared, it can be compared to LastHealthyAt to help prevent dangerous replica deletion in some corner cases. LastFailedAt may be later than the corresponding entry in an engine's replicaTransitionTimeMap because it is set when the volume controller acknowledges the change.
+                type: string
+              lastHealthyAt:
+                description: LastHealthyAt is set every time a replica becomes read/write in an engine. Unlike HealthyAt, LastHealthyAt is never cleared. LastHealthyAt is not a reliable indicator of the state of a replica's data. For example, a replica with LastHealthyAt set may be in the middle of a rebuild. However, because it is never cleared, it can be compared to LastFailedAt to help prevent dangerous replica deletion in some corner cases. LastHealthyAt may be later than the corresponding entry in an engine's replicaTransitionTimeMap because it is set when the volume controller acknowledges the change.
                 type: string
               logRequested:
                 type: boolean
@@ -2894,11 +2911,10 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.7.0
-  creationTimestamp: null
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: settings.longhorn.io
 spec:
@@ -2910,6 +2926,7 @@ spec:
     shortNames:
     - lhs
     singular: setting
+  preserveUnknownFields: false
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -2990,7 +3007,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: sharemanagers.longhorn.io
 spec:
@@ -3105,7 +3122,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: snapshots.longhorn.io
 spec:
@@ -3232,7 +3249,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: supportbundles.longhorn.io
 spec:
@@ -3358,7 +3375,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: systembackups.longhorn.io
 spec:
@@ -3486,7 +3503,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: systemrestores.longhorn.io
 spec:
@@ -3588,7 +3605,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: volumes.longhorn.io
 spec:
@@ -3972,7 +3989,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     longhorn-manager: ""
   name: volumeattachments.longhorn.io
 spec:
@@ -4101,7 +4118,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 rules:
 - apiGroups:
   - apiextensions.k8s.io
@@ -4167,7 +4184,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -4185,7 +4202,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -4202,7 +4219,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     app: longhorn-manager
   name: longhorn-backend
   namespace: longhorn-system
@@ -4222,7 +4239,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     app: longhorn-ui
   name: longhorn-frontend
   namespace: longhorn-system
@@ -4243,7 +4260,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     app: longhorn-conversion-webhook
   name: longhorn-conversion-webhook
   namespace: longhorn-system
@@ -4263,7 +4280,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     app: longhorn-admission-webhook
   name: longhorn-admission-webhook
   namespace: longhorn-system
@@ -4283,7 +4300,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     app: longhorn-recovery-backend
   name: longhorn-recovery-backend
   namespace: longhorn-system
@@ -4303,7 +4320,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
   name: longhorn-engine-manager
   namespace: longhorn-system
 spec:
@@ -4319,7 +4336,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
   name: longhorn-replica-manager
   namespace: longhorn-system
 spec:
@@ -4335,7 +4352,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     app: longhorn-manager
   name: longhorn-manager
   namespace: longhorn-system
@@ -4348,12 +4365,12 @@ spec:
       labels:
         app.kubernetes.io/name: longhorn
         app.kubernetes.io/instance: longhorn
-        app.kubernetes.io/version: v1.6.0
+        app.kubernetes.io/version: v1.6.1
         app: longhorn-manager
     spec:
       containers:
       - name: longhorn-manager
-        image: longhornio/longhorn-manager:v1.6.0
+        image: longhornio/longhorn-manager:v1.6.1
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
@@ -4362,17 +4379,17 @@ spec:
         - -d
         - daemon
         - --engine-image
-        - "longhornio/longhorn-engine:v1.6.0"
+        - "longhornio/longhorn-engine:v1.6.1"
         - --instance-manager-image
-        - "longhornio/longhorn-instance-manager:v1.6.0"
+        - "longhornio/longhorn-instance-manager:v1.6.1"
         - --share-manager-image
-        - "longhornio/longhorn-share-manager:v1.6.0"
+        - "longhornio/longhorn-share-manager:v1.6.1"
         - --backing-image-manager-image
-        - "longhornio/backing-image-manager:v1.6.0"
+        - "longhornio/backing-image-manager:v1.6.1"
         - --support-bundle-manager-image
-        - "longhornio/support-bundle-kit:v0.0.33"
+        - "longhornio/support-bundle-kit:v0.0.36"
         - --manager-image
-        - "longhornio/longhorn-manager:v1.6.0"
+        - "longhornio/longhorn-manager:v1.6.1"
         - --service-account
         - longhorn-service-account
         - --upgrade-version-check
@@ -4442,7 +4459,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
 spec:
   replicas: 1
   selector:
@@ -4453,23 +4470,23 @@ spec:
       labels:
         app.kubernetes.io/name: longhorn
         app.kubernetes.io/instance: longhorn
-        app.kubernetes.io/version: v1.6.0
+        app.kubernetes.io/version: v1.6.1
         app: longhorn-driver-deployer
     spec:
       initContainers:
         - name: wait-longhorn-manager
-          image: longhornio/longhorn-manager:v1.6.0
+          image: longhornio/longhorn-manager:v1.6.1
           command: ['sh', '-c', 'while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" http://longhorn-backend:9500/v1) != "200" ]; do echo waiting; sleep 2; done']
       containers:
         - name: longhorn-driver-deployer
-          image: longhornio/longhorn-manager:v1.6.0
+          image: longhornio/longhorn-manager:v1.6.1
           imagePullPolicy: IfNotPresent
           command:
           - longhorn-manager
           - -d
           - deploy-driver
           - --manager-image
-          - "longhornio/longhorn-manager:v1.6.0"
+          - "longhornio/longhorn-manager:v1.6.1"
           - --manager-url
           - http://longhorn-backend:9500/v1
           env:
@@ -4496,7 +4513,7 @@ spec:
           - name: CSI_SNAPSHOTTER_IMAGE
             value: "longhornio/csi-snapshotter:v6.3.2"
           - name: CSI_LIVENESS_PROBE_IMAGE
-            value: "longhornio/livenessprobe:v2.11.0"
+            value: "longhornio/livenessprobe:v2.12.0"
       priorityClassName: "longhorn-critical"
       serviceAccountName: longhorn-service-account
       securityContext:
@@ -4509,7 +4526,7 @@ metadata:
   labels:
     app.kubernetes.io/name: longhorn
     app.kubernetes.io/instance: longhorn
-    app.kubernetes.io/version: v1.6.0
+    app.kubernetes.io/version: v1.6.1
     app: longhorn-ui
   name: longhorn-ui
   namespace: longhorn-system
@@ -4523,7 +4540,7 @@ spec:
       labels:
         app.kubernetes.io/name: longhorn
         app.kubernetes.io/instance: longhorn
-        app.kubernetes.io/version: v1.6.0
+        app.kubernetes.io/version: v1.6.1
         app: longhorn-ui
     spec:
       serviceAccountName: longhorn-ui-service-account
@@ -4541,7 +4558,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: longhorn-ui
-        image: longhornio/longhorn-ui:v1.6.0
+        image: longhornio/longhorn-ui:v1.6.1
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name : nginx-cache
