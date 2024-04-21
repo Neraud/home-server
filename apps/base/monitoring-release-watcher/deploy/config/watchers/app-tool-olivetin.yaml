@@ -1,11 +1,13 @@
 watchers:
   - name: OliveTin
     type: docker_registry
-    repo: registry-1.docker.io
-    image: jamesread/olivetin
-    tag: 2024.03.081-amd64
+    repo: ghcr.io
+    image: olivetin/olivetin
+    tag: 2024.04.021-amd64
     includes:
-      - 20[0-9][0-9]\.[0-9][0-9]\.[0-9][0-9]-amd64
+      - 20[0-9][0-9]\.[0-9][0-9]\.[0-9]+-amd64
     excludes:
-      - ^202[0-3].*
-      - ^2024-0[0-2].*
+      - ^202[0-3]\..*
+      - ^2024\.0[0-3]\..*
+      - ^2024\.04\.0*[0-9]-amd64
+      - ^2024\.04\.0*1[0-9]-amd64
