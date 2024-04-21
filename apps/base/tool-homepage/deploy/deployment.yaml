@@ -28,7 +28,7 @@ spec:
       automountServiceAccountToken: true
       containers:
       - name: homepage
-        image: "registry.lan/homepage:v0.8.9"
+        image: "registry.lan/homepage:v0.8.12"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
