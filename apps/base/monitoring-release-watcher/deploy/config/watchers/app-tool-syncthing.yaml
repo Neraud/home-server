@@ -3,13 +3,14 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: syncthing/syncthing
-    tag: 1.27.4
+    tag: 1.27.6
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - ^1\.[0-9]\.
       - ^1\.1[0-9]\.
       - ^1\.2[0-6]\.
+      - ^1\.27\.[0-5]\.
   - name: Syncthing conf injection
     type: docker_registry
     repo: registry-1.docker.io
@@ -25,10 +26,11 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: syncthing/discosrv
-    tag: 1.27.4
+    tag: 1.27.6
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - ^1\.[0-9]\.
       - ^1\.1[0-9]\.
       - ^1\.2[0-6]\.
+      - ^1\.27\.[0-5]\.
