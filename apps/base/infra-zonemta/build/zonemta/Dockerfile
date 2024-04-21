@@ -1,6 +1,6 @@
-FROM docker.io/library/node:21.7.1-alpine3.19
+FROM docker.io/library/node:21.7.3-alpine3.19
 
-ARG ZONE_MTA_VERSION=3.9.4
+ARG ZONE_MTA_VERSION=3.9.5
 
 RUN apk add --update \
   make \
