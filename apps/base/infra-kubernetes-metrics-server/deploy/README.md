@@ -2,4 +2,4 @@
 
 ## Sources
 
-`manifests` comes from the <https://github.com/kubernetes-sigs/metrics-server/tree/v0.7.0/manifests>
+`manifests` comes from the <https://github.com/kubernetes-sigs/metrics-server/tree/v0.7.1/manifests>

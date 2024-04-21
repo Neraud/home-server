@@ -1,4 +1,4 @@
-FROM docker.io/jamesread/olivetin:2024.03.081-amd64
+FROM ghcr.io/olivetin/olivetin:2024.04.021-amd64
 
 USER root
 

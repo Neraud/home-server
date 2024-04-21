@@ -2,7 +2,7 @@ watchers:
   - name: ZoneMTA
     type: github_tag
     repo: zone-eu/zone-mta
-    tag : v3.9.4
+    tag : v3.9.5
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -22,7 +22,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/mongo
-    tag: 7.0.6-jammy
+    tag: 7.0.8-jammy
     includes:
       - '[0-9]+\.[0-9]+.[0-9]+-.*'
     excludes:
@@ -30,12 +30,12 @@ watchers:
       - .*-(nanoserver|windowsservercore).*$
       - .*-focal$
       - ^[0-6]\..*
-      - ^7\.0\.[0-5]-.*
+      - ^7\.0\.[0-7]-.*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/node
-    tag: 21.7.1-alpine3.19
+    tag: 21.7.3-alpine3.19
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:

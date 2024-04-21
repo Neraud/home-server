@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/nodered:3.1.6-18-minimal-custom"
+        image: "registry.lan/nodered:3.1.9-18-minimal-custom"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -50,7 +50,7 @@ spec:
           mountPath: /nodered-bootstrap
       containers:
       - name: nodered
-        image: "registry.lan/nodered:3.1.6-18-minimal-custom"
+        image: "registry.lan/nodered:3.1.9-18-minimal-custom"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 1880

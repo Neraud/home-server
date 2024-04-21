@@ -3,13 +3,13 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: miniflux/miniflux
-    tag: 2.1.1-distroless
+    tag: 2.1.2-distroless
     includes:
       - ^[0-9]+.[0-9]+.[0-9]+-distroless$
     excludes:
       - ^1\..*
       - ^2\.0\..*-distroless$
-      - ^2\.1\.[0]-distroless$
+      - ^2\.1\.[0-1]-distroless$
   - name: Miniflux PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
@@ -38,7 +38,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/nginx
-    tag: 1.25.3-alpine3.18-slim
+    tag: 1.25.5-alpine3.19-slim
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]-slim
     excludes:
@@ -47,3 +47,4 @@ watchers:
       - 1\.[0-9]\..*
       - 1\.[0-1][0-9]\..*
       - 1\.2[0-4]\..*
+      - 1\.25\.[0-4]\..*

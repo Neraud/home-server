@@ -1,4 +1,4 @@
-# TODO npm install fails on 20.8.0-alpine3.18 / 21.2.0-alpine3.18
+# TODO npm install fails on 20.8.0-alpine3.18 / 21.2.0-alpine3.18 / 21.7.3-alpine3.19 with: npm ERR! EMFILE: too many open files
 FROM docker.io/library/node:20.6.1-alpine3.18 as builder
 
 ARG reminiflux_repo=reminiflux/reminiflux
@@ -12,7 +12,7 @@ RUN npm install
 RUN NODE_OPTIONS=--openssl-legacy-provider PUBLIC_URL="." npm run build
 
 
-FROM docker.io/library/nginx:1.25.3-alpine3.18-slim
+FROM docker.io/library/nginx:1.25.5-alpine3.19-slim
 COPY --from=builder /app/build /usr/share/nginx/html
 ADD 50-custom-configure.sh /docker-entrypoint.d/50-custom-configure.sh
 
