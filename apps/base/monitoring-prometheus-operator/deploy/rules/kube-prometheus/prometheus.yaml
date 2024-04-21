@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/instance: k8s
     app.kubernetes.io/name: prometheus
     app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 2.50.1
+    app.kubernetes.io/version: 2.51.2
     prometheus: k8s
     role: alert-rules
   name: prometheus-k8s-prometheus-rules
@@ -108,7 +108,7 @@ spec:
         summary: Prometheus is not ingesting samples.
       expr: |
         (
-          rate(prometheus_tsdb_head_samples_appended_total{job="prometheus-k8s",namespace="monitoring"}[5m]) <= 0
+          sum without(type) (rate(prometheus_tsdb_head_samples_appended_total{job="prometheus-k8s",namespace="monitoring"}[5m])) <= 0
         and
           (
             sum without(scrape_job) (prometheus_target_metadata_cache_entries{job="prometheus-k8s",namespace="monitoring"}) > 0
