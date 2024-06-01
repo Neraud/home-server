@@ -24,11 +24,11 @@ spec:
         - --config-reloader-memory-request=25Mi
         - --config-reloader-cpu-limit=50m
         - --config-reloader-memory-limit=25Mi
-        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.73.1
+        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.74.0
         env:
         - name: GOGC
           value: "30"
-        image: registry.lan/prometheus-operator:v0.73.1
+        image: registry.lan/prometheus-operator:v0.74.0
         imagePullPolicy: IfNotPresent
         name: prometheus-operator
         ports:
@@ -58,7 +58,7 @@ spec:
         - --secure-listen-address=:8443
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
         - --upstream=http://127.0.0.1:8080/
-        image: registry.lan/prometheus-kube-rbac-proxy:v0.16.0
+        image: registry.lan/prometheus-kube-rbac-proxy:v0.17.1
         name: kube-rbac-proxy
         ports:
         - containerPort: 8443
@@ -87,6 +87,7 @@ spec:
         kubernetes.io/os: linux
         capability/general-purpose: 'yes'
       securityContext:
+        runAsGroup: 65534
         runAsNonRoot: true
         runAsUser: 65534
         seccompProfile:

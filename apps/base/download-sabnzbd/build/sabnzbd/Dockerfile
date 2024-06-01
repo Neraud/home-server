@@ -13,7 +13,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Install sabnzbd
 RUN mkdir -p /opt/sabnzbd && \
     cd /opt/sabnzbd && \
-    curl -sL https://github.com/sabnzbd/sabnzbd/archive/4.2.3.tar.gz | tar xz --strip-components=1 && \
+    curl -sL https://github.com/sabnzbd/sabnzbd/archive/4.3.2.tar.gz | tar xz --strip-components=1 && \
     pip install -r /opt/sabnzbd/requirements.txt && \
     python tools/make_mo.py
 
@@ -50,7 +50,7 @@ USER sabnzbd
 
 # Install nzbToMedia
 RUN cd /opt/nzbToMedia && \
-    curl -sL https://github.com/clinton-hall/nzbToMedia/archive/12.1.12.tar.gz | tar xz --strip-components=1 && \
+    curl -sL https://github.com/clinton-hall/nzbToMedia/archive/12.1.13.tar.gz | tar xz --strip-components=1 && \
     ln -s /opt/sabnzbd-data/nzbtomedia/autoProcessMedia.cfg /opt/nzbToMedia/autoProcessMedia.cfg && \
     ln -s /opt/sabnzbd-data/nzbtomedia/autoProcessMedia.cfg.old /opt/nzbToMedia/autoProcessMedia.cfg.old && \
     ln -s /opt/sabnzbd-data/nzbtomedia/nzbtomedia.db /opt/nzbToMedia/nzbtomedia.db && \

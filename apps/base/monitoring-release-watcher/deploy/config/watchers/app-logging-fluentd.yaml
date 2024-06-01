@@ -2,12 +2,12 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: fluent/fluentd
-    tag: v1.16.5-debian-amd64-1.0
+    tag: v1.17.0-debian-amd64-1.0
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+-debian-amd64.*
     excludes:
       - v1\.[0-9]\..*
-      - v1\.1[0-5]\..*
+      - v1\.1[0-6]\..*
   - type: github_tag
     repo: fluent/fluent-plugin-opensearch
     tag: v1.1.4

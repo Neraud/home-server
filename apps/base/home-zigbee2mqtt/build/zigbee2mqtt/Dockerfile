@@ -1,1 +1,1 @@
-FROM docker.io/koenkk/zigbee2mqtt:1.36.1
+FROM docker.io/koenkk/zigbee2mqtt:1.38.0

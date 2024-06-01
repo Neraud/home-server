@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/esphome:2024.4.0"
+        image: "registry.lan/esphome:2024.5.4"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -44,7 +44,7 @@ spec:
           mountPath: /esphome
       containers:
       - name: esphome
-        image: "registry.lan/esphome:2024.4.0"
+        image: "registry.lan/esphome:2024.5.4"
         imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 6052

@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: miniflux
       app.kubernetes.io/component: pgsql
       app.kubernetes.io/part-of: miniflux
-      app.kubernetes.io/version: 15.6-alpine3.19
+      app.kubernetes.io/version: 15.7-alpine3.20
 
 generatorOptions:
  disableNameSuffixHash: true

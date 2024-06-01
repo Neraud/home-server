@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: gitea
       app.kubernetes.io/component: gitea
       app.kubernetes.io/part-of: gitea
-      app.kubernetes.io/version: 1.21.11-rootless
+      app.kubernetes.io/version: 1.22.0-rootless
 
 configMapGenerator:
 - name: gitea-env

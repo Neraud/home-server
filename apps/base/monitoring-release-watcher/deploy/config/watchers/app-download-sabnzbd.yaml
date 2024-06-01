@@ -13,10 +13,10 @@ watchers:
   - name: SABnzbd
     type: github_release
     repo: sabnzbd/sabnzbd
-    release: 4.2.3
+    release: 4.3.2
     excludes:
       - .*(RC|Alpha|Beta).*
   - name: SABnzbd nzbToMedia
     type: github_release
     repo: clinton-hall/nzbToMedia
-    release: 12.1.12
+    release: 12.1.13

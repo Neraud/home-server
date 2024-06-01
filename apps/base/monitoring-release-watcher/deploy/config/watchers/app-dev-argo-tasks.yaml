@@ -3,7 +3,7 @@ watchers:
     type: docker_registry
     repo: quay.io
     image: containers/buildah
-    tag: v1.35.3
+    tag: v1.35.4
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -15,11 +15,11 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.12.3-alpine3.19
+    tag: 3.12.3-alpine3.20
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - .*alpine3\.1[0-8]
+      - .*alpine3\.1[0-9]
       - ^3\.[0-9]\.
       - ^3\.1[0-1]\.
   - name: "Source fetcher pyyaml"

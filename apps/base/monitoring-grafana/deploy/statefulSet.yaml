@@ -18,7 +18,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-      - image: "registry.lan/grafana:10.4.1"
+      - image: "registry.lan/grafana:11.0.0"
         name: grafana
         envFrom:
         - configMapRef:
@@ -85,6 +85,7 @@ spec:
         capability/general-purpose: 'yes'
       securityContext:
         fsGroup: 65534
+        runAsGroup: 65534
         runAsNonRoot: true
         runAsUser: 65534
         fsGroupChangePolicy: "OnRootMismatch"

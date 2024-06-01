@@ -1,1 +1,1 @@
-FROM quay.io/prometheus-operator/prometheus-operator:v0.73.1
+FROM quay.io/prometheus-operator/prometheus-operator:v0.74.0

@@ -7,7 +7,7 @@ labels:
         app.kubernetes.io/name: miniflux
         app.kubernetes.io/component: reminiflux
         app.kubernetes.io/part-of: miniflux
-        app.kubernetes.io/version: 153dc9464cef69f7c29bff1d680cfa0013b5e281-1.25.5-alpine3.19-slim
+        app.kubernetes.io/version: 153dc9464cef69f7c29bff1d680cfa0013b5e281-1.27.0-alpine3.19-slim
 
 generatorOptions:
  disableNameSuffixHash: true

@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: redis
-        image: "registry.lan/blocky-redis:7.2.4-alpine3.19"
+        image: "registry.lan/blocky-redis:7.2.5-alpine3.20"
         imagePullPolicy: IfNotPresent
         command:
         - redis-server
