@@ -7,10 +7,10 @@ watchers:
     name: apcups Base image
     repo: registry-1.docker.io
     image: library/alpine
-    tag: 3.19.1
+    tag: 3.20.0
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*"
     excludes:
       - 3\.[0-9]\..*
-      - 3\.1[0-8]\..*
+      - 3\.1[0-9]\..*
       - .*rc.*
