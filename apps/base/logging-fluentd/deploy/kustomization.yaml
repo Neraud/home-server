@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: fluent
       app.kubernetes.io/component: fluent
-      app.kubernetes.io/version: v1.16.5-debian-amd64-1.0-custom
+      app.kubernetes.io/version: v1.17.0-debian-amd64-1.0-custom
 
 generatorOptions:
  disableNameSuffixHash: true

@@ -1,4 +1,4 @@
-FROM docker.io/fluent/fluentd:v1.16.5-debian-amd64-1.0
+FROM docker.io/fluent/fluentd:v1.17.0-debian-amd64-1.0
 
 USER root
 
