@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: paperless
       app.kubernetes.io/component: pgsql
       app.kubernetes.io/part-of: paperless
-      app.kubernetes.io/version: 15.6-alpine3.19
+      app.kubernetes.io/version: 15.7-alpine3.20
 
 generatorOptions:
  disableNameSuffixHash: true
