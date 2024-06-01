@@ -23,7 +23,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: gandi-livedns
-            image: "registry.lan/gandi-livedns:1.0.0-alpine-3.19.1"
+            image: "registry.lan/gandi-livedns:1.0.0-alpine-3.20.0"
             imagePullPolicy: IfNotPresent
             envFrom:
             - secretRef:
