@@ -1,3 +1,3 @@
-FROM docker.io/grafana/grafana:10.4.1
+FROM docker.io/grafana/grafana:11.0.0
 
 ARG GF_INSTALL_PLUGINS=
