@@ -27,7 +27,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: blocky
-        image: "registry.lan/blocky:v0.23"
+        image: "registry.lan/blocky:v0.24"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 4000

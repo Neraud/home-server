@@ -2,33 +2,34 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: 0xerr0r/blocky
-    tag: v0.23
+    tag: v0.24
     includes:
       - 'v[0-9]+\.[0-9]+'
     excludes:
       - v0\.[0-9]$
       - v0\.1[0-9]$
-      - v0\.2[0-2]$
+      - v0\.2[0-3]$
   - name: Blocky PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.6-alpine3.19
+    tag: 15.7-alpine3.20
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - .*-alpine3\.1[0-8]
+      - .*-alpine3\.1[0-9]
       - ^[0-9]\..*
       - ^1[0-4]\..*
-      - ^15\.[0-5]\..*
+      - ^15\.[0-6]\..*
   - name: "Blocky Redis"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.2.4-alpine3.19
+    tag: 7.2.5-alpine3.20
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - .*alpine3\.1[0-8]
+      - .*alpine3\.1[0-9]
       - ^[0-6]\.
       - ^7\.[0-1]\.
+      - ^7\.2\.[0-4]-
