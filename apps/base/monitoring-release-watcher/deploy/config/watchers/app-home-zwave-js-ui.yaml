@@ -2,10 +2,10 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: zwavejs/zwave-js-ui
-    tag: 9.11.1
+    tag: 9.13.2
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*$
     excludes:
       - ^[1-8]\..*
       - ^9\.[0-9]\..*
-      - ^9\.1[0]\..*
+      - ^9\.1[2]\..*
