@@ -9,14 +9,13 @@ watchers:
       - ^9\.[0-5]\..*
   - type: github_release
     repo: mehdy/keepalived-exporter
-    release: v1.3.2
+    release: v1.3.3
   - type: github_release
     repo: kubernetes/kubernetes
     release: v1.29.3
     excludes:
       - .*(alpha|beta|rc).*
-      - v1\.[0-1][0-9]\..*
-      - v1\.2[0-8]\..*
+      - v1\.[0-2][0-9]\..*
   - type: github_release
     repo: cri-o/cri-o
     release: v1.29.2
