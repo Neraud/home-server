@@ -22,7 +22,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: mysql
-        image: "registry.lan/nextcloud-mysql:8.0.36-debian"
+        image: "registry.lan/nextcloud-mysql:8.0.37-debian"
         args:
         - --transaction-isolation=READ-COMMITTED
         - --log-bin

@@ -23,7 +23,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: task-rescheduler
-            image: "registry.lan/caldav-recurring-task-scheduler:1b6cb6e328c895459573326a3868030bd099c215-3.12.3-alpine3.19"
+            image: "registry.lan/caldav-recurring-task-scheduler:1b6cb6e328c895459573326a3868030bd099c215-3.12.3-alpine3.20"
             imagePullPolicy: IfNotPresent
             env:
             - name: CONFIG_PATH
