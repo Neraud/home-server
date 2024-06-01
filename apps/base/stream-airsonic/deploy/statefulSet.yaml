@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: inject-properties
-        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20220625052932"
+        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20240424015024"
         securityContext:
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
@@ -58,7 +58,7 @@ spec:
         - name: airsonic-inject-config
           mountPath: /config
       - name: inject-certificates
-        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20220625052932"
+        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20240424015024"
         command:
           - "sh"
           - "-c"
@@ -82,7 +82,7 @@ spec:
           subPath: ca.crt
       containers:
       - name: airsonic
-        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20220625052932"
+        image: "registry.lan/airsonic-advanced:edge-11.0.0-SNAPSHOT.20240424015024"
         imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 4040
