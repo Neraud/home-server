@@ -3,42 +3,42 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: miniflux/miniflux
-    tag: 2.1.2-distroless
+    tag: 2.1.3-distroless
     includes:
       - ^[0-9]+.[0-9]+.[0-9]+-distroless$
     excludes:
       - ^1\..*
       - ^2\.0\..*-distroless$
-      - ^2\.1\.[0-1]-distroless$
+      - ^2\.1\.[0-2]-distroless$
   - name: Miniflux PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.6-alpine3.19
+    tag: 15.7-alpine3.20
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
-      - .*-alpine3\.1[0-8]
+      - .*-alpine3\.1[0-9]
       - ^[0-9]\..*
       - ^1[0-4]\..*
-      - ^15\.[0-5]\..*
+      - ^15\.[0-6]\..*
   - name: "Reminiflux Node"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/node
-    tag: 20.6.1-alpine3.18
+    tag: 22.2.0-alpine3.20
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - .*-alpine3.1[0-7]
+      - .*-alpine3.1[0-9]
       - 1[0-9]\..*
-      - 20\..*
-      - 21\.[0-5]\..*
+      - 2[0-1]\..*
+      - 22\.[0-1]\..*
   - name: "Reminiflux Nginx"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/nginx
-    tag: 1.25.5-alpine3.19-slim
+    tag: 1.27.0-alpine3.19-slim
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]-slim
     excludes:
@@ -46,5 +46,4 @@ watchers:
       - .*-perl
       - 1\.[0-9]\..*
       - 1\.[0-1][0-9]\..*
-      - 1\.2[0-4]\..*
-      - 1\.25\.[0-4]\..*
+      - 1\.2[0-6]\..*

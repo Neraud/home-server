@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/miniflux-postgres:15.6-alpine3.19"
+        image: "registry.lan/miniflux-postgres:15.7-alpine3.20"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -42,7 +42,7 @@ spec:
           mountPath: /var/lib/postgresql
       containers:
       - name: pgsql
-        image: "registry.lan/miniflux-postgres:15.6-alpine3.19"
+        image: "registry.lan/miniflux-postgres:15.7-alpine3.20"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
