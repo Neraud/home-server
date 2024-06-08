@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: jellyfin
       app.kubernetes.io/component: jellyfin
-      app.kubernetes.io/version: 10.9.3-custom
+      app.kubernetes.io/version: 10.9.6-custom
 
 generatorOptions:
  disableNameSuffixHash: true
