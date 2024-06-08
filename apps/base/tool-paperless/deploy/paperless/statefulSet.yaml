@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: paperless
-        image: "registry.lan/paperless-ngx:2.8.6-custom"
+        image: "registry.lan/paperless-ngx:2.9.0-custom"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
