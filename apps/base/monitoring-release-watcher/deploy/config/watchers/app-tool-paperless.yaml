@@ -3,13 +3,13 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: paperless-ngx/paperless-ngx
-    tag: 2.8.6
+    tag: 2.9.0
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*(beta|rc).*
       - ^[0-1]\..*
-      - ^2\.[0-7]\..*
+      - ^2\.[0-8]\..*
   - name: "Paperless Redis"
     type: docker_registry
     repo: registry-1.docker.io
