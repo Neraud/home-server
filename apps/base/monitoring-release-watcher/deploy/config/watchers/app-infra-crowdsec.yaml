@@ -2,8 +2,9 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: crowdsecurity/crowdsec
-    tag: v1.6.1-2-debian
+    tag: v1.6.2-debian
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9]+)?-debian
     excludes:
       - ^v1\.[0-5]\.
+      - ^v1\.6\.[0-1]-
