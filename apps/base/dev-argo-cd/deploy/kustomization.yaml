@@ -62,10 +62,10 @@ patches:
 images:
 - name: quay.io/argoproj/argocd
   newName: registry.lan/argocd
-  newTag: v2.11.2-ksops
+  newTag: v2.11.3-ksops
 - name: ghcr.io/dexidp/dex
   newName: registry.lan/dex
-  newTag: v2.39.1-distroless
+  newTag: v2.40.0-distroless
 - name: redis
   newName: registry.lan/argocd-redis
   newTag: 7.2.5-alpine3.20
