@@ -21,6 +21,9 @@ spec:
       - name: intel-gpu-plugin
         image: "registry.lan/intel-gpu-plugin:0.30.0"
         imagePullPolicy: IfNotPresent
+        args:
+        - "-shared-dev-num=5"
+        - "-enable-monitoring"
         env:
           - name: NODE_NAME
             valueFrom:
