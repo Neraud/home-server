@@ -40,7 +40,7 @@ I tried to keep track of the prices of these parts at the time I bought them.
 | CPU      | [AMD Ryzen 7 5700G](https://www.amazon.de/dp/B091J3NYVF/ref=pe_27091401_487027711_TE_SCE_dp_1)                                  | 208,73 € |
 | Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.de/-/en/gp/product/B075SG1T3X/ref=ppx_od_dt_b_asin_title_s00?ie=UTF8&psc=1)              | 50,32 €  |
 | RAM      | 2*16 GB DDR4 3200 CL 22 ([GSKILL RipJaws S44-3200C22D-32GRS](https://www.amazon.de/-/en/gp/product/B08HDL6M19))                 | 96,05 €  |
-| Storage  | 1 To [WD Blue SN570 NVMe](https://www.rueducommerce.fr/p-disque-ssd-nvme-wd-blue-sn570-1-to-western-digital-3363012-18409.html) | 69,89 €  |
+| Storage  | 1 TB [WD Blue SN570 NVMe](https://www.rueducommerce.fr/p-disque-ssd-nvme-wd-blue-sn570-1-to-western-digital-3363012-18409.html) | 69,89 €  |
 
 (ordered 2022-12)
 
@@ -67,6 +67,18 @@ This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/pr
 (ordered 2019-08)
 
 This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
+
+### Kubernetes Node-3
+
+| Part     | Model                                                                                                    | Price    |
+| -------- | -------------------------------------------------------------------------------------------------------- | -------- |
+| Barebone | [ASRock DeskMini B760](https://www.amazon.de/dp/B0CLTNC6V6)                                              | 208,73 € |
+| CPU      | [Intel Core™ i5 14500](https://www.amazon.de/dp/B0CQ2XT4RT)                                              | 254,87 € |
+| Cooler   | [Noctua NH-L9i-17xx](https://www.amazon.de/dp/B09HCLB7M3)                                                | 50,32 €  |
+| RAM      | 2*32 GB DDR4 3200 CL 22 ([Corsair Performance CMSX64GX4M2A3200C22](https://www.amazon.de/dp/B09DTG3BD7)) | 145,91 € |
+| Storage  | 2 TB [WD_BLACK SN770 NVMe](https://www.amazon.de/dp/B09QV5KJHV)                                          | 110,82 € |
+
+(ordered 2024-07)
 
 ### Kubernetes Node Home
 
