@@ -44,30 +44,6 @@ I tried to keep track of the prices of these parts at the time I bought them.
 
 (ordered 2022-12)
 
-### Kubernetes Node-1
-
-| Part     | Model                                                                                                                              | Price    |
-| -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-NUC-Kit-NUC8i5BEH-Generation/dp/B07JCF1LCL)                                          | 373,01 € |
-| RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 168,25 € |
-| Storage  | [WD Blue SN500 NVME](https://www.amazon.fr/gp/product/B07P7TFKRH)                                                                  | 65,45 €  |
-
-(ordered 2019-05)
-
-This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
-
-### Kubernetes Node-2
-
-| Part     | Model                                                                                                                              | Price    |
-| -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-NUC-Kit-NUC8i5BEH-Generation/dp/B07JCF1LCL)                                          | 381,07 € |
-| RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 140,06 € |
-| Storage  | [WD Blue SN500 SATA](https://www.amazon.fr/gp/product/B073SBX6TY/)                                                                 | 63,43 €  |
-
-(ordered 2019-08)
-
-This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
-
 ### Kubernetes Node-3
 
 | Part     | Model                                                                                                    | Price    |
@@ -164,3 +140,29 @@ Decommissioned around 2022-12 after more than 6 years of service !
 | Drives | 4*[WD Red 6To](https://shop.westerndigital.com/products/internal-drives/wd-red-sata-hdd#WD60EFAX) | xx,xx € |
 
 Decommissioned after having to solder a resistor to fix the Atom issue and starting to receive errors from the drives (after 6.5 years of power-on time !).
+
+### Old Kubernetes Node-1
+
+| Part     | Model                                                                                                                              | Price    |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-NUC-Kit-NUC8i5BEH-Generation/dp/B07JCF1LCL)                                          | 373,01 € |
+| RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 168,25 € |
+| Storage  | [WD Blue SN500 NVME](https://www.amazon.fr/gp/product/B07P7TFKRH)                                                                  | 65,45 €  |
+
+(ordered 2019-05)
+
+This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
+Decommissioned on 2024-07 after after 5 years of service.
+
+### Old Kubernetes Node-2
+
+| Part     | Model                                                                                                                              | Price    |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| Barebone | [Intel NUC8i5BEH](https://www.amazon.fr/Intel-NUC-Kit-NUC8i5BEH-Generation/dp/B07JCF1LCL)                                          | 381,07 € |
+| RAM      | 2*16 GB DDR4 2400 ([Kingston HyperX HX424S14IBK2/32](https://www.amazon.fr/HyperX-HX424S14IBK2-32-Mémoire-Notebook/dp/B01BNJL8I4)) | 140,06 € |
+| Storage  | [WD Blue SN500 SATA](https://www.amazon.fr/gp/product/B073SBX6TY/)                                                                 | 63,43 €  |
+
+(ordered 2019-08)
+
+This NUC runs an [Intel i5-8259U](https://ark.intel.com/content/www/us/en/ark/products/135935/intel-core-i5-8259u-processor-6m-cache-up-to-3-80-ghz.html) CPU.
+Decommissioned on 2024-07 after after 5 years of service.
