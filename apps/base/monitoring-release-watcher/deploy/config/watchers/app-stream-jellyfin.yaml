@@ -2,25 +2,24 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: jellyfin/jellyfin
-    tag: 10.9.6
+    tag: 10.9.9
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+$
     excludes:
       - ^10\.[0-8]\..*
-      - ^10\.9\.[0-5]$
+      - ^10\.9\.[0-8]$
   - name: Jellyfin inject conf
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.12.4-alpine3.20
+    tag: 3.12.5-alpine3.20
     includes:
-      - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
+      - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - .*-alpine3\.[0-9]$
-      - .*-alpine3\.1[0-9]
-      - 3\.[0-9]\.
-      - 3\.1[0-1]\.
-      - 3\.12\.[0-3]-
+      - .*alpine3\.1[0-9]
+      - ^3\.[0-9]\.
+      - ^3\.1[0-1]\.
+      - ^3\.12\.[0-4]-
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anidb
     tag: v9
@@ -35,4 +34,4 @@ watchers:
     tag: v19
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-tvdb
-    tag: v13
+    tag: v15
