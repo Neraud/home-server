@@ -34,10 +34,7 @@ spec:
       cpu: 100m
       memory: 1024Mi
   ruleNamespaceSelector: {}
-  ruleSelector:
-    matchLabels:
-      prometheus: k8s
-      role: alert-rules
+  ruleSelector: {}
   scrapeConfigNamespaceSelector: {}
   scrapeConfigSelector: {}
   securityContext:
