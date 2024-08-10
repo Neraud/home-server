@@ -10,7 +10,7 @@ kubernetes_users:
     install_autocomplete: yes
 
 sops_version: 3.9.0
-ksops_version: 4.3.1
+ksops_version: 4.3.2
 sops_age_key_file: /path/to/key.txt
 # Generate using : age-keygen -o key.txt
 sops_age_key_content: CHANGEME
