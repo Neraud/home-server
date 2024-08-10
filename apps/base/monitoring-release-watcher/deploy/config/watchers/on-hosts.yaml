@@ -32,7 +32,7 @@ watchers:
       - .*(alpha|beta|rc).*
   - type: github_release
     repo: mozilla/sops
-    release: v3.8.1
+    release: v3.9.0
     excludes:
       - .*(alpha|beta|rc).*
       - v[0-2]\..*
