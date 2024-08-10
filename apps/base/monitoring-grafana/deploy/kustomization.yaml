@@ -86,6 +86,7 @@ secretGenerator:
   files: 
   - secret/datasources/blocky_postgresql.yaml
   - secret/datasources/crowdsec_elasticsearch.yaml
+  - secret/datasources/loki.yaml
   - secret/datasources/prometheus.yaml
 
 resources:
