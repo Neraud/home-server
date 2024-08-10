@@ -2,22 +2,21 @@ watchers:
   - type: docker_registry
     repo: quay.io
     image: minio/minio
-    tag: RELEASE.2024-06-06T09-36-42Z
+    tag: RELEASE.2024-08-03T04-33-23Z
     includes:
       - ^RELEASE.
     excludes:
       - .*(\.fips|-cpuv1)$
       - ^RELEASE.202[0-3]-
-      - ^RELEASE.2024-0[0-5]-
+      - ^RELEASE.2024-0[0-7]-
   - name: "MinIO MC"
     type: docker_registry
     repo: quay.io
     image: minio/mc
-    tag: RELEASE.2024-06-05T18-13-30Z
+    tag: RELEASE.2024-07-31T15-58-33Z
     includes:
       - ^RELEASE.
     excludes:
       - .*(\.fips|-cpuv1)$
       - ^RELEASE.202[0-3]-
-      - ^RELEASE.2024-0[0-5]-
-
+      - ^RELEASE.2024-0[0-6]-
