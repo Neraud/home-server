@@ -1,0 +1,569 @@
+global:
+  image:
+    # -- Overrides the Docker registry globally for all images
+    registry: registry.lan
+
+# TODO: workaround for https://github.com/grafana/helm-charts/issues/3168
+# Can't set imagePullSecrets, the chart fails with nil pointer evaluating interface {}.pullSecrets
+# Workaround: add the imagePullSecrets using kustomize
+# -- Image pull secrets for Docker images
+#imagePullSecrets:
+#- name: docker-config
+
+# -- Deployment mode lets you specify how to deploy Loki.
+# There are 3 options:
+# - SingleBinary: Loki is deployed as a single binary, useful for small installs typically without HA, up to a few tens of GB/day.
+# - SimpleScalable: Loki is deployed as 3 targets: read, write, and backend. Useful for medium installs easier to manage than distributed, up to a about 1TB/day.
+# - Distributed: Loki is deployed as individual microservices. The most complicated but most capable, useful for large installs, typically over 1TB/day.
+# There are also 2 additional modes used for migrating between deployment modes:
+# - SingleBinary<->SimpleScalable: Migrate from SingleBinary to SimpleScalable (or vice versa)
+# - SimpleScalable<->Distributed: Migrate from SimpleScalable to Distributed (or vice versa)
+# Note: SimpleScalable and Distributed REQUIRE the use of object storage.
+deploymentMode: SimpleScalable
+######################################################################################################################
+#
+# Base Loki Configs including kubernetes configurations and configurations for Loki itself,
+# see below for more specifics on Loki's configuration.
+#
+######################################################################################################################
+# -- Configuration for running Loki
+# @default -- See values.yaml
+loki:
+  image:
+    # -- Docker image repository
+    repository: loki
+  # -- The SecurityContext for Loki containers
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+  ######################################################################################################################
+  #
+  # Loki Configuration
+  #
+  # There are several ways to pass configuration to Loki, listing them here in order of our preference for how
+  # you should use this chart.
+  # 1. Use the templated value of loki.config below and the corresponding override sections which follow.
+  #    This allows us to set a lot of important Loki configurations and defaults and also allows us to maintain them
+  #    over time as Loki changes and evolves.
+  # 2. Use the loki.structuredConfig section.
+  #    This will completely override the templated value of loki.config, so you MUST provide the entire Loki config
+  #    including any configuration that we set in loki.config unless you explicitly are trying to change one of those
+  #    values and are not able to do so with the templated sections.
+  #    If you choose this approach the burden is on you to maintain any changes we make to the templated config.
+  # 3. Use an existing secret or configmap to provide the configuration.
+  #    This option is mostly provided for folks who have external processes which provide or modify the configuration.
+  #    When using this option you can specify a different name for loki.generatedConfigObjectName and configObjectName
+  #    if you have a process which takes the generated config and modifies it, or you can stop the chart from generating
+  #    a config entirely by setting loki.generatedConfigObjectName to
+  #
+  ######################################################################################################################
+
+  # -- Defines what kind of object stores the configuration, a ConfigMap or a Secret.
+  # In order to move sensitive information (such as credentials) from the ConfigMap/Secret to a more secure location (e.g. vault), it is possible to use [environment variables in the configuration](https://grafana.com/docs/loki/latest/configuration/#use-environment-variables-in-the-configuration).
+  # Such environment variables can be then stored in a separate Secret and injected via the global.extraEnvFrom value. For details about environment injection from a Secret please see [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/#use-case-as-container-environment-variables).
+  configStorageType: Secret
+  # -- The name of the object which Loki will mount as a volume containing the config.
+  # If the configStorageType is Secret, this will be the name of the Secret, if it is ConfigMap, this will be the name of the ConfigMap.
+  # The value will be passed through tpl.
+  configObjectName: loki-config
+  # -- The name of the Secret or ConfigMap that will be created by this chart.
+  # If empty, no configmap or secret will be created.
+  # The value will be passed through tpl.
+  generatedConfigObjectName: ''
+  # Should authentication be enabled
+  auth_enabled: true
+  # -- Tenants list to be created on nginx htpasswd file, with name and password keys
+  tenants:
+  - name: self-monitoring
+    password: changeme
+  - name: loki
+    password: changeme
+  # -- Limits config
+  limits_config:
+    reject_old_samples: true
+    reject_old_samples_max_age: 168h
+    max_cache_freshness_per_query: 10m
+    split_queries_by_interval: 15m
+    query_timeout: 300s
+    volume_enabled: true
+  # -- Check https://grafana.com/docs/loki/latest/configuration/#common_config for more info on how to provide a common configuration
+  commonConfig:
+    path_prefix: /var/loki
+    replication_factor: 1
+    compactor_address: '{{ include "loki.compactorAddress" . }}'
+  # -- Storage config. Providing this will automatically populate all necessary storage configs in the templated config.
+  storage:
+    # Loki requires a bucket for chunks and the ruler. GEL requires a third bucket for the admin API.
+    # Please provide these values if you are using object storage.
+    bucketNames:
+      chunks: chunks
+      ruler: ruler
+      admin: admin
+    type: s3
+    s3:
+      endpoint: minio.logging-loki.svc:9000
+      insecure: true
+      s3forcepathstyle: true
+      access_key_id: ${MINIO_USER}
+      secret_access_key: ${MINIO_PASSWORD}
+      http_config: {}
+      # -- Check https://grafana.com/docs/loki/latest/configure/#s3_storage_config for more info on how to provide a backoff_config
+      backoff_config: {}
+  # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config for more info on how to configure schemas
+  schemaConfig:
+    configs:
+      - from: 2024-01-01
+        store: tsdb
+        object_store: s3
+        schema: v13
+        index:
+          prefix: loki_index_
+          period: 24h
+
+######################################################################################################################
+#
+# Chart Testing
+#
+######################################################################################################################
+
+# -- Section for configuring optional Helm test
+test:
+  enabled: false
+  # -- Used to directly query the metrics endpoint of the canary for testing, this approach avoids needing prometheus for testing.
+# The Loki canary pushes logs to and queries from this loki installation to test
+# that it's working correctly
+lokiCanary:
+  enabled: true
+  # -- If true, the canary will send directly to Loki via the address configured for verification --
+  # -- If false, it will write to stdout and an Agent will be needed to scrape and send the logs --
+  push: false
+  # -- Additional CLI arguments for the `loki-canary' command
+  extraArgs:
+    - -user=$(LOKI_USER)
+    - -pass=$(LOKI_PASS)
+  # -- Environment variables from secrets or configmaps to add to the canary pods
+  extraEnvFrom:
+    - secretRef:
+        name: loki-canary-env
+  # -- Node selector for canary pods
+  nodeSelector:
+    capability/general-purpose: 'yes'
+  # -- Image to use for loki canary
+  image:
+    # -- Docker image repository
+    repository: loki-canary
+# RBAC configuration
+rbac:
+  # -- Whether to install RBAC in the namespace only or cluster-wide. Useful if you want to watch ConfigMap globally.
+  namespaced: true
+######################################################################################################################
+#
+# Network Policy configuration
+#
+######################################################################################################################
+networkPolicy:
+  # -- Specifies whether Network Policies should be created
+  enabled: true
+  # -- Specifies whether the policies created will be standard Network Policies (flavor: kubernetes)
+  # or Cilium Network Policies (flavor: cilium)
+  flavor: kubernetes
+  metrics:
+    # -- Specifies the Pods which are allowed to access the metrics port.
+    # As this is cross-namespace communication, you also need the namespaceSelector.
+    podSelector:
+      matchLabels:
+        app.kubernetes.io/name: prometheus
+        app.kubernetes.io/component: prometheus
+        app.kubernetes.io/instance: k8s
+    # -- Specifies the namespaces which are allowed to access the metrics port
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: monitoring-prometheus
+  ingress:
+    # -- Specifies the Pods which are allowed to access the http port.
+    # As this is cross-namespace communication, you also need the namespaceSelector.
+    podSelector:
+      matchLabels:
+        app.kubernetes.io/name: ingress-nginx
+    # -- Specifies the namespaces which are allowed to access the http port
+    namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+  alertmanager:
+    # -- Specify the alertmanager port used for alerting
+    port: 9093
+    # -- Specifies the alertmanager Pods.
+    # As this is cross-namespace communication, you also need the namespaceSelector.
+    podSelector:
+      matchLabels:
+        app.kubernetes.io/name: alertmanager
+        app.kubernetes.io/component: alertmanager
+        app.kubernetes.io/instance: k8s
+    # -- Specifies the namespace the alertmanager is running in
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: monitoring-prometheus
+######################################################################################################################
+#
+# Global memberlist configuration
+#
+######################################################################################################################
+
+# Configuration for the memberlist service
+memberlist:
+  service:
+    publishNotReadyAddresses: false
+######################################################################################################################
+#
+# Gateway and Ingress
+#
+# By default this chart will deploy a Nginx container to act as a gateway which handles routing of traffic
+# and can also do auth.
+#
+# If you would prefer you can optionally disable this and enable using k8s ingress to do the incoming routing.
+#
+######################################################################################################################
+
+# Configuration for the gateway
+gateway:
+  image:
+    # -- The Docker registry for the gateway image
+    registry: registry.lan
+    # -- The gateway image repository
+    repository: loki-nginx-unprivileged
+  # -- The SecurityContext for gateway containers
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop: [ALL]
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+  # -- Node selector for gateway pods
+  nodeSelector:
+    capability/general-purpose: 'yes'
+  # Gateway service configuration
+  service:
+    # -- Labels for gateway service
+    labels:
+      # Workaround for https://github.com/grafana/loki/issues/9522
+      prometheus.io/service-monitor: "false"
+  # Gateway ingress configuration
+  ingress:
+    # -- Specifies whether an ingress for the gateway should be created
+    enabled: true
+    # -- Ingress Class Name. MAY be required for Kubernetes versions >= 1.18
+    ingressClassName: "nginx"
+    # -- Annotations for the gateway ingress
+    annotations:
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Monitoring
+      gethomepage.dev/name: Loki
+      gethomepage.dev/description: Loki is a horizontally scalable, highly available, multi-tenant log aggregation system inspired by Prometheus
+      gethomepage.dev/icon: loki
+    # -- Labels for the gateway ingress
+    labels: {}
+    # -- Hosts configuration for the gateway ingress, passed through the `tpl` function to allow templating
+    hosts:
+      - host: gateway.loki.example.com
+        paths:
+          - path: /
+            # -- pathType (e.g. ImplementationSpecific, Prefix, .. etc.) might also be required by some Ingress Controllers
+            pathType: Prefix
+    # -- TLS configuration for the gateway ingress. Hosts passed through the `tpl` function to allow templating
+    tls:
+      - secretName: loki-gateway-tls
+        hosts:
+          - gateway.loki.example.com
+  # Basic auth configuration
+  basicAuth:
+    # -- Enables basic authentication for the gateway
+    enabled: true
+
+######################################################################################################################
+#
+# Simple Scalable Deployment (SSD) Mode
+#
+# For small to medium size Loki deployments up to around 1 TB/day, this is the default mode for this helm chart
+#
+######################################################################################################################
+
+# Configuration for the write pod(s)
+write:
+  # -- Number of replicas for the write
+  replicas: 1
+  # -- Additional CLI args for the write
+  extraArgs:
+    - -config.expand-env=true
+  # -- Environment variables from secrets or configmaps to add to the write pods
+  extraEnvFrom:
+    - secretRef:
+        name: loki-env
+  # -- Node selector for write pods
+  nodeSelector:
+    capability/general-purpose: 'yes'
+  persistence:
+    # -- Enable volume claims in pod spec
+    volumeClaimsEnabled: true
+    # -- Parameters used for the `data` volume when volumeClaimEnabled if false
+    dataVolumeParameters:
+      emptyDir: {}
+    # -- Enable StatefulSetAutoDeletePVC feature
+    enableStatefulSetAutoDeletePVC: false
+    # -- Size of persistent disk
+    size: 10Gi
+    # -- Storage class to be used.
+    # If defined, storageClassName: <storageClass>.
+    # If set to "-", storageClassName: "", which disables dynamic provisioning.
+    # If empty or set to null, no storageClassName spec is
+    # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
+    storageClass: longhorn-low-durability
+    # -- Selector for persistent disk
+    selector: null
+    # -- Annotations for volume claim
+    annotations: {}
+# --  Configuration for the read pod(s)
+read:
+  # -- Number of replicas for the read
+  replicas: 1
+  # -- Additional CLI args for the read
+  extraArgs:
+    - -config.expand-env=true
+  # -- Environment variables from secrets or configmaps to add to the read pods
+  extraEnvFrom:
+    - secretRef:
+        name: loki-env
+  # -- Resource requests and limits for the read
+  resources: {}
+  # -- Node selector for read pods
+  nodeSelector:
+    capability/general-purpose: 'yes'
+  persistence:
+    # -- Enable StatefulSetAutoDeletePVC feature
+    enableStatefulSetAutoDeletePVC: true
+    # -- Size of persistent disk
+    size: 10Gi
+    # -- Storage class to be used.
+    # If defined, storageClassName: <storageClass>.
+    # If set to "-", storageClassName: "", which disables dynamic provisioning.
+    # If empty or set to null, no storageClassName spec is
+    # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
+    storageClass: longhorn-low-durability
+    # -- Selector for persistent disk
+    selector: null
+    # -- Annotations for volume claim
+    annotations: {}
+# --  Configuration for the backend pod(s)
+backend:
+  # -- Number of replicas for the backend
+  replicas: 1
+  # -- Additional CLI args for the backend
+  extraArgs:
+    - -config.expand-env=true
+  # -- Environment variables from secrets or configmaps to add to the backend pods
+  extraEnvFrom:
+    - secretRef:
+        name: loki-env
+  # -- Resource requests and limits for the backend
+  resources: {}
+  # -- Node selector for backend pods
+  nodeSelector:
+    capability/general-purpose: 'yes'
+  persistence:
+    # -- Enable volume claims in pod spec
+    volumeClaimsEnabled: true
+    # -- Parameters used for the `data` volume when volumeClaimEnabled if false
+    dataVolumeParameters:
+      emptyDir: {}
+    # -- Enable StatefulSetAutoDeletePVC feature
+    enableStatefulSetAutoDeletePVC: true
+    # -- Size of persistent disk
+    size: 10Gi
+    # -- Storage class to be used.
+    # If defined, storageClassName: <storageClass>.
+    # If set to "-", storageClassName: "", which disables dynamic provisioning.
+    # If empty or set to null, no storageClassName spec is
+    # set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
+    storageClass: longhorn-low-durability
+    # -- Selector for persistent disk
+    selector: null
+    # -- Annotations for volume claim
+    annotations: {}
+
+memcached:
+  image:
+    # -- Memcached Docker image repository
+    repository: registry.lan/loki-memcached
+  # -- The SecurityContext override for memcached pods
+  podSecurityContext:
+    runAsNonRoot: true
+  # -- Node selector for rmemcached pods
+  nodeSelector:
+    capability/general-purpose: 'yes'
+  # -- The SecurityContext for memcached containers
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop: [ALL]
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+memcachedExporter:
+  # -- Whether memcached metrics should be exported
+  image:
+    repository: registry.lan/loki-memcached-exporter
+  #resources:
+  #  requests: {}
+  #  limits: {}
+  # -- The SecurityContext for memcached exporter containers
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop: [ALL]
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+  nodeSelector:
+    capability/general-purpose: 'yes'
+resultsCache:
+  # -- Specify how long cached results should be stored in the results-cache before being expired
+  defaultValidity: 12h
+  # -- Memcached operation timeout
+  timeout: 500ms
+  # -- Port of the results-cache service
+  port: 11211
+  # -- Amount of memory allocated to results-cache for object storage (in MB).
+  allocatedMemory: 128
+  # -- Maximum item results-cache for memcached (in MB).
+  maxItemMemory: 5
+  # -- Maximum number of connections allowed
+  connectionLimit: 16384
+  # -- Max memory to use for cache write back
+  writebackSizeLimit: 50MB
+  # -- Max number of objects to use for cache write back
+  writebackBuffer: 50000
+  # -- Number of parallel threads for cache write back
+  writebackParallelism: 1
+  # -- Node selector for results-cache pods
+  nodeSelector:
+    capability/general-purpose: 'yes'
+  # -- Resource requests and limits for the results-cache
+  # By default a safe memory limit will be requested based on allocatedMemory value (floor (* 1.2 allocatedMemory)).
+  resources: null
+chunksCache:
+  # -- Batchsize for sending and receiving chunks from chunks cache
+  batchSize: 4
+  # -- Parallel threads for sending and receiving chunks from chunks cache
+  parallelism: 5
+  # -- Memcached operation timeout
+  timeout: 2000ms
+  # -- Specify how long cached chunks should be stored in the chunks-cache before being expired
+  defaultValidity: 0s
+  # -- Port of the chunks-cache service
+  port: 11211
+  # -- Amount of memory allocated to chunks-cache for object storage (in MB).
+  allocatedMemory: 128
+  # -- Maximum item memory for chunks-cache (in MB).
+  maxItemMemory: 5
+  # -- Maximum number of connections allowed
+  connectionLimit: 16384
+  # -- Max memory to use for cache write back
+  writebackSizeLimit: 50MB
+  # -- Max number of objects to use for cache write back
+  writebackBuffer: 50000
+  # -- Number of parallel threads for cache write back
+  writebackParallelism: 1
+  # -- Node selector for chunks-cache pods
+  nodeSelector:
+    capability/general-purpose: 'yes'
+  # -- Resource requests and limits for the chunks-cache
+  # By default a safe memory limit will be requested based on allocatedMemory value (floor (* 1.2 allocatedMemory)).
+  resources: null
+######################################################################################################################
+#
+# Subchart configurations
+#
+######################################################################################################################
+sidecar:
+  image:
+    # -- The Docker registry and image for the k8s sidecar
+    repository: registry.lan/loki-kiwigrid-k8s-sidecar
+  # -- Resource requests and limits for the sidecar
+  resources: {}
+  #   limits:
+  #     cpu: 100m
+  #     memory: 100Mi
+  #   requests:
+  #     cpu: 50m
+  #     memory: 50Mi
+  # -- The SecurityContext for the sidecar.
+  securityContext:
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+  # -- Set to true to skip tls verification for kube api calls.
+  skipTlsVerify: false
+  # -- Ensure that rule files aren't conflicting and being overwritten by prefixing their name with the namespace they are defined in.
+  enableUniqueFilenames: false
+  # -- Readiness probe definition. Probe is disabled on the sidecar by default.
+  readinessProbe: {}
+  # -- Liveness probe definition. Probe is disabled on the sidecar by default.
+  livenessProbe: {}
+  rules:
+    # -- Whether or not to create a sidecar to ingest rule from specific ConfigMaps and/or Secrets.
+    enabled: true
+    # -- Label that the configmaps/secrets with rules will be marked with.
+    label: loki_rule
+    # -- Label value that the configmaps/secrets with rules will be set to.
+    labelValue: ""
+    # -- Folder into which the rules will be placed.
+    folder: /rules
+    # -- Comma separated list of namespaces. If specified, the sidecar will search for config-maps/secrets inside these namespaces.
+    # Otherwise the namespace in which the sidecar is running will be used.
+    # It's also possible to specify 'ALL' to search in all namespaces.
+    searchNamespace: null
+    # -- Method to use to detect ConfigMap changes. With WATCH the sidecar will do a WATCH request, with SLEEP it will list all ConfigMaps, then sleep for 60 seconds.
+    watchMethod: WATCH
+    # -- Search in configmap, secret, or both.
+    resource: both
+    # -- Absolute path to the shell script to execute after a configmap or secret has been reloaded.
+    script: null
+    # -- WatchServerTimeout: request to the server, asking it to cleanly close the connection after that.
+    # defaults to 60sec; much higher values like 3600 seconds (1h) are feasible for non-Azure K8S.
+    watchServerTimeout: 60
+    #
+    # -- WatchClientTimeout: is a client-side timeout, configuring your local socket.
+    # If you have a network outage dropping all packets with no RST/FIN,
+    # this is how long your client waits before realizing & dropping the connection.
+    # Defaults to 66sec.
+    watchClientTimeout: 60
+    # -- Log level of the sidecar container.
+    logLevel: INFO
+############################################## WARNING ###############################################################
+#
+# DEPRECATED VALUES
+#
+# The following values are deprecated and will be removed in a future version of the helm chart!
+#
+############################################## WARNING ##############################################################
+
+# -- DEPRECATED Monitoring section determines which monitoring features to enable, this section is being replaced
+# by https://github.com/grafana/meta-monitoring-chart
+monitoring:
+  # Recording rules for monitoring Loki, required for some dashboards
+  rules:
+    # -- If enabled, create PrometheusRule resource with Loki recording rules
+    enabled: true
+  # ServiceMonitor configuration
+  serviceMonitor:
+    # -- If enabled, ServiceMonitor resources for Prometheus Operator are created
+    enabled: true

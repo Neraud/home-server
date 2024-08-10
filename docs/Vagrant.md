@@ -49,6 +49,8 @@ To test the deployed services, you will have to add the following domains to you
 192.168.100.101 prometheus.monitoring.intra.k8s.test
 192.168.100.101 alertmanager.monitoring.intra.k8s.test
 192.168.100.101 grafana.monitoring.intra.k8s.test
+192.168.100.101 minio.log.intra.k8s.test
+192.168.100.101 loki.log.intra.k8s.test
 
 192.168.100.100 homeassistant.home.k8s.test
 192.168.100.101 esphome.home.intra.k8s.test
@@ -128,6 +130,7 @@ The following services are deployed :
 | [Prometheus](https://prometheus.io/)                              | <https://prometheus.monitoring.intra.k8s.test>       | Monitoring solution                                               |
 | [AlertManager](https://github.com/prometheus/alertmanager)        | <https://alertmanager.monitoring.intra.k8s.test>     | Alert manager for Prometheus                                      |
 | [Grafana](https://grafana.com/)                                   | <https://grafana.monitoring.intra.k8s.test>          | Platform for beautiful analytics and monitoring                   |
+| [Loki](https://grafana.com/oss/loki/)                             | -                                                    | Log aggregation system                                            |
 | [Fluent Bit](https://fluentbit.io/)                               | -                                                    | Lightweight log Processor and Forwarder                           |
 | [FluentD](https://www.fluentd.org/)                               | -                                                    | Log Processor and Forwarder                                       |
 | [ElasticSearch](https://www.elastic.co/products/elasticsearch)    | <https://elasticsearch.log.intra.k8s.test>           | Distributed, RESTful search and analytics engine                  |
@@ -360,6 +363,10 @@ Default Kubernetes dashboards are already created, based on [Kube Prometheus](ht
 
 You can use the default admin account : `admin_local` / `Passw0rd`.
 Or the regular account : `user_ldap` / `Passw0rd`.
+
+### Loki
+
+Loki is deployed in the cluster to store logs.
 
 ### Fluent Bit
 

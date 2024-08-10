@@ -1,0 +1,11 @@
+# Source: loki/templates/loki-canary/daemonset.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: loki-canary
+  namespace: logging-loki
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+      - name: docker-config

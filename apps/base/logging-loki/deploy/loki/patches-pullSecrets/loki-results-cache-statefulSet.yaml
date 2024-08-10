@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: loki-results-cache
+  namespace: logging-loki
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+      - name: docker-config

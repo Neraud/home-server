@@ -62,6 +62,7 @@ The following services are deployed :
 | [Prometheus](https://prometheus.io/)                           | Monitoring solution                                             |
 | [AlertManager](https://github.com/prometheus/alertmanager)     | Alert manager for Prometheus                                    |
 | [Grafana](https://grafana.com/)                                | Platform for beautiful analytics and monitoring                 |
+| [Loki](https://grafana.com/oss/loki/)                          | Log aggregation system                                          |
 | [Fluent Bit](https://fluentbit.io/)                            | Lightweight log Processor and Forwarder                         |
 | [FluentD](https://www.fluentd.org/)                            | Log Processor and Forwarder                                     |
 | [OpenSearch](https://opensearch.org/)                          | Distributed, RESTful search and analytics engine                |

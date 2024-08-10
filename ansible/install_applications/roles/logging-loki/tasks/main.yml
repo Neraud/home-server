@@ -1,0 +1,6 @@
+---
+
+- name: Build and deploy logging-loki
+  ansible.builtin.import_tasks: ../../app_base/tasks/build-and-deploy.yml
+  vars:
+    app_name: logging-loki

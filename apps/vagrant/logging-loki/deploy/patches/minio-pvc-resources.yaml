@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio
+spec:
+  storageClassName: longhorn-low-durability
+  resources:
+    requests:
+      storage: "1Gi"

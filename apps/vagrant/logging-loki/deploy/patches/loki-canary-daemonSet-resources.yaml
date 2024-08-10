@@ -1,0 +1,18 @@
+# Source: loki/templates/loki-canary/daemonset.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: loki-canary
+  namespace: logging-loki
+spec:
+  template:
+    spec:
+      containers:
+        - name: loki-canary
+          resources:
+            requests:
+              cpu: "20m"
+              memory: "64Mi"
+            limits:
+              cpu: "75m"
+              memory: "64Mi"
