@@ -29,6 +29,7 @@ spec:
           - "-c"
           - |
             mkdir -p /mysql-data/mysql
+            mkdir -p /mysql-data/mysql-files
         securityContext:
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
@@ -70,6 +71,9 @@ spec:
         - name: mysql-data
           mountPath: /var/lib/mysql
           subPath: mysql
+        - name: mysql-data
+          mountPath: /var/lib/mysql-files
+          subPath: mysql-files
         - name: tmp-volume
           mountPath: /tmp
         - name: run-volume

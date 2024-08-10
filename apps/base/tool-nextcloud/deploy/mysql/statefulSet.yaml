@@ -15,11 +15,30 @@ spec:
     spec:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000 # random uid
-        fsGroup: 1000
+        runAsUser: 999 # mysql
+        fsGroup: 999
         fsGroupChangePolicy: "OnRootMismatch"
         seccompProfile:
           type: RuntimeDefault
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/homeassistant-mysql:8.0.37-debian"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /mysql-data/mysql
+            mkdir -p /mysql-data/mysql-files
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /mysql-data
       containers:
       - name: mysql
         image: "registry.lan/nextcloud-mysql:8.0.37-debian"
@@ -56,6 +75,9 @@ spec:
         - name: mysql-data
           mountPath: /var/lib/mysql
           subPath: mysql
+        - name: mysql-data
+          mountPath: /var/lib/mysql-files
+          subPath: mysql-files
         - name: tmp-volume
           mountPath: /tmp
         - name: run-volume
