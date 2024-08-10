@@ -1,1 +1,1 @@
-FROM docker.io/jimmidyson/configmap-reload:v0.5.0
+FROM ghcr.io/jimmidyson/configmap-reload:v0.13.1
