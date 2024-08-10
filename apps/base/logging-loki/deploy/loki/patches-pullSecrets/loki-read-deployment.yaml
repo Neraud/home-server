@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loki-read
+  namespace: logging-loki
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+      - name: docker-config

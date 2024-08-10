@@ -1,0 +1,1 @@
+FROM docker.io/grafana/loki:3.1.0

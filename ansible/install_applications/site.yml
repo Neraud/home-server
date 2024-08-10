@@ -47,6 +47,8 @@
     - { role: logging-fluentbit,                 tags: kubernetes-app-logging-fluentbit,                 when: fluentbit_enabled | bool }
     - { role: logging-fluentd,                   tags: kubernetes-app-logging-fluentd,                   when: fluentd_enabled | bool }
     - { role: logging-kibana,                    tags: kubernetes-app-logging-kibana,                    when: kibana_enabled | bool }
+    - { role: logging-loki,                      tags: kubernetes-app-logging-loki,                      when: loki_enabled | bool }
+    - { role: logging-promtail,                  tags: kubernetes-app-logging-loki,                      when: promtail_enabled | bool }
     - { role: monitoring-apcups-exporter,        tags: kubernetes-app-monitoring-apcups-exporter,        when: apcups_exporter_enabled | bool }
     - { role: monitoring-blackbox-exporter,      tags: kubernetes-app-monitoring-blackbox-exporter,      when: blackbox_exporter_enabled | bool }
     - { role: monitoring-crowdsec-external,      tags: kubernetes-app-monitoring-crowdsec-external,      when: crowdsec_external_enabled | bool }

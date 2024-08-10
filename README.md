@@ -44,49 +44,51 @@ To test this cluster, take a look at the [Vagrant page](docs/Vagrant.md).
 
 The following services are deployed :
 
-| Service                                                        | Description                                                     |
-| -------------------------------------------------------------- | --------------------------------------------------------------- |
-| [OpenLDAP](https://www.openldap.org/)                          | Open source Lightweight Directory Access Protocol               |
-| [LemonDAP](https://lemonldap-ng.org/welcome/)                  | Web Single Sign On and Access Management Free Software          |
-| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)           | Web-based LDAP browser                                          |
-| [Gitea](https://gitea.io/)                                     | Painless self-hosted Git service                                |
-| [MinIO](https://www.crowdsec.net/)                             | S3 compatible object store                                      |
-| [Argo Events](https://www.crowdsec.net/)                       | Event-driven workflow automation framework for Kubernetes       |
-| [Argo Workflows](https://www.crowdsec.net/)                    | Kubernetes-native workflow engine                               |
-| [ArgoCD](https://www.crowdsec.net/)                            | Declarative, GitOps continuous delivery tool for Kubernetes     |
-| [Crowdsec](https://www.crowdsec.net/)                          | Collaborative malicious activity detection and remediation tool |
-| [ZoneMTA](https://github.com/zone-eu/zone-mta)                 | Modern outbound SMTP relay                                      |
-| [MailHog](https://github.com/mailhog/MailHog)                  | MailHog is an email testing tool for developers                 |
-| [Blocky](https://0xerr0r.github.io/blocky/)                    | DNS proxy and ad-blocker for the local network                  |
-| [Ntfy](https://ntfy.sh/)                                       | Send push notifications to your phone or desktop via PUT/POST   |
-| [Prometheus](https://prometheus.io/)                           | Monitoring solution                                             |
-| [AlertManager](https://github.com/prometheus/alertmanager)     | Alert manager for Prometheus                                    |
-| [Grafana](https://grafana.com/)                                | Platform for beautiful analytics and monitoring                 |
-| [Fluent Bit](https://fluentbit.io/)                            | Lightweight log Processor and Forwarder                         |
-| [FluentD](https://www.fluentd.org/)                            | Log Processor and Forwarder                                     |
-| [OpenSearch](https://opensearch.org/)                          | Distributed, RESTful search and analytics engine                |
-| [OpenSearch Dashboard](https://opensearch.org/)                | Visualize your Elasticsearch data                               |
-| [Unifi Controller](https://unifi-sdn.ubnt.com/)                | Controller for Unifi devices                                    |
-| [HomeAssistant](https://www.home-assistant.io/)                | Home automation                                                 |
-| [ESPHome](https://esphome.io/index.html)                       | System to control your ESP8266/ESP32                            |
-| [Z-Wave JS UI](https://zwave-js.github.io/zwave-js-ui/)        | Fully configurable Zwave Gateway and Control Panel              |
-| [Frigate](https://blakeblackshear.github.io/frigate/)          | Local NVR designed for Home Assistant with AI object detection  |
-| [Node-RED](https://nodered.org/)                               | Flow-based programming for the IoT                              |
-| [Mosquitto](https://mosquitto.org/)                            | MQTT broker                                                     |
-| [RoomAssistant](https://github.com/mKeRix/room-assistant)      | Presence tracking                                               |
-| [Homepage](https://gethomepage.dev/)                           | A highly customizable homepage with service API integrations    |
-| [Miniflux](https://miniflux.app/)                              | Miniflux is a minimalist and opinionated feed reader            |
-| [Reminiflux](https://github.com/reminiflux/reminiflux)         | Alternative web frontend for miniflux                           |
-| [Nextcloud](https://nextcloud.com/)                            | The self-hosted productivity platform that keeps you in control |
-| [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx) | Scan & OCR documents                                            |
-| [OliveTin](https://docs.olivetin.app/)                         | Access to predefined shell commands from a web interface.       |
-| [Syncthing](https://syncthing.net/)                            | Continuous file synchronization                                 |
-| [Jellyfin](https://jellyfin.org/)                              | Video streaming                                                 |
-| [Airsonic](https://airsonic.github.io/)                        | Music streaming                                                 |
-| [Sickchill](https://sickchill.github.io/)                      | Automatic Video Library Manager for TV Shows.                   |
-| [Deluge](https://deluge-torrent.org/)                          | Torrent client                                                  |
-| [pyload](https://pyload.net/)                                  | HTTP download manager                                           |
-| [SABnzbd](https://sabnzbd.org/)                                | Binary newsreader                                               |
+| Service                                                              | Description                                                     |
+| -------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [OpenLDAP](https://www.openldap.org/)                                | Open source Lightweight Directory Access Protocol               |
+| [LemonDAP](https://lemonldap-ng.org/welcome/)                        | Web Single Sign On and Access Management Free Software          |
+| [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)                 | Web-based LDAP browser                                          |
+| [Gitea](https://gitea.io/)                                           | Painless self-hosted Git service                                |
+| [MinIO](https://www.crowdsec.net/)                                   | S3 compatible object store                                      |
+| [Argo Events](https://www.crowdsec.net/)                             | Event-driven workflow automation framework for Kubernetes       |
+| [Argo Workflows](https://www.crowdsec.net/)                          | Kubernetes-native workflow engine                               |
+| [ArgoCD](https://www.crowdsec.net/)                                  | Declarative, GitOps continuous delivery tool for Kubernetes     |
+| [Crowdsec](https://www.crowdsec.net/)                                | Collaborative malicious activity detection and remediation tool |
+| [ZoneMTA](https://github.com/zone-eu/zone-mta)                       | Modern outbound SMTP relay                                      |
+| [MailHog](https://github.com/mailhog/MailHog)                        | MailHog is an email testing tool for developers                 |
+| [Blocky](https://0xerr0r.github.io/blocky/)                          | DNS proxy and ad-blocker for the local network                  |
+| [Ntfy](https://ntfy.sh/)                                             | Send push notifications to your phone or desktop via PUT/POST   |
+| [Prometheus](https://prometheus.io/)                                 | Monitoring solution                                             |
+| [AlertManager](https://github.com/prometheus/alertmanager)           | Alert manager for Prometheus                                    |
+| [Grafana](https://grafana.com/)                                      | Platform for beautiful analytics and monitoring                 |
+| [Loki](https://grafana.com/oss/loki/)                                | Log aggregation system                                          |
+| [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) | Log shipper                                                     |
+| [Fluent Bit](https://fluentbit.io/)                                  | Lightweight log Processor and Forwarder                         |
+| [FluentD](https://www.fluentd.org/)                                  | Log Processor and Forwarder                                     |
+| [OpenSearch](https://opensearch.org/)                                | Distributed, RESTful search and analytics engine                |
+| [OpenSearch Dashboard](https://opensearch.org/)                      | Visualize your Elasticsearch data                               |
+| [Unifi Controller](https://unifi-sdn.ubnt.com/)                      | Controller for Unifi devices                                    |
+| [HomeAssistant](https://www.home-assistant.io/)                      | Home automation                                                 |
+| [ESPHome](https://esphome.io/index.html)                             | System to control your ESP8266/ESP32                            |
+| [Z-Wave JS UI](https://zwave-js.github.io/zwave-js-ui/)              | Fully configurable Zwave Gateway and Control Panel              |
+| [Frigate](https://blakeblackshear.github.io/frigate/)                | Local NVR designed for Home Assistant with AI object detection  |
+| [Node-RED](https://nodered.org/)                                     | Flow-based programming for the IoT                              |
+| [Mosquitto](https://mosquitto.org/)                                  | MQTT broker                                                     |
+| [RoomAssistant](https://github.com/mKeRix/room-assistant)            | Presence tracking                                               |
+| [Homepage](https://gethomepage.dev/)                                 | A highly customizable homepage with service API integrations    |
+| [Miniflux](https://miniflux.app/)                                    | Miniflux is a minimalist and opinionated feed reader            |
+| [Reminiflux](https://github.com/reminiflux/reminiflux)               | Alternative web frontend for miniflux                           |
+| [Nextcloud](https://nextcloud.com/)                                  | The self-hosted productivity platform that keeps you in control |
+| [PaperlessNGX](https://github.com/paperless-ngx/paperless-ngx)       | Scan & OCR documents                                            |
+| [OliveTin](https://docs.olivetin.app/)                               | Access to predefined shell commands from a web interface.       |
+| [Syncthing](https://syncthing.net/)                                  | Continuous file synchronization                                 |
+| [Jellyfin](https://jellyfin.org/)                                    | Video streaming                                                 |
+| [Airsonic](https://airsonic.github.io/)                              | Music streaming                                                 |
+| [Sickchill](https://sickchill.github.io/)                            | Automatic Video Library Manager for TV Shows.                   |
+| [Deluge](https://deluge-torrent.org/)                                | Torrent client                                                  |
+| [pyload](https://pyload.net/)                                        | HTTP download manager                                           |
+| [SABnzbd](https://sabnzbd.org/)                                      | Binary newsreader                                               |
 
 ## DevOps
 

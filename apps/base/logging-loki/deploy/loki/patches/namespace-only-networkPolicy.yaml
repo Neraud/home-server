@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: loki-namespace-only
+  namespace: logging-loki
+spec:
+  # The default NetworkPolicy doesn't include a podSelector, so it also selects MinIO pods
+  # However, other NetworkPolicies do, so for example MinIO can't use DNS
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/instance: loki

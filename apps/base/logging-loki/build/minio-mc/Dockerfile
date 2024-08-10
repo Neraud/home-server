@@ -1,0 +1,1 @@
+FROM quay.io/minio/mc:RELEASE.2024-04-18T16-45-29Z

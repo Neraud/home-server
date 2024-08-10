@@ -1,0 +1,140 @@
+global:
+  # -- Allow parent charts to override registry hostname
+  imageRegistry: registry.lan
+  # -- Allow parent charts to override registry credentials
+  imagePullSecrets:
+  - name: docker-config
+
+
+daemonset:
+  # -- Deploys Promtail as a DaemonSet
+  enabled: true
+
+service:
+  enabled: false
+  # -- Labels for the service
+  labels: {}
+  # -- Annotations for the service
+  annotations: {}
+
+configmap:
+  # -- If enabled, promtail config will be created as a ConfigMap instead of a secret
+  enabled: true
+
+image:
+  # -- Docker image repository
+  repository: promtail
+
+# -- Resource requests and limits
+resources: {}
+#  limits:
+#    cpu: 200m
+#    memory: 128Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
+
+# -- The security context for pods
+podSecurityContext:
+  runAsUser: 0
+  runAsGroup: 0
+  supplementalGroups:
+    - 4 # adm group, to read nginx logs
+
+# -- Default volumes that are mounted into pods. In most cases, these should not be changed.
+# Use `extraVolumes`/`extraVolumeMounts` for additional custom volumes.
+# @default -- See `values.yaml`
+defaultVolumes:
+  - name: run
+    hostPath:
+      path: /run/promtail
+  - name: containers
+    hostPath:
+      path: /var/lib/docker/containers
+  - name: pods
+    hostPath:
+      path: /var/log/pods
+
+# -- Default volume mounts. Corresponds to `volumes`.
+# @default -- See `values.yaml`
+defaultVolumeMounts:
+  - name: run
+    mountPath: /run/promtail
+  - name: containers
+    mountPath: /var/lib/docker/containers
+    readOnly: true
+  - name: pods
+    mountPath: /var/log/pods
+    readOnly: true
+
+# Extra volumes to be added in addition to those specified under `defaultVolumes`.
+extraVolumes:
+  - name: node-logs
+    hostPath:
+      path: /var/log
+
+# Extra volume mounts together. Corresponds to `extraVolumes`.
+extraVolumeMounts:
+  - name: node-logs
+    mountPath: /var/log/host
+
+# Extra args for the Promtail container.
+extraArgs:
+  - -config.expand-env=true
+# -- Example:
+# -- extraArgs:
+# --   - -client.external-labels=hostname=$(HOSTNAME)
+
+# -- Extra environment variables from secrets or configmaps
+extraEnvFrom:
+  - secretRef:
+      name: promtail-env
+
+# ServiceMonitor configuration
+serviceMonitor:
+  # -- If enabled, ServiceMonitor resources for Prometheus Operator are created
+  enabled: true
+
+# -- Configure additional ports and services. For each configured port, a corresponding service is created.
+# See values.yaml for details
+extraPorts: {}
+#  syslog:
+#    name: tcp-syslog
+#    annotations: {}
+#    labels: {}
+#    containerPort: 1514
+#    protocol: TCP
+#    service:
+#      type: ClusterIP
+#      clusterIP: null
+#      port: 1514
+#      externalIPs: []
+#      nodePort: null
+#      loadBalancerIP: null
+#      loadBalancerSourceRanges: []
+#      externalTrafficPolicy: null
+#    ingress:
+#      # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
+#      # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+#      # ingressClassName: nginx
+#      # Values can be templated
+#      annotations: {}
+#        # kubernetes.io/ingress.class: nginx
+#        # kubernetes.io/tls-acme: "true"
+#      paths: "/"
+#      hosts:
+#        - chart-example.local
+#
+#      tls: []
+#      #  - secretName: chart-example-tls
+#      #    hosts:
+#      #      - chart-example.local
+
+# -- Section for crafting Promtails config file. The only directly relevant value is `config.file`
+# which is a templated string that references the other values and snippets below this key.
+# @default -- See `values.yaml`
+config:
+  # -- Enable Promtail config from Helm chart
+  # Set `configmap.enabled: true` and this to `false` to manage your own Promtail config
+  # See default config in `values.yaml`
+  enabled: false

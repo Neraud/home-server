@@ -1,0 +1,208 @@
+---
+# Source: promtail/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: promtail
+  namespace: logging-promtail
+  labels:
+    helm.sh/chart: promtail-6.16.4
+    app.kubernetes.io/name: promtail
+    app.kubernetes.io/instance: promtail
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: promtail/templates/clusterrole.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: promtail
+  labels:
+    helm.sh/chart: promtail-6.16.4
+    app.kubernetes.io/name: promtail
+    app.kubernetes.io/instance: promtail
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+      - nodes/proxy
+      - services
+      - endpoints
+      - pods
+    verbs:
+      - get
+      - watch
+      - list
+---
+# Source: promtail/templates/clusterrolebinding.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: promtail
+  labels:
+    helm.sh/chart: promtail-6.16.4
+    app.kubernetes.io/name: promtail
+    app.kubernetes.io/instance: promtail
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+subjects:
+  - kind: ServiceAccount
+    name: promtail
+    namespace: logging-promtail
+roleRef:
+  kind: ClusterRole
+  name: promtail
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: promtail/templates/service-metrics.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: promtail-metrics
+  namespace: logging-promtail
+  labels:
+    helm.sh/chart: promtail-6.16.4
+    app.kubernetes.io/name: promtail
+    app.kubernetes.io/instance: promtail
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  clusterIP: None
+  ports:
+    - name: http-metrics
+      port: 3101
+      targetPort: http-metrics
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: promtail
+    app.kubernetes.io/instance: promtail
+---
+# Source: promtail/templates/daemonset.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: promtail
+  namespace: logging-promtail
+  labels:
+    helm.sh/chart: promtail-6.16.4
+    app.kubernetes.io/name: promtail
+    app.kubernetes.io/instance: promtail
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: promtail
+      app.kubernetes.io/instance: promtail
+  updateStrategy:
+    {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: promtail
+        app.kubernetes.io/instance: promtail
+      annotations:
+        checksum/config: 2ef0f14afc8ed4b72495a244ef20e42a4bc14afd488033fe94e04c341b97529a
+    spec:
+      serviceAccountName: promtail
+      enableServiceLinks: true
+      imagePullSecrets:
+        - name: docker-config
+      securityContext:
+        runAsGroup: 0
+        runAsUser: 0
+        supplementalGroups:
+        - 4
+      containers:
+        - name: promtail
+          image: "registry.lan/promtail:3.0.0"
+          imagePullPolicy: IfNotPresent
+          args:
+            - "-config.file=/etc/promtail/promtail.yaml"
+            - -config.expand-env=true
+          volumeMounts:
+            - name: config
+              mountPath: /etc/promtail
+            - mountPath: /run/promtail
+              name: run
+            - mountPath: /var/lib/docker/containers
+              name: containers
+              readOnly: true
+            - mountPath: /var/log/pods
+              name: pods
+              readOnly: true
+            - mountPath: /var/log/host
+              name: node-logs
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          envFrom:
+            - secretRef:
+                name: promtail-env
+          ports:
+            - name: http-metrics
+              containerPort: 3101
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: '/ready'
+              port: http-metrics
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
+      volumes:
+        - name: config
+          configMap:
+            name: promtail
+        - hostPath:
+            path: /run/promtail
+          name: run
+        - hostPath:
+            path: /var/lib/docker/containers
+          name: containers
+        - hostPath:
+            path: /var/log/pods
+          name: pods
+        - hostPath:
+            path: /var/log
+          name: node-logs
+---
+# Source: promtail/templates/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: promtail
+  labels:
+    helm.sh/chart: promtail-6.16.4
+    app.kubernetes.io/name: promtail
+    app.kubernetes.io/instance: promtail
+    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: promtail
+      app.kubernetes.io/instance: promtail
+  endpoints:
+    - port: http-metrics
+      scheme: http
