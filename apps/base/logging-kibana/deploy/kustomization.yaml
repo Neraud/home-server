@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: kibana
       app.kubernetes.io/component: kibana
-      app.kubernetes.io/version: 2.14.0
+      app.kubernetes.io/version: 2.16.0
 
 generatorOptions:
  disableNameSuffixHash: true
