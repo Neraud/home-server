@@ -1,4 +1,4 @@
-FROM docker.io/library/node:22.2.0-alpine3.20
+FROM docker.io/library/node:22.6.0-alpine3.20
 
 ARG ZONE_MTA_VERSION=3.9.6
 
