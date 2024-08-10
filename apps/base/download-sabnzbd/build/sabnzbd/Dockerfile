@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.12.3-slim-bookworm AS builder
+FROM docker.io/library/python:3.12.5-slim-bookworm AS builder
 
 # Install build requirements
 RUN apt-get update && \
@@ -19,7 +19,7 @@ RUN mkdir -p /opt/sabnzbd && \
 
 
 
-FROM docker.io/library/python:3.12.3-slim-bookworm
+FROM docker.io/library/python:3.12.5-slim-bookworm
 
 # Install requirements
 # non-free is needed for unrar
