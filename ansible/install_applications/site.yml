@@ -47,8 +47,6 @@
     - { role: logging-fluentbit,                 tags: kubernetes-app-logging-fluentbit,                 when: fluentbit_enabled | bool }
     - { role: logging-fluentd,                   tags: kubernetes-app-logging-fluentd,                   when: fluentd_enabled | bool }
     - { role: logging-kibana,                    tags: kubernetes-app-logging-kibana,                    when: kibana_enabled | bool }
-    - { role: logging-loki,                      tags: kubernetes-app-logging-loki,                      when: loki_enabled | bool }
-    - { role: logging-promtail,                  tags: kubernetes-app-logging-loki,                      when: promtail_enabled | bool }
     - { role: monitoring-apcups-exporter,        tags: kubernetes-app-monitoring-apcups-exporter,        when: apcups_exporter_enabled | bool }
     - { role: monitoring-blackbox-exporter,      tags: kubernetes-app-monitoring-blackbox-exporter,      when: blackbox_exporter_enabled | bool }
     - { role: monitoring-crowdsec-external,      tags: kubernetes-app-monitoring-crowdsec-external,      when: crowdsec_external_enabled | bool }
@@ -62,6 +60,8 @@
     - { role: monitoring-node-exporter,          tags: kubernetes-app-monitoring-node-exporter,          when: node_exporter_enabled | bool }
     - { role: monitoring-prometheus-operator,    tags: kubernetes-app-monitoring-prometheus-operator,    when: prometheus_operator_enabled | bool }
     - { role: monitoring-release-watcher,        tags: kubernetes-app-monitoring-release-watcher,        when: release_watcher_enabled | bool }
+    - { role: logging-loki,                      tags: kubernetes-app-logging-loki,                      when: loki_enabled | bool }
+    - { role: logging-promtail,                  tags: kubernetes-app-logging-loki,                      when: promtail_enabled | bool }
     - { role: stream-airsonic,                   tags: kubernetes-app-stream-airsonic,                   when: airsonic_enabled | bool }
     - { role: stream-jellyfin,                   tags: kubernetes-app-stream-jellyfin,                   when: jellyfin_enabled | bool }
     - { role: tool-homepage,                     tags: kubernetes-app-tool-homepage,                     when: homepage_enabled | bool }
