@@ -8,6 +8,9 @@ creation_rules:
 - path_regex: "datasources/crowdsec_elasticsearch\\.yaml"
   encrypted_regex: "^(basicAuthPassword)$"
   age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
+- path_regex: "datasources/loki\\.yaml"
+  encrypted_regex: "^(basicAuthPassword)$"
+  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
 
 # Default Kubernetes manifest encryption
 - unencrypted_regex: "^(apiVersion|metadata|kind|type)$"

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: logging-loki
+  name: logging-promtail
   namespace: dev-argo-cd
   # Add this finalizer ONLY if you want these to cascade delete.
   #finalizers:
@@ -14,11 +14,11 @@ spec:
   source:
     repoURL: http://gitea.dev-gitea.svc.cluster.local:3000/MyOrg/home-server.git
     targetRevision: develop
-    path: apps/vagrant/logging-loki/deploy
+    path: apps/vagrant/logging-promtail/deploy
   
   destination:
     server: https://kubernetes.default.svc
-    namespace: logging-loki
+    namespace: logging-promtail
 
   syncPolicy:
     syncOptions:

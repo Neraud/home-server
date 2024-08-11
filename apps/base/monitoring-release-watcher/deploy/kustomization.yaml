@@ -59,6 +59,8 @@ configMapGenerator:
   - config/watchers/app-logging-fluentbit.yaml
   - config/watchers/app-logging-fluentd.yaml
   - config/watchers/app-logging-kibana.yaml
+  - config/watchers/app-logging-loki.yaml
+  - config/watchers/app-logging-promtail.yaml
   - config/watchers/app-monitoring-apcups-exporter.yaml
   - config/watchers/app-monitoring-kube-prometheus.yaml
   - config/watchers/app-monitoring-nginx-exporter.yaml
