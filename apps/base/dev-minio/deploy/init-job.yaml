@@ -38,6 +38,34 @@ spec:
         - name: tmp-volume
           emptyDir: {}
 
+      initContainers:
+        - name: wait-for-requirements
+          image: "registry.lan/minio:RELEASE.2024-08-03T04-33-23Z"
+          imagePullPolicy: IfNotPresent
+          command: 
+            - "sh"
+            - "-c"
+            - |
+              echo "Waiting for MinIO"
+              timeout 120s sh -c "while ! curl -s -o /dev/null -m2 http://${MINIO_ENDPOINT}:${MINIO_PORT} ; do echo 'Still waiting ...' ; sleep 5 ; done"
+              ret=$?
+              if [ $ret -eq 0 ] ; then
+                echo "MinIO has started"
+              else
+                echo "FAILED : MinIO isn't available"
+                exit 1
+              fi
+          env:
+            - name: MINIO_ENDPOINT
+              value: minio
+            - name: MINIO_PORT
+              value: "9000"
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       containers:
         - name: minio-make-bucket
           image: "registry.lan/minio-mc:RELEASE.2024-07-31T15-58-33Z"
