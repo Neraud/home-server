@@ -1,0 +1,14 @@
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: calico-node
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+        - name: calico-node
+          env:
+            # Force the correct subnet
+            - name: IP_AUTODETECTION_METHOD
+              value: cidr=192.168.100/24

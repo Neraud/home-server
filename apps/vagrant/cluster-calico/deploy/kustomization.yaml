@@ -3,3 +3,6 @@ kind: Kustomization
 
 resources:
 - ../../../base/cluster-calico/deploy
+
+patches:
+- path: calico-node-daemonSet-env.yaml
