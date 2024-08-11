@@ -2,9 +2,9 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: jacobalberty/unifi
-    tag: v8.1.113
+    tag: v8.3.32
     includes:
       - "^v?[0-9]+\\.[0-9]+\\.[0-9]+$"
     excludes:
       - ^v?[0-7]\.
-      - ^v?8\.[0]\.
+      - ^v?8\.[0-2]\.

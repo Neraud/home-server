@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: zonemta
       app.kubernetes.io/component: redis
-      app.kubernetes.io/version: 7.2.5-alpine3.20
+      app.kubernetes.io/version: 7.4.0-alpine3.20
 
 generatorOptions:
  disableNameSuffixHash: true

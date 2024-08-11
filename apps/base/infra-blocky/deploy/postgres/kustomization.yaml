@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: blocky
       app.kubernetes.io/component: pgsql
       app.kubernetes.io/part-of: blocky
-      app.kubernetes.io/version: 15.7-alpine3.20
+      app.kubernetes.io/version: 15.8-alpine3.20
 
 generatorOptions:
  disableNameSuffixHash: true

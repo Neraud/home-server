@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: mongo
-        image: "registry.lan/zonemta-mongo:7.0.11-jammy"
+        image: "registry.lan/zonemta-mongo:7.0.12-jammy"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:

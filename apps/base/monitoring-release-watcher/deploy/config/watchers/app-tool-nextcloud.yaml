@@ -3,25 +3,25 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/nextcloud
-    tag: 29.0.1-apache
+    tag: 29.0.4-apache
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-apache
     excludes:
       - ^[0-9]\..*
       - ^1[0-9]\..*
       - ^2[0-8]\..*
-      - ^29\.0\.[0]-.*
+      - ^29\.0\.[0-3]-.*
   - name: Nextcloud supercronic
     type: github_release
     repo: aptible/supercronic
-    release: v0.2.29
+    release: v0.2.30
     excludes:
       - .*(alpha|beta|rc).*
       - ^v0\.[0-1]\.
   - name: Nextcloud Calendar
     type: github_release
     repo: nextcloud-releases/calendar
-    release: v4.7.4
+    release: v4.7.15
     excludes:
       - .*(alpha|beta|rc).*
       - ^v[0-3]\..*
@@ -35,7 +35,7 @@ watchers:
   - name: Nextcloud Notes
     type: github_release
     repo: nextcloud/notes
-    release: v4.10.0
+    release: v4.10.1
     excludes:
       - .*(alpha|beta|rc).*
       - ^v[0-3]\..*
@@ -51,7 +51,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/mysql
-    tag: 8.0.37-debian
+    tag: 8.0.39-debian
     includes:
       - ^[0-9]\.[0-9]+\.[0-9]+-debian
     excludes:
@@ -59,24 +59,23 @@ watchers:
       - ^[0-7]\..*
       - ^8\.0\.[0-9]-.*
       - ^8\.0\.[1-2][0-9]-.*
-      - ^8\.0\.3[0-6]-.*
+      - ^8\.0\.3[0-8]-.*
   - name: "Nextcloud Redis"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.2.5-alpine3.20
+    tag: 7.4.0-alpine3.20
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*alpine3\.1[0-9]
       - ^[0-6]\.
-      - ^7\.[0-1]\.
-      - ^7\.2\.[0-4]-
+      - ^7\.[0-3]\.
   - name: "Caldav recurring task scheduler base image"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.12.3-alpine3.20
+    tag: 3.12.5-alpine3.20
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
     excludes:
@@ -84,6 +83,7 @@ watchers:
       - .*-alpine3\.1[0-9]
       - 3\.[0-9]\..*
       - 3\.1[0-1]\..*
+      - 3\.12\.[0-4]\..*
   - name: Caldav recurring task scheduler
     type: github_commit
     repo: Neraud/caldav-recurring-task-scheduler

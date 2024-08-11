@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: kubernetes-replicator
       app.kubernetes.io/component: replicator
-      app.kubernetes.io/version: "v2.9.2"
+      app.kubernetes.io/version: "v2.10.1"
       app.kubernetes.io/part-of: replicator
 
 namespace: cluster-kubernetes-replicator

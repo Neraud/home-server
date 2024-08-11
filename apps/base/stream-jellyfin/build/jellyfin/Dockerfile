@@ -1,4 +1,4 @@
-FROM docker.io/jellyfin/jellyfin:10.9.6
+FROM docker.io/jellyfin/jellyfin:10.9.9
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \
@@ -40,7 +40,7 @@ RUN echo "Install jellyfin-plugin-ldapauth" && \
 
 RUN echo "Install jellyfin-plugin-thetvdb" && \
     mkdir -p "/opt/jellyfin/plugins/TheTVDB" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_13.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_15.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip -d "/opt/jellyfin/plugins/TheTVDB" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip
 

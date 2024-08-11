@@ -1,14 +1,14 @@
-FROM docker.io/library/nextcloud:29.0.1-apache
+FROM docker.io/library/nextcloud:29.0.4-apache
 
 ARG supercronic_repo=aptible/supercronic
-ARG supercronic_version=v0.2.29
-ARG supercronic_sha1sum=cd48d45c4b10f3f0bfdd3a57d054cd05ac96812b
+ARG supercronic_version=v0.2.30
+ARG supercronic_sha1sum=9f27ad28c5c57cd133325b2a66bba69ba2235799
 ARG app_calendar_repo=nextcloud-releases/calendar
-ARG app_calendar_version=v4.7.4
+ARG app_calendar_version=v4.7.15
 ARG app_contacts_repo=nextcloud-releases/contacts
 ARG app_contacts_version=v6.0.0
-ARG app_notes_repo=nextcloud/notes
-ARG app_notes_version=v4.10.0
+ARG app_notes_repo=nextcloud-releases/notes
+ARG app_notes_version=v4.10.1
 ARG app_tasks_repo=nextcloud/tasks
 ARG app_tasks_version=v0.16.0
 
@@ -73,7 +73,7 @@ RUN curl -sL https://github.com/${app_calendar_repo}/releases/download/${app_cal
 RUN curl -sL https://github.com/${app_contacts_repo}/releases/download/${app_contacts_version}/contacts-${app_contacts_version}.tar.gz  | tar xz -C /usr/src/nextcloud/apps/ && \
     chown -R nobody:nogroup /usr/src/nextcloud/apps/contacts
 # Install Notes app
-RUN curl -sL https://github.com/${app_notes_repo}/releases/download/${app_notes_version}/notes.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
+RUN curl -sL https://github.com/${app_notes_repo}/releases/download/${app_notes_version}/notes-${app_notes_version}.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \
     chown -R nobody:nogroup /usr/src/nextcloud/apps/notes
 # Install Tasks app
 RUN curl -sL https://github.com/${app_tasks_repo}/releases/download/${app_tasks_version}/tasks.tar.gz | tar xz -C /usr/src/nextcloud/apps/ && \

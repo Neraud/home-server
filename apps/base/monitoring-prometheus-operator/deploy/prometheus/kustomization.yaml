@@ -8,7 +8,7 @@ labels:
       app.kubernetes.io/component: prometheus
       app.kubernetes.io/instance: k8s
       app.kubernetes.io/part-of: prometheus
-      app.kubernetes.io/version: v2.52.0
+      app.kubernetes.io/version: v2.53.1
 
 resources:
 - serviceAccount.yaml

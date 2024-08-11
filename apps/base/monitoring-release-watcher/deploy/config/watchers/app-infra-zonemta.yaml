@@ -11,19 +11,18 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.2.5-alpine3.20
+    tag: 7.4.0-alpine3.20
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*alpine3\.1[0-9]
       - ^[0-6]\.
-      - ^7\.[0-1]\.
-      - ^7\.2\.[0-4]-
+      - ^7\.[0-3]\.
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/mongo
-    tag: 7.0.11-jammy
+    tag: 7.0.12-jammy
     includes:
       - '[0-9]+\.[0-9]+.[0-9]+-.*'
     excludes:
@@ -32,15 +31,16 @@ watchers:
       - .*-focal$
       - ^[0-6]\..*
       - ^7\.0\.[0-9]-.*
+      - ^7\.0\.1[0-1]-.*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/node
-    tag: 22.2.0-alpine3.20
+    tag: 22.6.0-alpine3.20
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
-      - .*-alpine3.1[0-8]
+      - .*-alpine3.1[0-9]
       - 1[0-9]\..*
       - 2[0-1]\..*
-      - 22\.[0-1]\..*
+      - 22\.[0-5]\..*

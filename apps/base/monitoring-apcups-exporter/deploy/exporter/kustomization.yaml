@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: apcups-exporter
       app.kubernetes.io/component: apcups-exporter
-      app.kubernetes.io/version: 3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.20.0
+      app.kubernetes.io/version: 3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.20.2
 
 resources:
 - networkPolicy.yaml
