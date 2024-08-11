@@ -17,6 +17,7 @@ I tried to keep track of the prices of these parts at the time I bought them.
 | Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.fr/gp/product/B075SG1T3X)                                                               | 44,90  € |
 | RAM      | 2*16 GB DDR4 3200 CL 16 ([Crucial Ballistix BL2K16G32C16S4B](https://www.amazon.fr/gp/product/B083W5ZRJ1))                     | 157,19 € |
 | Storage  | 1 To [WD Blue SN550 NVMe](https://www.rueducommerce.fr/produit/western-digital-wd-blue-sn550-1-to-m-2-pcie-gen3-nvme-98427536) | 109.99 € |
+| NIC      | [DollaTek 2.5G M.2 Adapter](https://www.amazon.fr/dp/B0CXSXPHYH)                                                               | 14.99 €  |
 
 (ordered 2021-08)
 
@@ -29,6 +30,7 @@ I tried to keep track of the prices of these parts at the time I bought them.
 | Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.de/-/en/gp/product/B075SG1T3X/ref=ppx_od_dt_b_asin_title_s00?ie=UTF8&psc=1) | 50,32 €  |
 | RAM      | 2*16 GB DDR4 3200 CL 22 ([GSKILL RipJaws S44-3200C22D-32GRS](https://www.amazon.de/-/en/gp/product/B08HDL6M19))    | 96,05 €  |
 | Storage  | 1 To [WD Blue SN570 NVMe](https://www.amazon.de/-/en/gp/product/B09HKDQ1RN)                                        | 70,49 €  |
+| NIC      | [DollaTek 2.5G M.2 Adapter](https://www.amazon.fr/dp/B0CXSXPHYH)                                                   | 14.99 €  |
 
 (ordered 2022-12)
 
@@ -41,6 +43,7 @@ I tried to keep track of the prices of these parts at the time I bought them.
 | Cooler   | [Noctua NH-L9a-AM4](https://www.amazon.de/-/en/gp/product/B075SG1T3X/ref=ppx_od_dt_b_asin_title_s00?ie=UTF8&psc=1)              | 50,32 €  |
 | RAM      | 2*16 GB DDR4 3200 CL 22 ([GSKILL RipJaws S44-3200C22D-32GRS](https://www.amazon.de/-/en/gp/product/B08HDL6M19))                 | 96,05 €  |
 | Storage  | 1 TB [WD Blue SN570 NVMe](https://www.rueducommerce.fr/p-disque-ssd-nvme-wd-blue-sn570-1-to-western-digital-3363012-18409.html) | 69,89 €  |
+| NIC      | [DollaTek 2.5G M.2 Adapter](https://www.amazon.fr/dp/B0CXSXPHYH)                                                                | 14.99 €  |
 
 (ordered 2022-12)
 
@@ -100,6 +103,7 @@ Synology NAS DS1621+, with 4 Seagate Enterprise Exos X16 12T (ST12000NM001G) and
 | Router            | [UniFi Security Gateway 3P](https://www.amazon.fr/gp/product/B00LV8YZLK)                                      | 118,79€ |
 | Switch            | [UniFi Switch Lite 16 PoE](https://store.ui.com/collections/unifi-network-switching/products/usw-lite-16-poe) | 160€    |
 | Switch            | [UniFi Switch 8 POE-60W](https://www.amazon.fr/gp/product/B004BQCKXO)                                         | 110,72€ |
+| Switch            | [YuanLey 8 Ports 2.5G](https://www.amazon.fr/dp/B0C64X3625)                                                   | 89,99€  |
 | Switches          | a few Netgear G108/[GS108](https://www.amazon.fr/gp/product/B000092RRM)                                       | 30-40€  |
 | Wifi Access Point | [UniFi AP-AC-LR](https://www.amazon.fr/gp/product/B016K5A06C)                                                 | 96,42€  |
 
