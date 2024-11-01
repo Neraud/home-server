@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/crowdsec:v1.6.2-debian"
+        image: "registry.lan/crowdsec:v1.6.3-debian"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -53,7 +53,7 @@ spec:
         - name: lapi-config
           mountPath: /mnt/crowdsec
       - name: fix-permissions
-        image: "registry.lan/crowdsec:v1.6.2-debian"
+        image: "registry.lan/crowdsec:v1.6.3-debian"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -73,7 +73,7 @@ spec:
           mountPath: /tmp
       containers:
       - name: lapi
-        image: "registry.lan/crowdsec:v1.6.2-debian"
+        image: "registry.lan/crowdsec:v1.6.3-debian"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
