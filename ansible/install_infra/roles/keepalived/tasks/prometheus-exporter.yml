@@ -1,7 +1,7 @@
 ---
 - name: Install Keepalived Prometheus Exporter
   ansible.builtin.apt:
-    deb: https://github.com/mehdy/keepalived-exporter/releases/download/v{{ keepalived.exporter.version }}/keepalived-exporter-{{ keepalived.exporter.version }}.linux-amd64.deb
+    deb: https://github.com/mehdy/keepalived-exporter/releases/download/v{{ keepalived.exporter.version }}/keepalived-exporter_{{ keepalived.exporter.version }}_linux_amd64.deb
     state: present
 
 - name: Create systemd service

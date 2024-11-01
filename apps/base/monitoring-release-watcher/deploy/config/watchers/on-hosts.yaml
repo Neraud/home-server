@@ -9,7 +9,7 @@ watchers:
       - ^10\.[0-4]\..*
   - type: github_release
     repo: mehdy/keepalived-exporter
-    release: v1.3.3
+    release: v1.4.0
   - type: github_release
     repo: kubernetes/kubernetes
     release: v1.29.3
