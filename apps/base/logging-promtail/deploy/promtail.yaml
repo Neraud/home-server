@@ -6,11 +6,12 @@ metadata:
   name: promtail
   namespace: logging-promtail
   labels:
-    helm.sh/chart: promtail-6.16.4
+    helm.sh/chart: promtail-6.16.6
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
     app.kubernetes.io/version: "3.0.0"
     app.kubernetes.io/managed-by: Helm
+automountServiceAccountToken: true
 ---
 # Source: promtail/templates/clusterrole.yaml
 kind: ClusterRole
@@ -18,7 +19,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: promtail
   labels:
-    helm.sh/chart: promtail-6.16.4
+    helm.sh/chart: promtail-6.16.6
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
     app.kubernetes.io/version: "3.0.0"
@@ -43,7 +44,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: promtail
   labels:
-    helm.sh/chart: promtail-6.16.4
+    helm.sh/chart: promtail-6.16.6
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
     app.kubernetes.io/version: "3.0.0"
@@ -64,7 +65,7 @@ metadata:
   name: promtail-metrics
   namespace: logging-promtail
   labels:
-    helm.sh/chart: promtail-6.16.4
+    helm.sh/chart: promtail-6.16.6
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
     app.kubernetes.io/version: "3.0.0"
@@ -87,7 +88,7 @@ metadata:
   name: promtail
   namespace: logging-promtail
   labels:
-    helm.sh/chart: promtail-6.16.4
+    helm.sh/chart: promtail-6.16.6
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
     app.kubernetes.io/version: "3.0.0"
@@ -108,6 +109,7 @@ spec:
         checksum/config: 2ef0f14afc8ed4b72495a244ef20e42a4bc14afd488033fe94e04c341b97529a
     spec:
       serviceAccountName: promtail
+      automountServiceAccountToken: true
       enableServiceLinks: true
       imagePullSecrets:
         - name: docker-config
@@ -193,7 +195,7 @@ kind: ServiceMonitor
 metadata:
   name: promtail
   labels:
-    helm.sh/chart: promtail-6.16.4
+    helm.sh/chart: promtail-6.16.6
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
     app.kubernetes.io/version: "3.0.0"
