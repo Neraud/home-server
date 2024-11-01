@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: homeassistant
       app.kubernetes.io/component: homeassistant
-      app.kubernetes.io/version: 2024.8.0-custom
+      app.kubernetes.io/version: 2024.10.4-custom
 
 generatorOptions:
  disableNameSuffixHash: true
