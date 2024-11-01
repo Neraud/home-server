@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: reloader
       app.kubernetes.io/component: reloader
-      app.kubernetes.io/version: v1.0.121
+      app.kubernetes.io/version: v1.1.0
 
 resources:
 - namespace.yaml
@@ -22,6 +22,6 @@ patches:
 - path: patches/deployment.yaml
 
 images:
- - name: ghcr.io/stakater/reloader:v1.0.121
+ - name: ghcr.io/stakater/reloader:v1.1.0
    newName: registry.lan/reloader
-   newTag: v1.0.121
+   newTag: v1.1.0
