@@ -2,11 +2,11 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: koenkk/zigbee2mqtt
-    tag: 1.39.1
+    tag: 1.41.0
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*$
     excludes:
       - ^0\..*
       - ^1\.[0-9]\..*
-      - ^1\.[1-2][0-9]\..*
-      - ^1\.3[0-8]\..*
+      - ^1\.[1-3][0-9]\..*
+      - ^1\.4[0]\..*
