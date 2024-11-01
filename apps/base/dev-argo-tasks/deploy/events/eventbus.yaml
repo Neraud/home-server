@@ -5,7 +5,7 @@ metadata:
 spec:
   # Default jetsteam values can be found with: kubectl --namespace dev-argo-events get configmap argo-events-controller-config -o yaml
   jetstream:
-    version: 2.9.12
+    version: 2.10.10
     replicas: 1
     settings: |
       # https://docs.nats.io/running-a-nats-service/configuration#jetstream
