@@ -6,7 +6,7 @@ logLevel: "INFO"
 
 # Actions (buttons) to show up on the WebUI:
 actions:
--   icon: <img src = "customIcons/blocky.svg" width = "48px" />
+-   icon: <img src = "custom-webui/icons/blocky.svg" width = "48px" />
     shell: curl -s http://blocky-prometheus.infra-blocky:4000/api/blocking/status
     title: Blocky status
 -   arguments:
@@ -14,7 +14,7 @@ actions:
         name: duration
         title: Duration (in minutes)
         type: int
-    icon: <img src = "customIcons/blocky.svg" width = "48px" />
+    icon: <img src = "custom-webui/icons/blocky.svg" width = "48px" />
     shell: curl -s http://blocky-prometheus.infra-blocky:4000/api/blocking/disable?duration={{
         duration }}m
     title: Blocky disable
