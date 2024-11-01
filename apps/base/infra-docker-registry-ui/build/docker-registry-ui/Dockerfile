@@ -1,1 +1,1 @@
-FROM docker.io/quiq/docker-registry-ui:0.9.7
+FROM docker.io/quiq/registry-ui:0.10.3

@@ -1,6 +1,6 @@
 creation_rules:
 - path_regex: "config\\.yml"
-  encrypted_regex: "^(registry_password|event_listener_token)$"
+  encrypted_regex: "^(password|bearer_token)$"
   age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
 
 # Default Kubernetes manifest encryption

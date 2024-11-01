@@ -113,7 +113,7 @@ The following services are deployed :
 | -------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------- |
 | [Longhorn Management UI](https://github.com/longhorn/longhorn-ui)    | <https://longhorn.infra.intra.k8s.test>              | Longhorn Managmeent UI                                            |
 | [Docker Registry](https://docs.docker.com/registry/deploying/)       | -                                                    | Docker Registry                                                   |
-| [Docker Registry UI](https://github.com/Quiq/docker-registry-ui)     | <https://docker-registry-ui.infra.intra.k8s.test>    | Web UI for Docker Registry                                        |
+| [Docker Registry UI](https://github.com/Quiq/registry-ui)            | <https://docker-registry-ui.infra.intra.k8s.test>    | Web UI for Docker Registry                                        |
 | [OpenLDAP](https://www.openldap.org/)                                | -                                                    | Open source Lightweight Directory Access Protocol                 |
 | [LemonDAP](https://lemonldap-ng.org/welcome/)                        | <https://lemonldap.auth.intra.k8s.test/manager.html> | Web Single Sign On and Access Management Free Software            |
 | [phpLDAPadmin](http://phpldapadmin.sourceforge.net/)                 | <https://phpldapadmin.auth.intra.k8s.test/>          | Web-based LDAP browser                                            |
