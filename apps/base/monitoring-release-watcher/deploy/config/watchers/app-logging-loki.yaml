@@ -2,28 +2,28 @@ watchers:
   - name: "Loki Helm Chart"
     type: github_release
     repo: grafana/helm-charts
-    release: helm-loki-6.9.0
+    release: helm-loki-6.18.0
     includes:
       - helm-loki-.*
   - name: "Loki MinIO"
     type: docker_registry
     repo: quay.io
     image: minio/minio
-    tag: RELEASE.2024-08-03T04-33-23Z
+    tag: RELEASE.2024-10-29T16-01-48Z
     includes:
       - ^RELEASE.
     excludes:
       - .*(\.fips|-cpuv1)$
       - ^RELEASE.202[0-3]-
-      - ^RELEASE.2024-0[0-7]-
+      - ^RELEASE.2024-0[0-9]-
   - name: "Loki MinIO MC"
     type: docker_registry
     repo: quay.io
     image: minio/mc
-    tag: RELEASE.2024-07-31T15-58-33Z
+    tag: RELEASE.2024-10-29T15-34-59Z
     includes:
       - ^RELEASE.
     excludes:
       - .*(\.fips|-cpuv1)$
       - ^RELEASE.202[0-3]-
-      - ^RELEASE.2024-0[0-6]-
+      - ^RELEASE.2024-0[0-9]-
