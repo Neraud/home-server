@@ -25,7 +25,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/zigbee2mqtt:1.39.1"
+        image: "registry.lan/zigbee2mqtt:1.41.0"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -48,7 +48,7 @@ spec:
           mountPath: /mount/app
       containers:
       - name: zigbee2mqtt
-        image: "registry.lan/zigbee2mqtt:1.39.1"
+        image: "registry.lan/zigbee2mqtt:1.41.0"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:

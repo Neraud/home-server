@@ -1,1 +1,1 @@
-FROM docker.io/library/eclipse-mosquitto:2.0.18-openssl
+FROM docker.io/library/eclipse-mosquitto:2.0.20-openssl

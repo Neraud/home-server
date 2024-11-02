@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: olivetin
-        image: "registry.lan/olivetin:2024.07.153-amd64-custom"
+        image: "registry.lan/olivetin:2024.10.27-amd64-custom"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 1337
@@ -63,7 +63,7 @@ spec:
           mountPath: /config/images.csv
           subPath: images.csv
         - name: images-volume
-          mountPath: /var/www/olivetin/customIcons
+          mountPath: /config/custom-webui/icons
       volumes:
       - name: cluster-config
         configMap:

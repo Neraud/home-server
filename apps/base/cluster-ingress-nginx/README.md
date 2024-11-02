@@ -2,7 +2,7 @@
 
 ## Manifest source
 
-`deploy.yaml` is fetched from <https://github.com/kubernetes/ingress-nginx/blob/controller-v1.11.1/deploy/static/provider/baremetal/deploy.yaml>
+`deploy.yaml` is fetched from <https://github.com/kubernetes/ingress-nginx/blob/controller-v1.11.3/deploy/static/provider/baremetal/deploy.yaml>
 
 Remember to delete the jobs before updating:
 

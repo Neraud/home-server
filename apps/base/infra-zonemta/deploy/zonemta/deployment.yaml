@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: wait-for-requirements
-        image: "registry.lan/zonemta-busybox:1.36.1"
+        image: "registry.lan/zonemta-busybox:1.37.0"
         imagePullPolicy: IfNotPresent
         command: 
           - "sh"
@@ -61,7 +61,7 @@ spec:
               - ALL
       containers:
       - name: zonemta
-        image: "registry.lan/zonemta:3.9.6-node-22.6.0-alpine3.20"
+        image: "registry.lan/zonemta:3.10.0-node-23.1.0-alpine3.20"
         imagePullPolicy: IfNotPresent
         env:
         - name: NODE_OPTIONS

@@ -11,4 +11,4 @@ spec:
           env:
             # Force the correct subnet
             - name: IP_AUTODETECTION_METHOD
-              value: cidr=192.168.100/24
+              value: cidr=192.168.100.0/24

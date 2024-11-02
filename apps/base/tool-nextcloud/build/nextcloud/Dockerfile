@@ -1,16 +1,16 @@
-FROM docker.io/library/nextcloud:29.0.4-apache
+FROM docker.io/library/nextcloud:30.0.1-apache
 
 ARG supercronic_repo=aptible/supercronic
-ARG supercronic_version=v0.2.30
-ARG supercronic_sha1sum=9f27ad28c5c57cd133325b2a66bba69ba2235799
+ARG supercronic_version=v0.2.33
+ARG supercronic_sha1sum=71b0d58cc53f6bd72cf2f293e09e294b79c666d8
 ARG app_calendar_repo=nextcloud-releases/calendar
-ARG app_calendar_version=v4.7.15
+ARG app_calendar_version=v5.0.1
 ARG app_contacts_repo=nextcloud-releases/contacts
-ARG app_contacts_version=v6.0.0
+ARG app_contacts_version=v6.1.0
 ARG app_notes_repo=nextcloud-releases/notes
-ARG app_notes_version=v4.10.1
+ARG app_notes_version=v4.11.0
 ARG app_tasks_repo=nextcloud/tasks
-ARG app_tasks_version=v0.16.0
+ARG app_tasks_version=v0.16.1
 
 # See https://github.com/nextcloud/docker/blob/master/.examples/dockerfiles/cron/apache/Dockerfile
 # Install supervisor

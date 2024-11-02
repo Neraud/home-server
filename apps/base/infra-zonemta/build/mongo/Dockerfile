@@ -1,1 +1,1 @@
-FROM docker.io/library/mongo:7.0.12-jammy
+FROM docker.io/library/mongo:8.0.3-noble

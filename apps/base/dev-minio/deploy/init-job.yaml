@@ -40,7 +40,7 @@ spec:
 
       initContainers:
         - name: wait-for-requirements
-          image: "registry.lan/minio:RELEASE.2024-08-03T04-33-23Z"
+          image: "registry.lan/minio:RELEASE.2024-10-29T16-01-48Z"
           imagePullPolicy: IfNotPresent
           command: 
             - "sh"
@@ -68,7 +68,7 @@ spec:
                 - ALL
       containers:
         - name: minio-make-bucket
-          image: "registry.lan/minio-mc:RELEASE.2024-07-31T15-58-33Z"
+          image: "registry.lan/minio-mc:RELEASE.2024-10-29T15-34-59Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/initialize" ]
           securityContext:
@@ -101,7 +101,7 @@ spec:
               cpu: 200m
               memory: 128Mi
         - name: minio-make-user
-          image: "registry.lan/minio-mc:RELEASE.2024-07-31T15-58-33Z"
+          image: "registry.lan/minio-mc:RELEASE.2024-10-29T15-34-59Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/add-user" ]
           securityContext:
@@ -134,7 +134,7 @@ spec:
               cpu: 200m
               memory: 128Mi
         - name: minio-make-policy
-          image: "registry.lan/minio-mc:RELEASE.2024-07-31T15-58-33Z"
+          image: "registry.lan/minio-mc:RELEASE.2024-10-29T15-34-59Z"
           imagePullPolicy: IfNotPresent
           command: [ "/bin/sh", "/custom/add-policy" ]
           securityContext:
@@ -167,7 +167,7 @@ spec:
               cpu: 200m
               memory: 128Mi
         - name: minio-make-svcacct
-          image: "registry.lan/minio-mc:RELEASE.2024-07-31T15-58-33Z"
+          image: "registry.lan/minio-mc:RELEASE.2024-10-29T15-34-59Z"
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "/custom/add-svcacct"]
           securityContext:

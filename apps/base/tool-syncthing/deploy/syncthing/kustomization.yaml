@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: syncthing
       app.kubernetes.io/component: syncthing
-      app.kubernetes.io/version: 1.27.10
+      app.kubernetes.io/version: 1.28.0
 
 generatorOptions:
  disableNameSuffixHash: true

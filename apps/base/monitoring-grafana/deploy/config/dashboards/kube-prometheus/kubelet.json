@@ -1,5 +1,19 @@
 {
     "editable": false,
+    "links": [
+        {
+            "asDropdown": true,
+            "includeVars": true,
+            "keepTime": true,
+            "tags": [
+                "infra",
+                "kubernetes"
+            ],
+            "targetBlank": false,
+            "title": "Kubernetes",
+            "type": "dashboards"
+        }
+    ],
     "panels": [
         {
             "datasource": {
@@ -22,7 +36,7 @@
             "options": {
                 "colorMode": "none"
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -57,7 +71,7 @@
             "options": {
                 "colorMode": "none"
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -92,7 +106,7 @@
             "options": {
                 "colorMode": "none"
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -127,7 +141,7 @@
             "options": {
                 "colorMode": "none"
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -162,7 +176,7 @@
             "options": {
                 "colorMode": "none"
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -197,7 +211,7 @@
             "options": {
                 "colorMode": "none"
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -248,7 +262,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -299,7 +313,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -350,7 +364,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -401,7 +415,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -460,7 +474,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -519,7 +533,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -570,7 +584,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -621,7 +635,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -672,7 +686,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -723,7 +737,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -774,7 +788,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -825,7 +839,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -876,7 +890,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -927,7 +941,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -1002,7 +1016,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -1053,7 +1067,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -1104,7 +1118,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -1155,7 +1169,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {

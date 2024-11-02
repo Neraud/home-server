@@ -1,7 +1,7 @@
 ---
 common:
   box_name: debian/bookworm64
-  box_version: 12.20230723.1
+  box_version: 12.20240905.1
   # Name of the storage controller to add the DATA disk.
   # To find the exact name, start the box a first time and look at the storage settings in VirtualBox
   sata_controller_name: "SATA Controller"

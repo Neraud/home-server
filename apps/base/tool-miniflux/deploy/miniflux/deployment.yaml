@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: wait-for-requirements
-        image: "registry.lan/miniflux-busybox:1.36.1"
+        image: "registry.lan/miniflux-busybox:1.37.0"
         imagePullPolicy: IfNotPresent
         command: 
         - "sh"
@@ -50,7 +50,7 @@ spec:
               - ALL
       containers:
       - name: miniflux
-        image: "registry.lan/miniflux:2.1.4-distroless"
+        image: "registry.lan/miniflux:2.2.2-distroless"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:

@@ -1,15 +1,15 @@
 watchers:
   - type: pypi
     package: ansible
-    version: 10.2.0
+    version: 10.5.0
     excludes: 
       - .*[ab][1-9]$
       - .*rc[1-9]$
       - ^[0-9]\..*
-      - ^10\.[0-1]\..*
+      - ^10\.[0-4]\..*
   - type: github_release
     repo: mehdy/keepalived-exporter
-    release: v1.3.3
+    release: v1.4.0
   - type: github_release
     repo: kubernetes/kubernetes
     release: v1.29.3
@@ -46,7 +46,7 @@ watchers:
       - v4\.[0-2]\..*
   - type: github_release
     repo: restic/restic
-    release: v0.17.0
+    release: v0.17.2
   - type: github_release
     repo: rclone/rclone
-    release: v1.67.0
+    release: v1.68.1
