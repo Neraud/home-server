@@ -1,5 +1,19 @@
 {
     "editable": false,
+    "links": [
+        {
+            "asDropdown": true,
+            "includeVars": true,
+            "keepTime": true,
+            "tags": [
+                "infra",
+                "kubernetes"
+            ],
+            "targetBlank": false,
+            "title": "Kubernetes",
+            "type": "dashboards"
+        }
+    ],
     "panels": [
         {
             "datasource": {
@@ -40,7 +54,7 @@
                 "y": 0
             },
             "id": 1,
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -93,7 +107,7 @@
                 "y": 0
             },
             "id": 2,
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -139,7 +153,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -185,7 +199,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -231,7 +245,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -277,7 +291,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -323,7 +337,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {
@@ -369,7 +383,7 @@
                     "mode": "single"
                 }
             },
-            "pluginVersion": "v11.0.0",
+            "pluginVersion": "v11.1.0",
             "targets": [
                 {
                     "datasource": {

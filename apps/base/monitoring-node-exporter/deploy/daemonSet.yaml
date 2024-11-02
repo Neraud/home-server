@@ -75,7 +75,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: registry.lan/node-exporter-kube-rbac-proxy:v0.18.0
+        image: registry.lan/node-exporter-kube-rbac-proxy:v0.18.1
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy
         ports:
