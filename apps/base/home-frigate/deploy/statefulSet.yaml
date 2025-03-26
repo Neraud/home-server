@@ -21,99 +21,99 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       initContainers:
-      - name: create-folders
-        image: "registry.lan/frigate:0.14.1"
-        imagePullPolicy: IfNotPresent
-        command:
-          - "sh"
-          - "-c"
-          - |
-            mkdir -p /frigate-config/config
-            cp /config/config_base.yml /frigate-config/config/config_base.yml
-            if [ -f /frigate-config/config/config.yml ] ; then
-              echo "Config already exists, not overwritting, it may be obsolete !"
-            else
-              echo "Init config from base"
-              cp /frigate-config/config/config_base.yml /frigate-config/config/config.yml
-            fi
-        volumeMounts:
-        - name: frigate-data
-          mountPath: /frigate-config
-        - name: frigate-config
-          mountPath: /config/config_base.yml
-          subPath: config_base.yml
+        - name: create-folders
+          image: "registry.lan/frigate:0.15.0"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "sh"
+            - "-c"
+            - |
+              mkdir -p /frigate-config/config
+              cp /config/config_base.yml /frigate-config/config/config_base.yml
+              if [ -f /frigate-config/config/config.yml ] ; then
+                echo "Config already exists, not overwritting, it may be obsolete !"
+              else
+                echo "Init config from base"
+                cp /frigate-config/config/config_base.yml /frigate-config/config/config.yml
+              fi
+          volumeMounts:
+            - name: frigate-data
+              mountPath: /frigate-config
+            - name: frigate-config
+              mountPath: /config/config_base.yml
+              subPath: config_base.yml
       containers:
-      - name: frigate
-        image: "registry.lan/frigate:0.14.1"
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 5000
-          name: http
-        - containerPort: 1935
-          name: rtmp
-        envFrom:
-          - secretRef:
-              name: frigate-env
-        
-        securityContext:
-          #readOnlyRootFilesystem: true
-          # To mount USB :
-          #privileged: true
-        readinessProbe:
-          httpGet:
-            scheme: HTTP
-            path: /
-            port: http
-        resources:
-          requests:
-            cpu: 100m
-            memory: 384Mi
-          limits:
-            cpu: 250m
-            memory: 384Mi
-            # To use a gpu limit
-            #gpu.intel.com/i915: 1
-        volumeMounts:
-        - name: cluster-config
-          mountPath: /etc/localtime
-          subPath: localtime
-          readOnly: true
-        - name: frigate-data
-          mountPath: /config
-          subPath: config
-        - name: frigate-media
-          mountPath: /media
-        - name: tmp-volume
-          mountPath: /tmp
-        # To mount USB :
-        #- mountPath: /dev/bus/usb
-        #  name: usb
-        - name: dshm
-          mountPath: /dev/shm
+        - name: frigate
+          image: "registry.lan/frigate:0.15.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+              name: http
+            - containerPort: 1935
+              name: rtmp
+          envFrom:
+            - secretRef:
+                name: frigate-env
+
+          securityContext:
+            #readOnlyRootFilesystem: true
+            # To mount USB :
+            #privileged: true
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: http
+          resources:
+            requests:
+              cpu: 100m
+              memory: 384Mi
+            limits:
+              cpu: 250m
+              memory: 384Mi
+              # To use a gpu limit
+              #gpu.intel.com/i915: 1
+          volumeMounts:
+            - name: cluster-config
+              mountPath: /etc/localtime
+              subPath: localtime
+              readOnly: true
+            - name: frigate-data
+              mountPath: /config
+              subPath: config
+            - name: frigate-media
+              mountPath: /media
+            - name: tmp-volume
+              mountPath: /tmp
+            # To mount USB :
+            #- mountPath: /dev/bus/usb
+            #  name: usb
+            - name: dshm
+              mountPath: /dev/shm
       volumes:
-      - name: cluster-config
-        configMap:
-          name: cluster-config
-      - name: frigate-data
-        persistentVolumeClaim:
-          claimName: frigate-data
-      - name: frigate-config
-        configMap:
-          name: frigate-config
-      - name: frigate-media
-        persistentVolumeClaim:
-          claimName: nfs-nvr
-      - name: tmp-volume
-        emptyDir: {}
-      # To mount USB :
-      #- name: usb
-      #  hostPath:
-      #    path: /dev/bus/usb
-      - name: dshm
-        emptyDir:
-          medium: Memory
-          sizeLimit: 64Mi
+        - name: cluster-config
+          configMap:
+            name: cluster-config
+        - name: frigate-data
+          persistentVolumeClaim:
+            claimName: frigate-data
+        - name: frigate-config
+          configMap:
+            name: frigate-config
+        - name: frigate-media
+          persistentVolumeClaim:
+            claimName: nfs-nvr
+        - name: tmp-volume
+          emptyDir: {}
+        # To mount USB :
+        #- name: usb
+        #  hostPath:
+        #    path: /dev/bus/usb
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi
       imagePullSecrets:
-      - name: docker-config
+        - name: docker-config
       nodeSelector:
-        capability/general-purpose: 'yes'
+        capability/general-purpose: "yes"
