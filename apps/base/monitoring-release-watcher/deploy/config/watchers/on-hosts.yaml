@@ -32,12 +32,12 @@ watchers:
     excludes:
       - .*(alpha|beta|rc).*
   - type: github_release
-    repo: mozilla/sops
-    release: v3.9.0
+    repo: getsops/sops
+    release: v3.9.4
     excludes:
       - .*(alpha|beta|rc).*
       - v[0-2]\..*
-      - v3\.[0-7]\..*
+      - v3\.[0-8]\..*
   - type: github_release
     repo: viaduct-ai/kustomize-sops
     release: v4.3.2
