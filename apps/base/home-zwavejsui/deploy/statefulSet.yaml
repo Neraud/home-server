@@ -25,7 +25,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/zwave-js-ui:9.26.0"
+        image: "registry.lan/zwave-js-ui:10.1.3"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -47,7 +47,7 @@ spec:
           mountPath: /opt/zwavejsui
       containers:
       - name: zwavejsui
-        image: "registry.lan/zwave-js-ui:9.26.0"
+        image: "registry.lan/zwave-js-ui:10.1.3"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
