@@ -1,1 +1,1 @@
-FROM ghcr.io/0xerr0r/blocky:v0.24
+FROM ghcr.io/0xerr0r/blocky:v0.25
