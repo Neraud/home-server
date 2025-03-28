@@ -1,4 +1,4 @@
-FROM docker.io/coudot/lemonldap-ng:2.20.0
+FROM docker.io/lemonldapng/lemonldap-ng:2.20.2
 
 # Copy plugins
 COPY LoginFailedHeaderPlugin.pm /usr/share/perl5/Lemonldap/NG/Portal/
