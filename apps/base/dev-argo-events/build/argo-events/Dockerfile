@@ -1,1 +1,1 @@
-FROM quay.io/argoproj/argo-events:v1.9.2
+FROM quay.io/argoproj/argo-events:v1.9.5
