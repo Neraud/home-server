@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.13.0-alpine3.20
+FROM docker.io/library/python:3.13.2-alpine3.21
 
 RUN apk --no-cache add \
     bash \
