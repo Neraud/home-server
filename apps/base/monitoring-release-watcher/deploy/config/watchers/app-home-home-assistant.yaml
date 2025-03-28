@@ -19,10 +19,10 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/mysql
-    tag: 8.4.4-oraclelinux9
+    tag: 9.2.0-oraclelinux9
     includes:
       - ^[0-9]\.[0-9]+\.[0-9]+-oraclelinux.+
     excludes:
       - .*rc.*
-      - ^[0-7]\..*
-      - ^8\.[0-3]\..*
+      - ^[0-8]\..*
+      - ^9\.[0-1]\..*

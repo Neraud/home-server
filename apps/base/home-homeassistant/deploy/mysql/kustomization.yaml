@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: homeassistant
       app.kubernetes.io/component: mysql
-      app.kubernetes.io/version: 8.4.4-oraclelinux9
+      app.kubernetes.io/version: 9.2.0-oraclelinux9
 
 secretGenerator:
 - name: mysql-env
