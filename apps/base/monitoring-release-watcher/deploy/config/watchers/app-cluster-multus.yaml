@@ -2,9 +2,8 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: k8snetworkplumbingwg/multus-cni
-    tag: v4.2.0
+    tag: v4.1.3
     includes:
       - "^v[0-9]+\\.[0-9]+\\.[0-9]$"
     excludes:
       - v[0-3]\..*
-      - v4\.[0-1]\..*
