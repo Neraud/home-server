@@ -6,11 +6,7 @@ metadata:
     app.kubernetes.io/name: argo-workflows
     app.kubernetes.io/component: argo-server
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    # To make Server-Sent Events work (see http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering):
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      more_set_headers "X-Accel-Buffering: no";
-    
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"    
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Dev
     gethomepage.dev/name: Argo Workflows
