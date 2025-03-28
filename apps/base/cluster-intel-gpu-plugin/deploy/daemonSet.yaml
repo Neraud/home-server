@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: intel-gpu-plugin
-        image: "registry.lan/intel-gpu-plugin:0.31.1"
+        image: "registry.lan/intel-gpu-plugin:0.32.0"
         imagePullPolicy: IfNotPresent
         args:
         - "-shared-dev-num=5"
