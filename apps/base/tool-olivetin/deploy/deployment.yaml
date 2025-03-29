@@ -25,53 +25,53 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-      - name: olivetin
-        image: "registry.lan/olivetin:2024.10.27-amd64-custom"
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 1337
-          name: http
-        securityContext:
-          readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
-        readinessProbe:
-          httpGet:
-            scheme: HTTP
-            path: /
-            port: http
-          initialDelaySeconds: 3
-          periodSeconds: 5
-        resources:
-          requests:
-            cpu: 35m
-            memory: 32Mi
-          limits:
-            cpu: 75m
-            memory: 32Mi
-        volumeMounts:
-        - name: cluster-config
-          mountPath: /etc/localtime
-          subPath: localtime
-          readOnly: true
-        - name: olivetin-config
-          mountPath: /config/config.yaml
-          subPath: config.yaml
-        - name: olivetin-config
-          mountPath: /config/images.csv
-          subPath: images.csv
-        - name: images-volume
-          mountPath: /config/custom-webui/icons
+        - name: olivetin
+          image: "registry.lan/olivetin:2025.3.28-amd64-custom"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 1337
+              name: http
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: http
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 35m
+              memory: 32Mi
+            limits:
+              cpu: 75m
+              memory: 32Mi
+          volumeMounts:
+            - name: cluster-config
+              mountPath: /etc/localtime
+              subPath: localtime
+              readOnly: true
+            - name: olivetin-config
+              mountPath: /config/config.yaml
+              subPath: config.yaml
+            - name: olivetin-config
+              mountPath: /config/images.csv
+              subPath: images.csv
+            - name: images-volume
+              mountPath: /config/custom-webui/icons
       volumes:
-      - name: cluster-config
-        configMap:
-          name: cluster-config
-      - name: olivetin-config
-        configMap:
-          name: olivetin-config
-      - name: images-volume
-        emptyDir: {}
+        - name: cluster-config
+          configMap:
+            name: cluster-config
+        - name: olivetin-config
+          configMap:
+            name: olivetin-config
+        - name: images-volume
+          emptyDir: {}
       nodeSelector:
-        capability/general-purpose: 'yes'
+        capability/general-purpose: "yes"

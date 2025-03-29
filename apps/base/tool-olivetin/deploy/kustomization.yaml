@@ -8,21 +8,21 @@ labels:
     pairs:
       app.kubernetes.io/name: olivetin
       app.kubernetes.io/component: olivetin
-      app.kubernetes.io/version: 2024.10.27-amd64-custom
+      app.kubernetes.io/version: 2025.3.28-amd64-custom
 
 generatorOptions:
- disableNameSuffixHash: true
+  disableNameSuffixHash: true
 
 configMapGenerator:
-- name: olivetin-config
-  files:
-  - config/config.yaml
-  - config/images.csv
+  - name: olivetin-config
+    files:
+      - config/config.yaml
+      - config/images.csv
 
 resources:
-- namespace.yaml
-- ../../_common/deploy
-- ingress.yaml
-- networkPolicy.yaml
-- service.yaml
-- deployment.yaml
+  - namespace.yaml
+  - ../../_common/deploy
+  - ingress.yaml
+  - networkPolicy.yaml
+  - service.yaml
+  - deployment.yaml

@@ -1,4 +1,4 @@
-FROM ghcr.io/olivetin/olivetin:2024.10.27-amd64
+FROM ghcr.io/olivetin/olivetin:2025.3.28-amd64
 
 USER root
 
