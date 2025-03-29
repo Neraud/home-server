@@ -27,6 +27,7 @@ patches:
 - path: patches-pullSecrets/loki-read-deployment.yaml
 - path: patches-pullSecrets/loki-results-cache-statefulSet.yaml
 - path: patches-pullSecrets/loki-write-statefulSet.yaml
+- path: patches/ingress-gateway-annotations.yaml
 - path: patches/loki-results-cache-statefulSet-securityContext.yaml
 - path: patches/loki-chunks-cache-statefulSet-securityContext.yaml
 - path: patches/namespace-only-networkPolicy.yaml
