@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lemonldap
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: lemonldap
+        readinessProbe:
+          httpGet:
+            httpHeaders:
+            # Use portal hostname to avoid spamming manager-api errors
+            - name: Host
+              value: "lemonldap.auth.k8s.test"

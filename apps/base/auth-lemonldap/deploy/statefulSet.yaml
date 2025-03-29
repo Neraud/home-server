@@ -65,6 +65,10 @@ spec:
             scheme: HTTP
             path: /
             port: http
+            httpHeaders:
+            # Use portal hostname to avoid spamming manager-api errors
+            - name: Host
+              value: "lemonldap.auth.web_domain_name"
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:

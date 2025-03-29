@@ -9,6 +9,7 @@ generators:
 
 patches:
 - path: statefulSet-env.yaml
+- path: statefulSet-probe.yaml
 - path: statefulSet-resources.yaml
 - path: service-handler-ip.yaml
 - path: pvc-resources.yaml
