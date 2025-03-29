@@ -22,7 +22,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: inject-certificates
-        image: "registry.lan/unifi:v8.5.6"
+        image: "registry.lan/unifi:v9.0.114"
         command:
           - "sh"
           - "-c"
@@ -46,7 +46,7 @@ spec:
           subPath: ca.crt
       containers:
       - name: unifi
-        image: "registry.lan/unifi:v8.5.6"
+        image: "registry.lan/unifi:v9.0.114"
         imagePullPolicy: IfNotPresent        
         ports:
         # https://help.ubnt.com/hc/en-us/articles/218506997-UniFi-Ports-Used
