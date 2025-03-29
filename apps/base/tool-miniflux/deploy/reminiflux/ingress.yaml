@@ -9,8 +9,6 @@ metadata:
     gethomepage.dev/description: Alternative web frontend for Miniflux
     gethomepage.dev/icon: miniflux
     gethomepage.dev/pod-selector: "app.kubernetes.io/name=miniflux,app.kubernetes.io/component=reminiflux"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^(/reminiflux)$ $1/ redirect;
 spec:
   ingressClassName: nginx
   tls:
