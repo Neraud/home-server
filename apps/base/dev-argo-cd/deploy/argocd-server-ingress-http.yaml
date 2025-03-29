@@ -10,7 +10,7 @@ metadata:
     gethomepage.dev/group: Dev
     gethomepage.dev/name: Argo CD
     gethomepage.dev/description: Declarative, GitOps continuous delivery tool for Kubernetes
-    gethomepage.dev/icon: arggocd # Typo in https://github.com/walkxcode/dashboard-icons/blob/main/png/arggocd.png
+    gethomepage.dev/icon: argo-cd
     gethomepage.dev/pod-selector: "app.kubernetes.io/part-of: argocd"
 spec:
   ingressClassName: nginx

@@ -11,7 +11,7 @@ metadata:
     gethomepage.dev/group: Dev
     gethomepage.dev/name: Argo Workflows
     gethomepage.dev/description: Open source container-native workflow engine for orchestrating parallel jobs on Kubernetes
-    gethomepage.dev/icon: argocd
+    gethomepage.dev/icon: argo-cd
     gethomepage.dev/pod-selector: "app.kubernetes.io/name: argo-workflows"
 spec:
   ingressClassName: nginx
