@@ -28,12 +28,14 @@ spec:
       automountServiceAccountToken: true
       containers:
       - name: homepage
-        image: "registry.lan/homepage:v0.9.11"
+        image: "registry.lan/homepage:v1.1.1"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
           name: http
         env:
+        - name: HOMEPAGE_ALLOWED_HOSTS
+          value: "*"
         - name: LOG_LEVEL
           value: "debug"
         securityContext:
@@ -72,6 +74,8 @@ spec:
       - name: homepage-config
         secret:
           secretName: homepage-config
+      - name: config-volume
+        emptyDir: {}
       - name: logs-volume
         emptyDir: {}
       imagePullSecrets:
