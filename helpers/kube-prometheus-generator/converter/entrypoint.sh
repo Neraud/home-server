@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-OUT_GENERATED_ROOT=$(pwd)/out
-OUT_CONVERTED_ROOT=$(pwd)/out/converted
+OUT_GENERATED_ROOT=/out
+OUT_CONVERTED_ROOT=/out/converted
 OUT_GENERATED_KUBE_PROMETHEUS_ROOT=${OUT_GENERATED_ROOT}/kube-prometheus
 OUT_TMP_KUBE_PROMETHEUS_ROOT=${OUT_GENERATED_ROOT}/kube-prometheus-tmp
 
