@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: node-exporter
       app.kubernetes.io/component: node-exporter
-      app.kubernetes.io/version: v1.8.2
+      app.kubernetes.io/version: v1.9.0
 
 resources:
 - namespace.yaml
