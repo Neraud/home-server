@@ -14,5 +14,5 @@ RUN echo "Install gojsontoyaml" && \
 RUN mkdir /out
 VOLUME /out
 
-ADD entrypoint.sh /root/entrypoint.sh
-ENTRYPOINT /root/entrypoint.sh
+COPY --chmod=0755 entrypoint.sh /entrypoint.sh
+ENTRYPOINT /entrypoint.sh

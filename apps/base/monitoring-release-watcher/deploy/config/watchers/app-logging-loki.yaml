@@ -9,7 +9,7 @@ watchers:
     type: docker_registry
     repo: quay.io
     image: minio/minio
-    tag: RELEASE.2024-10-29T16-01-48Z
+    tag: RELEASE.2025-03-12T18-04-18Z
     includes:
       - ^RELEASE.
     excludes:
@@ -20,7 +20,7 @@ watchers:
     type: docker_registry
     repo: quay.io
     image: minio/mc
-    tag: RELEASE.2024-10-29T15-34-59Z
+    tag: RELEASE.2025-03-12T17-29-24Z
     includes:
       - ^RELEASE.
     excludes:

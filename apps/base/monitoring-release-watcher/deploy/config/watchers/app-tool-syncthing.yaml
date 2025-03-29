@@ -3,32 +3,33 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: syncthing/syncthing
-    tag: 1.28.0
+    tag: 1.29.3
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - ^1\.[0-9]\.
       - ^1\.1[0-9]\.
-      - ^1\.2[0-7]\.
+      - ^1\.2[0-8]\.
   - name: Syncthing conf injection
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.13.0-alpine3.20
+    tag: 3.13.2-alpine3.21
     includes:
       - 3\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*alpine3\.1[0-9]
+      - .*alpine3\.20
       - ^3\.[0-9]\.
       - ^3\.1[0-2]\.
   - name: Syncthing Discovery
     type: docker_registry
     repo: registry-1.docker.io
     image: syncthing/discosrv
-    tag: 1.28.0
+    tag: 1.29.3
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - ^1\.[0-9]\.
       - ^1\.1[0-9]\.
-      - ^1\.2[0-7]\.
+      - ^1\.2[0-8]\.

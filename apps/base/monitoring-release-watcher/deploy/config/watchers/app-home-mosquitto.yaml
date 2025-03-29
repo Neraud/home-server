@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: library/eclipse-mosquitto
-    tag: 2.0.20-openssl
+    tag: 2.0.21-openssl
     includes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+.*-openssl"
     excludes:

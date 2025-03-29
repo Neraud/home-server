@@ -1,1 +1,1 @@
-FROM docker.io/library/mysql:8.0.40-debian
+FROM docker.io/library/mysql:9.2.0-oraclelinux9

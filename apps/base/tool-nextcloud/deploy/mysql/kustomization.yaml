@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: nextcloud
       app.kubernetes.io/component: mysql
       app.kubernetes.io/part-of: nextcloud
-      app.kubernetes.io/version: 8.0.40-debian
+      app.kubernetes.io/version: 9.2.0-oraclelinux9
 
 generatorOptions:
  disableNameSuffixHash: true

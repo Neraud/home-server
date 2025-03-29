@@ -1,1 +1,1 @@
-FROM quay.io/minio/minio:RELEASE.2024-10-29T16-01-48Z
+FROM quay.io/minio/minio:RELEASE.2025-03-12T18-04-18Z

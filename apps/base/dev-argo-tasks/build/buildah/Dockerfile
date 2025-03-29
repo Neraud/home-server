@@ -1,1 +1,1 @@
-FROM quay.io/containers/buildah:v1.37.0
+FROM quay.io/containers/buildah:v1.39.2

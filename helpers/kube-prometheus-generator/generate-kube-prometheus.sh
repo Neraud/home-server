@@ -1,11 +1,15 @@
 #!/usr/bin/env sh
 
-podman build --tag kube-prometheus-generator .
-podman run --rm -it -v $(pwd)/config.jsonnet:/opt/kube-prometheus/config.jsonnet -v $(pwd)/out:/out kube-prometheus-generator
+mkdir -p out
 
-# Intall convert requirements
-pip3 install pyyaml ruamel.yaml
+# Make sure out is writable
+chmod -R 777 out
 
-# Now that mixins are generated, we "convert" them to the way we store them in our repo.
-# The output has the same folder structure as the target to allow for easy diffs.
-./convert.sh
+podman build --tag kube-prometheus-generator ./generator
+podman run --rm -it -v $(pwd)/generator/config.jsonnet:/opt/kube-prometheus/config.jsonnet -v $(pwd)/out:/out kube-prometheus-generator
+
+podman build --tag kube-prometheus-converter ./converter
+podman run --rm -it -v $(pwd)/out:/out kube-prometheus-converter
+
+# swap out to readonly to avoid changing reference files
+chmod -R 555 out

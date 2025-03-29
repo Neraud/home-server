@@ -50,7 +50,7 @@ spec:
               - ALL
       containers:
       - name: miniflux
-        image: "registry.lan/miniflux:2.2.2-distroless"
+        image: "registry.lan/miniflux:2.2.6-distroless"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:

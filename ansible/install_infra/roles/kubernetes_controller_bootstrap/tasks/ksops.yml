@@ -6,7 +6,7 @@
 
 - name: Install SOPS
   ansible.builtin.apt:
-    deb: https://github.com/mozilla/sops/releases/download/v{{ sops_version }}/sops_{{ sops_version }}_amd64.deb
+    deb: https://github.com/getsops/sops/releases/download/v{{ sops_version }}/sops_{{ sops_version }}_amd64.deb
     state: present
 
 - name: Install ksops

@@ -2,7 +2,7 @@ watchers:
   - name: ZoneMTA
     type: github_tag
     repo: zone-eu/zone-mta
-    tag : v3.10.0
+    tag: v3.10.1
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -11,18 +11,20 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.4.0-alpine3.20
+    tag: 7.4.2-alpine3.21
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*alpine3\.1[0-9]
+      - .*alpine3\.2[0]
       - ^[0-6]\.
       - ^7\.[0-3]\.
+      - ^7\.4\.[0-1]\.
   - name: "ZoneMTA Mongo"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/mongo
-    tag: 8.0.3-noble
+    tag: 8.0.6-noble
     includes:
       - '[0-9]+\.[0-9]+.[0-9]+-.*'
     excludes:
@@ -30,16 +32,17 @@ watchers:
       - .*-(nanoserver|windowsservercore).*$
       - .*-focal$
       - ^[0-7]\..*
-      - ^8\.0\.[0-2]-.*
+      - ^8\.0\.[0-5]-.*
   - name: "ZoneMTA Node"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/node
-    tag: 23.1.0-alpine3.20
+    tag: 23.10.0-alpine3.21
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*-alpine3.1[0-9]
+      - .*-alpine3.2[0]
       - 1[0-9]\..*
       - 2[0-2]\..*
-      - 23\.[0]\..*
+      - 23\.[0-9]\..*

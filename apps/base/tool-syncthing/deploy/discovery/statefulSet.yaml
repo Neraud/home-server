@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: discovery
-        image: "registry.lan/syncthing-discosrv:1.28.0"
+        image: "registry.lan/syncthing-discosrv:1.29.3"
         command: [
           "/bin/entrypoint.sh", 
           "/bin/stdiscosrv", 

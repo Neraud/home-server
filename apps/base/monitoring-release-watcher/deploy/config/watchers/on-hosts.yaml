@@ -1,12 +1,13 @@
 watchers:
   - type: pypi
     package: ansible
-    version: 10.5.0
-    excludes: 
+    version: 11.4.0
+    excludes:
       - .*[ab][1-9]$
       - .*rc[1-9]$
       - ^[0-9]\..*
-      - ^10\.[0-4]\..*
+      - ^10\..*
+      - ^11\.[0-3]\..*
   - type: github_release
     repo: mehdy/keepalived-exporter
     release: v1.4.0
@@ -25,18 +26,18 @@ watchers:
       - v1\.2[0-8]\..*
   - type: github_release
     repo: kubernetes-sigs/kustomize
-    release: kustomize/v5.4.3
+    release: kustomize/v5.6.0
     includes:
       - kustomize/.*
     excludes:
       - .*(alpha|beta|rc).*
   - type: github_release
-    repo: mozilla/sops
-    release: v3.9.0
+    repo: getsops/sops
+    release: v3.9.4
     excludes:
       - .*(alpha|beta|rc).*
       - v[0-2]\..*
-      - v3\.[0-7]\..*
+      - v3\.[0-8]\..*
   - type: github_release
     repo: viaduct-ai/kustomize-sops
     release: v4.3.2
@@ -46,7 +47,7 @@ watchers:
       - v4\.[0-2]\..*
   - type: github_release
     repo: restic/restic
-    release: v0.17.2
+    release: v0.18.0
   - type: github_release
     repo: rclone/rclone
-    release: v1.68.1
+    release: v1.69.1

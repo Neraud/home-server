@@ -8,27 +8,27 @@ labels:
     pairs:
       app.kubernetes.io/name: frigate
       app.kubernetes.io/component: frigate
-      app.kubernetes.io/version: 0.14.1
+      app.kubernetes.io/version: 0.15.0
 
 generatorOptions:
- disableNameSuffixHash: true
+  disableNameSuffixHash: true
 
 configMapGenerator:
-- name: frigate-config
-  files:
-  - config/config_base.yml
+  - name: frigate-config
+    files:
+      - config/config_base.yml
 
 secretGenerator:
-- name: frigate-env
-  env: secret/frigate.env
+  - name: frigate-env
+    env: secret/frigate.env
 
 resources:
-- namespace.yaml
-- ../../_common/deploy
-- nfs-nvr-pv.yaml
-- nfs-nvr-pvc.yaml
-- ingress.yaml
-- networkPolicy.yaml
-- service.yaml
-- pvc.yaml
-- statefulSet.yaml
+  - namespace.yaml
+  - ../../_common/deploy
+  - nfs-nvr-pv.yaml
+  - nfs-nvr-pvc.yaml
+  - ingress.yaml
+  - networkPolicy.yaml
+  - service.yaml
+  - pvc.yaml
+  - statefulSet.yaml

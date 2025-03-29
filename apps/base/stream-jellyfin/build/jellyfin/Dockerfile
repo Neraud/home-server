@@ -1,4 +1,4 @@
-FROM docker.io/jellyfin/jellyfin:10.10.0
+FROM docker.io/jellyfin/jellyfin:10.10.6
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \
@@ -16,13 +16,13 @@ RUN echo "Install plugins requirements" && \
 
 RUN echo "Install jellyfin-plugin-anidb" && \
     mkdir -p "/opt/jellyfin/plugins/AniDB" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/anidb/anidb_9.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-anidb.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/anidb/anidb_10.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-anidb.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-anidb.zip -d "/opt/jellyfin/plugins/AniDB" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-anidb.zip
 
 RUN echo "Install jellyfin-plugin-anilist" && \
     mkdir -p "/opt/jellyfin/plugins/AniList" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/anilist/anilist_10.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/anilist/anilist_11.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip -d "/opt/jellyfin/plugins/AniList" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip
 
@@ -34,13 +34,13 @@ RUN echo "Install jellyfin-plugin-anisearch" && \
 
 RUN echo "Install jellyfin-plugin-ldapauth" && \
     mkdir -p "/opt/jellyfin/plugins/LDAP Authentication" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_19.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_20.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip -d "/opt/jellyfin/plugins/LDAP Authentication" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip
 
 RUN echo "Install jellyfin-plugin-thetvdb" && \
     mkdir -p "/opt/jellyfin/plugins/TheTVDB" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_17.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_19.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip -d "/opt/jellyfin/plugins/TheTVDB" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip
 

@@ -18,7 +18,7 @@ spec:
     spec:
       initContainers:
       - name: create-folders
-        image: "registry.lan/lemonldap-ng:2.20.0-custom"
+        image: "registry.lan/lemonldap-ng:2.20.2-custom"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -33,7 +33,7 @@ spec:
           mountPath: /var/lib/lemonldap-ng-pv
       containers:
       - name: lemonldap
-        image: "registry.lan/lemonldap-ng:2.20.0-custom"
+        image: "registry.lan/lemonldap-ng:2.20.2-custom"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
@@ -49,6 +49,8 @@ spec:
           value: "lemonldap.auth.web_domain_name"
         - name: MANAGER_HOSTNAME
           value: "lemonldap.auth.intra.web_domain_name"
+        - name: PRESERVEFILES
+          value: "/etc/lemonldap-ng /var/lib/lemonldap-ng/conf /var/lib/lemonldap-ng/sessions /var/lib/lemonldap-ng/psessions /etc/nginx/sites-enabled"
         - name: LOGLEVEL
           value: "info"
         securityContext:
@@ -63,6 +65,10 @@ spec:
             scheme: HTTP
             path: /
             port: http
+            httpHeaders:
+            # Use portal hostname to avoid spamming manager-api errors
+            - name: Host
+              value: "lemonldap.auth.web_domain_name"
           initialDelaySeconds: 3
           periodSeconds: 5
         resources:
