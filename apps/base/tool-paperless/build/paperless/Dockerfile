@@ -1,4 +1,4 @@
-FROM ghcr.io/paperless-ngx/paperless-ngx:2.13.2
+FROM ghcr.io/paperless-ngx/paperless-ngx:2.14.7
 
 # if necessary, install lang packages (https://packages.debian.org/search?keywords=tesseract-ocr-)
 #RUN apt-get update && \
