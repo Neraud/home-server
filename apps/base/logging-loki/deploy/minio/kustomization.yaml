@@ -6,36 +6,36 @@ namespace: dev-minio
 labels:
   - includeSelectors: false
     pairs:
-      app.kubernetes.io/version: "RELEASE.2024-10-29T16-01-48Z"
+      app.kubernetes.io/version: "RELEASE.2025-03-12T18-04-18Z"
       app.kubernetes.io/part-of: minio
 
 generatorOptions:
   disableNameSuffixHash: true
 
 configMapGenerator:
-- name: init-scripts
-  files:
-  - config/init_scripts/initialize
-  - config/init_scripts/add-user
-  - config/init_scripts/add-policy
-  - config/init_scripts/add-svcacct
+  - name: init-scripts
+    files:
+      - config/init_scripts/initialize
+      - config/init_scripts/add-user
+      - config/init_scripts/add-policy
+      - config/init_scripts/add-svcacct
 
 secretGenerator:
-- name: custom-scripts
-  files:
-  - secret/custom_scripts/initialize
-  - secret/custom_scripts/add-user
-  - secret/custom_scripts/add-policy
-  - secret/custom_scripts/add-svcacct
-- name: minio
-  env: secret/root-credentials.env
+  - name: custom-scripts
+    files:
+      - secret/custom_scripts/initialize
+      - secret/custom_scripts/add-user
+      - secret/custom_scripts/add-policy
+      - secret/custom_scripts/add-svcacct
+  - name: minio
+    env: secret/root-credentials.env
 
 resources:
-- networkpolicy.yaml
-- serviceaccount.yaml
-- pvc.yaml
-- console-service.yaml
-- console-ingress.yaml
-- service.yaml
-- deployment.yaml
-- init-job.yaml
+  - networkpolicy.yaml
+  - serviceaccount.yaml
+  - pvc.yaml
+  - console-service.yaml
+  - console-ingress.yaml
+  - service.yaml
+  - deployment.yaml
+  - init-job.yaml
