@@ -11,7 +11,7 @@ metadata:
     gethomepage.dev/name: MinIO Logs
     gethomepage.dev/description: High Performance Object Storage
     gethomepage.dev/icon: minio
-    gethomepage.dev/pod-selector: "app.kubernetes.io/name: minio"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=minio"
 spec:
   ingressClassName: nginx
   tls:
