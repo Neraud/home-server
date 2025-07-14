@@ -112,7 +112,7 @@ scrape_configs:
               - host_filename
 
         
-  - job_name: system
+  - job_name: nginx
     static_configs:
     - targets:
       - localhost
