@@ -1,13 +1,13 @@
 watchers:
   - type: pypi
     package: ansible
-    version: 11.4.0
+    version: 11.7.0
     excludes:
       - .*[ab][1-9]$
       - .*rc[1-9]$
       - ^[0-9]\..*
       - ^10\..*
-      - ^11\.[0-3]\..*
+      - ^11\.[0-6]\..*
   - type: github_release
     repo: mehdy/keepalived-exporter
     release: v1.4.0
