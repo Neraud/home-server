@@ -42,7 +42,7 @@ spec:
         readinessProbe:
           httpGet:
             scheme: HTTP
-            path: /
+            path: /health
             port: http
           initialDelaySeconds: 3
           periodSeconds: 5
