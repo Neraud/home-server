@@ -6,10 +6,10 @@ metadata:
   name: promtail
   namespace: logging-promtail
   labels:
-    helm.sh/chart: promtail-6.16.6
+    helm.sh/chart: promtail-6.17.0
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
-    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/version: "3.5.1"
     app.kubernetes.io/managed-by: Helm
 automountServiceAccountToken: true
 ---
@@ -19,10 +19,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: promtail
   labels:
-    helm.sh/chart: promtail-6.16.6
+    helm.sh/chart: promtail-6.17.0
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
-    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/version: "3.5.1"
     app.kubernetes.io/managed-by: Helm
 rules:
   - apiGroups:
@@ -44,10 +44,10 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: promtail
   labels:
-    helm.sh/chart: promtail-6.16.6
+    helm.sh/chart: promtail-6.17.0
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
-    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/version: "3.5.1"
     app.kubernetes.io/managed-by: Helm
 subjects:
   - kind: ServiceAccount
@@ -65,10 +65,10 @@ metadata:
   name: promtail-metrics
   namespace: logging-promtail
   labels:
-    helm.sh/chart: promtail-6.16.6
+    helm.sh/chart: promtail-6.17.0
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
-    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/version: "3.5.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   clusterIP: None
@@ -88,10 +88,10 @@ metadata:
   name: promtail
   namespace: logging-promtail
   labels:
-    helm.sh/chart: promtail-6.16.6
+    helm.sh/chart: promtail-6.17.0
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
-    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/version: "3.5.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
@@ -120,7 +120,7 @@ spec:
         - 4
       containers:
         - name: promtail
-          image: "registry.lan/promtail:3.0.0"
+          image: "registry.lan/promtail:3.5.1"
           imagePullPolicy: IfNotPresent
           args:
             - "-config.file=/etc/promtail/promtail.yaml"
@@ -195,10 +195,10 @@ kind: ServiceMonitor
 metadata:
   name: promtail
   labels:
-    helm.sh/chart: promtail-6.16.6
+    helm.sh/chart: promtail-6.17.0
     app.kubernetes.io/name: promtail
     app.kubernetes.io/instance: promtail
-    app.kubernetes.io/version: "3.0.0"
+    app.kubernetes.io/version: "3.5.1"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
