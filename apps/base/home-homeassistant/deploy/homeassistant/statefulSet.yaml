@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/homeassistant:2025.3.4-custom"
+        image: "registry.lan/homeassistant:2025.7.2-custom"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -58,7 +58,7 @@ spec:
           mountPath: /homeassistant-secret-bootstrap
       containers:
       - name: homeassistant
-        image: "registry.lan/homeassistant:2025.3.4-custom"
+        image: "registry.lan/homeassistant:2025.7.2-custom"
         imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 8123

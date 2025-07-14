@@ -3,17 +3,18 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.13.2-slim-bookworm
+    tag: 3.13.5-slim-bookworm
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-slim-bookworm
     excludes:
       - ^2\.
       - ^3\.[0-9]\.
       - ^3\.1[0-2]\.
+      - ^3\.13\.[0-4]-
   - name: SABnzbd
     type: github_release
     repo: sabnzbd/sabnzbd
-    release: 4.4.1
+    release: 4.5.2
     excludes:
       - .*(RC|Alpha|Beta).*
   - name: SABnzbd nzbToMedia

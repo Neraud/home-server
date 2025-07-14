@@ -1,19 +1,24 @@
-FROM docker.io/emmercm/libtorrent:1.2.14-alpine
-# 1.2.15-alpine > Segfault when starting a torrent
-# 1.2.16-alpine > Segfault when starting a torrent
-# 2.0.5-alpine  > Segfault when starting a torrent
+FROM docker.io/emmercm/libtorrent:2.0.11-alpine as builder
+
+RUN python3 -m venv /opt/venv
+
+# Make sure we use the virtualenv
+ENV PATH="/opt/venv/bin:$PATH"
 
 RUN echo "Install build requirements" && \
-    apk add --no-cache --virtual .build_deps build-base python3-dev libffi-dev openssl-dev zlib-dev jpeg-dev geoip-dev rust cargo && \
-    echo "Install requirements" && \
-    apk add --no-cache py3-pip && \
-    python3 -m pip install --upgrade pip && \
-    apk add --no-cache geoip && \
-    pip3 install GeoIP && \
+    apk add --no-cache build-base python3-dev py3-pip && \
+    pip3 install libtorrent==2.0.11 && \
     echo "Install deluge" && \
-    pip3 install deluge==2.1.1 && \
-    echo "Clear build deps" && \
-    apk del .build_deps
+    pip3 install deluge==2.2.0 && \
+    apk add --no-cache geoip-dev && \
+    pip3 install GeoIP
+
+FROM docker.io/emmercm/libtorrent:2.0.11-alpine
+
+COPY --from=builder /opt/venv /opt/venv
+
+# Make sure we use the virtualenv
+ENV PATH="/opt/venv/bin:$PATH"
 
 RUN echo "Creating deluge user" && \
     addgroup -g 1000 deluge && \

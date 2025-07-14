@@ -2,18 +2,18 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: binwiederhier/ntfy
-    tag: v2.11.0-amd64
+    tag: v2.13.0-amd64
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+-amd64
     excludes:
       - ^v[0-1]\..*
       - ^v2\.[0-9]\..*
-      - ^v2\.1[0]\..*
+      - ^v2\.1[0-2]\..*
   - type: docker_registry
     repo: registry-1.docker.io
     image: xenrox/ntfy-alertmanager
-    tag: 0.3.0
+    tag: 0.5.0
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
-      - ^0\.[0-2]\..*
+      - ^0\.[0-4]\..*

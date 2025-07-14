@@ -13,20 +13,19 @@ watchers:
     type: docker_registry
     repo: quay.io
     image: argoproj/argocd
-    tag: v2.14.8
+    tag: v3.0.11
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*-rc
-      - v[0-1]\.
+      - v[0-2]\.
       - v2\.[0-9]\.
-      - v2\.1[0-3]\.
-      - v2\.14\.[0-7]\.
+      - v3\.0\.[0-9]$
   - name: "ArgoCD Dex"
     type: docker_registry
     repo: ghcr.io
     image: dexidp/dex
-    tag: v2.41.1-distroless
+    tag: v2.43.1-distroless
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+-distroless
     excludes:
@@ -37,7 +36,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 7.4.0-alpine3.20
+    tag: 7.4.5-alpine3.21
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:

@@ -1,1 +1,1 @@
-FROM ghcr.io/jimmidyson/configmap-reload:v0.14.0
+FROM ghcr.io/jimmidyson/configmap-reload:v0.15.0

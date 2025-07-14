@@ -22,7 +22,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: nginx-exporter
-        image: registry.lan/nginx-prometheus-exporter:1.3.0
+        image: registry.lan/nginx-prometheus-exporter:1.4.2
         imagePullPolicy: IfNotPresent
         args:
         - -nginx.scrape-uri

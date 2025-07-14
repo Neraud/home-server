@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-multus-ds
+  namespace: kube-system
+spec:
+  template:
+    spec:
+      containers:
+        - name: kube-multus
+          # container gets OOMKilled with the default 50Mi memory
+          # See https://github.com/k8snetworkplumbingwg/multus-cni/issues/1346
+          # Workaround for now, increase memory
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "100m"
+              memory: "256Mi"

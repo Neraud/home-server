@@ -18,52 +18,52 @@ spec:
         app.kubernetes.io/component: intel-gpu-plugin
     spec:
       containers:
-      - name: intel-gpu-plugin
-        image: "registry.lan/intel-gpu-plugin:0.32.0"
-        imagePullPolicy: IfNotPresent
-        args:
-        - "-shared-dev-num=5"
-        - "-enable-monitoring"
-        env:
-          - name: NODE_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: spec.nodeName
-        securityContext:
-          runAsNonRoot: false
-          readOnlyRootFilesystem: true
-        volumeMounts:
-        - name: cluster-config
-          mountPath: /etc/localtime
-          subPath: localtime
-          readOnly: true
-        - name: devfs
-          mountPath: /dev/dri
-          readOnly: true
-        - name: sysfs
-          mountPath: /sys/class/drm
-          readOnly: true
-        - name: kubeletsockets
-          mountPath: /var/lib/kubelet/device-plugins
+        - name: intel-gpu-plugin
+          image: "registry.lan/intel-gpu-plugin:0.32.1"
+          imagePullPolicy: IfNotPresent
+          args:
+            - "-shared-dev-num=5"
+            - "-enable-monitoring"
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          securityContext:
+            runAsNonRoot: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: cluster-config
+              mountPath: /etc/localtime
+              subPath: localtime
+              readOnly: true
+            - name: devfs
+              mountPath: /dev/dri
+              readOnly: true
+            - name: sysfs
+              mountPath: /sys/class/drm
+              readOnly: true
+            - name: kubeletsockets
+              mountPath: /var/lib/kubelet/device-plugins
       volumes:
-      - name: cluster-config
-        configMap:
-          name: cluster-config
-      - name: devfs
-        hostPath:
-          path: /dev/dri
-      - name: sysfs
-        hostPath:
-          path: /sys/class/drm
-      - name: kubeletsockets
-        hostPath:
-          path: /var/lib/kubelet/device-plugins
+        - name: cluster-config
+          configMap:
+            name: cluster-config
+        - name: devfs
+          hostPath:
+            path: /dev/dri
+        - name: sysfs
+          hostPath:
+            path: /sys/class/drm
+        - name: kubeletsockets
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
       imagePullSecrets:
-      - name: docker-config
+        - name: docker-config
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: capability/intel_gpu
-                operator: Exists
+              - matchExpressions:
+                  - key: capability/intel_gpu
+                    operator: Exists

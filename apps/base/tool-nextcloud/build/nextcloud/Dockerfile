@@ -1,14 +1,14 @@
-FROM docker.io/library/nextcloud:31.0.2-apache
+FROM docker.io/library/nextcloud:31.0.7-apache
 
 ARG supercronic_repo=aptible/supercronic
-ARG supercronic_version=v0.2.33
-ARG supercronic_sha1sum=71b0d58cc53f6bd72cf2f293e09e294b79c666d8
+ARG supercronic_version=v0.2.34
+ARG supercronic_sha1sum=e8631edc1775000d119b70fd40339a7238eece14
 ARG app_calendar_repo=nextcloud-releases/calendar
-ARG app_calendar_version=v5.2.0
+ARG app_calendar_version=v5.3.5
 ARG app_contacts_repo=nextcloud-releases/contacts
-ARG app_contacts_version=v7.0.4
+ARG app_contacts_version=v7.1.5
 ARG app_notes_repo=nextcloud-releases/notes
-ARG app_notes_version=v4.11.0
+ARG app_notes_version=v4.12.2
 ARG app_tasks_repo=nextcloud/tasks
 ARG app_tasks_version=v0.16.1
 
@@ -16,16 +16,16 @@ ARG app_tasks_version=v0.16.1
 # Install supervisor
 RUN apt-get update && apt-get install -y \
     supervisor \
-  && rm -rf /var/lib/apt/lists/* \
-  && mkdir /var/log/supervisord /var/run/supervisord
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir /var/log/supervisord /var/run/supervisord
 COPY supervisord.conf /
 
 # Install supercronic, as crond doesn't like being run as non-root
 RUN curl -fsSLO "https://github.com/${supercronic_repo}/releases/download/${supercronic_version}/supercronic-linux-amd64" \
- && echo "${supercronic_sha1sum} supercronic-linux-amd64" | sha1sum -c - \
- && chmod +x "supercronic-linux-amd64" \
- && mv "supercronic-linux-amd64" "/usr/local/bin/supercronic-linux-amd64" \
- && ln -s "/usr/local/bin/supercronic-linux-amd64" /usr/local/bin/supercronic
+    && echo "${supercronic_sha1sum} supercronic-linux-amd64" | sha1sum -c - \
+    && chmod +x "supercronic-linux-amd64" \
+    && mv "supercronic-linux-amd64" "/usr/local/bin/supercronic-linux-amd64" \
+    && ln -s "/usr/local/bin/supercronic-linux-amd64" /usr/local/bin/supercronic
 
 COPY cron-custom.sh /cron-custom.sh
 
@@ -34,10 +34,10 @@ COPY cron-custom.sh /cron-custom.sh
 RUN mkdir /usr/src/nextcloud_bak && \
     chown -R nobody:nogroup /usr/src/nextcloud_bak && \
     for d in config data custom_apps themes ; do \
-        mv /usr/src/nextcloud/$d /usr/src/nextcloud_bak/ ; \
-        mkdir /var/www/html/$d ; \
-        chown nobody:nogroup /var/www/html/$d ; \
-        ln -s /var/www/html/$d /usr/src/nextcloud/ ; \
+    mv /usr/src/nextcloud/$d /usr/src/nextcloud_bak/ ; \
+    mkdir /var/www/html/$d ; \
+    chown nobody:nogroup /var/www/html/$d ; \
+    ln -s /var/www/html/$d /usr/src/nextcloud/ ; \
     done && \
     sed -i 's|/var/www/html|/usr/src/nextcloud|g' /etc/apache2/sites-available/* && \
     sed -i 's|/var/www|/usr/src/nextcloud|g' /etc/apache2/apache2.conf && \
