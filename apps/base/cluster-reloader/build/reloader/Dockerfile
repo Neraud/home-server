@@ -1,1 +1,1 @@
-FROM ghcr.io/stakater/reloader:v1.3.0
+FROM ghcr.io/stakater/reloader:v1.4.5
