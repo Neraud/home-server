@@ -18,9 +18,10 @@ spec:
       automountServiceAccountToken: true
       containers:
       - args:
-        - --web.listen-address=127.0.0.1:9100
+        - --web.listen-address=127.0.0.1:9101
         - --path.sysfs=/host/sys
         - --path.rootfs=/host/root
+        - --path.procfs=/host/root/proc
         - --path.udev.data=/host/root/run/udev/data
         - --no-collector.wifi
         #- --no-collector.hwmon
@@ -29,7 +30,7 @@ spec:
         - --collector.netclass.ignored-devices=^(veth.*|[a-f0-9]{15})$
         - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
         - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
-        image: registry.lan/node-exporter:v1.9.0
+        image: registry.lan/node-exporter:v1.9.1
         imagePullPolicy: IfNotPresent
         name: node-exporter
         readinessProbe:
@@ -69,13 +70,13 @@ spec:
       - args:
         - --secure-listen-address=[$(IP)]:9100
         - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
-        - --upstream=http://127.0.0.1:9100/
+        - --upstream=http://127.0.0.1:9101/
         env:
         - name: IP
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: registry.lan/node-exporter-kube-rbac-proxy:v0.19.0
+        image: registry.lan/node-exporter-kube-rbac-proxy:v0.19.1
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy
         ports:
