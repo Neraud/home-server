@@ -228,7 +228,7 @@ spec:
         parameters:
         - name: app_name
       script:
-        image: registry.lan/argocd:v2.14.8-ksops
+        image: registry.lan/argocd:v3.0.11-ksops
         command: [bash]
         env:
         - name: ARGOCD_AUTH_TOKEN
@@ -291,7 +291,7 @@ spec:
         - name: apps_source_overlay
           path: /source/apps/overlay
       script:
-        image: registry.lan/argocd:v2.14.8-ksops
+        image: registry.lan/argocd:v3.0.11-ksops
         command: [bash]
         env:
         - name: ARGOCD_AUTH_TOKEN
