@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/sabnzbd:4.4.1-3.13.2-slim-bookworm"
+        image: "registry.lan/sabnzbd:4.5.2-3.13.5-slim-bookworm"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -42,7 +42,7 @@ spec:
           mountPath: /opt/sabnzbd
       containers:
       - name: sabnzbd
-        image: "registry.lan/sabnzbd:4.4.1-3.13.2-slim-bookworm"
+        image: "registry.lan/sabnzbd:4.5.2-3.13.5-slim-bookworm"
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
