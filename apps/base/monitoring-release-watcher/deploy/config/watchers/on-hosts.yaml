@@ -33,11 +33,11 @@ watchers:
       - .*(alpha|beta|rc).*
   - type: github_release
     repo: getsops/sops
-    release: v3.9.4
+    release: v3.10.2
     excludes:
       - .*(alpha|beta|rc).*
       - v[0-2]\..*
-      - v3\.[0-8]\..*
+      - v3\.[0-9]\..*
   - type: github_release
     repo: viaduct-ai/kustomize-sops
     release: v4.3.2
