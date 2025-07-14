@@ -1,4 +1,4 @@
-FROM python:3.13.2-alpine3.21
+FROM python:3.13.5-alpine3.22
 
 ARG caldav_recurring_task_scheduler_repo=Neraud/caldav-recurring-task-scheduler
 ARG caldav_recurring_task_scheduler_version=0601e962a228aaa3610fefac9fde7f24caa9ce97
