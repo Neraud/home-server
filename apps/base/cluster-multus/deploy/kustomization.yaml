@@ -10,6 +10,9 @@ resources:
 - multus-daemonset-thick.yaml
 - k8s-bridge.yaml
 
+patches:
+- path: patches/multus-daemonset-thick-resources.yaml
+
 images:
  - name: ghcr.io/k8snetworkplumbingwg/multus-cni:snapshot-thick
    newName: ghcr.io/k8snetworkplumbingwg/multus-cni
