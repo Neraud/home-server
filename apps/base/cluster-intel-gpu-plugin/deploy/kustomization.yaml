@@ -8,9 +8,9 @@ labels:
     pairs:
       app.kubernetes.io/name: intel-gpu-plugin
       app.kubernetes.io/component: intel-gpu-plugin
-      app.kubernetes.io/version: 0.32.0
+      app.kubernetes.io/version: 0.32.1
 
 resources:
-- namespace.yaml
-- ../../_common/deploy
-- daemonSet.yaml
+  - namespace.yaml
+  - ../../_common/deploy
+  - daemonSet.yaml
