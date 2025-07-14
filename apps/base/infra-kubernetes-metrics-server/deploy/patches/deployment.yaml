@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: metrics-server
-        image: registry.lan/metrics-server:v0.7.2
+        image: registry.lan/metrics-server:v0.8.0
         args:
         - --cert-dir=/tmp
         - --secure-port=10250
