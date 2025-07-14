@@ -22,9 +22,29 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
         seccompProfile:
           type: RuntimeDefault
+      initContainers:
+      - name: create-folders
+        image: "registry.lan/paperless-ngx:2.17.1-custom"
+        imagePullPolicy: IfNotPresent
+        command:
+          - "sh"
+          - "-c"
+          - |
+            mkdir -p /empty/run
+            mkdir -p /empty/tmp
+            chown -R paperless:paperless /empty/run
+        securityContext:
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        volumeMounts:
+        - name: empty-volume
+          mountPath: /empty
       containers:
       - name: paperless
-        image: "registry.lan/paperless-ngx:2.14.7-custom"
+        image: "registry.lan/paperless-ngx:2.17.1-custom"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
@@ -70,8 +90,12 @@ spec:
         - name: cluster-ca-volume
           mountPath: /etc/ssl/cluster/ca.crt
           subPath: ca.crt
-        - name: tmp-volume
+        - name: empty-volume
           mountPath: /tmp
+          subPath: tmp
+        - name: empty-volume
+          mountPath: /run
+          subPath: run
       volumes:
       - name: cluster-config
         configMap:
@@ -88,7 +112,7 @@ spec:
       - name: cluster-ca-volume
         secret:
           secretName: cluster-ca
-      - name: tmp-volume
+      - name: empty-volume
         emptyDir: {}
       imagePullSecrets:
       - name: docker-config

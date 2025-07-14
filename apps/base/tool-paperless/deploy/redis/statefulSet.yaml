@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: redis
-        image: "registry.lan/paperless-redis:7.4.2-alpine3.21"
+        image: "registry.lan/paperless-redis:8.0.3-alpine3.21"
         imagePullPolicy: IfNotPresent
         command:
         - redis-server
