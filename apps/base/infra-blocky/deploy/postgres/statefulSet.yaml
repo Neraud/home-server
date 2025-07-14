@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/blocky-postgres:15.12-alpine3.21"
+        image: "registry.lan/blocky-postgres:15.13-alpine3.21"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -42,7 +42,7 @@ spec:
           mountPath: /var/lib/postgresql
       containers:
       - name: pgsql
-        image: "registry.lan/blocky-postgres:15.12-alpine3.21"
+        image: "registry.lan/blocky-postgres:15.13-alpine3.21"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
