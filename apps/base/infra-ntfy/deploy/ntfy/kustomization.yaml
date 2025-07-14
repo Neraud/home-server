@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: ntfy
       app.kubernetes.io/component: ntfy
-      app.kubernetes.io/version: v2.11.0-amd64
+      app.kubernetes.io/version: v2.13.0-amd64
 
 generatorOptions:
  disableNameSuffixHash: true
