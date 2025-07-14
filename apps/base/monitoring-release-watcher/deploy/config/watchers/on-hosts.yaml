@@ -26,7 +26,7 @@ watchers:
       - v1\.2[0-8]\..*
   - type: github_release
     repo: kubernetes-sigs/kustomize
-    release: kustomize/v5.6.0
+    release: kustomize/v5.7.0
     includes:
       - kustomize/.*
     excludes:
