@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: deluge
       app.kubernetes.io/component: deluge-daemon
-      app.kubernetes.io/version: 2.1.1
+      app.kubernetes.io/version: 2.2.0
 
 configMapGenerator:
 - name: deluge-daemon-env

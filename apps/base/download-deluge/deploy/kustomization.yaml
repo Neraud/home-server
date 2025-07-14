@@ -7,7 +7,7 @@ labels:
   - includeSelectors: false
     pairs:
       app.kubernetes.io/name: deluge
-      app.kubernetes.io/version: 2.1.1
+      app.kubernetes.io/version: 2.2.0
 
 generatorOptions:
   disableNameSuffixHash: true
