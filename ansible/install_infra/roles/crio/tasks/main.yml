@@ -6,7 +6,7 @@
       overlay
       br_netfilter
     mode: 0644
-   
+
 - name: Load required kernel modules (now)
   community.general.modprobe:
     name: "{{ item }}"
@@ -29,14 +29,14 @@
 
 - name: Add CRI-O repo key
   ansible.builtin.apt_key:
-    url: "https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_repo_version }}/deb/Release.key"
+    url: "https://download.opensuse.org/repositories/isv:/cri-o:/stable:/{{ crio_repo_version }}/deb/Release.key"
     state: present
     keyring: /etc/apt/keyrings/cri-o-apt-keyring.gpg
 
 - name: Add CRI-O repo
   ansible.builtin.apt_repository:
     filename: "cri-o"
-    repo: "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://pkgs.k8s.io/addons:/cri-o:/stable:/{{ crio_repo_version }}/deb/ /"
+    repo: "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://download.opensuse.org/repositories/isv:/cri-o:/stable:/{{ crio_repo_version }}/deb/ /"
     state: present
 
 - name: Pin CRI-O version
