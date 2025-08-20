@@ -25,6 +25,8 @@ spec:
         #fsGroupChangePolicy: "OnRootMismatch"
         seccompProfile:
           type: RuntimeDefault
+        supplementalGroups:
+          - 4 # adm group, allows reading host logs
       initContainers:
       - name: wait-for-requirements
         image: "registry.lan/crowdsec-busybox:1.37.0"
