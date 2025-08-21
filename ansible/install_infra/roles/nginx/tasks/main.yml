@@ -76,7 +76,6 @@
     dest: "/etc/nginx/conf.d/{{ item }}.conf"
     mode: 0644
   with_items:
-    - security
     - logs
     - default_settings
   notify: Restart NGinx
