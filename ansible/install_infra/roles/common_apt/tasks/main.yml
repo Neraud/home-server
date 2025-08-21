@@ -6,23 +6,36 @@
     mode: 0644
 
 - name: Update Debian sources list
-  ansible.builtin.apt_repository:
-    repo: "{{ item }}"
-    state: present
-    filename: "debian"
-  with_items:
-    # debian main non-free-firmware is already in default sources.list
-    - "deb http://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
-    - "deb-src http://deb.debian.org/debian/ {{ ansible_lsb.codename }} contrib non-free"
+  ansible.builtin.deb822_repository:
+    name: debian
+    types:
+      - deb
+      - deb-src
+    uris: https://deb.debian.org/debian
+    suites:
+      - "{{ ansible_lsb.codename }}"
+      - "{{ ansible_lsb.codename }}-updates"
+    components:
+      - main
+      - contrib
+      - non-free
+      - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+  when: ansible_distribution == 'Debian'
 
-    # debian-security main non-free-firmware is already in default sources.list
-    - "deb http://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
-    - "deb-src http://deb.debian.org/debian-security/ {{ ansible_lsb.codename }}-security contrib non-free"
-
-    # debian-updates main non-free-firmware is already in default sources.list
-    - "deb http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
-    - "deb-src http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-updates contrib non-free"
-
-    - "deb http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-proposed-updates contrib main non-free non-free-firmware"
-    - "deb-src http://deb.debian.org/debian/ {{ ansible_lsb.codename }}-proposed-updates contrib main non-free non-free-firmware"
+- name: Update Debian security sources list
+  ansible.builtin.deb822_repository:
+    name: debian-security
+    types:
+      - deb
+      - deb-src
+    uris: https://security.debian.org/debian-security
+    suites:
+      - "{{ ansible_lsb.codename }}-security"
+    components:
+      - main
+      - contrib
+      - non-free
+      - non-free-firmware
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
   when: ansible_distribution == 'Debian'
