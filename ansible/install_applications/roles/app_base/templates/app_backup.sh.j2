@@ -71,7 +71,7 @@ function detach_longhorn_volume() {
     
     state=""
     counter=1
-    while [ "${state}" != "detached" -a ${counter} -lt 10 ]; do
+    while [ "${state}" != "detached" -a ${counter} -lt 20 ]; do
         state=$(call_longhorn_api "POST" "/volumes/${pv_name}?action=detach" | jq -r .state)
         echo " - volume state ${counter} : ${state}"
         sleep 2
