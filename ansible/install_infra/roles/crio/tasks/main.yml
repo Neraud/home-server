@@ -27,17 +27,13 @@
     - { name: "net.ipv4.ip_forward", value: 1 }
     - { name: "net.bridge.bridge-nf-call-ip6tables", value: 1 }
 
-- name: Add CRI-O repo key
-  ansible.builtin.apt_key:
-    url: "https://download.opensuse.org/repositories/isv:/cri-o:/stable:/{{ crio_repo_version }}/deb/Release.key"
-    state: present
-    keyring: /etc/apt/keyrings/cri-o-apt-keyring.gpg
-
 - name: Add CRI-O repo
-  ansible.builtin.apt_repository:
-    filename: "cri-o"
-    repo: "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://download.opensuse.org/repositories/isv:/cri-o:/stable:/{{ crio_repo_version }}/deb/ /"
-    state: present
+  ansible.builtin.deb822_repository:
+    name: cri-o
+    types: deb
+    uris: https://download.opensuse.org/repositories/isv:/cri-o:/stable:/{{ crio_repo_version }}/deb/
+    suites: /
+    signed_by: https://download.opensuse.org/repositories/isv:/cri-o:/stable:/{{ crio_repo_version }}/deb/Release.key
 
 - name: Pin CRI-O version
   ansible.builtin.template:
