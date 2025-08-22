@@ -12,14 +12,20 @@
   community.crypto.openssl_csr:
     path: "{{ crowdsec_pki_generation_root_dir }}/ca.csr"
     privatekey_path: "{{ crowdsec_pki_generation_root_dir }}/ca.key"
-    country_name : "{{ crowdsec_pki_ca.country_name }}"
-    state_or_province_name : "{{ crowdsec_pki_ca.state_or_province_name }}"
-    locality_name : "{{ crowdsec_pki_ca.locality_name }}"
-    organization_name : "{{ crowdsec_pki_ca.organization_name }}"
-    organizational_unit_name  : "{{ crowdsec_pki_ca.organizational_unit_name }}"
+    country_name: "{{ crowdsec_pki_ca.country_name }}"
+    state_or_province_name: "{{ crowdsec_pki_ca.state_or_province_name }}"
+    locality_name: "{{ crowdsec_pki_ca.locality_name }}"
+    organization_name: "{{ crowdsec_pki_ca.organization_name }}"
+    organizational_unit_name: "{{ crowdsec_pki_ca.organizational_unit_name }}"
     common_name: "{{ crowdsec_pki_ca.common_name }}"
     basicConstraints:
       - CA:TRUE
+    basic_constraints_critical: true
+    key_usage:
+      - cRLSign
+      - digitalSignature
+      - keyCertSign
+    key_usage_critical: true
 
 - name: Generate a Self Signed OpenSSL CA certificate
   community.crypto.x509_certificate:
