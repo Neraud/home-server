@@ -13,7 +13,7 @@ RUN NODE_OPTIONS=--openssl-legacy-provider PUBLIC_URL="." npm run build
 
 FROM docker.io/library/nginx:1.27.4-alpine3.21-slim
 COPY --from=builder /app/build /usr/share/nginx/html
-ADD 50-custom-configure.sh /docker-entrypoint.d/50-custom-configure.sh
+ADD --chmod=755 50-custom-configure.sh /docker-entrypoint.d/50-custom-configure.sh
 
 # Link writable folders under /tmp
 RUN mkdir -p /tmp/cache/nginx && \

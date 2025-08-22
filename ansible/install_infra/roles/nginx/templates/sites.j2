@@ -124,7 +124,6 @@ server {
 	error_log /var/log/nginx/{{ item.name }}_ssl_error.log;
 
 	# SSL configuration
-	ssl on;
 	{% if item.https_cert.mode == "file" or item.https_cert.mode == "selfsigned" %}
 	ssl_certificate {{ item.https_cert.cert_path }};
 	ssl_certificate_key {{ item.https_cert.cert_key_path }};

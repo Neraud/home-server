@@ -1,18 +1,14 @@
 ---
-- name: Add Crowdsec repo key
-  ansible.builtin.apt_key:
-    url: "https://packagecloud.io/crowdsec/crowdsec/gpgkey"
-    state: present
-    keyring: /usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg
-
 - name: Add Crowdsec repo
-  ansible.builtin.apt_repository:
-    filename: "crowdsec_crowdsec"
-    repo: "{{ item }}"
-    state: present
-  loop:
-  - "deb [signed-by=/usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/debian/ {{ ansible_lsb.codename }} main"
-  - "deb-src [signed-by=/usr/share/keyrings/crowdsec_crowdsec-archive-keyring.gpg] https://packagecloud.io/crowdsec/crowdsec/debian/ {{ ansible_lsb.codename }} main"
+  ansible.builtin.deb822_repository:
+    name: crowdsec
+    types:
+      - deb
+      - deb-src
+    uris: https://packagecloud.io/crowdsec/crowdsec/any
+    suites: any
+    components: main
+    signed_by: https://packagecloud.io/crowdsec/crowdsec/gpgkey
 
 - name: Install Crowdsec firewall bouncer
   ansible.builtin.apt:
