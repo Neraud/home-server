@@ -19,11 +19,11 @@ watchers:
       - v1\.[0-2][0-9]\..*
   - type: github_release
     repo: cri-o/cri-o
-    release: v1.29.2
+    release: 1.33.3
     excludes:
       - .*(alpha|beta|rc).*
-      - v1\.[0-1][0-9]\..*
-      - v1\.2[0-8]\..*
+      - v1\.[0-2][0-9]\..*
+      - v1\.3[0-2]\..*
   - type: github_release
     repo: kubernetes-sigs/kustomize
     release: kustomize/v5.7.0
