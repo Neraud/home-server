@@ -2,7 +2,7 @@
 kubectl_version: 1.29.3
 #kubeconfig_path: ~/.kube/config
 
-kustomize_version: v5.7.0
+kustomize_version: v5.7.1
 
 kubernetes_users:
   - name: "{{ standard_user.name }}"
