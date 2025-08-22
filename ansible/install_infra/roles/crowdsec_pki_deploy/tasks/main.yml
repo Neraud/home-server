@@ -1,12 +1,9 @@
 ---
-- name: Ensure directory exists for crowdsec PKIs
+- name: Ensure directory exists for crowdsec PKI
   ansible.builtin.file:
-    path: "{{ crowdsec_pki_root_dir }}/{{ item.pki_name }}"
+    path: "{{ crowdsec_pki_root_dir }}"
     state: directory
     mode: 0755
-  with_items: "{{ openssl_custom_pki }}"
-  loop_control:
-    label: "{{ item.pki_name }}"
 
 - name: Copy crowdsec PKI to targets from controller
   ansible.posix.synchronize:
