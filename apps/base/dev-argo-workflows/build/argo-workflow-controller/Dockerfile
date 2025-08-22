@@ -1,1 +1,1 @@
-FROM quay.io/argoproj/workflow-controller:v3.6.10
+FROM quay.io/argoproj/workflow-controller:v3.7.1
