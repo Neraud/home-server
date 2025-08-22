@@ -7,7 +7,7 @@ FROM docker.io/viaductoss/ksops:v4.3.3-amd64 as ksops-builder
 #--------------------------------------------#
 #--------Build Custom Argo Image-------------#
 #--------------------------------------------#
-FROM quay.io/argoproj/argocd:v3.0.11
+FROM quay.io/argoproj/argocd:v3.1.0
 
 # Switch to root for the ability to perform install
 USER root
