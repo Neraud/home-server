@@ -3,3 +3,13 @@
   ansible.builtin.apt:
     pkg: "podman"
     state: present
+
+# After updating to Trixie, podman containers don't have access to the internet while ufw is enabled
+# This can be seen in /var/log/ufw.log with ufw logging high:
+# [UFW BLOCK] IN=podman0 OUT=enp3s0 PHYSIN=veth0 MAC=72:62:f6:8b:3b:56:6e:a3:7b:c4:9e:0a:08:00 SRC=10.88.0.32 DST=1.2.3.4 LEN=60 TOS=0x00 PREC=0x00 TTL=63 ID=18660 DF PROTO=TCP SPT=42212 DPT=80 WINDOW=64240 RES=0x00 SYN URGP=0
+- name: Allow routing from default podman network
+  community.general.ufw:
+    rule: allow
+    route: true
+    interface_in: "{{ podman_default_interface }}"
+    interface_out: "{{ default_network_interface }}"
