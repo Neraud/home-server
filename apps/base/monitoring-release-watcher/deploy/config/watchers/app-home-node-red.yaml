@@ -2,13 +2,13 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: nodered/node-red
-    tag: 4.0.9-22-minimal
+    tag: 4.1.0-22-minimal
     includes:
       - '[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-minimal'
     excludes:
       - .*-1[0-7]-minimal$
       - ^[1-3]\.
-      - ^4\.0\.[0-8]-
+      - ^4\.0\.
   - type: github_tag
     repo: vesse/node-ldapauth-fork
     tag: v6.1.0
@@ -18,7 +18,7 @@ watchers:
       - ".*-rc.*"
   - type: github_tag
     repo: zachowj/node-red-contrib-home-assistant-websocket
-    tag: v0.74.2
+    tag: v0.77.2
     includes:
       - 'v[0-9]+\.[0-9]+\.[0-9]+'
     excludes:
