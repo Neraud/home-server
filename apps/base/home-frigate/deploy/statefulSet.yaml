@@ -22,7 +22,7 @@ spec:
           type: RuntimeDefault
       initContainers:
         - name: create-folders
-          image: "registry.lan/frigate:0.15.2"
+          image: "registry.lan/frigate:0.16.0"
           imagePullPolicy: IfNotPresent
           command:
             - "sh"
@@ -44,7 +44,7 @@ spec:
               subPath: config_base.yml
       containers:
         - name: frigate
-          image: "registry.lan/frigate:0.15.2"
+          image: "registry.lan/frigate:0.16.0"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
