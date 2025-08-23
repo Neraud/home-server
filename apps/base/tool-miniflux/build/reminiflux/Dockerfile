@@ -1,4 +1,4 @@
-FROM docker.io/library/node:23.10.0-alpine3.21 as builder
+FROM docker.io/library/node:24.6.0-alpine3.22 as builder
 
 ARG reminiflux_repo=reminiflux/reminiflux
 ARG reminiflux_commit=80815687c9d1f2883dc96f1d676eac399e276ddc
