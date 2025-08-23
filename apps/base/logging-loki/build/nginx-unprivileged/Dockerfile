@@ -1,1 +1,1 @@
-FROM docker.io/nginxinc/nginx-unprivileged:1.28-alpine
+FROM docker.io/nginxinc/nginx-unprivileged:1.29-alpine

@@ -1,1 +1,1 @@
-FROM quay.io/kiwigrid/k8s-sidecar:1.30.6
+FROM quay.io/kiwigrid/k8s-sidecar:1.30.7
