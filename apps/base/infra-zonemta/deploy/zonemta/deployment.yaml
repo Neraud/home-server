@@ -25,90 +25,90 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       initContainers:
-      - name: wait-for-requirements
-        image: "registry.lan/zonemta-busybox:1.37.0"
-        imagePullPolicy: IfNotPresent
-        command: 
-          - "sh"
-          - "-c"
-          - |
-            echo "Waiting for MongoDB"
-            timeout 120s sh -c "while ! nc -z -w 0 mongo 27017 ; do echo 'Still waiting ...' ; sleep 5 ; done"
-            ret=$?
-            echo "return : $ret"
-            if [ $ret -eq 0 ] ; then
-              echo "MongoDB Server has started"
-            else
-              echo "FAILED : MongoDB Server isn't available"
-              exit 1
-            fi
+        - name: wait-for-requirements
+          image: "registry.lan/zonemta-busybox:1.37.0"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "sh"
+            - "-c"
+            - |
+              echo "Waiting for MongoDB"
+              timeout 120s sh -c "while ! nc -z -w 0 mongo 27017 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+              ret=$?
+              echo "return : $ret"
+              if [ $ret -eq 0 ] ; then
+                echo "MongoDB Server has started"
+              else
+                echo "FAILED : MongoDB Server isn't available"
+                exit 1
+              fi
 
-            echo "Waiting for Redis"
-            timeout 120s sh -c "while ! nc -z -w 0 redis 6379 ; do echo 'Still waiting ...' ; sleep 5 ; done"
-            ret=$?
-            echo "return : $ret"
-            if [ $ret -eq 0 ] ; then
-              echo "Redis Server has started"
-            else
-              echo "FAILED : Redis Server isn't available"
-              exit 1
-            fi
-        securityContext:
-          readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
+              echo "Waiting for Redis"
+              timeout 120s sh -c "while ! nc -z -w 0 redis 6379 ; do echo 'Still waiting ...' ; sleep 5 ; done"
+              ret=$?
+              echo "return : $ret"
+              if [ $ret -eq 0 ] ; then
+                echo "Redis Server has started"
+              else
+                echo "FAILED : Redis Server isn't available"
+                exit 1
+              fi
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       containers:
-      - name: zonemta
-        image: "registry.lan/zonemta:3.10.1-node-23.10.0-alpine3.21"
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: NODE_OPTIONS
-          value: --max-old-space-size=32
-        ports:
-        - containerPort: 1587
-          name: smtp
-        - containerPort: 12080
-          name: metrics
-        securityContext:
-          readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
-        readinessProbe:
-          tcpSocket:
-            port: smtp
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        resources:
-          requests:
-            cpu: 25m
-            memory: 160Mi
-          limits:
-            cpu: 100m
-            memory: 160Mi
-        volumeMounts:
-        - name: cluster-config
-          mountPath: /etc/localtime
-          subPath: localtime
-          readOnly: true
-        - name: zonemta-config
-          mountPath: /opt/zone-mta/config
-        - name: zonemta-certs
-          mountPath: /opt/zone-mta/certs
+        - name: zonemta
+          image: "registry.lan/zonemta:3.10.2-node-23.11.1-alpine3.22"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NODE_OPTIONS
+              value: --max-old-space-size=32
+          ports:
+            - containerPort: 1587
+              name: smtp
+            - containerPort: 12080
+              name: metrics
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          readinessProbe:
+            tcpSocket:
+              port: smtp
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 25m
+              memory: 160Mi
+            limits:
+              cpu: 100m
+              memory: 160Mi
+          volumeMounts:
+            - name: cluster-config
+              mountPath: /etc/localtime
+              subPath: localtime
+              readOnly: true
+            - name: zonemta-config
+              mountPath: /opt/zone-mta/config
+            - name: zonemta-certs
+              mountPath: /opt/zone-mta/certs
       volumes:
-      - name: cluster-config
-        configMap:
-          name: cluster-config
-      - name: zonemta-config
-        secret:
-          secretName: zonemta-config
-      - name: zonemta-certs
-        secret:
-          secretName: zonemta-certs
+        - name: cluster-config
+          configMap:
+            name: cluster-config
+        - name: zonemta-config
+          secret:
+            secretName: zonemta-config
+        - name: zonemta-certs
+          secret:
+            secretName: zonemta-certs
       imagePullSecrets:
-      - name: docker-config
+        - name: docker-config
       nodeSelector:
-        capability/general-purpose: 'yes'
+        capability/general-purpose: "yes"

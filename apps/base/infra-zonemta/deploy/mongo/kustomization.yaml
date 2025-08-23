@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: zonemta
       app.kubernetes.io/component: mongo
-      app.kubernetes.io/version: 8.0.6-noble
+      app.kubernetes.io/version: 8.0.13-noble
 
 generatorOptions:
  disableNameSuffixHash: true
