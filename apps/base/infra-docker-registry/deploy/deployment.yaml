@@ -27,7 +27,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: docker-registry
-        image: "docker.io/library/registry:2.8.3"
+        image: "docker.io/library/registry:3.0.0"
         # Don't always pull to avoid issues when restarting (eg: dockerhub limit)
         imagePullPolicy: IfNotPresent
         ports:
@@ -63,7 +63,7 @@ spec:
         - name: docker-registry-data
           mountPath: /var/lib/registry
         - name: docker-registry
-          mountPath: /etc/docker/registry/config.yml
+          mountPath: /etc/distribution/config.yml
           subPath: config.yml
         - name: docker-registry
           mountPath: /etc/docker/registry/htpasswd

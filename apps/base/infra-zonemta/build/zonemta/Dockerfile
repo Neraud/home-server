@@ -1,6 +1,8 @@
-FROM docker.io/library/node:23.10.0-alpine3.21
+FROM docker.io/library/node:23.11.1-alpine3.22
+# Zone MTA 3.10.2 fails to start on node:24.6.0-alpine3.22
+# Error: No such module: http_parser
 
-ARG ZONE_MTA_VERSION=3.10.1
+ARG ZONE_MTA_VERSION=3.10.2
 
 RUN apk add --update \
   make \

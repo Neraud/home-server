@@ -24,13 +24,13 @@ spec:
         - --config-reloader-memory-request=25Mi
         - --config-reloader-cpu-limit=50m
         - --config-reloader-memory-limit=25Mi
-        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.83.0
+        - --prometheus-config-reloader=registry.lan/prometheus-config-reloader:v0.84.1
         - --kubelet-endpoints=true
         - --kubelet-endpointslice=false
         env:
         - name: GOGC
           value: "30"
-        image: registry.lan/prometheus-operator:v0.83.0
+        image: registry.lan/prometheus-operator:v0.84.1
         imagePullPolicy: IfNotPresent
         name: prometheus-operator
         ports:

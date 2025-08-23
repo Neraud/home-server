@@ -13,14 +13,14 @@ watchers:
     type: docker_registry
     repo: quay.io
     image: argoproj/argocd
-    tag: v3.0.11
+    tag: v3.1.0
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - .*-rc
       - v[0-2]\.
       - v2\.[0-9]\.
-      - v3\.0\.[0-9]$
+      - v3\.[0-1]\.
   - name: "ArgoCD Dex"
     type: docker_registry
     repo: ghcr.io

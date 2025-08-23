@@ -6,10 +6,10 @@ metadata:
   name: loki-namespace-only
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
 spec:
   policyTypes:
     - Ingress
@@ -29,10 +29,10 @@ metadata:
   name: loki-egress-dns
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
 spec:
   policyTypes:
     - Egress
@@ -54,10 +54,10 @@ metadata:
   name: loki-ingress
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
 spec:
   policyTypes:
     - Ingress
@@ -89,10 +89,10 @@ metadata:
   name: loki-ingress-metrics
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
 spec:
   policyTypes:
     - Ingress
@@ -121,10 +121,10 @@ metadata:
   name: loki-egress-alertmanager
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
 spec:
   policyTypes:
     - Egress
@@ -147,42 +147,6 @@ spec:
               app.kubernetes.io/instance: k8s
               app.kubernetes.io/name: alertmanager
 ---
-# Source: loki/templates/chunks-cache/poddisruptionbudget-chunks-cache.yaml
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: loki-memcached-chunks-cache
-  namespace: logging-loki
-  labels:
-    app.kubernetes.io/name: loki
-    app.kubernetes.io/instance: loki
-    app.kubernetes.io/component: memcached-chunks-cache
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: loki
-      app.kubernetes.io/instance: loki
-      app.kubernetes.io/component: memcached-chunks-cache
-  maxUnavailable: 1
----
-# Source: loki/templates/results-cache/poddisruptionbudget-results-cache.yaml
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: loki-memcached-results-cache
-  namespace: logging-loki
-  labels:
-    app.kubernetes.io/name: loki
-    app.kubernetes.io/instance: loki
-    app.kubernetes.io/component: memcached-results-cache
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: loki
-      app.kubernetes.io/instance: loki
-      app.kubernetes.io/component: memcached-results-cache
-  maxUnavailable: 1
----
 # Source: loki/templates/loki-canary/serviceaccount.yaml
 apiVersion: v1
 kind: ServiceAccount
@@ -190,10 +154,10 @@ metadata:
   name: loki-canary
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: canary
 automountServiceAccountToken: true
 ---
@@ -204,10 +168,10 @@ metadata:
   name: loki
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
 automountServiceAccountToken: true
 ---
 # Source: loki/templates/gateway/secret-gateway.yaml
@@ -217,16 +181,15 @@ metadata:
   name: loki-gateway
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: gateway
 stringData:
   .htpasswd: |
-    
-    self-monitoring:$2a$10$1UxzmFSKZ16.NjBt1wvn1OnPLUrU1y2PWGDI59MRNlhpGxSUvB4ie
-    loki:$2a$10$UqxwQ/G3inAbKBMp/kwY9OtSt9iU1YxOwDXOPXztnZqaKZYpmraCK
+    self-monitoring:$2a$10$sDdu94pcet.ShKnC3KG20eTDdE4ZgIHChAg2vTlX8ORZr4gtAbIbq
+    loki:$2a$10$DqtPfaAFieLQKrSdcs44S.D8R2xWgC1c.ugsf7H4wHgnWw3YnB3bK
 ---
 # Source: loki/templates/gateway/configmap-gateway.yaml
 apiVersion: v1
@@ -235,10 +198,10 @@ metadata:
   name: loki-gateway
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: gateway
 data:
   nginx.conf: |
@@ -275,7 +238,12 @@ data:
       sendfile     on;
       tcp_nopush   on;
       resolver kube-dns.kube-system.svc.cluster.local.;
-      proxy_set_header X-Scope-OrgID $remote_user;
+    
+      # if the X-Query-Tags header is empty, set a noop= without a value as empty values are not logged
+      map $http_x_query_tags $query_tags {
+        ""        "noop=";            # When header is empty, set noop=
+        default   $http_x_query_tags; # Otherwise, preserve the original value
+      }
     
       server {
         listen             8080;
@@ -284,6 +252,7 @@ data:
         auth_basic_user_file /etc/nginx/secrets/.htpasswd;
     
         location = / {
+          proxy_set_header X-Scope-OrgID $remote_user;
           return 200 'OK';
           auth_basic off;
         }
@@ -291,122 +260,146 @@ data:
         ########################################################
         # Configure backend targets
         location ^~ /ui {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
         # Distributor
         location = /api/prom/push {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /loki/api/v1/push {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /distributor/ring {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /otlp/v1/logs {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
         # Ingester
         location = /flush {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location ^~ /ingester/ {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /ingester {
+          proxy_set_header X-Scope-OrgID $remote_user;
           internal;        # to suppress 301
         }
     
         # Ring
         location = /ring {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
         # MemberListKV
         location = /memberlist {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
         # Ruler
         location = /ruler/ring {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /api/prom/rules {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location ^~ /api/prom/rules/ {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /loki/api/v1/rules {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location ^~ /loki/api/v1/rules/ {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /prometheus/api/v1/alerts {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /prometheus/api/v1/rules {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
         # Compactor
         location = /compactor/ring {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /loki/api/v1/delete {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /loki/api/v1/cache/generation_numbers {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
         # IndexGateway
         location = /indexgateway/ring {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
         # QueryScheduler
         location = /scheduler/ring {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-backend.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
         # Config
         location = /config {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-write.logging-loki.svc.cluster.local:3100$request_uri;
         }
     
     
         # QueryFrontend, Querier
         location = /api/prom/tail {
-          proxy_pass       http://loki-read.logging-loki.svc.cluster.local:3100$request_uri;
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "upgrade";
+          proxy_set_header X-Scope-OrgID $remote_user;
+          proxy_pass       http://loki-read.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /loki/api/v1/tail {
-          proxy_pass       http://loki-read.logging-loki.svc.cluster.local:3100$request_uri;
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "upgrade";
+          proxy_set_header X-Scope-OrgID $remote_user;
+          proxy_pass       http://loki-read.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location ^~ /api/prom/ {
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-read.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /api/prom {
+          proxy_set_header X-Scope-OrgID $remote_user;
           internal;        # to suppress 301
-        }
-        # if the X-Query-Tags header is empty, set a noop= without a value as empty values are not logged
-        set $query_tags $http_x_query_tags;
-        if ($query_tags !~* '') {
-          set $query_tags "noop=";
         }
         location ^~ /loki/api/v1/ {
           # pass custom headers set by Grafana as X-Query-Tags which are logged as key/value pairs in metrics.go log messages
           proxy_set_header X-Query-Tags "${query_tags},user=${http_x_grafana_user},dashboard_id=${http_x_dashboard_uid},dashboard_title=${http_x_dashboard_title},panel_id=${http_x_panel_id},panel_title=${http_x_panel_title},source_rule_uid=${http_x_rule_uid},rule_name=${http_x_rule_name},rule_folder=${http_x_rule_folder},rule_version=${http_x_rule_version},rule_source=${http_x_rule_source},rule_type=${http_x_rule_type}";
+          proxy_set_header X-Scope-OrgID $remote_user;
           proxy_pass       http://loki-read.logging-loki.svc.cluster.local:3100$request_uri;
         }
         location = /loki/api/v1 {
+          proxy_set_header X-Scope-OrgID $remote_user;
           internal;        # to suppress 301
         }
       }
@@ -419,13 +412,49 @@ metadata:
   name: loki-runtime
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
 data:
   runtime-config.yaml: |
     {}
+---
+# Source: loki/templates/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: loki
+  namespace: logging-loki
+  labels:
+    helm.sh/chart: loki-6.37.0
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/instance: loki
+    app.kubernetes.io/version: "3.5.3"
+rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources: ["configmaps", "secrets"]
+    verbs: ["get", "watch", "list"]
+---
+# Source: loki/templates/rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: loki
+  namespace: logging-loki
+  labels:
+    helm.sh/chart: loki-6.37.0
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/instance: loki
+    app.kubernetes.io/version: "3.5.3"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: loki
+subjects:
+  - kind: ServiceAccount
+    name: loki
+    namespace: logging-loki
 ---
 # Source: loki/templates/backend/query-scheduler-discovery.yaml
 apiVersion: v1
@@ -495,10 +524,10 @@ metadata:
   name: loki-backend
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: backend
   annotations:
 spec:
@@ -523,10 +552,10 @@ kind: Service
 metadata:
   name: loki-chunks-cache
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: "memcached-chunks-cache"
   annotations:
     {}
@@ -554,10 +583,10 @@ metadata:
   name: loki-gateway
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: gateway
     prometheus.io/service-monitor: "false"
   annotations:
@@ -580,10 +609,10 @@ metadata:
   name: loki-canary
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: canary
   annotations:
 spec:
@@ -636,10 +665,10 @@ metadata:
   name: loki-read
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: read
   annotations:
 spec:
@@ -664,10 +693,10 @@ kind: Service
 metadata:
   name: loki-results-cache
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: "memcached-results-cache"
   annotations:
     {}
@@ -695,10 +724,10 @@ metadata:
   name: loki-memberlist
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
   annotations:
 spec:
   type: ClusterIP
@@ -751,10 +780,10 @@ metadata:
   name: loki-write
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: write
   annotations:
 spec:
@@ -780,10 +809,10 @@ metadata:
   name: loki-canary
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: canary
 spec:
   selector:
@@ -811,7 +840,7 @@ spec:
         runAsUser: 10001
       containers:
         - name: loki-canary
-          image: registry.lan/loki-canary:3.5.0
+          image: registry.lan/loki-canary:3.5.3
           imagePullPolicy: IfNotPresent
           args:
             - -addr=loki-gateway.logging-loki.svc.cluster.local.:80
@@ -861,10 +890,10 @@ metadata:
   name: loki-gateway
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: gateway
 spec:
   replicas: 1
@@ -879,7 +908,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: f713fffd00ea55bc1f5dcc73704c316d3ac03899515a45c2ca42b076d900f375
+        checksum/config: c5793baf82046b692a38c95c769dbde253f3a2004aa58b199357f1cbcc390dc1
       labels:
         app.kubernetes.io/name: loki
         app.kubernetes.io/instance: loki
@@ -896,7 +925,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: nginx
-          image: registry.lan/loki-nginx-unprivileged:1.28-alpine
+          image: registry.lan/loki-nginx-unprivileged:1.29-alpine
           imagePullPolicy: IfNotPresent
           ports:
             - name: http-metrics
@@ -956,10 +985,10 @@ metadata:
   namespace: logging-loki
   labels:
     app.kubernetes.io/part-of: memberlist
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: read
 spec:
   replicas: 1
@@ -994,7 +1023,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: loki
-          image: registry.lan/loki:3.5.1
+          image: registry.lan/loki:3.5.3
           imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/loki/config/config.yaml
@@ -1068,10 +1097,10 @@ metadata:
   name: loki-backend
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: backend
     app.kubernetes.io/part-of: memberlist
 spec:
@@ -1095,11 +1124,12 @@ spec:
     metadata:
       annotations:
         checksum/config: 12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126
+        kubectl.kubernetes.io/default-container: "loki"
       labels:
-        helm.sh/chart: loki-6.31.0
+        helm.sh/chart: loki-6.37.0
         app.kubernetes.io/name: loki
         app.kubernetes.io/instance: loki
-        app.kubernetes.io/version: "3.5.1"
+        app.kubernetes.io/version: "3.5.3"
         app.kubernetes.io/component: backend
         app.kubernetes.io/part-of: memberlist
     spec:
@@ -1113,37 +1143,8 @@ spec:
         runAsUser: 10001
       terminationGracePeriodSeconds: 300
       containers:
-        - name: loki-sc-rules
-          image: "registry.lan/loki-kiwigrid-k8s-sidecar:1.30.6"
-          imagePullPolicy: IfNotPresent
-          env:
-            - name: METHOD
-              value: WATCH
-            - name: LABEL
-              value: "loki_rule"
-            - name: FOLDER
-              value: "/rules"
-            - name: RESOURCE
-              value: "both"
-            - name: WATCH_SERVER_TIMEOUT
-              value: "60"
-            - name: WATCH_CLIENT_TIMEOUT
-              value: "60"
-            - name: LOG_LEVEL
-              value: "INFO"
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-            readOnlyRootFilesystem: true
-            seccompProfile:
-              type: RuntimeDefault
-          volumeMounts:
-            - name: sc-rules-volume
-              mountPath: "/rules"
         - name: loki
-          image: registry.lan/loki:3.5.1
+          image: registry.lan/loki:3.5.3
           imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/loki/config/config.yaml
@@ -1190,6 +1191,35 @@ spec:
               mountPath: "/rules"
           resources:
             {}
+        - name: loki-sc-rules
+          image: "registry.lan/loki-kiwigrid-k8s-sidecar:1.30.7"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: METHOD
+              value: WATCH
+            - name: LABEL
+              value: "loki_rule"
+            - name: FOLDER
+              value: "/rules"
+            - name: RESOURCE
+              value: "both"
+            - name: WATCH_SERVER_TIMEOUT
+              value: "60"
+            - name: WATCH_CLIENT_TIMEOUT
+              value: "60"
+            - name: LOG_LEVEL
+              value: "INFO"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: RuntimeDefault
+          volumeMounts:
+            - name: sc-rules-volume
+              mountPath: "/rules"
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -1229,10 +1259,10 @@ kind: StatefulSet
 metadata:
   name: loki-chunks-cache
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: "memcached-chunks-cache"
     name: "memcached-chunks-cache"
   annotations:
@@ -1250,7 +1280,6 @@ spec:
   updateStrategy:
     type: RollingUpdate
   serviceName: loki-chunks-cache
-
   template:
     metadata:
       labels:
@@ -1259,7 +1288,6 @@ spec:
         app.kubernetes.io/component: "memcached-chunks-cache"
         name: "memcached-chunks-cache"
       annotations:
-
     spec:
       serviceAccountName: loki
       securityContext:
@@ -1315,6 +1343,13 @@ spec:
             tcpSocket:
               port: client
             timeoutSeconds: 3
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            tcpSocket:
+              port: client
+            timeoutSeconds: 5
         - name: exporter
           image: registry.lan/loki-memcached-exporter:v0.15.3
           imagePullPolicy: IfNotPresent
@@ -1335,6 +1370,22 @@ spec:
             readOnlyRootFilesystem: true
             seccompProfile:
               type: RuntimeDefault
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /metrics
+              port: http-metrics
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /metrics
+              port: http-metrics
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
 ---
 # Source: loki/templates/results-cache/statefulset-results-cache.yaml
 apiVersion: apps/v1
@@ -1342,10 +1393,10 @@ kind: StatefulSet
 metadata:
   name: loki-results-cache
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: "memcached-results-cache"
     name: "memcached-results-cache"
   annotations:
@@ -1363,7 +1414,6 @@ spec:
   updateStrategy:
     type: RollingUpdate
   serviceName: loki-results-cache
-
   template:
     metadata:
       labels:
@@ -1372,7 +1422,6 @@ spec:
         app.kubernetes.io/component: "memcached-results-cache"
         name: "memcached-results-cache"
       annotations:
-
     spec:
       serviceAccountName: loki
       securityContext:
@@ -1428,6 +1477,13 @@ spec:
             tcpSocket:
               port: client
             timeoutSeconds: 3
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            tcpSocket:
+              port: client
+            timeoutSeconds: 5
         - name: exporter
           image: registry.lan/loki-memcached-exporter:v0.15.3
           imagePullPolicy: IfNotPresent
@@ -1448,6 +1504,22 @@ spec:
             readOnlyRootFilesystem: true
             seccompProfile:
               type: RuntimeDefault
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /metrics
+              port: http-metrics
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /metrics
+              port: http-metrics
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
 ---
 # Source: loki/templates/write/statefulset-write.yaml
 apiVersion: apps/v1
@@ -1456,10 +1528,10 @@ metadata:
   name: loki-write
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: write
     app.kubernetes.io/part-of: memberlist
 spec:
@@ -1480,10 +1552,10 @@ spec:
       annotations:
         checksum/config: 12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126
       labels:
-        helm.sh/chart: loki-6.31.0
+        helm.sh/chart: loki-6.37.0
         app.kubernetes.io/name: loki
         app.kubernetes.io/instance: loki
-        app.kubernetes.io/version: "3.5.1"
+        app.kubernetes.io/version: "3.5.3"
         app.kubernetes.io/component: write
         app.kubernetes.io/part-of: memberlist
     spec:
@@ -1499,7 +1571,7 @@ spec:
       terminationGracePeriodSeconds: 300
       containers:
         - name: loki
-          image: registry.lan/loki:3.5.1
+          image: registry.lan/loki:3.5.3
           imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/loki/config/config.yaml
@@ -1577,10 +1649,10 @@ metadata:
   name: loki-gateway
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
     app.kubernetes.io/component: gateway
   annotations:
     gethomepage.dev/description: Loki is a horizontally scalable, highly available, multi-tenant
@@ -1612,10 +1684,10 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
   name: loki-loki-alerts
   namespace: logging-loki
 spec:
@@ -1677,10 +1749,10 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
   name: loki-loki-rules
   namespace: logging-loki
 spec:
@@ -1777,10 +1849,10 @@ metadata:
   name: loki
   namespace: logging-loki
   labels:
-    helm.sh/chart: loki-6.31.0
+    helm.sh/chart: loki-6.37.0
     app.kubernetes.io/name: loki
     app.kubernetes.io/instance: loki
-    app.kubernetes.io/version: "3.5.1"
+    app.kubernetes.io/version: "3.5.3"
 spec:
   selector:
     matchLabels:

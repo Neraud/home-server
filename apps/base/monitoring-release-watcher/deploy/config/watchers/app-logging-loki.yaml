@@ -2,7 +2,7 @@ watchers:
   - name: "Loki Helm Chart"
     type: github_release
     repo: grafana/helm-charts
-    release: helm-loki-6.31.0
+    release: helm-loki-6.37.0
     includes:
       - helm-loki-.*
   - name: "Loki MinIO"

@@ -24,7 +24,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/paperless-ngx:2.17.1-custom"
+        image: "registry.lan/paperless-ngx:2.18.2-custom"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -44,7 +44,7 @@ spec:
           mountPath: /empty
       containers:
       - name: paperless
-        image: "registry.lan/paperless-ngx:2.17.1-custom"
+        image: "registry.lan/paperless-ngx:2.18.2-custom"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:

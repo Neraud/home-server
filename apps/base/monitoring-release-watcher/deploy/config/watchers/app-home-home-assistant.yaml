@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: home-assistant/home-assistant
-    tag: 2025.7.2
+    tag: 2025.8.3
     includes:
       - ^[0-9][0-9][0-9][0-9]\.[0-9]+\.[0-9]+.*
     excludes:
@@ -10,7 +10,7 @@ watchers:
       - .*b[0-9]
       - (latest|stable|beta|dev|rc)
       - ^202[0-4]\..*
-      - ^2025\.[0-6]\..*
+      - ^2025\.[0-7]\..*
   - type: github_commit
     repo: bob1de/ldap-auth-sh
     branch: master
@@ -19,10 +19,10 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/mysql
-    tag: 9.3.0-oraclelinux9
+    tag: 9.4.0-oraclelinux9
     includes:
       - ^[0-9]\.[0-9]+\.[0-9]+-oraclelinux.+
     excludes:
       - .*rc.*
       - ^[0-8]\..*
-      - ^9\.[0-2]\..*
+      - ^9\.[0-3]\..*

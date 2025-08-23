@@ -1,32 +1,32 @@
 watchers:
   - type: pypi
     package: ansible
-    version: 11.7.0
+    version: 11.9.0
     excludes:
       - .*[ab][1-9]$
       - .*rc[1-9]$
       - ^[0-9]\..*
       - ^10\..*
-      - ^11\.[0-6]\..*
+      - ^11\.[0-8]\..*
   - type: github_release
     repo: mehdy/keepalived-exporter
     release: v1.7.0
   - type: github_release
     repo: kubernetes/kubernetes
-    release: v1.29.3
+    release: v1.33.4
     excludes:
       - .*(alpha|beta|rc).*
       - v1\.[0-2][0-9]\..*
   - type: github_release
     repo: cri-o/cri-o
-    release: v1.29.2
+    release: 1.33.3
     excludes:
       - .*(alpha|beta|rc).*
-      - v1\.[0-1][0-9]\..*
-      - v1\.2[0-8]\..*
+      - v1\.[0-2][0-9]\..*
+      - v1\.3[0-2]\..*
   - type: github_release
     repo: kubernetes-sigs/kustomize
-    release: kustomize/v5.7.0
+    release: kustomize/v5.7.1
     includes:
       - kustomize/.*
     excludes:

@@ -21,7 +21,7 @@ spec:
       - args:
         - --config.file=/etc/blackbox_exporter/config.yml
         - --web.listen-address=:19115
-        image: registry.lan/blackbox-exporter:v0.26.0
+        image: registry.lan/blackbox-exporter:v0.27.0
         name: blackbox-exporter
         readinessProbe:
           httpGet:

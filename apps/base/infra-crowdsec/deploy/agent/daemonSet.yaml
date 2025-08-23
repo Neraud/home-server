@@ -53,7 +53,7 @@ spec:
               - ALL
       containers:
       - name: agent
-        image: "registry.lan/crowdsec:v1.6.10-debian"
+        image: "registry.lan/crowdsec:v1.6.11-debian"
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
