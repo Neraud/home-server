@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: nextcloud
       app.kubernetes.io/component: nextcloud
       app.kubernetes.io/part-of: nextcloud
-      app.kubernetes.io/version: 31.0.7-apache
+      app.kubernetes.io/version: 31.0.8-apache
 
 generatorOptions:
  disableNameSuffixHash: true
