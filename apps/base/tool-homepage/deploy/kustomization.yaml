@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: homepage
       app.kubernetes.io/component: homepage
-      app.kubernetes.io/version: v1.3.2
+      app.kubernetes.io/version: v1.4.6
 
 generatorOptions:
  disableNameSuffixHash: true
@@ -21,6 +21,7 @@ secretGenerator:
   - secret/custom.js
   - secret/docker.yaml
   - secret/kubernetes.yaml
+  - secret/proxmox.yaml
   - secret/services.yaml
   - secret/settings.yaml
   - secret/widgets.yaml

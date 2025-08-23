@@ -3,10 +3,10 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: ghcr.io/gethomepage/homepage
-    tag: v1.3.2
+    tag: v1.4.6
     includes:
       - ^v[0-9]+\.[0-9]+\.[0-9]+
     excludes:
       - ^v0\.
-      - ^v1\.[0-2]\.
-      - ^v1\.3\.[0-1]$
+      - ^v1\.[0-3]\.
+      - ^v1\.4\.[0-5]$
