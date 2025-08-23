@@ -21,7 +21,7 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: registry.lan/kube-state-metrics:v2.15.0
+        image: registry.lan/kube-state-metrics:v2.16.0
         imagePullPolicy: IfNotPresent
         name: kube-state-metrics
         resources:
