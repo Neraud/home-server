@@ -1,0 +1,29 @@
+---
+- name: Get topgrade installed version
+  command: topgrade --version
+  changed_when: no
+  failed_when: no
+  register: current_topgrade_version
+
+- name: Install topgrade from the Github releases
+  block:
+    - name: Install topgrade from the Github releases
+      ansible.builtin.unarchive:
+        src: https://github.com/topgrade-rs/topgrade/releases/download/{{ topgrade_version }}/topgrade-{{ topgrade_version }}-x86_64-unknown-linux-gnu.tar.gz
+        dest: /usr/local/bin/
+        remote_src: yes
+      become: yes
+
+    - name: Generate shell completions
+      ansible.builtin.shell: |
+        /usr/local/bin/topgrade --gen-completion bash >> /usr/share/bash-completion/completions/topgrade
+        /usr/local/bin/topgrade --gen-completion zsh >> /usr/share/zsh/site-functions/_topgrade
+        #/usr/local/bin/topgrade --gen-completion fish >> /usr/share/fish/vendor_completions.d/topgrade
+      become: yes
+  when: topgrade_version[1:] not in current_topgrade_version.stdout
+
+- name: Configure topgrade for root
+  ansible.builtin.template:
+    src: topgrade.toml.j2
+    dest: /root/.config/topgrade.toml
+    mode: 0664

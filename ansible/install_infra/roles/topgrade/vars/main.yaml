@@ -1,0 +1,3 @@
+---
+# curl -s https://api.github.com/repos/topgrade-rs/topgrade/releases | jq -r 'first(.[] | select(.prerelease == false and .draft == false) | .tag_name)'
+topgrade_version: v16.0.4
