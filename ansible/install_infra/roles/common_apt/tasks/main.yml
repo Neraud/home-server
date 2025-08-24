@@ -39,3 +39,6 @@
       - non-free-firmware
     signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
   when: ansible_distribution == 'Debian'
+
+- import_tasks: unattended_upgrades.yml
+  when: ansible_distribution == 'Debian'
