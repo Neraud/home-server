@@ -1,7 +1,0 @@
-# {{ ansible_managed }}
-[Service]
-# Clear default ExecStart
-ExecStart=
-
-# Add custom opts
-ExecStart=/usr/bin/certbot -q renew --config-dir {{ letsencrypt_config_dir }}

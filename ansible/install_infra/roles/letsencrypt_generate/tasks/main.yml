@@ -1,11 +1,22 @@
 ---
-- name: Install Certbot and plugins
+- name: Install python dependencies
   ansible.builtin.apt:
-    pkg: "{{ item }}"
+    pkg: python3-virtualenv
     state: present
+
+- name: Install Certbot and plugins
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    virtualenv: "{{ certbot_venv_dir }}"
   loop:
-    - certbot
-    - python3-certbot-dns-gandi
+    - certbot==5.1.0
+    - certbot-dns-ovh==5.1.0
+
+- name: Link certbot binary
+  ansible.builtin.file:
+    src: "{{ certbot_venv_dir }}/bin/certbot"
+    dest: /usr/bin/certbot
+    state: link
 
 - name: Ensures letsencrypt folders exist
   ansible.builtin.file:
@@ -56,20 +67,23 @@
   when:
     - item.mode not in ['standalone', 'dns']
 
-- name: Configure Gandi DNS
+- name: Configure OVH DNS
   ansible.builtin.copy:
-    dest: "{{ letsencrypt_dir }}/gandi.ini"
+    dest: "{{ letsencrypt_dir }}/ovh.ini"
     content: |
-      # live dns v5 api key
-      dns_gandi_api_key={{ letsencrypt_gandi_api_key }}
+      # OVH API credentials used by Certbot
+      dns_ovh_endpoint = ovh-eu
+      dns_ovh_application_key = {{ letsencrypt_dns_ovh_application_key }}
+      dns_ovh_application_secret = {{ letsencrypt_dns_ovh_application_secret }}
+      dns_ovh_consumer_key = {{ letsencrypt_dns_ovh_consumer_key }}
     mode: 0600
-  when: letsencrypt_gandi_api_key is defined
+  when: letsencrypt_dns_ovh_application_key is defined
 
 - name: Create letsencrypt certificates
   ansible.builtin.command: >
     certbot certonly -n
     {% if item.mode == "standalone" %}--standalone --http-01-address={{ nginx_keepalived_instance_public_virtual_ip }}
-    {% elif item.mode == "dns" %}--authenticator dns-gandi --dns-gandi-credentials {{ letsencrypt_dir }}/gandi.ini
+    {% elif item.mode == "dns" %}--authenticator dns-ovh --dns-ovh-credentials {{ letsencrypt_dir }}/ovh.ini
     {% endif %}
     -m {{ item.email }}
     {% if not item.live %}--staging{% endif %}
@@ -92,9 +106,18 @@
     state: directory
     mode: 0755
 
-- name: Configure certbot renew service
+- name: Deploy certbot renew timer systemd unit and timer
   ansible.builtin.template:
-    src: systemd_override.conf.j2
-    dest: /etc/systemd/system/certbot.service.d/override.conf
-    mode: 0644
+    src: "systemd/{{ item }}.j2"
+    dest: "/etc/systemd/system/{{ item }}"
+    mode: 0700
+  loop:
+    - certbot_renew.service
+    - certbot_renew.timer
   notify: Reload systemd daemon
+
+- name: Enable certbot renew systemd timer
+  ansible.builtin.systemd:
+    name: certbot_renew.timer
+    state: started
+    enabled: yes

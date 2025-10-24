@@ -6,4 +6,7 @@ letsencrypt_certificates:
   #email: email@k8stest.com
   #mode: standalone
   #live: true
-#letsencrypt_gandi_api_key: "APIKEY"
+
+#letsencrypt_dns_ovh_application_key = MDAwMDAwMDAwMDAw
+#letsencrypt_dns_ovh_application_secret = MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw
+#letsencrypt_dns_ovh_consumer_key = MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAw

@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=Certbot
+Documentation=https://certbot.eff.org/docs
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/certbot -q renew --no-random-sleep-on-renew --config-dir {{ letsencrypt_config_dir }}
+PrivateTmp=true
