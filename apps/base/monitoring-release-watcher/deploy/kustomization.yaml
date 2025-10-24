@@ -47,9 +47,9 @@ configMapGenerator:
   - config/watchers/app-home-zwave-js-ui.yaml
   - config/watchers/app-infra-blocky.yaml
   - config/watchers/app-infra-crowdsec.yaml
+  - config/watchers/app-infra-ddclient.yaml
   - config/watchers/app-infra-docker-registry-ui.yaml
   - config/watchers/app-infra-docker-registry.yaml
-  - config/watchers/app-infra-gandi-livedns.yaml
   - config/watchers/app-infra-kubernetes-metrics-server.yaml
   - config/watchers/app-infra-mailhog.yaml
   - config/watchers/app-infra-ntfy.yaml

@@ -1,8 +1,0 @@
-creation_rules:
-- path_regex: "gandi-livedns\\.env"
-  encrypted_regex: "^(APIKEY|DOMAIN)$"
-  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"
-
-# Default Kubernetes manifest encryption
-- unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
-  age: "age1ykc9cp7e7sylr09ldufwd337h6kvghn8ga250unudvxxlaczpuzsv04rqn"

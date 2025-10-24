@@ -36,8 +36,8 @@
     - { role: home-zwavejsui,                    tags: kubernetes-app-home-zwavejsui,                    when: zwavejsui_enabled | bool }
     - { role: infra-blocky,                      tags: kubernetes-app-infra-blocky,                      when: blocky_enabled | bool }
     - { role: infra-crowdsec,                    tags: kubernetes-app-infra-crowdsec,                    when: crowdsec_enabled | bool }
+    - { role: infra-ddclient,                    tags: kubernetes-app-infra-ddclient,                    when: ddclient_enabled | bool }
     - { role: infra-docker-registry-ui,          tags: kubernetes-app-infra-docker-registry-ui,          when: docker_registry_ui_enabled | bool }
-    - { role: infra-gandi-livedns,               tags: kubernetes-app-infra-gandi-livedns,               when: gandi_livedns_enabled | bool }
     - { role: infra-kubernetes-metrics-server,   tags: kubernetes-app-infra-kubernetes-metrics-server,   when: kubernetes_metrics_server_enabled | bool }
     - { role: infra-mailhog,                     tags: kubernetes-app-infra-mailhog,                     when: mailhog_enabled | bool }
     - { role: infra-ntfy,                        tags: kubernetes-app-infra-ntfy,                        when: ntfy_enabled | bool }

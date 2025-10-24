@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: infra-ddclient
+
+labels:
+  - includeSelectors: false
+    pairs:
+      app.kubernetes.io/name: ddclient
+      app.kubernetes.io/component: ddclient
+      app.kubernetes.io/version: 1.0.0
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: ddclient-env
+    envs:
+      - config/ddclient.env
+
+secretGenerator:
+  - name: ddclient-env
+    envs:
+      - secret/ddclient.env
+
+resources:
+  - namespace.yaml
+  - ../../_common/deploy
+  - deployment.yaml
