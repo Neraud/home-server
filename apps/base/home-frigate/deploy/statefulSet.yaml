@@ -31,7 +31,7 @@ spec:
               mkdir -p /frigate-config/config
               cp /config/config_base.yml /frigate-config/config/config_base.yml
               if [ -f /frigate-config/config/config.yml ] ; then
-                echo "Config already exists, not overwritting, it may be obsolete !"
+                echo "Config already exists, not overwriting, it may be obsolete !"
               else
                 echo "Init config from base"
                 cp /frigate-config/config/config_base.yml /frigate-config/config/config.yml
@@ -49,12 +49,13 @@ spec:
           ports:
             - containerPort: 5000
               name: http
-            - containerPort: 1935
-              name: rtmp
+            - containerPort: 8554
+              name: rtsp
+            - containerPort: 8555
+              name: webrtc
           envFrom:
             - secretRef:
                 name: frigate-env
-
           securityContext:
             #readOnlyRootFilesystem: true
             # To mount USB :

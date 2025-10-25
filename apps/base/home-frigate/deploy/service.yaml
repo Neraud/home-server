@@ -6,8 +6,10 @@ spec:
   ports:
   - port: 5000
     name: http
-  - port: 1935
-    name: rtmp
+  - port: 8554
+    name: rtsp
+  - port: 8555
+    name: webrtc
   selector:
     app.kubernetes.io/name: frigate
     app.kubernetes.io/component: frigate
