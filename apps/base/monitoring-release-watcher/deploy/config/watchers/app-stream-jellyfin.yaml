@@ -2,12 +2,12 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: jellyfin/jellyfin
-    tag: 10.10.7
+    tag: 10.11.0
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+$
     excludes:
       - ^10\.[0-9]\..*
-      - ^10\.10\.[0-6]$
+      - ^10\.1[0]\..*
   - name: Jellyfin inject conf
     type: docker_registry
     repo: registry-1.docker.io
@@ -23,16 +23,16 @@ watchers:
       - ^3\.13\.[0-4]-
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anidb
-    tag: v10
-  - type: github_tag
-    repo: jellyfin/jellyfin-plugin-anilist
     tag: v11
   - type: github_tag
+    repo: jellyfin/jellyfin-plugin-anilist
+    tag: v12
+  - type: github_tag
     repo: jellyfin/jellyfin-plugin-anisearch
-    tag: v5
+    tag: v6
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-ldapauth
-    tag: v20
+    tag: v21
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-tvdb
-    tag: v19
+    tag: v20

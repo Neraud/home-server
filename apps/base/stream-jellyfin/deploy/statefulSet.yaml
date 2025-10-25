@@ -61,7 +61,7 @@ spec:
           mountPath: /tmp-cert
       containers:
       - name: jellyfin
-        image: "registry.lan/jellyfin:10.10.7-custom"
+        image: "registry.lan/jellyfin:10.11.0-custom"
         ports:
         - containerPort: 8096
           name: jellyfin
