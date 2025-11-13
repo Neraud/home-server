@@ -22,7 +22,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/homeassistant-mysql:9.4.0-oraclelinux9"
+        image: "registry.lan/homeassistant-mysql:9.5.0-oraclelinux9"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -41,7 +41,7 @@ spec:
           mountPath: /mysql-data
       containers:
       - name: mysql
-        image: "registry.lan/homeassistant-mysql:9.4.0-oraclelinux9"
+        image: "registry.lan/homeassistant-mysql:9.5.0-oraclelinux9"
         imagePullPolicy: IfNotPresent
         envFrom:
         - secretRef:
