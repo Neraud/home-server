@@ -1,1 +1,1 @@
-FROM docker.io/library/mongo:8.0.13-noble
+FROM docker.io/library/mongo:8.2.1-noble
