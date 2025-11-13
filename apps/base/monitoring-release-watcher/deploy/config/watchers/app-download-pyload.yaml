@@ -3,17 +3,17 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/python
-    tag: 3.13.7-slim-trixie
+    tag: 3.13.9-slim-trixie
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-slim-trixie
     excludes:
       - ^2\.
       - ^3\.[0-9]\.
       - ^3\.1[0-2]\.
-      - ^3\.13\.[0-6]-
+      - ^3\.13\.[0-8]-
   - name: PyLoad
     type: pypi
     package: pyload-ng
-    version: 0.5.0b3.dev92
+    version: 0.5.0b3.dev93
     excludes:
       - ^1\..*
