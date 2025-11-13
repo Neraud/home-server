@@ -6,8 +6,8 @@ labels:
     pairs:
       app.kubernetes.io/name: apcups-exporter
       app.kubernetes.io/component: daemon
-      app.kubernetes.io/version: 3f531e59fc85ebd86ce9806a1336818c5db18bcb-3.20.2
+      app.kubernetes.io/version: 28b7412171d865777a1bb8c9358df081d50f2bba-3.22.2
 
 resources:
-- endpoint.yaml
-- service.yaml
+  - endpoint.yaml
+  - service.yaml
