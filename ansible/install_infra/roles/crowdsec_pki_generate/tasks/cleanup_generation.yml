@@ -27,11 +27,11 @@
     crowdsec_pki_expected_files: "{{ crowdsec_pki_expected_files | default([]) + expected_files }}"
   vars:
     expected_files:
-      - "{{ crowdsec_pki_server_cert.name }}.pkcs1.key"
-      - "{{ crowdsec_pki_server_cert.name }}.key"
-      - "{{ crowdsec_pki_server_cert.name }}.csr"
-      - "{{ crowdsec_pki_server_cert.name }}.crt"
-      - "{{ crowdsec_pki_server_cert.name }}-chain.crt"
+      - "server/{{ crowdsec_pki_server_cert.name }}.pkcs1.key"
+      - "server/{{ crowdsec_pki_server_cert.name }}.key"
+      - "server/{{ crowdsec_pki_server_cert.name }}.csr"
+      - "server/{{ crowdsec_pki_server_cert.name }}.crt"
+      - "server/{{ crowdsec_pki_server_cert.name }}-chain.crt"
 
 - name: Prepare list of expected agents certs files
   ansible.builtin.set_fact:
@@ -56,6 +56,18 @@
       - "bouncers/{{ item }}/{{ crowdsec_pki_bouncer_cert.name }}.csr"
       - "bouncers/{{ item }}/{{ crowdsec_pki_bouncer_cert.name }}.crt"
       - "bouncers/{{ item }}/{{ crowdsec_pki_bouncer_cert.name }}-chain.crt"
+
+- name: Prepare list of expected host agents certs files
+  ansible.builtin.set_fact:
+    crowdsec_pki_expected_files: "{{ crowdsec_pki_expected_files | default([]) + expected_files }}"
+  loop: "{{ (groups['all_hosts'] + crowdsec_pki_additional_agents) | list }}"
+  vars:
+    expected_files:
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}.pkcs1.key"
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}.key"
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}.csr"
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}.crt"
+      - "hosts/{{ item }}/agent/{{ crowdsec_pki_agent_cert.name }}-chain.crt"
 
 - name: Prepare list of expected host bouncers certs files
   ansible.builtin.set_fact:
