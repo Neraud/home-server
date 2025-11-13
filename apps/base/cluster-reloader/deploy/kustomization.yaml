@@ -8,12 +8,13 @@ labels:
     pairs:
       app.kubernetes.io/name: reloader
       app.kubernetes.io/component: reloader
-      app.kubernetes.io/version: v1.4.6
+      app.kubernetes.io/version: v1.4.10
 
 resources:
 - namespace.yaml
 - ../../_common/deploy
 - manifests/serviceaccount.yaml
+- manifests/role.yaml
 - manifests/clusterrole.yaml
 - manifests/clusterrolebinding.yaml
 - manifests/deployment.yaml
@@ -22,6 +23,6 @@ patches:
 - path: patches/deployment.yaml
 
 images:
- - name: ghcr.io/stakater/reloader:v1.4.6
+ - name: ghcr.io/stakater/reloader:v1.4.10
    newName: registry.lan/reloader
-   newTag: v1.4.6
+   newTag: v1.4.10
