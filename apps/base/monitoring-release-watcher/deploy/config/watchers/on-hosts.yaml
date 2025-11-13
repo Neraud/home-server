@@ -41,11 +41,11 @@ watchers:
       - v3\.10\..*
   - type: github_release
     repo: viaduct-ai/kustomize-sops
-    release: v4.3.3
+    release: v4.4.0
     excludes:
       - .*(alpha|beta|rc).*
       - v[0-3]\..*
-      - v4\.[0-2]\..*
+      - v4\.[0-3]\..*
   - type: github_release
     repo: restic/restic
     release: v0.18.0
