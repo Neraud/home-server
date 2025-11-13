@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.13.7-alpine3.22
+FROM docker.io/library/python:3.13.9-alpine3.22
 
 RUN pip3 install lxml
 
