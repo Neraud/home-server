@@ -2,15 +2,15 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: gitea/gitea
-    tag: 1.24.5-rootless
+    tag: 1.25.1-rootless
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-rootless
     excludes:
       - ^0\.
       - ^1\.[0-9]\.
       - ^1\.1[0-9]\.
-      - ^1\.2[0-3]\.
-      - ^1\.24\.[0-4]-
+      - ^1\.2[0-4]\.
+      - ^1\.25\.[0]-
   - name: Gitea PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
