@@ -1,1 +1,1 @@
-FROM docker.io/intel/intel-gpu-plugin:0.32.1
+FROM docker.io/intel/intel-gpu-plugin:0.34.0
