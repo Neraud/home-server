@@ -1,4 +1,4 @@
-FROM ghcr.io/jellyfin/jellyfin:10.11.0
+FROM ghcr.io/jellyfin/jellyfin:10.11.2
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \
@@ -34,7 +34,7 @@ RUN echo "Install jellyfin-plugin-anisearch" && \
 
 RUN echo "Install jellyfin-plugin-ldapauth" && \
     mkdir -p "/opt/jellyfin/plugins/LDAP Authentication" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_21.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_22.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip -d "/opt/jellyfin/plugins/LDAP Authentication" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip
 
