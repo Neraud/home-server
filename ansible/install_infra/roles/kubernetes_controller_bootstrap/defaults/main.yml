@@ -9,7 +9,7 @@ kubernetes_users:
     home: "{{ standard_user.home }}"
     install_autocomplete: yes
 
-sops_version: 3.10.2
+sops_version: 3.11.0
 ksops_version: 4.3.3
 sops_age_key_file: /path/to/key.txt
 # Generate using : age-keygen -o key.txt
