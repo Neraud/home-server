@@ -1,1 +1,1 @@
-FROM ghcr.io/miniflux/miniflux:2.2.12-distroless
+FROM ghcr.io/miniflux/miniflux:2.2.14-distroless
