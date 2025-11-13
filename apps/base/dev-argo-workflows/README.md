@@ -2,4 +2,4 @@
 
 ## Sources
 
-`manifests` comes from the <https://github.com/argoproj/argo-workflows/tree/v3.7.1/manifests>
+`manifests` comes from the <https://github.com/argoproj/argo-workflows/tree/v3.7.4/manifests>
