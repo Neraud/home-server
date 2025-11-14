@@ -1,4 +1,4 @@
-#jinja2: trim_blocks: "true", lstrip_blocks: "false"
+#jinja2: lstrip_blocks: True
 # {{ ansible_managed }}
 
 {% if item.tcp_port | default(False) or item.udp_port | default(False) %}

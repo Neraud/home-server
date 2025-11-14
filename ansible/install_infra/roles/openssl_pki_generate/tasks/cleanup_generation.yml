@@ -48,11 +48,16 @@
     recurse: yes
   register: custom_pki_current_files
 
+- name: Stat custom_ssl_pki_generation_root_dir
+  ansible.builtin.stat:
+    path: "{{ custom_ssl_pki_generation_root_dir }}"
+  register: custom_ssl_pki_generation_root_dir_stat
+
 - name: Delete obsolete files from controller
   ansible.builtin.file:
     path: "{{ custom_ssl_pki_generation_root_dir }}/{{ item }}"
     state: absent
-  loop: "{{ custom_pki_current_files.files | map(attribute='path') | replace(custom_ssl_pki_generation_root_dir + '/', '') }}"
+  loop: "{{ custom_pki_current_files.files | map(attribute='path') | map('replace', custom_ssl_pki_generation_root_dir_stat.stat.path + '/', '') }}"
   when: item not in custom_pki_expected_files
 
 - name: Fetch existing files from a current node

@@ -107,7 +107,7 @@ spec:
               name: git-credentials
               key: gitea_password
       script:
-        image: registry.lan/template-source-fetcher:v2-3.13.5-alpine3.22
+        image: registry.lan/template-source-fetcher:v2-3.13.9-alpine3.22
         command: [bash]
         source: |
           set -euo pipefail
@@ -136,7 +136,7 @@ spec:
         parameters:
         - name: app_name
       script:
-        image: registry.lan/template-source-fetcher:v2-3.13.5-alpine3.22
+        image: registry.lan/template-source-fetcher:v2-3.13.9-alpine3.22
         command: [bash]
         source: |
           set -euo pipefail
@@ -178,7 +178,7 @@ spec:
         - name: apps_source_base
           path: /source/apps/base
       script:
-        image: registry.lan/buildah:v1.40.1
+        image: registry.lan/buildah:v1.42.0
         command: [bash]
         source: |
           set -euo pipefail
@@ -228,7 +228,7 @@ spec:
         parameters:
         - name: app_name
       script:
-        image: registry.lan/argocd:v3.1.0-ksops
+        image: registry.lan/argocd:v3.2.0-ksops
         command: [bash]
         env:
         - name: ARGOCD_AUTH_TOKEN
@@ -291,7 +291,7 @@ spec:
         - name: apps_source_overlay
           path: /source/apps/overlay
       script:
-        image: registry.lan/argocd:v3.1.0-ksops
+        image: registry.lan/argocd:v3.2.0-ksops
         command: [bash]
         env:
         - name: ARGOCD_AUTH_TOKEN

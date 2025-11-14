@@ -2,10 +2,10 @@ watchers:
   - type: docker_registry
     repo: "registry-1.docker.io"
     image: "lemonldapng/lemonldap-ng"
-    tag: "2.21.2"
+    tag: "2.22.0"
     excludes:
       - latest
       - ^1\.
       - ^2\.0\..*
       - ^2\.1[0-9]\..*
-      - ^2\.20\..*
+      - ^2\.2[0-1]\..*

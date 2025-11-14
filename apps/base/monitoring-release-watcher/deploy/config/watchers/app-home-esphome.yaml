@@ -2,11 +2,11 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: esphome/esphome
-    tag: 2025.8.0
+    tag: 2025.10.5
     includes:
       - ^20[0-9]+\.[0-9]+\.[0-9]+.*$
     excludes:
       - .*-(dev|beta).*
       - .*b[0-9]+$
       - ^202[0-4].*
-      - ^2025\.[0-7]\..*
+      - ^2025\.[0-9]\..*

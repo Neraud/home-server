@@ -1,6 +1,6 @@
 watchers:
   - type: github_release
     repo: projectcalico/calico
-    release: v3.30.2
+    release: v3.31.0
     excludes:
       - v3\.[1-2][0-9]\..*

@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.13.7-slim-trixie AS builder
+FROM docker.io/library/python:3.13.9-slim-trixie AS builder
 
 # Install build requirements
 RUN apt-get update && \
@@ -13,13 +13,13 @@ ENV PATH="/opt/venv/bin:$PATH"
 # Install sabnzbd
 RUN mkdir -p /opt/sabnzbd && \
     cd /opt/sabnzbd && \
-    curl -sL https://github.com/sabnzbd/sabnzbd/archive/4.5.2.tar.gz | tar xz --strip-components=1 && \
+    curl -sL https://github.com/sabnzbd/sabnzbd/archive/4.5.5.tar.gz | tar xz --strip-components=1 && \
     pip install -r /opt/sabnzbd/requirements.txt && \
     python tools/make_mo.py
 
 
 
-FROM docker.io/library/python:3.13.7-slim-trixie
+FROM docker.io/library/python:3.13.9-slim-trixie
 
 # Install requirements
 # non-free is needed for unrar

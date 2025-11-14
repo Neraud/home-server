@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: kube-state-metrics
       app.kubernetes.io/component: kube-state-metrics
-      app.kubernetes.io/version: v2.16.0
+      app.kubernetes.io/version: v2.17.0
 
 resources:
 - namespace.yaml

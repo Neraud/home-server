@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: quay.io
     image: mittwald/kubernetes-replicator
-    tag: v2.12.0
+    tag: v2.12.1
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:

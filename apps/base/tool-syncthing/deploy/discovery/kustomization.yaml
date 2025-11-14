@@ -6,7 +6,7 @@ labels:
     pairs:
       app.kubernetes.io/name: syncthing
       app.kubernetes.io/component: discovery
-      app.kubernetes.io/version: 2.0.3
+      app.kubernetes.io/version: 2.0.11
 
 resources:
 - ingress.yaml

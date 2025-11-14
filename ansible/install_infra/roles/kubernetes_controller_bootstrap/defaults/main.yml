@@ -1,16 +1,16 @@
 ---
-kubectl_version: 1.29.3
+kubectl_version: 1.33.4
 #kubeconfig_path: ~/.kube/config
 
-kustomize_version: v5.7.1
+kustomize_version: v5.8.0
 
 kubernetes_users:
   - name: "{{ standard_user.name }}"
     home: "{{ standard_user.home }}"
     install_autocomplete: yes
 
-sops_version: 3.10.2
-ksops_version: 4.3.3
+sops_version: 3.11.0
+ksops_version: 4.4.0
 sops_age_key_file: /path/to/key.txt
 # Generate using : age-keygen -o key.txt
 sops_age_key_content: CHANGEME

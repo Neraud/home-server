@@ -2,4 +2,4 @@
 
 ## Sources
 
-`manifests` comes from the <https://github.com/argoproj/argo-events/tree/v1.9.7/manifests>
+`manifests` comes from the <https://github.com/argoproj/argo-events/tree/v1.9.8/manifests>

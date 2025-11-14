@@ -9,7 +9,7 @@ spec:
       namespace: monitoring-prometheus
       port: web
   enableFeatures: []
-  image: registry.lan/prometheus:v3.5.0
+  image: registry.lan/prometheus:v3.7.3
   imagePullSecrets:
   - name: docker-config
   podMetadata:
@@ -47,6 +47,7 @@ spec:
     seccompProfile:
       type: RuntimeDefault
   serviceAccountName: prometheus-k8s
+  serviceDiscoveryRole: EndpointSlice
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
   retention: 2d
