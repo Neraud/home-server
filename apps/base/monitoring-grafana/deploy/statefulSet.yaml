@@ -18,7 +18,7 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-      - image: "registry.lan/grafana:11.2.1"
+      - image: "registry.lan/grafana:12.2.1"
         name: grafana
         envFrom:
         - configMapRef:
