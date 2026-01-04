@@ -1,1 +1,1 @@
-FROM ghcr.io/koenkk/zigbee2mqtt:2.6.3
+FROM ghcr.io/koenkk/zigbee2mqtt:2.7.2
