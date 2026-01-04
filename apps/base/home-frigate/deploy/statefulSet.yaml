@@ -22,20 +22,13 @@ spec:
           type: RuntimeDefault
       initContainers:
         - name: create-folders
-          image: "registry.lan/frigate:0.16.2"
+          image: "registry.lan/frigate:0.16.3"
           imagePullPolicy: IfNotPresent
           command:
             - "sh"
             - "-c"
             - |
               mkdir -p /frigate-config/config
-              cp /config/config_base.yml /frigate-config/config/config_base.yml
-              if [ -f /frigate-config/config/config.yml ] ; then
-                echo "Config already exists, not overwriting, it may be obsolete !"
-              else
-                echo "Init config from base"
-                cp /frigate-config/config/config_base.yml /frigate-config/config/config.yml
-              fi
           volumeMounts:
             - name: frigate-data
               mountPath: /frigate-config
@@ -44,7 +37,7 @@ spec:
               subPath: config_base.yml
       containers:
         - name: frigate
-          image: "registry.lan/frigate:0.16.2"
+          image: "registry.lan/frigate:0.16.3"
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000
@@ -75,10 +68,12 @@ spec:
               # To use a gpu limit
               #gpu.intel.com/i915: 1
           volumeMounts:
-            - name: cluster-config
-              mountPath: /etc/localtime
-              subPath: localtime
-              readOnly: true
+            # DO NOT MOUNT etc/localtime
+            # the detect process gets stuck using 100% CPU if mounted that way
+            #- name: cluster-config
+            #  mountPath: /etc/localtime
+            #  subPath: localtime
+            #  readOnly: true
             - name: frigate-data
               mountPath: /config
               subPath: config
@@ -92,9 +87,6 @@ spec:
             - name: dshm
               mountPath: /dev/shm
       volumes:
-        - name: cluster-config
-          configMap:
-            name: cluster-config
         - name: frigate-data
           persistentVolumeClaim:
             claimName: frigate-data
