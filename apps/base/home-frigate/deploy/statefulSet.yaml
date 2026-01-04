@@ -29,13 +29,6 @@ spec:
             - "-c"
             - |
               mkdir -p /frigate-config/config
-              cp /config/config_base.yml /frigate-config/config/config_base.yml
-              if [ -f /frigate-config/config/config.yml ] ; then
-                echo "Config already exists, not overwriting, it may be obsolete !"
-              else
-                echo "Init config from base"
-                cp /frigate-config/config/config_base.yml /frigate-config/config/config.yml
-              fi
           volumeMounts:
             - name: frigate-data
               mountPath: /frigate-config
