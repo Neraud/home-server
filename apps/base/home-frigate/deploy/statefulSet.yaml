@@ -68,10 +68,12 @@ spec:
               # To use a gpu limit
               #gpu.intel.com/i915: 1
           volumeMounts:
-            - name: cluster-config
-              mountPath: /etc/localtime
-              subPath: localtime
-              readOnly: true
+            # DO NOT MOUNT etc/localtime
+            # the detect process gets stuck using 100% CPU if mounted that way
+            #- name: cluster-config
+            #  mountPath: /etc/localtime
+            #  subPath: localtime
+            #  readOnly: true
             - name: frigate-data
               mountPath: /config
               subPath: config
@@ -85,9 +87,6 @@ spec:
             - name: dshm
               mountPath: /dev/shm
       volumes:
-        - name: cluster-config
-          configMap:
-            name: cluster-config
         - name: frigate-data
           persistentVolumeClaim:
             claimName: frigate-data
