@@ -3,7 +3,7 @@ watchers:
     type: docker_registry
     repo: quay.io
     image: containers/buildah
-    tag: v1.42.0
+    tag: v1.42.2
     includes:
       - v[0-9]+\.[0-9]+\.[0-9]+
     excludes:

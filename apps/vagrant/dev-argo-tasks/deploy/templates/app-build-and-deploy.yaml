@@ -178,7 +178,7 @@ spec:
         - name: apps_source_base
           path: /source/apps/base
       script:
-        image: registry.lan/buildah:v1.42.0
+        image: registry.lan/buildah:v1.42.2
         command: [bash]
         source: |
           set -euo pipefail
