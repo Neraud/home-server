@@ -1,5 +1,4 @@
-FROM docker.io/library/python:3.13.11-slim-trixie AS builder
-# 0.5.0b3.dev94 is not compatible with python >3.13: error: the configured Python interpreter version (3.14) is newer than PyO3's maximum supported version (3.13)
+FROM docker.io/library/python:3.14.3-slim-trixie AS builder
 
 # Install build requirements
 RUN apt-get update && \
@@ -11,10 +10,10 @@ RUN python3 -m venv /opt/venv
 # Make sure we use the virtualenv
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev94
+RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev95
 
 
-FROM docker.io/library/python:3.13.11-slim-trixie
+FROM docker.io/library/python:3.14.3-slim-trixie
 
 # Install requirements
 # non-free is needed for unrar
