@@ -1,1 +1,1 @@
-FROM docker.io/prom/memcached-exporter:v0.15.3
+FROM docker.io/prom/memcached-exporter:v0.15.4

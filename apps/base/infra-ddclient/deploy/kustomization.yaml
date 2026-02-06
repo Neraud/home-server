@@ -8,7 +8,7 @@ labels:
     pairs:
       app.kubernetes.io/name: ddclient
       app.kubernetes.io/component: ddclient
-      app.kubernetes.io/version: 1.0.0
+      app.kubernetes.io/version: 1.0.0-3.23.3
 
 generatorOptions:
   disableNameSuffixHash: true
