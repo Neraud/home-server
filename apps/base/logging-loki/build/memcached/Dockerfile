@@ -1,1 +1,1 @@
-FROM docker.io/memcached:1.6.38-alpine
+FROM docker.io/memcached:1.6.39-alpine
