@@ -3,7 +3,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/nextcloud
-    tag: 32.0.1-apache
+    tag: 32.0.5-apache
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-apache
     excludes:
@@ -14,28 +14,28 @@ watchers:
   - name: Nextcloud supercronic
     type: github_release
     repo: aptible/supercronic
-    release: v0.2.39
+    release: v0.2.42
     excludes:
       - .*(alpha|beta|rc).*
       - ^v0\.[0-1]\.
   - name: Nextcloud Calendar
     type: github_release
     repo: nextcloud-releases/calendar
-    release: v6.0.4
+    release: v6.1.6
     excludes:
       - .*(alpha|beta|rc).*
       - ^v[0-5]\..*
   - name: Nextcloud Contacts
     type: github_release
     repo: nextcloud-releases/contacts
-    release: v8.0.6
+    release: v8.3.1
     excludes:
       - .*(alpha|beta|rc).*
       - ^v[0-7]\..*
   - name: Nextcloud Notes
     type: github_release
     repo: nextcloud/notes
-    release: v4.12.3
+    release: v4.13.0
     excludes:
       - .*(alpha|beta|rc).*
       - ^v[0-3]\..*
@@ -51,25 +51,25 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/mysql
-    tag: 9.5.0-oraclelinux9
+    tag: 9.6.0-oraclelinux9
     includes:
       - ^[0-9]\.[0-9]+\.[0-9]+-oraclelinux.+
     excludes:
       - .*rc.*
       - ^[0-8]\..*
-      - ^9\.[0-4]\..*
+      - ^9\.[0-5]\..*
   - name: "Nextcloud Redis"
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 8.2.3-alpine3.22
+    tag: 8.4.0-alpine3.22
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*alpine3\.1[0-9]
       - .*alpine3\.2[0-1]
       - ^[0-7]\.
-      - ^8\.[0-1]\.
+      - ^8\.[0-3]\.
   - name: "Caldav recurring task scheduler base image"
     type: docker_registry
     repo: registry-1.docker.io

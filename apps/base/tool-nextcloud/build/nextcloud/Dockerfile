@@ -1,14 +1,14 @@
-FROM docker.io/library/nextcloud:32.0.1-apache
+FROM docker.io/library/nextcloud:32.0.5-apache
 
 ARG supercronic_repo=aptible/supercronic
-ARG supercronic_version=v0.2.39
-ARG supercronic_sha1sum=c98bbf82c5f648aaac8708c182cc83046fe48423
+ARG supercronic_version=v0.2.42
+ARG supercronic_sha1sum=b444932b81583b7860849f59fdb921217572ece2
 ARG app_calendar_repo=nextcloud-releases/calendar
-ARG app_calendar_version=v6.0.4
+ARG app_calendar_version=v6.1.6
 ARG app_contacts_repo=nextcloud-releases/contacts
-ARG app_contacts_version=v8.0.6
+ARG app_contacts_version=v8.3.1
 ARG app_notes_repo=nextcloud-releases/notes
-ARG app_notes_version=v4.12.3
+ARG app_notes_version=v4.13.0
 ARG app_tasks_repo=nextcloud/tasks
 ARG app_tasks_version=v0.17.1
 
