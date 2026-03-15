@@ -4,16 +4,16 @@ kind: Kustomization
 labels:
   - includeSelectors: false
     pairs:
-        app.kubernetes.io/name: miniflux
-        app.kubernetes.io/component: reminiflux
-        app.kubernetes.io/part-of: miniflux
-        app.kubernetes.io/version: 80815687c9d1f2883dc96f1d676eac399e276ddc-1.29.3-alpine3.22-slim
+      app.kubernetes.io/name: miniflux
+      app.kubernetes.io/component: reminiflux
+      app.kubernetes.io/part-of: miniflux
+      app.kubernetes.io/version: b6debd60f47a4606e3a9f137065c27a038a39b91-1.29.3-alpine3.22-slim
 
 generatorOptions:
- disableNameSuffixHash: true
+  disableNameSuffixHash: true
 
 resources:
-- networkPolicy.yaml
-- ingress.yaml
-- service.yaml
-- deployment.yaml
+  - networkPolicy.yaml
+  - ingress.yaml
+  - service.yaml
+  - deployment.yaml

@@ -2,8 +2,8 @@ FROM docker.io/library/node:25.1.0-alpine3.22 as builder
 # Fails to build with 25.2.0-alpine3.22:
 # SecurityError: Cannot initialize local storage without a `--localstorage-file`   path
 
-ARG reminiflux_repo=reminiflux/reminiflux
-ARG reminiflux_commit=80815687c9d1f2883dc96f1d676eac399e276ddc
+ARG reminiflux_repo=Neraud/reminiflux
+ARG reminiflux_commit=b6debd60f47a4606e3a9f137065c27a038a39b91
 
 RUN mkdir /app
 WORKDIR /app

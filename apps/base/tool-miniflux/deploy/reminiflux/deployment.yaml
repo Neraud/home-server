@@ -25,55 +25,55 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-      - name: reminiflux
-        image: "registry.lan/reminiflux:80815687c9d1f2883dc96f1d676eac399e276ddc-1.29.3-alpine3.22-slim"
-        imagePullPolicy: IfNotPresent
-        env:
-        - name: NGINX_PORT
-          value: "8080"
-        - name: CONTEXT_ROOT
-          value: "reminiflux"
-        ports:
-        - containerPort: 8080
-          name: http
-        securityContext:
-          readOnlyRootFilesystem: true
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
-        readinessProbe:
-          httpGet:
-            scheme: HTTP
-            path: /reminiflux
-            port: http
-        resources:
-          requests:
-            cpu: 25m
-            memory: 16Mi
-          limits:
-            cpu: 100m
-            memory: 16Mi
-        volumeMounts:
-        - name: cluster-config
-          mountPath: /etc/localtime
-          subPath: localtime
-          readOnly: true
-        - name: cluster-ca-volume
-          mountPath: /etc/ssl/cluster/ca.crt
-          subPath: ca.crt
-        - name: tmp-volume
-          mountPath: /tmp
+        - name: reminiflux
+          image: "registry.lan/reminiflux:b6debd60f47a4606e3a9f137065c27a038a39b91-1.29.3-alpine3.22-slim"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NGINX_PORT
+              value: "8080"
+            - name: CONTEXT_ROOT
+              value: "reminiflux"
+          ports:
+            - containerPort: 8080
+              name: http
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /reminiflux
+              port: http
+          resources:
+            requests:
+              cpu: 25m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 16Mi
+          volumeMounts:
+            - name: cluster-config
+              mountPath: /etc/localtime
+              subPath: localtime
+              readOnly: true
+            - name: cluster-ca-volume
+              mountPath: /etc/ssl/cluster/ca.crt
+              subPath: ca.crt
+            - name: tmp-volume
+              mountPath: /tmp
       volumes:
-      - name: cluster-config
-        configMap:
-          name: cluster-config
-      - name: cluster-ca-volume
-        secret:
-          secretName: cluster-ca
-      - name: tmp-volume
-        emptyDir: {}
+        - name: cluster-config
+          configMap:
+            name: cluster-config
+        - name: cluster-ca-volume
+          secret:
+            secretName: cluster-ca
+        - name: tmp-volume
+          emptyDir: {}
       imagePullSecrets:
-      - name: docker-config
+        - name: docker-config
       nodeSelector:
-        capability/general-purpose: 'yes'
+        capability/general-purpose: "yes"
