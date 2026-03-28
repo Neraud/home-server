@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/homeassistant:2026.2.0-custom"
+        image: "registry.lan/homeassistant:2026.3.4-custom"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -47,7 +47,7 @@ spec:
             mkdir -p /tmp-volume/run-udev
             mkdir -p /tmp-volume/tmp
             mkdir -p /tmp-volume/site-packages
-            cp -a /usr/local/lib/python3.13/site-packages/* /tmp-volume/site-packages/
+            cp -a /usr/local/lib/python3.14/site-packages/* /tmp-volume/site-packages/
             chown -R homeassistant:homeassistant /tmp-volume/site-packages
         securityContext:
           readOnlyRootFilesystem: true
@@ -66,7 +66,7 @@ spec:
           mountPath: /tmp-volume
       containers:
       - name: homeassistant
-        image: "registry.lan/homeassistant:2026.2.0-custom"
+        image: "registry.lan/homeassistant:2026.3.4-custom"
         imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 8123
@@ -99,7 +99,7 @@ spec:
           subPath: run-udev
         # Required to install custom components' requirements
         - name: tmp-volume
-          mountPath: /usr/local/lib/python3.13/site-packages
+          mountPath: /usr/local/lib/python3.14/site-packages
           subPath: site-packages
         - name: tmp-volume
           mountPath: /tmp
