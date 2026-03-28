@@ -2,13 +2,14 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: nodered/node-red
-    tag: 4.1.4-22-minimal
+    tag: 4.1.8-22-minimal
     includes:
       - '[0-9]+\.[0-9]+\.[0-9]+-[0-9]+-minimal'
     excludes:
       - .*-1[0-7]-minimal$
       - ^[1-3]\.
       - ^4\.0\.
+      - ^4\.1\.[0-7]-
   - type: github_tag
     repo: vesse/node-ldapauth-fork
     tag: v6.1.0
