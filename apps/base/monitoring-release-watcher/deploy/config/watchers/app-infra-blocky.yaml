@@ -2,18 +2,18 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: 0xerr0r/blocky
-    tag: v0.28.2
+    tag: v0.29.0
     includes:
-      - 'v[0-9]+\.[0-9]+'
+      - "v[0-9]+\\.[0-9]+"
     excludes:
       - v0\.[0-9]$
       - v0\.1[0-9]$
-      - v0\.2[0-7]$
+      - v0\.2[0-8]$
   - name: Blocky PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.15-alpine3.23
+    tag: 15.17-alpine3.23
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
       # TODO upgrade major version
@@ -29,7 +29,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 8.4.0-alpine3.22
+    tag: 8.4.2-alpine3.22
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
