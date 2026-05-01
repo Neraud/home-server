@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.14.3-slim-trixie AS builder
+FROM docker.io/library/python:3.14.4-slim-trixie AS builder
 
 # Install build requirements
 RUN apt-get update && \
@@ -10,10 +10,10 @@ RUN python3 -m venv /opt/venv
 # Make sure we use the virtualenv
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev95
+RUN pip3 install --pre pyload-ng[plugins]==0.5.0b3.dev99
 
 
-FROM docker.io/library/python:3.14.3-slim-trixie
+FROM docker.io/library/python:3.14.4-slim-trixie
 
 # Install requirements
 # non-free is needed for unrar
