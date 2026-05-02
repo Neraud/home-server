@@ -305,7 +305,7 @@
                                 "value": [
                                     {
                                         "title": "Drill down to pods",
-                                        "url": "/grafana/d/85a562078cdf77779eaa1add43ccec1e/k8s-resources-namespace?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
+                                        "url": "/grafana/d/85a562078cdf77779eaa1add43ccec1e?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
                                     }
                                 ]
                             }
@@ -557,7 +557,7 @@
                                 "value": [
                                     {
                                         "title": "Drill down to pods",
-                                        "url": "/grafana/d/85a562078cdf77779eaa1add43ccec1e/k8s-resources-namespace?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
+                                        "url": "/grafana/d/85a562078cdf77779eaa1add43ccec1e?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
                                     }
                                 ]
                             }
@@ -734,7 +734,7 @@
                                 "value": [
                                     {
                                         "title": "Drill down to pods",
-                                        "url": "/grafana/d/85a562078cdf77779eaa1add43ccec1e/k8s-resources-namespace?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
+                                        "url": "/grafana/d/85a562078cdf77779eaa1add43ccec1e?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
                                     }
                                 ]
                             }
@@ -1408,7 +1408,7 @@
                                 "value": [
                                     {
                                         "title": "Drill down to pods",
-                                        "url": "/grafana/d/85a562078cdf77779eaa1add43ccec1e/k8s-resources-namespace?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
+                                        "url": "/grafana/d/85a562078cdf77779eaa1add43ccec1e?${datasource:queryparam}&var-cluster=$cluster&var-namespace=${__data.fields.Namespace}"
                                     }
                                 ]
                             }
