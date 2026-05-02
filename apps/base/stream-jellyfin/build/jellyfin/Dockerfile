@@ -1,4 +1,4 @@
-FROM ghcr.io/jellyfin/jellyfin:10.11.7
+FROM ghcr.io/jellyfin/jellyfin:10.11.8
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \

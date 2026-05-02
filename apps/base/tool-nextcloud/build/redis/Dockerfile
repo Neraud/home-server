@@ -1,1 +1,1 @@
-FROM docker.io/library/redis:8.4.0-alpine3.22
+FROM docker.io/library/redis:8.4.2-alpine3.22

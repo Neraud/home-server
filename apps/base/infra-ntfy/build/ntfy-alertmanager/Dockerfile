@@ -1,1 +1,1 @@
-FROM docker.io/xenrox/ntfy-alertmanager:0.5.0
+FROM docker.io/xenrox/ntfy-alertmanager:1.0.0

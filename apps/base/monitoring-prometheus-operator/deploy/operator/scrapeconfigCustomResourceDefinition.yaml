@@ -2,8 +2,8 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
-    operator.prometheus.io/version: 0.89.0
+    controller-gen.kubebuilder.io/version: v0.20.1
+    operator.prometheus.io/version: 0.90.1
   name: scrapeconfigs.monitoring.coreos.com
 spec:
   group: monitoring.coreos.com
@@ -96,6 +96,7 @@ spec:
                       - OAuth
                       - ManagedIdentity
                       - SDK
+                      - WorkloadIdentity
                       type: string
                     authorization:
                       description: |-
@@ -603,7 +604,7 @@ spec:
                       minLength: 1
                       type: string
                     tlsConfig:
-                      description: tlsConfig defies the TLS configuration applying to the target HTTP endpoint.
+                      description: tlsConfig defines the TLS configuration applying to the target HTTP endpoint.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -1544,7 +1545,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the DigitalOcean API.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -1947,7 +1948,7 @@ spec:
                       pattern: ^(0|(([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?)$
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the DigitalOcean API.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -2156,7 +2157,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the Docker daemon.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -2252,6 +2253,7 @@ spec:
                         properties:
                           name:
                             description: name of the Filter.
+                            minLength: 1
                             type: string
                           values:
                             description: values defines values to filter on.
@@ -2273,8 +2275,9 @@ spec:
                       description: followRedirects defines whether HTTP requests follow HTTP 3xx redirects.
                       type: boolean
                     host:
-                      description: host defines the address of the docker daemon
+                      description: host defines the address of the docker daemon.
                       minLength: 1
+                      pattern: ^[a-zA-Z][a-zA-Z0-9+.-]*://.+$
                       type: string
                     hostNetworkingHost:
                       description: hostNetworkingHost defines the host to use if the container is in host networking mode.
@@ -2649,7 +2652,7 @@ spec:
                       pattern: ^(0|(([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?)$
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Docker daemon.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -2811,7 +2814,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the Docker Swarm API.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -2913,6 +2916,7 @@ spec:
                         properties:
                           name:
                             description: name of the Filter.
+                            minLength: 1
                             type: string
                           values:
                             description: values defines values to filter on.
@@ -3311,7 +3315,7 @@ spec:
                       - Nodes
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Docker Swarm daemon.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -3516,6 +3520,7 @@ spec:
                         properties:
                           name:
                             description: name of the Filter.
+                            minLength: 1
                             type: string
                           values:
                             description: values defines values to filter on.
@@ -3634,7 +3639,7 @@ spec:
                       x-kubernetes-map-type: atomic
                     tlsConfig:
                       description: |-
-                        tlsConfig defines the TLS configuration to connect to the Consul API.
+                        tlsConfig defines the TLS configuration to connect to the EC2 API.
                         It requires Prometheus >= v2.41.0
                       properties:
                         ca:
@@ -3807,7 +3812,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the Eureka server.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -4257,11 +4262,10 @@ spec:
                       type: string
                     server:
                       description: server defines the URL to connect to the Eureka server.
-                      minLength: 1
-                      pattern: ^http(s)?://.+$
+                      pattern: ^https?://.+$
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Eureka server.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -4522,7 +4526,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the Hetzner API.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -4991,7 +4995,7 @@ spec:
                       - Robot
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Hetzner API.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -5768,8 +5772,7 @@ spec:
                       type: object
                     url:
                       description: url defines the URL from which the targets are fetched.
-                      minLength: 1
-                      pattern: ^http(s)?://.+$
+                      pattern: ^https?://.+$
                       type: string
                   required:
                   - url
@@ -5784,7 +5787,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the IONOS.
+                        authorization defines the header configuration to authenticate against the IONOS API.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -6191,7 +6194,7 @@ spec:
                       pattern: ^(0|(([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?)$
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the IONOS API.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -7068,7 +7071,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the Kuma control plane.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -7531,7 +7534,7 @@ spec:
                       pattern: ^https?://.+$
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Kuma control plane.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -7733,7 +7736,7 @@ spec:
                       x-kubernetes-map-type: atomic
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the Lightsail API.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -8201,6 +8204,7 @@ spec:
                       type: string
                     roleARN:
                       description: roleARN defines the AWS Role ARN, an alternative to using AWS API keys.
+                      minLength: 1
                       type: string
                     secretKey:
                       description: secretKey defines the AWS API secret.
@@ -8225,7 +8229,7 @@ spec:
                       type: object
                       x-kubernetes-map-type: atomic
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Lightsail API.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -8385,7 +8389,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the Linode API.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -8798,7 +8802,7 @@ spec:
                       minLength: 1
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Linode API.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -9098,7 +9102,7 @@ spec:
                       type: boolean
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the Nomad API.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -9194,6 +9198,7 @@ spec:
                       description: |-
                         namespace defines the Nomad namespace to query for service discovery.
                         When specified, only resources within this namespace will be discovered.
+                      minLength: 1
                       type: string
                     noProxy:
                       description: |-
@@ -9555,20 +9560,22 @@ spec:
                       description: |-
                         region defines the Nomad region to query for service discovery.
                         When specified, only resources within this region will be discovered.
+                      minLength: 1
                       type: string
                     server:
                       description: |-
                         server defines the Nomad server address to connect to for service discovery.
                         This should be the full URL including protocol (e.g., "https://nomad.example.com:4646").
-                      minLength: 1
+                      pattern: ^https?://.+$
                       type: string
                     tagSeparator:
                       description: |-
                         tagSeparator defines the separator used to join multiple tags.
                         This determines how Nomad service tags are concatenated into Prometheus labels.
+                      minLength: 1
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Nomad API.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -10035,6 +10042,7 @@ spec:
                       type: boolean
                     applicationCredentialId:
                       description: applicationCredentialId defines the OpenStack applicationCredentialId.
+                      minLength: 1
                       type: string
                     applicationCredentialName:
                       description: |-
@@ -10092,7 +10100,7 @@ spec:
                       description: |-
                         identityEndpoint defines the HTTP endpoint that is required to work with
                         the Identity API of the appropriate version.
-                      pattern: ^http(s)?:\/\/.+$
+                      pattern: ^https?://.+$
                       type: string
                     password:
                       description: |-
@@ -10472,7 +10480,7 @@ spec:
                   properties:
                     authorization:
                       description: |-
-                        authorization defines the  header configuration to authenticate against the DigitalOcean API.
+                        authorization defines the header configuration to authenticate against the PuppetDB API.
                         Cannot be set at the same time as `oauth2`.
                       properties:
                         credentials:
@@ -10943,7 +10951,7 @@ spec:
                       pattern: ^(0|(([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?)$
                       type: string
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the PuppetDB server.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -11094,8 +11102,7 @@ spec:
                       type: object
                     url:
                       description: url defines the URL of the PuppetDB root query endpoint.
-                      minLength: 1
-                      pattern: ^http(s)?://.+$
+                      pattern: ^https?://.+$
                       type: string
                   required:
                   - query
@@ -11202,6 +11209,9 @@ spec:
                   description: |-
                     ScalewaySDConfig configurations allow retrieving scrape targets from Scaleway instances and baremetal services.
                     See https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scaleway_sd_config
+
+                    Note: The `_file` variants of credential fields (e.g. `secret_key_file`)
+                    from the Prometheus configuration are not supported. Use Kubernetes secrets via `secretKey` instead.
                   properties:
                     accessKey:
                       description: accessKey defines the access key to use. https://console.scaleway.com/project/credentials
@@ -11209,7 +11219,7 @@ spec:
                       type: string
                     apiURL:
                       description: apiURL defines the API URL to use when doing the server listing requests.
-                      pattern: ^http(s)?://.+$
+                      pattern: ^https?://.+$
                       type: string
                     enableHTTP2:
                       description: enableHTTP2 defines whether to enable HTTP2.
@@ -11324,7 +11334,7 @@ spec:
                       type: array
                       x-kubernetes-list-type: set
                     tlsConfig:
-                      description: tlsConfig defines the TLS configuration to connect to the Consul API.
+                      description: tlsConfig defines the TLS configuration to connect to the Scaleway API.
                       properties:
                         ca:
                           description: ca defines the Certificate authority used when verifying server certificates.
@@ -11561,9 +11571,8 @@ spec:
                     targets:
                       description: targets defines the list of targets for this static configuration.
                       items:
-                        description: |-
-                          Target represents a target for Prometheus to scrape
-                          kubebuilder:validation:MinLength:=1
+                        description: Target represents a target for Prometheus to scrape
+                        minLength: 1
                         type: string
                       minItems: 1
                       type: array
@@ -11734,6 +11743,9 @@ spec:
                   It requires Prometheus >= v2.48.0.
                 type: boolean
             type: object
+            x-kubernetes-validations:
+            - message: at most one of basicAuth, authorization, or oauth2 can be configured
+              rule: '[has(self.basicAuth), has(self.authorization), has(self.oauth2)].filter(x, x).size() <= 1'
           status:
             description: |-
               status defines the status subresource. It is under active development and is updated only when the

@@ -23,15 +23,34 @@
             "fieldConfig": {
                 "defaults": {
                     "custom": {
-                        "fillOpacity": 10,
+                        "fillOpacity": 0,
                         "showPoints": "never",
                         "spanNulls": true
                     },
-                    "unit": "percentunit"
-                }
+                    "decimals": 0,
+                    "unit": "short"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byName",
+                            "options": "pods"
+                        },
+                        "properties": [
+                            {
+                                "id": "custom.axisPlacement",
+                                "value": "right"
+                            },
+                            {
+                                "id": "custom.axisSoftMin",
+                                "value": 0
+                            }
+                        ]
+                    }
+                ]
             },
             "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 24,
                 "x": 0,
                 "y": 0
@@ -59,11 +78,19 @@
                         "type": "prometheus",
                         "uid": "${datasource}"
                     },
-                    "expr": "node:windows_node_cpu_utilisation:avg1m{cluster=\"$cluster\"} * node:windows_node_num_cpu:sum{cluster=\"$cluster\"} / scalar(sum(node:windows_node_num_cpu:sum{cluster=\"$cluster\"}))",
-                    "legendFormat": "{{instance}}"
+                    "expr": "count(kube_node_info{cluster=\"$cluster\", job=\"kube-state-metrics\"})",
+                    "legendFormat": "nodes"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "${datasource}"
+                    },
+                    "expr": "sum(kubelet_running_pods{cluster=\"$cluster\", job=\"kubelet\", metrics_path=\"/metrics\"})",
+                    "legendFormat": "pods"
                 }
             ],
-            "title": "CPU Utilisation",
+            "title": "Node & Pod Count",
             "type": "timeseries"
         },
         {
@@ -78,14 +105,14 @@
                         "showPoints": "never",
                         "spanNulls": true
                     },
-                    "unit": "percentunit"
+                    "unit": "short"
                 }
             },
             "gridPos": {
-                "h": 7,
-                "w": 12,
+                "h": 8,
+                "w": 24,
                 "x": 0,
-                "y": 7
+                "y": 8
             },
             "id": 2,
             "interval": "1m",
@@ -110,11 +137,27 @@
                         "type": "prometheus",
                         "uid": "${datasource}"
                     },
-                    "expr": "node:windows_node_memory_utilisation:ratio{cluster=\"$cluster\"}",
-                    "legendFormat": "{{instance}}"
+                    "expr": "sum(kube_node_status_allocatable{cluster=\"$cluster\", job=\"kube-state-metrics\", resource=\"cpu\"})",
+                    "legendFormat": "allocatable"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "${datasource}"
+                    },
+                    "expr": "sum(cluster:namespace:pod_cpu:active:kube_pod_container_resource_requests{cluster=\"$cluster\"})",
+                    "legendFormat": "requests"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "${datasource}"
+                    },
+                    "expr": "sum(node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate5m{cluster=\"$cluster\"})",
+                    "legendFormat": "usage"
                 }
             ],
-            "title": "Memory Utilisation",
+            "title": "CPU Usage",
             "type": "timeseries"
         },
         {
@@ -129,14 +172,14 @@
                         "showPoints": "never",
                         "spanNulls": true
                     },
-                    "unit": "short"
+                    "unit": "bytes"
                 }
             },
             "gridPos": {
-                "h": 7,
-                "w": 12,
-                "x": 12,
-                "y": 7
+                "h": 8,
+                "w": 24,
+                "x": 0,
+                "y": 16
             },
             "id": 3,
             "interval": "1m",
@@ -161,11 +204,27 @@
                         "type": "prometheus",
                         "uid": "${datasource}"
                     },
-                    "expr": "node:windows_node_memory_swap_io_pages:irate{cluster=\"$cluster\"}",
-                    "legendFormat": "{{instance}}"
+                    "expr": "sum(kube_node_status_allocatable{cluster=\"$cluster\", job=\"kube-state-metrics\", resource=\"memory\"})",
+                    "legendFormat": "allocatable"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "${datasource}"
+                    },
+                    "expr": "sum(cluster:namespace:pod_memory:active:kube_pod_container_resource_requests{cluster=\"$cluster\"})",
+                    "legendFormat": "requests"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "${datasource}"
+                    },
+                    "expr": "sum(node_namespace_pod_container:container_memory_working_set_bytes{cluster=\"$cluster\", container!=\"\"})",
+                    "legendFormat": "usage"
                 }
             ],
-            "title": "Memory Saturation (Swap I/O Pages)",
+            "title": "Memory Usage",
             "type": "timeseries"
         },
         {
@@ -184,10 +243,10 @@
                 }
             },
             "gridPos": {
-                "h": 7,
+                "h": 8,
                 "w": 24,
                 "x": 0,
-                "y": 14
+                "y": 24
             },
             "id": 4,
             "interval": "1m",
@@ -212,11 +271,11 @@
                         "type": "prometheus",
                         "uid": "${datasource}"
                     },
-                    "expr": "node:windows_node_disk_utilisation:avg_irate{cluster=\"$cluster\"} / scalar(node:windows_node:sum{cluster=\"$cluster\"})",
-                    "legendFormat": "{{instance}}"
+                    "expr": "sum by (node) (node_namespace_pod_container:container_cpu_usage_seconds_total:sum_rate5m{cluster=\"$cluster\"})\n/\nsum by (node) (kube_node_status_allocatable{cluster=\"$cluster\", job=\"kube-state-metrics\", resource=\"cpu\"})\n",
+                    "legendFormat": "{{node}}"
                 }
             ],
-            "title": "Disk IO Utilisation",
+            "title": "CPU Utilization per Node",
             "type": "timeseries"
         },
         {
@@ -231,14 +290,14 @@
                         "showPoints": "never",
                         "spanNulls": true
                     },
-                    "unit": "bps"
+                    "unit": "percentunit"
                 }
             },
             "gridPos": {
-                "h": 7,
-                "w": 12,
+                "h": 8,
+                "w": 24,
                 "x": 0,
-                "y": 21
+                "y": 32
             },
             "id": 5,
             "interval": "1m",
@@ -263,113 +322,11 @@
                         "type": "prometheus",
                         "uid": "${datasource}"
                     },
-                    "expr": "node:windows_node_net_utilisation:sum_irate{cluster=\"$cluster\"}",
-                    "legendFormat": "{{instance}}"
+                    "expr": "sum by (node) (node_namespace_pod_container:container_memory_working_set_bytes{cluster=\"$cluster\", container!=\"\"})\n/\nsum by (node) (kube_node_status_allocatable{cluster=\"$cluster\", job=\"kube-state-metrics\", resource=\"memory\"})\n",
+                    "legendFormat": "{{node}}"
                 }
             ],
-            "title": "Net Utilisation (Transmitted)",
-            "type": "timeseries"
-        },
-        {
-            "datasource": {
-                "type": "datasource",
-                "uid": "-- Mixed --"
-            },
-            "fieldConfig": {
-                "defaults": {
-                    "custom": {
-                        "fillOpacity": 10,
-                        "showPoints": "never",
-                        "spanNulls": true
-                    },
-                    "unit": "bps"
-                }
-            },
-            "gridPos": {
-                "h": 7,
-                "w": 12,
-                "x": 12,
-                "y": 21
-            },
-            "id": 6,
-            "interval": "1m",
-            "options": {
-                "legend": {
-                    "asTable": true,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "displayMode": "table",
-                    "placement": "right",
-                    "showLegend": true
-                },
-                "tooltip": {
-                    "mode": "single"
-                }
-            },
-            "pluginVersion": "v11.4.0",
-            "targets": [
-                {
-                    "datasource": {
-                        "type": "prometheus",
-                        "uid": "${datasource}"
-                    },
-                    "expr": "node:windows_node_net_saturation:sum_irate{cluster=\"$cluster\"}",
-                    "legendFormat": "{{instance}}"
-                }
-            ],
-            "title": "Net Utilisation (Dropped)",
-            "type": "timeseries"
-        },
-        {
-            "datasource": {
-                "type": "datasource",
-                "uid": "-- Mixed --"
-            },
-            "fieldConfig": {
-                "defaults": {
-                    "custom": {
-                        "fillOpacity": 10,
-                        "showPoints": "never",
-                        "spanNulls": true
-                    },
-                    "unit": "percentunit"
-                }
-            },
-            "gridPos": {
-                "h": 7,
-                "w": 24,
-                "x": 0,
-                "y": 28
-            },
-            "id": 7,
-            "interval": "1m",
-            "options": {
-                "legend": {
-                    "asTable": true,
-                    "calcs": [
-                        "lastNotNull"
-                    ],
-                    "displayMode": "table",
-                    "placement": "right",
-                    "showLegend": true
-                },
-                "tooltip": {
-                    "mode": "single"
-                }
-            },
-            "pluginVersion": "v11.4.0",
-            "targets": [
-                {
-                    "datasource": {
-                        "type": "prometheus",
-                        "uid": "${datasource}"
-                    },
-                    "expr": "sum by (instance)(node:windows_node_filesystem_usage:{cluster=\"$cluster\"})",
-                    "legendFormat": "{{instance}}"
-                }
-            ],
-            "title": "Disk Capacity",
+            "title": "Memory Utilization per Node",
             "type": "timeseries"
         }
     ],
@@ -402,7 +359,7 @@
                 "hide": 0,
                 "label": "cluster",
                 "name": "cluster",
-                "query": "label_values(up{job=\"kubernetes-windows-exporter\"}, cluster)",
+                "query": "label_values(up{job=\"kube-state-metrics\"}, cluster)",
                 "refresh": 2,
                 "sort": 1,
                 "type": "query"
@@ -410,10 +367,10 @@
         ]
     },
     "time": {
-        "from": "now-1h",
+        "from": "now-6h",
         "to": "now"
     },
     "timezone": "UTC",
-    "title": "Kubernetes / USE Method / Cluster(Windows)",
-    "uid": "53a43377ec9aaf2ff64dfc7a1f539334"
+    "title": "Kubernetes / Compute Resources / Nodes Overview",
+    "uid": "058020e04168bfdea0c52269cb699df2"
 }

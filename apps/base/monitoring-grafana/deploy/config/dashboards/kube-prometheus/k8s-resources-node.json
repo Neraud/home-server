@@ -198,7 +198,7 @@
                                 "value": [
                                     {
                                         "title": "Drill down to pods",
-                                        "url": "/grafana/d/6581e46e4e5c7ba40a07646395ef7b23/k8s-resources-pod?${datasource:queryparam}&var-cluster=$cluster&var-namespace=$namespace&var-pod=${__data.fields.Pod}"
+                                        "url": "/grafana/d/6581e46e4e5c7ba40a07646395ef7b23?${datasource:queryparam}&var-cluster=$cluster&var-namespace=$namespace&var-pod=${__data.fields.Pod}"
                                     }
                                 ]
                             }
@@ -635,7 +635,7 @@
                                 "value": [
                                     {
                                         "title": "Drill down to pods",
-                                        "url": "/grafana/d/6581e46e4e5c7ba40a07646395ef7b23/k8s-resources-pod?${datasource:queryparam}&var-cluster=$cluster&var-namespace=$namespace&var-pod=${__data.fields.Pod}"
+                                        "url": "/grafana/d/6581e46e4e5c7ba40a07646395ef7b23?${datasource:queryparam}&var-cluster=$cluster&var-namespace=$namespace&var-pod=${__data.fields.Pod}"
                                     }
                                 ]
                             }
