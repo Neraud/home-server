@@ -1,4 +1,4 @@
-FROM docker.io/library/alpine:3.23.3
+FROM docker.io/library/alpine:3.23.4
 
 ENV DDCLIENT_CONFIG_PATH=/tmp/ddclient.conf
 ENV DDCLIENT_CONF_DAEMON=1800
