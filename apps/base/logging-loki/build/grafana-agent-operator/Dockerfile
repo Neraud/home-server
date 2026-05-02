@@ -1,1 +1,0 @@
-FROM docker.io/grafana/agent-operator:v0.34.1
