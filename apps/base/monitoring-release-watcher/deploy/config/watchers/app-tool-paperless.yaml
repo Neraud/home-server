@@ -3,7 +3,7 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: paperless-ngx/paperless-ngx
-    tag: 2.20.6
+    tag: 2.20.15
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+
     excludes:
@@ -15,7 +15,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 8.4.0-alpine3.22
+    tag: 8.4.2-alpine3.22
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
@@ -27,7 +27,7 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.15-alpine3.23
+    tag: 15.17-alpine3.23
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
       # TODO upgrade major version
