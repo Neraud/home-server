@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: ghcr.io
     image: jellyfin/jellyfin
-    tag: 10.11.8
+    tag: 10.11.11
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+$
     excludes:
@@ -26,13 +26,13 @@ watchers:
     tag: v11
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anilist
-    tag: v12
+    tag: v13
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-anisearch
     tag: v6
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-ldapauth
-    tag: v22
+    tag: v23
   - type: github_tag
     repo: jellyfin/jellyfin-plugin-tvdb
-    tag: v20
+    tag: v22
