@@ -30,7 +30,7 @@ spec:
         - --collector.netclass.ignored-devices=^(veth.*|[a-f0-9]{15})$
         - --collector.netdev.device-exclude=^(veth.*|[a-f0-9]{15})$
         - --collector.textfile.directory=/var/lib/node_exporter/textfile_collector
-        image: registry.lan/node-exporter:v1.10.2
+        image: registry.lan/node-exporter:v1.11.1
         imagePullPolicy: IfNotPresent
         name: node-exporter
         readinessProbe:
@@ -76,7 +76,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        image: registry.lan/node-exporter-kube-rbac-proxy:v0.21.2
+        image: registry.lan/node-exporter-kube-rbac-proxy:v0.22.0
         imagePullPolicy: IfNotPresent
         name: kube-rbac-proxy
         ports:

@@ -8,7 +8,7 @@ labels:
       app.kubernetes.io/component: alertmanager
       app.kubernetes.io/instance: k8s
       app.kubernetes.io/part-of: prometheus
-      app.kubernetes.io/version: v0.31.1
+      app.kubernetes.io/version: v0.33.0
 
 generatorOptions:
  disableNameSuffixHash: true

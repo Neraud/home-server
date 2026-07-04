@@ -2,8 +2,8 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.20.1
-    operator.prometheus.io/version: 0.90.1
+    controller-gen.kubebuilder.io/version: v0.21.0
+    operator.prometheus.io/version: 0.92.1
   name: alertmanagerconfigs.monitoring.coreos.com
 spec:
   group: monitoring.coreos.com
@@ -704,7 +704,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -1682,7 +1682,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -2377,7 +2377,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -3140,7 +3140,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -3915,7 +3915,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -4688,7 +4688,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -5540,7 +5540,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -6452,7 +6452,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -6726,6 +6726,12 @@ spec:
                           titleLink:
                             description: titleLink defines the URL that the title will link to when clicked.
                             type: string
+                          updateMessage:
+                            description: |-
+                              updateMessage enables updating existing Slack messages instead of creating new ones
+                              when alert state changes. Please note that Webhook URLs do not support updates.
+                              It requires Alertmanager >= v0.32.0.
+                            type: boolean
                           username:
                             description: username defines the slack bot user name.
                             minLength: 1
@@ -7182,7 +7188,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -7499,6 +7505,14 @@ spec:
                               If you don't specify this value, you must specify a value for the PhoneNumber or TargetARN.
                             minLength: 1
                             type: string
+                          useAWSHTTPClient:
+                            description: |-
+                              useAWSHTTPClient forces the AWS SDK's BuildableClient instead of
+                              alertmanager's tracing-wrapped HTTP client. Auto-enabled when AWS_CA_BUNDLE
+                              is set; set explicitly when configuring ca_bundle via shared AWS config.
+
+                              It requires Alertmanager >= 0.33.0.
+                            type: boolean
                         type: object
                       type: array
                       x-kubernetes-list-type: atomic
@@ -7989,7 +8003,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -8724,7 +8738,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -9404,7 +9418,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -10063,7 +10077,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
@@ -10277,6 +10291,14 @@ spec:
                             format: int32
                             minimum: 0
                             type: integer
+                          payload:
+                            description: |-
+                              payload define custom payload to be sent to the webhook endpoint.
+                              This is an advanced configuration option that allows you
+                              to define a custom payload using Go templates.
+                              It requires Alertmanager >= v0.32.0.
+                            minLength: 1
+                            type: string
                           sendResolved:
                             description: sendResolved defines whether or not to notify about resolved alerts.
                             type: boolean
@@ -10801,7 +10823,7 @@ spec:
                                     type: object
                                   tokenUrl:
                                     description: tokenUrl defines the URL to fetch the token from.
-                                    minLength: 1
+                                    pattern: ^(http|https)://.+$
                                     type: string
                                 required:
                                 - clientId
