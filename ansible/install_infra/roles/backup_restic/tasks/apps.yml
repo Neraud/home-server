@@ -30,7 +30,7 @@
   notify: Reload systemd daemon
   when:
     - schedule_with_systemd
-    - restic_backup_apps_enabled and restic_backup_apps_timer
+    - restic_backup_apps_enabled and restic_backup_apps_timer is defined
 
 - name: Enable Apps backup systemd timer
   ansible.builtin.systemd:
@@ -39,7 +39,7 @@
     enabled: yes
   when:
     - schedule_with_systemd
-    - restic_backup_apps_enabled and restic_backup_apps_timer
+    - restic_backup_apps_enabled and restic_backup_apps_timer is defined
 
 - name: Ensure Apps backup systemd unit and timer are not deployed
   ansible.builtin.file:
@@ -50,4 +50,4 @@
     - restic_backup_apps.timer
   when:
     - schedule_with_systemd
-    - not restic_backup_apps_enabled or not restic_backup_apps_timer
+    - not restic_backup_apps_enabled or restic_backup_apps_timer is not defined
