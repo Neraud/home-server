@@ -19,6 +19,7 @@ spec:
     singular: network-attachment-definition
     kind: NetworkAttachmentDefinition
     shortNames:
+      - nad
       - net-attach-def
   versions:
     - name: v1
@@ -192,6 +193,8 @@ spec:
             - name: hostroot
               mountPath: /hostroot
               mountPropagation: HostToContainer
+            - mountPath: /etc/cni/multus/net.d
+              name: multus-conf-dir
           env:
             - name: MULTUS_NODE_NAME
               valueFrom:
@@ -201,9 +204,11 @@ spec:
         - name: install-multus-binary
           image: ghcr.io/k8snetworkplumbingwg/multus-cni:snapshot-thick
           command:
-            - "cp"
-            - "/usr/src/multus-cni/bin/multus-shim"
-            - "/host/opt/cni/bin/multus-shim"
+            - "/usr/src/multus-cni/bin/install_multus"
+            - "-d"
+            - "/host/opt/cni/bin"
+            - "-t"
+            - "thick"
           resources:
             requests:
               cpu: "10m"
@@ -247,3 +252,6 @@ spec:
         - name: host-run-netns
           hostPath:
             path: /run/netns/
+        - name: multus-conf-dir
+          hostPath:
+            path: /etc/cni/multus/net.d
