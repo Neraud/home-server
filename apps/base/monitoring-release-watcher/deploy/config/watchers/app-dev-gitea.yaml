@@ -2,7 +2,7 @@ watchers:
   - type: docker_registry
     repo: registry-1.docker.io
     image: gitea/gitea
-    tag: 1.26.1-rootless
+    tag: 1.26.4-rootless
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+-rootless
     excludes:
@@ -10,12 +10,12 @@ watchers:
       - ^1\.[0-9]\.
       - ^1\.1[0-9]\.
       - ^1\.2[0-5]\.
-      - ^1\.26\.[0]-
+      - ^1\.26\.[0-3]-
   - name: Gitea PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.17-alpine3.23
+    tag: 15.18-alpine3.23
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
       # TODO upgrade major version
@@ -26,4 +26,4 @@ watchers:
       - ^[0-9]\.
       - ^1[0-4]\.
       - ^15\.[0-9]\.
-      - ^15\.1[0-4]\.
+      - ^15\.1[0-7]\.
