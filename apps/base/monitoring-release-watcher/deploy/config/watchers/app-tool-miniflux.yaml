@@ -3,19 +3,18 @@ watchers:
     type: docker_registry
     repo: ghcr.io
     image: miniflux/miniflux
-    tag: 2.2.19-distroless
+    tag: 2.3.2-distroless
     includes:
       - ^[0-9]+.[0-9]+.[0-9]+-distroless$
     excludes:
       - ^1\..*
-      - ^2\.[0-1]\..*-distroless$
-      - ^2\.2\.[0-9]-distroless$
-      - ^2\.2\.1[0-8]-distroless$
+      - ^2\.[0-2]\..*-distroless$
+      - ^2\.3\.[0-1]-distroless$
   - name: Miniflux PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.17-alpine3.23
+    tag: 15.18-alpine3.23
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
       # TODO upgrade major version
@@ -26,7 +25,7 @@ watchers:
       - ^[0-9]\.
       - ^1[0-4]\.
       - ^15\.[0-9]\.
-      - ^15\.1[0-4]\.
+      - ^15\.1[0-7]\.
   - name: "Reminiflux Node"
     type: docker_registry
     repo: registry-1.docker.io

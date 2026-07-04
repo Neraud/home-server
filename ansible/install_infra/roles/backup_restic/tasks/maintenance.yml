@@ -23,7 +23,7 @@
   notify: Reload systemd daemon
   when:
     - schedule_with_systemd
-    - restic_repo_maintenance_enabled and restic_repo_maintenance_timer
+    - restic_repo_maintenance_enabled and restic_repo_maintenance_timer is defined
 
 - name: Enable repo maintenance systemd timer
   ansible.builtin.systemd:
@@ -32,7 +32,7 @@
     enabled: yes
   when:
     - schedule_with_systemd
-    - restic_repo_maintenance_enabled and restic_repo_maintenance_timer
+    - restic_repo_maintenance_enabled and restic_repo_maintenance_timer is defined
 
 - name: Ensure repo maintenance systemd unit and timer are not deployed
   ansible.builtin.file:
@@ -43,4 +43,4 @@
     - restic_repo_maintenance.timer
   when:
     - schedule_with_systemd
-    - not restic_repo_maintenance_enabled or not restic_repo_maintenance_timer
+    - not restic_repo_maintenance_enabled or restic_repo_maintenance_timer is not defined

@@ -1,4 +1,4 @@
-FROM ghcr.io/jellyfin/jellyfin:10.11.8
+FROM ghcr.io/jellyfin/jellyfin:10.11.11
 
 RUN echo "Create jellyfin user" && \
     groupadd -g 1000 jellyfin && \
@@ -22,7 +22,7 @@ RUN echo "Install jellyfin-plugin-anidb" && \
 
 RUN echo "Install jellyfin-plugin-anilist" && \
     mkdir -p "/opt/jellyfin/plugins/AniList" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/anilist/anilist_12.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/anilist/anilist_13.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip -d "/opt/jellyfin/plugins/AniList" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-anilist.zip
 
@@ -34,13 +34,13 @@ RUN echo "Install jellyfin-plugin-anisearch" && \
 
 RUN echo "Install jellyfin-plugin-ldapauth" && \
     mkdir -p "/opt/jellyfin/plugins/LDAP Authentication" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_22.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/ldap-authentication/ldap-authentication_23.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip -d "/opt/jellyfin/plugins/LDAP Authentication" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-ldapauth.zip
 
 RUN echo "Install jellyfin-plugin-thetvdb" && \
     mkdir -p "/opt/jellyfin/plugins/TheTVDB" && \
-    curl -L https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_20.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
+    curl -L https://repo.jellyfin.org/releases/plugin/thetvdb/thetvdb_22.0.0.0.zip -o /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip && \
     unzip /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip -d "/opt/jellyfin/plugins/TheTVDB" && \
     rm /opt/jellyfin/plugins/jellyfin-plugin-thetvdb.zip
 

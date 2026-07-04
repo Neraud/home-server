@@ -15,19 +15,19 @@ watchers:
     type: docker_registry
     repo: registry-1.docker.io
     image: library/redis
-    tag: 8.4.2-alpine3.22
+    tag: 8.8.0-alpine3.23
     includes:
       - ^[0-9]+\.[0-9]+\.[0-9]+.*alpine[0-9]+\.[0-9][0-9]
     excludes:
       - .*alpine3\.1[0-9]
-      - .*alpine3\.2[0-1]
+      - .*alpine3\.2[0-2]
       - ^[0-7]\.
-      - ^8\.[0-3]\.
+      - ^8\.[0-7]\.
   - name: Paperless PostgreSQL
     type: docker_registry
     repo: registry-1.docker.io
     image: library/postgres
-    tag: 15.17-alpine3.23
+    tag: 15.18-alpine3.23
     includes:
       - ^[0-9]+\.[0-9]+-alpine[0-9]+\.[0-9]+
       # TODO upgrade major version
@@ -38,4 +38,4 @@ watchers:
       - ^[0-9]\.
       - ^1[0-4]\.
       - ^15\.[0-9]\.
-      - ^15\.1[0-4]\.
+      - ^15\.1[0-7]\.

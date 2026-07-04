@@ -8,7 +8,7 @@
 - name: Deploy core backup scripts
   ansible.builtin.template:
     src: "{{ item }}.j2"
-    dest: "{{ restic_backup_scripts_dir }}/{{ item }}"
+    dest: "{{ backup_scripts_dir }}/{{ item }}"
     mode: 0700
   loop:
     - "_prometheus.sh"

@@ -1,7 +1,7 @@
 watchers:
   - type: github_release
     repo: longhorn/longhorn
-    release: v1.11.1
+    release: v1.11.3
     excludes:
       - .*(alpha|beta|rc|dev).*
       - v1\.[0-9]\..*

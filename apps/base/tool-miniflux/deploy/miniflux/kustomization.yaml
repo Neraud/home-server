@@ -7,7 +7,7 @@ labels:
       app.kubernetes.io/name: miniflux
       app.kubernetes.io/component: web
       app.kubernetes.io/part-of: miniflux
-      app.kubernetes.io/version: 2.2.19-distroless
+      app.kubernetes.io/version: 2.3.2-distroless
 
 generatorOptions:
  disableNameSuffixHash: true

@@ -1,1 +1,1 @@
-FROM docker.io/binwiederhier/ntfy:v2.22.0-amd64
+FROM docker.io/binwiederhier/ntfy:v2.25.0-amd64
