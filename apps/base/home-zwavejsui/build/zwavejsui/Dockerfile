@@ -1,1 +1,1 @@
-FROM docker.io/zwavejs/zwave-js-ui:11.16.2
+FROM docker.io/zwavejs/zwave-js-ui:11.21.1
