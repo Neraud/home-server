@@ -12,7 +12,7 @@ spec:
       containers:
       - name: speaker
         args:
-        - --port=7472
+        - --port=9120
         - --log-level=info
         # https://metallb.universe.tf/troubleshooting/#metallb-is-not-advertising-my-service-from-my-control-plane-nodes-or-from-my-single-node-cluster
         # Fix services not being advertised when pods are running on master nodes (which are automatically labelled node.kubernetes.io/exclude-from-external-load-balancers="" by kubeadm)

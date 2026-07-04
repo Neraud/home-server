@@ -8,9 +8,9 @@ metadata:
     prometheus-target: metallb-controller
 spec:
   ports:
-    - port: 7472
-      name: monitoring
-      targetPort: monitoring
+    - port: 9120
+      name: metricshttps
+      targetPort: metricshttps
   selector:
     app: metallb
     component: controller
@@ -26,9 +26,9 @@ metadata:
     prometheus-target: metallb-speaker
 spec:
   ports:
-    - port: 7472
-      name: monitoring
-      targetPort: monitoring
+    - port: 9120
+      name: metricshttps
+      targetPort: metricshttps
   selector:
     app: metallb
     component: speaker
