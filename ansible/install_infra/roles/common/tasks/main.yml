@@ -79,7 +79,9 @@
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/00-common.conf
     state: present
+    reload: yes
   with_items: "{{ sysctl_properties }}"
 
 - name: Create cron jobs

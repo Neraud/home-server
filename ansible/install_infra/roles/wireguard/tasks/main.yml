@@ -3,6 +3,8 @@
   ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: "1"
+    sysctl_file: /etc/sysctl.d/20-wireguard.conf
+    state: present
     reload: yes
 
 - name: Configure UFW for Wireguard

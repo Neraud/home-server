@@ -10,7 +10,9 @@
   ansible.posix.sysctl:
     name: "net.ipv4.ip_nonlocal_bind"
     value: "1"
+    sysctl_file: /etc/sysctl.d/10-keepalived.conf
     state: present
+    reload: yes
 
 - name: Allow VRRP multicast
   community.general.ufw:
