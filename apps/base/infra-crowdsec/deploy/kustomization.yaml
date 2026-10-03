@@ -7,7 +7,7 @@ labels:
   - includeSelectors: false
     pairs:
       app.kubernetes.io/name: crowdsec
-      app.kubernetes.io/version: v1.7.8-debian
+      app.kubernetes.io/version: v1.8.1-debian
 
 resources:
 - namespace.yaml
