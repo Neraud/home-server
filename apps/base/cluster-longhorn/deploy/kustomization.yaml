@@ -18,6 +18,7 @@ resources:
 - ingress.yaml
 - longhorn-high-durability-storageClass.yaml
 - longhorn-low-durability-storageClass.yaml
+- longhorn-manager-networkPolicy.yaml
 
 patches:
   - path: patches/namespace.yaml
