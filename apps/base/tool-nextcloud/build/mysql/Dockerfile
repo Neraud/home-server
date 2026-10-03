@@ -1,1 +1,1 @@
-FROM docker.io/library/mysql:9.7.1-oraclelinux9
+FROM docker.io/library/mysql:9.7.2-oraclelinux9
