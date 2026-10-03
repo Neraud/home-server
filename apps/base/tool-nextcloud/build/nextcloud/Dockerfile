@@ -1,4 +1,4 @@
-FROM docker.io/library/nextcloud:34.0.4-apache
+FROM docker.io/library/nextcloud:35.0.1-apache
 
 ARG supercronic_repo=aptible/supercronic
 ARG supercronic_version=v0.2.49
