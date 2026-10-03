@@ -2,7 +2,7 @@
 
 ## Manifest source
 
-`multus-daemonset-thick.yaml` is fetched from <https://github.com/k8snetworkplumbingwg/multus-cni/blob/v4.3.0/deployments/multus-daemonset-thick.yml>
+`multus-daemonset-thick.yaml` is fetched from <https://github.com/k8snetworkplumbingwg/multus-cni/blob/v4.3.1/deployments/multus-daemonset-thick.yml>
 
 ## TODO
 

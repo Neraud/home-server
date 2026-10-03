@@ -1,4 +1,4 @@
-FROM ghcr.io/esphome/esphome:2026.6.4
+FROM ghcr.io/esphome/esphome:2026.9.1
 
 RUN echo "Create esp user" && \
     groupadd -g 1000 esp && \
@@ -13,10 +13,10 @@ RUN echo "Chown piolibs for esp" && \
 
 ENV PLATFORMIO_CORE_DIR=/tmp/.platformio
 
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
+COPY entrypoint_custom.sh /
+RUN chmod +x /entrypoint_custom.sh
 
 USER esp
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint_custom.sh" ]
 CMD ["dashboard", "/config"]

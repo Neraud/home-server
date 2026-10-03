@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       initContainers:
       - name: create-folders
-        image: "registry.lan/esphome:2026.6.4"
+        image: "registry.lan/esphome:2026.9.1"
         imagePullPolicy: IfNotPresent
         command:
           - "sh"
@@ -44,11 +44,14 @@ spec:
           mountPath: /esphome
       containers:
       - name: esphome
-        image: "registry.lan/esphome:2026.6.4"
+        image: "registry.lan/esphome:2026.9.1"
         imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 6052
           name: http
+        env:
+        - name: ESPHOME_DASHBOARD_USE_PING
+          value: "true"
         securityContext:
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
@@ -77,6 +80,8 @@ spec:
           subPath: config
         - name: tmp-volume
           mountPath: /tmp
+        - name: cache-volume
+          mountPath: /home/esp/.cache
       volumes:
       - name: cluster-config
         configMap:
@@ -85,6 +90,8 @@ spec:
         persistentVolumeClaim:
           claimName: esphome-data
       - name: tmp-volume
+        emptyDir: {}
+      - name: cache-volume
         emptyDir: {}
       imagePullSecrets:
       - name: docker-config

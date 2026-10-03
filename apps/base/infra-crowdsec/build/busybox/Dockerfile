@@ -1,1 +1,1 @@
-FROM docker.io/library/busybox:1.37.0
+FROM docker.io/library/busybox:1.38.0
