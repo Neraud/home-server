@@ -1,6 +1,4 @@
-# Sickchill fails to start with 3.12.0-slim-bookworm :ModuleNotFoundError: No module named 'pkg_resources'
-
-FROM docker.io/library/python:3.11.8-slim-bookworm
+FROM docker.io/library/python:3.14.8-slim-trixie
 
 RUN echo "Creating sickchill user" && \
     groupadd --gid 1000 sickchill && \
@@ -10,11 +8,17 @@ RUN echo "Prepare folders" && \
     mkdir /data /app && \
     chown sickchill:sickchill /data /app
 
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y git && \
+    rm -rf /var/lib/apt/lists/*
+
 USER sickchill
 
 RUN echo "Install sickchill" && \
     python3 -m venv /app/sickchill && \
-    /app/sickchill/bin/pip3 install sickchill==2024.3.1
+    /app/sickchill/bin/pip3 install git+https://github.com/SickChill/SickChill.git@2026.9.18
+#    /app/sickchill/bin/pip3 install sickchill==2024.3.1
 
 # Make sure cache is linked to the data dir : See https://github.com/SickChill/SickChill/issues/6010
 #RUN ln -s /data/cache /app/sickchill/lib/python3.9/site-packages/sickchill/gui/slick/cache
